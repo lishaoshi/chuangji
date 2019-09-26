@@ -1,0 +1,479 @@
+<template>
+	<div id="ProductList">
+        <clxsd-head-top :title='`${title}`' style="border-bottom: 0px"></clxsd-head-top>
+		<div class="search">
+			<SearchBar></SearchBar>
+		</div>
+		<div class="product-list">
+			<div class="choose">
+				<div>分类</div>
+				<ul>
+					<li :class="`${is_active == 1?'active':''}`" @click="is_active = 1">销量</li>
+					<li :class="`${is_active == 2?'active':''}`" @click="is_active = 2">时间</li>
+					<li :class="`${is_active == 3?'active':''}`" @click="is_active = 3">价格</li>
+                    <li @click="is_business_list = !is_business_list">工业</li>
+				</ul>
+			</div>
+            <EmptyList  v-if="menuList.length==0&&loading == false"></EmptyList>
+			<mt-navbar v-model="selected"  v-if="menuList.length>0">
+				<mt-tab-item :id="`menu_${index}`" :key="`product_title_${index}`" v-for="(menu,index) in menuList">{{menu.name}}</mt-tab-item>
+			</mt-navbar>
+			<!-- tab-container -->
+			<mt-tab-container v-model="selected"  v-if="menuList.length>0">
+				<mt-tab-container-item :id="`menu_${index}`" v-for="(menu,index) in menuList" :key="`product_shop_list_${index}`">
+                    <div style="height: 9rem;overflow-y: scroll">
+					<div class="item" v-for="(entity,key) in menu.entities">
+						<router-link :to="`/business/shop/${businessId}/${entity.id}`">
+							<img :src="entity.cover" class="item-img">
+						</router-link>
+						<div class="item-box">
+							<router-link :to="`/business/shop/${businessId}/${entity.id}`">
+								<p class="title">{{entity.good_name}}</p>
+                                <p class="title2">{{title}}</p>
+                                <p class="title2">{{entity.spec}}</p>
+							</router-link>
+							<div class="selling">
+								<div class="unit_price">
+									<p class="font" v-if="canShow"><i>￥</i><i>{{entity.price}}</i><span>{{entity.market_price}}</span></p>
+                                    <p class="font" v-else><span>价格- - - -</span></p>
+								</div>
+								<div class="gw_num" v-if="(!entity.is_multi_spec && canShow)">
+									<em class="lose" @click="removeToMiniCart($event,entity)" v-if="entity.num > 0">-</em>
+									<em class="error-num" 　v-if="entity.num <= 0" @click="errorInfo()">-</em>
+									<div class="num">
+										<span class="amount">{{entity.num || 0}}</span>
+									</div>
+									<em class="add" @click="addToMiniCart($event,entity)">+</em>
+								</div>
+							</div>
+						</div>
+					</div>
+                    </div>
+				</mt-tab-container-item>
+			</mt-tab-container>
+            <div style="height: 1rem"></div>
+            <div style="position: fixed;bottom: 0px;width: 100%">
+                <mini-company-cart ref="MiniCompanyCart" :shop-id="businessId"  :count="cartNum" :total-price="totalPrice"></mini-company-cart>
+            </div>
+            <div style="position: fixed;right: 0px;width: 82%;z-index: 99;top:0px;height: 100%;background: #fff" v-if="is_business_list">
+                <BusinessList :closedMyFrame="closedMyFrame" :entryBusinessShop = "entryBusinessShop"></BusinessList>
+            </div>
+            <div class="fixed-bg" v-if="is_business_list" @click="is_business_list = !is_business_list"></div>
+		</div>
+        <CircleLoading v-if="loading"></CircleLoading>
+		<!--
+		<mt-popup v-model="regionVisible" position="bottom" class="bottom-region" style="width:100%;padding-bottom: 50px;">
+			<div class="shop_title">
+				<p>已选商品</p>
+				<p>清空</p>
+			</div>
+			<div class="shop-list">
+				<div class="title">
+					维生素片维生素片维生素片维生素片维生素片维生素片维生素片
+				</div>
+				<div class="price">
+					2000
+				</div>
+				<div class="gw_num">
+					<em class="lose">-</em>
+					<div class="num">
+						<span class="amount">0</span>
+						<p>件</p>
+					</div>
+					<em class="add">+</em>
+				</div>
+			</div>
+			<div class="shop-list">
+				<div class="title">
+					维生素片维生素片维生素片维生素片维生素片维生素片维生素片
+				</div>
+				<div class="price">
+					2000
+				</div>
+				<div class="gw_num">
+					<em class="lose">-</em>
+					<div class="num">
+						<span class="amount">0</span>
+						<p>件</p>
+					</div>
+					<em class="add">+</em>
+				</div>
+			</div>
+		</mt-popup>
+		-->
+	</div>
+</template>
+
+<script>
+	import { mapState, mapMutations } from 'vuex'
+	import foot from "@/page/company/CompanyFooterNav.vue";
+	import SearchBar from '@/components/common/SearchBar';
+	import HeaderTop from "@/page/company/CompanyHeader.vue";
+	import MiniCompanyCart from '@/page/company/CompanyClassify/MiniShopCart.vue'
+    import BusinessList from './CompanyList'
+    import EmptyList from "@/components/EmptyList"
+
+	export default {
+		name: "ProductList",
+		components: {
+			foot,
+			SearchBar,
+			HeaderTop,
+			MiniCompanyCart,
+            BusinessList,
+            EmptyList,
+		},
+		data() {
+			return {
+				selected: 'menu_0',
+				menuList: [],
+				shopId:'',
+				nums:0,
+                is_business_list:false,
+                loading:true,
+                is_active:1
+			}
+		},
+		created() {
+		    let id =this.businessId
+			this.initData(id)
+		},
+		computed: {
+			...mapState({
+				businessData: state => state.shop.CURRENT_BUSINESS_SHOP_DATA,
+				cartList: state => state.shop.BUSINESS_CART_LIST,
+				canShow:state => state.CURRENTUSER.shop_supplier,
+			}),
+			businessId() {
+				return this.businessData.id
+			},
+            title() {
+                return this.businessData.display_name || this.businessData.name
+            },
+			shopCart() {
+				return { ...this.cartList[this.businessId] }
+			},
+			//当前商店购物信息
+			cartNum(){
+                let num = 0;
+                Object.values(this.shopCart).forEach((entity,index) =>{
+                    num += entity.num;
+                })
+                return num
+            },
+            totalPrice(){
+                let total_price = 0.00
+                Object.values(this.shopCart).forEach((entity,index) =>{
+                    total_price += entity.num  * entity.price;
+                })
+                return total_price.toFixed(2)
+            }
+		},
+		
+		methods: {
+			...mapMutations([
+				'BUSINESS_ADD_CART', 'BUSINESS_REMOVE_CART',
+			]),
+			canOption(){
+            	if(!this.canShow){
+            	    this.$Message.error('当前用户还未审核通过');
+            	    return false;
+				}
+				return true
+			},
+			async initData(id) {
+				const {
+					data
+				} = await this.$http.get(`/hippo-shop/business/menuEntities/${id}`);
+				//this.menuList = data
+				this.menuList = this._handleData(data)
+				console.log(data)
+			},
+            closedMyFrame(){
+			  this.is_business_list = false
+            },
+            entryBusinessShop(item) {
+                this.$store.commit('SAVE_CURRENT_BUSINESS_SHOP', item.id)
+                this.$store.commit('SAVE_CURRENT_BUSINESS_SHOP_DATA', item)
+                this.$router.go(0)
+            },
+			_handleData(data) {
+				data.forEach((group, index) => {
+					group.entities.forEach((entity,entityIndex) => {
+						entity.shopId = this.businessId
+						entity.num = 0
+						entity.itemId = entity.id
+					
+						Object.values(this.shopCart).forEach((cartItem,cartindex) =>{
+							if(entity.id === cartItem.id){
+								entity.num = cartItem.num
+							}
+		                })
+					})
+				})
+                this.loading = false
+				return data
+			},
+			addToMiniCart(event,entity){
+                if(this.canOption()){
+                    this.BUSINESS_ADD_CART(entity)
+                    entity.num++
+					this.$nextTick(() =>{
+                        this.$refs.MiniCompanyCart.drop(event.target)
+					})
+
+				}
+
+			},
+            removeToMiniCart(event,entity){
+                if(this.canOption()){
+                    this.BUSINESS_REMOVE_CART(entity)
+                    entity.num--
+
+                }
+			},
+			
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+    #ProductList {
+        max-height: 100%;
+        overflow: hidden;
+    }
+	.m-style-svg {
+		width: .3rem;
+		height: .3rem;
+	}
+	.fixed-bg {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top:0px;
+        left: 0px;
+        background: #333;
+        opacity: .3;
+        z-index: 90;
+    }
+	.search {
+		background: #f1f1f1;
+		padding: 10px;
+		z-index: 999;
+	}
+	
+	.product-list {
+		position: relative;
+		height: 11.44rem;
+		overflow: hidden;
+	}
+	
+	.mint-navbar {
+		background-color: #E6E6E6;
+		display: block;
+		left: 0x;
+		text-align: left;
+		width: 2rem;
+		height: 82.5%;
+		overflow: scroll;
+        float: left;
+	}
+	
+	.mint-navbar .mint-tab-item {
+		width: 100%;
+		font-size: .3rem;
+		color: #333;
+		padding-left: .2rem;
+	}
+	
+	.mint-navbar .mint-tab-item.is-selected {
+		border-bottom: 0px;
+		color: #333;
+		background: #fff;
+        border-left: 2px solid #2da2ff;
+	}
+	
+	.mint-tab-container {
+		position: relative;
+		width: 71%;
+		float: right;
+        height: 9.8rem;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        padding-top: .2rem;
+        padding-bottom: .2rem;
+	}
+	
+	.item {
+		display: flex;
+		background: #fff;
+		padding: .16rem .13rem;
+		border-radius: .1rem;
+		margin-right: .2rem;
+		margin-top: .2rem;
+        &:nth-child(1) {
+            margin-top: 0px;
+        }
+	}
+	
+	.item-img {
+		width: 1.3rem;
+		height: 1.3rem;
+        margin-top: .3rem;
+	}
+	
+	.selling {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-top: .1rem;
+	}
+	
+	.selling .unit_price {
+		font-size: 10px;
+		color: rgb(102, 102, 102);
+	}
+	
+	.selling .unit_price .font {
+		color: rgb(255, 59, 48);
+		font-size: 14px;
+		span {
+			color: #ccc;
+			font-size: 10px;
+			text-decoration: line-through;
+			margin-left: 5px;
+		}
+	}
+	
+	.item-box {
+		width: 72%;
+		padding-left: 3%;
+		padding-top: .1rem;
+		.title {
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			font-size: .32rem;
+			color: #333;
+            margin-bottom: .05rem;
+		}
+        .title2 {
+            font-size:.2rem;
+            font-weight:500;
+            color:rgba(153,153,153,1);
+            line-height:1.5;
+        }
+	}
+	/*加减*/
+	
+	.gw_num {
+		width: 60px;
+		height: 20px;
+		background: rgb(245, 245, 245);
+		border-radius: 10px;
+		display: flex;
+		align-items: center;
+		text-align: center;
+	}
+	
+	.gw_num em {
+		color: #7A7979;
+		cursor: pointer;
+		font-size: 16px;
+		flex: 1;
+		line-height: 20px;
+        font-style: normal;
+	}
+	
+	.gw_num .add {
+		color: #26A2FF;
+	}
+	
+	.shop_num em {
+		color: rgb(45, 162, 255);
+	}
+	
+	.gw_num .num {
+		font-style: normal;
+		font-size: 12px;
+		color: #333;
+	}
+	
+	.gw_num .num input {
+		text-align: center;
+	}
+	
+	.clearfloat {
+		clear: both;
+	}
+	
+	.choose {
+		background: #fff;
+		line-height: 1rem;
+		font-size: .32rem;
+		display: flex;
+		>div {
+			width: 2rem;
+			background-color: #E6E6E6;
+			padding-left: .2rem;
+		}
+		ul {
+			width: 72%;
+			li {
+				display: inline-block;
+				width: 25%;
+				text-align: center;
+			}
+            .active {
+                color: #2da2ff;
+            }
+		}
+	}
+	/*弹出购物车*/
+	.shop-list {
+		display: flex;
+		height: 40px;
+		padding: 0 .2rem;
+		font-size: 14px;
+		border-bottom: 1px solid #f1f1f1;
+		justify-content: space-between;
+		line-height: 40px;
+		.title {
+			width: 60%;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			height: 40px;
+		}
+		.price {
+			color: #F30000;
+			width: 20%;
+			text-align: center;
+		}
+		.gw_num {
+			margin-top: 10px;
+		}
+	}
+	.shop_title {
+		width: 100%;
+		height: 0.88rem;
+		background: rgb(245, 245, 245);
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		z-index: 16;
+		padding: 0 10px;
+		background: #f1f1f1;
+		p {
+			&:nth-child(1) {
+				font-size: 16px;
+				font-weight: bold;
+			}
+			&:nth-child(2) {
+				font-size: 14px;
+				color: #26A2FF;
+			}
+		}
+	}
+</style>

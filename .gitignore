@@ -1,0 +1,7 @@
+/node_modules
+/vendor
+.project/
+./package.json
+dist/*
+package-lock.json
+.idea/

@@ -1,0 +1,119 @@
+<template>
+	<div id="OtherOrderCard">
+		<div class="item">
+			<div class="item-box">
+				<router-link :to="`/my-order/detail/${data.id}`">
+                    <p class="state">{{data.order_status_display}}</p>
+					<p>{{data.companyName}}</p>
+					<p>{{data.real_name}}</p>
+					<p class="color-gray">订单编号：{{data.order_sn}}</p>
+					<p class="color-gray">下单日期：{{data.order_time}}</p>
+				</router-link>
+			</div>
+			<div class="item-box2">
+				<p>实付金额</p>
+				<p>￥{{data.total_price}}</p>
+				<p>使用活动卷</p>
+				<p v-if="data.is_coupon == null">无</p>
+				<p v-else>{{data.is_coupon}}</p>
+				<p v-else>{{data.coupon}}</p>
+                <div v-if="data.pay_status === 1">
+                    <p class="btn" @click="" v-if="data.shipping_status === 2" >确认收款</p>
+                    <p class="btn" v-if="data.shipping_status===0" @click="sureOrder(data.id)">确认发货</p>
+                    <p class="btn" v-if="data.shipping_status===3" @click="delectOrder(data.id)">删除订单</p>
+                </div>
+                <div v-if="data.pay_status === 3">
+                    <p class="btn" @click="" >确认收款</p>
+                </div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<script>
+	export default {
+		name: "OtherOrderCard",
+		props: [
+			"sureOrder", "data", "delectOrder"
+		],
+	}
+</script>
+
+<style scoped lang="scss">
+.item {
+		display: flex;
+		background: #fff;
+		padding: .35rem .2rem;
+		margin-top: .2rem;
+		p{
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			&:nth-child(3) {
+				margin-bottom: .2rem;
+			}
+		}
+		.item-box {
+			width: 64%;
+			font-size: .28rem;
+			color: #333;
+			line-height: 160%;
+			a {
+				color: #333;
+			}
+			.state {
+				color: #FA5452;
+				margin-bottom: .15rem;
+				line-height: 180%;
+			}
+			.color-gray {
+				color: #999999;
+				font-size: .24rem;
+				line-height: 190%;
+			}
+		}
+		.item-box2 {
+			border-left: 1px solid #f1f1f1;
+			text-align: center;
+			width: 36%;
+			p{
+				&:nth-child(1){
+					margin-top: .25rem;
+					font-size: .24rem;
+				}
+				&:nth-child(2){
+					font-size: .32rem;
+					color: #F2385A;
+					font-weight: bold;
+					line-height: 180%;
+				}
+				&:nth-child(3){
+					margin-top: .15rem;
+					font-size: .24rem;
+					color: #5C5C5C;
+					margin-bottom: 0px;
+				}
+				&:nth-child(4){
+					font-size: .22rem;
+					color: #F2385A;
+					transform: rotate(.8);
+					margin-bottom: .25rem;
+				}
+				
+			}
+            .btn {
+                font-size: .28rem;
+                color: #fff;
+                background: #26A2FF;
+                width: 80%;
+                margin: 0 auto;
+                height: .6rem;
+                border-radius: .6rem;
+                line-height: .6rem;
+            }
+		}
+	}
+	.mint-tab-item {
+		color: #666;
+	}
+</style>
