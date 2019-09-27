@@ -6,7 +6,7 @@
                     <div class="list-box" @touchstart.capture="touchStart" @touchend.capture="touchEnd">
                         <div class="list-content">
                             <p class="shop-unit">待提取</p>
-                            <p class="shop-name">剩余时间：{{data.time}}</p>
+                            <p class="shop-name">剩余时间：{{data.remain_hour}}小时{{data.remain_min}}分</p>
                             <p class="shop-name">订单编号：{{data.order_sn}}</p>
                         </div>
                         <div class="list-detail">

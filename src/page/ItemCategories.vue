@@ -11,13 +11,18 @@
                     <div>分类</div>
                 </div>
                 <div class="mint-navbar">
-                    <div class="menu-list" :id="`menu_${index}`" :key="`menu-${index}`" v-for="(menu,index) in menuList ">
-                        <span @click="showGoods(menu.id,$event)"  class="sp1" :class="`${is_active===menu.id?'active':''}`" >{{menu.name}}</span>
-                        <div class="down-menu" style="height:0">
-                            <p v-for="(childrenMenu,index) in menu.child"
-                               :class="`${childrenMenu.parent_id===is_child_id?'child-active':''}`"
-                               @click="showGoods(childrenMenu.id,menu.id)"
-                            >{{childrenMenu.name}}</p>
+                    <div class="menu-list" :id="`menu_${index}`" :key="`menu-${index}`"
+                         v-for="(menu,index) in menuList ">
+                        <span @click="showGoods(menu.id)" class="sp1 up"
+                              :class="`${is_active===menu.id?'active':''}`">{{menu.name}}</span>
+
+                        <div class="down-menu" style="height: 0px">
+                            <div>
+                                <p v-for="(childrenMenu,index) in menu.child"
+                                   :class="`${childrenMenu.id===is_child_id?'child-active':''}`"
+                                   @click="showSlideGoods(childrenMenu.id,menu.id)"
+                                >{{childrenMenu.name}}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -25,45 +30,49 @@
                     <div>
                         <div class="sale-nav">
                             <p @click="onSaleGoods()" :class="{active,isUp}">在售<span>({{goodList.onSale}})</span></p>
-                            <p @click="downSaleGoods()" :class="{active,isDown}">下架<span>({{goodList.unSale}})</span></p>
+                            <p @click="downSaleGoods()" :class="{active,isDown}">下架<span>({{goodList.unSale}})</span>
+                            </p>
                         </div>
                         <div style="height: 9.3rem;overflow: scroll">
-                        <div v-for="(entity,ikey) in goodList.list" v-if="goodList.list.length>0">
-                            <div v-if="entity.status===1"  class="item" id="list-item">
-                                <router-link to="/drug-detail">
-                                    <img :src="entity.cover" class="item-img">
-                                </router-link>
-                                <div class="item-box">
-                                    <router-link to="">
-                                        <p class="title">{{entity.good_name}}</p>
+                            <div v-for="(entity,ikey) in goodList.list" v-if="goodList.list.length>0">
+                                <div v-if="entity.status===1" class="item" id="list-item">
+                                    <router-link to="/drug-detail">
+                                        <img :src="entity.cover" class="item-img">
                                     </router-link>
-                                    <div class="selling">
-                                        <div class="unit_price">
-                                            <p class="font"><i>￥</i><i>{{entity.price}}</i><span>{{entity.market_price}}</span></p>
+                                    <div class="item-box">
+                                        <router-link to="">
+                                            <p class="title">{{entity.good_name}}</p>
+                                        </router-link>
+                                        <div class="selling">
+                                            <div class="unit_price">
+                                                <p class="font"><i>￥</i><i>{{entity.price}}</i><span>{{entity.market_price}}</span>
+                                                </p>
+                                            </div>
+                                            <div class="gw_num" v-if="entity.status" @click="DownSelf(entity.id)">下架&nbsp;&darr;</div>
                                         </div>
-                                        <div class="gw_num" v-if="entity.status" @click="DownSelf(entity.id)">下架&nbsp;&darr;</div>
+                                    </div>
+                                </div>
+                                <div v-else class="item" id="list-item2">
+                                    <router-link to="/drug-detail">
+                                        <img :src="entity.cover" class="item-img">
+                                    </router-link>
+                                    <div class="item-box">
+                                        <router-link to="">
+                                            <p class="title">{{entity.good_name}}</p>
+                                        </router-link>
+                                        <div class="selling">
+                                            <div class="unit_price">
+                                                <p class="font"><i>￥</i><i>{{entity.price}}</i><span>{{entity.market_price}}</span>
+                                                </p>
+                                            </div>
+                                            <div class="gw_num" v-if="entity.status" @click="DownSelf(entity.id)">下架&nbsp;&darr;</div>
+                                            <div class="gw_num up" v-else @click="UpSelf(entity.id)">上架&nbsp;&uarr;
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div v-else  class="item" id="list-item2">
-                                <router-link to="/drug-detail">
-                                    <img :src="entity.cover" class="item-img">
-                                </router-link>
-                                <div class="item-box">
-                                    <router-link to="">
-                                        <p class="title">{{entity.good_name}}</p>
-                                    </router-link>
-                                    <div class="selling">
-                                        <div class="unit_price">
-                                            <p class="font"><i>￥</i><i>{{entity.price}}</i><span>{{entity.market_price}}</span></p>
-                                        </div>
-                                        <div class="gw_num" v-if="entity.status" @click="DownSelf(entity.id)">下架&nbsp;&darr;</div>
-                                        <div class="gw_num up" v-else @click="UpSelf(entity.id)">上架&nbsp;&uarr;</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                            <Empty  v-if="goodList.list==''&&loading==false"/>
+                            <Empty v-if="goodList.list==''&&loading==false"/>
                         </div>
 
                     </div>
@@ -71,7 +80,7 @@
             </div>
         </div>
 
-        <CircleLoading v-if="loading" />
+        <CircleLoading v-if="loading"/>
         <clxsd-foot-guide :user-type="2"/>
     </div>
 
@@ -89,16 +98,16 @@
         data() {
             return {
                 selected: 'menu_0',
-                is_active:0,
-                menuList: [],
-                goodList:[],
+                is_active: '',//一级菜单默认值
+                menuList: [],//菜单列表
+                goodList: [],//产品列表
                 message: null,
                 loading: true,
                 isUp: true,
-                active:false,
-                isDown:false,
-                is_child_id:0,
-                is_child:false,
+                active: false,
+                isDown: false,
+                is_child_id: 0,
+                is_child: false,
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
             }
         },
@@ -126,7 +135,7 @@
                     const {data} = await this.$http.get(`/hippo-shop/business/menuEntities`)
                     console.log(data.data.cates)
                     this.menuList = data.data.cates
-                    this.$http.get(`/hippo-shop/business`).then( res =>{
+                    this.$http.get(`/hippo-shop/business`).then(res => {
                         console.log(res.data.data.businessGoods)
                         this.goodList = res.data.data.businessGoods
                     })
@@ -136,39 +145,47 @@
                     this.$router.go(-1)
                 }
             },
-            showGoods(id,ids,$event){
-                this.is_active = id
-                this.is_child = true
-                this.is_child_id = id
-                let params = {
-                    cat_id:id
-                }
+            showGoods(id, ids, $event) {
+                this.is_active = id //是否当前一级菜单
+                //this.is_child_id = id
 
                 let curTarget = event.currentTarget,
                     containsCurClass = curTarget.classList.contains("up"),
                     nextSibling = curTarget.nextSibling;
-                while(nextSibling.nodeType == 3 && /\s/.test(nextSibling.nodeValue)){
+                while (nextSibling.nodeType == 3 && /\s/.test(nextSibling.nodeValue)) {
                     nextSibling = nextSibling.nextSibling;
-                };
-                let detailScrollHeight = nextSibling.scrollHeight;
-                if(containsCurClass){
-                    curTarget.classList.remove("up");
-                    this.toggleSlide(nextSibling,detailScrollHeight,'500');
-                }else{
-                    curTarget.classList.add("up");
-                    this.toggleSlide(nextSibling,0,'500');
                 }
-
-
-
-                this.$http.get(`/hippo-shop/business`,{params}).then( res =>{
+                ;
+                let detailScrollHeight = nextSibling.scrollHeight;
+                if (containsCurClass) {
+                    curTarget.classList.remove("up");
+                    this.toggleSlide(nextSibling, detailScrollHeight, '500');
+                } else {
+                    curTarget.classList.add("up");
+                    this.toggleSlide(nextSibling, 0, '500');
+                }
+                let params = {
+                    cat_id: id
+                }
+                this.$http.get(`/hippo-shop/business`, {params}).then(res => {
                     console.log(res.data.data.businessGoods)
                     this.goodList = res.data.data.businessGoods
                 })
             },
-            toggleSlide:function(dom,height,time){
+
+            toggleSlide: function (dom, height, time) {
                 dom.style.transition = 'height ' + time + 'ms';
                 dom.style.height = height + 'px';
+            },
+            showSlideGoods(id, ids, $event) {
+                this.is_child_id = id
+                let params = {
+                    cat_id: id
+                }
+                this.$http.get(`/hippo-shop/business`, {params}).then(res => {
+                    console.log(res.data.data.businessGoods)
+                    this.goodList = res.data.data.businessGoods
+                })
             },
             //下架
             DownSelf(id) {
@@ -194,10 +211,11 @@
                 console.log("在售")
                 this.state = 1
                 this.isUp = true;
-                this.isDown = false
+                this.isDown = false;
             },
             downSaleGoods() {
                 console.log("下架")
+                this.state = 0
                 this.isUp = false
                 this.isDown = true
             }
@@ -244,33 +262,40 @@
         height: 100%;
         overflow: scroll;
         float: left;
+
         .menu-list {
             width: 100%;
             font-size: .3rem;
             color: #333;
+
             .sp1 {
                 display: block;
                 height: 1rem;
                 line-height: 1rem;
                 padding-left: .15rem;
+                overflow: hidden;
             }
+
             .active {
                 background: #eef6fb;
                 border-left: 2px solid #26a2ff;
             }
+
             .down-menu {
                 background: #fff;
                 overflow: hidden;
+
                 p {
                     white-space: nowrap;
                     text-overflow: ellipsis;
                     line-height: 2.5;
                     font-size: .24rem;
                     padding-left: .3rem;
-
-                    transition: .2s linear;
                 }
 
+                .child-active {
+                    color: #2da2ff;
+                }
             }
         }
     }
@@ -332,6 +357,7 @@
         padding-left: 3%;
         padding-top: .1rem;
         float: right;
+
         .title {
             overflow: hidden;
             white-space: nowrap;
@@ -404,17 +430,21 @@
             display: inline-block;
             text-align: center;
             font-size: .28rem;
+
             span {
                 padding-left: 1px;
             }
+
             &:nth-child(1) {
                 span {
                     color: #ff3b30;
                 }
             }
         }
+
         .active {
             color: #2da2ff;
+
             span {
                 color: #ff3b30;
             }

@@ -21,7 +21,7 @@ let _baseURL = location.origin.includes('twork') ?
     'http://twork.jicai.api.yaotong111.com'
     : (location.origin.includes('clxsd') ? 'https://api.clxsd.cn' : `${process.env.VUE_APP_API_HOST}`);
 */
-let _baseURL = (location.origin.includes('localhost') || location.origin.includes('dwork')) ? 'http://dwork.jicai.api.yaotong111.com' : location.origin.includes('twork') ? 'http://twork.jicai.api.yaotong111.com' : 'https://api.clxsd.cn';
+let _baseURL = location.origin.includes('localhost') ? 'http://dwork.jicai.api.yaotong111.com' : location.origin.includes('twork') ? 'http://twork.jicai.api.yaotong111.com' : 'https://api.clxsd.cn';
 
 export const baseURL = `${_baseURL}/api/${process.env.VUE_APP_API_VERSION}`;
 

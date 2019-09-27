@@ -178,6 +178,7 @@
         line-height: .78rem;
         text-align: center;
         color: #ccc;
+		align-items: center;
         img {
             width: .82rem;
             height: .002rem;

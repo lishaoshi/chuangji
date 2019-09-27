@@ -17,52 +17,34 @@
             </div>
         </div>
         <mt-navbar v-model="selected">
-            <!--
             <mt-tab-item id="1">
                 <div class="nav-li">
                     <svg class="icon">
-                        <use :xlink:href="`#icon-ordering-receipting-${selected==1 ? '1':'0'}`"/>
+                        <use :xlink:href="`#icon-ordering-extracting-${selected==1 ? '1':'0'}`"/>
                     </svg>
-                    <p>全部</p>
+                    <p>待提取</p>
                 </div>
             </mt-tab-item>
             <mt-tab-item id="2">
                 <div class="nav-li">
                     <svg class="icon">
-                        <use :xlink:href="`#icon-ordering-paying-${selected==2 ? '1':'0'}`"/>
+                        <use :xlink:href="`#icon-ordering-deliverGoods-${selected==2 ? '1':'0'}`"/>
                     </svg>
-                    <p>待付款</p>
-                </div>
-            </mt-tab-item>
-            -->
-            <mt-tab-item id="6">
-                <div class="nav-li">
-                    <svg class="icon">
-                        <use :xlink:href="`#icon-ordering-extracting-${selected==6 ? '1':'0'}`"/>
-                    </svg>
-                    <p>待提取</p>
+                    <p>待发货</p>
                 </div>
             </mt-tab-item>
             <mt-tab-item id="3">
                 <div class="nav-li">
                     <svg class="icon">
-                        <use :xlink:href="`#icon-ordering-deliverGoods-${selected==3 ? '1':'0'}`"/>
+                        <use :xlink:href="`#icon-ordering-receipting-${selected==3 ? '1':'0'}`"/>
                     </svg>
-                    <p>待发货</p>
+                    <p>待收款</p>
                 </div>
             </mt-tab-item>
             <mt-tab-item id="4">
                 <div class="nav-li">
                     <svg class="icon">
-                        <use :xlink:href="`#icon-ordering-receipting-${selected==4 ? '1':'0'}`"/>
-                    </svg>
-                    <p>待收款</p>
-                </div>
-            </mt-tab-item>
-            <mt-tab-item id="5">
-                <div class="nav-li">
-                    <svg class="icon">
-                        <use :xlink:href="`#icon-ordering-receipted-${selected==5 ? '1':'0'}`"/>
+                        <use :xlink:href="`#icon-ordering-receipted-${selected==4 ? '1':'0'}`"/>
                     </svg>
                     <p>已收款</p>
                 </div>
@@ -70,26 +52,13 @@
         </mt-navbar>
 
         <mt-tab-container v-model="selected" style="min-height: 5rem;">
-            <!--
             <mt-tab-container-item id="1">
-                <ClxsdLoadMore key="orders-list" ref="loadmore" @onRefresh="onOrdersRefresh" @onLoadMore="onOrdersLoadMore">
-                    <DrugOrderCard :key="`order_drug_all_${index}`" :data="order" v-for="(order,index) in orders"
-                    :sureOrder="sureOrder" :delectOrder="delectOrder">
-                    </DrugOrderCard>
+                <ClxsdLoadMore key="orders-list-UnDrawOrder" ref="loadmoreUnDraw" @onRefresh="unDrawRefresh" @onLoadMore="unDrawLoadMore">
+                    <UnDrawCard :key="`order_drug_undraw_${index}`" :data="order" v-for="(order,index) in unRecMoney"
+                                :refuseOrder="refuseOrder"
+                                :extractOrder="extractOrder"
+                    />
                 </ClxsdLoadMore>
-            </mt-tab-container-item>
-            <mt-tab-container-item id="2">
-                <ClxsdLoadMore key="orders-list-unPay" ref="loadmoreUnPay" @onRefresh="unPayRefresh" @onLoadMore="unPayLoadMore">
-                    <DrugOrderCard :key="`order_drug_unPay_${index}`" :data="order" v-for="(order,index) in unPayOrders"></DrugOrderCard>
-                </ClxsdLoadMore>
-            </mt-tab-container-item>
-            -->
-
-            <mt-tab-container-item id="6">
-                <UnDrawCard v-for="(order,index) in UnDrawOrder" :data="order" :key="`unDraw_${index}`"
-                            :refuseOrder="refuseOrder"
-                            :extractOrder="extractOrder"
-                />
                 <span class="fixed-over">
                     <span v-if="is_over == false" @click="is_over = !is_over">
                         <svg class="icon">
@@ -104,25 +73,22 @@
                     </span>
                 </span>
             </mt-tab-container-item>
-
-           <mt-tab-container-item id="3">
+           <mt-tab-container-item id="2">
                <ClxsdLoadMore key="orders-list-unSend" ref="loadmoreUnSend" @onRefresh="unSendRefresh" @onLoadMore="unSendLoadMore">
-                   <DrugOrderCard :key="`order_drug_unSend_${index}`" :data="order" v-for="(order,index) in unSendOrders" :sureOrder="sureOrder"></DrugOrderCard>
+                   <DrugOrderCard :key="`order_drug_unSend_${index}`" :data="order" :status="1" v-for="(order,index) in unSendOrders" :sureOrder="sureOrder"></DrugOrderCard>
                </ClxsdLoadMore>
            </mt-tab-container-item>
-            <!--
-           <mt-tab-container-item id="4">
+           <mt-tab-container-item id="3">
                <ClxsdLoadMore key="orders-list-unRecMoney" ref="loadmoreUnRecMoney" @onRefresh="unRecMoneyRefresh" @onLoadMore="unRecMoneyLoadMore">
-                   <DrugOrderCard :key="`order_drug_unmoney_${index}`" :data="order" v-for="(order,index) in unRecMoney" :sureOrder="sureOrder"></DrugOrderCard>
+                   <DrugOrderCard :key="`order_drug_unmoney_${index}`" :data="order" :status="2"  v-for="(order,index) in unRecMoney" :sureOrder="sureOrder"></DrugOrderCard>
                </ClxsdLoadMore>
            </mt-tab-container-item>
 
-           <mt-tab-container-item id="5">
+           <mt-tab-container-item id="4">
                <ClxsdLoadMore key="orders-list-rec" ref="loadmoreRec" @onRefresh="recRefresh" @onLoadMore="recLoadMore">
-                   <DrugOrderCard :key="`order_factory_unSend_${index}`" :data="order" v-for="(order,index) in recOrders"  :delectOrder="delectOrder"></DrugOrderCard>
+                   <DrugOrderCard :key="`order_factory_unSend_${index}`" :data="order" :status="3"  v-for="(order,index) in recOrders"  :delectOrder="delectOrder"></DrugOrderCard>
                </ClxsdLoadMore>
            </mt-tab-container-item>
-           -->
         </mt-tab-container>
         <clxsd-foot-guide :user-type="USER_TYPE"/>
     </div>
@@ -148,7 +114,7 @@
         },
         data() {
             return {
-                selected: '6',
+                selected: '1',
                 is_over: false,
                 isEmpty: true,
                 order_id: 0,
@@ -157,6 +123,7 @@
                 unSendOrders: [], //待发货
                 unRecMoney: [], //待收款
                 recOrders: [], //已收款
+                drawOrders:[],//待提取订单
                 state: 1,
                 showLoading: true, //显示加载动画
                 page: 1, //全部订单默认页
@@ -164,6 +131,7 @@
                 unSend_page: 1, //未发货订单默认页
                 unRecMoney_page: 1, //代收款默认页
                 rec_page: 1, //已收款默认页
+                draw_page:1,//待提取订单默认页
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
                 currentValue: 0.00,
                 lianBeiValue: 0.00,
@@ -220,15 +188,19 @@
 
                 })
             },
-            _handleData(data) {
+            _handleData(data,status) {
+                console.log("当前："+this.selected)
                 data.forEach(order => {
-                    let order_status_display = '待付款'
-                    if (order.pay_status) order_status_display = '待收款'
-                    order.order_status_display = order_status_display
+                    switch (status) {
+                        case 0:  order.order_status_display = '待提取'
+                        case 1:  order.order_status_display = '待发货'
+                        case 2:  order.order_status_display = '代收款'
+                        case 3:  order.order_status_display = '已付款'
+                    }
                     order.pay_status = order.pay_status
                     order.id = order.id
                     let id = order.id
-                    order.companyName = order.supplier.name
+                    //order.companyName = order.supplier.name
                     order.real_name = order.consignee
                     order.total_price = order.money_paid
                     order.order_time = order.created_at
@@ -270,80 +242,38 @@
 
                 }).catch(err => err);
             },
-            /*
-            //加载全部订单
-            async getOrderData(options, loadMore = false) {
-                let params = {
-                    page: this.page,
-                    type: 'orders-list',
-                    limit: options.limit
-                }
-                serviceBusinessOrderList(params, loadMore)
-                .then(({
-                           data = []
-                       }) => {
-                    if(loadMore) {
-                        this.orders = [...this.orders, ...data]
-                    } else {
-                        this.orders = data
-                    }
-                    this.orders = this._handleData(this.orders)
-                    this.page = this.page + 1
-                    this.$refs.loadmore.afterLoadMore(data.length < options.limit)
-                    if(options.callback) {
-                        options.callback()
-                    }
-                })
-            },
-            onOrdersRefresh(callback) {
-                this.page = 1
-                let options = {
-                    limit: 10,
-                    callback: callback
-                }
-                this.getOrderData(options)
-            },
-            onOrdersLoadMore() {
-                let options = {
-                    limit: 10,
-                }
-                this.getOrderData(options, true)
-            },
-
-            //加载未付款订单
+            //代提取
             async getUnPayOrderData(options, loadMore = false) {
                 let params = {
-                    page: this.unPay_page,
-                    type: 'orders-list-unPay',
+                    page: this.draw_page,
                     limit: options.limit,
-                    payStatus: 0
+                    status: 0
                 }
                 serviceBusinessOrderList(params, loadMore)
-                .then(({
-                           data = []
-                       }) => {
-                    if (loadMore) {
-                        this.unPayOrders = [...this.unPayOrders, ...data]
-                    } else {
-                        this.unPayOrders = data
-                    }
-                    this.unPayOrders = this._handleData(this.unPayOrders)
-                    this.unPay_page = this.unPay_page + 1
-                    this.$refs.loadmoreUnPay.afterLoadMore(data.length < options.limit)
-                    if (options.callback) {
-                        options.callback()
-                    }
-                })
+                    .then(({
+                               data = []
+                           }) => {
+                        if (loadMore) {
+                            this.drawOrders = [...this.drawOrders, ...data.data.orderList]
+                        } else {
+                            this.drawOrders = data.data.orderList
+                        }
+                        this.draw_page = this.draw_page + 1
+                        this.$refs.loadmoreUnDraw.afterLoadMore(data.data.orderList.length < options.limit)
+                        if (options.callback) {
+                            options.callback()
+                        }
+                    })
             },
-            unPayRefresh(callback) {
-                this.unPay_page = 1
+            unDrawRefresh(callback) {
+                this.draw_page = 1
                 let options = {
                     limit: 10,
                     callback: callback
                 }
                 this.getUnPayOrderData(options)
             },
-            unPayLoadMore() {
+            unDrawLoadMore() {
                 console.log('loard')
 
                 let options = {
@@ -352,27 +282,25 @@
 
                 this.getUnPayOrderData(options, true)
             },
-*/
             //待发货
             getUnSendOrderData(options, loadMore = false) {
                 let params = {
                     page: this.unSend_page,
-                    type: 'orders-unSend-list',
                     limit: options.limit,
-                    shipStatus: 1
+                    status: 1
                 }
                 serviceBusinessOrderList(params, loadMore)
                 .then(({data = []}) => {
                     if (loadMore) {
-                        console.log("代发货")
-                        this.unSendOrders = [...this.unSendOrders, ...data]
+                        console.log(data.data.orderList)
+                        this.unSendOrders = [...this.unSendOrders, ...data.data.orderList]
                     } else {
-                        this.unSendOrders = data
+                        this.unSendOrders = data.data.orderList
                     }
-                    this.unSendOrders = this._handleData(this.unSendOrders)
+                    this.unSendOrders = this._handleData(this.unSendOrders,params.status)
                     this.unSend_page = this.unSend_page + 1
-                    console.log(data.length < options.limit )
-                    this.$refs.loadmoreUnSend.afterLoadMore(data.length < options.limit)
+                    console.log(data.data.orderList.length < options.limit )
+                    this.$refs.loadmoreUnSend.afterLoadMore(data.data.orderList.length < options.limit)
                     if (options.callback) {
                         options.callback()
                     }
@@ -398,20 +326,19 @@
             async getUnRecMoneyData(options, loadMore = false) {
                 let params = {
                     page: this.unRecMoney_page,
-                    type: 'orders-list-unRecMoney',
                     limit: options.limit,
-                    shipStatus: 1
+                    status: 2
                 }
                 serviceBusinessOrderList(params, loadMore)
                 .then(({data = []}) => {
                     if (loadMore) {
-                        this.unRecMoney = [...this.unRecMoney, ...data]
+                        this.unRecMoney = [...this.unRecMoney, ...data.data.orderList]
                     } else {
-                        this.unRecMoney = data
+                        this.unRecMoney = data.data.orderList
                     }
-                    this.unRecMoney = this._handleData(this.unRecMoney)
+                    this.unRecMoney = this._handleData(this.unRecMoney,params.status)
                     this.unRecMoney_page = this.unRecMoney_page + 1
-                    this.$refs.loadmoreUnRecMoney.afterLoadMore(data.length < options.limit)
+                    this.$refs.loadmoreUnRecMoney.afterLoadMore(data.data.orderList.length < options.limit)
                     if (options.callback) {
                         options.callback()
                     }
@@ -436,20 +363,19 @@
             async getRecOrderData(options, loadMore = false) {
                 let params = {
                     page: this.rec_page,
-                    type: 'orders-list-rec',
                     limit: options.limit,
-                    shipStatus: 2
+                    status: 3
                 }
                 serviceBusinessOrderList(params, loadMore)
                 .then(({data = []}) => {
                     if (loadMore) {
-                        this.recOrders = [...this.recOrders, ...data]
+                        this.recOrders = [...this.recOrders, ...data.data.orderList]
                     } else {
-                        this.recOrders = data
+                        this.recOrders = data.data.orderList
                     }
-                    this.recOrders = this._handleData(this.recOrders)
+                    this.recOrders = this._handleData(this.recOrders,params.status)
                     this.rec_page = this.rec_page + 1
-                    this.$refs.loadmoreRec.afterLoadMore(data.length < options.limit)
+                    this.$refs.loadmoreRec.afterLoadMore(data.data.orderList.length < options.limit)
                     if (options.callback) {
                         options.callback()
                     }

@@ -3,11 +3,15 @@
 		<div class="item">
 			<div class="item-box">
 				<router-link :to="`/my-order/detail/${data.id}`">
-                    <p class="state">{{data.order_status_display}}</p>
-					<p>{{data.companyName}}</p>
-					<p>{{data.real_name}}</p>
+                    <p class="state">
+						<span v-if="status==1">待发货</span>
+						<span v-if="status==2">代收款</span>
+						<span v-if="status==3">已收款</span>
+					</p>
+					<p v-if="data.supplier">{{data.supplier.name}}</p>
+					<p v-if="data.consignee">{{data.consignee}}</p>
 					<p class="color-gray">订单编号：{{data.order_sn}}</p>
-					<p class="color-gray">下单日期：{{data.order_time}}</p>
+					<p class="color-gray">下单日期：{{data.created_at}}</p>
 				</router-link>
 			</div>
 			<div class="item-box2">
@@ -18,9 +22,8 @@
 				<p v-else>{{data.is_coupon}}</p>
 				<p v-else>{{data.coupon}}</p>
                 <div v-if="data.pay_status === 1">
-                    <p class="btn" @click="" v-if="data.shipping_status === 2" >确认收款</p>
-                    <p class="btn" v-if="data.shipping_status===0" @click="sureOrder(data.id)">确认发货</p>
-                    <p class="btn" v-if="data.shipping_status===3" @click="delectOrder(data.id)">删除订单</p>
+                    <p class="btn" v-if="status===1" @click="sureOrder(data.id)">确认发货</p>
+                    <p class="btn" v-if="status===3" @click="delectOrder(data.id)">删除订单</p>
                 </div>
                 <div v-if="data.pay_status === 3">
                     <p class="btn" @click="" >确认收款</p>
@@ -34,7 +37,7 @@
 	export default {
 		name: "OtherOrderCard",
 		props: [
-			"sureOrder", "data", "delectOrder"
+			"sureOrder", "data", "delectOrder","status"
 		],
 	}
 </script>
