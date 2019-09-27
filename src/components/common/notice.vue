@@ -1,5 +1,5 @@
 <template>
-    <div class="notice" v-if="notices!=''">
+    <div class="notice" v-if="notices!=null">
         <svg>
             <use xlink:href="#icon-notice"/>
         </svg>

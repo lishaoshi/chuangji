@@ -18,6 +18,14 @@ export function sureBusinessOrder(id) {
 }
 
 /* 商业服务端订单 */
-export function serviceBusinessOrderList(params){
+export const serviceBusinessOrderList = (params) =>{
     return http.get('hippo-shop/business/service-orders',{params, validateStatus: s => s === 200});
 };
+//解决订单
+export function serviceBusinessRefuseOrder(id) {
+    return http.patch(`hippo-shop/business/orders/${id}/refuse`, { validateStatus: s => s > 200 })
+}
+//确认发货
+export function sureSendBusinessOrder(id) {
+    return http.patch(`hippo-shop/business/orders/${id}/confirmDelivery`, { validateStatus: s => s > 200 })
+}

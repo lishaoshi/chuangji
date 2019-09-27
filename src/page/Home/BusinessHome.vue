@@ -110,12 +110,13 @@
                 this.swipers = data.data
                 infoList({from:'business'}).then( data => {
                     this.notices = data.data.data
+					console.log(this.notices)
                 })
             },
 			handleScroll() {
 				var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
 				if(scrollTop > 150) {
-					this.hasError = 1
+					this.hasError = 1;
 				} else {
 					this.hasError = 0;
 				}

@@ -2,17 +2,17 @@
     <div id="MyBussinessOrder">
         <div class="top-box" :class="{ active: isFullScreen }">
             <div>
-                <p>{{UnDrawOrder.length}}</p>
+                <p>{{drawValue}}</p>
                 <p>未提取(个)</p>
             </div>
             <div>
                 <router-link to="/lianshu">
-                    <p>{{lianBeiValue| display_price}}</p>
+                    <p>{{lianShuValue| display_price}}</p>
                     <p>联数(包)</p>
                 </router-link>
             </div>
             <div>
-                <p>1000.00</p>
+                <p>{{daikuanValue| display_price}}</p>
                 <p>货款(元)</p>
             </div>
         </div>
@@ -46,7 +46,7 @@
                     <svg class="icon">
                         <use :xlink:href="`#icon-ordering-receipted-${selected==4 ? '1':'0'}`"/>
                     </svg>
-                    <p>已收款</p>
+                    <p>已收货</p>
                 </div>
             </mt-tab-item>
         </mt-navbar>
@@ -54,7 +54,7 @@
         <mt-tab-container v-model="selected" style="min-height: 5rem;">
             <mt-tab-container-item id="1">
                 <ClxsdLoadMore key="orders-list-UnDrawOrder" ref="loadmoreUnDraw" @onRefresh="unDrawRefresh" @onLoadMore="unDrawLoadMore">
-                    <UnDrawCard :key="`order_drug_undraw_${index}`" :data="order" v-for="(order,index) in unRecMoney"
+                    <UnDrawCard :key="`order_drug_undraw_${index}`" :data="order" v-for="(order,index) in drawOrders"
                                 :refuseOrder="refuseOrder"
                                 :extractOrder="extractOrder"
                     />
@@ -75,18 +75,18 @@
             </mt-tab-container-item>
            <mt-tab-container-item id="2">
                <ClxsdLoadMore key="orders-list-unSend" ref="loadmoreUnSend" @onRefresh="unSendRefresh" @onLoadMore="unSendLoadMore">
-                   <DrugOrderCard :key="`order_drug_unSend_${index}`" :data="order" :status="1" v-for="(order,index) in unSendOrders" :sureOrder="sureOrder"></DrugOrderCard>
+                   <DrugOrderCard :key="`order_drug_unSend_${index}`" :data="order" :status="2" v-for="(order,index) in unSendOrders" :sureSendOrder="sureSendOrder"></DrugOrderCard>
                </ClxsdLoadMore>
            </mt-tab-container-item>
            <mt-tab-container-item id="3">
                <ClxsdLoadMore key="orders-list-unRecMoney" ref="loadmoreUnRecMoney" @onRefresh="unRecMoneyRefresh" @onLoadMore="unRecMoneyLoadMore">
-                   <DrugOrderCard :key="`order_drug_unmoney_${index}`" :data="order" :status="2"  v-for="(order,index) in unRecMoney" :sureOrder="sureOrder"></DrugOrderCard>
+                   <DrugOrderCard :key="`order_drug_unmoney_${index}`" :data="order" :status="3"  v-for="(order,index) in unRecMoney" :sureOrder="sureOrder"></DrugOrderCard>
                </ClxsdLoadMore>
            </mt-tab-container-item>
 
            <mt-tab-container-item id="4">
                <ClxsdLoadMore key="orders-list-rec" ref="loadmoreRec" @onRefresh="recRefresh" @onLoadMore="recLoadMore">
-                   <DrugOrderCard :key="`order_factory_unSend_${index}`" :data="order" :status="3"  v-for="(order,index) in recOrders"  :delectOrder="delectOrder"></DrugOrderCard>
+                   <DrugOrderCard :key="`order_factory_unSend_${index}`" :data="order" :status="4"  v-for="(order,index) in recOrders"  :delectOrder="delectOrder"></DrugOrderCard>
                </ClxsdLoadMore>
            </mt-tab-container-item>
         </mt-tab-container>
@@ -101,7 +101,7 @@
     import EmptyOrder from '@/components/EmptyList'
     import Imperfect from '@/components/Imperfect'
     import {mapState} from "vuex";
-    import {serviceBusinessOrderList, sureBusinessOrder, deleteBusinessOrder} from "@/api/businessOrder.js"
+    import {serviceBusinessOrderList, sureBusinessOrder, deleteBusinessOrder,serviceBusinessRefuseOrder,sureSendBusinessOrder} from "@/api/businessOrder.js"
 
     export default {
         name: "BusinessServiceOrder",
@@ -133,40 +133,14 @@
                 rec_page: 1, //已收款默认页
                 draw_page:1,//待提取订单默认页
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
-                currentValue: 0.00,
-                lianBeiValue: 0.00,
-                UnDrawOrder: [
-                    {
-                        time: "20小时",
-                        order_sn: "258012854785478",
-                        price: "34.00",
-                        id: 1
-                    }
-                ]
+                daikuanValue: 0.00,
+                lianShuValue: 0.00,
+                drawValue:0,
             }
         },
         computed: {
-            ...mapState(['POSITION']),
-            lat() {
-                return this.POSITION.lat
-            },
-            lng() {
-                return this.POSITION.lng
-            },
             ...mapState({
                 USER_TYPE: state => state.CURRENTUSER.user_type,
-                userInfo: state => {
-                    const currentInfo = state.CURRENTUSER
-                    const configInfo = state.CONFIG
-                    return {
-                        lianBei: {
-                            isOpen: !!currentInfo.lianbei,
-                            value: !!currentInfo.lianbei ? (currentInfo.lianbei.balance / 100).toFixed(2) : '0.00'
-                        },
-                        lianBeiValue: (configInfo['lianbei'] && configInfo['lianbei']['real_value']) ? configInfo['lianbei']['real_value'] : '0.30',
-                        lianPiaoVaule: currentInfo.lianpiao ? (parseFloat(currentInfo.lianpiao.add_balance) + parseFloat(currentInfo.lianpiao.balance)).toFixed(2) : '0.00',
-                    }
-                }
             })
         },
         created(){
@@ -175,12 +149,13 @@
 
         methods: {
             initData(callback){
-                this.$http.get('lianbei/list')
+                this.$http.get('hippo-shop/business/dataStatistics')
                 .then(response => {
-                    const { data } = response;
-                    if(data){
-                        this.lianBeiValue = data.income-data.expenditure;
-                    }
+                    const { data } = response.data;
+                    console.log(data.unExtractInfo)
+                    this.drawValue = data.unExtractInfo.count;
+                    this.daikuanValue = data.unExtractInfo.sum
+                    this.lianShuValue = data.unExtractInfo.supplier_lianbei
                     if(callback){
                         callback();
                     }
@@ -208,9 +183,11 @@
                 })
                 return data
             },
-            sureOrder(id) {
-                this.$messagebox.confirm("确定收到货物了吗?").then(action => {
+            sureSendOrder(id) {
+                this.$messagebox.confirm("确定发送货物了吗?").then(action => {
                     console.log("收到的商品id：" + id)
+                    sureSendBusinessOrder(id)
+                    this.UnDrawOrder.splice(this.UnDrawOrder.findIndex(item => item.id === id), 1)
                 }).catch(err => err);
                 ;
             },
@@ -218,12 +195,13 @@
                 this.$messagebox.confirm("确定删除此订单吗?").then(action => {
                     console.log("删除的商品id：" + id)
                 }).catch(err => err);
-                ;
             },
             refuseOrder(id) {
                 this.$messagebox.confirm("确定拒绝此订单吗?").then(action => {
                     console.log("商品id：" + id)
-                    this.UnDrawOrder.splice(this.UnDrawOrder.findIndex(item => item.id === id), 1)
+                    serviceBusinessRefuseOrder(id)
+                    this.unSendOrders.splice(this.unSendOrders.findIndex(item => item.id === id), 1)
+
                 }).catch(err => err);
             },
             extractOrder(id) {
@@ -243,11 +221,11 @@
                 }).catch(err => err);
             },
             //代提取
-            async getUnPayOrderData(options, loadMore = false) {
+            async getDrawOrderData(options, loadMore = false) {
                 let params = {
                     page: this.draw_page,
                     limit: options.limit,
-                    status: 0
+                    status: 1
                 }
                 serviceBusinessOrderList(params, loadMore)
                     .then(({
@@ -271,7 +249,7 @@
                     limit: 10,
                     callback: callback
                 }
-                this.getUnPayOrderData(options)
+                this.getDrawOrderData(options)
             },
             unDrawLoadMore() {
                 console.log('loard')
@@ -280,14 +258,14 @@
                     limit: 10,
                 }
 
-                this.getUnPayOrderData(options, true)
+                this.getDrawOrderData(options, true)
             },
             //待发货
             getUnSendOrderData(options, loadMore = false) {
                 let params = {
                     page: this.unSend_page,
                     limit: options.limit,
-                    status: 1
+                    status: 2
                 }
                 serviceBusinessOrderList(params, loadMore)
                 .then(({data = []}) => {
@@ -327,7 +305,7 @@
                 let params = {
                     page: this.unRecMoney_page,
                     limit: options.limit,
-                    status: 2
+                    status: 3
                 }
                 serviceBusinessOrderList(params, loadMore)
                 .then(({data = []}) => {
@@ -364,7 +342,7 @@
                 let params = {
                     page: this.rec_page,
                     limit: options.limit,
-                    status: 3
+                    status: 4
                 }
                 serviceBusinessOrderList(params, loadMore)
                 .then(({data = []}) => {

@@ -15,3 +15,8 @@ export const supplierBusinessEntities = (ids) => {
     }
     return http.get(`hippo-shop/business/entities`,{params}).catch(() => {})
 }
+
+//药品列表
+export function servicBusinessGoodList(params){
+    return http.get('hippo-shop/business',{params, validateStatus: s => s === 200});
+};

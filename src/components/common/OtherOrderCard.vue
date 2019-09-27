@@ -4,9 +4,9 @@
 			<div class="item-box">
 				<router-link :to="`/my-order/detail/${data.id}`">
                     <p class="state">
-						<span v-if="status==1">待发货</span>
-						<span v-if="status==2">代收款</span>
-						<span v-if="status==3">已收款</span>
+						<span v-if="status==2">待发货</span>
+						<span v-if="status==3">代收款</span>
+						<span v-if="status==4">已收货</span>
 					</p>
 					<p v-if="data.supplier">{{data.supplier.name}}</p>
 					<p v-if="data.consignee">{{data.consignee}}</p>
@@ -21,12 +21,9 @@
 				<p v-if="data.is_coupon == null">无</p>
 				<p v-else>{{data.is_coupon}}</p>
 				<p v-else>{{data.coupon}}</p>
-                <div v-if="data.pay_status === 1">
-                    <p class="btn" v-if="status===1" @click="sureOrder(data.id)">确认发货</p>
-                    <p class="btn" v-if="status===3" @click="delectOrder(data.id)">删除订单</p>
-                </div>
-                <div v-if="data.pay_status === 3">
-                    <p class="btn" @click="" >确认收款</p>
+                <div>
+                    <p class="btn" v-if="status==2" @click="sureSendOrder(data.id)">确认发货</p>
+                    <p class="btn" v-if="status==3" @click="delectOrder(data.id)">删除订单</p>
                 </div>
 			</div>
 		</div>
@@ -37,7 +34,7 @@
 	export default {
 		name: "OtherOrderCard",
 		props: [
-			"sureOrder", "data", "delectOrder","status"
+			"sureSendOrder", "data", "delectOrder","status"
 		],
 	}
 </script>

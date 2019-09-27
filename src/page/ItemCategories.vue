@@ -13,15 +13,21 @@
                 <div class="mint-navbar">
                     <div class="menu-list" :id="`menu_${index}`" :key="`menu-${index}`"
                          v-for="(menu,index) in menuList ">
-                        <span @click="showGoods(menu.id)" class="sp1 up"
+                        <span v-if="menu.child" @click="slide($event)" class="sp1 up"
                               :class="`${is_active===menu.id?'active':''}`">{{menu.name}}</span>
-
+                        <span v-else @click="showGoods(menu.id,$event)" class="sp1"
+                              :class="`${is_active===menu.id?'active':''}`">{{menu.name}}</span>
                         <div class="down-menu" style="height: 0px">
                             <div>
                                 <p v-for="(childrenMenu,index) in menu.child"
                                    :class="`${childrenMenu.id===is_child_id?'child-active':''}`"
                                    @click="showSlideGoods(childrenMenu.id,menu.id)"
-                                >{{childrenMenu.name}}</p>
+                                >
+                                    <span>{{childrenMenu.name}}</span>
+                                    <svg v-if="childrenMenu.id===is_child_id">
+                                        <use xlink:href="#icon-peisongshang-caidananniu"></use>
+                                    </svg>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -34,45 +40,54 @@
                             </p>
                         </div>
                         <div style="height: 9.3rem;overflow: scroll">
-                            <div v-for="(entity,ikey) in goodList.list" v-if="goodList.list.length>0">
-                                <div v-if="entity.status===1" class="item" id="list-item">
-                                    <router-link to="/drug-detail">
-                                        <img :src="entity.cover" class="item-img">
-                                    </router-link>
-                                    <div class="item-box">
-                                        <router-link to="">
-                                            <p class="title">{{entity.good_name}}</p>
-                                        </router-link>
-                                        <div class="selling">
-                                            <div class="unit_price">
-                                                <p class="font"><i>￥</i><i>{{entity.price}}</i><span>{{entity.market_price}}</span>
-                                                </p>
-                                            </div>
-                                            <div class="gw_num" v-if="entity.status" @click="DownSelf(entity.id)">下架&nbsp;&darr;</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div v-else class="item" id="list-item2">
-                                    <router-link to="/drug-detail">
-                                        <img :src="entity.cover" class="item-img">
-                                    </router-link>
-                                    <div class="item-box">
-                                        <router-link to="">
-                                            <p class="title">{{entity.good_name}}</p>
-                                        </router-link>
-                                        <div class="selling">
-                                            <div class="unit_price">
-                                                <p class="font"><i>￥</i><i>{{entity.price}}</i><span>{{entity.market_price}}</span>
-                                                </p>
-                                            </div>
-                                            <div class="gw_num" v-if="entity.status" @click="DownSelf(entity.id)">下架&nbsp;&darr;</div>
-                                            <div class="gw_num up" v-else @click="UpSelf(entity.id)">上架&nbsp;&uarr;
+                            <!--<ClxsdLoadMore key="orders-list" ref="loadmore" @onRefresh="onOrdersRefresh" @onLoadMore="onOrdersLoadMore">-->
+                                <div v-for="(entity,ikey) in goodList.list">
+                                    <div v-if="isUp&&entity.status===1">
+                                        <div class="item" id="list-item">
+                                            <router-link to="/drug-detail">
+                                                <img :src="entity.cover" class="item-img">
+                                            </router-link>
+                                            <div class="item-box">
+                                                <router-link to="">
+                                                    <p class="title">{{entity.good_name}}</p>
+                                                </router-link>
+                                                <p class="item-box-p1" v-if="entity.brand">品牌：{{entity.brand.name}}</p>
+                                                <p class="item-box-p1">规格：{{entity.spec}}</p>
+                                                <p class="item-box-p1">有效期：{{data}}</p>
+                                                <div class="selling">
+                                                    <div class="unit_price">
+                                                        <p class="font"><i>￥</i><i>{{entity.price}}</i><span>{{entity.market_price}}</span>
+                                                        </p>
+                                                    </div>
+                                                    <div class="gw_num" v-if="entity.status" @click="DownSelf(entity.id,entity.status)">
+                                                        下架&nbsp;&darr;
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div v-if="isDown&&entity.status===0">
+                                        <div class="item" id="list-item2">
+                                            <router-link to="/drug-detail">
+                                                <img :src="entity.cover" class="item-img">
+                                            </router-link>
+                                            <div class="item-box">
+                                                <router-link to="">
+                                                    <p class="title">{{entity.good_name}}</p>
+                                                </router-link>
+                                                <div class="selling">
+                                                    <div class="unit_price">
+                                                        <p class="font"><i>￥</i><i>{{entity.price}}</i><span>{{entity.market_price}}</span>
+                                                        </p>
+                                                    </div>
+                                                    <div class="gw_num up" @click="UpSelf(entity.id)">上架&nbsp;&uarr;
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <Empty v-if="goodList.list==''&&loading==false"/>
+                            <!--</ClxsdLoadMore>-->
                         </div>
 
                     </div>
@@ -91,13 +106,14 @@
     import CircleLoading from "../icons/CircleLoading";
     import SearchBar from '@/components/common/SearchBar';
     import Empty from '@/components/EmptyList';
+    import {servicBusinessGoodList} from "@/api/business"
 
     export default {
         name: "ItemCategpries",
         components: {CircleLoading, SearchBar, Empty},
         data() {
             return {
-                selected: 'menu_0',
+                selected: '1',
                 is_active: '',//一级菜单默认值
                 menuList: [],//菜单列表
                 goodList: [],//产品列表
@@ -108,7 +124,9 @@
                 isDown: false,
                 is_child_id: 0,
                 is_child: false,
+                data:'',
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
+                page: 1,
             }
         },
         computed: {
@@ -128,16 +146,23 @@
             this.initData()
         },
         methods: {
+            async  _handleData(data){
+                data.list.forEach(data => {
+                    let time = data.valid_time
+                    this.data = this.$moment(time).format("YYYY-MM-DD")
+                })
+            },
             async initData() {
-                console.log("11")
+                console.log(this.$moment().format("MMM Do YY"))
                 console.log(this.supplierId)
                 if (this.supplierId) {
                     const {data} = await this.$http.get(`/hippo-shop/business/menuEntities`)
                     console.log(data.data.cates)
                     this.menuList = data.data.cates
-                    this.$http.get(`/hippo-shop/business`).then(res => {
-                        console.log(res.data.data.businessGoods)
+                    servicBusinessGoodList().then(res => {
                         this.goodList = res.data.data.businessGoods
+                        console.log(this.goodList)
+                        this._handleData(this.goodList)
                     })
                     this.loading = false
                 } else {
@@ -145,10 +170,40 @@
                     this.$router.go(-1)
                 }
             },
-            showGoods(id, ids, $event) {
+            //一级菜单点击商品
+            showGoods(id, $event) {
                 this.is_active = id //是否当前一级菜单
                 //this.is_child_id = id
-
+                let parentNode = event.target.parentNode;
+                let a = this.sibling(parentNode)
+                for (var i = 0; i < a.length; i++) {
+                    a[i].childNodes[0].classList.remove("active");
+                    a[i].childNodes[0].classList.add("up");
+                    let b = a[i].childNodes[1]
+                    this.toggleSlide(b, 0, '500');
+                }
+                let params = {
+                    cat_id: id
+                }
+                servicBusinessGoodList(params).then(res => {
+                    this.goodList = res.data.data.businessGoods
+                })
+                this.goodList = this._handleData(this.goodList)
+            },
+            //点击下拉菜单
+            slide: function (event) {
+                let targetNode = event.target
+                targetNode.classList.add("active"); //添加当前样式
+                let parentNode = targetNode.parentNode;
+                let a = this.sibling(parentNode)
+                for (var i = 0; i < a.length; i++) {
+                    console.log(a[i].childNodes)
+                    a[i].childNodes[0].classList.remove("active");
+                    a[i].childNodes[0].classList.add("up");
+                    let b = a[i].childNodes[1]
+                    this.toggleSlide(b, 0, '500');
+                }
+                //targetNode.classList.remove("active");
                 let curTarget = event.currentTarget,
                     containsCurClass = curTarget.classList.contains("up"),
                     nextSibling = curTarget.nextSibling;
@@ -164,58 +219,105 @@
                     curTarget.classList.add("up");
                     this.toggleSlide(nextSibling, 0, '500');
                 }
-                let params = {
-                    cat_id: id
-                }
-                this.$http.get(`/hippo-shop/business`, {params}).then(res => {
-                    console.log(res.data.data.businessGoods)
-                    this.goodList = res.data.data.businessGoods
-                })
             },
-
+            //toggle动画
             toggleSlide: function (dom, height, time) {
                 dom.style.transition = 'height ' + time + 'ms';
                 dom.style.height = height + 'px';
             },
+            //同胞节点
+            sibling: function (elem) {
+                var r = [];
+                var n = elem.parentNode.firstChild;
+                for (; n; n = n.nextSibling) {
+                    if (n.nodeType === 1 && n !== elem) {
+                        r.push(n);
+                    }
+                }
+                return r;
+            },
+            //二级菜单商品
             showSlideGoods(id, ids, $event) {
                 this.is_child_id = id
                 let params = {
                     cat_id: id
                 }
-                this.$http.get(`/hippo-shop/business`, {params}).then(res => {
-                    console.log(res.data.data.businessGoods)
+                servicBusinessGoodList(params).then(res => {
                     this.goodList = res.data.data.businessGoods
                 })
+                this.goodList = this._handleData(this.goodList)
             },
+            /*
+            //加载全部订单
+            getOrderData(options, loadMore = false) {
+                let params = {
+                    page: this.page,
+                    limit: options.limit,
+
+                }
+                servicBusinessGoodList(params, loadMore)
+                    .then(({data = []}) => {
+                        if (loadMore) {
+                            this.goodList = [...this.goodList, ...data.data.businessGoods]
+                        } else {
+                            this.goodList = data.data.businessGoods
+                        }
+                        this.page = this.page + 1
+                        console.log(data.data.businessGoods.list.length < options.limit)
+                        this.$refs.loadmore.afterLoadMore(data.data.businessGoods.list.length < options.limit)
+                        if (options.callback) {
+                            options.callback()
+                        }
+                    })
+            },
+            onOrdersRefresh(callback) {
+                console.log("加载")
+                this.page = 1
+                let options = {
+                    limit: 10,
+                }
+                this.getOrderData(options)
+            },
+            onOrdersLoadMore() {
+                let options = {
+                    limit: 10,
+                }
+                this.getOrderData(options, true)
+            },
+            */
             //下架
-            DownSelf(id) {
+            DownSelf(id, ids) {
                 this.$messagebox.confirm("确定要下架此商品吗?").then(action => {
                     if (action === 'confirm') {
-                        var list = document.getElementById('list-item')
-                        //var list2 = document.getElementById('list-item2')
-                        list.remove()
-                        //console.log( this.menu.unSale)
-                        this.menuList.forEach(item => {
-                            console.log(item)
+                        this.$http.patch(`hippo-shop/business/changeStatus`, {good_id: id, status: 0}).then(res => {
+                            console.log(res)
+                            this.$toast(res.data.data)
+                            var list = document.getElementById('list-item')
+                            list.remove()
+                            this.$router.go(0)
+                        }).catch(error => {
+                            this.$toast("下架失败")
                         })
-                        this.menu.unSale++
-                        this.menu.onSale--
                     }
                 }).catch(err => err);
             },
             //上架
             UpSelf(id) {
+                var list = document.getElementById('list-item2')
+                list.remove()
 
+                this.$http.patch(`hippo-shop/business/changeStatus`, {good_id: id, status: 1}).then(res => {
+                    console.log(res)
+                    this.$toast(res.data.data)
+                }).catch(error => {
+                    this.$toast("下架失败")
+                })
             },
             onSaleGoods() {
-                console.log("在售")
-                this.state = 1
                 this.isUp = true;
                 this.isDown = false;
             },
             downSaleGoods() {
-                console.log("下架")
-                this.state = 0
                 this.isUp = false
                 this.isDown = true
             }
@@ -290,7 +392,23 @@
                     text-overflow: ellipsis;
                     line-height: 2.5;
                     font-size: .24rem;
-                    padding-left: .3rem;
+                    padding-left: .2rem;
+                    padding-right: .1rem;
+
+                    span {
+                        display: inline-block;
+                        width: 1.3rem;
+                        white-space: normal;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+
+                    svg {
+                        width: .18rem;
+                        height: .18rem;
+                        float: right;
+                        margin-top: .2rem;
+                    }
                 }
 
                 .child-active {
@@ -315,6 +433,7 @@
         border-radius: .1rem;
         margin-right: .2rem;
         margin-top: .2rem;
+        height: 2.4rem;
     }
 
     .active {
@@ -324,6 +443,7 @@
     .item-img {
         width: 1.3rem;
         height: 1.3rem;
+        margin-top: .35rem;
     }
 
     .selling {
@@ -357,7 +477,10 @@
         padding-left: 3%;
         padding-top: .1rem;
         float: right;
-
+        &-p1 {
+            font-size: .2rem;
+            color: #666;
+        }
         .title {
             overflow: hidden;
             white-space: nowrap;
