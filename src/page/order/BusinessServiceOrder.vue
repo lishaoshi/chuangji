@@ -59,7 +59,7 @@
                                 :extractOrder="extractOrder"
                     />
                 </ClxsdLoadMore>
-                <span class="fixed-over">
+                <span class="fixed-over" v-if="drawOrders.length>0">
                     <span v-if="is_over == false" @click="is_over = !is_over">
                         <svg class="icon">
                             <use xlink:href="#icon-left-alert"></use>
@@ -101,7 +101,7 @@
     import EmptyOrder from '@/components/EmptyList'
     import Imperfect from '@/components/Imperfect'
     import {mapState} from "vuex";
-    import {serviceBusinessOrderList, sureBusinessOrder, deleteBusinessOrder,serviceBusinessRefuseOrder,sureSendBusinessOrder} from "@/api/businessOrder.js"
+    import {serviceBusinessOrderList, sureBusinessOrder, deleteBusinessOrder,serviceBusinessRefuseOrder,sureSendBusinessOrder,sureDrawBusinessOrder} from "@/api/businessOrder.js"
 
     export default {
         name: "BusinessServiceOrder",
@@ -204,10 +204,12 @@
 
                 }).catch(err => err);
             },
-            extractOrder(id) {
-                if (this.lianBeiValue > 100) {
+            extractOrder(id,nums) {
+                console.log(nums)
+                if (this.lianShuValue > nums) {
                     this.$messagebox.confirm("确定提取此订单吗?").then(action => {
                         console.log("商品id：" + id)
+                        sureDrawBusinessOrder(id)
                         this.UnDrawOrder.splice(this.UnDrawOrder.findIndex(item => item.id === id), 1)
                         this.unSendOrders.unshift(this.unSendOrders.findIndex(item => item.id === id), 1)
                     }).catch(err => err);
@@ -219,6 +221,9 @@
                 this.$messagebox.confirm("确定提取全部订单吗?").then(action => {
 
                 }).catch(err => err);
+            },
+            sureOrder(){
+
             },
             //代提取
             async getDrawOrderData(options, loadMore = false) {

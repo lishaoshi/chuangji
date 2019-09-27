@@ -6,10 +6,11 @@
             <div class="search">
                 <SearchBar></SearchBar>
             </div>
-            <div class="product-list" v-if="menuList.length>0">
+            <div class="product-list">
                 <div class="choose">
                     <div>分类</div>
                 </div>
+                <span class="all-goods" @click="all_Goods()" :class="`${is_active == 0?'all-goods-active':''}`">全部</span>
                 <div class="mint-navbar">
                     <div class="menu-list" :id="`menu_${index}`" :key="`menu-${index}`"
                          v-for="(menu,index) in menuList ">
@@ -114,7 +115,7 @@
         data() {
             return {
                 selected: '1',
-                is_active: '',//一级菜单默认值
+                is_active: 0,//一级菜单默认值
                 menuList: [],//菜单列表
                 goodList: [],//产品列表
                 message: null,
@@ -150,6 +151,14 @@
                 data.list.forEach(data => {
                     let time = data.valid_time
                     this.data = this.$moment(time).format("YYYY-MM-DD")
+                })
+            },
+            all_Goods(){
+                servicBusinessGoodList().then(res => {
+                    this.is_active = 0
+                    this.goodList = res.data.data.businessGoods
+                    console.log(this.goodList)
+                    this._handleData(this.goodList)
                 })
             },
             async initData() {
@@ -364,7 +373,7 @@
         height: 100%;
         overflow: scroll;
         float: left;
-
+        padding-top: 1rem;
         .menu-list {
             width: 100%;
             font-size: .3rem;
@@ -564,10 +573,8 @@
                 }
             }
         }
-
-        .active {
-            color: #2da2ff;
-
+        .isUp,.isDown {
+            color: #2DA2FF;
             span {
                 color: #ff3b30;
             }
@@ -578,7 +585,19 @@
         height: 1.6rem;
         padding-top: .5rem;
     }
-
+    .all-goods {
+        display: block;
+        height: 1rem;
+        line-height: 1rem;
+        padding-left: .15rem;
+        overflow: hidden;
+        position: absolute;
+        width: 2rem;
+    }
+    .all-goods-active {
+        background: #eef6fb;
+        border-left: 2px solid #26a2ff;
+    }
     @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
         .activeTop {
             height: 1.6rem;

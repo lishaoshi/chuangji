@@ -45,13 +45,8 @@
         </div>
 		<div class="foot-fade"></div>
 		<div class="footer-box">
-			<div v-if = "data.pay_status == 0">
-				<div class="btn">去付款</div>
-			</div>
-			<div v-else>
-				<div class="btn" v-if="data.shipping_status=== 1" @click="sureOrder">确认收货</div>
-				<div class="btn" v-if="data.shipping_status === 2"  @click="delectOrder">删除订单</div>
-				<div class="btn">再来一单</div>
+			<div>
+				<div class="btn" v-if="data.order_status=== 2" @click="sureOrder">确认发货</div>
 			</div>
 		</div>
 	</div>
@@ -59,6 +54,7 @@
 
 <script>
 	import Spread from "../Spread";
+	import {sureSendBusinessOrder} from "@/api/businessOrder.js"
     export default {
 		name: "OrderDetail",
         components: {Spread},
@@ -94,19 +90,18 @@
 			async _initData() {
 				const {
 					data
-				} = await this.$http.get(`hippo-shop/factory/orders/${this.orderId}`)
-				this.data = this._handleData(data)
+				} = await this.$http.get(`hippo-shop/business/orders/${this.orderId}`)
+				this.data = this._handleData(data.data.order)
 			},
 			_handleData(data) {
 				console.log(data)
-				if(data.pay_status) {
-				    this.order_status_display = '待收货'
-                    if(data.shipping_status === 0)this.order_status_display = '未发货'
-                    if(data.shipping_status === 1)this.order_status_display = '待收货'
-                    if(data.shipping_status === 2)this.order_status_display = '已收货'
-				}else{
-                    this.order_status_display = '待付款'
-                }
+                    if(data.order_status === 0)this.order_status_display = '未支付'
+                    if(data.order_status === 1)this.order_status_display = '待提取'
+                    if(data.order_status === 2)this.order_status_display = '待发货'
+					if(data.order_status === 3)this.order_status_display = '待收货'
+					if(data.order_status === 4)this.order_status_display = '已收货'
+					if(data.order_status === 5)this.order_status_display = '已拒绝'
+					if(data.order_status === 6)this.order_status_display = '已退款'
 				this.order_address = data.province + data.city + data.district + data.address
 				this.items = data.items
 				this.items.forEach(item => {
@@ -121,14 +116,14 @@
                 return data
 			},
 			sureOrder: function() {
-				this.$messagebox.confirm("确定已收货了吗?").then(action => {
-						console.log(action);
+				this.$messagebox.confirm("确定要发货了吗?").then(action => {
+					  sureSendBusinessOrder(this.orderId)
+						this.$router.go(0)
 				});
 			},
 			delectOrder: function() {
 				this.$messagebox.confirm("确定删除此订单吗?").then(action => {
 						console.log(action);
-				     
 				});
 			},
 		}

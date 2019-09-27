@@ -6,13 +6,13 @@
                     <div class="list-box" @touchstart.capture="touchStart" @touchend.capture="touchEnd">
                         <div class="list-content">
                             <p class="shop-unit">待提取</p>
-                            <p class="shop-name">剩余时间：{{data.remain_hour}}小时{{data.remain_min}}分</p>
+                            <p class="shop-name">剩余时间：{{time}}</p>
                             <p class="shop-name">订单编号：{{data.order_sn}}</p>
                         </div>
                         <div class="list-detail">
                             <p>金额</p>
-                            <p>￥{{data.price}}</p>
-                            <button @click="extractOrder(data.id)">提取</button>
+                            <p>￥{{data.money_paid}}</p>
+                            <button @click="extractOrder(data.id,data.money_paid)">提取</button>
                         </div>
                     </div>
                     <div class="delete">
@@ -34,11 +34,23 @@
             return {
                 clientNum: {}, // 记录开始滑动（x1）,结束滑动（x2）的鼠标指针的位置
                 candelete: {},
+                time:''
             }
         },
         props:["data","refuseOrder","extractOrder"],
-        methods: {
+        created(){
+          this.init()
+        },
 
+        methods: {
+            init(){
+                this.time = this.$moment(this.data.payed_time_int).format("h小时mm分")
+                /*
+                this.data.forEach(item => {
+                    this.data = this.$moment(item.payed_time_int).format("YYYY-MM-DD")
+                })
+                */
+            },
             touchStart(e) {
                 this.startX = e.touches[0].clientX;
             },
