@@ -34,7 +34,9 @@
             }
         },
         created() {
-            setInterval(this.scroll, 2200)
+            if(this.notices!=null){
+                setInterval(this.scroll, 2200)
+            }
             console.log(this.notices)
         },
 
