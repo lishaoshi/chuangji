@@ -13,7 +13,13 @@
                 <mt-swipe-item :key="key" v-for="(swipe,key) in swipers"><a :href="swipe.link"> <img :src="swipe.picture" width="100%"></a></mt-swipe-item>
             </mt-swipe>
 		</div>
-        <Notice :notices = "notices"></Notice>
+        <Notice :notices = "notices" v-if="notices!=null"></Notice>
+		<div class="notice" v-else>
+			<svg>
+				<use xlink:href="#icon-notice"/>
+			</svg>
+			<span style="padding-left: 5px">暂时没有消息</span>
+		</div>
 		<div class="add">
 			<a href="javascript:void(0)">
 				<img src="../../images/index/activityA.png">
