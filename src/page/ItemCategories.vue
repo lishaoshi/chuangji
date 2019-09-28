@@ -593,6 +593,7 @@
         overflow: hidden;
         position: absolute;
         width: 2rem;
+        font-size: .3rem;
     }
     .all-goods-active {
         background: #eef6fb;

@@ -22,14 +22,21 @@
 <script>
     export default {
         name: "notice",
-        props:['notices'],
+        props:{
+            notices: {
+                type: Array,
+                default: () =>[{title:'暂时没有消息',link:''}]
+            }
+        },
         data() {
             return {
                 animate: false,
             }
         },
         created() {
-            setInterval(this.scroll, 2200)
+            if(this.notices!=null){
+                setInterval(this.scroll, 2200)
+            }
             console.log(this.notices)
         },
 

@@ -14,7 +14,6 @@
             </mt-swipe>
 		</div>
         <Notice :notices = "notices"></Notice>
-
 		<div class="add">
 			<a href="javascript:void(0)">
 				<img src="../../images/index/activityA.png">

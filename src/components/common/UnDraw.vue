@@ -11,7 +11,7 @@
                         </div>
                         <div class="list-detail">
                             <p>金额</p>
-                            <p>￥{{data.money_paid}}</p>
+                            <p>￥{{data.money_paid || 0.00}}</p>
                             <button @click="extractOrder(data.id,data.money_paid)">提取</button>
                         </div>
                     </div>
