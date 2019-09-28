@@ -42,52 +42,56 @@
                         </div>
                         <div style="height: 9.3rem;overflow: scroll">
                             <!--<ClxsdLoadMore key="orders-list" ref="loadmore" @onRefresh="onOrdersRefresh" @onLoadMore="onOrdersLoadMore">-->
-                                <div v-for="(entity,ikey) in goodList.list">
-                                    <div v-if="isUp&&entity.status===1">
-                                        <div class="item" id="list-item">
-                                            <router-link to="/drug-detail">
-                                                <img :src="entity.cover" class="item-img">
+                            <!--在售商品-->
+                            <div v-for="(entity,ikey) in goodList.list">
+                                <div v-if="isUp&&entity.status===1">
+                                    <div class="item" id="list-item">
+                                        <router-link to="/drug-detail">
+                                            <img :src="entity.cover" class="item-img">
+                                        </router-link>
+                                        <div class="item-box">
+                                            <router-link to="">
+                                                <p class="title">{{entity.good_name}}</p>
                                             </router-link>
-                                            <div class="item-box">
-                                                <router-link to="">
-                                                    <p class="title">{{entity.good_name}}</p>
-                                                </router-link>
-                                                <p class="item-box-p1" v-if="entity.brand">品牌：{{entity.brand.name}}</p>
-                                                <p class="item-box-p1">规格：{{entity.spec}}</p>
-                                                <p class="item-box-p1">有效期：{{data}}</p>
-                                                <div class="selling">
-                                                    <div class="unit_price">
-                                                        <p class="font"><i>￥</i><i>{{entity.price}}</i><span>{{entity.market_price}}</span>
-                                                        </p>
-                                                    </div>
-                                                    <div class="gw_num" v-if="entity.status" @click="DownSelf(entity.id,entity.status)">
-                                                        下架&nbsp;&darr;
-                                                    </div>
+                                            <p class="item-box-p1" v-if="entity.brand">品牌：{{entity.brand.name}}</p>
+                                            <p class="item-box-p1">规格：{{entity.spec}}</p>
+                                            <p class="item-box-p1">有效期：{{data}}</p>
+                                            <div class="selling">
+                                                <div class="unit_price">
+                                                    <p class="font"><i>￥</i><i>{{entity.price}}</i><span>{{entity.market_price}}</span>
+                                                    </p>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div v-if="isDown&&entity.status===0">
-                                        <div class="item" id="list-item2">
-                                            <router-link to="/drug-detail">
-                                                <img :src="entity.cover" class="item-img">
-                                            </router-link>
-                                            <div class="item-box">
-                                                <router-link to="">
-                                                    <p class="title">{{entity.good_name}}</p>
-                                                </router-link>
-                                                <div class="selling">
-                                                    <div class="unit_price">
-                                                        <p class="font"><i>￥</i><i>{{entity.price}}</i><span>{{entity.market_price}}</span>
-                                                        </p>
-                                                    </div>
-                                                    <div class="gw_num up" @click="UpSelf(entity.id)">上架&nbsp;&uarr;
-                                                    </div>
+                                                <div class="gw_num" v-if="entity.status" @click="DownSelf(entity.id,entity.status)">
+                                                    下架&nbsp;&darr;
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <!--下架商品-->
+                            <div v-for="(entity,ikey) in goodList.list">
+                                <div v-if="isDown&&entity.status===0">
+                                    <div class="item" id="list-item2">
+                                        <router-link to="/drug-detail">
+                                            <img :src="entity.cover" class="item-img">
+                                        </router-link>
+                                        <div class="item-box">
+                                            <router-link to="">
+                                                <p class="title">{{entity.good_name}}</p>
+                                            </router-link>
+                                            <div class="selling">
+                                                <div class="unit_price">
+                                                    <p class="font"><i>￥</i><i>{{entity.price}}</i><span>{{entity.market_price}}</span>
+                                                    </p>
+                                                </div>
+                                                <div class="gw_num up" @click="UpSelf(entity.id)">上架&nbsp;&uarr;
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <!--</ClxsdLoadMore>-->
                         </div>
 
@@ -125,9 +129,10 @@
                 isDown: false,
                 is_child_id: 0,
                 is_child: false,
-                data:'',
+                data: '',
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
                 page: 1,
+                limit: 30
             }
         },
         computed: {
@@ -147,13 +152,13 @@
             this.initData()
         },
         methods: {
-            async  _handleData(data){
+            async _handleData(data) {
                 data.list.forEach(data => {
                     let time = data.valid_time
                     this.data = this.$moment(time).format("YYYY-MM-DD")
                 })
             },
-            all_Goods(){
+            all_Goods() {
                 servicBusinessGoodList().then(res => {
                     this.is_active = 0
                     this.goodList = res.data.data.businessGoods
@@ -374,6 +379,7 @@
         overflow: scroll;
         float: left;
         padding-top: 1rem;
+
         .menu-list {
             width: 100%;
             font-size: .3rem;
@@ -486,10 +492,12 @@
         padding-left: 3%;
         padding-top: .1rem;
         float: right;
+
         &-p1 {
             font-size: .2rem;
             color: #666;
         }
+
         .title {
             overflow: hidden;
             white-space: nowrap;
@@ -573,8 +581,10 @@
                 }
             }
         }
-        .isUp,.isDown {
+
+        .isUp, .isDown {
             color: #2DA2FF;
+
             span {
                 color: #ff3b30;
             }
@@ -585,6 +595,7 @@
         height: 1.6rem;
         padding-top: .5rem;
     }
+
     .all-goods {
         display: block;
         height: 1rem;
@@ -595,10 +606,12 @@
         width: 2rem;
         font-size: .3rem;
     }
+
     .all-goods-active {
         background: #eef6fb;
         border-left: 2px solid #26a2ff;
     }
+
     @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
         .activeTop {
             height: 1.6rem;

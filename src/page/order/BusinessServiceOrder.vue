@@ -205,17 +205,21 @@
                 }).catch(err => err);
             },
             extractOrder(id,nums) {
-                console.log(nums)
-                if (this.lianShuValue > nums) {
                     this.$messagebox.confirm("确定提取此订单吗?").then(action => {
                         console.log("商品id：" + id)
-                        sureDrawBusinessOrder(id)
-                        this.UnDrawOrder.splice(this.UnDrawOrder.findIndex(item => item.id === id), 1)
-                        this.unSendOrders.unshift(this.unSendOrders.findIndex(item => item.id === id), 1)
+                        sureDrawBusinessOrder(id).then(res => {
+                            console.log(res)
+                            if(res.data.code === 200) {
+                                this.UnDrawOrder.splice(this.UnDrawOrder.findIndex(item => item.id === id), 1)
+                                this.unSendOrders.unshift(this.unSendOrders.findIndex(item => item.id === id), 1)
+                                this.$toast("提取成功")
+                            }else if(res.data.code === 203){
+                                this.$toast(res.data.message)
+                            }
+                        }).catch(error => {
+                            console.log(error)
+                        })
                     }).catch(err => err);
-                } else {
-                    this.$messagebox("联数不足,无法提取")
-                }
             },
             drawAllOrders(){
                 this.$messagebox.confirm("确定提取全部订单吗?").then(action => {

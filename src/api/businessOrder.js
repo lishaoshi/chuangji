@@ -31,6 +31,6 @@ export function sureSendBusinessOrder(id) {
 }
 //提取订单
 export function sureDrawBusinessOrder(id) {
-    return http.patch(`hippo-shop/business/orders/${id}/extract`, { validateStatus: s => s > 200 })
+    return http.patch(`hippo-shop/business/orders/${id}/extract`, { validateStatus: s => s === 200 })
 }
 

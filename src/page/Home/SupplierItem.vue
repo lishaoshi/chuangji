@@ -29,6 +29,7 @@
 				</ul>
 			</div>
             </router-link>
+			<!--
 			<div class="discounts" v-if="data.actives.length > 0">
                 <div class="fade-box" @click="is_active = !is_active">
                     <span>{{data.actives.length}}个活动</span>
@@ -51,7 +52,8 @@
                 </ul>
                 </transition>
 			</div>
-			<div v-else class="discounts">
+			-->
+			<div  class="discounts">
 				<ul>
 					<li><span>无</span>
 						<p style="width: 3.7rem">店家没有推出活动，敬请期待</p>
