@@ -86,7 +86,8 @@
                 allLoaded: false, //是否自动触发上拉函数
                 isAutoFill: false,
                 wrapperHeight: 0,
-                courrentPage: 0
+                courrentPage: 1,
+                limit:15
             }
         },
         mounted() {
@@ -103,10 +104,6 @@
             lng() {
                 return this.POSITION.lng
             }
-        },
-        activated() {
-            //console.log(this.$refs.loadmore);
-            //.beforeRefresh();
         },
         mounted() {
             window.addEventListener('scroll', this.handleScroll, true)
@@ -125,9 +122,12 @@
             },
             // 下来刷新加载
             loadFrist() {
-                findNearBySuppliers().then(response => {
-                    console.log(response)
-                        this.courrentPage = 0;
+                const params = {
+                    page: this.courrentPage,
+                    limit:this.limit
+                }
+                findNearBySuppliers(params).then(response => {
+                    console.log(response.data.data)
                         this.allLoaded = false; // 可以进行上拉
                         this.suppliers = response.data.data;
                         this.$refs.loadmore.onTopLoaded();
@@ -135,13 +135,19 @@
             },
             // 加载更多
             loadMore() {
-                findNearBySuppliers().then(response => {
+                this.courrentPage++;
+                const params = {
+                    page: this.courrentPage,
+                    limit:this.limit
+                }
+                findNearBySuppliers(params).then(response => {
+
                         // concat数组的追加
                         this.suppliers = this.suppliers.concat(response.data.data);
-                        if (this.courrentPage > 2) {
+                        if (this.courrentPage > 1) {
                             this.allLoaded = true; // 若数据已全部获取完毕
                         }
-                        this.courrentPage++;
+
                         this.$refs.loadmore.onBottomLoaded();
                     })
             },
