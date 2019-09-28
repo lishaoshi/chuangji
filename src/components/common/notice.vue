@@ -22,7 +22,12 @@
 <script>
     export default {
         name: "notice",
-        props:['notices'],
+        props:{
+            notices: {
+                type: Array,
+                default: () =>[{title:'暂时没有消息',link:''}]
+            }
+        },
         data() {
             return {
                 animate: false,
