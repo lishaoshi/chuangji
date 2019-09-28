@@ -26,15 +26,26 @@
                 </div>
             </div>
             <p class="errinfo">{{error}}</p>
-            <div class="yaoinfo" v-if="!!yaoData">
+            <div class="yaoinfo" v-if="code===203">
+                <div class="yaodes">
+                    <p class="yaoname">未查到此邀请人</p>
+                </div>
+            </div>
+            <div class="yaoinfo" v-if="code===200">
                 <div><img src="../../images/my/user_default.png" v-if="!yaoData.avatar">
                     <img :src="yaoData.avatar" v-else>
                 </div>
                 <div class="yaodes">
                     <p class="yaoname">{{yaoData.display_name || yaoData.real_name}}</p>
-                    <p class="yaotel"></p>
                 </div>
             </div>
+            <!--
+            <div class="yaoinfo" v-else>
+                <div class="yaodes">
+                    <p class="yaoname">未查到此邀请人</p>
+                </div>
+            </div>
+            -->
             <div class="zcxy">
                 <svg @click="isAgree=!isAgree">
                     <use :xlink:href="isAgree ? '#icon-promote-pay-chose-1':'#icon-promote-pay-chose-0'"></use>
@@ -98,7 +109,8 @@
 
                 loading: false,
                 error: '',
-                is_Elastic: false
+                is_Elastic: false,
+                code:''
             }
         },
         components:{
@@ -184,14 +196,13 @@
                         validate: state => state === 200
                     }).then(response => {
                         this.loading = false;
-                        console.log(response.data.data.userInfo)
+                       // console.log(response.data.data)
+                        this.code = response.data.code
+                        console.log(this.code)
                         this.yaoData = response.data.data.userInfo;
                         this.error = null;
                     }).catch(error => {
                         this.loading = false;
-                        this.yaoData = null;
-                        this.error = error.response.data.message;
-                        this.$toast(error.response.data.message);
                     })
                 }
             }
