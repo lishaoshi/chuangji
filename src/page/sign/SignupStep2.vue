@@ -27,8 +27,8 @@
             </div>
             <p class="errinfo">{{error}}</p>
             <div class="yaoinfo" v-if="code===203">
-                <div class="yaodes">
-                    <p class="yaoname">未查到此邀请人</p>
+                <div class="yaodes" style="width: 100%;text-align: center;padding: 0px">
+                    <p class="yaoname" style="font-size: .3rem">未查到此邀请人</p>
                 </div>
             </div>
             <div class="yaoinfo" v-if="code===200">
@@ -39,13 +39,6 @@
                     <p class="yaoname">{{yaoData.display_name || yaoData.real_name}}</p>
                 </div>
             </div>
-            <!--
-            <div class="yaoinfo" v-else>
-                <div class="yaodes">
-                    <p class="yaoname">未查到此邀请人</p>
-                </div>
-            </div>
-            -->
             <div class="zcxy">
                 <svg @click="isAgree=!isAgree">
                     <use :xlink:href="isAgree ? '#icon-promote-pay-chose-1':'#icon-promote-pay-chose-0'"></use>
