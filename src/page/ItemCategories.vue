@@ -71,7 +71,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div v-if="goodList.list.length == 0">
+                            <div v-if="goodList.list==''">
                                 <empty/>
                             </div>
                             <!--</ClxsdLoadMore>-->
@@ -115,7 +115,8 @@
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
                 page: 1,
                 limit: 30,
-                cat_id:0
+                cat_id:0,
+                length:0
             }
         },
         computed: {
@@ -145,7 +146,11 @@
                     }
             },
             all_Goods() {
-                this.init_Goods()
+                let params={}
+                this.cat_id = ''
+                this.init_Goods(params)
+                this.is_active = 0
+
             },
             async initData() {
                 if (this.supplierId) {
@@ -225,6 +230,7 @@
             },
             //二级菜单商品
             showSlideGoods(id, ids, $event) {
+                this.is_active = id
                 this.is_child_id = id
                 this.cat_id = id
                 let params = {
@@ -286,6 +292,7 @@
                     this.goodList = res.data.data.businessGoods
                 })
                 this.goodList = this._handleData(this.goodList)
+               // console.log("长度："+this.goodList.list.length())
             }
 
         }

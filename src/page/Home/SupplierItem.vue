@@ -51,7 +51,7 @@
                 </ul>
                 </transition>
 			</div>
-			<div  class="discounts" v-else>
+			<div v-else class="discounts">
 				<ul>
 					<li><span>无</span>
 						<p style="width: 3.7rem">店家没有推出活动，敬请期待</p>
@@ -110,13 +110,13 @@
 			}
 		}
 	}
-	
+
 	.company .message .other ul {
 		display: flex;
 		border-bottom: 1px dashed rgb(230, 230, 230);
 		padding: 0.22rem 0;
 	}
-	
+
 	.company .message .other ul li {
 		font-size: 0.22rem;
 		color: rgb(45, 162, 255);
@@ -125,22 +125,22 @@
 		border-radius: 2px;
 		line-height: 1.7;
 	}
-	
+
 	.company .message .other ul li div,
 	p {
 		padding: 0 .05rem;
 	}
-	
+
 	.company .message .other ul li:nth-child(1) div {
 		display: flex;
 		align-items: center;
 	}
-	
+
 	.company .message .other ul li:nth-child(1) div svg {
 		width: .28rem;
 		height: .28rem;
 	}
-	
+
 	.company .message .discounts {
 		margin-top: 0.16rem;
         position: relative;
