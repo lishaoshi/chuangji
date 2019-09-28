@@ -168,51 +168,6 @@
                     this.hasError = 0;
                 }
             },
-            /*
-            async getFactoryData(options, loadMore = false) {
-                const params = {
-                    page: this.page,
-                    type: 'factory',
-                    limit: options.limit
-                }
-
-                findNearBySuppliers(params)
-                    .then(({data = []}) => {
-                        console.log(data.data)
-                        if (loadMore) {
-                            this.suppliers = [...this.suppliers, ...data.data]
-
-                        } else {
-                            this.suppliers = data.data
-                        }
-                        this.page = this.page + 1
-                        this.$refs.loadmore.afterLoadMore(data.data.length < options.limit)
-                        if (options.callback) {
-                            options.callback()
-                        }
-                    })
-            },
-
-            onRefresh(callback) {
-                this.page = 1
-                const options = {
-
-                    limit: 6,
-                    callback: callback
-                }
-                this.getFactoryData(options)
-
-
-            },
-            onLoadMore() {
-                const options = {
-
-                    limit: 6,
-                }
-                this.getFactoryData(options, true)
-
-            }
-*/
         }
     }
 </script>

@@ -605,6 +605,7 @@
         position: absolute;
         width: 2rem;
         font-size: .3rem;
+        z-index: 999;
     }
 
     .all-goods-active {

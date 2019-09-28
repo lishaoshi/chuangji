@@ -115,11 +115,11 @@
                 this.is_Elastic = false
             },
             notAgree(){
-                this.isAgree = true;
+                this.isAgree = false;
                 this.is_Elastic=false
             },
             agree(){
-                this.isAgree = false;
+                this.isAgree = true;
                 this.is_Elastic=false
             },
             signUp() {
@@ -184,7 +184,8 @@
                         validate: state => state === 200
                     }).then(response => {
                         this.loading = false;
-                        this.yaoData = response.data;
+                        console.log(response.data.data.userInfo)
+                        this.yaoData = response.data.data.userInfo;
                         this.error = null;
                     }).catch(error => {
                         this.loading = false;
