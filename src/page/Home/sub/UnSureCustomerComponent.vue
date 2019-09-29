@@ -239,7 +239,7 @@
                     promoterdata.zhenshuo
             },
             ...mapState({
-                USER_INFO: state => state.CURRENTUSER,
+                USER_INFO: state => state.CURRENTUSER.data.userInfo,
             }),
             waitStatus() {
                 return this.USER_INFO.status === 2 || this.USER_INFO.status === 1

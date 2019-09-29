@@ -42,7 +42,7 @@
         computed: {
             ...mapState({
                 userInfo: state => {
-                    const currentInfo = state.CURRENTUSER
+                    const currentInfo = state.CURRENTUSER.data.userInfo
                     return {
                         userName: currentInfo.display_name || currentInfo.real_name || currentInfo.phone || '丢失信息',
                         userTel: 　currentInfo.phone || '丢失信息',

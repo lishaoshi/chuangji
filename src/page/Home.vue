@@ -27,10 +27,13 @@
         },
         computed:{
             ...mapState({
-                USER_TYPE: state => state.CURRENTUSER.user_type,
+                USER_TYPE: state => state.CURRENTUSER.data.userInfo.user_type,
                 rootHome: state => !!state.CURRENTUSER.is_root,
             }),
 
+        },
+        created(){
+            console.log(this.USER_TYPE);
         }
     }
 </script>

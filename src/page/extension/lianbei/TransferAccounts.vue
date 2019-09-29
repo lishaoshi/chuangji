@@ -61,7 +61,7 @@
         },
         methods:{
             searchChange(){
-                const curPhone = this.$store.state.CURRENTUSER.phone;
+                const curPhone = this.$store.state.CURRENTUSER.data.userInfo.phone;
                 if(!phonePattern.test(this.searchValue)){
                     this.$toast('请输入正确的手机号！')
                     return;
@@ -106,7 +106,7 @@
             toTran(){
                 console.log(444)
                 if(this.tranValue > 0){console.log(777)
-                    const curPhone = this.$store.state.CURRENTUSER.phone;
+                    const curPhone = this.$store.state.CURRENTUSER.data.userInfo.phone;
                     if(!phonePattern.test(this.searchValue)){
                         this.$toast('请输入正确的手机号！')
                         return;

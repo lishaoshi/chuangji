@@ -91,7 +91,7 @@
             },
             ...mapState({
                 userInfo: state => {
-                    const currentInfo = state.CURRENTUSER
+                    const currentInfo = state.CURRENTUSER.data.userInfo
                     return {
                         lianPiaoVaule:currentInfo.lianpiao ? (parseFloat(currentInfo.lianpiao.add_balance) + parseFloat(currentInfo.lianpiao.balance)).toFixed(2):'0.00',
                     }

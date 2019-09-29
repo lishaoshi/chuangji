@@ -71,7 +71,7 @@
         },
         computed:{
             ...mapState({
-                USER_INFO: state => state.CURRENTUSER
+                USER_INFO: state => state.CURRENTUSER.data.userInfo
             }),
             phone(){
                 return this.USER_INFO.phone;

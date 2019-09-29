@@ -113,10 +113,10 @@
         computed: {
             ...mapState({
                 //用户是否有权限看价格
-                canShow: state => state.CURRENTUSER.shop_supplier,
+                canShow: state => state.CURRENTUSER.data.userInfo.shop_supplier,
 
                 cartList: state => state.shop.CART_LIST,
-                USER_TYPE: state => state.CURRENTUSER.user_type,
+                USER_TYPE: state => state.CURRENTUSER.data.userInfo.user_type,
             }),
             shopCart() {
                 return {...this.cartList[this.factoryId]}

@@ -135,7 +135,7 @@
         computed:{
             ...mapState({
                 USER_CHOOSED_DATA: state => state.USER_CHOOSED_DATA,
-                USER_INFO:state => state.CURRENTUSER
+                USER_INFO:state => state.CURRENTUSER.data.userInfo
             }),
             promoterActive(){
                 const promoterdata = this.promoterData;

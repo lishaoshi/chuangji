@@ -29,7 +29,7 @@
                 //0 还没有真写认证信息,1　已提交正审中,2,据,3正常
                 CERT_STATUS: state => {
                     let returnValue = 3
-                    const userInfo = state.CURRENTUSER
+                    const userInfo = state.CURRENTUSER.data.userInfo
                     if(!userInfo['certification']){
                         returnValue = 0
                     }else if(!!userInfo['certification'] && userInfo['certification']['status'] === 0){
@@ -41,7 +41,7 @@
                     }
                     return returnValue
                 },
-                USER_TYPE: state => state.CURRENTUSER.user_type
+                USER_TYPE: state => state.CURRENTUSER.data.userInfo.user_type
             })
 
         },

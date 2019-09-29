@@ -111,7 +111,7 @@
                 return title;
             },
             userId(){
-                return this.$store.state.CURRENTUSER.id;
+                return this.$store.state.CURRENTUSER.data.userInfo.id;
             }
         },
         created(){
