@@ -28,16 +28,16 @@
 
 <script>
     import {mapState} from "vuex";
-    import {findNearBySuppliers} from '@/api/supplier.js'
+    import {businessList} from '@/api/supplier.js'
     import {infoList} from "@/api/ad";
 
     export default {
         name: "GlobalItem",
+        props:["is_active"],
         data() {
             return {
                 isActive: true,
                 hasError: false,
-                is_active: 1,//默认本市
                 page: 1,
                 businesses: [],
                 swippers: [],
@@ -63,17 +63,12 @@
         created() {
             setInterval(this.scroll, 2500)
             this.onRefresh()
-            this.initData()
+            console.log(this.is_active)
         },
         mounted() {
             window.addEventListener('scroll', this.handleScroll, true)
         },
         methods: {
-            initData(){
-                infoList({from:'platform'}).then( data => {
-                    this.notices = data.data.data
-                })
-            },
             handleScroll() {
                 var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
                 if (scrollTop > 50) {
@@ -85,26 +80,25 @@
             getData(options, loadMore = false) {
                 const params = {
                     page: this.page,
-                    type: 'business',
+                    type: this.is_active,
                     limit: options.limit,
                 }
                 console.log(params)
-                findNearBySuppliers(params, loadMore).then(({data = []}) => {
+                businessList(params, loadMore).then(({data = []}) => {
                     console.log(data.data)
                     if (loadMore) {
-                        this.businesses = [...this.businesses, ...data.data]
+                        this.businesses = [...this.businesses, ...data.data.businessList]
                     } else {
-                        this.businesses = data.data
+                        this.businesses = data.data.businessList
                     }
                     this.page = this.page + 1
-                    this.$refs.loadmore.afterLoadMore(data.data.length < options.limit)
+                    this.$refs.loadmore.afterLoadMore(data.data.businessList.length < options.limit)
                     if (options.callback) {
                         options.callback()
                     }
                 })
             },
             onRefresh(callback) {
-
                 this.page = 1;
                 const options = {
                     limit: 15,
@@ -114,7 +108,6 @@
 
             },
             onLoadMore() {
-
                 const options = {
                     limit: 15
                 }

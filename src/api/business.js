@@ -5,9 +5,7 @@ export const businessEntities = (supplierId,isRecom) => {
         supplierId:supplierId,
         is_recom: isRecom? 1:0
     }
-
-
-    return http.get(`hippo-shop/business/entities`,{params}).catch(() => {})
+    return http.get(`supplier/business/recommendGoods`,{params}).catch(() => {})
 }
 export const supplierBusinessEntities = (ids) => {
     const params= {

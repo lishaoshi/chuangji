@@ -2,44 +2,14 @@
     <div id="GlobalWarehouse">
         <div class="top-box" :class="{ activeHome: isFullScreen }">
             <ul>
-                <li :class="`${is_active===1?'active':''}`" @click="is_active=1">本市</li>
-                <li :class="`${is_active===2?'active':''}`" @click="is_active=2">推荐</li>
-                <li :class="`${is_active===3?'active':''}`" @click="is_active=3">关注</li>
+                <li :class="`${is_active===1?'active':''}`" @click="tab_change(1)">本市</li>
+                <li :class="`${is_active===2?'active':''}`" @click="tab_change(2)">推荐</li>
+                <li :class="`${is_active===3?'active':''}`" @click="tab_change(3)">关注</li>
             </ul>
             <div class="top-box-search">
                 <input type="search" placeholder="请输入商业公司名称">
             </div>
         </div>
-        <!--
-		<div class="home-top" :class="{activeHome: isFullScreen}">
-			<div v-bind:class="{ search: isActive, 'bg-blue': hasError ,activeTop: isFullScreen}" style="position: fixed;">
-				<div class="retreat">
-					<svg>
-						<use xlink:href="#icon-ditu" />
-					</svg>
-					<span>郑州</span>
-				</div>
-				<SearchBar></SearchBar>
-				<div class="approve">
-                    <router-link to="/company-ab-list">
-                        <svg>
-                            <use xlink:href="#icon-liansuodian-quanqiucang-ABzheng" />
-                        </svg>
-                    </router-link>
-				</div>
-			</div>
-			<div class="is_scroll">
-				<ul class="area-ul">
-					<li :class="active === index ? 'active':''" @click="onClickArea(index)" v-for="(area,index) in areaList">{{area.name}}</li>
-				</ul>
-			</div>
-		</div>
-		-->
-        <!--
-        <div @click="authToRouter('/factory/cart')">
-            <img src="../images/index/shop.png" class="shopcar" />
-        </div>
-        -->
         <div class="swiper-box">
             <mt-swipe :auto="4000" class="swiper" v-if="swippers.length > 0">
                 <mt-swipe-item :key="index" v-for="(swipe,index) in swippers">
@@ -49,9 +19,7 @@
                 </mt-swipe-item>
             </mt-swipe>
         </div>
-        <GlobalItem style="min-height: 6rem"/>
-        <!--
-        <div style="display: none;min-height: 6rem" >
+        <div style="min-height: 6rem" >
             <ClxsdLoadMore key="factory-list" ref="loadmore" @onRefresh="onRefresh" @onLoadMore="onLoadMore">
                 <div class="company" :key="`en-${index}`" v-for="(item,index) in businesses">
                     <div class="company-name" @click="entryBusinessShop(item)">
@@ -75,15 +43,7 @@
                     </div>
                 </div>
             </ClxsdLoadMore>
-
-            <div @click="authToRouter('/business/cart')">
-                <svg class="shopcar">
-                    <use xlink:href="#icon-shop-car"></use>
-                </svg>
-            </div>
-
         </div>
-        -->
         <clxsd-foot-guide :user-type="3"/>
     </div>
 </template>
@@ -91,7 +51,7 @@
 <script>
     import SearchBar from '@/components/common/SearchBar';
     import {mapState} from "vuex";
-    import {findNearBySuppliers} from '@/api/supplier.js'
+    import {businessList} from '@/api/supplier.js'
     import regionAddress from "@/plugins/json/pca-code.json"
     import Notice from "@/components/modules/Extension/Notice"
     import {adList} from "@/api/ad";
@@ -105,9 +65,9 @@
         },
         data() {
             return {
+                is_active:2,
                 isActive: true,
                 hasError: false,
-                is_active: 2,//默认推荐
                 page: 1,
                 businesses: [],
                 swippers: [],
@@ -129,18 +89,11 @@
                 ],
             }
         },
-        /*
-        beforeCreate(){
-            timer = setTimeout(()=>{
-                this.$router.go(0)
-            },1)
-            clearTimeout(timer)
-        },
-        */
         created() {
             this.areaList = regionAddress;
             this.initData()
             setInterval(this.scroll, 2500)
+            this.onRefresh()
         },
         mounted() {
             window.addEventListener('scroll', this.handleScroll, true)
@@ -168,53 +121,44 @@
                     this.hasError = 0;
                 }
             },
-            onClickArea(index) {
-                if (index === this.active) return
-                this.active = index
-                const area = this.areaList[index]
-                console.log(area)
-
+            tab_change(type){
+                console.log(type)
+                this.is_active = type
+                this.page = 1
+                this.getData(type)
             },
             getData(options, loadMore = false) {
-               // options.is_load_ad = options.is_load_ad || false
                 const params = {
-                    lat: this.lat,
-                    lng: this.lng,
                     page: this.page,
-                    type: 'business',
-                    limit: options.limit,
-                    //province: options.areaCode,
-                    is_load_ad: options.is_load_ad ? true : false
+                    type: this.is_active,
+                    limit: 15,
                 }
-                 findNearBySuppliers(params, loadMore) .then(({data = []}) => {
-                     if (loadMore) {
-                         this.businesses = [...this.businesses, ...data.data]
-                     } else {
-                         this.businesses = data.data
-                     }
-                     this.page = this.page + 1
-                     this.$refs.loadmore.afterLoadMore(data.data.length < options.limit)
-                     if (options.callback) {
-                         options.callback()
-                     }
-                 })
+                console.log(params)
+                businessList(params, loadMore).then(({data = []}) => {
+                    console.log(data.data.businessList)
+                    if (loadMore) {
+                        this.businesses = [...this.businesses, ...data.data.businessList]
+                    } else {
+                        this.businesses = data.data.businessList
+                    }
+                    this.page = this.page + 1
+                    this.$refs.loadmore.afterLoadMore(data.data.businessList.length < options.limit)
+                    if (options.callback) {
+                        options.callback()
+                    }
+                })
             },
             onRefresh(callback) {
                 this.page = 1;
-                console.log("1111111")
                 const options = {
-                   // areaCode: regionAddress[this.active].code,
-                    limit: 17,
-                    callback: callback
+                    limit: 15,
+                    callback: callback,
                 }
                 this.getData(options)
-
             },
             onLoadMore() {
-                console.log('loadMore')
                 const options = {
-                   // areaCode: regionAddress[this.active].code,
-                    limit: 17
+                    limit: 15
                 }
                 this.getData(options, true)
             },

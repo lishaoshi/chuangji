@@ -2,26 +2,16 @@
 	<div id="CompanyShopList">
 		<HeaderTop></HeaderTop>
         <mt-swipe :auto="4000" class="swiper">
-			<mt-swipe-item><img src="../../../images/index/banner.png" width="100%"></mt-swipe-item>
-			<mt-swipe-item><img src="../../../images/index/banner.png" width="100%"></mt-swipe-item>
-			<mt-swipe-item><img src="../../../images/index/banner.png" width="100%"></mt-swipe-item>
+			<mt-swipe-item :key="key" v-for="(swipe,key) in swipers"><a :href="swipe.link"> <img :src="swipe.picture" width="100%"></a>
+			</mt-swipe-item>
 		</mt-swipe>
-        <div class="notice" v-if="notices !=''">
-            <svg>
-                <use xlink:href="#icon-trumpet"/>
-            </svg>
-            <mt-swipe :auto="4000" :speed="3000" class="notice-list" :show-indicators="false">
-                <mt-swipe-item v-for="(entity,index_) in notices" :key="`en-${index_}`" >
-                    <router-link :to="entity.link">{{entity.title}}</router-link>
-                </mt-swipe-item>
-            </mt-swipe>
-        </div>
-        <div class="notice" v-else>
-            <svg>
-                <use xlink:href="#icon-trumpet"/>
-            </svg>
-            <span style="padding-left: 5px"> 暂时没有通知</span>
-        </div>
+		<Notice :notices="notices" v-if="notices!=null"></Notice>
+		<div class="notice" v-else>
+			<svg>
+				<use xlink:href="#icon-notice"/>
+			</svg>
+			<span style="padding-left: 5px">暂时没有消息</span>
+		</div>
 		<div class="nav">
 			<div>
 				<router-link to="">
@@ -66,7 +56,8 @@
 	import { mapState, mapMutations} from 'vuex';
     import {businessEntities} from '@/api/business'
     import MiniCompanyCart from '@/page/company/CompanyClassify/MiniShopCart.vue'
-    import {infoList} from "@/api/ad";
+	import {adList, infoList} from "@/api/ad";
+	import Notice from '@/components/common/notice';
 
 	export default {
 		name: "CompanyShopList",
@@ -75,12 +66,14 @@
 			foot,
 			SearchBar,
 			HeaderTop,
-            MiniCompanyCart
+            MiniCompanyCart,
+			Notice
 		},
 		data(){
 			return {
 				entities:[],
-                notices:[]
+                notices:[],
+				swipers:[]
 			}
 		},
 		computed:{
@@ -126,6 +119,10 @@
                 infoList({from:'platform',supplier_id:this.businessId}).then( data => {
                     this.notices = data.data.data
                 })
+				adList({channel: 'app', space: 'global-top'}).then( data => {
+					console.log(data)
+					this.swipers = data.data.data
+				})
 			}
 		}
 

@@ -49,7 +49,7 @@
 
     import {mapState} from 'vuex';
     import Spread from "../Spread";
-
+    import {isBusinessFollow, deleteBusinessFollow, SaveBusinessFollow} from "@/api/follow.js"
     export default {
         name: "CompanyShopHeader",
         components: {Spread},
@@ -79,9 +79,25 @@
         },
         created(){
           this.shopDetailData = this.businessData
-            console.log(this.shopDetailData)
+            this.initData()
         },
         methods:{
+            //初始化时获取基本数据
+            async initData() {
+                //店铺是否关注信息
+                isBusinessFollow(this.shopDetailData.id).then(res => {
+                    console.log(res.data.data.hasrelation)
+                    if(res.data.data.hasrelation){
+                        this.follow_info = "已关注"
+                        this.follow_status = 1
+                    }else{
+                        this.follow_info = "关注"
+                        this.follow_status = 0
+                    }
+                }).catch(error => {
+                    console.log(error)
+                })
+            },
             handleScroll() {
                 let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
                 if (scrollTop > 90) {
@@ -103,26 +119,24 @@
             },
             FollowBusiness(id) {
                 const params = {
-                    supplier_id: this.factoryId,
+                    supplier_id: id,
                 }
                 if (this.follow_status == 1) {//followed
                     this.$messagebox.confirm("确定要取消关注吗?").then(action => {
                         if (action === 'confirm') {
-                            // deleteFollow(this.factoryId)
-                            /*
-                            deleteFollow(this.factoryId).then(res =>{
+                            deleteBusinessFollow(id).then(res =>{
                                 console.log(res.data)
                                 if(res.data.message=="success"){
                                     this.$toast("取消成功")
                                 }
                             }).catch( error => {
                                 console.log(error)
-                            })*/
+                            })
                             this.follow_info = '关注'
                         }
                     });
                 } else {
-                    //SaveFollow(params)
+                    SaveBusinessFollow(params)
                     this.follow_info = '已关注'
                 }
                 this.follow_status = !this.follow_status

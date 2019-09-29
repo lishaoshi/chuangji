@@ -23,6 +23,7 @@ export function SaveFollow(params) {
     return http.post(`hippo-shop/supplier/factory/follows`,params).catch(() => {validateStatus: s => s > 200})
 }
 
+
 /*商品收藏*/
 // 关注列表
 export const getCollectionList = (params) => {
@@ -43,4 +44,19 @@ export function SaveCollection(params) {
     return http.post(`hippo-shop/supplier/factory/entity/follows`,params).catch(() => {})
 }
 
-/*商业公司商品收藏*/
+
+/*商业公司(配送商)商品收藏*/
+//是否已经关注
+export function isBusinessFollow (id) {
+    return http.get(`hippo-shop/supplier/business/hasrelation/${id}`).catch(() => {})
+}
+
+//取消关注
+export function deleteBusinessFollow(id) {
+    return http.delete(`hippo-shop/supplier/business/follows/${id}`).catch(() => {validateStatus: s => s > 200})
+}
+
+//关注
+export function SaveBusinessFollow(params) {
+    return http.post(`hippo-shop/supplier/business/follows`,params).catch(() => {validateStatus: s => s > 200})
+}

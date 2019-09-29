@@ -102,7 +102,7 @@
 			},
 			_handleData(data) {
 				//console.log(data)
-				data.forEach((item, index) => {
+				data.data.recommendGoods.forEach((item, index) => {
 					item.shopId = this.businessId
 					item.num = 0
 					item.itemId = item.id;

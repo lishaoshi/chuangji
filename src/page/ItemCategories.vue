@@ -74,6 +74,7 @@
                             <div v-if="goodList.list==''">
                                 <empty/>
                             </div>
+                            <div style="height: 1rem"></div>
                             <!--</ClxsdLoadMore>-->
                         </div>
 
@@ -334,7 +335,7 @@
         display: block;
         text-align: left;
         width: 2rem;
-        height: 100%;
+        height: 10rem;
         overflow: scroll;
         float: left;
         padding-top: 1rem;

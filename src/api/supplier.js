@@ -42,3 +42,7 @@ export const supplierFactoryEntities = (ids) => {
     }
     return http.get(`hippo-shop/supplier/factory/entities`,{params}).catch(() => {})
 }
+//配送商列表
+export function businessList(params){
+    return http.get('supplier/business',{params, validateStatus: s => s === 200});
+};
