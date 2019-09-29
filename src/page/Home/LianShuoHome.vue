@@ -128,7 +128,7 @@
 				}
 				findNearBySuppliers(params).then(response => {
 					console.log(response.data.data)
-					this.allLoaded = false; // 可以进行上拉
+					this.allLoaded = true; // 可以进行上拉
 					this.suppliers = response.data.data;
 					this.$refs.loadmore.onTopLoaded();
 				})

@@ -128,7 +128,7 @@
                 }
                 findNearBySuppliers(params).then(response => {
                     console.log(response.data.data)
-                        this.allLoaded = false; // 可以进行上拉
+                        this.allLoaded = true; // 可以进行上拉
                         this.suppliers = response.data.data;
                         this.$refs.loadmore.onTopLoaded();
                     })
@@ -155,7 +155,7 @@
                 //console.log(44)
                 const {data} = await adList({channel: 'app', space: 'home-top'})
                 this.swipers = data.data
-                infoList({from: 'business'}).then(data => {
+                infoList({from: 'platform'}).then(data => {
                     this.notices = data.data.data
                     console.log(this.notices)
                 })

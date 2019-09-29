@@ -364,11 +364,11 @@
                 p {
                     white-space: nowrap;
                     text-overflow: ellipsis;
-                    line-height: 2.5;
                     font-size: .24rem;
                     padding-left: .2rem;
                     padding-right: .1rem;
-
+                    height: .8rem;
+                    line-height: .8rem;
                     span {
                         display: inline-block;
                         width: 1.3rem;

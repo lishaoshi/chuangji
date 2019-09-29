@@ -46,7 +46,7 @@
              initData(){
                 const {
                     avatar = '',
-                } = this.CURRENTUSER;
+                } = this.CURRENTUSER.data.userInfo;
                 this.value = avatar;
                 this.avatar = (this.value || {})
             },
