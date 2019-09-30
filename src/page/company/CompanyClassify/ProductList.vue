@@ -14,7 +14,6 @@
                     <li @click="is_business_list = !is_business_list">工业</li>
 				</ul>
 			</div>
-            <EmptyList  v-if="menuList.length==0&&loading == false"></EmptyList>
 			<div class="mint-navbar">
 				<span class="all-goods" @click="all_Goods()" :class="`${is_active == 0?'all-goods-active':''}`">全部</span>
 				<div class="menu-list" :id="`menu_${index}`" :key="`menu-${index}`"
@@ -40,7 +39,7 @@
 			</div>
 			<!-- tab-container -->
 			<div class="mt-tab-container" v-model="selected"  v-if="menuList.length>0">
-				<mt-tab-container-item :id="`menu_${index}`" v-for="(menu,index) in menuList" :key="`product_shop_list_${index}`">
+				<div :id="`menu_${index}`" v-for="(menu,index) in goodList.list" :key="`product_shop_list_${index}`">
                     <div style="height: 9rem;overflow-y: scroll">
 					<div class="item" v-for="(entity,key) in menu.entities">
 						<router-link :to="`/business/shop/${businessId}/${entity.id}`">
@@ -69,7 +68,7 @@
 						</div>
 					</div>
                     </div>
-				</mt-tab-container-item>
+				</div>
 			</div>
             <div style="height: 1rem"></div>
             <div style="position: fixed;bottom: 0px;width: 100%">
@@ -112,12 +111,14 @@
 				nums:0,
                 is_business_list:false,
                 loading:true,
-                is_active:1
+                is_active:1,
+				goodList: [],//产品列表
 			}
 		},
 		created() {
 		    let id =this.businessId
 			this.initData(id)
+			this.init_Goods()
 		},
 		computed: {
 			...mapState({
@@ -266,7 +267,7 @@
 		width: 2rem;
 		height: 82.5%;
 		overflow: scroll;
-        float: left;
+		float: left;
 	}
 
 	.mint-navbar .mint-tab-item {
