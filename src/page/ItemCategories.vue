@@ -369,6 +369,7 @@
                     padding-right: .1rem;
                     height: .8rem;
                     line-height: .8rem;
+
                     span {
                         display: inline-block;
                         width: 1.3rem;
