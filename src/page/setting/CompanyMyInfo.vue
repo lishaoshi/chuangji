@@ -25,7 +25,7 @@
         computed:{
             ...mapState({
                 userInfo: state => {
-                    const currentInfo = state.CURRENTUSER
+                    const currentInfo = state.CURRENTUSER.data.userInfo
                     const configInfo = state.CONFIG
                     return {
                         userTel: 　currentInfo.phone || '丢失信息',

@@ -33,11 +33,14 @@
                                 <svg>
                                     <use xlink:href="#icon-notice"/>
                                 </svg>
-                                <div class="scroll-wrap">
+                                <div class="scroll-wrap" v-if="item.infos!=''">
                                     <ul class="scroll-content" ref="con1" :class="{anim:animate==true}">
-                                        <li v-for="(item,index) in prizeList">{{item.name}}</li>
+                                        <li v-for="(entity,index) in item.infos">
+                                            {{entity.title}}
+                                        </li>
                                     </ul>
                                 </div>
+                                <span v-else>没有消息</span>
                             </div>
                         </div>
                     </div>

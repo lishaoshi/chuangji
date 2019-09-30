@@ -59,7 +59,7 @@ export default {
   },
   computed: {
     currentCurrency() {
-      const user = this.$store.state.CURRENTUSER;
+      const user = this.$store.state.CURRENTUSER.data.userInfo;
       return user.currency.sum || 0;
     }
   },

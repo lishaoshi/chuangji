@@ -6,7 +6,7 @@
 			<span @click="is_active = 2" :class="`${is_active == 2 ? 'active':''}`">按购买时间</span>
 			<span @click="is_active = 3" :class="`${is_active == 3 ? 'active':''}`">按购买次数</span>
 		</div>
-		<list :entities="entities" :business-id="businessId"></list>
+		<list :business-id="businessId" :title="title"></list>
         <div style="height: 1.3rem"></div>
         <div style="position: fixed;width: 100%;bottom: 0px">
             <mini-company-cart ref="MiniCompanyCart" :shop-id="businessId" :count="cartNum" :total-price="totalPrice" style="bottom: 0px"></mini-company-cart>
@@ -46,6 +46,9 @@
             shopCart() {
                 return {...this.cartList[this.businessId]}
             },
+			title() {
+				return this.businessData.display_name || this.businessData.name
+			},
             cartNum() {
                 let num = 0;
                 Object.values(this.shopCart).forEach((data, index) => {

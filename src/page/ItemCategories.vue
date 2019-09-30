@@ -10,8 +10,8 @@
                 <div class="choose">
                     <div>分类</div>
                 </div>
-                <span class="all-goods" @click="all_Goods()" :class="`${is_active == 0?'all-goods-active':''}`">全部</span>
                 <div class="mint-navbar">
+                    <span class="all-goods" @click="all_Goods()" :class="`${is_active == 0?'all-goods-active':''}`">全部</span>
                     <div class="menu-list" :id="`menu_${index}`" :key="`menu-${index}`"
                          v-for="(menu,index) in menuList ">
                         <span v-if="menu.child" @click="slide($event)" class="sp1 up"
@@ -55,7 +55,7 @@
                                             </router-link>
                                             <p class="item-box-p1" v-if="entity.brand">品牌：{{entity.brand.name}}</p>
                                             <p class="item-box-p1">规格：{{entity.spec}}</p>
-                                            <p class="item-box-p1">有效期：{{data}}</p>
+                                            <p class="item-box-p1">效期：{{data}}</p>
                                             <div class="selling">
                                                 <div class="unit_price">
                                                     <p class="font"><i>￥</i><i>{{entity.price}}</i><span>{{entity.market_price}}</span>
@@ -338,7 +338,6 @@
         height: 10rem;
         overflow: scroll;
         float: left;
-        padding-top: 1rem;
 
         .menu-list {
             width: 100%;
@@ -562,7 +561,6 @@
         line-height: 1rem;
         padding-left: .15rem;
         overflow: hidden;
-        position: absolute;
         width: 2rem;
         font-size: .3rem;
         z-index: 999;

@@ -29,7 +29,7 @@
 <script>
     import SearchBar from '@/components/common/SearchBar';
     import {mapState} from "vuex";
-    import {findNearBySuppliers} from '@/api/supplier.js'
+    import {supplierBusinessEntities} from '@/api/supplier.js'
 
     export default {
         name: "CompanyList",
@@ -81,30 +81,23 @@
             async getData(options, loadMore = false) {
                 options.is_load_ad = options.is_load_ad || false
                 const params = {
-                    lat: this.lat,
-                    lng: this.lng,
-                    page: this.page,
-                    type: 'business',
                     limit: options.limit,
                     province: options.areaCode,
                     is_load_ad: options.is_load_ad ? true : false
                 }
                 const {
                     data
-                } = await findNearBySuppliers(params)
+                } = await supplierBusinessEntities(this.id)
                 console.log(data)
-                if (options.is_load_ad) {
-                    this.swippers = data.swippers
-                }
                 if (loadMore) {
                     console.log(this.businesses)
-                    this.businesses = [...this.businesses, ...data.data]
+                    this.businesses = [...this.businesses, ...data.data.brandList]
                     console.log(this.businesses)
                 } else {
-                    this.businesses = data.data
+                    this.businesses = data.data.brandList
                 }
                 this.page = this.page + 1
-                this.$refs.loadmore.afterLoadMore(data.data.length < options.limit)
+                this.$refs.loadmore.afterLoadMore(data.data.brandList.length < options.limit)
                 if (options.callback) {
                     options.callback()
                 }

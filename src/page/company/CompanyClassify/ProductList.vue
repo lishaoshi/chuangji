@@ -61,46 +61,6 @@
             <div class="fixed-bg" v-if="is_business_list" @click="is_business_list = !is_business_list"></div>
 		</div>
         <CircleLoading v-if="loading"></CircleLoading>
-		<!--
-		<mt-popup v-model="regionVisible" position="bottom" class="bottom-region" style="width:100%;padding-bottom: 50px;">
-			<div class="shop_title">
-				<p>已选商品</p>
-				<p>清空</p>
-			</div>
-			<div class="shop-list">
-				<div class="title">
-					维生素片维生素片维生素片维生素片维生素片维生素片维生素片
-				</div>
-				<div class="price">
-					2000
-				</div>
-				<div class="gw_num">
-					<em class="lose">-</em>
-					<div class="num">
-						<span class="amount">0</span>
-						<p>件</p>
-					</div>
-					<em class="add">+</em>
-				</div>
-			</div>
-			<div class="shop-list">
-				<div class="title">
-					维生素片维生素片维生素片维生素片维生素片维生素片维生素片
-				</div>
-				<div class="price">
-					2000
-				</div>
-				<div class="gw_num">
-					<em class="lose">-</em>
-					<div class="num">
-						<span class="amount">0</span>
-						<p>件</p>
-					</div>
-					<em class="add">+</em>
-				</div>
-			</div>
-		</mt-popup>
-		-->
 	</div>
 </template>
 

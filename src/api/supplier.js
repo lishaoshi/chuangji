@@ -44,5 +44,9 @@ export const supplierFactoryEntities = (ids) => {
 }
 //配送商列表
 export function businessList(params){
-    return http.get('supplier/business',{params, validateStatus: s => s === 200});
+    return http.get('hippo-shop/business',{params, validateStatus: s => s === 200});
 };
+//品牌列表
+export const supplierBusinessEntities = (supplierId) => {
+    return http.get(`hippo-shop/business/${supplierId}/brands`).catch(() => {})
+}
