@@ -14,13 +14,32 @@
                     <li @click="is_business_list = !is_business_list">工业</li>
 				</ul>
 			</div>
-            <EmptyList  v-if="menuList.length==0&&loading == false"></EmptyList>
-			<mt-navbar v-model="selected"  v-if="menuList.length>0">
-				<mt-tab-item :id="`menu_${index}`" :key="`product_title_${index}`" v-for="(menu,index) in menuList">{{menu.name}}</mt-tab-item>
-			</mt-navbar>
+			<div class="mint-navbar">
+				<span class="all-goods" @click="all_Goods()" :class="`${is_active == 0?'all-goods-active':''}`">全部</span>
+				<div class="menu-list" :id="`menu_${index}`" :key="`menu-${index}`"
+					 v-for="(menu,index) in menuList ">
+                        <span v-if="menu.child" @click="slide($event)" class="sp1 up"
+							  :class="`${is_active===menu.id?'active':''}`">{{menu.name}}</span>
+					<span v-else @click="showGoods(menu.id,$event)" class="sp1"
+						  :class="`${is_active===menu.id?'active':''}`">{{menu.name}}</span>
+					<div class="down-menu" style="height: 0px">
+						<div>
+							<p v-for="(childrenMenu,index) in menu.child"
+							   :class="`${childrenMenu.id===is_child_id?'child-active':''}`"
+							   @click="showSlideGoods(childrenMenu.id,menu.id)"
+							>
+								<span>{{childrenMenu.name}}</span>
+								<svg v-if="childrenMenu.id===is_child_id">
+									<use xlink:href="#icon-peisongshang-caidananniu"></use>
+								</svg>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
 			<!-- tab-container -->
-			<mt-tab-container v-model="selected"  v-if="menuList.length>0">
-				<mt-tab-container-item :id="`menu_${index}`" v-for="(menu,index) in menuList" :key="`product_shop_list_${index}`">
+			<div class="mt-tab-container" v-model="selected"  v-if="menuList.length>0">
+				<div :id="`menu_${index}`" v-for="(menu,index) in goodList.list" :key="`product_shop_list_${index}`">
                     <div style="height: 9rem;overflow-y: scroll">
 					<div class="item" v-for="(entity,key) in menu.entities">
 						<router-link :to="`/business/shop/${businessId}/${entity.id}`">
@@ -49,8 +68,8 @@
 						</div>
 					</div>
                     </div>
-				</mt-tab-container-item>
-			</mt-tab-container>
+				</div>
+			</div>
             <div style="height: 1rem"></div>
             <div style="position: fixed;bottom: 0px;width: 100%">
                 <mini-company-cart ref="MiniCompanyCart" :shop-id="businessId"  :count="cartNum" :total-price="totalPrice"></mini-company-cart>
@@ -61,46 +80,6 @@
             <div class="fixed-bg" v-if="is_business_list" @click="is_business_list = !is_business_list"></div>
 		</div>
         <CircleLoading v-if="loading"></CircleLoading>
-		<!--
-		<mt-popup v-model="regionVisible" position="bottom" class="bottom-region" style="width:100%;padding-bottom: 50px;">
-			<div class="shop_title">
-				<p>已选商品</p>
-				<p>清空</p>
-			</div>
-			<div class="shop-list">
-				<div class="title">
-					维生素片维生素片维生素片维生素片维生素片维生素片维生素片
-				</div>
-				<div class="price">
-					2000
-				</div>
-				<div class="gw_num">
-					<em class="lose">-</em>
-					<div class="num">
-						<span class="amount">0</span>
-						<p>件</p>
-					</div>
-					<em class="add">+</em>
-				</div>
-			</div>
-			<div class="shop-list">
-				<div class="title">
-					维生素片维生素片维生素片维生素片维生素片维生素片维生素片
-				</div>
-				<div class="price">
-					2000
-				</div>
-				<div class="gw_num">
-					<em class="lose">-</em>
-					<div class="num">
-						<span class="amount">0</span>
-						<p>件</p>
-					</div>
-					<em class="add">+</em>
-				</div>
-			</div>
-		</mt-popup>
-		-->
 	</div>
 </template>
 
@@ -112,6 +91,7 @@
 	import MiniCompanyCart from '@/page/company/CompanyClassify/MiniShopCart.vue'
     import BusinessList from './CompanyList'
     import EmptyList from "@/components/EmptyList"
+	import {servicBusinessGoodList} from "@/api/business"
 
 	export default {
 		name: "ProductList",
@@ -131,12 +111,14 @@
 				nums:0,
                 is_business_list:false,
                 loading:true,
-                is_active:1
+                is_active:1,
+				goodList: [],//产品列表
 			}
 		},
 		created() {
 		    let id =this.businessId
 			this.initData(id)
+			this.init_Goods()
 		},
 		computed: {
 			...mapState({
@@ -174,6 +156,14 @@
 			...mapMutations([
 				'BUSINESS_ADD_CART', 'BUSINESS_REMOVE_CART',
 			]),
+			//产品显示
+			init_Goods(params){
+				servicBusinessGoodList(params).then(res => {
+					this.goodList = res.data.data.businessGoods
+				})
+				this.goodList = this._handleData(this.goodList)
+				// console.log("长度："+this.goodList.list.length())
+			},
 			canOption(){
             	if(!this.canShow){
             	    this.$Message.error('当前用户还未审核通过');
@@ -184,10 +174,10 @@
 			async initData(id) {
 				const {
 					data
-				} = await this.$http.get(`/hippo-shop/business/menuEntities/${id}`);
+				} = await this.$http.get(`/hippo-shop/business/menuEntities`);
 				//this.menuList = data
-				this.menuList = this._handleData(data)
-				console.log(data)
+				this.menuList = data.data.cates
+				console.log(this.menuList)
 			},
             closedMyFrame(){
 			  this.is_business_list = false
@@ -262,13 +252,13 @@
 		padding: 10px;
 		z-index: 999;
 	}
-	
+
 	.product-list {
 		position: relative;
 		height: 11.44rem;
 		overflow: hidden;
 	}
-	
+
 	.mint-navbar {
 		background-color: #E6E6E6;
 		display: block;
@@ -277,23 +267,23 @@
 		width: 2rem;
 		height: 82.5%;
 		overflow: scroll;
-        float: left;
+		float: left;
 	}
-	
+
 	.mint-navbar .mint-tab-item {
 		width: 100%;
 		font-size: .3rem;
 		color: #333;
 		padding-left: .2rem;
 	}
-	
+
 	.mint-navbar .mint-tab-item.is-selected {
 		border-bottom: 0px;
 		color: #333;
 		background: #fff;
         border-left: 2px solid #2da2ff;
 	}
-	
+
 	.mint-tab-container {
 		position: relative;
 		width: 71%;
@@ -304,7 +294,7 @@
         padding-top: .2rem;
         padding-bottom: .2rem;
 	}
-	
+
 	.item {
 		display: flex;
 		background: #fff;
@@ -316,25 +306,25 @@
             margin-top: 0px;
         }
 	}
-	
+
 	.item-img {
 		width: 1.3rem;
 		height: 1.3rem;
         margin-top: .3rem;
 	}
-	
+
 	.selling {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		margin-top: .1rem;
 	}
-	
+
 	.selling .unit_price {
 		font-size: 10px;
 		color: rgb(102, 102, 102);
 	}
-	
+
 	.selling .unit_price .font {
 		color: rgb(255, 59, 48);
 		font-size: 14px;
@@ -345,7 +335,7 @@
 			margin-left: 5px;
 		}
 	}
-	
+
 	.item-box {
 		width: 72%;
 		padding-left: 3%;
@@ -366,7 +356,7 @@
         }
 	}
 	/*加减*/
-	
+
 	.gw_num {
 		width: 60px;
 		height: 20px;
@@ -376,7 +366,7 @@
 		align-items: center;
 		text-align: center;
 	}
-	
+
 	.gw_num em {
 		color: #7A7979;
 		cursor: pointer;
@@ -385,29 +375,29 @@
 		line-height: 20px;
         font-style: normal;
 	}
-	
+
 	.gw_num .add {
 		color: #26A2FF;
 	}
-	
+
 	.shop_num em {
 		color: rgb(45, 162, 255);
 	}
-	
+
 	.gw_num .num {
 		font-style: normal;
 		font-size: 12px;
 		color: #333;
 	}
-	
+
 	.gw_num .num input {
 		text-align: center;
 	}
-	
+
 	.clearfloat {
 		clear: both;
 	}
-	
+
 	.choose {
 		background: #fff;
 		line-height: 1rem;
@@ -429,6 +419,21 @@
                 color: #2da2ff;
             }
 		}
+	}
+	.all-goods {
+		display: block;
+		height: 1rem;
+		line-height: 1rem;
+		padding-left: .15rem;
+		overflow: hidden;
+		width: 2rem;
+		font-size: .3rem;
+		z-index: 999;
+	}
+
+	.all-goods-active {
+		background: #eef6fb;
+		border-left: 2px solid #26a2ff;
 	}
 	/*弹出购物车*/
 	.shop-list {

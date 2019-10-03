@@ -18,7 +18,7 @@
 		computed:{
             ...mapState({
                 userInfo: state => {
-                    const currentInfo = state.CURRENTUSER
+                    const currentInfo = state.CURRENTUSER.data.userInfo
                     const configInfo = state.CONFIG
                     let infoState = 0
                     let infoText = '未上传资质,信息完善后才能查看订单'

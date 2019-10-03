@@ -40,7 +40,7 @@
 		</div>
 		<!--列表开始-->
 		<p class="title">药品推荐</p>
-		<list :entities="entities" :business-id="businessId" :title="title"></list>
+		<list :business-id="businessId" :title="title"></list>
         <div style="height: 1.2rem"></div>
         <div style="position: fixed;width: 100%;bottom: 0px" v-if="entities.length>0">
             <mini-company-cart ref="MiniCompanyCart" :shop-id="businessId" :count="cartNum" :total-price="totalPrice" style="bottom: 0px"></mini-company-cart>
@@ -79,7 +79,6 @@
 		computed:{
 			...mapState({
 				businessData: state => state.shop.CURRENT_BUSINESS_SHOP_DATA,
-
                 //用户是否有权限看价格
                 canShow: state => state.CURRENTUSER.data.userInfo.shop_supplier,
                 cartList: state => state.shop.BUSINESS_CART_LIST
@@ -90,6 +89,9 @@
             title() {
                 return this.businessData.display_name || this.businessData.name
             },
+			infos(){
+				return this.businessData.infos
+			},
             shopCart() {
                 return {...this.cartList[this.businessId]}
             },
@@ -113,14 +115,19 @@
 		},
 		methods:{
 		    async initData(){
-				const {data} = await businessEntities(this.businessId)
-                this.entities = data;
-				console.log(this.entities)
+		    	let params = {
+					supplier_id:this.businessId
+				}
+				const {data} = await businessEntities(params)
+                this.entities = data.data.recommendList;
+		    	console.log(this.entities)
+				/*
                 infoList({from:'platform',supplier_id:this.businessId}).then( data => {
                     this.notices = data.data.data
                 })
+				 */
+				this.notices = this.infos
 				adList({channel: 'app', space: 'global-top'}).then( data => {
-					console.log(data)
 					this.swipers = data.data.data
 				})
 			}

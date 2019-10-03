@@ -101,7 +101,7 @@
                 newsVerified: state => state.CONFIG["news:contribute"].verified
             }),
             login() {
-                return !!this.$store.state.CURRENTUSER.id;
+                return !!this.$store.state.CURRENTUSER.data.userInfo.id;
             },
             /**
              * 检查后台是否开启签到功能

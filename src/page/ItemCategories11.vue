@@ -20,12 +20,6 @@
                             <p @click="onSaleGoods()" :class="{active,isUp}">在售<span>({{menu.onSale}})</span></p>
                             <p @click="downSaleGoods()" :class="{active,isDown}">下架<span>({{menu.unSale}})</span></p>
                         </div>
-                        <!--
-                        <ClxsdLoadMore
-                                key="goods-list"
-                                ref="loadmoreGoods"
-                                @onRefresh="onGoodsRefresh"
-                                @onLoadMore="onLoadMoreGoods">-->
                         <div style="height: 9.3rem;overflow: scroll">
                             <div v-for="(entity,ikey) in menu.entities">
                                 <div v-if="entity.status===1" v-bind:class="{active: isUp }" class="item" id="list-item">
@@ -63,7 +57,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!--</ClxsdLoadMore>-->
                     </mt-tab-container-item>
                 </mt-tab-container>
             </div>

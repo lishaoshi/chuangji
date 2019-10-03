@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<div class="shop" v-if="items.length>0">
+		<div class="shop">
+			<ClxsdLoadMore key="orders-list" ref="loadmore" @onRefresh="onOrdersRefresh" @onLoadMore="onOrdersLoadMore">
 			<div class="list" v-for="(item,index) in items">
 				<router-link :to="`/business/shop/${businessId}/${item.id}`">
 					<img :src="item.cover" class="list-img" />
@@ -34,9 +35,9 @@
 					</div>
 				</div>
 			</div>
+			</ClxsdLoadMore>
 			<div class="clearfloat"></div>
 		</div>
-		<EmptyList  v-if="items.length==0 && loading == false"></EmptyList>
 		<!--<mini-company-cart ref="MiniCompanyCart"   :shop-id="businessId"></mini-company-cart>-->
         <CircleLoading v-if="loading"></CircleLoading>
 	</div>
@@ -61,7 +62,8 @@
 				num:0,
 				shopId:'',
                 items:[],
-                loading: true,
+                loading: false,
+				page:1
 			}
 		},
 		mounted() {
@@ -70,7 +72,7 @@
 		computed: {
 			...mapState({
 				//用户是否有权限看价格
-                canShow:state => state.CURRENTUSER.shop_supplier,
+                canShow:state => state.CURRENTUSER.data.userInfo.shop_supplier,
 				cartList: state => state.shop.BUSINESS_CART_LIST
 			}),
 			//当前商店购物信息
@@ -86,11 +88,7 @@
 				'BUSINESS_ADD_CART', 'BUSINESS_REMOVE_CART',
 			]),
 			async initData() {
-				//this.entities = this._handleData(this.entities);
-				const { data } = await businessEntities(this.businessId)
-                this.items = this._handleData(data)
-                this.loading = false
-                console.log(this.items)
+
 			},
 			canOption() {
 				if(!this.canShow) {
@@ -102,7 +100,7 @@
 			},
 			_handleData(data) {
 				//console.log(data)
-				data.data.recommendGoods.forEach((item, index) => {
+				data.forEach((item, index) => {
 					item.shopId = this.businessId
 					item.num = 0
 					item.itemId = item.id;
@@ -130,7 +128,50 @@
 			},
 			errorInfo() {
 				Toast('不能再少了，快受不了啦');
-			}
+			},
+
+
+			async getOrderData(options, loadMore = false) {
+				let params = {
+					page: this.page,
+					limit: 20,
+					supplier_id:this.businessId
+				}
+				businessEntities(params, loadMore)
+						.then(({
+								   data = []
+							   }) => {
+							if(loadMore) {
+								this.items = [...this.items, ...data.data.recommendList]
+							} else {
+								this.items = data.data.recommendList
+							}
+							this.items = this._handleData(this.items)
+							this.page = this.page + 1
+							this.$refs.loadmore.afterLoadMore(data.data.recommendList.length < options.limit)
+							if(options.callback) {
+								options.callback()
+							}
+						})
+			},
+			onOrdersRefresh(callback) {
+				console.log("loading")
+				this.page = 1
+				let options = {
+					limit: 20,
+					callback: callback
+				}
+				this.getOrderData(options)
+			},
+			onOrdersLoadMore() {
+				console.log("more")
+				let options = {
+					limit: 20,
+				}
+				this.getOrderData(options, true)
+			},
+
+
 		}
 	}
 </script>

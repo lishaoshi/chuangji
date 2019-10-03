@@ -14,7 +14,7 @@
     import LianShuoHome from './Home/LianShuoHome';
     import ExtensionHome from './Home/ExtensionHome';
     import pageRootHome from "./Home/RootHome";
-    import { mapState, mapGetters } from "vuex";
+    import { mapState } from "vuex";
     export default {
         name: "page-home",
         components:{

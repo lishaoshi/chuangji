@@ -1,11 +1,7 @@
 import http from "./api";
 
-export const businessEntities = (supplierId,isRecom) => {
-    const params= {
-        supplierId:supplierId,
-        is_recom: isRecom? 1:0
-    }
-    return http.get(`supplier/business/recommendGoods`,{params}).catch(() => {})
+export const businessEntities = (params) => {
+    return http.get(`hippo-shop/business/${params.supplier_id}/recommends`,{params}).catch(() => {})
 }
 export const supplierBusinessEntities = (ids) => {
     const params= {
@@ -16,5 +12,5 @@ export const supplierBusinessEntities = (ids) => {
 
 //药品列表
 export function servicBusinessGoodList(params){
-    return http.get('hippo-shop/business',{params, validateStatus: s => s === 200});
+    return http.get('hippo-shop/business/entity',{params, validateStatus: s => s === 200});
 };

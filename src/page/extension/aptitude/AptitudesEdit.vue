@@ -65,7 +65,7 @@
         },
         computed:{
             ...mapState({
-                currentUser: state => state.CURRENTUSER
+                currentUser: state => state.CURRENTUSER.data.userInfo
             })
         },
 		data() {
