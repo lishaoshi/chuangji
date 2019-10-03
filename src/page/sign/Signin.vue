@@ -61,8 +61,9 @@
 </template>
 
 <script>
-	import { signinByAccount } from "@/api/user";
+	import { signinByAccount, fetchUserInfo } from "@/api/user";
 	import { signinByWechat } from "@/util/wechat";
+	import { mapActions } from "vuex"
 	import { Toast } from 'mint-ui';
 	export default {
 		name: "Signin",
@@ -86,7 +87,8 @@
 			}
 		},
 		methods: {
-			signByAccount() {
+		    async  signByAccount() {
+				// debugger
 				this.err = "";
 				if(this.account.length === 0) {
 					Toast('账户不正确');
@@ -101,27 +103,29 @@
 				}
 
 				this.loading = true;
-				signinByAccount({
+				await signinByAccount({
 					login: this.account,
 					password: this.password
 				}).then(state => {
 					this.loading = false;
-					console.log("state:"+state)
 					state &&
-						this.$nextTick(() => {
-						    console.log(state)
-							Toast("登陆成功")
-							this.$router.push(this.$route.query.redirect || "/");
-						});
+						// this.UPDATECURRENTUSER(state)
+						
+						Toast("登陆成功")
 					if (state === false) {
                         Toast("账号或密码输入有误")
                     }
 				}).catch(error =>{
 				    console.log(error)
-                })
-
-                return false;
-			}
+				})
+				// await fetchUserInfo()
+				await this.$store.dispatch("fetchUserInfo");
+				this.$router.push(this.$route.query.redirect || "/");
+				return false;
+			},
+			...mapActions([
+				'UPDATECURRENTUSER'
+			])
 		}
 	}
 </script>

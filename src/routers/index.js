@@ -48,6 +48,7 @@ const router = new VueRouter({
  */
 router.beforeEach((to, from, next) => {
     const logged = !!window.$lstore.hasData("H5_ACCESS_TOKEN");
+    // console.log(to)
     const forGuest = to.matched.some(record => record.meta.forGuest);
     const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 

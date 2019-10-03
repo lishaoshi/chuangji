@@ -13,10 +13,11 @@
 </template>
 
 <script>
-    import { mapState } from "vuex";
+    import { mapState, mapActions } from "vuex";
     import PageAptitude from "@/page/aptitude/Aptitudes";
     import PageEditAptitude from "./aptitude/AptitudesEdit";
     import PullRefresh from "../components/PullRefresh";
+    import { fetchUserInfo } from '@/api/user'
     export default {
         name: 'page-company',
         components:{
@@ -26,8 +27,9 @@
         },
         computed:{
             ...mapState({
-                //0 还没有真写认证信息,1　已提交正审中,2,据,3正常
+                //0 还没有真写认证信息,1　已提交正审中,2,拒绝,3正常
                 CERT_STATUS: state => {
+                    debugger
                     let returnValue = 3
                     const userInfo = state.CURRENTUSER.data.userInfo
                     if(!userInfo['certification']){
@@ -45,11 +47,21 @@
             })
 
         },
+        created() {
+            // console.log('text info')
+            console.log(this.$store.state.CURRENTUSER,'tetx')
+            this.fetchUserInfo()
+        },
         methods:{
             refresh(callback){
                 this.$store.dispatch("fetchUserInfo");
                 callback();
-            }
+            },
+
+            // 重新获取用户信息
+            ...mapActions([
+                'fetchUserInfo'
+            ])
         }
     }
 </script>

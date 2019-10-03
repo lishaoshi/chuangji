@@ -68,6 +68,7 @@ if(!window.initUrl){
     window.initUrl = window.location.href.replace(/(\/$)/, "");
 }
 
+
 new Vue({
     store,
     router,

@@ -18,10 +18,23 @@ export function signinByAccount(payload){
                 return false;
             case 200:
                 lstore.setData("H5_ACCESS_TOKEN", `Bearer ${access_token}`)
-                store.dispatch("fetchUserInfo");
+                // store.dispatch("fetchUserInfo");
                 return true;
         }
     }).catch(() => false)
+    // return new Promise((resolve, reject)=>{
+    //     api.post("/auth/login",payload, { validateStatus: s => s > 0}).then(res =>{
+    //         switch (res.status){
+    //             case 422:
+    //                 $Message.error(res.data.message);
+    //                 reject(res.data)
+    //             case 200:
+    //                 lstore.setData("H5_ACCESS_TOKEN", `Bearer ${access_token}`)
+    //                 // store.dispatch("fetchUserInfo");
+    //                 resolve(res.data)
+    //         }
+    //     }).catch(() => false)
+    // })
 }
 
 /**

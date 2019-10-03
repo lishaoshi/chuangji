@@ -56,6 +56,7 @@ export default {
 
     // 保存当前登录用户信息
     SAVE_CURRENTUSER(state, info) {
+        console.log(info+'--info')
         state.CURRENTUSER = info;
         lstore.setData("CURRENTUSER", state.CURRENTUSER);
         lstore.setData("H5_CUR_USER", state.CURRENTUSER);
