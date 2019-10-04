@@ -13,7 +13,7 @@
         props:{
             message:{
                 type: String,
-                default:'没有数据哦-'
+                default:'抱歉，没有数据展示'
             },
         }
     }

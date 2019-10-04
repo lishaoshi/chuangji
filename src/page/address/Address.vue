@@ -10,7 +10,7 @@
                 </div>
                 <div class="address-info">
                     <p class="name">{{item.consignee}}&nbsp;&nbsp;{{item.tel}}</p>
-                    <p class="add-detail"><span class="mr" v-if="item.is_default == 1">默认</span><span>{{item.full_address}}</span></p>
+                    <p class="add-detail"><span class="mr" v-if="item.is_default == 1">默认</span><span style="color: #999">{{item.full_address}}</span></p>
                 </div>
                 <div class="address-edit">
                     <router-link :to="`/address/address-change/${item.id}`">

@@ -1,10 +1,6 @@
 <template>
 	<div id="AptitudesDetail">
-		<mt-header title="营业执照">
-			<router-link to="/company-info" slot="left">
-				<mt-button icon="back"></mt-button>
-			</router-link>
-		</mt-header>
+		<clxsd-head-top title="营业执照" />
 		<img src="../../images/my/zs.png" width="100%" />
 	</div>
 	
