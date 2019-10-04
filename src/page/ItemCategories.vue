@@ -7,9 +7,11 @@
                 <SearchBar></SearchBar>
             </div>
             <div class="product-list">
+                <!--
                 <div class="choose">
                     <div>分类</div>
                 </div>
+                -->
                 <div style="width: 2rem;float: left;background: #E6e6e6">
                     <span class="all-goods" @click="all_Goods()" :class="`${is_active == 0?'all-goods-active':''}`">全部</span>
                     <div class="mint-navbar">
@@ -36,11 +38,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="mint-tab-container">
+                <div class="mint-tab-container" style="margin-top: 0px">
                     <div>
                         <div class="sale-nav">
-                            <p @click="onSaleGoods(cat_id)" :class="{active,isUp}">在售<span>({{goodList.onSale}})</span></p>
-                            <p @click="downSaleGoods(cat_id)" :class="{active,isDown}">下架<span>({{goodList.unSale}})</span>
+                            <p @click="onSaleGoods(cat_id)" :class="{active,isUp}">在售<span>({{goodList.onSale||0}})</span></p>
+                            <p @click="downSaleGoods(cat_id)" :class="{active,isDown}">下架<span>({{goodList.unSale||0}})</span>
                             </p>
                         </div>
                         <div style="height: 9.3rem;overflow: scroll">
