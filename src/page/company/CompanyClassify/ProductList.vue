@@ -14,8 +14,9 @@
                     <li @click="is_business_list = !is_business_list">工业</li>
 				</ul>
 			</div>
+            <div style="width: 2rem;float: left;background: #E6e6e6">
+            <span class="all-goods" @click="all_Goods()" :class="`${is_active == 0?'all-goods-active':''}`">全部</span>
 			<div class="mint-navbar">
-				<span class="all-goods" @click="all_Goods()" :class="`${is_active == 0?'all-goods-active':''}`">全部</span>
 				<div class="menu-list" :id="`menu_${index}`" :key="`menu-${index}`"
 					 v-for="(menu,index) in menuList ">
                         <span v-if="menu.child" @click="slide($event)" class="sp1 up"
@@ -37,11 +38,12 @@
 					</div>
 				</div>
 			</div>
+        </div>
 			<!-- tab-container -->
-			<div class="mt-tab-container" v-model="selected"  v-if="menuList.length>0">
-				<div :id="`menu_${index}`" v-for="(menu,index) in goodList.list" :key="`product_shop_list_${index}`">
-                    <div style="height: 9rem;overflow-y: scroll">
-					<div class="item" v-for="(entity,key) in menu.entities">
+			<div class="mt-tab-container">
+				<div>
+                    <div style="height: 9rem;overflow-y: scroll;margin-top: .2rem">
+					<div class="item"  :id="`menu_${index}`" v-for="(entity,index) in goodList" :key="`product_shop_list_${index}`">
 						<router-link :to="`/business/shop/${businessId}/${entity.id}`">
 							<img :src="entity.cover" class="item-img">
 						</router-link>
@@ -110,8 +112,8 @@
 				shopId:'',
 				nums:0,
                 is_business_list:false,
-                loading:true,
-                is_active:1,
+                loading:false,
+                is_active:0,
 				goodList: [],//产品列表
 			}
 		},
@@ -159,9 +161,9 @@
 			//产品显示
 			init_Goods(params){
 				servicBusinessGoodList(params).then(res => {
-					this.goodList = res.data.data.businessGoods
+					this.goodList = res.data.data.businessGoods.list
+                    this.goodList = this._handleData(this.goodList)
 				})
-				this.goodList = this._handleData(this.goodList)
 				// console.log("长度："+this.goodList.list.length())
 			},
 			canOption(){
@@ -188,8 +190,7 @@
                 this.$router.go(0)
             },
 			_handleData(data) {
-				data.forEach((group, index) => {
-					group.entities.forEach((entity,entityIndex) => {
+					data.forEach((entity,entityIndex) => {
 						entity.shopId = this.businessId
 						entity.num = 0
 						entity.itemId = entity.id
@@ -197,10 +198,10 @@
 						Object.values(this.shopCart).forEach((cartItem,cartindex) =>{
 							if(entity.id === cartItem.id){
 								entity.num = cartItem.num
+
 							}
 		                })
 					})
-				})
                 this.loading = false
 				return data
 			},
@@ -222,6 +223,14 @@
 
                 }
 			},
+
+            all_Goods() {
+                let params = {}
+                this.cat_id = ''
+                this.init_Goods(params)
+                this.is_active = 0
+
+            },
 			
 		}
 	}
@@ -267,7 +276,6 @@
 		width: 2rem;
 		height: 82.5%;
 		overflow: scroll;
-		float: left;
 	}
 
 	.mint-navbar .mint-tab-item {
@@ -323,6 +331,8 @@
 	.selling .unit_price {
 		font-size: 10px;
 		color: rgb(102, 102, 102);
+        width: 2rem;
+        overflow: hidden;
 	}
 
 	.selling .unit_price .font {
