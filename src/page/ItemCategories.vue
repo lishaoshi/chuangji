@@ -24,6 +24,7 @@
                                     <p v-for="(childrenMenu,index) in menu.child"
                                        :class="`${childrenMenu.id===is_child_id?'child-active':''}`"
                                        @click="showSlideGoods(childrenMenu.id,menu.id)"
+                                       :key="index"
                                     >
                                         <span>{{childrenMenu.name}}</span>
                                         <svg v-if="childrenMenu.id===is_child_id">
@@ -45,7 +46,7 @@
                         <div style="height: 9.3rem;overflow: scroll">
                             <!--<ClxsdLoadMore key="orders-list" ref="loadmore" @onRefresh="onOrdersRefresh" @onLoadMore="onOrdersLoadMore">-->
                             <!--在售商品-->
-                            <div v-for="(entity,ikey) in goodList.list" v-if="goodList.list!==''">
+                            <div v-for="(entity,ikey) in goodList.list" v-if="goodList.list!==''" :key="ikey">
                                 <div>
                                     <div class="item" id="list-item">
                                         <router-link to="/drug-detail">
@@ -382,13 +383,14 @@
                     svg {
                         width: .18rem;
                         height: .18rem;
-                        float: right;
-                        margin-top: .2rem;
                     }
                 }
 
                 .child-active {
                     color: #2da2ff;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
                 }
             }
         }

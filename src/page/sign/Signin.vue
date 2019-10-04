@@ -101,7 +101,7 @@
 					this.err = "密码不正确";
 					return false;
 				}
-
+				let stateType = true
 				this.loading = true;
 				await signinByAccount({
 					login: this.account,
@@ -113,11 +113,16 @@
 						
 						Toast("登陆成功")
 					if (state === false) {
-                        Toast("账号或密码输入有误")
+						stateType = state
+						Toast("账号或密码输入有误")
                     }
 				}).catch(error =>{
+					// return
 				    console.log(error)
 				})
+				if(!stateType) {
+					return false
+				}
 				// await fetchUserInfo()
 				await this.$store.dispatch("fetchUserInfo");
 				this.$router.push(this.$route.query.redirect || "/");

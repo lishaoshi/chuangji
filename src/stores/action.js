@@ -2,6 +2,7 @@ import http from "@/api/api";
 import * as api from '@/api'
 import * as bootApi from "@/api/bootstrappers";
 import　* as  userApi from '@/api/user'
+import lstore from "@/plugins/lstore/lstore";
 
 export default {
     /**
@@ -67,6 +68,12 @@ export default {
     async uploadFile(state, file) {
         const { data } = await api.postFile(file);
         return data.id;
-    }
+    },
 
+    // 修改用公司资质状态
+    UPDATEUSERSTATE({commit, state}, type) {
+        if(state.CURRENTUSER.data.userInfo['certification']['status'] && state.CURRENTUSER.data.userInfo['certification']['status']!==0) {
+            state.CURRENTUSER.data.userInfo['certification']['status'] = type
+        }
+    }
 }

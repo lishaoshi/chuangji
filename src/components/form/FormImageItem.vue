@@ -25,7 +25,7 @@
         name: "FormImageItem",
         components:{ ImageUploader },
         props:{
-            value: { type: null, default: () => ({}) },
+            value: { type: String, default: '' },
             label: { type: String, default: '上传头像' },
             readonly: { type: Boolean, default: false },
             icon: { type: String, default: 'hehuo-wode-zhengjianzhao' },
@@ -53,6 +53,9 @@
                 if (this.readonly) return
                 this.$refs.uploader.select()
             },
+        },
+        created() {
+            console.log(this.value,'form')
         }
     }
 </script>
