@@ -33,7 +33,8 @@
 
         },
         created(){
-            // console.log(this.USER_TYPE);
+            // console.log()
+            // console.log(this.USER_TYPE, this.rootHome);
         }
     }
 </script>

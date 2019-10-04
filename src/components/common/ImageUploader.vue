@@ -96,6 +96,7 @@
             },
             async selectPhoto (e) {
                 let files = e.target.files || e.dataTransfer.files
+                console.log(files)
                 if (!files.length) return
                 if(this.canCop){
                     const cropperURL = await getFirstFrameOfGif(files[0])

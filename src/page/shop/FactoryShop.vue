@@ -108,8 +108,9 @@
             }
         },
         created() {
+            // console.log(this.$route)
             this.factoryId = parseInt(this.$route.params.id);
-            console.log(this.factoryId)
+            // console.log(this.factoryId)
             this.initData()
         },
         computed: {

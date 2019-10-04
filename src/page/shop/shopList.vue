@@ -15,7 +15,23 @@
                     <div class="unit_price" v-if="canShow">
                         <p class="font"><i>￥</i><i>{{item.price}}</i><i>/{{item.unit}}</i></p>
                         <p><i>零售价：</i><i>{{item.market_price}}</i></p>
+                        
                     </div>
+
+                    <!-- 商品右下角购物车 -->
+                    <div class="carImg">
+                        <img src="@/images/shop-car.png" alt="" v-if="!shopCart[item.itemId]" @click="add_shop_car(item)">
+                        <div class="controls" v-else>
+                            <img @click="handleNumber(1,item)" src="@/images/del_shopping.png" alt="">
+                            <div>
+                                <span>{{shopCart[item.itemId].num}}</span>
+                                <!-- <span>件</span> -->
+                            </div>
+                               
+                            <img @click="handleNumber(2,item)" src="@/images/add_shopping.png" alt="">
+                        </div>
+                    </div>
+
                     <div class="gw_num" v-if="(!item.is_multi_spec && canShow && USER_TYPE==3)">
                         <em class="lose" @click="removeToMiniCart($event,item)" 　v-if="item.num > 0">
                             <svg>
@@ -94,7 +110,9 @@
     import MiniShopCart from './MiniShopCart'
     import EmptyList from "@/components/EmptyList"
     import {supplierEntities} from '@/api/supplier'
-    import {mapState, mapMutations} from 'vuex'
+    import {mapState, mapMutations, mapActions} from 'vuex'
+    import { MessageBox } from 'mint-ui';
+    // import {  } from 'vuex'
 
     export default {
         name: "ShopList",
@@ -121,6 +139,7 @@
             }
         },
         mounted() {
+            // console.log(this.shopCart)
             this.initData()
         },
         computed: {
@@ -132,12 +151,13 @@
             }),
             //当前商店购物信息
             shopCart() {
+                // console.log(this.shopCart)
                 return {...this.cartList[this.factoryId]}
             },
             cartNum() {
                 let num = 0;
                 Object.values(this.shopCart).forEach((item, index) => {
-                    if(item.num>0) {
+                    if(item&&item.num>0) {
                         num += item.num;
                     }
                 })
@@ -146,7 +166,7 @@
             totalPrice() {
                 let total_price = 0.00
                 Object.values(this.shopCart).forEach((item, index) => {
-                    if(item.num>0) {
+                    if(item&&item.num>0) {
                         console.log(item)
                         total_price += item.num * item.sale_price;
                     }
@@ -159,9 +179,33 @@
             ...mapMutations([
                 'ADD_CART', 'REMOVE_CART',
             ]),
+            ...mapActions([
+                'ADD_SHOP_CAR',
+                'REMOVE_SHOP_CAR'
+            ]),
             async initData() {
                 const {data} = await supplierEntities(this.factoryId)
                 this.goodList = this._handleData(data)
+            },
+            // 添加至购物车
+            add_shop_car(item) {
+                console.log(item)
+                item.is_add_car = true
+                item.number = 1
+                this.ADD_SHOP_CAR(item)
+                // console.log(item)
+            },
+
+            // 控制增减
+            handleNumber(state,item) {
+                if(state==1){
+                    if(item.number<=0) {
+                        MessageBox('提示', '不能再减啦！');
+                        return
+                    }
+                    this.REMOVE_SHOP_CAR(item)
+                }
+                state==2&&(item.number++)
             },
             canOption() {
                 if (!this.canShow) {
@@ -171,10 +215,12 @@
                 return true
             },
             _handleData(data) {
-
+                console.log(data,'data')
                 data.forEach((item, index) => {
                     item.shopId = this.factoryId
                     item.num = 0
+                    // item.is_add_car = false  //初始化商品是否已经添加至购物车中
+                    // item.number = 0
                     item.itemId = item.id
                     item.sale_price = item.price * item.tran
                     if (this.shopCart[item.id]) {
@@ -204,7 +250,7 @@
             },
             showShop() {
                 this.regionVisible = true;
-            },
+            }
         }
     }
 </script>
@@ -302,11 +348,33 @@
         align-items: center;
         justify-content: space-between;
         margin-top: 5px;
+        .carImg {
+            float: right;
+            height: .54rem;
+            .controls {
+                padding: 0 .12rem;
+                display: inline-flex;
+                align-items: center;
+                background: #F5F5F5;
+                border-radius: .16rem;
+                height: 100%;
+                & > div {
+                    margin: 0 .2rem;
+                    display: flex;
+                }
+                img {
+                    width: .2rem;
+                    height: .2rem
+                }
+        }
+        }
+        
     }
 
     .selling .unit_price {
         font-size: 10px;
         color: #999;
+        width: 100%;
     }
 
     .selling .unit_price .font {

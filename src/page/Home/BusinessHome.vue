@@ -51,7 +51,9 @@
 			<img src="../../images/index/shop.png" class="shopcar" />
 		</div>
 		-->
-        <img src="../../images/index/shop.png" class="shopcar"/>
+        <router-link to="/factory/cart">
+            <img src="../../images/index/shop.png" class="shopcar"/>
+        </router-link>
         <clxsd-foot-guide :user-type="2"/>
     </div>
 </template>
@@ -113,7 +115,8 @@
             this.loadFrist();
         },
         methods: {
-            loadTop() {
+            loadTop(id) {
+                // console.log(id)
                 this.loadFrist();
             },
             // 上拉加载
@@ -229,6 +232,7 @@
         height: auto;
         right: 0px;
         bottom: 1.3rem;
+        z-index:99;
     }
 
     .notice {

@@ -27,6 +27,7 @@
                     <FormImageItem
                             v-model="aptitudeData.business_license"
                             label="营业执照"
+                            :value="aptitudeData.business_license"
                             type="storage"
                             prefixPath="certs"
                     />
@@ -111,7 +112,10 @@
     export default {
         name: 'page-edit-aptitude',
         props: {
-            userType: {type: Number, required: true}
+            userType: {type: Number, required: true},
+            isEdit: {type: Boolean, default: false},
+            imgList: {type:Array, default:()=>{return []}},
+            org_name:{type: String, default: ''}
         },
         components: {
             FormImageItem,
@@ -162,7 +166,7 @@
                 threeToOne: true,
                 companyType,
                 companyCType: 0,
-                companyName: '',
+                companyName: this.$props.org_name||'',
                 aptitudeData: {
                     gsp: "",//药品经营质量管理规范认证证书(GSP)
                     gmp: "",//药品生产质量管理规范认证证书(GMP)
@@ -174,7 +178,7 @@
                     pblg: "",//药品生产许可证
                     sc_z: "",//生产许可证
                     sub_type:0
-                }
+                },
             }
         },
         methods: {
@@ -262,7 +266,7 @@
                     if(response.data.errors){
                         this.$toast("认证信息上传失败");
                     }else{
-                        this.$toast("认证信息上传成功,正在审核。。。");
+                        this.$toast("上传成功,正在审核中...");
                         this.$store.dispatch("fetchUserInfo");
                         this.goBack()
                     }
@@ -273,6 +277,17 @@
 
             }
         },
+        created() {
+            // console.log(this.imgList,'hello',this.org_name)
+            this.imgList.map((item, index)=>{
+               switch(item.label) {
+                   case '营业执照': 
+                   this.aptitudeData.business_license = item.value
+                   break
+               }
+            })
+            console.log(this.aptitudeData,'data')
+        }
     }
 </script>
 
