@@ -10,25 +10,27 @@
                 <div class="choose">
                     <div>分类</div>
                 </div>
-                <div class="mint-navbar">
+                <div style="width: 2rem;float: left;background: #E6e6e6">
                     <span class="all-goods" @click="all_Goods()" :class="`${is_active == 0?'all-goods-active':''}`">全部</span>
-                    <div class="menu-list" :id="`menu_${index}`" :key="`menu-${index}`"
-                         v-for="(menu,index) in menuList ">
+                    <div class="mint-navbar">
+                        <div class="menu-list" :id="`menu_${index}`" :key="`menu-${index}`"
+                             v-for="(menu,index) in menuList ">
                         <span v-if="menu.child" @click="slide($event)" class="sp1 up"
                               :class="`${is_active===menu.id?'active':''}`">{{menu.name}}</span>
-                        <span v-else @click="showGoods(menu.id,$event)" class="sp1"
-                              :class="`${is_active===menu.id?'active':''}`">{{menu.name}}</span>
-                        <div class="down-menu" style="height: 0px">
-                            <div>
-                                <p v-for="(childrenMenu,index) in menu.child"
-                                   :class="`${childrenMenu.id===is_child_id?'child-active':''}`"
-                                   @click="showSlideGoods(childrenMenu.id,menu.id)"
-                                >
-                                    <span>{{childrenMenu.name}}</span>
-                                    <svg v-if="childrenMenu.id===is_child_id">
-                                        <use xlink:href="#icon-peisongshang-caidananniu"></use>
-                                    </svg>
-                                </p>
+                            <span v-else @click="showGoods(menu.id,$event)" class="sp1"
+                                  :class="`${is_active===menu.id?'active':''}`">{{menu.name}}</span>
+                            <div class="down-menu" style="height: 0px">
+                                <div>
+                                    <p v-for="(childrenMenu,index) in menu.child"
+                                       :class="`${childrenMenu.id===is_child_id?'child-active':''}`"
+                                       @click="showSlideGoods(childrenMenu.id,menu.id)"
+                                    >
+                                        <span>{{childrenMenu.name}}</span>
+                                        <svg v-if="childrenMenu.id===is_child_id">
+                                            <use xlink:href="#icon-peisongshang-caidananniu"></use>
+                                        </svg>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -64,7 +66,7 @@
                                                 <div class="gw_num" v-if="entity.status == 1" @click="DownSelf(entity.id,entity.status)">
                                                     下架&nbsp;&darr;
                                                 </div>
-                                                <div class="gw_num up"  v-if="entity.status == 0" @click="UpSelf(entity.id)">上架&nbsp;&uarr;
+                                                <div class="gw_num up" v-if="entity.status == 0" @click="UpSelf(entity.id)">上架&nbsp;&uarr;
                                                 </div>
                                             </div>
                                         </div>
@@ -116,8 +118,8 @@
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
                 page: 1,
                 limit: 30,
-                cat_id:0,
-                length:0
+                cat_id: 0,
+                length: 0
             }
         },
         computed: {
@@ -139,15 +141,15 @@
         },
         methods: {
             async _handleData(data) {
-                    if(data.list){
+                if (data.list) {
                     data.list.forEach(data => {
                         let time = data.valid_time
                         this.data = this.$moment(time).format("YYYY-MM-DD")
                     })
-                    }
+                }
             },
             all_Goods() {
-                let params={}
+                let params = {}
                 this.cat_id = ''
                 this.init_Goods(params)
                 this.is_active = 0
@@ -272,28 +274,28 @@
             onSaleGoods(cat_id) {
                 this.isUp = true;
                 this.isDown = false;
-                let params ={
-                    status:1,
-                    cat_id:cat_id
+                let params = {
+                    status: 1,
+                    cat_id: cat_id
                 }
                 this.init_Goods(params)
             },
             downSaleGoods(cat_id) {
                 this.isUp = false
                 this.isDown = true
-                let params ={
-                    status:0,
-                    cat_id:cat_id
+                let params = {
+                    status: 0,
+                    cat_id: cat_id
                 }
                 this.init_Goods(params)
             },
             //产品显示
-            init_Goods(params){
+            init_Goods(params) {
                 servicBusinessGoodList(params).then(res => {
                     this.goodList = res.data.data.businessGoods
                 })
                 this.goodList = this._handleData(this.goodList)
-               // console.log("长度："+this.goodList.list.length())
+                // console.log("长度："+this.goodList.list.length())
             }
 
         }
@@ -337,7 +339,6 @@
         width: 2rem;
         height: 10rem;
         overflow: scroll;
-        float: left;
 
         .menu-list {
             width: 100%;
