@@ -53,7 +53,64 @@ const GZHBuy = () => import(/* webpackChunkName: "lianbei" */ '@/page/lianbei/gz
 const Invitation = () => import(/* webpackChunkName: "Invitation" */ '@/page/Invitation/Invitation.vue');//邀请
 const MyAssets = () => import(/* webpackChunkName: "setting" */ '@/page/wallet/MyAssets.vue');
 
+/* 关于我们 */
+const AboutUs = () => import(/* webpackChunkName: "About" */ '@/page/AboutUs/AboutIndex.vue');
+const Feedback = () => import(/* webpackChunkName: "About" */ '@/page/setting/Feedback.vue');
+const FeedbackList = () => import(/* webpackChunkName: "About" */ '@/page/setting/FeedbackList.vue');
+const Protocal = () => import(/* webpackChunkName: "About" */ '@/page/AboutUs/Protocal.vue');
+const Serve = () => import(/* webpackChunkName: "About" */ '@/page/AboutUs/Serve.vue');
+const Privacy = () => import(/* webpackChunkName: "About" */ '@/page/AboutUs/Privacy.vue');
+const UpdateList = () => import(/* webpackChunkName: "About" */ '@/page/AboutUs/UpdateList.vue');
+
 export default [
+    {
+        path: "/update-list",
+        component: UpdateList,
+        meta: {
+            title: "版本更新",
+            requiresAuth: true
+        }
+    },
+    {
+        path: "/privacy",
+        component: Privacy,
+        meta: {
+            title: "隐私条款",
+            requiresAuth: true
+        }
+    },
+    {
+        path: "/serve",
+        component: Serve,
+        meta: {
+            title: "服务条款",
+            requiresAuth: true
+        }
+    },
+    {
+        path: "/feedback",
+        component: Feedback,
+        meta: {
+            title: "我要反馈",
+            requiresAuth: true
+        }
+    },
+    {
+        path: "/feedback-list",
+        component: FeedbackList,
+        meta: {
+            title: "反馈记录",
+            requiresAuth: true
+        }
+    },
+    {
+        path: "/protocal",
+        component: Protocal,
+        meta: {
+            title: "服务协议",
+            requiresAuth: true
+        }
+    },
     {
         path: "/my-assets",
         component: MyAssets,
@@ -379,5 +436,11 @@ export default [
 			title: "联贝购买",
 		}
 	},
-
+    {
+        path: "/about-us",
+        component: AboutUs,
+        meta: {
+            title: "关于我们",
+        }
+    },
 ]

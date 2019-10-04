@@ -16,8 +16,8 @@
 		</ul>
 		<ul class="my-list">
 			<clxsd-cell :title="'问题求助'" :to="'/question'" is-link  v-if="!userInfo.user_type===4"/>
-			<clxsd-cell :title="'我要反馈'" :to="'/setting'" is-link/>
-			<clxsd-cell :title="'关于我们'" :to="'/setting'" />
+			<clxsd-cell :title="'我要反馈'" :to="'/feedback'" is-link/>
+			<clxsd-cell :title="'关于我们'" :to="'/about-us'" />
 		</ul>
 		<ul class="my-list icon-none" @click="loginChange">
             <p class="login-out">退出登陆</p>

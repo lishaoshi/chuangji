@@ -1,6 +1,8 @@
 <template>
     <div id="CustomerEmpty">
-        <img src="../../../images/address_empty.png">
+        <svg style="width: 3rem;height: 3rem">
+            <use xlink:href="#icon-empty"></use>
+        </svg>
         <p>{{message}}</p>
     </div>
 </template>
@@ -20,7 +22,7 @@
 <style lang="scss" scoped>
     #CustomerEmpty {
         text-align: center;
-        padding-top: 3rem;
+        padding-top: 2rem;
         color: #7C7C7C;
         font-size: .28rem;
         line-height: 2.5;

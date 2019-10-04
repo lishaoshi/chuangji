@@ -1,6 +1,8 @@
 <template>
     <div class="empty">
-        <img src="../images/address_empty.png" width="45%">
+        <svg style="width: 3rem;height: 3rem">
+            <use xlink:href="#icon-empty"></use>
+        </svg>
         <p>{{message}}-</p>
     </div>
 </template>
