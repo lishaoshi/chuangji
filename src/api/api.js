@@ -16,6 +16,7 @@ const instance = axios.create({
 
 //请求拦截器
 instance.interceptors.request.use(
+    
     config => {
         if (pending[config.url]) {
             pending[config.url]("操作取消");
