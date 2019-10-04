@@ -139,7 +139,6 @@
             }
         },
         mounted() {
-            // console.log(this.shopCart)
             this.initData()
         },
         computed: {
@@ -198,14 +197,16 @@
 
             // 控制增减
             handleNumber(state,item) {
+                console.log(item)
                 if(state==1){
                     if(item.number<=0) {
                         MessageBox('提示', '不能再减啦！');
                         return
                     }
                     this.REMOVE_SHOP_CAR(item)
+                } else {
+                    this.ADD_SHOP_CAR(item)
                 }
-                state==2&&(item.number++)
             },
             canOption() {
                 if (!this.canShow) {
