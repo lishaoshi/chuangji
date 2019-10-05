@@ -203,16 +203,19 @@
                     overflow: hidden;
                     text-overflow: ellipsis;
                 }
-                &:nth-child(even) {
-                    span {
-                        background: #ff7612;
-                    }
-                }
-            }
-            .ul2 {
-                transition: all .4s ease-in;
             }
         }
+		.ul2 {
+			transition: all .4s ease-in;
+			li{
+				&:nth-child(odd) {
+					span {
+						background: #ff7612;
+					}
+				}
+			}
+
+		}
 
 	}
     .fade-enter-active, .fade-leave-active {

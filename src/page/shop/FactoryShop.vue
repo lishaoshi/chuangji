@@ -68,9 +68,9 @@
             </div>
         </transition>
         <good-list :factory-id="factoryId" :USER_TYPE = "USER_TYPE"/>
-        <mt-popup v-model="popupVisible" position="bottom" style="width: 100%;">
+        <mt-popup v-model="popupVisible" position="bottom" style="width: 100%;height: 5.6rem">
             <p class="pop-title">更多活动券<svg @click="popupVisible=false"><use xlink:href="#icon-promote-my-close"></use> </svg></p>
-            <div class="discounts" style="height: auto;background: #F5F5F5;padding: .3rem .5rem .8rem;margin-top: 0px">
+            <div class="discounts" style="height: 5rem;background: #F5F5F5;padding: .3rem .5rem .8rem;margin-top: 0px;width: 100%">
                 <ul style="position: relative;overflow: visible;height: auto">
                     <li v-for="item in (shopDetailData.actives)" style="padding: .2rem 0">
                         <span>{{item.label}}</span>
@@ -201,7 +201,7 @@
             height: .3rem;
             float: right;
             display: block;
-            right: .2rem;
+            right: .32rem;
             top:.35rem
         }
     }
@@ -329,15 +329,14 @@
         display: flex;
         padding: 0.12rem 0;
         margin-top: .1rem;
-    }
-
-    .company .message .other ul li {
-        font-size: 10px;
-        color: #f1f1f1;
-        border: 1px solid #f1f1f1;
-        margin-right: 0.2rem;
-        border-radius: 2px;
-        padding: 0 .1rem;
+        li{
+            font-size: 10px;
+            color: #f1f1f1;
+            border: 1px solid #f1f1f1;
+            margin-right: 0.2rem;
+            border-radius: 2px;
+            padding: 0 .1rem;
+        }
     }
 
     .company .message .other ul li div,
@@ -360,6 +359,7 @@
         position: relative;
         height: .35rem;
          width: 5rem;
+
         .fade-box {
             height: .35rem;
             display: flex;
@@ -389,6 +389,11 @@
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 height: .35rem;
+                &:nth-child(even) {
+                    span {
+                        background: #ff7612;
+                    }
+                }
                 span {
                     font-size: .22rem;
                     color: #fff;

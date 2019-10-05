@@ -46,22 +46,22 @@
                             <p @click="downSaleGoods(cat_id)" :class="{active,isDown}">下架<span>({{goodList.unSale||0}})</span>
                             </p>
                         </div>
-                        <div style="height: 9.3rem;overflow: scroll">
+                        <div style="height: 8.8rem;overflow: scroll">
                             <!--<ClxsdLoadMore key="orders-list" ref="loadmore" @onRefresh="onOrdersRefresh" @onLoadMore="onOrdersLoadMore">-->
                             <!--在售商品-->
                             <div v-for="(entity,ikey) in goodList.list" v-if="goodList.list!==''" :key="ikey">
-                                <div>
+                                <div style="margin-left: .2rem">
                                     <div class="item" id="list-item">
-                                        <router-link to="/drug-detail">
+                                        <router-link :to="`/drug-detail/${entity.id}`">
                                             <img :src="entity.cover" class="item-img">
                                         </router-link>
                                         <div class="item-box">
                                             <router-link to="">
                                                 <p class="title">{{entity.good_name}}</p>
                                             </router-link>
-                                            <p class="item-box-p1" v-if="entity.brand">品牌：{{entity.brand.name}}</p>
-                                            <p class="item-box-p1">规格：{{entity.spec}}</p>
-                                            <p class="item-box-p1">效期：{{data}}</p>
+                                            <p class="item-box-p1" v-if="entity.brand">{{entity.brand.name}}</p>
+                                            <p class="item-box-p1">规格: {{entity.spec}}</p>
+                                            <p class="item-box-p1">效期. {{time}}</p>
                                             <div class="selling">
                                                 <div class="unit_price">
                                                     <p class="font"><i>￥</i><i>{{entity.price}}</i><span>{{entity.market_price}}</span>
@@ -107,7 +107,6 @@
         components: {CircleLoading, SearchBar, Empty},
         data() {
             return {
-                selected: '1',
                 is_active: 0,//一级菜单默认值
                 menuList: [],//菜单列表
                 goodList: [],//产品列表
@@ -118,16 +117,20 @@
                 isDown: false,
                 is_child_id: 0,
                 is_child: false,
-                data: '',
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
-                page: 1,
-                limit: 30,
                 cat_id: 0,
                 length: 0,
                 value:"",
-                current_status:'',
-                current_id:'',
-                current_search:'',
+                current_status:'', //当前状态上架或下架
+                current_id:'', //当前id
+                current_search:'', //搜索内容
+
+                allLoaded: false, //是否自动触发上拉函数
+                isAutoFill: false,
+                wrapperHeight: 0,
+                courrentPage: 1,//当前页面
+                limit:15,
+                time:''
             }
         },
         computed: {
@@ -146,13 +149,14 @@
         created() {
             this.initData()
             this.init_Goods()
+            //this.loadFrist();
         },
         methods: {
             async _handleData(data) {
                 if (data.list) {
                     data.list.forEach(data => {
                         let time = data.valid_time
-                        this.data = this.$moment(time).format("YYYY-MM-DD")
+                        this.time = this.$moment(time).format("YYYY-MM-DD")
                     })
                 }
             },
@@ -280,14 +284,10 @@
             },
             //上架
             UpSelf(id) {
-                var list = document.getElementById('list-item2')
-                list.remove()
-
                 this.$http.patch(`hippo-shop/business/changeStatus`, {good_id: id, status: 1}).then(res => {
-                    console.log(res)
-                    this.$toast(res.data.data)
+                    this.$router.go(0)
                 }).catch(error => {
-                    this.$toast("下架失败")
+                    this.$toast("上架失败")
                 })
             },
 
@@ -329,8 +329,56 @@
                     status:this.current_status,
                     search:this.value
                 }
+
                 this.init_Goods(params)
-            }
+            },
+
+            /*
+
+            //加载更多
+            loadTop() {
+                this.loadFrist();
+            },
+            // 上拉加载
+            loadBottom() {
+                this.loadMore();
+            },
+            // 下来刷新加载
+            loadFrist() {
+                const params = {
+                    page: this.courrentPage,
+                    limit:this.limit,
+                    cat_id:this.current_id,
+                    status:this.current_status,
+                    search:this.value
+                }
+                servicBusinessGoodList(params).then(res => {
+                    this.allLoaded = false; // 可以进行上拉
+                    this.goodList = res.data.data.businessGoods
+                    this._handleData(this.goodList)
+                })
+                //this.goodList = this._handleData(this.goodList)
+            },
+            // 加载更多
+            loadMore() {
+                this.courrentPage++;
+                const params = {
+                    page: this.courrentPage,
+                    limit:this.limit
+                }
+                servicBusinessGoodList(params).then(response => {
+
+                    // concat数组的追加
+                    this.goodList = this.goodList.concat(response.data.data.businessGoods);
+                    this._handleData(this.goodList)
+                    if (this.courrentPage > 1) {
+                        this.allLoaded = true; // 若数据已全部获取完毕
+                    }
+                    this.$refs.loadmore.onBottomLoaded();
+                })
+            },
+
+             */
         }
 
     }
@@ -433,7 +481,7 @@
     .mint-tab-container {
         overflow: hidden;
         position: relative;
-        width: 71%;
+        width: 73%;
         float: right;
         margin-top: -1rem;
     }
@@ -492,6 +540,9 @@
         &-p1 {
             font-size: .2rem;
             color: #666;
+            white-space: nowrap;
+            text-overflow:ellipsis;
+            overflow: hidden;
         }
 
         .title {
@@ -556,11 +607,10 @@
 
     .sale-nav {
         position: relative;
-        width: 96%;
+        width: 100%;
         height: 1rem;
         background: #fff;
         line-height: 1rem;
-
         p {
             width: 50%;
             display: inline-block;

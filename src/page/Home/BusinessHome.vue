@@ -2,11 +2,9 @@
     <div class="home">
         <div v-bind:class="{ search: isActive, 'bg-blue': hasError ,activeTop: isFullScreen }">
             <SearchBar></SearchBar>
-            <router-link to="/develop">
                 <div class="approve">
                     <img src="../../images/index/study1@2x.png"/>
                 </div>
-            </router-link>
         </div>
         <div class="">
             <mt-swipe :auto="4000" style="height: 4rem;">
@@ -40,7 +38,7 @@
             <span>推荐厂家</span>
             <img src="../../images/index/home-rightLine.png">
         </div>
-        <div class="main-body" ref="wrapper" :style="{ height: (wrapperHeight-50) + 'px' }">
+        <div class="main-body" ref="wrapper" style="height: auto">
             <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
                 <supplier-item :data="item" v-for="(item,index) in suppliers"/>
             </mt-loadmore>
@@ -210,13 +208,8 @@
         align-items: center;
         justify-content: space-between;
 
-        .retreat {
-            width: 30px;
-            height: 30px;
-        }
-
         .approve {
-            margin-left: .2rem;
+            margin-left: .25rem;
 
             img {
                 width: .65rem;
@@ -240,15 +233,15 @@
         margin-top: 0px;
         background: #fff;
         width: 100%;
-        height: .64rem;
-        line-height: .64rem;
+        height: .88rem;
+        line-height: .88rem;
         display: flex;
         padding: 0 .24rem;
         align-items: center;
 
         .notice-list {
             width: 6.2rem;
-            height: .64rem;
+            height: .88rem;
             overflow-y: hidden;
             margin-left: .1rem;
 

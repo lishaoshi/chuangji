@@ -37,7 +37,7 @@
             }
         },
         created(){
-          this.loadFrist();
+            this.loadFrist();
         },
 
         methods:{

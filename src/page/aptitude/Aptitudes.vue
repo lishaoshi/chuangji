@@ -17,7 +17,7 @@
 				<li><label>公司地址</label><span>{{userInfo.companyAddress || '中国'}}</span></li>
 			</ul>
 			<ul class="show-ul" >
-				<div v-if="threeToOne == 1">
+				<div>
 					<router-link to="/company-detail">
 						<li>
 							<span>营业执照</span>
@@ -25,59 +25,37 @@
 						</li>
 					</router-link>
 				</div>
-				<div v-if="!threeToOne">
-					<router-link to="/company-detail">
-						<li>
-							<span>组织结构代码证</span>
-							<img :src="userInfo.oscc" width="40" height="35" />
-						</li>
-					</router-link>
-					<router-link to="/company-detail">
-						<li>
-							<span>税务登记证（国税）</span>
-							<img :src="userInfo.trcg" width="40" height="35" />
-						</li>
-					</router-link>
-					<router-link to="/company-detail">
-						<li>
-							<span>税务登记证（地税）</span>
-							<img :src="userInfo.trc" width="40" height="35" />
-						</li>
-					</router-link>
-				</div>
-                <div v-show="userType!=4">
-				<router-link to="/company-detail" v-if="userType === 1">
-					<li>
-						<span>健康证</span>
-						<img :src="userInfo.health_c" width="40" height="35" />
-					</li>
-				</router-link>
-				<router-link to="/company-detail" v-if="userType ===1">
-					<li>
-						<span>药品生产许可证</span>
-						<img :src="aptitudeData.pblg" width="40" height="35" />
-					</li>
-				</router-link>
-				<router-link to="/company-detail" v-else>
-					<li>
-						<span>药品经营许可证</span>
-						<img :src="userInfo.pbl" width="40" height="35" />
-					</li>
-				</router-link>
-
-				<router-link to="/company-detail" v-if="userType ===1">
+				<!--工业证书-->
+				<div v-if="userType === 1 ">
 					<li>
 						<span>药品生产质量管理规范认证证书(GMP)</span>
 						<img :src="aptitudeData.gmp" width="40" height="35" />
 					</li>
-				</router-link>
-				<router-link to="/company-detail" v-else>
+				</div>
+				<!-- 商业证书 -->
+				<div v-if="userType === 2 ">
+					<li>
+						<span>药品经营许可证</span>
+						<img :src="userInfo.business_executive" width="40" height="35" />
+					</li>
 					<li>
 						<span>药品经营质量管理规范认证证书(GSP)</span>
 						<img :src="userInfo.gsp" width="40" height="35" />
 					</li>
-				</router-link>
-                </div>
+				</div>
+				<!-- 采购端证件 -->
+				<div v-if="userType === 3 ">
+					<div v-if="companyTypeName != '诊所'">
+						<li>
+							<span>药品经营许可证</span>
+							<img :src="userInfo.business_executive" width="40" height="35" />
+						</li>
+						<li>
+							<span>药品经营质量管理规范认证证书(GSP)</span>
+							<img :src="userInfo.gsp" width="40" height="35" />
+						</li>
+					</div>
+				</div>
 			</ul>
 		</section>
 
@@ -88,7 +66,6 @@
 <script>
 	import { mapState } from "vuex";
 	import ClxsdHeadTop from "../../components/HeadTop";
-	import areaData from "@/plugins/json/pca-code.json";
 	export default {
 		name: 'page-aptitude',
 		components: {
@@ -109,13 +86,7 @@
 			        gsp:null,//药品经营质量管理规范认证证书(GSP)
 					gmp:null,//药品生产质量管理规范认证证书(GMP)
                     business_license:null,//营业执照
-                    oscc:null,//组织结构代码证,
-                    pbl:null,//药品经营许可证
-                    health_c:null,//健康证
-                    hyg_l:null,//卫生许可证,
-                    pblg: null,//药品生产许可证
-                    trcg:null,//税务登记证（国税）
-                    trc:null,//税务登记证（地税）
+					business_executive:null //药品经营许可证
 				}
 			}
 		},
@@ -128,7 +99,7 @@
 					//console.log(currentInfo)
 					let companyName = '未认证'
 					let companyAddress = ''
-					let business_license,oscc,pbl,health_c,trcg,trc,gsp,pblg,gmp
+					let business_license,business_executive,gsp,gmp
 					let threeToOne = 1
 					if(currentInfo['shop_supplier']) {
 						companyName = currentInfo['shop_supplier']['display_name'] || currentInfo['shop_supplier']['name']
@@ -138,27 +109,12 @@
 						let aptitudeData = currentInfo['certification']['data']
 						console.log(aptitudeData);
 						business_license = aptitudeData.business_license
-						threeToOne = parseInt( aptitudeData.is_three_one)
-						oscc = aptitudeData.oscc
-						trcg = aptitudeData.trcg
-						trc = aptitudeData.trc
-						pbl = aptitudeData.pbl
-						gsp = aptitudeData.gsp
-						health_c = aptitudeData.health_c
-						pblg = aptitudeData.pblg
-						gmp = aptitudeData.gmp
 					}
 					return {
 						companyName,
 						companyAddress,
 						business_license,
 						threeToOne,
-						oscc,trcg,trc,
-						pbl,
-						gsp,
-						health_c,
-						pblg,
-						gmp
 					}
 
 				},
