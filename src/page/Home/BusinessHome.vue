@@ -131,6 +131,7 @@
                     console.log(response.data.data)
                         this.allLoaded = false; // 可以进行上拉
                         this.suppliers = response.data.data;
+                        console.log(this.suppliers)
                         this.$refs.loadmore.onTopLoaded();
                     })
             },
@@ -145,6 +146,7 @@
 
                         // concat数组的追加
                         this.suppliers = this.suppliers.concat(response.data.data);
+                        console.log(this.suppliers)
                         if (this.courrentPage > 1) {
                             this.allLoaded = true; // 若数据已全部获取完毕
                         }

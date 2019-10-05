@@ -9,7 +9,7 @@
         <div class="contant">
             <div class="title">维生素</div>
             <div class="info">
-                <span>药&nbsp;&nbsp;&nbsp;&nbsp;厂</span>
+                <span>品&nbsp;&nbsp;&nbsp;&nbsp;牌</span>
                 <samp>华夏制药集团股份有限责任公司</samp>
             </div>
             <div class="info">
@@ -17,11 +17,21 @@
                 <samp>1000mg*20</samp>
             </div>
             <div class="info">
-                <span>有效期</span>
+                <span>效期</span>
                 <samp>2018.10.10</samp>
+            </div>
+            <div class="info">
+                <span>批准文号</span>
+                <samp>粤禅械备20150028号</samp>
             </div>
         </div>
         <div class="price-flex">
+            <div>
+                <p class="price"><span>￥600</span>
+                    <small>/盒</small>
+                </p>
+                <p class="name">原价</p>
+            </div>
             <div>
                 <p class="price"><span>￥600</span>
                     <small>/盒</small>
@@ -32,7 +42,31 @@
                 <p class="price"><span>￥600</span>
                     <small>/盒</small>
                 </p>
-                <p class="name">原价</p>
+                <p class="name">市场</p>
+            </div>
+        </div>
+        <div class="trans-box">
+            <div class="trans-box-box1">
+                <h2>件</h2>
+                <p>大单位</p>
+            </div>
+            <div class="trans-box-box2">
+                <h2>1000</h2>
+                <p>转换系数</p>
+            </div>
+            <div class="trans-box-box1">
+                <h2>件</h2>
+                <p>大单位</p>
+            </div>
+        </div>
+        <div class="price-flex">
+            <div>
+                <p class="price" style="color: #333;font-size: .28rem">中药</p>
+                <p class="name">类别</p>
+            </div>
+            <div>
+                <p class="price" style="color: #333;font-size: .28rem">儿科用药</p>
+                <p class="name">分类</p>
             </div>
         </div>
         <div class="contant">
@@ -44,6 +78,9 @@
                 <span>修改时间</span>
                 <samp>2018.03.03</samp>
             </div>
+        </div>
+        <div style="background: #fff;margin-top: .2rem;padding-top: .3rem">
+            <p style="color:#0090FF;text-align: center;line-height: 2;font-size: .28rem">商品详情<br>|</p>
         </div>
         <div class="bg-fade"></div>
         <div class="state">下架商品</div>
@@ -116,7 +153,9 @@
             &:nth-child(1) {
                 border-right: 1px solid #f1f1f1;
             }
-
+            &:nth-child(2) {
+                border-right: 1px solid #f1f1f1;
+            }
             p {
                 &:nth-child(1) {
                     color: #F2385A;
@@ -136,7 +175,42 @@
             }
         }
     }
-
+    .trans-box {
+        background: #fff;
+        margin-top: .2rem;
+        height: 1.6rem;
+        justify-content: space-around;
+        display: flex;
+        align-items: center;
+        &-box1 {
+            text-align: center;
+            h2 {
+                font-size: .28rem;
+                line-height: 2;
+            }
+            p {
+                font-size:.20rem;
+                font-family:PingFang SC;
+                font-weight:500;
+                color:rgba(153,153,153,1);
+            }
+        }
+        &-box2 {
+            text-align: center;
+            width: 3rem;
+            h2 {
+                font-size: .28rem;
+                line-height: 2;
+                border-bottom: 1px solid #ccc;
+            }
+            p {
+                font-size:.20rem;
+                font-family:PingFang SC;
+                font-weight:500;
+                color:rgba(153,153,153,1);
+            }
+        }
+    }
     .bg-fade {
         height: 1.5rem;
     }

@@ -1,5 +1,5 @@
 <template>
-	<div class="company">
+	<div class="company" v-if="data!=null">
 		<div class="brand">
             <router-link :to="`/factory/shop/${data.id}`">
 			<img :src="data.logo" alt="">
@@ -71,7 +71,10 @@
                 is_active:false,
             }
         },
-    }
+		created() {
+			console.log(this.data)
+		}
+	}
 </script>
 
 <style lang="scss" scoped>
