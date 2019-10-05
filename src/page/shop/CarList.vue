@@ -73,14 +73,17 @@
                     if(this.shopId){
                         Object.values(cartData).forEach(item => {
                             console.log(item)
-                            ids.push(item.id)
-                            idMapQ[item.id] = item.num
+                            if(item) {
+                                ids.push(item.id)
+                                idMapQ[item.id] = item.num
+                            }
+                           
                         })
                     }else{
                         Object.values(cartData).forEach(item => {
                             Object.values(item).forEach(_item =>{
-                                console.log(_item.num)
-                                if(_item.num>0){
+                                // console.log(_item.num)
+                                if(_item&&_item.num>0){
                                     ids.push(_item.id)
                                     idMapQ[_item.id] = _item.num
                                 }

@@ -54,10 +54,11 @@ export default {
     },
     // 移出购物车
     REMOVE_CART(state,{shopId,itemId}) {
+        // debugger
         let cartList = state.CART_LIST
         let shop = (cartList[shopId] || {})
         if (shop && shop[itemId]) {
-            if (shop[itemId]['num'] > 0) {
+            if (shop[itemId]['num'] > 1) {
                 shop[itemId]['num']--;
                 state.CART_LIST = {...cartList}
                 lstore.setData('CART_LIST', state.CART_LIST)

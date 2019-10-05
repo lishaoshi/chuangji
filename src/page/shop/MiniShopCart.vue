@@ -7,7 +7,7 @@
                 <p>已选<i id="totalProductCount">{{count}}</i>件</p>
             </div>
             <div v-if="USER_TYPE === 2">
-                <div class="join_shop" style="background: #ccc">
+                <div class="join_shop" :class="{'toPay':count}">
                     <p>去购买</p>
                 </div>
             </div>
@@ -120,7 +120,7 @@
         .join_shop {
             width: 2.5rem;
             height: 100%;
-            background: rgb(45, 162, 255);
+            background: #ccc;
             text-align: center;
             font-size: 14px;
             color: #fff;
@@ -128,6 +128,9 @@
             position: absolute;
             right: 0px;
             margin-top: -.47rem;
+        }
+        .toPay {
+            background: #0090FF;
         }
 
     }
