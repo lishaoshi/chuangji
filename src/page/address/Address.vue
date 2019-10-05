@@ -9,8 +9,8 @@
                     </svg>
                 </div>
                 <div class="address-info">
-                    <p class="name">{{item.consignee}}&nbsp;&nbsp;{{item.tel}}</p>
-                    <p class="add-detail"><span class="mr" v-if="item.is_default == 1">默认</span><span style="color: #999">{{item.full_address}}</span></p>
+                    <p class="name"><span class="mr" v-if="item.is_default == 1">默认</span>{{item.consignee}}&nbsp;&nbsp;{{item.tel}}</p>
+                    <p class="add-detail"><span style="color: #999">{{item.full_address}}</span></p>
                 </div>
                 <div class="address-edit">
                     <router-link :to="`/address/address-change/${item.id}`">
@@ -160,19 +160,20 @@
             overflow: hidden;
 
             .name {
-                font-size: .28rem;
+                font-size: .32rem;
                 margin-bottom: .05rem;
                 line-height: .4rem;
-
-                span {
-                    &:nth-child(1) {
-                        color: #333;
-                        padding-right: .2rem;
-                    }
-
-                    &:nth-child(2) {
-                        color: #666;
-                    }
+                .mr {
+                    display: inline-block;
+                    width:.74rem;
+                    height:.31rem;
+                    line-height: .31rem;
+                    background:rgba(255,59,48,1);
+                    border-radius:1px;
+                    text-align: center;
+                    color: #fff;
+                    margin-right: .1rem;
+                    font-size: .24rem;
                 }
             }
 
@@ -181,19 +182,7 @@
                 padding: 2px 0px;
                 max-height: 44px;
                 overflow: hidden;
-                color: #333;
-
-                .mr {
-                    display: inline-block;
-                    width:.74rem;
-                    height:.31rem;
-                    line-height: .31rem;
-                    background:rgba(255,59,48,1);
-                    text-align: center;
-                    margin-right: 4px;
-                    color: #fff;
-                    font-size: .28rem;
-                }
+                color: #999;
             }
         }
 

@@ -88,6 +88,7 @@
 <script>
 	import { mapState } from "vuex";
 	import ClxsdHeadTop from "../../components/HeadTop";
+	import areaData from "@/plugins/json/pca-code.json";
 	export default {
 		name: 'page-aptitude',
 		components: {
@@ -101,6 +102,8 @@
 		},
 		data() {
 			return {
+				detail_Addresss:'',
+				//areaData: areaData,
 			    threeToOne:true,
 				aptitudeData:{
 			        gsp:null,//药品经营质量管理规范认证证书(GSP)

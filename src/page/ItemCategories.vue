@@ -17,11 +17,12 @@
                     <div class="mint-navbar">
                         <div class="menu-list" :id="`menu_${index}`" :key="`menu-${index}`"
                              v-for="(menu,index) in menuList ">
-                        <span v-if="menu.child" @click="slide($event)" class="sp1 up"
-                              :class="`${is_active===menu.id?'active':''}`">{{menu.name}}</span>
-                            <span v-else @click="showGoods(menu.id,$event)" class="sp1"
+                            <!-- 有二级菜单点击下拉 -->
+                            <span v-if="menu.child" @click="slide($event,menu.id)" class="sp1 up" ref="slideMenu">{{menu.name}}</span>
+                            <!-- 一级菜单没有下拉 -->
+                            <span v-else @click="showGoods(menu.id)" class="sp1"
                                   :class="`${is_active===menu.id?'active':''}`">{{menu.name}}</span>
-                            <div class="down-menu" style="height: 0px">
+                            <div class="down-menu" style="height: 0px"  ref="slideChild">
                                 <div>
                                     <p v-for="(childrenMenu,index) in menu.child"
                                        :class="`${childrenMenu.id===is_child_id?'child-active':''}`"
@@ -156,6 +157,16 @@
                 this.cat_id = ''
                 this.init_Goods(params)
                 this.is_active = 0
+                let nodes =this.$refs.slideMenu
+                let childNode = this.$refs.slideChild
+                console.log(nodes)
+                nodes.forEach(item => {
+                    item.classList.remove("active");
+                    item.classList.add("up");
+                })
+                childNode.forEach(item => {
+                    this.toggleSlide(item, 0, '500');
+                })
 
             },
             async initData() {
@@ -172,8 +183,8 @@
             },
             //一级菜单点击商品
             showGoods(id, $event) {
+                console.log("当前id：" + id)
                 this.is_active = id //是否当前一级菜单
-                //this.is_child_id = id
                 let parentNode = event.target.parentNode;
                 let a = this.sibling(parentNode)
                 for (var i = 0; i < a.length; i++) {
@@ -189,13 +200,13 @@
                 this.init_Goods(params)
             },
             //点击下拉菜单
-            slide: function (event) {
+            slide: function (event,id) {
+                this.is_active=id
                 let targetNode = event.target
                 targetNode.classList.add("active"); //添加当前样式
                 let parentNode = targetNode.parentNode;
                 let a = this.sibling(parentNode)
                 for (var i = 0; i < a.length; i++) {
-                    console.log(a[i].childNodes)
                     a[i].childNodes[0].classList.remove("active");
                     a[i].childNodes[0].classList.add("up");
                     let b = a[i].childNodes[1]
@@ -298,9 +309,7 @@
                     this.goodList = res.data.data.businessGoods
                 })
                 this.goodList = this._handleData(this.goodList)
-                // console.log("长度："+this.goodList.list.length())
             }
-
         }
 
     }
