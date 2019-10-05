@@ -38,7 +38,7 @@
             <span>推荐厂家</span>
             <img src="../../images/index/home-rightLine.png">
         </div>
-        <div class="main-body" ref="wrapper" style="height: auto">
+        <div class="main-body" ref="wrapper" :style="{ height: (wrapperHeight-50) + 'px' }">
             <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
                 <supplier-item :data="item" v-for="(item,index) in suppliers"/>
             </mt-loadmore>
