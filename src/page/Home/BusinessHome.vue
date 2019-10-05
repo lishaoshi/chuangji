@@ -115,12 +115,14 @@
             this.loadFrist();
         },
         methods: {
-            loadTop(id) {
+            loadTop() {
                 // console.log(id)
+                this.courrentPage = 1
                 this.loadFrist();
             },
             // 上拉加载
             loadBottom() {
+                
                 this.loadMore();
             },
             // 下来刷新加载
@@ -133,6 +135,7 @@
                     console.log(response.data.data)
                         this.allLoaded = false; // 可以进行上拉
                         this.suppliers = response.data.data;
+                        console.log(this.suppliers, 'this.suppliers')
                         this.$refs.loadmore.onTopLoaded();
                     })
             },
@@ -146,8 +149,12 @@
                 findNearBySuppliers(params).then(response => {
 
                         // concat数组的追加
-                        this.suppliers = this.suppliers.concat(response.data.data);
-                        if (this.courrentPage > 1) {
+                        // this.suppliers = this.suppliers.concat(response.data.data);
+                        // if (this.courrentPage > 1) {
+                        //     this.allLoaded = true; // 若数据已全部获取完毕
+                        // }
+                        response.data.data&&(this.suppliers = this.suppliers.concat(response.data.data))
+                        if (!response.data.data||response.data.data.length < this.limit) {
                             this.allLoaded = true; // 若数据已全部获取完毕
                         }
 

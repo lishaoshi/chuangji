@@ -9,8 +9,8 @@
                     </svg>
                 </div>
                 <div class="address-info">
-                    <p class="name">{{item.consignee}}&nbsp;&nbsp;{{item.tel}}</p>
-                    <p class="add-detail"><span class="mr" v-if="item.is_default == 1">默认</span><span style="color: #999">{{item.full_address}}</span></p>
+                    <div class="name"><div class="mr" v-if="item.is_default == 1">默认</div>{{item.consignee}}&nbsp;&nbsp;{{item.tel}}</div>
+                    <p class="add-detail"><span style="color: #999">{{item.full_address}}</span></p>
                 </div>
                 <div class="address-edit">
                     <router-link :to="`/address/address-change/${item.id}`">
@@ -137,6 +137,8 @@
 
     .choose-icon {
         padding-right: 0.2rem;
+        display: flex;
+        align-items:center;
 
         .check {
             height: 0.35rem;
@@ -145,11 +147,13 @@
     }
 
     .address-item {
-        padding: .32rem .2rem;
+        // padding: .32rem .2rem;
+        height: 1.8rem;
+        padding: 0 .24rem;
         background: #fff;
         position: relative;
         display: flex;
-        align-items: center;
+        // align-items: center;
         border-bottom: 1px solid #f1f1f1;
         width: 100%;
 
@@ -163,37 +167,39 @@
                 font-size: .28rem;
                 margin-bottom: .05rem;
                 line-height: .4rem;
-
-                span {
+                margin-top: .36rem;
+                display: inline-flex;
+                div {
                     &:nth-child(1) {
                         color: #333;
-                        padding-right: .2rem;
+                        // padding-right: .2rem;
                     }
 
                     &:nth-child(2) {
                         color: #666;
                     }
+                    &.mr {
+                    // display: inline-block;
+                    text-align:center;
+                    padding: 0 0.08rem;
+                    background:rgba(255,59,48,1);
+                    margin-right: 4px;
+                    color: #fff;
+                    font-size: .28rem;
+                    border-radius: 2px;
                 }
+                }
+               
             }
 
             .add-detail {
                 font-size: .28rem;
-                padding: 2px 0px;
+                // padding: 2px 0px;
                 max-height: 44px;
                 overflow: hidden;
                 color: #333;
-
-                .mr {
-                    display: inline-block;
-                    width:.74rem;
-                    height:.31rem;
-                    line-height: .31rem;
-                    background:rgba(255,59,48,1);
-                    text-align: center;
-                    margin-right: 4px;
-                    color: #fff;
-                    font-size: .28rem;
-                }
+                margin-top:.12rem;
+                
             }
         }
 
@@ -201,7 +207,8 @@
             width: 17%;
             float: right;
             text-align: right;
-
+            display: flex;
+            align-items: center;
             img {
                 margin-left: 10px;
                 display: inline-block;

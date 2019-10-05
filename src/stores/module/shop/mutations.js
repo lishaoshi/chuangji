@@ -64,24 +64,26 @@ export default {
                 lstore.setData('CART_LIST', state.CART_LIST)
             } else {
                 //商品数量为0，则清空当前商品的信息
-                shop[itemId] = null;
+                delete shop[itemId];
+                state.CART_LIST = {...cartList}
+                lstore.setData('CART_LIST', state.CART_LIST)
             }
         }
     },
     //清空商铺的购物车
-    CLEAR_CART(state,shopId){
-        Object.values(state.CART_LIST).forEach( (item,index) => {
-            Object.values(item).forEach( (items,index) => {
-               if(items.id === shopId) {
-                   items['num'] = 0
-                   //Object.values(items).remove()
+    CLEAR_CART(state,itemId){
+        // debugger
+        let cartList = state.CART_LIST
+        Object.values(cartList).forEach( (item,index) => {
+            Object.values(item).forEach( (items,indexs) => {
+               if(items.id === itemId) {
+                   console.log(itemId, 'hello')
+                delete item[itemId]
                 }
             })
         })
-        state.CART_LIST = {...state.CART_LIST}
+        state.CART_LIST = {...cartList}
         lstore.setData('CART_LIST',state.CART_LIST)
-        //state.CART_LIST[shopId] = {}
-        
     },
     //清空购物车
     CLEAR_ALL_CART(state){

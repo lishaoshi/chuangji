@@ -18,6 +18,7 @@ import bus from './bus';
 import './icons/iconfont.js' // from http://www.iconfont.cn h5 仓库
 import 'mint-ui/lib/style.css'
 
+import '@/plugins/animate.css'
 import store from "./stores/";
 import router from "./routers/";
 
