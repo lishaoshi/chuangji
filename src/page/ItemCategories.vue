@@ -4,7 +4,7 @@
         <div v-if="isFullScreen" style="height: 35px"></div>
         <div class="entities-container" v-if="supplierId" style="margin-top: .88rem">
             <div class="search">
-                <SearchBar></SearchBar>
+                <SearchBar v-model="value" :searchFn ="searchFn"></SearchBar>
             </div>
             <div class="product-list">
                 <!--
@@ -123,7 +123,11 @@
                 page: 1,
                 limit: 30,
                 cat_id: 0,
-                length: 0
+                length: 0,
+                value:"",
+                current_status:'',
+                current_id:'',
+                current_search:'',
             }
         },
         computed: {
@@ -198,6 +202,7 @@
                     cat_id: id
                 }
                 this.init_Goods(params)
+                this.current_id = id
             },
             //点击下拉菜单
             slide: function (event,id) {
@@ -254,6 +259,7 @@
                     cat_id: id
                 }
                 this.init_Goods(params)
+                this.current_id = id
             },
 
             //下架
@@ -293,6 +299,8 @@
                     cat_id: cat_id
                 }
                 this.init_Goods(params)
+                this.current_status = 1
+                this.current_id = cat_id
             },
             downSaleGoods(cat_id) {
                 this.isUp = false
@@ -302,13 +310,26 @@
                     cat_id: cat_id
                 }
                 this.init_Goods(params)
+                this.current_status = 0
+                this.current_id = cat_id
             },
             //产品显示
             init_Goods(params) {
+                console.log(params)
                 servicBusinessGoodList(params).then(res => {
                     this.goodList = res.data.data.businessGoods
                 })
                 this.goodList = this._handleData(this.goodList)
+            },
+
+            //搜索
+            searchFn(){
+                let params = {
+                    cat_id:this.current_id,
+                    status:this.current_status,
+                    search:this.value
+                }
+                this.init_Goods(params)
             }
         }
 
@@ -363,6 +384,7 @@
                 line-height: 1rem;
                 padding-left: .15rem;
                 overflow: hidden;
+                border-left: 2px solid #E6E6E6;
             }
 
             .active {
@@ -579,6 +601,7 @@
         width: 2rem;
         font-size: .3rem;
         z-index: 999;
+        border-left: 2px solid #E6E6E6;
     }
 
     .all-goods-active {

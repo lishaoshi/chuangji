@@ -1,6 +1,6 @@
 <template>
     <div class="empty">
-        <svg style="width: 3rem;height: 3rem">
+        <svg style="width: 32%;max-height: 3rem">
             <use xlink:href="#icon-empty"></use>
         </svg>
         <p>{{message}}-</p>
@@ -25,6 +25,6 @@
         color: #666666;
         font-size: .25rem;
         line-height: 300%;
-        padding-top: 3rem;
+        padding-top: 2rem;
     }
 </style>
