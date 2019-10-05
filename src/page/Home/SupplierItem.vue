@@ -1,5 +1,5 @@
 <template>
-	<div class="company">
+	<div class="company" v-if="data!=null">
 		<div class="brand">
             <router-link :to="`/factory/shop/${data.id}`">
 			<img :src="data.logo" alt="">
@@ -71,7 +71,10 @@
                 is_active:false,
             }
         },
-    }
+		created() {
+			console.log(this.data)
+		}
+	}
 </script>
 
 <style lang="scss" scoped>
@@ -203,16 +206,19 @@
                     overflow: hidden;
                     text-overflow: ellipsis;
                 }
-                &:nth-child(even) {
-                    span {
-                        background: #ff7612;
-                    }
-                }
-            }
-            .ul2 {
-                transition: all .4s ease-in;
             }
         }
+		.ul2 {
+			transition: all .4s ease-in;
+			li{
+				&:nth-child(odd) {
+					span {
+						background: #ff7612;
+					}
+				}
+			}
+
+		}
 
 	}
     .fade-enter-active, .fade-leave-active {

@@ -4,7 +4,7 @@
         <div v-if="isFullScreen" style="height: 35px"></div>
         <div class="entities-container" v-if="supplierId" style="margin-top: .88rem">
             <div class="search">
-                <SearchBar></SearchBar>
+                <SearchBar v-model="value" :searchFn ="searchFn"></SearchBar>
             </div>
             <div class="product-list">
                 <!--
@@ -17,11 +17,12 @@
                     <div class="mint-navbar">
                         <div class="menu-list" :id="`menu_${index}`" :key="`menu-${index}`"
                              v-for="(menu,index) in menuList ">
-                        <span v-if="menu.child" @click="slide($event)" class="sp1 up"
-                              :class="`${is_active===menu.id?'active':''}`">{{menu.name}}</span>
-                            <span v-else @click="showGoods(menu.id,$event)" class="sp1"
+                            <!-- 有二级菜单点击下拉 -->
+                            <span v-if="menu.child" @click="slide($event,menu.id)" class="sp1 up" ref="slideMenu">{{menu.name}}</span>
+                            <!-- 一级菜单没有下拉 -->
+                            <span v-else @click="showGoods(menu.id)" class="sp1"
                                   :class="`${is_active===menu.id?'active':''}`">{{menu.name}}</span>
-                            <div class="down-menu" style="height: 0px">
+                            <div class="down-menu" style="height: 0px"  ref="slideChild">
                                 <div>
                                     <p v-for="(childrenMenu,index) in menu.child"
                                        :class="`${childrenMenu.id===is_child_id?'child-active':''}`"
@@ -45,22 +46,22 @@
                             <p @click="downSaleGoods(cat_id)" :class="{active,isDown}">下架<span>({{goodList.unSale||0}})</span>
                             </p>
                         </div>
-                        <div style="height: 9.3rem;overflow: scroll">
+                        <div style="height: 8.8rem;overflow: scroll">
                             <!--<ClxsdLoadMore key="orders-list" ref="loadmore" @onRefresh="onOrdersRefresh" @onLoadMore="onOrdersLoadMore">-->
                             <!--在售商品-->
                             <div v-for="(entity,ikey) in goodList.list" v-if="goodList.list!==''" :key="ikey">
-                                <div>
+                                <div style="margin-left: .2rem">
                                     <div class="item" id="list-item">
-                                        <router-link to="/drug-detail">
+                                        <router-link :to="`/drug-detail/${entity.id}`">
                                             <img :src="entity.cover" class="item-img">
                                         </router-link>
                                         <div class="item-box">
                                             <router-link to="">
                                                 <p class="title">{{entity.good_name}}</p>
                                             </router-link>
-                                            <p class="item-box-p1" v-if="entity.brand">品牌：{{entity.brand.name}}</p>
-                                            <p class="item-box-p1">规格：{{entity.spec}}</p>
-                                            <p class="item-box-p1">效期：{{data}}</p>
+                                            <p class="item-box-p1" v-if="entity.brand">{{entity.brand.name}}</p>
+                                            <p class="item-box-p1">规格: {{entity.spec}}</p>
+                                            <p class="item-box-p1">效期. {{time}}</p>
                                             <div class="selling">
                                                 <div class="unit_price">
                                                     <p class="font"><i>￥</i><i>{{entity.price}}</i><span>{{entity.market_price}}</span>
@@ -106,7 +107,6 @@
         components: {CircleLoading, SearchBar, Empty},
         data() {
             return {
-                selected: '1',
                 is_active: 0,//一级菜单默认值
                 menuList: [],//菜单列表
                 goodList: [],//产品列表
@@ -117,12 +117,20 @@
                 isDown: false,
                 is_child_id: 0,
                 is_child: false,
-                data: '',
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
-                page: 1,
-                limit: 30,
                 cat_id: 0,
-                length: 0
+                length: 0,
+                value:"",
+                current_status:'', //当前状态上架或下架
+                current_id:'', //当前id
+                current_search:'', //搜索内容
+
+                allLoaded: false, //是否自动触发上拉函数
+                isAutoFill: false,
+                wrapperHeight: 0,
+                courrentPage: 1,//当前页面
+                limit:15,
+                time:''
             }
         },
         computed: {
@@ -141,13 +149,14 @@
         created() {
             this.initData()
             this.init_Goods()
+            //this.loadFrist();
         },
         methods: {
             async _handleData(data) {
                 if (data.list) {
                     data.list.forEach(data => {
                         let time = data.valid_time
-                        this.data = this.$moment(time).format("YYYY-MM-DD")
+                        this.time = this.$moment(time).format("YYYY-MM-DD")
                     })
                 }
             },
@@ -156,6 +165,16 @@
                 this.cat_id = ''
                 this.init_Goods(params)
                 this.is_active = 0
+                let nodes =this.$refs.slideMenu
+                let childNode = this.$refs.slideChild
+                console.log(nodes)
+                nodes.forEach(item => {
+                    item.classList.remove("active");
+                    item.classList.add("up");
+                })
+                childNode.forEach(item => {
+                    this.toggleSlide(item, 0, '500');
+                })
 
             },
             async initData() {
@@ -172,8 +191,8 @@
             },
             //一级菜单点击商品
             showGoods(id, $event) {
+                console.log("当前id：" + id)
                 this.is_active = id //是否当前一级菜单
-                //this.is_child_id = id
                 let parentNode = event.target.parentNode;
                 let a = this.sibling(parentNode)
                 for (var i = 0; i < a.length; i++) {
@@ -187,15 +206,16 @@
                     cat_id: id
                 }
                 this.init_Goods(params)
+                this.current_id = id
             },
             //点击下拉菜单
-            slide: function (event) {
+            slide: function (event,id) {
+                this.is_active=id
                 let targetNode = event.target
                 targetNode.classList.add("active"); //添加当前样式
                 let parentNode = targetNode.parentNode;
                 let a = this.sibling(parentNode)
                 for (var i = 0; i < a.length; i++) {
-                    console.log(a[i].childNodes)
                     a[i].childNodes[0].classList.remove("active");
                     a[i].childNodes[0].classList.add("up");
                     let b = a[i].childNodes[1]
@@ -243,6 +263,7 @@
                     cat_id: id
                 }
                 this.init_Goods(params)
+                this.current_id = id
             },
 
             //下架
@@ -263,14 +284,10 @@
             },
             //上架
             UpSelf(id) {
-                var list = document.getElementById('list-item2')
-                list.remove()
-
                 this.$http.patch(`hippo-shop/business/changeStatus`, {good_id: id, status: 1}).then(res => {
-                    console.log(res)
-                    this.$toast(res.data.data)
+                    this.$router.go(0)
                 }).catch(error => {
-                    this.$toast("下架失败")
+                    this.$toast("上架失败")
                 })
             },
 
@@ -282,6 +299,8 @@
                     cat_id: cat_id
                 }
                 this.init_Goods(params)
+                this.current_status = 1
+                this.current_id = cat_id
             },
             downSaleGoods(cat_id) {
                 this.isUp = false
@@ -291,16 +310,75 @@
                     cat_id: cat_id
                 }
                 this.init_Goods(params)
+                this.current_status = 0
+                this.current_id = cat_id
             },
             //产品显示
             init_Goods(params) {
+                console.log(params)
                 servicBusinessGoodList(params).then(res => {
                     this.goodList = res.data.data.businessGoods
                 })
                 this.goodList = this._handleData(this.goodList)
-                // console.log("长度："+this.goodList.list.length())
-            }
+            },
 
+            //搜索
+            searchFn(){
+                let params = {
+                    cat_id:this.current_id,
+                    status:this.current_status,
+                    search:this.value
+                }
+
+                this.init_Goods(params)
+            },
+
+            /*
+
+            //加载更多
+            loadTop() {
+                this.loadFrist();
+            },
+            // 上拉加载
+            loadBottom() {
+                this.loadMore();
+            },
+            // 下来刷新加载
+            loadFrist() {
+                const params = {
+                    page: this.courrentPage,
+                    limit:this.limit,
+                    cat_id:this.current_id,
+                    status:this.current_status,
+                    search:this.value
+                }
+                servicBusinessGoodList(params).then(res => {
+                    this.allLoaded = false; // 可以进行上拉
+                    this.goodList = res.data.data.businessGoods
+                    this._handleData(this.goodList)
+                })
+                //this.goodList = this._handleData(this.goodList)
+            },
+            // 加载更多
+            loadMore() {
+                this.courrentPage++;
+                const params = {
+                    page: this.courrentPage,
+                    limit:this.limit
+                }
+                servicBusinessGoodList(params).then(response => {
+
+                    // concat数组的追加
+                    this.goodList = this.goodList.concat(response.data.data.businessGoods);
+                    this._handleData(this.goodList)
+                    if (this.courrentPage > 1) {
+                        this.allLoaded = true; // 若数据已全部获取完毕
+                    }
+                    this.$refs.loadmore.onBottomLoaded();
+                })
+            },
+
+             */
         }
 
     }
@@ -354,6 +432,7 @@
                 line-height: 1rem;
                 padding-left: .15rem;
                 overflow: hidden;
+                border-left: 2px solid #E6E6E6;
             }
 
             .active {
@@ -402,7 +481,7 @@
     .mint-tab-container {
         overflow: hidden;
         position: relative;
-        width: 71%;
+        width: 73%;
         float: right;
         margin-top: -1rem;
     }
@@ -461,6 +540,9 @@
         &-p1 {
             font-size: .2rem;
             color: #666;
+            white-space: nowrap;
+            text-overflow:ellipsis;
+            overflow: hidden;
         }
 
         .title {
@@ -525,11 +607,10 @@
 
     .sale-nav {
         position: relative;
-        width: 96%;
+        width: 100%;
         height: 1rem;
         background: #fff;
         line-height: 1rem;
-
         p {
             width: 50%;
             display: inline-block;
@@ -570,6 +651,7 @@
         width: 2rem;
         font-size: .3rem;
         z-index: 999;
+        border-left: 2px solid #E6E6E6;
     }
 
     .all-goods-active {

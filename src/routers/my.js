@@ -375,7 +375,7 @@ export default [
 		}
 	},
 	{
-		path: "/drug-detail",
+		path: "/drug-detail/:id",
 		component: DrugDetail,
 		meta: {
 			title: "药品详情",

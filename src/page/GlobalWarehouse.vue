@@ -7,7 +7,10 @@
                 <li :class="`${is_active===3?'active':''}`" @click="tab_change(3)">关注</li>
             </ul>
             <div class="top-box-search">
-                <input type="search" placeholder="请输入商业公司名称">
+                <input type="search" placeholder="请输入商业公司名称" v-model="searchValue">
+                <svg class="search-btn" @click="searchFn">
+                    <use xlink:href="#icon-search2" />
+                </svg>
             </div>
         </div>
         <div class="swiper-box">
@@ -79,17 +82,9 @@
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
                 active: 0,
                 preActive: 0,
-                prizeList: [
-                    {name: '重磅！国家重点监控药品目录公布'},
-                    {name: '国家药监局开会，4+7集采又迎来一“战队”?'},
-                    {name: '最高领导人讲话，中医药机会来了'},
-                    {name: '重磅！国家重点监控药品目录公布'},
-                    {name: '最高领导人讲话，中医药机会来了'},
-                    {name: '重磅！国家重点监控药品目录公布'},
-                    {name: '国家药监局开会，4+7集采又迎来一“战队”?'},
-                    {name: '最高领导人讲话，中医药机会来了'},
-                    {name: '国家药监局开会，4+7集采又迎来一“战队”?'},
-                ],
+
+                prizeList: [],
+                searchValue: ''
             }
         },
         created() {
@@ -135,6 +130,7 @@
                     page: this.page,
                     type: this.is_active,
                     limit: 15,
+                    search:this.searchValue
                 }
                 console.log(params)
                 businessList(params, loadMore).then(({data = []}) => {
@@ -180,10 +176,13 @@
                     that.animate = !that.animate;  // 这个地方如果不把animate 取反会出现消息回滚的现象，此时把ul 元素的过渡属性取消掉就可以完美实现无缝滚动的效果了
 
                 }, 700)
+            },
+            searchFn(){
+                console.log(this.searchValue)
+                this.page = 1
+                this.getData()
             }
-
         },
-
     }
 </script>
 
@@ -195,7 +194,15 @@
         right: 0px;
         bottom: 1.3rem;
     }
-
+    .search-btn {
+        position: absolute;
+        float: right;
+        width: .4rem;
+        height: .4rem;
+        right: .4rem;
+        z-index: 99;
+        margin-top: .08rem;
+    }
     .top-box {
         background: #0090FF;
 

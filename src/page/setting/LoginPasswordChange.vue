@@ -13,13 +13,15 @@
                 <div class="m-form-row m-main">
                     <label for="new_password">新密码</label>
                     <div class="m-input">
-                        <input id="new_password" v-model="newPassword"  type="password"  autocomplete="off" placeholder="输入6位以上的登录密码" @input="handleOldPassword">
+                        <input id="new_password" v-model="newPassword"  type="password"  autocomplete="off" placeholder="输入6位以上的登录密码"
+                              >
                     </div>
                 </div>
                 <div class="m-form-row m-main">
                     <label for="new_again_password">确认密码</label>
                     <div class="m-input">
-                        <input id="new_again_password" v-model="rePassword"  type="password"  autocomplete="off" placeholder="请再次输入新设置的密码"  @input="handleRePassword">
+                        <input id="new_again_password" v-model="rePassword"  type="password"  autocomplete="off" placeholder="请再次输入新设置的密码"
+                              >
                     </div>
                 </div>
             </main>
@@ -57,7 +59,8 @@
                     <div class="m-form-row m-main">
                         <label for="new_again_password">确认密码</label>
                         <div class="m-input">
-                            <input id="new_again_password" v-model="rePassword"  type="password"  autocomplete="off" placeholder="请再次输入新设置的密码">
+                            <input id="new_again_password" v-model="rePassword"  type="password"  autocomplete="off"
+                                   placeholder="请再次输入新设置的密码">
                         </div>
                     </div>
                 </main>
@@ -104,7 +107,7 @@
             },
             disabled() {
                     return(
-                        this.oldPassword.length < 6  || this.newPassword.length < 6 || this.rePassword != this.newPassword
+                        this.oldPassword.length < 6  || this.newPassword.length < 6 || this.rePassword.length < 6
                      )
             },
             disabledRes() {
@@ -124,18 +127,22 @@
                         validate: state => state === 200
                     }).then(response => {
                         this.loading = false;
+                        console.log(response)
                         if (!response.data.verifyStatus) {
                             this.$toast("* 输入密码不正确，请重新输入")
                             this.oldPassword = ""
-                        } else {
-
+                            return
                         }
                     }).catch(error => {
+                        console.log(error)
                         this.loading = false;
+                        this.$toast(error)
+                        return
                     })
                 }else {
                     this.$toast("请输入正确的密码")
                     this.newPassword = ""
+                    return
                 }
 
             },
@@ -147,6 +154,7 @@
                 if (this.rePassword.length>=6) {
                     if(this.newPassword === this.rePassword){
                     }else {
+
                         this.$toast("两次密码不一致")
                         return;
                     }
@@ -156,7 +164,7 @@
             },
             handleOk() {
                 if(this.loading) return;
-
+                this.handleOldPassword()
                 // 密码长度
                 if(this.newPassword.length < 6 && this.rePassword <6) {
                     this.$toast("密码长度必须在6-16位之间")
@@ -165,6 +173,8 @@
 
                 // 重复新密码
                 if(this.rePassword !== this.newPassword) {
+                    this.rePassword =''
+                    this.newPassword =''
                     this.$toast("密码确认不一致，请重新输入")
                     return;
                 }

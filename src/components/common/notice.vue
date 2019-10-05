@@ -56,8 +56,8 @@
 <style lang="scss" scoped>
     .notice {
         background: #fff;
-        height: .64rem;
-        line-height: .64rem;
+        height: .88rem;
+        line-height: .88rem;
         display: flex;
         padding: 0 .24rem;
         align-items: center;
@@ -73,8 +73,8 @@
         height: 100%;
         padding-top: .05rem;
         li {
-            height: .62rem;
-            line-height: .62rem;
+            height: .88rem;
+            line-height: .88rem;
             font-size: .28rem;
             padding: 0 .2rem;
             white-space: nowrap;
@@ -101,6 +101,6 @@
     }
     .anim {
         transition: linear .8s;
-        margin-top: -.62rem;
+        margin-top: -.88rem;
     }
 </style>

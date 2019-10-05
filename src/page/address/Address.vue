@@ -9,7 +9,11 @@
                     </svg>
                 </div>
                 <div class="address-info">
+<<<<<<< HEAD
                     <div class="name"><div class="mr" v-if="item.is_default == 1">默认</div>{{item.consignee}}&nbsp;&nbsp;{{item.tel}}</div>
+=======
+                    <p class="name"><span class="mr" v-if="item.is_default == 1">默认</span>{{item.consignee}}&nbsp;&nbsp;{{item.tel}}</p>
+>>>>>>> 2177140f9b4f90b8ee7398796436e9b7c0d26bd3
                     <p class="add-detail"><span style="color: #999">{{item.full_address}}</span></p>
                 </div>
                 <div class="address-edit">
@@ -164,9 +168,10 @@
             overflow: hidden;
 
             .name {
-                font-size: .28rem;
+                font-size: .32rem;
                 margin-bottom: .05rem;
                 line-height: .4rem;
+<<<<<<< HEAD
                 margin-top: .36rem;
                 display: inline-flex;
                 div {
@@ -200,6 +205,28 @@
                 color: #333;
                 margin-top:.12rem;
                 
+=======
+                .mr {
+                    display: inline-block;
+                    width:.74rem;
+                    height:.31rem;
+                    line-height: .31rem;
+                    background:rgba(255,59,48,1);
+                    border-radius:1px;
+                    text-align: center;
+                    color: #fff;
+                    margin-right: .1rem;
+                    font-size: .24rem;
+                }
+>>>>>>> 2177140f9b4f90b8ee7398796436e9b7c0d26bd3
+            }
+
+            .add-detail {
+                font-size: .28rem;
+                padding: 2px 0px;
+                max-height: 44px;
+                overflow: hidden;
+                color: #999;
             }
         }
 
