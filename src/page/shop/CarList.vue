@@ -25,6 +25,7 @@
     import CartsFooter from "@/components/shopcart/CartsFooter"
     import CartsFooterClear from "@/components/shopcart/CartsFooterClear"
     import EmptyCartShop from '@/components/EmptyCarList'
+    import { queryShopCarList, delShopCar, addShopCar, onlyDelShopCar } from '@/api/shopCar'
 
 
     export default {
@@ -53,9 +54,10 @@
             if(this.shopId){
                 this.route = `/factory/shop/${this.shopId}`
             }
+            this._queryShopCarList()
         },
         mounted(){
-            this.initData()
+            // this.initData()
         },
         computed:{
             ...mapState({
@@ -66,50 +68,60 @@
             ...mapMutations([
                 'CLEAR_CART', 'CLEAR_ALL_CART', 'ADD_CART', 'REMOVE_CART'
             ]),
-            async initData(){
-                let ids = []
-                let idMapQ = {}
-                let cartData = this.shopId ? this.cartList[this.shopId]:this.cartList
-                if(cartData){
-                    if(this.shopId){
-                        Object.values(cartData).forEach(item => {
-                            if(item) {
-                                ids.push(item.id)
-                                idMapQ[item.id] = item.num
-                            }
+            // async initData(){
+            //     let ids = []
+            //     let idMapQ = {}
+            //     let cartData = this.shopId ? this.cartList[this.shopId]:this.cartList
+            //     if(cartData){
+            //         if(this.shopId){
+            //             Object.values(cartData).forEach(item => {
+            //                 if(item) {
+            //                     ids.push(item.id)
+            //                     idMapQ[item.id] = item.num
+            //                 }
                            
-                        })
-                    }else{
-                        Object.values(cartData).forEach(item => {
-                            Object.values(item).forEach(_item =>{
-                                if(_item&&_item.num>0){
-                                    ids.push(_item.id)
-                                    idMapQ[_item.id] = _item.num
-                                }
-                            })
+            //             })
+            //         }else{
+            //             Object.values(cartData).forEach(item => {
+            //                 Object.values(item).forEach(_item =>{
+            //                     if(_item&&_item.num>0){
+            //                         ids.push(_item.id)
+            //                         idMapQ[_item.id] = _item.num
+            //                     }
+            //                 })
 
-                        })
+            //             })
+            //         }
+            //     }
+            //     if(ids.length){
+            //         const { data } = await supplierFactoryEntities(ids.join(','))
+            //         this.data.shops = this._handleData(data,idMapQ)
+            //     }
+            //     this.loading = false
+            // },
+
+            // 页面初始化获取购物车数据
+            _queryShopCarList() {
+                queryShopCarList().then(res=>{
+                    if(res.code==200) {
+                        let data = res.data
+                        this.data.shops = this._handleData(data.goodsList)
+                        this.loading = false
                     }
-                }
-                if(ids.length){
-                    const { data } = await supplierFactoryEntities(ids.join(','))
-                    this.data.shops = this._handleData(data,idMapQ)
-                }
-                this.loading = false
+                })
             },
-            _handleData(data,map){
+            _handleData(data){
                 let shops = {}
                 data.forEach((item,index) =>{
-                    item.sale_price = item.price * item.tran
-                    item.num = map[item.id]
+                    item.sale_price = item.price
                     item.checked = false
                     item.shopId = item.supplier.id
-                    item.show_unit = item.big_unit
+                    item.show_unit = item.unit
                     if(shops[item.supplier.id]){
                         shops[item.supplier.id]['items'] = shops[item.supplier.id]['items'].concat([item])
                     }else{
                         shops[item.supplier.id] = {
-                            shopId:item.supplier.id,
+                            shopId:item.supplier_id,
                             shopName: item.supplier.display_name || item.supplier.name,
                             logo:item.supplier.logo,
                             type:item.supplier.type,
@@ -184,22 +196,38 @@
             },
             //要注意店铺与商品的ID
             addGoods(sid,pid, item){
-                console.log(sid, pid, item)
+                // console.log(sid, pid, item)
                 this.data.shops[sid].items[pid].num++;
+                let shopId = this.data.shops[sid].shopId
+
                 item.itemId = item.id
-                item.sale_price = item.price * item.tran
-                this.ADD_CART(item)
+                addShopCar({supplier_id: shopId, good_id:item.id})
+                // item.sale_price = item.price * item.tran
+                // this.ADD_CART(item)
             },
             //进行商品减的操作
-            minGoods(sid,pid,item){
-                if(this.data.shops[sid].items[pid].num>1){
+            async minGoods(sid,pid,item){
+                console.log(item)
+                let params = {}
+                 console.log(this.data.shops[sid])
+                if(item.num>item.order_min_num){
+                    // 获取商品id
                     item.itemId = item.id
-                    item.sale_price = item.price * item.tran
-                    this.data.shops[sid].items[pid].num--;
+                    // 获取商家id
+                    let shopId = this.data.shops[sid].shopId
+                    let data =  {
+                        supplier_id: shopId,
+                        good_id: item.id
+                    }
+                    await onlyDelShopCar(data)
+                    // params[`${shopId}`] = [item.id]
+                    // console.log(params)
+                    // delShopCar(params)
+                    // item.sale_price = item.price * item.tran
+                    item.num--;
                     // console
                     // this.REMOVE_CART(item)
                 }
-               
             },
             submitDataFunc(){
                 let params = {
@@ -238,13 +266,29 @@
                     arr[key].items = shop.items.filter((el, index, arr)=> el.checked!=true)
                     !shop.items.length&&arr.splice(key, 1)
                 })
-                if(this.data.checked){
-                    this.CLEAR_ALL_CART()
-                }else {
-                    params.forEach(item => {
-                       this.CLEAR_CART(item.id)
+                console.log(params)
+                if(params) {
+                    let data = {}
+                    params.forEach((item,index,arr)=>{
+                        // data[item.shopId] = 
+                        if(data[item.shopId]) {
+                            data[item.shopId] = [...data[item.shopId], item.id]
+                        } else {
+                            data[item.shopId] = [item.id]
+                        }
+                        // console.log(data)
                     })
+                    console.log(data)
+                    // return
+                    delShopCar({ids:data})
                 }
+                // if(this.data.checked){
+                //     this.CLEAR_ALL_CART()
+                // }else {
+                //     params.forEach(item => {
+                //        this.CLEAR_CART(item.id)
+                //     })
+                // }
             }
         }
     }

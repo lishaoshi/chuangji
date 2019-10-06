@@ -97,7 +97,7 @@
 		computed: {
 			...mapState({
 				userInfo: state => {
-                    const currentInfo = state.CURRENTUSER.data.userInfo
+                    const currentInfo = state.CURRENTUSER.data
                     const configInfo = state.CONFIG
                     let companyName = '未认证'
                     let infoText = '未上传资质'

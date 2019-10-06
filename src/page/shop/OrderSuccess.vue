@@ -1,6 +1,8 @@
 <template>
     <div id="OrderSuccess">
-        <img src="../../images/shopping/order_success.png" class="img">
+        <clxsd-head-top :title='`下单成功`'></clxsd-head-top>
+        <!-- 旧版本页面 -->
+        <!-- <img src="../../images/shopping/order_success.png" class="img">
         <p class="success-info">购买成功</p>
         <p class="order-num">订单编号：<span>f-20190726153718364995</span></p>
         <p class="gray-info">下单成功，我们将及时配送</p>
@@ -8,6 +10,40 @@
             <router-link to="/home" class="go-shopping">再去逛逛</router-link>
             <router-link to="/factory-order" class="looking-order" v-if="orderType == 'factory'">查看订单</router-link>
             <router-link to="/business-order" class="looking-order" v-if="orderType == 'business'">查看订单</router-link>
+        </div> -->
+
+        <!-- 新版本页面 -->
+        <div class="headBox">
+            <img src="@/images/successOrder.png" alt="">
+            <div>
+                <span>等待买家支付</span>
+                <span>剩30分钟自动关闭</span>
+            </div>
+        </div>
+
+        <div class="middle">
+            <span>订单信息</span>
+        </div>
+
+        <div class="comfirmOrderInfo">
+            <div>
+                <div>上海上药信谊制药有限公司</div>
+                <div>
+                    <span>01234567890123456789</span>
+                    <span>￥1000.00</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="buttonBtn">
+           <router-link to="/factory-order" v-if="orderType == 'factory'"> 
+                <div class="query">查看订单</div> 
+            </router-link> 
+           <router-link to="/business-order" v-if="orderType == 'business'"> 
+                <div class="query">查看订单</div>
+            </router-link> 
+           <router-link to="/home"><div>返回首页</div></router-link>
+            <!-- <div>返回首页</div> -->
         </div>
     </div>
 </template>
@@ -23,8 +59,88 @@
 #OrderSuccess {
     min-height: 100%;
     background: #fff;
-    padding-top: 2rem;
-    text-align: center;
+    // padding-top: 2rem;
+    
+    .headBox {
+        display: flex;
+        height: 3.16rem;
+        justify-content: center;
+        align-items: center;
+        &>div {
+            display: flex;
+            flex-direction: column;
+            span {
+                font-size: .24rem
+            }
+            span:first-child {
+                font-size: .32rem;
+                margin-bottom: 8px;
+                // font-weight: 500;
+            }
+        }
+        img {
+            width: 1.6rem;
+            height: 1.2rem;
+            margin-right: 20px;
+        }
+    }
+    .middle {
+        background:rgba(248,248,248,1);
+        height: .96rem;
+        line-height: .96rem;
+        text-align: center;
+         color: #999999;
+        &::before {
+            content: '———';
+            margin-right: 18px;
+            color: #ccc;
+        }
+        &::after {
+            content: '———';
+            margin-left: 18px;
+             color: #ccc;
+        }
+    }
+    .comfirmOrderInfo {
+        display: flex;
+        flex-direction: column;
+        padding: 0 .5rem;
+        & > div {
+            height: 1.34rem;
+            display: flex;
+            flex-direction: column;
+            // line-height: .67rem;
+            // justify-content: space-around;
+            div {
+                margin-top: .2rem;
+                font-size: .28rem;
+                
+            }
+            div:last-child {
+                display: flex;
+                justify-content: space-between;
+                color:#999999;
+                font-size: .26rem;
+            }
+        }
+    }
+    .buttonBtn {
+        display: flex;
+        justify-content: center;
+        margin-top: 1.6rem;
+        div {
+            border:2px solid rgba(0,144,255,1);
+             padding: .22rem .84rem;
+             border-radius:.08rem;
+        }
+        .query {
+            margin-right: .32rem;
+            background:rgba(0,144,255,1);
+            border-radius:.08rem;
+            padding: .22rem .84rem;
+            color: #fff;
+        }
+    }
     .img {
         width: 2.4rem;
         height: auto;

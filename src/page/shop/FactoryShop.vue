@@ -87,6 +87,7 @@
     import {mapState} from 'vuex'
     import {supplierDetails} from "@/api/supplier"
     import {isFollow, deleteFollow, SaveFollow} from "@/api/follow.js"
+    import { queryShopCarList, delShopCar, addShopCar, onlyDelShopCar } from '@/api/shopCar'
     export default {
         name: "FactoryShop",
         components: {
@@ -104,14 +105,16 @@
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
                 is_active:false,
                 actity_nums:0,
-                popupVisible:false
+                popupVisible:false,
+                goodsList: {}
             }
         },
         created() {
             // console.log(this.$route)
             this.factoryId = parseInt(this.$route.params.id);
             // console.log(this.factoryId)
-            this.initData()
+            // this.initData()
+            this._queryShopCarList()
         },
         computed: {
             ...mapState({
@@ -120,7 +123,7 @@
         },
         mounted() {
             window.addEventListener('scroll', this.handleScroll, true)
-            //this.initData()
+            this.initData()
         },
         methods: {
             showRolePicker() {
@@ -136,7 +139,7 @@
                 this.actity_nums = this.shopDetailData.actives.length
                 //店铺是否关注信息
                 isFollow(this.factoryId).then(res => {
-                    console.log(res.data.data.hasrelation)
+                    // console.log(res.data.data.hasrelation)
                     if(res.data.data.hasrelation){
                         this.follow_info = "已关注"
                         this.follow_status = 1
@@ -145,7 +148,14 @@
                         this.follow_status = 0
                     }
                 }).catch(error => {
-                    console.log(error)
+                    // console.log(error)
+                })
+            },
+
+            _queryShopCarList() {
+                queryShopCarList({}, this.factoryId).then(res=>{
+                    // console.log(res, 'text res')
+                    this.goodsList = res
                 })
             },
             handleScroll() {
@@ -165,12 +175,12 @@
                         if (action === 'confirm') {
                            // deleteFollow(this.factoryId)
                             deleteFollow(this.factoryId).then(res =>{
-                                console.log(res.data)
+                                // console.log(res.data)
                                 if(res.data.message=="success"){
                                     this.$toast("取消成功")
                                 }
                             }).catch( error => {
-                                console.log(error)
+                                // console.log(error)
                             })
                             this.follow_info = '关注'
                         }

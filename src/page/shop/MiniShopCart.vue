@@ -39,7 +39,7 @@
             },
             totalPrice: {
                 type: String,
-                default: '0.00'
+                default: ''
             },
             shopId: {
                 type: Number,

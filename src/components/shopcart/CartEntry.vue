@@ -15,7 +15,7 @@
 					</div>
 					<div class="shop-arithmetic">
 						<a class="minus" @click.prevent.stop="minGoods(sid,pid, data)">-</a>
-						<span class="num">{{data.num}}<i>{{data.show_unit || '件'}}</i></span>
+						<span class="num">{{data.num}}<i>{{data.unit || '件'}}</i></span>
 						<a class="plus" @click.prevent.stop="addGoods(sid,pid, data)">+</a>
 					</div>
 				</div>

@@ -158,6 +158,8 @@
                         }
 
                         this.$refs.loadmore.onBottomLoaded();
+                        //  this.$refs.wrapper.style.height='auto'
+                        // window.scrollTo = (0, 100)
                     })
             },
             async initData() {

@@ -140,7 +140,7 @@
         },
         computed: {
             ...mapState({
-                USER_TYPE: state => state.CURRENTUSER.data.userInfo.user_type,
+                USER_TYPE: state => state.CURRENTUSER.data.user_type,
             })
         },
         created(){
