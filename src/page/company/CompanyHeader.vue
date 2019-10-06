@@ -3,9 +3,9 @@
         <div class="top-box" :class="{activebox: isFullScreen}">
             <img class="retreat" src="../../images/back.png" @click="goBack">
             <div class="inpSearch" v-bind:class="{ 'bg-from': hasError }">
-                <input type="text" placeholder="请输入关键词">
+                <input type="text" v-model="searchValue" placeholder="请输入关键词">
                 <i></i>
-                <svg class="icon-location">
+                <svg class="icon-location" @click="searchFn">
                     <use xlink:href="#icon-search2"/>
                 </svg>
             </div>
@@ -64,6 +64,7 @@
                 follow_info: '关注',
                 follow_list: [],
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
+                searchValue:''
             }
         },
         computed: {
@@ -140,6 +141,12 @@
                     this.follow_info = '已关注'
                 }
                 this.follow_status = !this.follow_status
+            },
+            searchFn(){
+                console.log(this.searchValue)
+                let search = this.searchValue
+                localStorage.setItem('search', JSON.stringify(search));
+                this.$router.push('/company-product-list')
             }
         }
     }
@@ -165,7 +172,7 @@
             height: .56rem;
             padding-left: 6px;
             width: 80%;
-
+color: #fff;
             &::-webkit-input-placeholder {
                 color: rgba(255, 255, 255);
             }

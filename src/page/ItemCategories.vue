@@ -48,7 +48,6 @@
                         </div>
                         <div style="height: 8.8rem;overflow: scroll">
                             <!--<ClxsdLoadMore key="orders-list" ref="loadmore" @onRefresh="onOrdersRefresh" @onLoadMore="onOrdersLoadMore">-->
-                            <!--在售商品-->
                             <div v-for="(entity,ikey) in goodList.list" v-if="goodList.list!==''" :key="ikey">
                                 <div style="margin-left: .2rem">
                                     <div class="item" id="list-item">
@@ -126,7 +125,7 @@
                 cat_id: 0,
                 length: 0,
                 value:"",
-                current_status:'', //当前状态上架或下架
+                current_status:1, //当前状态上架或下架
                 current_id:'', //当前id
                 current_search:'', //搜索内容
 
@@ -438,7 +437,7 @@
         display: block;
         text-align: left;
         width: 2rem;
-        height: 10rem;
+        height: 9.5rem;
         overflow: scroll;
 
         .menu-list {

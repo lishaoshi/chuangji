@@ -71,7 +71,6 @@
     .scroll-content {
         position: relative;
         height: 100%;
-        padding-top: .05rem;
         li {
             height: .88rem;
             line-height: .88rem;

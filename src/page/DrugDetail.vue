@@ -12,7 +12,7 @@
             <div class="title">{{data.good_name}}</div>
             <div class="info">
                 <span>品 &nbsp;&nbsp;&nbsp;&nbsp; 牌</span>
-                <samp>{{data.brand.name}}</samp>
+                <samp>{{name1}}</samp>
             </div>
             <div class="info">
                 <span>规 &nbsp;&nbsp;&nbsp;&nbsp; 格</span>
@@ -64,7 +64,7 @@
                 <p class="name">推荐</p>
             </div>
             <div>
-                <p class="price" style="color: #333;font-size: .28rem">{{data.category.name}}</p>
+                <p class="price" style="color: #333;font-size: .28rem">{{name2}}</p>
                 <p class="name">分类</p>
             </div>
         </div>
@@ -86,6 +86,7 @@
         </div>
         <div class="bg-fade"></div>
         <div class="state" @click="changeSelf">{{info}}商品</div>
+        <CircleLoading v-if="loading"/>
     </div>
 </template>
 
@@ -105,7 +106,10 @@
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
                 status:0,
                 creat_time:'',
-                info:'上架'
+                info:'上架',
+                loading:true,
+                name1:'',
+                name2:''
             }
         },
         computed: {
@@ -128,6 +132,8 @@
                     this.info = "上架"
                 }
                 this.status = data.status
+                this.name1 = data.brand.name
+                this.name2 = data.category.name
                 if(data.valid_time!=0){
                     let time = data.valid_time
                     this.time = this.$moment.unix(time).format("YYYY-MM-DD")
@@ -136,6 +142,7 @@
                     let time = data.updated_at
                     this.creat_time = this.$moment.unix(time).format("YYYY-MM-DD")
                 }
+                this.loading = false
                 return data
             },
             async _initData() {

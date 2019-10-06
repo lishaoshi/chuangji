@@ -142,15 +142,15 @@
         margin-top: 0px;
         background: #fff;
         width: 100%;
-        height: .64rem;
-        line-height: .64rem;
+        height: .88rem;
+        line-height: .88rem;
         display: flex;
         padding: 0 .24rem;
         align-items: center;
 
         .notice-list {
             width: 6.2rem;
-            height: .64rem;
+            height: .88rem;
             overflow-y: hidden;
             margin-left: .1rem;
 
@@ -160,7 +160,7 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 font-size: .24rem;
-                line-height: .64rem;
+                line-height: .88rem;
                 color: #333;
             }
         }
