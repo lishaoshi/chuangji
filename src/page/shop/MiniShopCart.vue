@@ -6,7 +6,7 @@
                 <p><i>￥</i><i id="totalPrice">{{totalPrice}}</i></p>
                 <p>已选<i id="totalProductCount">{{count}}</i>件</p>
             </div>
-            <div v-if="USER_TYPE === 2">
+            <div v-if="USER_TYPE === 2" @click="goPay">
                 <div class="join_shop" :class="{'toPay':count}">
                     <p>去购买</p>
                 </div>
@@ -65,6 +65,9 @@
         methods: {
             drop(target) {
                 this.$refs.cartBall.drop(target)
+            },
+            goPay() {
+                this.$router.push({name: 'ShopCart'})
             }
         }
     }

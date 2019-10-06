@@ -53,12 +53,17 @@
 
         <mt-tab-container v-model="selected" style="min-height: 5rem;">
             <mt-tab-container-item id="1">
+                <div v-if="drawOrders.length>0">
                 <ClxsdLoadMore key="orders-list-UnDrawOrder" ref="loadmoreUnDraw" @onRefresh="unDrawRefresh" @onLoadMore="unDrawLoadMore">
                     <UnDrawCard :key="`order_drug_undraw_${index}`" :data="order" v-for="(order,index) in drawOrders"
                                 :refuseOrder="refuseOrder"
                                 :extractOrder="extractOrder"
                     />
                 </ClxsdLoadMore>
+                </div>
+                <div v-else>
+                    <EmptyOrder/>
+                </div>
                 <span class="fixed-over" v-if="drawOrders.length>0">
                     <span v-if="is_over == false" @click="is_over = !is_over">
                         <svg class="icon">
@@ -74,20 +79,35 @@
                 </span>
             </mt-tab-container-item>
            <mt-tab-container-item id="2">
+               <div v-if="unSendOrders.length>0">
                <ClxsdLoadMore key="orders-list-unSend" ref="loadmoreUnSend" @onRefresh="unSendRefresh" @onLoadMore="unSendLoadMore">
                    <DrugOrderCard :key="`order_drug_unSend_${index}`" :data="order" :status="2" v-for="(order,index) in unSendOrders" :sureSendOrder="sureSendOrder"></DrugOrderCard>
                </ClxsdLoadMore>
+               </div>
+               <div v-else>
+                   <EmptyOrder/>
+               </div>
            </mt-tab-container-item>
            <mt-tab-container-item id="3">
+               <div v-if="unRecMoney.length>0">
                <ClxsdLoadMore key="orders-list-unRecMoney" ref="loadmoreUnRecMoney" @onRefresh="unRecMoneyRefresh" @onLoadMore="unRecMoneyLoadMore">
                    <DrugOrderCard :key="`order_drug_unmoney_${index}`" :data="order" :status="3"  v-for="(order,index) in unRecMoney" :sureOrder="sureOrder"></DrugOrderCard>
                </ClxsdLoadMore>
+               </div>
+               <div v-else>
+                   <EmptyOrder/>
+               </div>
            </mt-tab-container-item>
 
            <mt-tab-container-item id="4">
+               <div  v-if="recOrders.length>0">
                <ClxsdLoadMore key="orders-list-rec" ref="loadmoreRec" @onRefresh="recRefresh" @onLoadMore="recLoadMore">
                    <DrugOrderCard :key="`order_factory_unSend_${index}`" :data="order" :status="4"  v-for="(order,index) in recOrders"  :delectOrder="delectOrder"></DrugOrderCard>
                </ClxsdLoadMore>
+               </div>
+               <div v-else>
+                   <EmptyOrder/>
+               </div>
            </mt-tab-container-item>
         </mt-tab-container>
         <clxsd-foot-guide :user-type="USER_TYPE"/>

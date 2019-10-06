@@ -67,7 +67,8 @@
     import OrderCard from "@/components/common/OrderCard"
 	import EmptyOrder from '@/components/EmptyList'
 	import { mapState } from "vuex";
-	import { getBusinessOrderList,deleteBusinessOrder,sureBusinessOrder } from "@/api/businessOrder.js"
+    import { getBusinessOrderList,deleteBusinessOrder,sureBusinessOrder } from "@/api/businessOrder.js"
+    import BScroll from 'better-scroll'
 
     export default {
         name: "MyOrder",

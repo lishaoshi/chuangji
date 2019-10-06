@@ -46,7 +46,7 @@
                             <p @click="downSaleGoods(cat_id)" :class="{active,isDown}">下架<span>({{goodList.unSale||DownSaleNum}})</span>
                             </p>
                         </div>
-                        <div style="height: 8.8rem;overflow: scroll">
+                        <div style="height: 8.2rem;overflow: scroll">
                             <!--<ClxsdLoadMore key="orders-list" ref="loadmore" @onRefresh="onOrdersRefresh" @onLoadMore="onOrdersLoadMore">-->
                             <div v-for="(entity,ikey) in goodList.list" v-if="goodList.list!==''" :key="ikey">
                                 <div style="margin-left: .2rem">
@@ -60,7 +60,7 @@
                                             </router-link>
                                             <p class="item-box-p1" v-if="entity.brand">{{entity.brand.name}}</p>
                                             <p class="item-box-p1">规格: {{entity.spec}}</p>
-                                            <p class="item-box-p1">效期. {{time}}</p>
+                                            <p class="item-box-p1">效期:  {{time}}</p>
                                             <div class="selling">
                                                 <div class="unit_price">
                                                     <p class="font"><i>￥</i><i>{{entity.price}}</i><span>{{entity.market_price}}</span>
@@ -155,7 +155,9 @@
         },
         created() {
             this.initData()
-            this.init_Goods()
+            let params = {}
+            this.cat_id = ''
+            this.init_Goods(params)
             //this.loadFrist();
         },
         methods: {
@@ -165,7 +167,7 @@
                     data.list.forEach(data => {
                         console.log(data)
                         let time = data.valid_time
-                        this.time = this.$moment.unix(time).format("YYYY-MM-DD")
+                        this.time = this.$moment.unix(time).format("YYYY.MM.DD")
                     })
                 }
             },

@@ -57,6 +57,7 @@
         display: block;
         padding: .1rem;
         background:rgba(255,255,255,1);
+        font-size: .32rem;
     }
     .btn1 {
         width:7.1rem;

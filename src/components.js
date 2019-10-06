@@ -8,6 +8,7 @@ import CommonHeader from "./components/common/CommonHeader.vue";
 import HeadTop from "./components/HeadTop.vue";
 import CircleLoading from '@/icons/CircleLoading.vue';
 import PullRefresh from "./components/PullRefresh";
+import BetterScroll from "./components/better-scroll"
 
 export default [
     Avatar,
@@ -19,4 +20,5 @@ export default [
     LoadingFull,
     CircleLoading,
     PullRefresh,
+    BetterScroll
 ]

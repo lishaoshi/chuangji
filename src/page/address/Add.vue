@@ -15,11 +15,12 @@
 				<mt-switch v-model="switch_checked" @change="turn">
 				</mt-switch>
 			</div>
-			<mt-button type="primary" class="sub-btn" @click="onSave">保存</mt-button>
+			<mt-button type="primary" class="sub-btn" @click="onSave">确认保存</mt-button>
 		</div>
 		<mt-popup v-model="regionVisible" position="bottom" class="bottom-region" style="width:100%;">
 			<address-popup @listenAddressChange='addressChange' />
 		</mt-popup>
+		<CircleLoading v-if="loading"/>
 	</div>
 </template>
 <script>
@@ -36,18 +37,27 @@
 
 		data() {
 			return {
+				loading:false,
 				consignee: '', //货人姓名
 				tel: null, //手机号
 				province: null, //省
 				city: null, //市
 				district: null, //区
 				address: null, //详细街道
-				is_default: 1, //是否是默认地址1是默认,0不是
+				is_default: 0, //是否是默认地址1是默认,0不是
 				switch_checked: false,
 				region: null, //省市区
 				finished: false,
 				regionVisible: false,
                 addressId:0,
+			}
+		},
+		watch: {
+			$route(from) {
+				console.log(from)
+				if(from.path == '/address-add'){
+					this.$router.go(0)
+				}
 			}
 		},
 		methods: {

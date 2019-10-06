@@ -90,6 +90,7 @@
     import {mapState, mapMutations} from 'vuex'
     import {getAddressList} from '@/api/address'
     import SuccessOrder from './OrderSuccess'
+    import { confirmOrder } from '@/api/shopCar'
 
     export default {
         name: "ShopOrder",
@@ -221,21 +222,39 @@
                     return
                 }
 
+                
+                let ids = {}
+                this.confirmOrderData.checkedItems.forEach((item, index, arr)=>{
+                    if(ids[item.shopId]) {
+                        ids[`${item.shopId}`] = [...ids[item.shopId], item.id]
+                    } else {
+                        ids[`${item.shopId}`] = [item.id]
+                    }
+                })
+                ids = JSON.stringify(ids)
                 const params = {
-                    address: this.choosedAddress,
-                    confirmOrderData: this.confirmOrderData
+                    address_id: this.choosedAddress.id,
+                    ids
                 }
+                
+                confirmOrder(params).then(res=>{
+                    // console.log(res.data, 'res')
+                    let data = res.data.data
+                    // console.log(data, 'data')
 
-                this.$http.post('/hippo-shop/to-order', params)
-                .then(response => {
-                    //this.$router.push({path: '/order-success', query: {}})
-                    this.is_success = true
-                    console.log(response)
+                    this.$router.push({name: 'OrderSuccess', params: {data:data, orderType: this.confirmOrderData.type}})
                 })
-                .catch(err => {
-                    console.log(err)
-                })
+                // console.log(params, ids, this.confirmOrderData)
 
+                // this.$http.post('/hippo-shop/to-order', params)
+                // .then(response => {
+                //     //this.$router.push({path: '/order-success', query: {}})
+                //     this.is_success = true
+                //     console.log(response)
+                // })
+                // .catch(err => {
+                //     console.log(err)
+                // })
             }
         }
     }

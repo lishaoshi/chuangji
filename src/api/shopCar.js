@@ -41,3 +41,9 @@ export function onlyDelShopCar(params) {
     let url = `hippo-shop/shoppingcar/decr`
     return http.patch(url, params)
 }
+
+// 订单提交
+export function confirmOrder(params) {
+    let url = `hippo-shop/to-order`
+    return http.post(url, params)
+}

@@ -26,18 +26,18 @@
         </div>
 
         <div class="comfirmOrderInfo">
-            <div>
-                <div>上海上药信谊制药有限公司</div>
+            <div v-for="(item, index) of data" :key="index">
+                <div>{{item.name}}</div>
                 <div>
-                    <span>01234567890123456789</span>
-                    <span>￥1000.00</span>
+                    <span>{{item.order_sn}}</span>
+                    <span>￥{{item.order_amount.toFixed(2)}}</span>
                 </div>
             </div>
         </div>
 
         <div class="buttonBtn">
            <router-link to="/factory-order" v-if="orderType == 'factory'"> 
-                <div class="query">查看订单</div> 
+                <div  class="query">查看订单</div> 
             </router-link> 
            <router-link to="/business-order" v-if="orderType == 'business'"> 
                 <div class="query">查看订单</div>
@@ -51,7 +51,21 @@
 <script>
     export default {
         name: "OrderSuccess",
-        props:["orderType"]
+        data() {
+            return {
+                data: {}
+            }
+        },
+        // props:["orderType"],
+        created() {
+                //   console.log(this.$route)
+            if(this.$route.params) {
+                // console.log(this.$route.query)
+                this.data = this.$route.params.data
+                this.orderType = this.$route.params.orderType
+            }
+    },
+  
     }
 </script>
 
