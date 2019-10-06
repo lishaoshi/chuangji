@@ -55,8 +55,8 @@
                 <p>转换系数</p>
             </div>
             <div class="trans-box-box1">
-                <h2>件</h2>
-                <p>大单位</p>
+                <h2>盒</h2>
+                <p>销售单位</p>
             </div>
         </div>
         <div class="price-flex">
