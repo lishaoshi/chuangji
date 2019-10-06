@@ -46,7 +46,7 @@
                             <p @click="downSaleGoods(cat_id)" :class="{active,isDown}">下架<span>({{goodList.unSale||DownSaleNum}})</span>
                             </p>
                         </div>
-                        <div style="height: 8.8rem;overflow: scroll">
+                        <div style="height: 8.5rem;overflow: scroll">
                             <!--<ClxsdLoadMore key="orders-list" ref="loadmore" @onRefresh="onOrdersRefresh" @onLoadMore="onOrdersLoadMore">-->
                             <div v-for="(entity,ikey) in goodList.list" v-if="goodList.list!==''" :key="ikey">
                                 <div style="margin-left: .2rem">

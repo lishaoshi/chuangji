@@ -15,7 +15,7 @@
 				<mt-switch v-model="switch_checked" @change="turn">
 				</mt-switch>
 			</div>
-			<mt-button type="primary" class="sub-btn" @click="onSave">保存并使用</mt-button>
+			<mt-button type="primary" class="sub-btn" @click="onSave">确认修改</mt-button>
 		</div>
 		<mt-popup v-model="regionVisible" position="bottom" class="bottom-region" style="width:100%;">
 			<address-popup @listenAddressChange='addressChange' />

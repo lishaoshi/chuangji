@@ -13,10 +13,10 @@
                 <span>{{info.role_desc}}</span>
             </mt-cell>
             -->
-            <mt-cell title="实名认证">
+            <mt-cell title="实名认证" style="border: 0px">
                 <span><svg class="icon1"><use xlink:href="#icon-global-footer-my-1"/></svg>{{info.real_name || info.display_name}}</span>
             </mt-cell>
-            <mt-cell title="手机号" is-link to="/change-phone">
+            <mt-cell title="手机号" is-link to="/change-phone" style="border: 0px">
                 <span>{{info.phone}}</span>
             </mt-cell>
             <mt-cell title="身份证号" style="margin-top: .2rem">
