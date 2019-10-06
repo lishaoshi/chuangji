@@ -30,11 +30,7 @@
             </button>
         </div>
         <div v-else>
-            <div v-if="is_code">
                 <p class="tel">手机号：<span>{{phone | filter_mobile}}</span></p>
-                <div class="title-container">
-                    <p class="p1">我们已发送<span>验证码</span>到此手机</p>
-                </div>
                 <div class="m-form-row m-main" style="padding-left: .2rem">
                     <label for="code">验证码</label>
                     <div class="m-input">
@@ -42,32 +38,24 @@
                     </div>
                     <span :class="{ disabled: countdown > 0 }" class="code-text" @click="getCode">{{ codeText }}</span>
                 </div>
-                <!--
-                <button  class="m-long-btn m-signin-btn"  :disabled="loading||disabled">
-                    <span>下一步</span>
-                </button>
-                -->
-            </div>
-            <div v-else>
                 <main>
                     <div class="m-form-row m-main">
                         <label for="new_password">新密码</label>
                         <div class="m-input">
-                            <input id="new_password" v-model="newPassword"  type="password"  autocomplete="off" placeholder="输入6位以上的登录密码">
+                            <input id="new_password" v-model="newPassword"  type="password"  autocomplete="off" placeholder="请输入新密码">
                         </div>
                     </div>
                     <div class="m-form-row m-main">
                         <label for="new_again_password">确认密码</label>
                         <div class="m-input">
                             <input id="new_again_password" v-model="rePassword"  type="password"  autocomplete="off"
-                                   placeholder="请再次输入新设置的密码">
+                                   placeholder="请再次输入新密码">
                         </div>
                     </div>
                 </main>
                 <button  class="m-long-btn m-signin-btn"  @click="handlePasswordOk"  :disabled="loading||disabledRes">
-                    <span>立即保存</span>
+                    <span>确认修改</span>
                 </button>
-            </div>
         </div>
         <p class="change-tel" @click="is_know=!is_know">{{knowTitle}}</p>
         <!--不知道旧密码，手机验证-->

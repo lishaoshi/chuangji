@@ -2,22 +2,24 @@
 	<div id="MyInfo">
 		<clxsd-head-top title='个人信息'></clxsd-head-top>
         <PullRefresh @refresh="refresh">
-            <mt-cell title="个人头像" is-link  to="/change-logo" style="margin-top: .2rem;margin-bottom: .2rem">
+            <mt-cell title="头像" is-link  to="/change-logo" style="margin-top: .2rem;margin-bottom: .2rem">
                 <span>
                     <img src="../../images/my/user_default.png" width="35" height="35" v-if="!info.avatar">
                     <img :src="info.avatar" v-else  width="35" height="35"/>
                 </span>
             </mt-cell>
+            <!--
             <mt-cell title="角色类型" style="margin-bottom: .2rem" v-if="user_type!=3">
                 <span>{{info.role_desc}}</span>
             </mt-cell>
+            -->
             <mt-cell title="实名认证">
                 <span><svg class="icon1"><use xlink:href="#icon-global-footer-my-1"/></svg>{{info.real_name || info.display_name}}</span>
             </mt-cell>
             <mt-cell title="手机号" is-link to="/change-phone">
                 <span>{{info.phone}}</span>
             </mt-cell>
-            <mt-cell title="身份证号">
+            <mt-cell title="身份证号" style="margin-top: .2rem">
                 <span>{{info.user_identity}}</span>
             </mt-cell>
         </PullRefresh>

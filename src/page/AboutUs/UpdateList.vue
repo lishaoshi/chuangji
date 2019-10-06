@@ -1,10 +1,14 @@
 <template>
-    <div>
+    <div style="min-height: 100%;background: #fff">
         <clxsd-head-top title='更新列表'></clxsd-head-top>
-        <h3 class="p1">版本更新列表</h3>
-        <ul class="ul">
-            <li>1.版本一更新于2019.06.12</li>
-        </ul>
+        <h3 class="p1">V1.0.0本次更新内容</h3>
+        <p class="p2">2019.10.04</p>
+        <ol class="ul">
+            <li>本次更新修改了多处bug</li>
+            <li>本次更新修改了多处bug</li>
+            <li>本次更新将首页的内容进行了重新的规划，添加了用   户更想了解的内容</li>
+            <li>本次更新将首页的内容进行了重新的规划，添加了用   户更想了解的内容</li>
+        </ol>
     </div>
 </template>
 
@@ -16,20 +20,32 @@
 
 <style lang="scss" scoped>
     .p1 {
-        font-size: .38rem;
         text-align: center;
-        line-height: 2;
-        padding-top: .4rem;
+        font-size:.36rem;
+        font-family:PingFang SC;
+        font-weight:bold;
+        color:rgba(51,51,51,1);
+        padding-top: .5rem;
+    }
+    .p2 {
+        margin-top: .2rem;
+        font-size:.24rem;
+        font-family:PingFang SC;
+        font-weight:500;
+        color:rgba(153,153,153,1);
+        text-align: center;
     }
     .ul {
         background: #fff;
-        line-height: .88rem;
-        font-size: .32rem;
-        padding: 0 .2rem;
+        font-size: .28rem;
+        padding: 0 .5rem;
         margin-top: .3rem;
         li {
-            border-bottom:1px solid #f1f1f1;
             padding-left: .1rem;
+            line-height: 1.5;
+            padding-top: .1rem;
+            padding-bottom: .1rem;
+            list-style-type: decimal ;
         }
     }
 </style>

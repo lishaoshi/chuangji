@@ -7,7 +7,10 @@
                 <div class="feed-item" v-for="(item,index) in feedList" :key="`${index}_feeditem`">
                     <p>{{time}}</p>
                     <div>
-                        {{item.body}}
+                        <span style="background: #FF7612" v-if="item.reply_contents != null">问</span>{{item.body}}
+                    </div>
+                    <div v-if="item.reply_contents != null">
+                        <span>答</span>{{item.reply_contents}}
                     </div>
                 </div>
                 </mt-loadmore>
@@ -45,7 +48,7 @@
                 if (data) {
                     data.forEach(item => {
                         let time = item.created_at
-                        this.time = this.$moment(time).format("YYYY-MM-DD")
+                        this.time = this.$moment.unix(time).format("YYYY-MM-DD")
                     })
                 }
             },
@@ -111,14 +114,22 @@
             color:rgba(153,153,153,1);
         }
         div {
-            max-height:2.04rem;
             background:rgba(245,245,245,1);
             font-size:.28rem;
             line-height: .46rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
             padding: .1rem;
             margin-top: .2rem;
+            span {
+                width:.32rem;
+                height:.32rem;
+                line-height: .32rem;
+                background:rgba(45,162,255,1);
+                border-radius:2px;
+                color: #fff;
+                display: inline-block;
+                text-align: center;
+                margin-right: .1rem;
+            }
         }
     }
 </style>
