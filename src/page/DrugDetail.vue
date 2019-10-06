@@ -93,7 +93,8 @@
         data() {
             return {
                 data:[],
-                id:this.$route.params.id
+                id:this.$route.params.id,
+                time:''
             }
         },
         created(){

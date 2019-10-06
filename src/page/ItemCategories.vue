@@ -42,8 +42,8 @@
                 <div class="mint-tab-container" style="margin-top: 0px">
                     <div>
                         <div class="sale-nav">
-                            <p @click="onSaleGoods(cat_id)" :class="{active,isUp}">在售<span>({{goodList.onSale||0}})</span></p>
-                            <p @click="downSaleGoods(cat_id)" :class="{active,isDown}">下架<span>({{goodList.unSale||0}})</span>
+                            <p @click="onSaleGoods(cat_id)" :class="{active,isUp}">在售<span>({{goodList.onSale||OnSaleNum}})</span></p>
+                            <p @click="downSaleGoods(cat_id)" :class="{active,isDown}">下架<span>({{goodList.unSale||DownSaleNum}})</span>
                             </p>
                         </div>
                         <div style="height: 8.8rem;overflow: scroll">
@@ -56,7 +56,7 @@
                                             <img :src="entity.cover" class="item-img">
                                         </router-link>
                                         <div class="item-box">
-                                            <router-link to="">
+                                            <router-link :to="`/drug-detail/${entity.id}`">
                                                 <p class="title">{{entity.good_name}}</p>
                                             </router-link>
                                             <p class="item-box-p1" v-if="entity.brand">{{entity.brand.name}}</p>
@@ -78,7 +78,12 @@
                                 </div>
                             </div>
                             <div v-if="goodList.list==''">
-                                <empty/>
+                                <div class="empty">
+                                    <svg style="width: 2.4rem;height: 2.4rem">
+                                        <use xlink:href="#icon-empty"></use>
+                                    </svg>
+                                    <p>抱歉没有数据展示</p>
+                                </div>
                             </div>
                             <div style="height: 1rem"></div>
                             <!--</ClxsdLoadMore>-->
@@ -130,7 +135,10 @@
                 wrapperHeight: 0,
                 courrentPage: 1,//当前页面
                 limit:15,
-                time:''
+                time:'',
+
+                OnSaleNum:0,//在售数量
+                DownSaleNum:0//下架数量
             }
         },
         computed: {
@@ -318,6 +326,8 @@
                 console.log(params)
                 servicBusinessGoodList(params).then(res => {
                     this.goodList = res.data.data.businessGoods
+                    this.DownSaleNum = this.goodList.unSale
+                    this.OnSaleNum = this.goodList.onSale
                 })
                 this.goodList = this._handleData(this.goodList)
             },
@@ -385,7 +395,15 @@
 </script>
 
 <style scoped lang="scss">
-
+    .empty {
+        text-align: center;
+        color: #999;
+        font-size: .25rem;
+        padding-top: 1.2rem;
+        p {
+            padding-top: .6rem;
+        }
+    }
     .search {
         background: #f1f1f1;
         top: 0px;

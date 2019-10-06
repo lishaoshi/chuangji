@@ -69,11 +69,11 @@
             </div>
             <div class="info">
                 <span>生产厂家：</span>
-                <samp>华北制药集团有限责任公司</samp>
+                <samp></samp>
             </div>
             <div class="info">
                 <span>有效期至</span>
-                <samp>2023.4.18</samp>
+                <samp></samp>
             </div>
         </div>
         <mini-shop-cart ref="miniShopCart" :count="cartNum" :total-price="totalPrice" :shop-id="factoryId" :USER_TYPE = "USER_TYPE"></mini-shop-cart>
