@@ -42,7 +42,7 @@
                 CERT_STATUS: state => {
                     // debugger
                         let returnValue = 1
-                        const userInfo = state.CURRENTUSER.data.userInfo
+                        const userInfo = state.CURRENTUSER.data
                         if(!userInfo['certification']){
                             returnValue = 0
                         }else if(!!userInfo['certification'] && userInfo['certification']['status'] === 0){
@@ -56,7 +56,7 @@
                         }
                         return returnValue
                 },
-                USER_TYPE: state => state.CURRENTUSER.data.userInfo.user_type
+                USER_TYPE: state => state.CURRENTUSER.data.user_type
             })
         },
         beforeRouteLeave(to, from, next) {

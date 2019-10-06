@@ -92,7 +92,7 @@
         },
         computed:{
             ...mapState({
-                USER_INFO: state => state.CURRENTUSER.data.userInfo
+                USER_INFO: state => state.CURRENTUSER.data
             }),
             User_Id(){
                 return this.USER_INFO.user_identity;

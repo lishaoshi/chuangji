@@ -150,7 +150,7 @@
         computed: {
             ...mapState({
                 //用户是否有权限看价格
-                canShow: state => state.CURRENTUSER.data.userInfo.shop_supplier,
+                canShow: state => state.CURRENTUSER.data.shop_supplier,
 
                 cartList: state => state.shop.CART_LIST
             }),

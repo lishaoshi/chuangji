@@ -82,7 +82,7 @@
         },
         computed: {
             ...mapState({
-                USER_INFO: state => state.CURRENTUSER.data.userInfo
+                USER_INFO: state => state.CURRENTUSER.data
             }),
             isTabPartner() {
                 return this.USER_INFO.status === 1 && this.USER_INFO.sub_type === 1;

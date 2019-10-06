@@ -27,8 +27,8 @@
         },
         computed:{
             ...mapState({
-                USER_TYPE: state => state.CURRENTUSER.data.userInfo.user_type,
-                rootHome: state => !!state.CURRENTUSER.data.userInfo.is_root,
+                USER_TYPE: state => state.CURRENTUSER.data.user_type,
+                rootHome: state => !!state.CURRENTUSER.data.is_root,
             }),
 
         },

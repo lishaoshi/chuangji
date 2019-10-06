@@ -92,7 +92,7 @@
         computed:{
             ...mapState({
                 userInfo: state => {
-                    const currentInfo = state.CURRENTUSER.data.userInfo
+                    const currentInfo = state.CURRENTUSER.data
                     const configInfo = state.CONFIG
                     let companyName = '未认证'
                     let infoText = '未上传资质'
@@ -116,12 +116,6 @@
                         userName: currentInfo.display_name || currentInfo.real_name || currentInfo.phone || '丢失信息',
                         userTel: 　currentInfo.phone || '丢失信息',
                         companyName,
-                        lianBei:{
-                            isOpen:!!currentInfo.lianbei,
-                            value: !!currentInfo.lianbei ? (currentInfo.lianbei.balance/100).toFixed(2):'0.00'
-                        },
-                        lianBeiValue: (configInfo['lianbei'] && configInfo['lianbei']['real_value']) ? configInfo['lianbei']['real_value'] : '0.30',
-                        lianPiaoVaule:currentInfo.lianpiao ? (parseFloat(currentInfo.lianpiao.add_balance) + parseFloat(currentInfo.lianpiao.balance)).toFixed(2):'0.00',
                         infoText,
                         userLogo
                     }
@@ -146,7 +140,7 @@
                 })
             },
             refresh(callback){
-                this.$store.dispatch("fetchUserInfo");
+               // this.$store.dispatch("fetchUserInfo");
                 this.initData(callback);
             }
         }

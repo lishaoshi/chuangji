@@ -60,7 +60,7 @@
         },
         computed:{
             state(){
-                return this.$store.state.CURRENTUSER.data.userInfo.state
+                return this.$store.state.CURRENTUSER.data.state
             }
         },
         methods:{

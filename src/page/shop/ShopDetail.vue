@@ -69,11 +69,11 @@
             </div>
             <div class="info">
                 <span>生产厂家：</span>
-                <samp>华北制药集团有限责任公司</samp>
+                <samp></samp>
             </div>
             <div class="info">
                 <span>有效期至</span>
-                <samp>2023.4.18</samp>
+                <samp></samp>
             </div>
         </div>
         <mini-shop-cart ref="miniShopCart" :count="cartNum" :total-price="totalPrice" :shop-id="factoryId" :USER_TYPE = "USER_TYPE"></mini-shop-cart>
@@ -113,10 +113,10 @@
         computed: {
             ...mapState({
                 //用户是否有权限看价格
-                canShow: state => state.CURRENTUSER.data.userInfo.shop_supplier,
+                canShow: state => state.CURRENTUSER.data.shop_supplier,
 
                 cartList: state => state.shop.CART_LIST,
-                USER_TYPE: state => state.CURRENTUSER.data.userInfo.user_type,
+                USER_TYPE: state => state.CURRENTUSER.data.user_type,
             }),
             shopCart() {
                 return {...this.cartList[this.factoryId]}

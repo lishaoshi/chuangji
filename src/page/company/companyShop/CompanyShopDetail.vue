@@ -2,14 +2,16 @@
     <div id="CompanyShopDetail" style="min-height: 100%">
         <clxsd-head-top :title='`详情`'></clxsd-head-top>
         <span class="collect" @click="CollectionFn()" :class="{activebtn: isFullScreen}">{{follow_info}}</span>
-        <mt-swipe :auto="4000" style="height: 5.6rem;background: #fff;">
-            <mt-swipe-item><img :src="data.cover" width="100%" height="100%"></mt-swipe-item>
-            <mt-swipe-item><img :src="data.cover" width="100%" height="100%"></mt-swipe-item>
-            <mt-swipe-item><img :src="data.cover" width="100%" height="100%"></mt-swipe-item>
+        <mt-swipe :auto="4000" style="height: 5.6rem;background: #fff;" v-if="data.imgs!=''">
+            <mt-swipe-item v-for="(item,index) in data.imgs"><img :src="item.new" width="100%" height="100%"></mt-swipe-item>
+        </mt-swipe>
+        <mt-swipe :auto="4000" style="height: 5.6rem;background: #fff;" v-else>
+            <mt-swipe-item><img :src="data.img_cover" width="100%" height="100%"></mt-swipe-item>
         </mt-swipe>
         <div class="detail-box1" v-if="canShow">
             <div class="left">
                 <span style="font-size: .3rem">￥</span> {{data.price}}<span style="font-size: .24rem">/{{data.unit || '件'}}</span>
+                <i>{{data.market_price}}</i>
             </div>
             <div class="rigit">
                 <div class="gw_num" v-if="(!data.is_multi_spec && canShow)">
@@ -30,15 +32,15 @@
             <div class="contant-title">产品参数</div>
             <div class="info">
                 <span>产品规格</span>
-                <samp>{{data.spec}} &nbsp;&nbsp;{{data.tran}}{{data.unit}}/{{data.big_unit || '件'}}</samp>
+                <samp>{{data.spec}}</samp>
             </div>
             <div class="info">
                 <span>生产厂家</span>
-                <samp>华北制药集团有限责任公司</samp>
+                <samp>{{data.brand}}</samp>
             </div>
             <div class="info">
                 <span>有效期至</span>
-                <samp>2023.4.18</samp>
+                <samp>{{time}}</samp>
             </div>
         </div>
         <div style="height: 1rem"></div>
@@ -52,7 +54,7 @@
     import {mapState, mapMutations} from 'vuex'
     import MiniCompanyCart from '@/page/company/CompanyClassify/MiniShopCart.vue'
     import {Swipe, SwipeItem} from 'mint-ui';
-    import {getCollectionList, deleteCollection, SaveCollection} from "@/api/follow.js"
+    import {isBusinessGoodsFollow, deleteBusinessGoodsFollow, SaveBusinessGoodsFollow} from "@/api/follow.js"
 
     export default {
         name: "CompanyShopDetail",
@@ -76,6 +78,7 @@
                 data: [],
                 nums: 0,
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
+                time:''
             }
         },
         created() {
@@ -87,7 +90,7 @@
         computed: {
             ...mapState({
                 //用户是否有权限看价格
-                canShow: state => state.CURRENTUSER.data.userInfo.shop_supplier,
+                canShow: state => state.CURRENTUSER.data.shop_supplier,
 
                 cartList: state => state.shop.BUSINESS_CART_LIST
             }),
@@ -121,8 +124,25 @@
                 }
                 const {
                     data
-                } = await this.$http.get(`hippo-shop/business/entities/detail`, {params})
-                this.data = this._handleData(data)
+                } = await this.$http.get(`hippo-shop/business/${this.businessId}/detail/${this.id}`)
+                this.data = data.data
+                this.data = this._handleData(this.data)
+
+                //是否收藏
+                isBusinessGoodsFollow(this.id).then(res => {
+                    console.log(res.data.data.hasrelation)
+                    if(res.data.data.hasrelation){
+                        this.follow_info = "已收藏"
+                        this.follow_status = 1
+                    }else{
+                        this.follow_info = "收藏"
+                        this.follow_status = 0
+                    }
+                }).catch(error => {
+                    console.log(error)
+                })
+
+
             },
             canOption() {
                 if (!this.canShow) {
@@ -132,6 +152,10 @@
                 return true
             },
             _handleData(data) {
+                if(data.valid_time!=0){
+                    let time = data.valid_time
+                    this.time = this.$moment(time).format("YYYY-MM-DD")
+                }
                 Object.values(this.shopCart).forEach((cartItem, cartindex) => {
                     if (this.id === cartItem.id) {
                         this.nums = cartItem.num
@@ -171,12 +195,12 @@
                 if (this.follow_status) {//followed
                     this.$messagebox.confirm("确定要取消收藏吗?").then(action => {
                         if (action === 'confirm') {
-                            deleteCollection(this.id)
+                            deleteBusinessGoodsFollow(this.id)
                             this.follow_info = '收藏'
                         }
                     });
                 } else {
-                    SaveCollection(params)
+                    SaveBusinessGoodsFollow(params)
                     this.follow_info = '已收藏'
                 }
                 this.follow_status = !this.follow_status
@@ -202,6 +226,12 @@
             font-size: .48rem;
             color: #fff;
             padding-left: .2rem;
+            i {
+                font-size: .24rem;
+                text-decoration: line-through;
+                margin-left: 5px;
+                padding: 0 5px;
+            }
         }
     }
 
