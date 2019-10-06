@@ -161,10 +161,12 @@
         },
         methods: {
             async _handleData(data) {
+                console.log(data)
                 if (data.list) {
                     data.list.forEach(data => {
+                        console.log(data)
                         let time = data.valid_time
-                        this.time = this.$moment(time).format("YYYY-MM-DD")
+                        this.time = this.$moment.unix(time).format("YYYY-MM-DD")
                     })
                 }
             },

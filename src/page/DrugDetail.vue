@@ -1,45 +1,41 @@
 <template>
     <div id="DrugDetail">
-        <clxsd-head-top :title='`药链通集采平台`'></clxsd-head-top>
-        <mt-swipe :auto="4000" style="height: 5.6rem;">
-            <mt-swipe-item><img src="../images/index/img3.png" width="100%"></mt-swipe-item>
-            <mt-swipe-item><img src="../images/index/img3.png" width="100%"></mt-swipe-item>
-            <mt-swipe-item><img src="../images/index/img3.png" width="100%"></mt-swipe-item>
+        <clxsd-head-top :title='`详情`'></clxsd-head-top>
+        <span class="collect" @click="CollectionFn()" :class="{activebtn: isFullScreen}">{{follow_info}}</span>
+        <mt-swipe :auto="4000" style="height: 5.6rem;background: #fff;" v-if="data.imgs!=''">
+            <mt-swipe-item v-for="(item,index) in data.imgs"><img :src="item.new" width="100%" height="100%"></mt-swipe-item>
+        </mt-swipe>
+        <mt-swipe :auto="4000" style="height: 5.6rem;background: #fff;" v-else>
+            <mt-swipe-item><img :src="data.img_cover" width="100%" height="100%"></mt-swipe-item>
         </mt-swipe>
         <div class="contant">
-            <div class="title">维生素</div>
+            <div class="title">{{data.good_name}}</div>
             <div class="info">
-                <span>品&nbsp;&nbsp;&nbsp;&nbsp; 牌</span>
-                <samp>华夏制药集团股份有限责任公司</samp>
+                <span>品 &nbsp;&nbsp;&nbsp;&nbsp; 牌</span>
+                <samp>{{data.brand.name}}</samp>
             </div>
             <div class="info">
-                <span>规&nbsp;&nbsp;&nbsp;&nbsp; 格</span>
-                <samp>1000mg*20</samp>
+                <span>规 &nbsp;&nbsp;&nbsp;&nbsp; 格</span>
+                <samp>{{data.spec}}</samp>
             </div>
             <div class="info">
-                <span>效&nbsp;&nbsp;&nbsp;&nbsp; 期</span>
-                <samp>2018.10.10</samp>
+                <span>效 &nbsp;&nbsp;&nbsp;&nbsp; 期</span>
+                <samp>{{time}}</samp>
             </div>
             <div class="info">
                 <span>批准文号</span>
-                <samp>粤禅械备20150028号</samp>
+                <samp>{{data.approval_number}}</samp>
             </div>
         </div>
         <div class="price-flex">
             <div>
-                <p class="price"><span>￥600</span>
-                    <small>/盒</small>
-                </p>
-                <p class="name">原价</p>
-            </div>
-            <div>
-                <p class="price"><span>￥600</span>
+                <p class="price"><span>￥{{data.price}}</span>
                     <small>/盒</small>
                 </p>
                 <p class="name">订货价</p>
             </div>
             <div>
-                <p class="price"><span>￥600</span>
+                <p class="price"><span>￥{{data.market_price}}</span>
                     <small>/盒</small>
                 </p>
                 <p class="name">市场</p>
@@ -47,61 +43,172 @@
         </div>
         <div class="trans-box">
             <div class="trans-box-box1">
-                <h2>件</h2>
+                <h2>{{data.big_unit}}</h2>
                 <p>大单位</p>
             </div>
             <div class="trans-box-box2">
-                <h2>1000</h2>
+                <h2>1</h2>
                 <p>转换系数</p>
             </div>
             <div class="trans-box-box1">
-                <h2>盒</h2>
+                <h2>{{data.unit}}</h2>
                 <p>销售单位</p>
             </div>
         </div>
         <div class="price-flex">
             <div>
-                <p class="price" style="color: #333;font-size: .28rem">中药</p>
-                <p class="name">类别</p>
+                <p class="price" style="color: #333;font-size: .28rem">
+                    <span v-if="data.is_recommend === 1">是</span>
+                    <span v-else>否</span>
+                </p>
+                <p class="name">推荐</p>
             </div>
             <div>
-                <p class="price" style="color: #333;font-size: .28rem">儿科用药</p>
+                <p class="price" style="color: #333;font-size: .28rem">{{data.category.name}}</p>
                 <p class="name">分类</p>
             </div>
         </div>
         <div class="contant">
             <div class="info">
                 <span>添加时间</span>
-                <samp>2018.02.02</samp>
+                <samp>{{creat_time}}</samp>
             </div>
             <div class="info">
                 <span>修改时间</span>
-                <samp>2018.03.03</samp>
+                <samp>{{creat_time}}</samp>
             </div>
         </div>
         <div style="background: #fff;margin-top: .2rem;padding-top: .3rem">
             <p style="color:#0090FF;text-align: center;line-height: 2;font-size: .28rem">商品详情<br>|</p>
+            <div class="edit-box">
+                {{data.content}}
+            </div>
         </div>
         <div class="bg-fade"></div>
-        <div class="state">下架商品</div>
+        <div class="state" @click="changeSelf">{{info}}商品</div>
     </div>
 </template>
 
 <script>
+    import {mapState} from "vuex"
+    import {isBusinessGoodsFollow, deleteBusinessGoodsFollow, SaveBusinessGoodsFollow} from "@/api/follow.js"
+
     export default {
         name: "DrugDetail",
         data() {
             return {
-                data:[],
-                id:this.$route.params.id,
-                time:''
+                data: [],
+                id: this.$route.params.id,
+                time: '',
+                follow_status: 0,
+                follow_info: '收藏',
+                isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
+                status:0,
+                creat_time:'',
+                info:'上架'
             }
         },
-        created(){
-          console.log(this.id)
+        computed: {
+            ...mapState({
+                USER_INFO: state => state.CURRENTUSER.data
+            }),
+            suppler_id() {
+                return this.USER_INFO.id;
+            },
         },
-        methods:{
+        created() {
+            this.id = parseInt(this.$route.params.id);
+            this._initData();
+        },
+        methods: {
+            _handleData(data) {
+                if(data.status === 1){
+                    this.info = "下架"
+                }else {
+                    this.info = "上架"
+                }
+                this.status = data.status
+                if(data.valid_time!=0){
+                    let time = data.valid_time
+                    this.time = this.$moment.unix(time).format("YYYY-MM-DD")
+                }
+                if(data.updated_at!=0){
+                    let time = data.updated_at
+                    this.creat_time = this.$moment.unix(time).format("YYYY-MM-DD")
+                }
+                return data
+            },
+            async _initData() {
+                const {
+                    data
+                } = await this.$http.get(`hippo-shop/business/${this.suppler_id}/detail/${this.id}`)
+                this.data = data.data
+                this.data = this._handleData(this.data)
+                //是否收藏
+                isBusinessGoodsFollow(this.id).then(res => {
+                    console.log(res.data.data.hasrelation)
+                    if(res.data.data.hasrelation){
+                        this.follow_info = "已收藏"
+                        this.follow_status = 1
+                    }else{
+                        this.follow_info = "收藏"
+                        this.follow_status = 0
+                    }
+                }).catch(error => {
+                    console.log(error)
+                })
+            },
+            CollectionFn() {
+                const params = {
+                    entity_id: this.id
+                }
+                console.log(params)
+                if (this.follow_status) {//followed
+                    this.$messagebox.confirm("确定要取消收藏吗?").then(action => {
+                        if (action === 'confirm') {
+                            deleteBusinessGoodsFollow(this.id)
+                            this.follow_info = '收藏'
+                        }
+                    });
+                } else {
+                    SaveBusinessGoodsFollow(params)
+                    this.follow_info = '已收藏'
+                }
+                this.follow_status = !this.follow_status
+            },
+            changeSelf(){
+                if(this.status === 1){
+                    this.$messagebox.confirm("确定要下架此商品吗?").then(action => {
+                        if (action === 'confirm') {
+                            this.$http.patch(`hippo-shop/business/changeStatus`, {good_id: this.id, status: 0}).then(res => {
+                                this.status = 0
+                                this.info = "上架"
+                            }).catch(error => {
+                                this.$toast("下架失败")
+                            })
+                        }
+                    }).catch(err => err);
+                }else if(this.status === 0){
+                    this.$http.patch(`hippo-shop/business/changeStatus`, {good_id: this.id, status: 1}).then(res => {
+                        this.status = 1
+                        this.info ="下架"
+                    }).catch(error => {
+                        this.$toast("上架失败")
+                    })
+                }
+            },
+            //下架
+            DownSelf() {
 
+            },
+            //上架
+            UpSelf() {
+                this.$http.patch(`hippo-shop/business/changeStatus`, {good_id: this.id, status: 1}).then(res => {
+                    this.status = 0
+                }).catch(error => {
+                    this.$toast("上架失败")
+                })
+            },
         }
     }
 </script>
@@ -154,9 +261,8 @@
             &:nth-child(1) {
                 border-right: 1px solid #f1f1f1;
             }
-            &:nth-child(2) {
-                border-right: 1px solid #f1f1f1;
-            }
+
+
             p {
                 &:nth-child(1) {
                     color: #F2385A;
@@ -176,6 +282,7 @@
             }
         }
     }
+
     .trans-box {
         background: #fff;
         margin-top: .2rem;
@@ -183,35 +290,42 @@
         justify-content: space-around;
         display: flex;
         align-items: center;
+
         &-box1 {
             text-align: center;
+
             h2 {
                 font-size: .28rem;
                 line-height: 2;
             }
+
             p {
-                font-size:.20rem;
-                font-family:PingFang SC;
-                font-weight:500;
-                color:rgba(153,153,153,1);
+                font-size: .20rem;
+                font-family: PingFang SC;
+                font-weight: 500;
+                color: rgba(153, 153, 153, 1);
             }
         }
+
         &-box2 {
             text-align: center;
             width: 3rem;
+
             h2 {
                 font-size: .28rem;
                 line-height: 2;
                 border-bottom: 1px solid #ccc;
             }
+
             p {
-                font-size:.20rem;
-                font-family:PingFang SC;
-                font-weight:500;
-                color:rgba(153,153,153,1);
+                font-size: .20rem;
+                font-family: PingFang SC;
+                font-weight: 500;
+                color: rgba(153, 153, 153, 1);
             }
         }
     }
+
     .bg-fade {
         height: 1.5rem;
     }
@@ -226,5 +340,32 @@
         position: fixed;
         width: 100%;
         bottom: 0px;
+    }
+    .edit-box {
+        padding: .4rem .2rem;
+        color: #333;
+        font-size: .24rem;
+        letter-spacing: 1px;
+        line-height: 1.5;
+        img {
+            max-width: 100%;
+        }
+    }
+    .collect {
+        position: fixed;
+        right: .2rem;
+        line-height: .55rem;
+        color: #fff;
+        top: .15rem;
+        background: #2891e5;
+        display: inline-block;
+        padding: 0 .25rem;
+        border-radius: .55rem;
+        border: 1px solid #42abff;
+        opacity: .9;
+        z-index: 9;
+    }
+    .activebtn {
+        top: .7rem
     }
 </style>
