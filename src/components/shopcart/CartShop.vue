@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<div class="shop-group-item">
-			<div class="shop-name">
+		<div class="shop-group-item" v-if="data.items.length">
+			<div class="shop-name" >
 				<svg class="check goods-check shopCheck" @click="shopChecked(sid)">
 					<use :xlink:href="`#icon-IsCheckedShop-${data.checked ? 'open' : 'close' }`" />
 				</svg>

@@ -1,15 +1,15 @@
 <template>
 	<div id="AddAddress">
-		<clxsd-head-top title='修改收货地址'></clxsd-head-top>
+		<clxsd-head-top title='编辑收货地址'></clxsd-head-top>
 		<div>
-			<mt-field label="收货人" placeholder="请输入收货人姓名" v-model="consignee"></mt-field>
-			<mt-field label="手机号码" placeholder="请输入手机号码" type="tel" v-model="tel"></mt-field>
+			<mt-field class="formItem" label="收货人：" placeholder="请输入收货人姓名" v-model="consignee"></mt-field>
+			<mt-field class="formItem" label="手机号码：" placeholder="请输入手机号码" type="tel" v-model="tel"></mt-field>
 			<div @click="showAddressPicker">
-				<mt-field label="收货地址" placeholder="请选择收货地址" type="text" v-model="region" readonly="readonly" class="region-go">
+				<mt-field  label="收货地址：" placeholder="请选择收货地址" type="text" v-model="region" readonly="readonly" class="region-go formItem">
 					<img src="../../images/my/rightSetting.png" />
 				</mt-field>
 			</div>
-			<mt-field label="详细地址" placeholder="请输入详细地址:如街道，门牌号，单元室等" type="textarea" rows="1" v-model="address"></mt-field>
+			<mt-field class="formItem" label="详细地址：" placeholder="请输入详细地址:如街道，门牌号，单元室等" type="textarea" rows="1" v-model="address"></mt-field>
 			<div class="address-box">
 				<span>设置为默认地址</span>
 				<mt-switch v-model="switch_checked" @change="turn">
@@ -210,7 +210,7 @@
 		justify-content: space-between;
 		height: 1rem;
 		line-height: 1rem;
-		font-size: 16px;
+		font-size: .28rem;
 	}
 
 	.sub-btn {
@@ -226,5 +226,19 @@
 		span {
 			color: #F2385A;
 		}
+	}
+	
+</style>
+<style lang="scss">
+	.formItem {
+		display: flex;
+		.mint-cell-wrapper {
+			font-size: .28rem;
+		}
+		.mint-cell-title {
+			width: auto;
+			margin-right: 2px;
+		}
+		
 	}
 </style>

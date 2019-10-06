@@ -30,6 +30,9 @@
                 this.$emit("shopChecked",i)
             }
         },
+        created() {
+            
+        }
 
     }
 </script>

@@ -166,7 +166,7 @@
                 let total_price = 0.00
                 Object.values(this.shopCart).forEach((item, index) => {
                     if(item&&item.num>0) {
-                        console.log(item)
+                        // console.log(item)
                         total_price += item.num * item.sale_price;
                     }
                 })

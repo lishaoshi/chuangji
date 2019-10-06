@@ -25,6 +25,7 @@
         },
         computed:{
             hasActive(){
+                // console.log({ac:true} | 6,'text')
                 let active = false
                 this.data.shops.forEach(shop =>{
                     shop.items.forEach(item => {

@@ -3,7 +3,8 @@
         <clxsd-head-top :title="title"></clxsd-head-top>
         <span class="manage" @click="is_delete=true">管理</span>
         <div class="" v-if="data.shops.length>0">
-            <CartsShoplist :data="data"
+            <CartsShoplist 
+                :data="data"
                 :add-goods="addGoods"
                 :min-goods="minGoods"
                 :productCheckchange="productCheckchange"
@@ -63,7 +64,7 @@
         },
         methods:{
             ...mapMutations([
-                'CLEAR_CART', 'CLEAR_ALL_CART',
+                'CLEAR_CART', 'CLEAR_ALL_CART', 'ADD_CART', 'REMOVE_CART'
             ]),
             async initData(){
                 let ids = []
@@ -72,7 +73,6 @@
                 if(cartData){
                     if(this.shopId){
                         Object.values(cartData).forEach(item => {
-                            console.log(item)
                             if(item) {
                                 ids.push(item.id)
                                 idMapQ[item.id] = item.num
@@ -82,7 +82,6 @@
                     }else{
                         Object.values(cartData).forEach(item => {
                             Object.values(item).forEach(_item =>{
-                                // console.log(_item.num)
                                 if(_item&&_item.num>0){
                                     ids.push(_item.id)
                                     idMapQ[_item.id] = _item.num
@@ -134,7 +133,8 @@
             },
             // 需要注意店铺的ID值
             shopCheck(i){
-
+                console.log(i)
+                // return
                 let shop = this.data.shops[i]
                 shop.checked = !shop.checked
                 console.log("shop.checked:"+shop.checked)
@@ -183,14 +183,23 @@
                 this.data.checked=isAllChecked;
             },
             //要注意店铺与商品的ID
-            addGoods(sid,pid){
+            addGoods(sid,pid, item){
+                console.log(sid, pid, item)
                 this.data.shops[sid].items[pid].num++;
+                item.itemId = item.id
+                item.sale_price = item.price * item.tran
+                this.ADD_CART(item)
             },
             //进行商品减的操作
-            minGoods(sid,pid){
+            minGoods(sid,pid,item){
                 if(this.data.shops[sid].items[pid].num>1){
+                    item.itemId = item.id
+                    item.sale_price = item.price * item.tran
                     this.data.shops[sid].items[pid].num--;
+                    // console
+                    // this.REMOVE_CART(item)
                 }
+               
             },
             submitDataFunc(){
                 let params = {
@@ -216,10 +225,9 @@
             //删除
             clearDataFunc(){
                 let params = []
-                this.data.shops.forEach(shop => {
-                    shop.items.forEach(item => {
+                this.data.shops.forEach((shop,key,arr) => {
+                    shop.items.forEach((item,index, arrs) => {
                         if(item.checked){
-                            console.log(item)
                             params.push({
                                 shopId:item.shopId,
                                 num:item.num,
@@ -227,18 +235,16 @@
                             })
                         }
                     })
+                    arr[key].items = shop.items.filter((el, index, arr)=> el.checked!=true)
+                    !shop.items.length&&arr.splice(key, 1)
                 })
                 if(this.data.checked){
-                    this.CLEAR_ALL_CART(params)
-                    this.$router.go(0)
+                    this.CLEAR_ALL_CART()
                 }else {
                     params.forEach(item => {
-                        console.log(item)
                        this.CLEAR_CART(item.id)
-                        this.$router.go(0)
                     })
                 }
-
             }
         }
     }

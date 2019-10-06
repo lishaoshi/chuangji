@@ -43,7 +43,7 @@
 					</li>
 				</ul>
                 <transition name="fade">
-                <ul v-if="is_active" class="ul2" :style="{height:data.actives.length*.35+'rem'}">
+                <ul v-show="is_active" class="ul2 animated fadeInDown  fast" :class="{'fadeOutRight':!is_active}" :style="{height:data.actives.length*.35+'rem'}" >
                     <li v-for="(item,index) in data.actives"  v-if="index >= 1">
                         <span>{{item.label}}</span>
                         <p>{{item.title}}</p>
@@ -222,9 +222,10 @@
 
 	}
     .fade-enter-active, .fade-leave-active {
-        transition: opacity .5s;
+        transition: all 8s ease;
     }
     .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+		transform: translateX(10px);
         opacity: 0;
     }
 </style>

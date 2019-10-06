@@ -38,7 +38,8 @@
             <span>推荐厂家</span>
             <img src="../../images/index/home-rightLine.png">
         </div>
-        <div class="main-body" ref="wrapper" :style="{ height: (wrapperHeight-50) + 'px' }">
+        <div class="main-body" ref="wrapper">
+            <!--  :style="{ height: (wrapperHeight-50) + 'px' }" -->
             <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
                 <supplier-item :data="item" v-for="(item,index) in suppliers"/>
             </mt-loadmore>
@@ -113,12 +114,14 @@
             this.loadFrist();
         },
         methods: {
-            loadTop(id) {
+            loadTop() {
                 // console.log(id)
+                this.courrentPage = 1
                 this.loadFrist();
             },
             // 上拉加载
             loadBottom() {
+                
                 this.loadMore();
             },
             // 下来刷新加载
@@ -131,7 +134,7 @@
                     console.log(response.data.data)
                         this.allLoaded = false; // 可以进行上拉
                         this.suppliers = response.data.data;
-                        console.log(this.suppliers)
+                        console.log(this.suppliers, 'this.suppliers')
                         this.$refs.loadmore.onTopLoaded();
                     })
             },
@@ -145,9 +148,12 @@
                 findNearBySuppliers(params).then(response => {
 
                         // concat数组的追加
-                        this.suppliers = this.suppliers.concat(response.data.data);
-                        console.log(this.suppliers)
-                        if (this.courrentPage > 1) {
+                        // this.suppliers = this.suppliers.concat(response.data.data);
+                        // if (this.courrentPage > 1) {
+                        //     this.allLoaded = true; // 若数据已全部获取完毕
+                        // }
+                        response.data.data&&(this.suppliers = this.suppliers.concat(response.data.data))
+                        if (!response.data.data||response.data.data.length < this.limit) {
                             this.allLoaded = true; // 若数据已全部获取完毕
                         }
 
