@@ -72,8 +72,8 @@ export default {
 
     // 修改用公司资质状态
     UPDATEUSERSTATE({commit, state}, type) {
-        if(state.CURRENTUSER.data.userInfo['certification']['status'] && state.CURRENTUSER.data.userInfo['certification']['status']!==0) {
-            state.CURRENTUSER.data.userInfo['certification']['status'] = type
+        if(state.CURRENTUSER.data['certification']['status'] && state.CURRENTUSER.data['certification']['status']!==0) {
+            state.CURRENTUSER.data['certification']['status'] = type
         }
     }
 }

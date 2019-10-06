@@ -18,7 +18,7 @@
         name: "PayPassword",
         computed:{
             ...mapState({
-                USER_INFO: state => state.CURRENTUSER.data.userInfo
+                USER_INFO: state => state.CURRENTUSER.data
             }),
             phone(){
                 return this.USER_INFO.phone;

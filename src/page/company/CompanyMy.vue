@@ -36,7 +36,7 @@
 		computed:{
             ...mapState({
                 userInfo: state => {
-                    const currentInfo = state.CURRENTUSER.data.userInfo
+                    const currentInfo = state.CURRENTUSER.data
                     const configInfo = state.CONFIG       
                     return {
                         userName: currentInfo.display_name || currentInfo.real_name || currentInfo.phone || '丢失信息',

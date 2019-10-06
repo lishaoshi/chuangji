@@ -45,7 +45,7 @@
 				this.$http.get('user', {
 					validateStatus: status => status === 200,
 				}).then(response => {
-                    this.info = response.data.data.userInfo
+                    this.info = response.data.data
                     if(callback)callback();
 				}).catch(response => {
                     if(callback)callback();

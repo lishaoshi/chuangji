@@ -45,7 +45,7 @@ export default {
         },
         authToRouter(router){
             console.log(11)
-            const userInfo = this.$store.state.CURRENTUSER.data.userInfo;
+            const userInfo = this.$store.state.CURRENTUSER.data;
             if(userInfo.shop_supplier){
                 this.$router.push(router);
             }else{

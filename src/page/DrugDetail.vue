@@ -9,15 +9,15 @@
         <div class="contant">
             <div class="title">维生素</div>
             <div class="info">
-                <span>品&nbsp;&nbsp;&nbsp;&nbsp;牌</span>
+                <span>品&nbsp;&nbsp;&nbsp;&nbsp; 牌</span>
                 <samp>华夏制药集团股份有限责任公司</samp>
             </div>
             <div class="info">
-                <span>规&nbsp;&nbsp;&nbsp;&nbsp;格</span>
+                <span>规&nbsp;&nbsp;&nbsp;&nbsp; 格</span>
                 <samp>1000mg*20</samp>
             </div>
             <div class="info">
-                <span>效期</span>
+                <span>效&nbsp;&nbsp;&nbsp;&nbsp; 期</span>
                 <samp>2018.10.10</samp>
             </div>
             <div class="info">

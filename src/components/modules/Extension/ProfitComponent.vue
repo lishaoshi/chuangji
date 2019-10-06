@@ -88,7 +88,7 @@
         },
         computed:{
             toUrl(){
-                const userInfo = this.$store.state.CURRENTUSER.data.userInfo;
+                const userInfo = this.$store.state.CURRENTUSER.data;
                 let url = '/channel-profit';
                 if(userInfo.user_type===4 && userInfo.sub_type ===2){
                     return '';

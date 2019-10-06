@@ -28,7 +28,7 @@ export default {
             return this.$route.meta.keepAlive || false
         },
         ...mapState({
-            UID: state => state.CURRENTUSER.data.userInfo.id,
+            UID: state => state.CURRENTUSER.data.id,
 
             status: state => state.EASEMOB.status,
         })

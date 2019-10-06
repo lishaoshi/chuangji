@@ -39,7 +39,7 @@
         },
         computed:{
             ...mapState({
-                USER_INFO: state => state.CURRENTUSER.data.userInfo,
+                USER_INFO: state => state.CURRENTUSER.data,
             }),
             title(){
                 let shopSupplier = this.USER_INFO.shop_supplier;

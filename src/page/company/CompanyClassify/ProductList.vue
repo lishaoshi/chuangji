@@ -126,7 +126,7 @@
 			...mapState({
 				businessData: state => state.shop.CURRENT_BUSINESS_SHOP_DATA,
 				cartList: state => state.shop.BUSINESS_CART_LIST,
-				canShow:state => state.CURRENTUSER.data.userInfo.shop_supplier,
+				canShow:state => state.CURRENTUSER.data.shop_supplier,
 			}),
 			businessId() {
 				return this.businessData.id

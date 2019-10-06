@@ -74,7 +74,7 @@
         },
         computed:{
             userId(){
-                return this.$store.state.CURRENTUSER.data.userInfo.id;
+                return this.$store.state.CURRENTUSER.data.id;
             }
         },
         created(){
