@@ -20,6 +20,7 @@
 		<mt-popup v-model="regionVisible" position="bottom" class="bottom-region" style="width:100%;">
 			<address-popup @listenAddressChange='addressChange' />
 		</mt-popup>
+		<CircleLoading v-if="loading"/>
 	</div>
 </template>
 <script>
@@ -36,6 +37,7 @@
 
 		data() {
 			return {
+				loading:false,
 				consignee: '', //货人姓名
 				tel: null, //手机号
 				province: null, //省
@@ -48,6 +50,14 @@
 				finished: false,
 				regionVisible: false,
                 addressId:0,
+			}
+		},
+		watch: {
+			$route(from) {
+				console.log(from)
+				if(from.path == '/address-add'){
+					this.$router.go(0)
+				}
 			}
 		},
 		methods: {
