@@ -8,7 +8,7 @@
                 <p>正在审核中，请耐心等待...</p>
             </div>
         </section>
-        <page-edit-aptitude v-else-if="CERT_STATUS === 0 || CERT_STATUS===4" :user-type="USER_TYPE" :imgList="imgList" :isEdit="true" :org_name="org_name"/>
+        <page-edit-aptitude v-else-if="CERT_STATUS === 0 || CERT_STATUS===4" :user-type="USER_TYPE" :imgList="imgList" :isEdit="true" :certStatus="CERT_STATUS" :org_name="org_name"/>
         <PageAptitudesRefused v-else-if="CERT_STATUS===2" :cate_name="cate_name" :org_name="org_name" :imgList="imgList" @updateCompany="updateCompany(3)"></PageAptitudesRefused>
     </PullRefresh>
 </template>

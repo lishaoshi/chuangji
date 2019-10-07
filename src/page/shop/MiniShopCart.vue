@@ -8,12 +8,12 @@
             </div>
             <div v-if="USER_TYPE === 2" @click="goPay">
                 <div class="join_shop" :class="{'toPay':count}">
-                    <p>去购买</p>
+                    <p>去结算</p>
                 </div>
             </div>
             <div @click="authToRouter(url)" v-else>
                 <div class="join_shop" :class="{'toPay':count}">
-                    <p>去购买</p>
+                    <p>去结算</p>
                 </div>
             </div>
             <div class="shop_iocn">
