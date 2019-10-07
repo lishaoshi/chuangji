@@ -24,6 +24,7 @@
         </div>
         <div style="min-height: 6rem" >
             <ClxsdLoadMore key="factory-list" ref="loadmore" @onRefresh="onRefresh" @onLoadMore="onLoadMore">
+                
                 <div class="company" :key="`en-${index}`" v-for="(item,index) in businesses">
                     <div class="company-name" @click="entryBusinessShop(item)">
                         <img :src="item.logo" alt=" ">

@@ -42,7 +42,7 @@
             </div>
             <div class="main-body">
                 <!--  :style="{ height: (wrapperHeight-50) + 'px' }" -->
-                <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
+                <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
                     <supplier-item :data="item" v-for="(item,index) in suppliers"/>
                 </mt-loadmore>
             </div>

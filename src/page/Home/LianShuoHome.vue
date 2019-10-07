@@ -41,7 +41,7 @@
 			<img src="../../images/index/home-rightLine.png">
 		</div>
 		<div class="main-body" ref="wrapper" :style="{ height: (wrapperHeight-50) + 'px' }">
-			<mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
+			<mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
 				<supplier-item :data="item" v-for="(item,index) in suppliers"/>
 			</mt-loadmore>
 		</div>
@@ -51,7 +51,9 @@
             <img src="../../images/index/shop.png" class="shopcar" />
         </div>
         -->
-		<img src="../../images/index/shop.png" class="shopcar"/>
+		<router-link to="/factory/cart">
+			<img src="../../images/index/shop.png" class="shopcar"/>
+		</router-link>
 		<clxsd-foot-guide :user-type="3"/>
 	</div>
 </template>

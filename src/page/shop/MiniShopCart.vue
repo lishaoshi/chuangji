@@ -12,7 +12,7 @@
                 </div>
             </div>
             <div @click="authToRouter(url)" v-else>
-                <div class="join_shop">
+                <div class="join_shop" :class="{'toPay':count}">
                     <p>去购买</p>
                 </div>
             </div>
@@ -115,8 +115,8 @@
             top: -.2rem;
 
             img {
-                width: 1rem;
-                height: 1rem;
+                width: 100%;
+                height: 100%;
             }
         }
 
