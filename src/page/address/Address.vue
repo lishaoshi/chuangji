@@ -132,7 +132,7 @@
 
     .address {
         background: #fff;
-        margin-bottom: 50px;
+        margin-bottom: 1.3rem;
     }
 
     .choose-icon {

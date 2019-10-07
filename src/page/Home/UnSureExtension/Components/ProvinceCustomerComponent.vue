@@ -49,7 +49,7 @@
                 this.$http.get('users/list',{params:{'user-type':'province'},validate: state => state === 200})
                     .then(response => {
                         this.loading = false;
-                        this.entities = response.data;
+                        this.entities = response.data.data.allEntities;
                         if(callback)callback();
                     }).catch(error => {
                         this.loading = false;

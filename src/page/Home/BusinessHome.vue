@@ -208,7 +208,9 @@
         text-align: center;
         color: #ccc;
         align-items: center;
-
+        font-family:PingFang SC;
+        font-weight:bold;
+        color:rgba(204,204,204,1);
         img {
             width: .82rem;
             height: .002rem;

@@ -269,6 +269,7 @@
                         this.$toast("上传成功,正在审核中...");
                         this.$store.dispatch("fetchUserInfo");
                         this.goBack()
+                        //this.$router.push('/company-info')
                     }
 
                 }).catch(({response: {data: {errors = ['加载认证类型失败']} = {}} = {}}) => {

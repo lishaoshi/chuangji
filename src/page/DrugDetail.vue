@@ -1,7 +1,9 @@
 <template>
     <div id="DrugDetail">
         <clxsd-head-top :title='`详情`'></clxsd-head-top>
+        <!--
         <span class="collect" @click="CollectionFn()" :class="{activebtn: isFullScreen}">{{follow_info}}</span>
+        -->
         <mt-swipe :auto="4000" style="height: 5.6rem;background: #fff;" v-if="data.imgs!=''">
             <mt-swipe-item v-for="(item,index) in data.imgs"><img :src="item.new" width="100%" height="100%"></mt-swipe-item>
         </mt-swipe>
@@ -10,6 +12,9 @@
         </mt-swipe>
         <div class="contant">
             <div class="title">{{data.good_name}}</div>
+            <p style="font-size: .2rem;color: #999;text-align: right">销量:{{data.sale_num}}</p>
+        </div>
+        <div class="contant">
             <div class="info">
                 <span>品 &nbsp;&nbsp;&nbsp;&nbsp; 牌</span>
                 <samp>{{name1}}</samp>
@@ -136,11 +141,11 @@
                 this.name2 = data.category.name
                 if(data.valid_time!=0){
                     let time = data.valid_time
-                    this.time = this.$moment.unix(time).format("YYYY-MM-DD")
+                    this.time = this.$moment.unix(time).format("YYYY.MM.DD")
                 }
                 if(data.updated_at!=0){
                     let time = data.updated_at
-                    this.creat_time = this.$moment.unix(time).format("YYYY-MM-DD")
+                    this.creat_time = this.$moment.unix(time).format("YYYY-MM-DD HH:MM")
                 }
                 this.loading = false
                 return data

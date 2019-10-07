@@ -90,9 +90,10 @@
                 this.loading = true;
                 this.$http.get('users/list',{params:{'user-type':'city'},validate: state => state === 200})
                     .then(response => {
+                        console.log(response.data.data)
                         this.loading = false;
-                        this.allEntities = response.data.allEntities;
-                        this.myEntities = response.data.myEntities;
+                        this.allEntities = response.data.data.allEntities
+                        this.myEntities = response.data.data.myEntities;
                         if(callback)callback();
                     }).catch(error => {
                     this.loading = false;

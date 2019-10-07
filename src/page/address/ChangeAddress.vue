@@ -69,7 +69,7 @@
                     //console.log(data)
                     this.consignee =data.consignee
                     this.tel = data.tel
-                    this.region = data.full_address
+                    this.region = data.province+data.city+data.district,
                     this.province = data.province
                     this.city = data.city
                     this.district = data.district
@@ -115,6 +115,11 @@
 				//2. validate
 				if(consignee == '') {
 					Toast('收货人姓名不能为空');
+					return
+				}
+				if(consignee.length>6) {
+					Toast('收货人姓名请填简写');
+					this.consignee = ''
 					return
 				}
 				if(tel == '') {

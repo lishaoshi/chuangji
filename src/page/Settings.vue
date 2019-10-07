@@ -12,7 +12,8 @@
             </div>
 		</ul>
 		<ul class="my-list">
-			<clxsd-cell :title="'安全设置'" :to="'/user/safe-info'" is-link/>
+			<!--<clxsd-cell :title="'安全设置'" :to="'/user/safe-info'" is-link/>-->
+			<clxsd-cell :title="'修改密码'" :to="'/user/login-password-change'" is-link/>
 		</ul>
 		<ul class="my-list">
 			<clxsd-cell :title="'问题求助'" :to="'/question'" is-link  v-if="!userInfo.user_type===4"/>
