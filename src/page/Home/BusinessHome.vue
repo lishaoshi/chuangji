@@ -1,58 +1,62 @@
 <template>
-    <div class="home">
-        <div v-bind:class="{ search: isActive, 'bg-blue': hasError ,activeTop: isFullScreen }">
-            <SearchBar></SearchBar>
-                <div class="approve">
-                    <img src="../../images/index/study1@2x.png"/>
-                </div>
+    <div class="home" ref="home">
+        <!-- <scroll> -->
+        <div class="content">
+            <div v-bind:class="{ search: isActive, 'bg-blue': hasError ,activeTop: isFullScreen }">
+                <SearchBar></SearchBar>
+                    <div class="approve">
+                        <img src="../../images/index/study1@2x.png"/>
+                    </div>
+            </div>
+            <div class="">
+                <mt-swipe :auto="4000" style="height: 4rem;">
+                    <mt-swipe-item :key="key" v-for="(swipe,key) in swipers"><a :href="swipe.link"> <img :src="swipe.picture" width="100%"></a>
+                    </mt-swipe-item>
+                </mt-swipe>
+            </div>
+            <Notice :notices="notices" v-if="notices!=null"></Notice>
+            <div class="notice" v-else>
+                <svg>
+                    <use xlink:href="#icon-notice"/>
+                </svg>
+                <span style="padding-left: 5px">暂时没有消息</span>
+            </div>
+            <div class="add">
+                <a href="javascript:void(0)">
+                    <img src="../../images/index/activityA.png">
+                </a>
+                <a href="javascript:void(0)">
+                    <img src="../../images/index/activityB.png">
+                </a>
+                <a href="javascript:void(0)">
+                    <img src="../../images/index/activityC.png">
+                </a>
+                <a href="javascript:void(0)">
+                    <img src="../../images/index/activityD.png">
+                </a>
+            </div>
+            <div class="select-box">
+                <img src="../../images/index/home-leftLine.png">
+                <span>推荐厂家</span>
+                <img src="../../images/index/home-rightLine.png">
+            </div>
+            <div class="main-body">
+                <!--  :style="{ height: (wrapperHeight-50) + 'px' }" -->
+                <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
+                    <supplier-item :data="item" v-for="(item,index) in suppliers"/>
+                </mt-loadmore>
+            </div>
+            <p v-if="allLoaded" class="loader-over">加载完毕</p>
+            <!--
+            <div @click="authToRouter('/factory/cart')">
+                <img src="../../images/index/shop.png" class="shopcar" />
+            </div>
+            -->
+            <router-link to="/factory/cart">
+                <img src="../../images/index/shop.png" class="shopcar"/>
+            </router-link>
         </div>
-        <div class="">
-            <mt-swipe :auto="4000" style="height: 4rem;">
-                <mt-swipe-item :key="key" v-for="(swipe,key) in swipers"><a :href="swipe.link"> <img :src="swipe.picture" width="100%"></a>
-                </mt-swipe-item>
-            </mt-swipe>
-        </div>
-        <Notice :notices="notices" v-if="notices!=null"></Notice>
-        <div class="notice" v-else>
-            <svg>
-                <use xlink:href="#icon-notice"/>
-            </svg>
-            <span style="padding-left: 5px">暂时没有消息</span>
-        </div>
-        <div class="add">
-            <a href="javascript:void(0)">
-                <img src="../../images/index/activityA.png">
-            </a>
-            <a href="javascript:void(0)">
-                <img src="../../images/index/activityB.png">
-            </a>
-            <a href="javascript:void(0)">
-                <img src="../../images/index/activityC.png">
-            </a>
-            <a href="javascript:void(0)">
-                <img src="../../images/index/activityD.png">
-            </a>
-        </div>
-        <div class="select-box">
-            <img src="../../images/index/home-leftLine.png">
-            <span>推荐厂家</span>
-            <img src="../../images/index/home-rightLine.png">
-        </div>
-        <div class="main-body" ref="wrapper">
-            <!--  :style="{ height: (wrapperHeight-50) + 'px' }" -->
-            <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
-                <supplier-item :data="item" v-for="(item,index) in suppliers"/>
-            </mt-loadmore>
-        </div>
-        <p v-if="allLoaded" class="loader-over">加载完毕</p>
-        <!--
-		<div @click="authToRouter('/factory/cart')">
-			<img src="../../images/index/shop.png" class="shopcar" />
-		</div>
-		-->
-        <router-link to="/factory/cart">
-            <img src="../../images/index/shop.png" class="shopcar"/>
-        </router-link>
+        <!-- </scroll> -->
         <clxsd-foot-guide :user-type="2"/>
     </div>
 </template>
@@ -65,6 +69,7 @@
     import SupplierItem from './SupplierItem';
     import EmptySupplier from '@/components/EmptyList'
     import Notice from '@/components/common/notice';
+    import BScroll from 'better-scroll'
 
     export default {
         name: "page-business-home",
@@ -91,12 +96,12 @@
                 limit:15
             }
         },
-        mounted() {
-            // 父控件要加上高度，否则会出现上拉不动的情况
-            this.wrapperHeight =
-                document.documentElement.clientHeight -
-                this.$refs.wrapper.getBoundingClientRect().top;
-        },
+        // mounted() {
+        //     // 父控件要加上高度，否则会出现上拉不动的情况
+        //     this.wrapperHeight =
+        //         document.documentElement.clientHeight -
+        //         this.$refs.wrapper.getBoundingClientRect().top;
+        // },
         computed: {
             ...mapState(['POSITION']),
             lat() {
@@ -108,10 +113,16 @@
         },
         mounted() {
             window.addEventListener('scroll', this.handleScroll, true)
+           
         },
         created() {
             this.initData()
             this.loadFrist();
+            this.$nextTick().then(res=>{
+                // console.log(res,'res')
+                // let scroll = new BScroll(this.$refs.home)
+                // console.log(scroll,'scroll')
+            })
         },
         methods: {
             loadTop() {
@@ -158,6 +169,8 @@
                         }
 
                         this.$refs.loadmore.onBottomLoaded();
+                        //  this.$refs.wrapper.style.height='auto'
+                        // window.scrollTo = (0, 100)
                     })
             },
             async initData() {

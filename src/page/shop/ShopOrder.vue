@@ -43,9 +43,9 @@
                                 <h4>{{entity.good_name}}</h4>
                                 <div class="shop-price">
                                     <div class="shop-pices">
-                                        ￥<span class="price">{{entity.sale_price | display_price}}<i>/{{entity.show_unit || '件'}}</i></span>
+                                        ￥<span class="price">{{entity.price | display_price}}<i>/{{entity.unit || '件'}}</i></span>
                                     </div>
-                                    <div class="shop-num">x{{ entity.num || 1}}{{entity.show_unit || '件'}}</div>
+                                    <div class="shop-num">x{{ entity.num || 1}}{{entity.unit || '件'}}</div>
                                 </div>
                             </div>
                         </div>
@@ -53,13 +53,13 @@
 
                     <ul class="shop-ul">
                         <li>
-                            <span>数量</span>
-                            <i>{{shop.cnum}} {{shop.show_unit || '件'}}</i>
+                            <span>件数</span>
+                            <i>{{shop.cnum}} {{shop.unit || '件'}}</i>
                         </li>
-                        <li>
+                        <!-- <li>
                             <span>原价</span>
                             <i>￥{{shop.cprice | display_price}}</i>
-                        </li>
+                        </li> -->
                         <li v-if="shop.conpou">
                             <router-link to="/choice-coupon" class="yhj">
                                 <span>可用优惠卷</span>
@@ -67,7 +67,7 @@
                             </router-link>
                         </li>
                         <li>
-                            <span>实际支付</span>
+                            <span>小计</span>
                             <i>￥{{shop.real_price | display_price}}</i>
                         </li>
                     </ul>
@@ -76,10 +76,10 @@
             <div class="fade"></div>
             <div class="shopPrice">
                 <div class="total-price">
-                    实际支付总和：￥
-                    <span class="shop-total-amount ShopTotal">{{totalPrice| display_price}}</span>
+                    合计：
+                    <span class="shop-total-amount ShopTotal">￥{{totalPrice| display_price}}</span>
                 </div>
-                <a @click="onSubmit" class="sub-btn">确认支付</a>
+                <a @click="onSubmit" class="sub-btn">确认提交</a>
             </div>
         </div>
         <SuccessOrder v-else style="background:#fff;position: fixed;width: 100%;height: 100%;top:0px" :order-type="orderType"/>
@@ -90,6 +90,7 @@
     import {mapState, mapMutations} from 'vuex'
     import {getAddressList} from '@/api/address'
     import SuccessOrder from './OrderSuccess'
+    import { confirmOrder } from '@/api/shopCar'
 
     export default {
         name: "ShopOrder",
@@ -172,12 +173,13 @@
                     let cprice = 0
                     Object.values(shop.entities).forEach((entity, ix) => {
                         entity['show_unit'] = entity.big_unit
-                        entity['sale_price'] = entity.price * entity.tran
+                        // entity['sale_price'] = entity.price * entity.tran    //盒单价*盒数==价格
                         checkedItems.forEach(item => {
                             if (item.id === entity.id) {
-                                cnum += item.num
+                                cnum += +item.num
                                 entity['num'] = item.num
-                                cprice += entity['sale_price'] * entity['num']
+                                // cprice += entity['sale_price'] * entity['num']
+                                cprice += entity.price*entity['num']
                             }
                         })
                     })
@@ -220,21 +222,39 @@
                     return
                 }
 
+                
+                let ids = {}
+                this.confirmOrderData.checkedItems.forEach((item, index, arr)=>{
+                    if(ids[item.shopId]) {
+                        ids[`${item.shopId}`] = [...ids[item.shopId], item.id]
+                    } else {
+                        ids[`${item.shopId}`] = [item.id]
+                    }
+                })
+                ids = JSON.stringify(ids)
                 const params = {
-                    address: this.choosedAddress,
-                    confirmOrderData: this.confirmOrderData
+                    address_id: this.choosedAddress.id,
+                    ids
                 }
+                
+                confirmOrder(params).then(res=>{
+                    // console.log(res.data, 'res')
+                    let data = res.data.data
+                    // console.log(data, 'data')
 
-                this.$http.post('/hippo-shop/to-order', params)
-                .then(response => {
-                    //this.$router.push({path: '/order-success', query: {}})
-                    this.is_success = true
-                    console.log(response)
+                    this.$router.push({name: 'OrderSuccess', params: {data:data, orderType: this.confirmOrderData.type}})
                 })
-                .catch(err => {
-                    console.log(err)
-                })
+                // console.log(params, ids, this.confirmOrderData)
 
+                // this.$http.post('/hippo-shop/to-order', params)
+                // .then(response => {
+                //     //this.$router.push({path: '/order-success', query: {}})
+                //     this.is_success = true
+                //     console.log(response)
+                // })
+                // .catch(err => {
+                //     console.log(err)
+                // })
             }
         }
     }

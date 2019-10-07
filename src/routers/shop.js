@@ -63,6 +63,7 @@ export default [
     {
         path:"/factory/cart",
         component:ShopCart,
+        name: "ShopCart",
         meta: {
             title: "购物车",
             requiresAuth: true
@@ -100,7 +101,8 @@ export default [
             requiresAuth: true
         }
     },{
-		path:"/order-success",
+        path:"/order-success",
+        name: "OrderSuccess",
 		component:OrderSuccess,
         meta: {
             title: "订单成功",

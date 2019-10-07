@@ -20,15 +20,16 @@
 
                     <!-- 商品右下角购物车 -->
                     <div class="carImg">
-                        <img src="@/images/shop-car.png" alt="" v-if="!shopCart[item.itemId]" @click="add_shop_car(item)">
+                        <img src="@/images/shop-car.png" alt="" v-if="!item.num" @click="add_shop_car(item)">
                         <div class="controls" v-else>
-                            <img @click="handleNumber(1,item)" src="@/images/del_shopping.png" alt="">
+                            <img @click="handleNumber(item)" src="@/images/del_shopping.png" alt="">
                             <div>
-                                <span>{{shopCart[item.itemId].num}}</span>
+                                <span>{{item.num}}</span>
+                                <span>{{item.unit}}</span>
                                 <!-- <span>件</span> -->
                             </div>
                                
-                            <img @click="handleNumber(2,item)" src="@/images/add_shopping.png" alt="">
+                            <img @click="add_shop_car(item)" src="@/images/add_shopping.png" alt="">
                         </div>
                     </div>
 
@@ -111,6 +112,7 @@
     import EmptyList from "@/components/EmptyList"
     import {supplierEntities} from '@/api/supplier'
     import {mapState, mapMutations, mapActions} from 'vuex'
+    import { queryShopCarList, delShopCar, addShopCar, onlyDelShopCar } from '@/api/shopCar'
     import { MessageBox } from 'mint-ui';
     // import {  } from 'vuex'
 
@@ -134,8 +136,12 @@
         data() {
             return {
                 goodList: [],
+                goodsList: {},
                 regionVisible: false,
-                loading:true
+                loading:true,
+                shopCart: [],
+                cartNum: 0,  //总件数
+                totalPrice: ''   //总金额
             }
         },
         mounted() {
@@ -149,30 +155,32 @@
                 cartList: state => state.shop.CART_LIST
             }),
             //当前商店购物信息
-            shopCart() {
-                // console.log(this.shopCart)
-                return {...this.cartList[this.factoryId]}
-            },
-            cartNum() {
-                let num = 0;
-                Object.values(this.shopCart).forEach((item, index) => {
-                    if(item&&item.num>0) {
-                        num += item.num;
-                    }
-                })
-                return num
-            },
-            totalPrice() {
-                let total_price = 0.00
-                Object.values(this.shopCart).forEach((item, index) => {
-                    if(item&&item.num>0) {
-                        // console.log(item)
-                        total_price += item.num * item.sale_price;
-                    }
-                })
-                return total_price.toFixed(2)
-            }
+            // shopCart() {
+            //     return {...this.goodsList}
+            // },
+            // cartNum() {
+            //     let num = 0;
+            //     Object.values(this.shopCart).forEach((item, index) => {
+            //         console.log(item, 'cartNum')
+            //         if(item&&item.num>0) {
+            //             num +=  +item.num;
+            //         }
+            //     })
+            //     return num
+            // },
+            // totalPrice() {
+            //     let total_price = 0.00
+            //     Object.values(this.shopCart).forEach((item, index) => {
+            //         if(item&&item.num>0) {
+            //             total_price += item.num * item.price;
+            //         }
+            //     })
+            //     return total_price.toFixed(2)
+            // }
         },
+        // created() {
+        //     console.log(this.shopCart, '333')
+        // },
 
         methods: {
             ...mapMutations([
@@ -182,31 +190,83 @@
                 'ADD_SHOP_CAR',
                 'REMOVE_SHOP_CAR'
             ]),
+
+            // 计算总件数函数
+            calculateCartNum() {
+                 let num = 0;
+                Object.values(this.shopCart).forEach((item, index) => {
+                    console.log(item, 'cartNum')
+                    if(item&&item.num>0) {
+                        num +=  +item.num;
+                    }
+                })
+                console.log(num, 'num')
+               return num
+            },
+            calculateTotalPrice() {
+                 
+                let total_price = 0
+                Object.values(this.shopCart).forEach((item, index) => {
+                    if(item&&item.num>0) {
+                        total_price += item.num * item.price;
+                    }
+                })
+                return total_price.toFixed(2)
+            },
             async initData() {
-                const {data} = await supplierEntities(this.factoryId)
+                let  data = {}
+                await Promise.all([queryShopCarList({}, this.factoryId), supplierEntities(this.factoryId)]).then(res=>{
+                    // console.log(res, 'all')
+                    
+                    this.goodsList = res[0]
+                    this.shopCart = res[0]
+                    console.log(this.shopCart)
+                    this.cartNum = this.calculateCartNum()
+                    this.totalPrice = this.calculateTotalPrice()
+                    data = res[1].data
+                })
                 this.goodList = this._handleData(data)
+            },
+            _queryShopCarList() {
+                queryShopCarList({}, this.factoryId).then(res=>{
+                    // console.log(res, 'text res')
+                    this.goodsList = res
+                })
             },
             // 添加至购物车
             add_shop_car(item) {
-                console.log(item)
-                item.is_add_car = true
-                item.number = 1
-                this.ADD_SHOP_CAR(item)
+                item.num++
+                let data = {
+                    supplier_id: this.factoryId,
+                    good_id: item.id
+                }
+                if(this.shopCart[item.id]) {
+                    this.shopCart[item.id].num++
+                     
+                } else {
+                    this.$set(this.shopCart, `${item.id}`, {...item})
+                }
+                this.cartNum = this.calculateCartNum()
+                this.totalPrice = this.calculateTotalPrice()
+                addShopCar(data)
                 // console.log(item)
+                // item.is_add_car = true
+                // item.number = 1
+                // this.ADD_SHOP_CAR(item)
             },
 
-            // 控制增减
-            handleNumber(state,item) {
+            // 控制移除商品出购物车
+            async handleNumber(item) {
                 console.log(item)
-                if(state==1){
-                    if(item.number<=0) {
-                        MessageBox('提示', '不能再减啦！');
-                        return
-                    }
-                    this.REMOVE_SHOP_CAR(item)
-                } else {
-                    this.ADD_SHOP_CAR(item)
+                if(item.num <= item.order_min_num) return
+                let data = {
+                    supplier_id: this.factoryId,
+                    good_id: item.id
                 }
+                
+                await onlyDelShopCar(data)
+                item.num--
+                this.shopCart[item.id].num--
             },
             canOption() {
                 if (!this.canShow) {
@@ -216,14 +276,12 @@
                 return true
             },
             _handleData(data) {
-                console.log(data,'data')
+                // console.log(data,'data')
                 data.forEach((item, index) => {
                     item.shopId = this.factoryId
                     item.num = 0
-                    // item.is_add_car = false  //初始化商品是否已经添加至购物车中
-                    // item.number = 0
                     item.itemId = item.id
-                    item.sale_price = item.price * item.tran
+                    item.sale_price = item.price
                     if (this.shopCart[item.id]) {
                         item.num = this.shopCart[item.id].num
                     }
