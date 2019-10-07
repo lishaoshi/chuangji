@@ -251,9 +251,9 @@
     .info {
         font-size: .24rem;
         line-height: 180%;
-
+        color: #666;
         span {
-            color: #7C7C7C;
+            color: #333;
             width: 60px;
             display: inline-block;
         }

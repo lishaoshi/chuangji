@@ -114,6 +114,7 @@
 		},
 		methods: {
 			loadTop() {
+				this.courrentPage = 1
 				this.loadFrist();
 			},
 			// 上拉加载
@@ -124,12 +125,13 @@
 			loadFrist() {
 				const params = {
 					page: this.courrentPage,
-					limit:this.limit
+					limit: this.limit
 				}
 				findNearBySuppliers(params).then(response => {
 					console.log(response.data.data)
-					this.allLoaded = true; // 可以进行上拉
+					this.allLoaded = false; // 可以进行上拉
 					this.suppliers = response.data.data;
+					console.log(this.suppliers, 'this.suppliers')
 					this.$refs.loadmore.onTopLoaded();
 				})
 			},
@@ -138,16 +140,13 @@
 				this.courrentPage++;
 				const params = {
 					page: this.courrentPage,
-					limit:this.limit
+					limit: this.limit
 				}
 				findNearBySuppliers(params).then(response => {
-
-					// concat数组的追加
-					this.suppliers = this.suppliers.concat(response.data.data);
-					if (this.courrentPage > 1) {
+					response.data.data && (this.suppliers = this.suppliers.concat(response.data.data))
+					if (!response.data.data || response.data.data.length < this.limit) {
 						this.allLoaded = true; // 若数据已全部获取完毕
 					}
-
 					this.$refs.loadmore.onBottomLoaded();
 				})
 			},
@@ -186,6 +185,9 @@
 		text-align: center;
 		color: #ccc;
 		align-items: center;
+		font-family:PingFang SC;
+		font-weight:bold;
+		color:rgba(204,204,204,1);
 
 		img {
 			width: .82rem;

@@ -9,7 +9,7 @@
             <div class="top-box-search">
                 <input type="search" placeholder="请输入商业公司名称" v-model="searchValue">
                 <svg class="search-btn" @click="searchFn">
-                    <use xlink:href="#icon-search2" />
+                    <use xlink:href="#icon-search2"/>
                 </svg>
             </div>
         </div>
@@ -22,8 +22,8 @@
                 </mt-swipe-item>
             </mt-swipe>
         </div>
-        <div style="min-height: 6rem" >
-            <ClxsdLoadMore key="factory-list" ref="loadmore" @onRefresh="onRefresh" @onLoadMore="onLoadMore">
+        <div class="main-body" ref="wrapper" :style="{ height: (wrapperHeight-50) + 'px' }">
+            <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
                 <div class="company" :key="`en-${index}`" v-for="(item,index) in businesses">
                     <div class="company-name" @click="entryBusinessShop(item)">
                         <img :src="item.logo" alt=" ">
@@ -43,13 +43,14 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <span v-else>没有消息</span>
+                                <span v-else> &nbsp;没有消息</span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </ClxsdLoadMore>
+            </mt-loadmore>
         </div>
+        <p v-if="allLoaded" class="loader-over">没有更多了</p>
         <clxsd-foot-guide :user-type="3"/>
     </div>
 </template>
@@ -62,6 +63,7 @@
     import Notice from "@/components/modules/Extension/Notice"
     import {adList} from "@/api/ad";
     import GlobalItem from "@/page/GlobalItem"
+
     export default {
         name: "GlobalWarehouse",
         components: {
@@ -71,10 +73,9 @@
         },
         data() {
             return {
-                is_active:2,
+                is_active: 2,
                 isActive: true,
                 hasError: false,
-                page: 1,
                 businesses: [],
                 swippers: [],
                 animate: false,
@@ -84,18 +85,26 @@
                 preActive: 0,
 
                 prizeList: [],
-                searchValue: ''
+                searchValue: '',
+
+                allLoaded: false, //是否自动触发上拉函数
+                isAutoFill: false,
+                wrapperHeight: 0,
+                courrentPage: 1,
+                limit: 15
             }
         },
         created() {
-            this.areaList = regionAddress;
             this.initData()
             setInterval(this.scroll, 2500)
-            this.onRefresh()
+            this.loadFrist();
         },
         mounted() {
             window.addEventListener('scroll', this.handleScroll, true)
-
+            // 父控件要加上高度，否则会出现上拉不动的情况
+            this.wrapperHeight =
+                document.documentElement.clientHeight -
+                this.$refs.wrapper.getBoundingClientRect().top;
         },
         computed: {
             ...mapState(['POSITION']),
@@ -119,47 +128,11 @@
                     this.hasError = 0;
                 }
             },
-            tab_change(type){
+            tab_change(type) {
                 console.log(type)
                 this.is_active = type
-                this.page = 1
-                this.getData(type)
-            },
-            getData(options, loadMore = false) {
-                const params = {
-                    page: this.page,
-                    type: this.is_active,
-                    limit: 15,
-                    search:this.searchValue
-                }
-                console.log(params)
-                businessList(params, loadMore).then(({data = []}) => {
-                    console.log(data.data.businessList)
-                    if (loadMore) {
-                        this.businesses = [...this.businesses, ...data.data.businessList]
-                    } else {
-                        this.businesses = data.data.businessList
-                    }
-                    this.page = this.page + 1
-                    this.$refs.loadmore.afterLoadMore(data.data.businessList.length < options.limit)
-                    if (options.callback) {
-                        options.callback()
-                    }
-                })
-            },
-            onRefresh(callback) {
-                this.page = 1;
-                const options = {
-                    limit: 15,
-                    callback: callback,
-                }
-                this.getData(options)
-            },
-            onLoadMore() {
-                const options = {
-                    limit: 15
-                }
-                this.getData(options, true)
+                this.courrentPage = 1
+                this.loadFrist();
             },
             entryBusinessShop(item) {
                 this.$store.commit('SAVE_CURRENT_BUSINESS_SHOP', item.id)
@@ -177,16 +150,63 @@
 
                 }, 700)
             },
-            searchFn(){
+            searchFn() {
                 console.log(this.searchValue)
-                this.page = 1
+                this.courrentPage = 1
                 this.getData()
-            }
+            },
+
+
+
+            loadTop() {
+                this.loadFrist();
+            },
+            // 上拉加载
+            loadBottom() {
+                this.loadMore();
+            },
+            // 下来刷新加载
+            loadFrist() {
+                const params = {
+                    page: 1,
+                    limit: this.limit,
+                    type: this.is_active,
+                    search:this.searchValue
+                }
+                businessList(params).then(response => {
+                    console.log(response.data.data)
+                    this.allLoaded = false; // 可以进行上拉
+                    this.businesses = response.data.data.businessList;
+                    this.$refs.loadmore.onTopLoaded();
+                })
+            },
+            // 加载更多
+            loadMore() {
+                this.courrentPage++;
+                const params = {
+                    page: this.courrentPage,
+                    limit: this.limit,
+                    type: this.is_active,
+                    search:this.searchValue
+                }
+                businessList(params).then(response => {
+                    response.data.data.businessList && ( this.businesses = this.businesses.concat(response.data.data.businessList))
+                    if (!response.data.data.businessList || response.data.data.businessList.length < this.limit) {
+                        this.allLoaded = true; // 若数据已全部获取完毕
+                    }
+                    this.$refs.loadmore.onBottomLoaded();
+                })
+            },
         },
     }
 </script>
 
 <style lang="scss" scoped>
+    .main-body {
+        /* 加上这个才会有当数据充满整个屏幕，可以进行上拉加载更多的操作 */
+        overflow: scroll;
+    }
+
     .shopcar {
         position: fixed;
         width: 1.2rem;
@@ -194,6 +214,7 @@
         right: 0px;
         bottom: 1.3rem;
     }
+
     .search-btn {
         position: absolute;
         float: right;
@@ -203,6 +224,7 @@
         z-index: 99;
         margin-top: .08rem;
     }
+
     .top-box {
         background: #0090FF;
 
@@ -245,12 +267,14 @@
     .swiper-box {
         background: #fff;
         height: 2.9rem;
-        padding-top:.22rem;
+        padding-top: .22rem;
+
         .swiper {
             width: 7.2rem;
             height: 2.4rem;
             margin: 0 auto;
             padding: 0px;
+
             img {
                 width: 7.2rem;
                 height: 2.4rem;
