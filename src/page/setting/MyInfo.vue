@@ -13,7 +13,7 @@
                 <span>{{info.role_desc}}</span>
             </mt-cell>
             -->
-            <mt-cell title="实名认证" style="border: 0px">
+            <mt-cell title="实名认证">
                 <span><svg class="icon1"><use xlink:href="#icon-global-footer-my-1"/></svg>{{info.real_name || info.display_name}}</span>
             </mt-cell>
             <mt-cell title="手机号" is-link to="/change-phone" style="border: 0px">
@@ -81,7 +81,8 @@
             color: rgb(255,181,64);
         }
         .mint-cell {
-        	border-bottom: 1px solid #f1f1f1;
+        	border-bottom: 1px solid #f4f5f5;
+            min-height: 1rem;
         }
         .icon1 {
         	width: 20px;

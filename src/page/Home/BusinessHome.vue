@@ -4,9 +4,9 @@
         <div class="content">
             <div v-bind:class="{ search: isActive, 'bg-blue': hasError ,activeTop: isFullScreen }">
                 <SearchBar></SearchBar>
-                    <div class="approve">
-                        <img src="../../images/index/study1@2x.png"/>
-                    </div>
+                <div class="approve">
+                    <img src="../../images/index/study1@2x.png"/>
+                </div>
             </div>
             <div class="">
                 <mt-swipe :auto="4000" style="height: 4rem;">
@@ -96,7 +96,7 @@
                 isAutoFill: false,
                 wrapperHeight: 0,
                 courrentPage: 1,
-                limit:15
+                limit: 15
             }
         },
         // mounted() {
@@ -123,13 +123,11 @@
         },
         mounted() {
             window.addEventListener('scroll', this.handleScroll, true)
-            console.log(this.USERTYPE,'USERTYPE')
-           
         },
         created() {
             this.initData()
             this.loadFrist();
-            this.$nextTick().then(res=>{
+            this.$nextTick().then(res => {
                 // console.log(res,'res')
                 // let scroll = new BScroll(this.$refs.home)
                 // console.log(scroll,'scroll')
@@ -137,52 +135,41 @@
         },
         methods: {
             loadTop() {
-                // console.log(id)
                 this.courrentPage = 1
                 this.loadFrist();
             },
             // 上拉加载
             loadBottom() {
-                
                 this.loadMore();
             },
             // 下来刷新加载
             loadFrist() {
                 const params = {
                     page: this.courrentPage,
-                    limit:this.limit
+                    limit: this.limit
                 }
                 findNearBySuppliers(params).then(response => {
                     console.log(response.data.data)
-                        this.allLoaded = false; // 可以进行上拉
-                        this.suppliers = response.data.data;
-                        console.log(this.suppliers, 'this.suppliers')
-                        this.$refs.loadmore.onTopLoaded();
-                    })
+                    this.allLoaded = false; // 可以进行上拉
+                    this.suppliers = response.data.data;
+                    console.log(this.suppliers, 'this.suppliers')
+                    this.$refs.loadmore.onTopLoaded();
+                })
             },
             // 加载更多
             loadMore() {
                 this.courrentPage++;
                 const params = {
                     page: this.courrentPage,
-                    limit:this.limit
+                    limit: this.limit
                 }
                 findNearBySuppliers(params).then(response => {
-
-                        // concat数组的追加
-                        // this.suppliers = this.suppliers.concat(response.data.data);
-                        // if (this.courrentPage > 1) {
-                        //     this.allLoaded = true; // 若数据已全部获取完毕
-                        // }
-                        response.data.data&&(this.suppliers = this.suppliers.concat(response.data.data))
-                        if (!response.data.data||response.data.data.length < this.limit) {
-                            this.allLoaded = true; // 若数据已全部获取完毕
-                        }
-
-                        this.$refs.loadmore.onBottomLoaded();
-                        //  this.$refs.wrapper.style.height='auto'
-                        // window.scrollTo = (0, 100)
-                    })
+                    response.data.data && (this.suppliers = this.suppliers.concat(response.data.data))
+                    if (!response.data.data || response.data.data.length < this.limit) {
+                        this.allLoaded = true; // 若数据已全部获取完毕
+                    }
+                    this.$refs.loadmore.onBottomLoaded();
+                })
             },
             async initData() {
                 //console.log(44)
@@ -210,6 +197,7 @@
         /* 加上这个才会有当数据充满整个屏幕，可以进行上拉加载更多的操作 */
         overflow: scroll;
     }
+
     .select-box {
         display: flex;
         justify-content: center;
@@ -219,6 +207,9 @@
         text-align: center;
         color: #ccc;
         align-items: center;
+        font-family: PingFang SC;
+        font-weight: bold;
+        color: rgba(204, 204, 204, 1);
 
         img {
             width: .82rem;
@@ -257,7 +248,7 @@
         height: auto;
         right: 0px;
         bottom: 1.3rem;
-        z-index:99;
+        z-index: 99;
     }
 
     .notice {

@@ -297,7 +297,7 @@ color: #fff;
                 background: #fff;
                 top:0px;
                 z-index: 9;
-                opacity: .4;
+                opacity: .2;
                 border-radius: .2rem;
             }
         }
@@ -315,7 +315,7 @@ color: #fff;
     .tel {
         svg {
             width: .4rem;
-            height: .4rem;
+            height: .35rem;
             margin-top: .3rem;
         }
     }

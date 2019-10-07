@@ -62,7 +62,7 @@
             // 下来刷新加载
             loadFrist() {
                 const params = {
-                    page: this.courrentPage,
+                    page: 1,
                     limit:this.limit
                 }
                 this.$http.get("comments/list",{params}).then(response => {

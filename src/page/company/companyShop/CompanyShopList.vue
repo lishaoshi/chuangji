@@ -5,12 +5,14 @@
 			<mt-swipe-item :key="key" v-for="(swipe,key) in swipers"><a :href="swipe.link"> <img :src="swipe.picture" width="100%"></a>
 			</mt-swipe-item>
 		</mt-swipe>
-		<Notice :notices="notices" v-if="notices!=null"></Notice>
-		<div class="notice" v-else>
-			<svg>
-				<use xlink:href="#icon-notice"/>
-			</svg>
-			<span style="padding-left: 5px">暂时没有消息</span>
+		<div style="background: #fff;padding: .2rem">
+			<Notice :notices="notices" v-if="notices!=null" style="background: #f4f5f5;border-radius: 2px"></Notice>
+			<div class="notice" v-else>
+				<svg>
+					<use xlink:href="#icon-notice"/>
+				</svg>
+				<span style="padding-left: 5px">暂时没有消息</span>
+			</div>
 		</div>
 		<div class="nav">
 			<div>
@@ -57,7 +59,7 @@
     import {businessEntities} from '@/api/business'
     import MiniCompanyCart from '@/page/company/CompanyClassify/MiniShopCart.vue'
 	import {adList, infoList} from "@/api/ad";
-	import Notice from '@/components/common/notice';
+	import Notice from '@/components/common/notice2';
 
 	export default {
 		name: "CompanyShopList",
@@ -138,8 +140,6 @@
 
 <style lang="scss" scoped>
     .notice {
-        margin: .2rem 0;
-        margin-top: 0px;
         background: #fff;
         width: 100%;
         height: .88rem;
