@@ -114,6 +114,11 @@
 					Toast('请输入详细地址');
 					return
 				}
+				if(consignee.length >6){
+					Toast('请输入名字简写');
+					this.consignee = ''
+					return;
+				}
 				//3. contruct data post
 				const params = {
 					consignee,
