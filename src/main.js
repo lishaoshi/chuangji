@@ -26,9 +26,6 @@ import "./style/index.scss";
 import Message from "./plugins/message";
 import {socketUrl} from "./api";
 import moment from 'moment'
-import preview from 'vue-photo-preview'
-import 'vue-photo-preview/dist/skin.css'
-Vue.use(preview)
 Vue.prototype.$moment = moment;//赋值使用
 
 moment.locale('zh-cn');//需要汉化
