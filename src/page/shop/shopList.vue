@@ -397,8 +397,8 @@
                 color: rgba(0, 144, 255, 1);
                 border: 1px solid #2da2ff;
                 border-radius: 3px;
-                line-height: .42rem;
-                height: .42rem;
+                line-height: .22rem;
+                height: .22rem;
                 margin-right: .1rem;
                 padding: 0 .05rem;
                 margin-bottom: .1rem;

@@ -26,7 +26,7 @@
                 </div>
             </main>
             <button  class="m-long-btn m-signin-btn"  @click="handleOk" :disabled="loading||disabled">
-                <span>立即保存</span>
+                <span>确认修改</span>
             </button>
         </div>
         <div v-else>

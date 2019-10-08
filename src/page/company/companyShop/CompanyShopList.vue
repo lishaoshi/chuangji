@@ -5,7 +5,7 @@
 			<mt-swipe-item :key="key" v-for="(swipe,key) in swipers"><a :href="swipe.link"> <img :src="swipe.picture" width="100%"></a>
 			</mt-swipe-item>
 		</mt-swipe>
-		<div style="background: #fff;padding: .2rem">
+		<div style="background: #fff;padding: .2rem .32rem">
 			<Notice :notices="notices" v-if="notices!=null" style="background: #f4f5f5;border-radius: 2px"></Notice>
 			<div class="notice" v-else>
 				<svg>
@@ -142,8 +142,8 @@
     .notice {
         background: #fff;
         width: 100%;
-        height: .88rem;
-        line-height: .88rem;
+        height: .64rem;
+        line-height: .64rem;
         display: flex;
         padding: 0 .24rem;
         align-items: center;
@@ -160,7 +160,7 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 font-size: .24rem;
-                line-height: .88rem;
+                line-height: .64rem;
                 color: #333;
             }
         }
