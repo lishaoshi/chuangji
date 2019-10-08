@@ -53,8 +53,6 @@
        <div v-if="isShowBigImg" @click="close" class="popBox">
            <!-- <span>123</span> -->
            <img :src="current" alt="">
-           <!-- <img src="" alt=""> -->
-           <span>123</span>
 
        </div>
   </div>
