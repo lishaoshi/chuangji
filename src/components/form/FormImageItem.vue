@@ -26,7 +26,10 @@
         name: "FormImageItem",
         components:{ ImageUploader },
         props:{
-            value: { type: String, default: '' },
+            value: { 
+                type: String, 
+                default: ''
+            },
             label: { type: String, default: '上传头像' },
             readonly: { type: Boolean, default: false },
             icon: { type: String, default: 'hehuo-wode-zhengjianzhao' },
@@ -46,7 +49,7 @@
         },
         data(){
             return {
-                avatar: this.$props.value,
+                avatar: this.$props.value.includes('public')? '':this.$props.value,
             }
         },
         methods:{

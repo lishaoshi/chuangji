@@ -105,7 +105,6 @@ export default {
             // cosnole.log(i)
             this.current = i
             this.isShowBigImg = true
-
         },
         close() {
             this.isShowBigImg = false

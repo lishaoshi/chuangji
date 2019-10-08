@@ -27,7 +27,6 @@
                     <FormImageItem
                             v-model="aptitudeData.business_license"
                             label="营业执照"
-                            :value="aptitudeData.business_license"
                             type="storage"
                             prefixPath="certs"
                     />
@@ -272,6 +271,13 @@
                     certification: aptitudeData,
                    // sub_type: this.companyCType,
                 }
+                //  Object.values(this.aptitudeData).forEach((item,index)=>{
+                //     console.log(item)
+                //     // if(!item.includes('public')) {
+
+                //     // }
+                // })
+                
                // console.log(params.certification.business_executive)
                // console.log(typeof (params.certification.business_executive))
                if(this.certStatus==0) {
@@ -289,10 +295,12 @@
                         console.log(resp)
                     })
                } else {
-                   params.certification = this.aptitudeList
-                   
-                //    console.log('text certStatus', params)
-                //    return
+                Object.keys(this.aptitudeList).forEach(item=>{
+                    if(item!="sub_type"&&!this.aptitudeList[item]!=this.aptitudeList[item]&&!this.aptitudeData[item].includes('https')) {
+                        this.aptitudeList[item] = this.aptitudeData[item]
+                    }
+                })
+                params.certification = this.aptitudeList
                    this.$http.patch('/user/certification', params, {validateStatus: s => s = 470})
                     .then(response => {
                         if(response.data.errors){
@@ -334,7 +342,6 @@
                         this.aptitudeData.gmp = item.value
                         this.aptitudeList.gmp = item.origin_value
                         break
-
                }
             })
             console.log(this.aptitudeData,'data')

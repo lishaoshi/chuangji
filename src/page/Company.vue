@@ -85,7 +85,7 @@
             async _queryCompayResults() {
                 // console.log('queryCompayResults')
                 await this.fetchUserInfo()
-                queryCompayResults({}).then(res=>{
+                this.CERT_STATUS==2&&queryCompayResults({}).then(res=>{
                     // console.log(res, 'queryCompayResults')
                     if(res.code==200) {
                         let data = res.data
