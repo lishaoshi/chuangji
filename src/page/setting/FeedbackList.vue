@@ -5,7 +5,7 @@
             <div class="main-body" ref="wrapper" style="height: 12rem">
                 <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
                 <div class="feed-item" v-for="(item,index) in feedList" :key="`${index}_feeditem`">
-                    <p>{{time}}</p>
+                    <p>{{item.date}}</p>
                     <div>
                         <span style="background: #FF7612" v-if="item.reply_contents != null">问</span>{{item.body}}
                     </div>
@@ -46,10 +46,14 @@
         methods:{
             async _handleData(data) {
                 if (data) {
-                    data.forEach(item => {
+                    data.forEach((item, index, arr) => {
                         let time = item.created_at
-                        this.time = this.$moment.unix(time).format("YYYY-MM-DD")
+                        // console.log(time)
+                        // console.log(new Date(item).getFullYear())
+                        arr[index].date = this.$moment.unix(time).format("YYYY-MM-DD")
+                        // console.log(arr[index])
                     })
+                    this.$refs.loadmore.onTopLoaded()
                 }
             },
             loadTop() {
@@ -66,7 +70,7 @@
                     limit:this.limit
                 }
                 this.$http.get("comments/list",{params}).then(response => {
-                    console.log(response.data.data.data)
+                    // console.log(response.data.data.data)
                     this.allLoaded = false; // 可以进行上拉
                     this.feedList = response.data.data.data;
                     this._handleData(this.feedList)

@@ -54,12 +54,14 @@
         <mt-tab-container v-model="selected" style="min-height: 5rem;">
             <mt-tab-container-item id="1">
                 <div v-if="drawOrders.length>0">
-                <ClxsdLoadMore key="orders-list-UnDrawOrder" ref="loadmoreUnDraw" @onRefresh="unDrawRefresh" @onLoadMore="unDrawLoadMore">
-                    <UnDrawCard :key="`order_drug_undraw_${index}`" :data="order" v-for="(order,index) in drawOrders"
-                                :refuseOrder="refuseOrder"
-                                :extractOrder="extractOrder"
-                    />
-                </ClxsdLoadMore>
+                <!-- <ClxsdLoadMore key="orders-list-UnDrawOrder" ref="loadmoreUnDraw" @onRefresh="unDrawRefresh" @onLoadMore="unDrawLoadMore"> -->
+                    <mt-loadmore :top-method="unDrawRefresh" :bottom-method="unDrawLoadMore" :bottom-all-loaded="drawOrdersAllLoaded" ref="drawOrders">
+                        <UnDrawCard :key="`order_drug_undraw_${index}`" :data="order" v-for="(order,index) in drawOrders"
+                                    :refuseOrder="refuseOrder"
+                                    :extractOrder="extractOrder"
+                        />
+                    </mt-loadmore>
+                <!-- </ClxsdLoadMore> -->
                 </div>
                 <div v-else>
                     <EmptyOrder/>
@@ -156,6 +158,7 @@
                 daikuanValue: 0.00,
                 lianShuValue: 0.00,
                 drawValue:0,
+                drawOrdersAllLoaded:　false  //标志待提取列表是否已经全部加载， false：没有全部加载， true：已经全部加载
             }
         },
         computed: {
@@ -270,6 +273,7 @@
                         if (options.callback) {
                             options.callback()
                         }
+                        this.$refs.drawOrders.onTopLoaded()
                     })
             },
             unDrawRefresh(callback) {

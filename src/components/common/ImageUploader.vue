@@ -117,8 +117,6 @@
                 }else{
                    this.uploadBlob(files[0])
                 }
-
-
             },
 
             async uploadBlob (blob) {

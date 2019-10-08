@@ -233,6 +233,7 @@
 		height: auto;
 		right: 0px;
 		bottom: 1.3rem;
+		z-index: 99;
 	}
 
 	.notice {
