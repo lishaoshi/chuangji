@@ -40,20 +40,17 @@
             }
         },
         created(){
-            this.loadFrist();
+            this.loadFrist(true);
         },
 
         methods:{
-            async _handleData(data) {
+            async _handleData(data, flag) {
                 if (data) {
                     data.forEach((item, index, arr) => {
                         let time = item.created_at
-                        // console.log(time)
-                        // console.log(new Date(item).getFullYear())
                         arr[index].date = this.$moment.unix(time).format("YYYY-MM-DD")
-                        // console.log(arr[index])
                     })
-                    this.$refs.loadmore.onTopLoaded()
+                   !flag &&this.$refs.loadmore.onTopLoaded()
                 }
             },
             loadTop() {
@@ -64,7 +61,7 @@
                 this.loadMore();
             },
             // 下来刷新加载
-            loadFrist() {
+            loadFrist(flag) {
                 const params = {
                     page: 1,
                     limit:this.limit
@@ -73,7 +70,7 @@
                     // console.log(response.data.data.data)
                     this.allLoaded = false; // 可以进行上拉
                     this.feedList = response.data.data.data;
-                    this._handleData(this.feedList)
+                    this._handleData(this.feedList, flag)
                     //this.$refs.loadmore.onTopLoaded();
                 })
             },
