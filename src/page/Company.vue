@@ -9,7 +9,7 @@
             </div>
         </section>
         <page-edit-aptitude v-else-if="CERT_STATUS === 0 || CERT_STATUS===4" :user-type="USER_TYPE" :imgList="imgList" :isEdit="true" :certStatus="CERT_STATUS" :org_name="org_name"/>
-        <PageAptitudesRefused v-else-if="CERT_STATUS===2" :cate_name="cate_name" :org_name="org_name" :imgList="imgList" @updateCompany="updateCompany(3)"></PageAptitudesRefused>
+        <PageAptitudesRefused v-else-if="CERT_STATUS===2" :cate_name="cate_name" :org_name="org_name" :imgList="imgList" :refuse_reason="refuse_reason" @updateCompany="updateCompany(3)"></PageAptitudesRefused>
     </PullRefresh>
 </template>
 
@@ -27,7 +27,8 @@
             return {
                 cate_name: '',
                 org_name: '',
-                imgList:[]
+                imgList:[],
+                refuse_reason: ''
             }
         },
         components:{
@@ -91,6 +92,7 @@
                         this.cate_name = data.certificationInfo.cate_name
                         this.org_name = data.certificationInfo.org_name
                         this.imgList = data.certificationInfo.files.reverse()
+                        this.refuse_reason = data.certificationInfo.refuse_reason
                     }
                 })
             },

@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+      <!-- <div> -->
       <clxsd-head-top title="公司信息" append="2">
           <div slot="append" @click="handleEdit" class="my">
                 <span>编辑</span>
@@ -7,7 +8,7 @@
       </clxsd-head-top>
       <div class="promptText">
           <span>审核未通过，</span>
-          <span>公司名称与营业执照名称不匹配，点击编辑进行修改</span>
+          <span>{{refuse_reason||'请重新编辑'}}</span>
       </div>
 
       <div class="companyInfo">
@@ -22,7 +23,7 @@
       </div>
 
       <div class="companyImgList">
-        <div v-for="(item, index) of imgList" :key="index">
+        <div v-for="(item, index) of imgList" :key="index" @click="showBigImg(item.value)">
             
             <span v-if="item.label=='营业执照'">{{item.label}}</span>
             <!-- 商业 -->
@@ -46,16 +47,27 @@
             <img src="@/images/add.png" alt="">
         </div> -->
       </div>
+      <!-- <wimg :show="isShowBigImg" :imgs="imgs" :currentImg="current" @close="isShowBigImg = false"></wimg> -->
+      <!-- <img v-for="(item,index) of imgs" :key="index" :src="item" preview="0" preview-text="描述文字">
+       -->
+       <div v-if="isShowBigImg" @click="close" class="popBox">
+           <!-- <span>123</span> -->
+           <img :src="current" alt="">
+       </div>
   </div>
 </template>
 
 <script>
 import ClxsdHeadTop from "../../components/HeadTop";
 import { mapActions } from "vuex"
+
+// import wimg from 'w-previewimg'
 export default {
     data() {
         return {
-
+            imgs: [],
+            isShowBigImg: false,
+            current: ''
         }
     },
     props: {
@@ -66,22 +78,63 @@ export default {
             type: String
         },
         imgList: {
-            type: Array
+            type: Array,
+            required:true
+        },
+        refuse_reason: {
+            type: String,
+            required:true
         }
+    },
+     updated() {
+        this.$nextTick().then(()=>{
+            // console.log(this.imgList,'list')
+            this.imgList.forEach(item=>{
+                // console.log(item, 'item')
+                this.imgs.push(item.url)
+            })
+        })
+        
     },
     methods: {
         handleEdit() {
             this.$emit('updateCompany')
+        },
+        showBigImg (i) {
+            // cosnole.log(i)
+            this.current = i
+            this.isShowBigImg = true
+
+        },
+        close() {
+            this.isShowBigImg = false
         }
     },
     components: {
-        ClxsdHeadTop
-    }
+        ClxsdHeadTop,
+        // wimg
+    },
+   
 }
 </script>
 
 <style lang="scss" scoped>
 .container {
+    .popBox {
+        position: absolute;
+        opacity: 1;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background: #000;
+        z-index: 999;
+        display: flex;
+        align-items: center;
+        img {
+            width: 100%;
+        }
+    }
     .promptText {
         font-size: .28rem;
         padding: 0 .68rem;
@@ -128,6 +181,7 @@ export default {
             justify-content: space-between;
         }
     }
+    
 }
 
 </style>

@@ -40,7 +40,6 @@ instance.interceptors.response.use(
     res => res,
     err => {
         const requireAuth = () => {
-            console.log('123')
             setTimeout(() => {
                 router.push({
                     path: "/signin",
