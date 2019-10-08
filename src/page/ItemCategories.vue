@@ -295,11 +295,13 @@
             },
             //上架
             UpSelf(id) {
-                this.$http.patch(`hippo-shop/business/changeStatus`, {good_id: id, status: 1}).then(res => {
-                    this.$router.go(0)
-                }).catch(error => {
-                    this.$toast("上架失败")
-                })
+                this.$messagebox.confirm("确定要上架此商品吗?").then(action => {
+                    this.$http.patch(`hippo-shop/business/changeStatus`, {good_id: id, status: 1}).then(res => {
+                        this.$router.go(0)
+                    }).catch(error => {
+                        this.$toast("上架失败")
+                    })
+                }).catch(err => err);
             },
 
             onSaleGoods(cat_id) {

@@ -109,12 +109,12 @@
                 follow_status: 0,
                 follow_info: '收藏',
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
-                status:0,
-                creat_time:'',
-                info:'上架',
-                loading:true,
-                name1:'',
-                name2:''
+                status: 0,
+                creat_time: '',
+                info: '上架',
+                loading: true,
+                name1: '',
+                name2: ''
             }
         },
         computed: {
@@ -131,19 +131,19 @@
         },
         methods: {
             _handleData(data) {
-                if(data.status === 1){
+                if (data.status === 1) {
                     this.info = "下架"
-                }else {
+                } else {
                     this.info = "上架"
                 }
                 this.status = data.status
                 this.name1 = data.brand.name
                 this.name2 = data.category.name
-                if(data.valid_time!=0){
+                if (data.valid_time != 0) {
                     let time = data.valid_time
                     this.time = this.$moment.unix(time).format("YYYY.MM.DD")
                 }
-                if(data.updated_at!=0){
+                if (data.updated_at != 0) {
                     let time = data.updated_at
                     this.creat_time = this.$moment.unix(time).format("YYYY-MM-DD HH:MM")
                 }
@@ -159,10 +159,10 @@
                 //是否收藏
                 isBusinessGoodsFollow(this.id).then(res => {
                     console.log(res.data.data.hasrelation)
-                    if(res.data.data.hasrelation){
+                    if (res.data.data.hasrelation) {
                         this.follow_info = "已收藏"
                         this.follow_status = 1
-                    }else{
+                    } else {
                         this.follow_info = "收藏"
                         this.follow_status = 0
                     }
@@ -188,8 +188,8 @@
                 }
                 this.follow_status = !this.follow_status
             },
-            changeSelf(){
-                if(this.status === 1){
+            changeSelf() {
+                if (this.status === 1) {
                     this.$messagebox.confirm("确定要下架此商品吗?").then(action => {
                         if (action === 'confirm') {
                             this.$http.patch(`hippo-shop/business/changeStatus`, {good_id: this.id, status: 0}).then(res => {
@@ -200,28 +200,18 @@
                             })
                         }
                     }).catch(err => err);
-                }else if(this.status === 0){
-                    this.$http.patch(`hippo-shop/business/changeStatus`, {good_id: this.id, status: 1}).then(res => {
-                        this.status = 1
-                        this.info ="下架"
-                    }).catch(error => {
-                        this.$toast("上架失败")
-                    })
-                }
-            },
-            //下架
-            DownSelf() {
+                } else if (this.status === 0)
+                    this.$messagebox.confirm("确定要上架此商品吗?").then(action => {
+                        this.$http.patch(`hippo-shop/business/changeStatus`, {good_id: this.id, status: 1}).then(res => {
+                            this.status = 1
+                            this.info = "下架"
+                        }).catch(error => {
+                            this.$toast("上架失败")
+                        })
+                    }).catch(err => err);
 
-            },
-            //上架
-            UpSelf() {
-                this.$http.patch(`hippo-shop/business/changeStatus`, {good_id: this.id, status: 1}).then(res => {
-                    this.status = 0
-                }).catch(error => {
-                    this.$toast("上架失败")
-                })
-            },
-        }
+        },
+    },
     }
 </script>
 
@@ -252,6 +242,7 @@
         font-size: .24rem;
         line-height: 180%;
         color: #666;
+
         span {
             color: #333;
             width: 60px;
@@ -353,16 +344,19 @@
         width: 100%;
         bottom: 0px;
     }
+
     .edit-box {
         padding: .4rem .2rem;
         color: #333;
         font-size: .24rem;
         letter-spacing: 1px;
         line-height: 1.5;
+
         img {
             max-width: 100%;
         }
     }
+
     .collect {
         position: fixed;
         right: .2rem;
@@ -377,6 +371,7 @@
         opacity: .9;
         z-index: 9;
     }
+
     .activebtn {
         top: .7rem
     }

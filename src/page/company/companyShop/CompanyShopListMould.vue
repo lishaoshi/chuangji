@@ -8,7 +8,8 @@
 					<p class="list-title">{{item.good_name}}</p>
 				</router-link>
                 <p class="p1">{{title}}</p>
-                <p class="p1">{{item.spec}}</p>
+                <p class="p1">规格:{{item.spec}}</p>
+				<p class="p1">效期:{{time}}</p>
 				<div class="selling" v-if="canShow">
 					<div class="unit_price">
 						<p class="font"><i>￥</i><i>{{item.price}}</i><span>{{item.market_price}}</span></p>
@@ -63,7 +64,9 @@
 				shopId:'',
                 items:[],
                 loading: false,
-				page:1
+				page:1,
+				time:''
+
 			}
 		},
 		mounted() {
@@ -77,10 +80,8 @@
 			}),
 			//当前商店购物信息
 			shopCart() {
-				return { ...this.cartList[this.businessId]
-				}
+				return { ...this.cartList[this.businessId]}
 			},
-			
 		},
 
 		methods: {
@@ -99,7 +100,7 @@
 				
 			},
 			_handleData(data) {
-				//console.log(data)
+				console.log(data)
 				data.forEach((item, index) => {
 					item.shopId = this.businessId
 					item.num = 0
@@ -108,10 +109,15 @@
 					if(this.shopCart[item.id]) {
 						item.num = this.shopCart[item.id].num
 					}
+					if(item.valid_time>0) {
+						let time = item.valid_time
+						this.time = this.$moment.unix(time).format("YYYY.MM.DD")
+					}
 				})
 				return data
 			},
 			addToMiniCart(event, item) {
+				console.log(item)
 				if(this.canOption()) {
 					this.BUSINESS_ADD_CART(item)
 					item.num++
