@@ -115,7 +115,8 @@
             userType: {type: Number, required: true},
             isEdit: {type: Boolean, default: false},
             imgList: {type:Array, default:()=>{return []}},
-            org_name:{type: String, default: ''}
+            org_name:{type: String, default: ''},
+            certStatus: {type: Number, default:0}
         },
         components: {
             FormImageItem,
@@ -168,6 +169,18 @@
                 companyCType: 0,
                 companyName: this.$props.org_name||'',
                 aptitudeData: {
+                    gsp: "",//药品经营质量管理规范认证证书(GSP)
+                    gmp: "",//药品生产质量管理规范认证证书(GMP)
+                    business_license: "",//营业执照
+                    oscc: "",//组织结构代码证,
+                    business_executive: "",//药品经营许可证
+                    health_c: "",//健康证
+                    hyg_l: "",//卫生许可证,
+                    pblg: "",//药品生产许可证
+                    sc_z: "",//生产许可证
+                    sub_type:0
+                },
+                 aptitudeList: {
                     gsp: "",//药品经营质量管理规范认证证书(GSP)
                     gmp: "",//药品生产质量管理规范认证证书(GMP)
                     business_license: "",//营业执照
@@ -253,7 +266,7 @@
                     aptitudeData.gsp = 'public:null'
                 }
 
-                const params = {
+                let params = {
                     type: this.userType,
                     org_name: companyName,
                     certification: aptitudeData,
@@ -261,20 +274,39 @@
                 }
                // console.log(params.certification.business_executive)
                // console.log(typeof (params.certification.business_executive))
-                this.$http.post('/user/certification', params, {validateStatus: s => s = 470})
-                .then(response => {
-                    if(response.data.errors){
-                        this.$toast("认证信息上传失败");
-                    }else{
-                        this.$toast("上传成功,正在审核中...");
-                        this.$store.dispatch("fetchUserInfo");
-                        this.goBack()
-                        //this.$router.push('/company-info')
-                    }
+               if(this.certStatus==0) {
+                   this.$http.post('/user/certification', params, {validateStatus: s => s = 470})
+                    .then(response => {
+                        if(response.data.errors){
+                            this.$toast("认证信息上传失败");
+                        }else{
+                            this.$toast("上传成功,正在审核中...");
+                            this.$store.dispatch("fetchUserInfo");
+                            this.goBack()
+                        }
 
-                }).catch(({response: {data: {errors = ['加载认证类型失败']} = {}} = {}}) => {
-                    console.log(resp)
-                })
+                    }).catch(({response: {data: {errors = ['加载认证类型失败']} = {}} = {}}) => {
+                        console.log(resp)
+                    })
+               } else {
+                   params.certification = this.aptitudeList
+                   
+                //    console.log('text certStatus', params)
+                //    return
+                   this.$http.patch('/user/certification', params, {validateStatus: s => s = 470})
+                    .then(response => {
+                        if(response.data.errors){
+                            this.$toast("认证信息上传失败");
+                        }else{
+                            this.$toast("上传成功,正在审核中...");
+                            this.$store.dispatch("fetchUserInfo");
+                            this.goBack()
+                        }
+
+                    }).catch(({response: {data: {errors = ['加载认证类型失败']} = {}} = {}}) => {
+                        console.log(resp)
+                    })
+               }
 
             }
         },
@@ -282,9 +314,27 @@
             // console.log(this.imgList,'hello',this.org_name)
             this.imgList.map((item, index)=>{
                switch(item.label) {
-                   case '营业执照': 
-                   this.aptitudeData.business_license = item.value
-                   break
+                    case '营业执照': 
+                        this.aptitudeData.business_license = item.value
+                        this.aptitudeList.business_license = item.origin_value
+                        break
+                    case 'GSP证书':
+                        this.aptitudeData.gsp = item.value
+                        this.aptitudeList.gsp = item.origin_value
+                        break
+                    case '经营许可证':
+                        this.aptitudeData.business_executive = item.value
+                        this.aptitudeList.business_executive = item.origin_value
+                        break
+                    case '生产许可证':
+                        this.aptitudeData.sc_z = item.value
+                        this.aptitudeList.sc_z = item.origin_value
+                        break
+                    case 'GMP证书':
+                        this.aptitudeData.gmp = item.value
+                        this.aptitudeList.gmp = item.origin_value
+                        break
+
                }
             })
             console.log(this.aptitudeData,'data')

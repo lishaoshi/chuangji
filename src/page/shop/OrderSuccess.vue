@@ -53,16 +53,19 @@
         name: "OrderSuccess",
         data() {
             return {
-                data: {}
+                data: {},
+                orderType: ''
             }
         },
         // props:["orderType"],
         created() {
                 //   console.log(this.$route)
-            if(this.$route.params) {
-                // console.log(this.$route.query)
+            if(this.$route.params.orderType || this.$route.params.data) {
+                // console.log(this.$route)
                 this.data = this.$route.params.data
                 this.orderType = this.$route.params.orderType
+            } else {
+                this.goBack(-3)
             }
     },
   

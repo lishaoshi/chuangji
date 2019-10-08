@@ -42,7 +42,7 @@
             </div>
             <div class="main-body">
                 <!--  :style="{ height: (wrapperHeight-50) + 'px' }" -->
-                <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
+                <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
                     <supplier-item :data="item" v-for="(item,index) in suppliers"/>
                 </mt-loadmore>
             </div>
@@ -54,6 +54,9 @@
             -->
             <router-link to="/factory/cart">
                 <img src="../../images/index/shop.png" class="shopcar"/>
+                 <!-- <svg v-if="USERTYPE==2" class="m-style-svg m-svg-def">
+                    <use xlink:href="#icon-promote-promoter"/>
+                </svg> -->
             </router-link>
         </div>
         <!-- </scroll> -->
@@ -103,7 +106,14 @@
         //         this.$refs.wrapper.getBoundingClientRect().top;
         // },
         computed: {
-            ...mapState(['POSITION']),
+            // ...mapState(['POSITION']),
+            ...mapState({
+                POSITION:(state)=>{state.POSITION},
+                USERTYPE:state=>{ return state.CURRENTUSER.data.user_type}
+            }),
+            // ...mapState({
+			// 	USER_TYPE: state => state.CURRENTUSER.data.user_type,
+			// })
             lat() {
                 return this.POSITION.lat
             },
@@ -113,7 +123,6 @@
         },
         mounted() {
             window.addEventListener('scroll', this.handleScroll, true)
-
         },
         created() {
             this.initData()

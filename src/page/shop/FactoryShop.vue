@@ -68,17 +68,25 @@
             </div>
         </transition>
         <good-list :factory-id="factoryId" :USER_TYPE = "USER_TYPE"/>
-        <mt-popup v-model="popupVisible" position="bottom" style="width: 100%;height: 5.6rem">
-            <p class="pop-title">更多活动券<svg @click="popupVisible=false"><use xlink:href="#icon-promote-my-close"></use> </svg></p>
-            <div class="discounts" style="height: 5rem;background: #F5F5F5;padding: .3rem .5rem .8rem;margin-top: 0px;width: 100%">
-                <ul style="position: relative;overflow: visible;height: auto">
-                    <li v-for="item in (shopDetailData.actives)" style="padding: .2rem 0">
-                        <span>{{item.label}}</span>
-                        <p style="color: #333333">{{item.title}}</p>
-                    </li>
-                </ul>
-            </div>
-        </mt-popup>
+        <!-- <transition name="fade"> -->
+            <mt-popup v-model="popupVisible" position="bottom" style="width: 100%;height: 5.6rem;transition:1s">
+                <p class="pop-title">更多活动券<svg @click="popupVisible=false"><use xlink:href="#icon-promote-my-close"></use> </svg></p>
+                <div class="discounts" style="height: 5rem;background: #F5F5F5;padding: .3rem .5rem .8rem;margin-top: 0px;width: 100%">
+                  
+                        <ul style="position: relative;overflow: visible;height: auto">
+                              <!-- <transition-group name="fade" tag="li"  
+                              enter-active-class="animated bounceInDown"
+                                leave-active-class="animated bounceOut"> -->
+                                <li v-for="(item, index) in (shopDetailData.actives)" :key="index" style="padding: .2rem 0">
+                                    <span>{{item.label}}</span>
+                                    <p style="color: #333333">{{item.title}}</p>
+                                </li>
+                           <!-- </transition-group> -->
+                        </ul>
+                     
+                </div>
+            </mt-popup>
+        <!-- </transition> -->
     </div>
 </template>
 
@@ -431,5 +439,11 @@
     }
     .bg2 {
         height: 1.4rem;
+    }
+    .fade-enter-active, .fade-leave-active {
+        // transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        // opacity: 0;
     }
 </style>

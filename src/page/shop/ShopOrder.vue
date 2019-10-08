@@ -120,10 +120,13 @@
             }
         },
         created() {
+            if(JSON.stringify(this.confirmOrderData)=="{}") {
+                this.$router.go(-1)
+            }
             this.initData()
         },
         methods: {
-            ...mapMutations(['CHOOSE_ADDRESS']),
+            ...mapMutations(['CHOOSE_ADDRESS', 'CLEAR_CONFIRM_ORDER_DATA']),
             //初始化数据
             initData() {
                 if (!this.confirmOrderData) {
@@ -241,8 +244,8 @@
                     // console.log(res.data, 'res')
                     let data = res.data.data
                     // console.log(data, 'data')
-
-                    this.$router.push({name: 'OrderSuccess', params: {data:data, orderType: this.confirmOrderData.type}})
+                    this.CLEAR_CONFIRM_ORDER_DATA()
+                    this.$router.push({name: 'OrderSuccess', params: {data:data, orderType: this.orderType}})
                 })
                 // console.log(params, ids, this.confirmOrderData)
 

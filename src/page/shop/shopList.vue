@@ -19,10 +19,15 @@
                     </div>
 
                     <!-- 商品右下角购物车 -->
-                    <div class="carImg">
-                        <img src="@/images/shop-car.png" alt="" v-if="!item.num" @click="add_shop_car(item)">
+                    <div class="carImg" v-if="canShow">
+                        <!-- <img src="@/images/shop-car.png" alt="" v-if="!item.num" @click="add_shop_car(item)"> -->
+                        <!-- <i class="iconfont" @click="add_shop_car(item)" v-if="!item.num">icon-shop-car</i> -->
+                        <svg class="icon shopCart" v-if="!item.num"  @click="add_shop_car(item)" aria-hidden="true">
+                            <use xlink:href="#icon-shop-car"></use>
+                        </svg>
                         <div class="controls" v-else>
                             <img @click="handleNumber(item)" src="@/images/del_shopping.png" alt="">
+                            
                             <div>
                                 <span>{{item.num}}</span>
                                 <span>{{item.unit}}</span>
@@ -33,7 +38,9 @@
                         </div>
                     </div>
 
-                    <div class="gw_num" v-if="(!item.is_multi_spec && canShow && USER_TYPE==3)">
+                    <div v-if="!canShow" style="color:red;">请先完成认证或等待审核通过</div>
+
+                    <!-- <div class="gw_num" v-if="(!item.is_multi_spec && canShow && USER_TYPE==3)">
                         <em class="lose" @click="removeToMiniCart($event,item)" 　v-if="item.num > 0">
                             <svg>
                                 <use xlink:href="#icon-factory-productList-reduce-1"></use>
@@ -53,7 +60,7 @@
                                 <use xlink:href="#icon-factory-productList-plus-1"></use>
                             </svg>
                         </em>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="clearfloat"></div>
@@ -195,7 +202,7 @@
             calculateCartNum() {
                  let num = 0;
                 Object.values(this.shopCart).forEach((item, index) => {
-                    console.log(item, 'cartNum')
+                    // console.log(item, 'cartNum')
                     if(item&&item.num>0) {
                         num +=  +item.num;
                     }
@@ -235,6 +242,8 @@
             },
             // 添加至购物车
             add_shop_car(item) {
+                // console.log(item)
+                // deggu
                 item.num++
                 let data = {
                     supplier_id: this.factoryId,
@@ -257,16 +266,21 @@
 
             // 控制移除商品出购物车
             async handleNumber(item) {
-                console.log(item)
-                if(item.num <= item.order_min_num) return
+                // console.log(item)
+                // debugger
+                // if(item.num <= item.order_min_num) return
                 let data = {
                     supplier_id: this.factoryId,
                     good_id: item.id
                 }
                 
-                await onlyDelShopCar(data)
-                item.num--
+                onlyDelShopCar(data)
+                // this.shopCart[item.id].num--
                 this.shopCart[item.id].num--
+                item.num--
+                this.cartNum = this.calculateCartNum()
+                this.totalPrice = this.calculateTotalPrice()
+                
             },
             canOption() {
                 if (!this.canShow) {
@@ -304,7 +318,6 @@
                 if (this.canOption()) {
                     this.REMOVE_CART(item)
                     item.num--
-
                 }
             },
             showShop() {
@@ -410,6 +423,10 @@
         .carImg {
             float: right;
             height: .54rem;
+            .shopCart {
+                width: 30px;
+                height: 30px;
+            }
             .controls {
                 padding: 0 .12rem;
                 display: inline-flex;
@@ -421,10 +438,11 @@
                     margin: 0 .2rem;
                     display: flex;
                 }
-                img {
+                .shopCart,img {
                     width: .2rem;
                     height: .2rem
                 }
+                
         }
         }
         
