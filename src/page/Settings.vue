@@ -59,9 +59,13 @@
 			loginChange: function() {
 
 				this.$messagebox.confirm("确定要切换账号吗?").then(action => {
+					// console.
 				    if('confirm' === action){
+						// debugger
+						console.log('action')
+						// return
                         this.$store.dispatch('SIGN_OUT');
-                        this.$router.push('/home')
+                        // this.$router.push('/home')
 					}
 				}).catch(err => err);
 

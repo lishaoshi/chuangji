@@ -251,36 +251,47 @@
                 this.$router.push({path:'/shop/confirm-order'})
             },
             //删除
-            clearDataFunc(){
-                let params = []
+            async clearDataFunc(){
+                let params = {}
                 this.data.shops.forEach((shop,key,arr) => {
                     shop.items.forEach((item,index, arrs) => {
                         if(item.checked){
-                            params.push({
-                                shopId:item.shopId,
-                                num:item.num,
-                                id:item.id
-                            })
+                            // params.push({
+                            //     shopId:item.shopId,
+                            //     num:item.num,
+                            //     id:item.id
+                            // })
+                            // params[item.shopId] = []
+                            if(params[item.shopId]) {
+                                params[item.shopId] = [...params[item.shopId], item.id]
+                            } else {
+                                 params[item.shopId] = [item.id]
+                            }
                         }
                     })
-                    arr[key].items = shop.items.filter((el, index, arr)=> el.checked!=true)
-                    !shop.items.length&&arr.splice(key, 1)
+                    // arr[key].items = shop.items.filter((el, index, arr)=> el.checked!=true)
                 })
-                console.log(params)
+                // this.data.shops.forEach((shop,key,arr) => {
+                //    !shop.items.length&&arr.splice(key, 1)
+                // })
+                
+                // console.log(this.data.shops)
+                // return
                 if(params) {
-                    let data = {}
-                    params.forEach((item,index,arr)=>{
-                        // data[item.shopId] = 
-                        if(data[item.shopId]) {
-                            data[item.shopId] = [...data[item.shopId], item.id]
-                        } else {
-                            data[item.shopId] = [item.id]
-                        }
-                        // console.log(data)
-                    })
-                    console.log(data)
+                    // let data = {}
+                    // params.forEach((item,index,arr)=>{
+                    //     // data[item.shopId] = 
+                    //     if(data[item.shopId]) {
+                    //         data[item.shopId] = [...data[item.shopId], item.id]
+                    //     } else {
+                    //         data[item.shopId] = [item.id]
+                    //     }
+                    //     // console.log(data,')
+                    // })
+                    // console.log(data,'data')
                     // return
-                    delShopCar({ids:data})
+                   await delShopCar({ids:params})
+                   this._queryShopCarList()
                 }
                 // if(this.data.checked){
                 //     this.CLEAR_ALL_CART()

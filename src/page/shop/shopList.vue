@@ -22,8 +22,14 @@
                     <div class="carImg" v-if="canShow">
                         <!-- <img src="@/images/shop-car.png" alt="" v-if="!item.num" @click="add_shop_car(item)"> -->
                         <!-- <i class="iconfont" @click="add_shop_car(item)" v-if="!item.num">icon-shop-car</i> -->
-                        <svg class="icon shopCart" v-if="!item.num"  @click="add_shop_car(item)" aria-hidden="true">
+                        <!-- <svg class="icon shopCart" v-if="!item.num"  @click="add_shop_car(item)" aria-hidden="true">
                             <use xlink:href="#icon-shop-car"></use>
+                        </svg> -->
+                        <svg class="icon shopCart" v-if="!item.num&&userType!=2"  @click="add_shop_car(item)" aria-hidden="true">
+                            <use xlink:href="#icon-shop-car"></use>
+                        </svg>
+                        <svg v-else-if="userType==2" class="icon shopCart" aria-hidden="true"> 
+                            <use xlink:href="#icon-shop-car-0"></use> 
                         </svg>
                         <div class="controls" v-else>
                             <img @click="handleNumber(item)" src="@/images/del_shopping.png" alt="">
@@ -159,8 +165,8 @@
                 //用户是否有权限看价格
                 canShow: state => state.CURRENTUSER.data.shop_supplier,
 
-                cartList: state => state.shop.CART_LIST
-            }),
+                cartList: state => state.shop.CART_LIST,
+                userType: state => state.CURRENTUSER.data.user_type})
             //当前商店购物信息
             // shopCart() {
             //     return {...this.goodsList}

@@ -52,12 +52,15 @@
                 <img src="../../images/index/shop.png" class="shopcar" />
             </div>
             -->
-            <router-link to="/factory/cart">
-                <img src="../../images/index/shop.png" class="shopcar"/>
+            <div>
+                <img @click="goShopCart" v-if="USERTYPE!=2" src="../../images/index/shop.png" class="shopcar"/>
                  <!-- <svg v-if="USERTYPE==2" class="m-style-svg m-svg-def">
                     <use xlink:href="#icon-promote-promoter"/>
                 </svg> -->
-            </router-link>
+                <svg v-else class="icon shopcar" aria-hidden="true"> 
+                    <use xlink:href="#icon-shop-car-0"></use> 
+                </svg>
+            </div>
         </div>
         <!-- </scroll> -->
         <clxsd-foot-guide :user-type="2"/>
@@ -137,6 +140,10 @@
             loadTop() {
                 this.courrentPage = 1
                 this.loadFrist();
+            },
+            // 前往购物车
+            goShopCart() {
+                this.$router.push({path:'/factory/cart'})
             },
             // 上拉加载
             loadBottom() {

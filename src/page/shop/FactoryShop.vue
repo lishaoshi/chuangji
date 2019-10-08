@@ -313,6 +313,7 @@
         padding: 10px;
         color: #fff;
         padding-top: 50px;
+        min-height: 3.99rem;
     }
 
     .company .brand {

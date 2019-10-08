@@ -70,24 +70,20 @@
             }
         },
         created() {
-            console.log(this.$route)
-            // console.log('text info')
-            // console.log(this.$store.state.CURRENTUSER,'tetx')
-            this.fetchUserInfo()
-            this.CERT_STATUS==2&&this._queryCompayResults()
+            this._queryCompayResults()
         },
         methods:{
             refresh(){
                 this.$store.dispatch("fetchUserInfo");
-                // callback();
             },
             updateCompany(state) {
                this.UPDATEUSERSTATE(state)
             },
 
             // 获取公司资质信息
-            _queryCompayResults() {
+            async _queryCompayResults() {
                 // console.log('queryCompayResults')
+                await this.fetchUserInfo()
                 queryCompayResults({}).then(res=>{
                     // console.log(res, 'queryCompayResults')
                     if(res.code==200) {

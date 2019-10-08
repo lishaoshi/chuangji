@@ -125,7 +125,7 @@
 				}
 				// await fetchUserInfo()
 				await this.$store.dispatch("fetchUserInfo");
-				this.$router.push(this.$route.query.redirect || "/");
+				this.$router.push('/' || "/");
 				return false;
 			},
 			...mapActions([

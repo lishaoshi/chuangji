@@ -23,9 +23,18 @@
 
       <div class="companyImgList">
         <div v-for="(item, index) of imgList" :key="index">
-            <span v-if="item.label=='GSP证书'">{{item.label=="GSP证书"?"药品经营质量管理规范认证证书(GSP)":item.label}}</span>
-            <span v-else-if="item.label=='营业执照'">{{item.label}}</span>
-            <span v-else>{{item.label=="经营许可证"?"药品经营许可证":item.label}}</span>
+            
+            <span v-if="item.label=='营业执照'">{{item.label}}</span>
+            <!-- 商业 -->
+            <span v-else-if="item.label=='经营许可证'">{{item.label=="经营许可证"?"药品经营许可证":item.label}}</span>
+            <span v-else-if="item.label=='GSP证书'">{{item.label=="GSP证书"?"药品经营质量管理规范认证证书(GSP)":item.label}}</span>
+            <!-- 工业 -->
+            <span v-else-if="item.label=='生产许可证'">生产许可证</span>
+            <span v-else-if="item.label=='GMP证书'">药品生产质量管理规范认证证书(GMP)</span>
+             <!-- <span v-else-if="item.label=='食品'">药品生产质量管理规范认证证书(GMP)</span> -->
+            <!-- <span v-else-if="item.label=='生产许可证'">生产许可证</span> -->
+            
+            
             <img :src="item.value" alt="">
         </div>
         <!-- <div>

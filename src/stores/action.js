@@ -38,7 +38,7 @@ export default {
         //
         try {
             http.post(`auth/logout`, {},
-                { validateStatus: s => (s >= 200 && s < 300) || s === 401 }
+                // { validateStatus: s => (s >= 200 && s < 300) || s === 401 }
             );
             commit("SIGN_OUT");
         } catch (e) {
