@@ -5,7 +5,7 @@
 			<mt-swipe-item :key="key" v-for="(swipe,key) in swipers"><a :href="swipe.link"> <img :src="swipe.picture" width="100%"></a>
 			</mt-swipe-item>
 		</mt-swipe>
-		<div style="background: #fff;padding: .2rem">
+		<div style="background: #fff;padding: .2rem .32rem">
 			<Notice :notices="notices" v-if="notices!=null" style="background: #f4f5f5;border-radius: 2px"></Notice>
 			<div class="notice" v-else>
 				<svg>
