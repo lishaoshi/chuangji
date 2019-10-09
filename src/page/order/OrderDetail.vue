@@ -1,7 +1,10 @@
 <template>
 	<div id="OrderDetail">
 		<clxsd-head-top :title='`订单详情`'></clxsd-head-top>
-		<p class="state">{{order_status_display}}</p>
+		<div class="state">
+			<div>剩余时间30分钟</div>
+			<div>{{order_status_display}}</div>
+		</div>
         <div class="company-detail">
             <router-link :to="`/factory/shop/${data.supplier_id}`">
                 <img :src="supplier_logo">
@@ -13,23 +16,35 @@
         </div>
 		<div class="content">
 			<div class="item" v-for="(item,index) in items">
-				<img :src="item.entity.cover" class="item-img">
-				<div class="item-box">
-					<p class="title">{{item.entity.good_name}}</p>
-					<div class="selling">
-						<div class="unit_price">
-							<p class="font"><i>￥</i><i>{{item.price}}</i><small>/{{item.entity.big_unit}}</small></p>
+				<div>
+					<img :src="item.entity.cover" class="item-img">
+				<!-- <div class="item-box"> -->
+					<div>
+						<div>{{item.entity_name}}</div>
+						<div>
+							￥{{item.entity.price}}/{{item.entity.unit}}
 						</div>
-						<div class="gw_num">&Chi;{{item.num}}/{{item.entity.big_unit}}</div>
 					</div>
 				</div>
+				
+					
+					<div>
+						<span>
+							x{{item.num}}
+						</span>
+					</div>
 			</div>
-            <ul class="order-ul sp-right">
-                <li v-if="this.items.length>1"><b>件数：</b><span>{{nums}}</span></li>
-                <li><b>原 价：</b><span>{{data.order_amount}}</span></li>
-                <li><b>使用优惠券：</b><span>没有使用优惠券</span></li>
-                <li><b>实际支付：</b><span style="color: #ff3b30;font-size: .34rem;font-weight: bold">￥{{data.money_paid}}</span></li>
-            </ul>
+		</div>
+
+		<div class="priceBox">
+			<div>
+				<span>数量</span>
+				<span>{{this.nums}}</span>
+			</div>
+			<div>
+				<span>应付</span>
+				<span>￥{{this.data.order_amount}}</span>
+			</div>
 		</div>
         <div class="height1"></div>
         <div class="content">
@@ -47,6 +62,9 @@
 		<div class="footer-box">
 			<div>
 				<div class="btn" v-if="data.order_status=== 2" @click="sureOrder">确认发货</div>
+			</div>
+			<div>
+				<div class="btn" v-if="data.order_status=== 0" @click="goComfirm">去支付</div>
 			</div>
 		</div>
 	</div>
@@ -83,7 +101,7 @@
 			}
 		},
 		created() {
-			this.orderId = this.$route.params.id;
+			this.orderId = this.$route.query.id;
 			this._initData();
 		},
 		methods: {
@@ -106,7 +124,8 @@
 				this.items = data.items
 				this.items.forEach(item => {
 					if(this.items.length == 1) {
-						return
+						this.nums = 1
+						// return
 					} else {
 						this.nums = item.num + this.nums
 					}
@@ -137,10 +156,18 @@
 	}
 	
 	.state {
+		display: flex;
 		font-size: .24rem;
 		text-align: right;
-		color: #F2385A;
-		padding: .1rem .2rem;
+		height: .6rem;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0 .24rem;
+		div:last-child {
+			color: #F2385A;
+		}
+		// color: #F2385A;
+		// padding: .1rem .2rem;
 	}
 	
 	.content {
@@ -151,9 +178,30 @@
 	.item {
 		display: flex;
 		background: #fff;
-		padding: .16rem .13rem;
+	
+		padding: .34rem;
 		border-radius: .1rem;
         border-bottom: 1px solid #f1f1f1;
+		justify-content: space-between;
+		& >  div:nth-child(1) {
+			display: flex;
+			// flex-direction: column;
+			// justify-content: space-around;
+			
+			// align-items: center;
+			div {
+				margin-left: .3rem;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-around;
+			}
+		}
+		& > div:last-child {
+			display: flex;
+			align-items: flex-end;
+			margin-bottom: .08rem;
+
+		}
 	}
 	
 	.item-img {
@@ -186,6 +234,7 @@
 		width: 82%;
 		padding-left: 3%;
 		padding-top: .1rem;
+		// display: flex;
 		.title {
 			overflow: hidden;
 			white-space: nowrap;
@@ -289,6 +338,30 @@
             }
         }
     }
+	.priceBox {
+		padding: 0 .24rem;
+		background: #fff;
+		div {
+			height: .76rem;
+			display: flex;
+			align-items: center;
+			
+		}
+		div:first-child{
+			// display: flex;
+			font-size: .28rem;
+			justify-content: space-between;
+		}
+		div:last-child {
+			justify-content: flex-end;
+			span:last-child {
+				margin-left: .24rem;
+				color: #FF3B30;
+				font-size: .36rem;
+			}
+		}
+
+	}
     .sp-right {
         li {
             span {

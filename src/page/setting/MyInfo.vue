@@ -17,7 +17,7 @@
                         <span><svg class="icon1"><use xlink:href="#icon-global-footer-my-1"/></svg>{{info.real_name || info.display_name}}</span>
                     </div>
                 </div>
-                <router-link to="/change-logo" class="ul-info-a">
+                <router-link to="/change-phone" class="ul-info-a">
                     <span class="left">手机号</span>
                     <div class="right">
                         <span>{{info.phone}}</span>
@@ -99,7 +99,7 @@
                 float: left;
             }
             .right {
-                font-size:.34rem;
+                font-size:.28rem;
                 font-family:PingFang SC;
                 font-weight:500;
                 color:rgba(51,51,51,1);

@@ -127,7 +127,7 @@
 				let data = {}
 				let shopList = []
 				await Promise.all([queryShopCarList({}, this.businessData.id),businessEntities(params), businessEntities(params)]).then(res=>{
-					console.log(res, 'res')
+					// console.log(res, 'res')
 					data = res[1].data
 					shopList = res[1].data.data.recommendList
 					this.shopCart = res[0]

@@ -30,7 +30,9 @@
         data(){
             return {
                 entities:[],
-                is_active:1
+                is_active:1,
+                page: 1,
+                shopCart: {}
             }
         },
         computed:{
@@ -43,9 +45,9 @@
             businessId(){
                 return this.businessData.id
             },
-            shopCart() {
-                return {...this.cartList[this.businessId]}
-            },
+            // shopCart() {
+            //     return {...this.cartList[this.businessId]}
+            // },
 			title() {
 				return this.businessData.display_name || this.businessData.name
 			},
@@ -70,7 +72,12 @@
         },
         methods:{
             async initData(){
-                const {data} = await businessEntities(this.businessId,1)
+                let params = {
+					page: this.page,
+					limit: 20,
+					supplier_id:this.businessId
+				}
+                const {data} = await businessEntities(params)
                 this.entities = data;
             }
         }

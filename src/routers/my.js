@@ -367,7 +367,8 @@ export default [
 		}
 	},
 	{
-		path: "/bussiness-order-detail",
+        path: "/bussiness-order-detail",
+        name: "bussinessOrderDetail",
 		component: BussinessOrderDetail,
 		meta: {
 			title: "药店订单详情",
