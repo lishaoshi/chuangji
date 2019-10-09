@@ -1,22 +1,32 @@
 <template>
 	<div id="AddAddress">
 		<clxsd-head-top title='编辑收货地址'></clxsd-head-top>
-		<div>
-			<mt-field class="formItem" label="收货人：" placeholder="请输入收货人姓名" v-model="consignee"></mt-field>
-			<mt-field class="formItem" label="手机号码：" placeholder="请输入手机号码" type="tel" v-model="tel"></mt-field>
-			<div @click="showAddressPicker">
-				<mt-field  label="收货地址：" placeholder="请选择收货地址" type="text" v-model="region" readonly="readonly" class="region-go formItem">
-					<img src="../../images/my/rightSetting.png" />
-				</mt-field>
+		<div style="background: #fff;padding: 0 .2rem">
+
+			<div class="form-box">
+				<span>收货人：</span>
+				<input type="text" placeholder="请输入收货人姓名" v-model="consignee">
 			</div>
-			<mt-field class="formItem" label="详细地址：" placeholder="请输入详细地址:如街道，门牌号，单元室等" type="textarea" rows="1" v-model="address"></mt-field>
+			<div class="form-box">
+				<span>手机号码：</span>
+				<input type="tel" placeholder="请输入手机号码" v-model="tel">
+			</div>
+			<div class="form-box" @click="showAddressPicker">
+				<span>收货地址：</span>
+				<input placeholder="请选择收货地址" type="text" v-model="region" readonly="readonly" class="region-go formItem">
+				<img src="../../images/my/rightSetting.png" class="img" />
+			</div>
+			<div class="form-box">
+				<span>详细地址：</span>
+				<textarea  placeholder="请输入详细地址:如街道，门牌号，单元室等" type="textarea" v-model="address"></textarea>
+			</div>
+		</div>
 			<div class="address-box">
 				<span>设置为默认地址</span>
 				<mt-switch v-model="switch_checked" @change="turn">
 				</mt-switch>
 			</div>
 			<mt-button type="primary" class="sub-btn" @click="onSave">确认修改</mt-button>
-		</div>
 		<mt-popup v-model="regionVisible" position="bottom" class="bottom-region" style="width:100%;">
 			<address-popup @listenAddressChange='addressChange' />
 		</mt-popup>
@@ -206,7 +216,28 @@
 			width: 100%;
 		}
 	}
-
+	.form-box {
+		background: #fff;
+		display: flex;
+		height: 1rem;
+		line-height: 1rem;
+		font-size: .28rem;
+		border-bottom: 1px solid #f4f5f5;
+		span {
+			display: inline-block;
+		}
+		img {
+			width:.15rem;
+			height:.24rem;
+			position: absolute;
+			right: .2rem;
+			margin-top: .4rem;
+		}
+		textarea {
+			height: .88rem;
+			line-height: .88rem;
+		}
+	}
 	.address-box {
 		background: #fff;
 		margin-top: .2rem;
