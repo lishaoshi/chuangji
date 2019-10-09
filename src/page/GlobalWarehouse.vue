@@ -135,9 +135,10 @@
                 this.loadFrist();
             },
             entryBusinessShop(item) {
+                // console.log(item)
                 this.$store.commit('SAVE_CURRENT_BUSINESS_SHOP', item.id)
                 this.$store.commit('SAVE_CURRENT_BUSINESS_SHOP_DATA', item)
-                this.$router.push('/business-shop')
+                this.$router.push({path:"/business-shop", query:{id:item.id}})
             },
             scroll() {
                 let con1 = this.$refs.con1;

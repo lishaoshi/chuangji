@@ -213,7 +213,7 @@
                         num +=  +item.num;
                     }
                 })
-                console.log(num, 'num')
+                // console.log(num, 'num')
                return num
             },
             calculateTotalPrice() {
@@ -233,7 +233,7 @@
                     
                     this.goodsList = res[0]
                     this.shopCart = res[0]
-                    console.log(this.shopCart)
+                    // console.log(this.shopCart)
                     this.cartNum = this.calculateCartNum()
                     this.totalPrice = this.calculateTotalPrice()
                     data = res[1].data

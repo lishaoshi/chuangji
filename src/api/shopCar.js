@@ -4,6 +4,7 @@ import http from './api'
 // 获取购物车数据
 export function queryShopCarList(params={}, shopId="") {
     let url = `hippo-shop/shoppingcar`
+    // console.log(shopId, 'shopId')
     // 如果传入了商家的id 则只返回商家的购物车数据，否则返回全部数据
     return http.get(url,{params}).then(res=>{
         if(shopId) {

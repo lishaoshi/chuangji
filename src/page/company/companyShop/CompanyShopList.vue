@@ -42,7 +42,7 @@
 		</div>
 		<!--列表开始-->
 		<p class="title">药品推荐</p>
-		<list :business-id="businessId" :title="title"></list>
+		<list :business-id="businessId" :title="title" :shopCart="shopCart" :items="items"></list>
         <div style="height: 1.2rem"></div>
         <div style="position: fixed;width: 100%;bottom: 0px" v-if="entities.length>0">
             <mini-company-cart ref="MiniCompanyCart" :shop-id="businessId" :count="cartNum" :total-price="totalPrice" style="bottom: 0px"></mini-company-cart>
@@ -60,6 +60,7 @@
     import MiniCompanyCart from '@/page/company/CompanyClassify/MiniShopCart.vue'
 	import {adList, infoList} from "@/api/ad";
 	import Notice from '@/components/common/notice2';
+	import { queryShopCarList, delShopCar, addShopCar, onlyDelShopCar } from '@/api/shopCar'
 
 	export default {
 		name: "CompanyShopList",
@@ -69,13 +70,17 @@
 			SearchBar,
 			HeaderTop,
             MiniCompanyCart,
-			Notice
+			Notice,
+			
 		},
 		data(){
 			return {
 				entities:[],
                 notices:[],
-				swipers:[]
+				swipers:[],
+				shopCart: {},
+				page: 1,
+				items: []
 			}
 		},
 		computed:{
@@ -94,13 +99,10 @@
 			infos(){
 				return this.businessData.infos
 			},
-            shopCart() {
-                return {...this.cartList[this.businessId]}
-            },
             cartNum() {
                 let num = 0;
                 Object.values(this.shopCart).forEach((data, index) => {
-                    num += data.num;
+                    num += +data.num;
                 })
                 return num
             },
@@ -117,12 +119,28 @@
 		},
 		methods:{
 		    async initData(){
-		    	let params = {
+				let params = {
+					page: this.page,
+					limit: 20,
 					supplier_id:this.businessId
 				}
-				const {data} = await businessEntities(params)
-                this.entities = data.data.recommendList;
-		    	console.log(this.entities)
+				let data = {}
+				let shopList = []
+				await Promise.all([queryShopCarList({}, this.businessData.id),businessEntities(params), businessEntities(params)]).then(res=>{
+					console.log(res, 'res')
+					data = res[1].data
+					shopList = res[1].data.data.recommendList
+					this.shopCart = res[0]
+					if(this.page != 1) {
+						this.items = [...this.items, ...shopList]
+					} else {
+						this.items = shopList
+					}
+					this.items = this._handleData(this.items)
+					
+				})
+				console.log(this.items, 'items')
+				this.entities = data.data.recommendList;
 				/*
                 infoList({from:'platform',supplier_id:this.businessId}).then( data => {
                     this.notices = data.data.data
@@ -132,7 +150,31 @@
 				adList({channel: 'app', space: 'global-top'}).then( data => {
 					this.swipers = data.data.data
 				})
-			}
+			},
+			// async initData() {
+            //     let  data = {}
+				
+			// },
+			_queryShopCarList() {
+                queryShopCarList({}, this.businessData.id).then(res=>{
+					console.log(res, 'res data')
+                })
+            },
+			// 对获取到的购物车数据进行处理
+			_handleData(data) {
+                // console.log(data,'data')
+                data.forEach((item, index) => {
+                    item.shopId = this.factoryId
+                    item.num = 0
+                    item.itemId = item.id
+                    item.sale_price = item.price
+                    if (this.shopCart[item.id]) {
+                        item.num = this.shopCart[item.id].num
+                    }
+                })
+                this.loading = false
+                return data
+            },
 		}
 
 	}

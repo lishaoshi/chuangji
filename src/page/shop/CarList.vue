@@ -207,9 +207,9 @@
             },
             //进行商品减的操作
             async minGoods(sid,pid,item){
-                console.log(item)
+                // console.log(item)
                 let params = {}
-                 console.log(this.data.shops[sid])
+                //  console.log(this.data.shops[sid])
                 if(item.num>item.order_min_num){
                     // 获取商品id
                     item.itemId = item.id

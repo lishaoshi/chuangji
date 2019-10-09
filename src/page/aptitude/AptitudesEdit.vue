@@ -201,6 +201,7 @@
                 this.popupVisible = true;
             },
             chooseTranTypes(data) {
+                this.aptitudeData.sub_type = data.type
                 this.companyTypeName = data.label;
                 this.companyCType = data.type;
                 this.popupVisible = false;
@@ -300,6 +301,9 @@
                         this.aptitudeList[item] = this.aptitudeData[item]
                     }
                 })
+                if(this.userType==3) {
+                    this.aptitudeList['sub_type'] = this.aptitudeData['sub_type']
+                }
                 params.certification = this.aptitudeList
                    this.$http.patch('/user/certification', params, {validateStatus: s => s = 470})
                     .then(response => {

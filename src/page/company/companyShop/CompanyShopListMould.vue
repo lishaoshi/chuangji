@@ -1,46 +1,73 @@
 <template>
 	<div>
 		<div class="shop">
-			<ClxsdLoadMore key="orders-list" ref="loadmore" @onRefresh="onOrdersRefresh" @onLoadMore="onOrdersLoadMore">
-			<div class="list" v-for="(item,index) in items">
-				<router-link :to="`/business/shop/${businessId}/${item.id}`">
-					<img :src="item.cover" class="list-img" />
-					<p class="list-title">{{item.good_name}}</p>
-				</router-link>
-                <p class="p1">{{title}}</p>
-                <p class="p1">规格:{{item.spec}}</p>
-				<p class="p1">效期:{{time}}</p>
-				<div class="selling" v-if="canShow">
-					<div class="unit_price">
-						<p class="font"><i>￥</i><i>{{item.price}}</i><span>{{item.market_price}}</span></p>
-					</div>
-					<div class="gw_num"  v-if="(!item.is_multi_spec && canShow)">
-						<small class="lose" @click="removeToMiniCart($event,item)" v-if="item.num > 0">
-                            <svg>
-                                <use xlink:href="#icon-factory-productList-reduce-1"></use>
-                            </svg>
-                        </small>
-						<small class="error-num" 　v-if="item.num <= 0" @click="errorInfo()">
-                            <svg>
-                                <use xlink:href="#icon-factory-productList-reduce-0"></use>
-                            </svg>
-                        </small>
-						<div class="num">
-							<span class="amount">{{item.num || 0}}</span>
+			<!-- <ClxsdLoadMore key="orders-list" ref="loadmore" @onRefresh="onOrdersRefresh" @onLoadMore="onOrdersLoadMore"> -->
+			<mt-loadmore ref="loadmore" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded">
+				<div class="list" v-for="(item,index) in items">
+					<router-link :to="`/business/shop/${businessId}/${item.id}`">
+						<img :src="item.cover" class="list-img" />
+						<p class="list-title">{{item.good_name}}</p>
+					</router-link>
+					<p class="p1">{{title}}</p>
+					<p class="p1">规格:{{item.spec}}</p>
+					<p class="p1">效期:{{time}}</p>
+					<div class="selling" v-if="canShow">
+						<div class="unit_price">
+							<p class="font"><i>￥</i><i>{{item.price}}</i><span>{{item.market_price}}</span></p>
 						</div>
-						<small class="add" @click="addToMiniCart($event,item)">
-                            <svg>
-                                <use xlink:href="#icon-factory-productList-plus-1"></use>
-                            </svg>
-                        </small>
+						<!-- <div class="gw_num"  v-if="(!item.is_multi_spec && canShow)">
+							<small class="lose" @click="removeToMiniCart($event,item)" v-if="item.num > 0">
+								<svg>
+									<use xlink:href="#icon-factory-productList-reduce-1"></use>
+								</svg>
+							</small>
+							<small class="error-num" 　v-if="item.num <= 0" @click="errorInfo()">
+								<svg>
+									<use xlink:href="#icon-factory-productList-reduce-0"></use>
+								</svg>
+							</small>
+							<div class="num">
+								<span class="amount">{{item.num || 0}}</span>
+							</div>
+							<small class="add" @click="addToMiniCart($event,item)">
+								<svg>
+									<use xlink:href="#icon-factory-productList-plus-1"></use>
+								</svg>
+							</small>
+						</div> -->
+						<!-- 商品右下角购物车 -->
+						<div class="carImg" v-if="canShow">
+							<!-- <img src="@/images/shop-car.png" alt="" v-if="!item.num" @click="add_shop_car(item)"> -->
+							<!-- <i class="iconfont" @click="add_shop_car(item)" v-if="!item.num">icon-shop-car</i> -->
+							<!-- <svg class="icon shopCart" v-if="!item.num"  @click="add_shop_car(item)" aria-hidden="true">
+								<use xlink:href="#icon-shop-car"></use>
+							</svg> -->
+							<svg class="icon shopCart" v-if="item.num<=0"  @click="add_shop_car(item)" aria-hidden="true">
+								<use xlink:href="#icon-shop-car"></use>
+							</svg>
+							<!-- <svg v-else-if="userType==2" class="icon shopCart" aria-hidden="true"> 
+								<use xlink:href="#icon-shop-car-0"></use> 
+							</svg> -->
+							<div class="controls" v-else>
+								<img @click="handleNumber(item)" src="@/images/del_shopping.png" alt="">
+								
+								<div>
+									<span>{{shopCart[item.id].num}}</span>
+									<span>{{item.unit}}</span>
+									<!-- <span>件</span> -->
+								</div>
+								
+								<img @click="add_shop_car(item)" src="@/images/add_shopping.png" alt="">
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
-			</ClxsdLoadMore>
-			<div class="clearfloat"></div>
-		</div>
+					<!-- </ClxsdLoadMore> -->
+					<div class="clearfloat"></div>
+			</mt-loadmore>
 		<!--<mini-company-cart ref="MiniCompanyCart"   :shop-id="businessId"></mini-company-cart>-->
-        <CircleLoading v-if="loading"></CircleLoading>
+			<CircleLoading v-if="loading"></CircleLoading>
+		</div>
 	</div>
 </template>
 
@@ -50,38 +77,38 @@
 	import MiniCompanyCart from './MiniCompanyCart'
     import { businessEntities } from '@/api/business'
 	import { Toast } from 'mint-ui';
-	
+	import { queryShopCarList, delShopCar, addShopCar, onlyDelShopCar } from '@/api/shopCar'
 	export default {
 		name: "CompanyShopListMould",
 		components: {
 			EmptyList,
 			MiniCompanyCart
 		},
-        props:["entities","businessId","title"],
+        props:["entities","businessId","title", "shopCart", "items"],
 		data(){
 			return{
 				num:0,
 				shopId:'',
-                items:[],
+                // items:[],
                 loading: false,
 				page:1,
-				time:''
-
+				time:'',
+				factoryId: this.route,  //当前商家id
+				goodsList: [],
+				allLoaded: true,
+				// shopCart: {}, //当前商店购物信息
 			}
 		},
 		mounted() {
-			this.initData()
+			this.initData(false)
 		},
 		computed: {
 			...mapState({
 				//用户是否有权限看价格
                 canShow:state => state.CURRENTUSER.data.shop_supplier,
-				cartList: state => state.shop.BUSINESS_CART_LIST
+				cartList: state => state.shop.BUSINESS_CART_LIST,
+				userType: state => state.CURRENTUSER.data.user_type
 			}),
-			//当前商店购物信息
-			shopCart() {
-				return { ...this.cartList[this.businessId]}
-			},
 		},
 
 		methods: {
@@ -89,8 +116,40 @@
 				'BUSINESS_ADD_CART', 'BUSINESS_REMOVE_CART',
 			]),
 			async initData() {
-
+				// this._businessEntities(false)
 			},
+
+			// // 获取商店所属商品、
+			// _businessEntities(loadMore) {
+			// 	let params = {
+			// 		page: this.page,
+			// 		limit: 20,
+			// 		supplier_id:this.businessId
+			// 	}
+			// 	businessEntities(params,loadMore=false)
+			// 		.then(({
+			// 					data = []
+			// 				}) => {
+			// 			if(loadMore) {
+			// 				this.items = [...this.items, ...data.data.recommendList]
+			// 			} else {
+			// 				this.items = data.data.recommendList
+			// 			}
+			// 			this.items = this._handleData(this.items)
+			// 			this.page = this.page + 1
+			// 			// this.$refs.loadmore.afterLoadMore(data.data.recommendList.length < options.limit)
+			// 	})
+			// },
+			// 上啦刷新
+			loadTop() {
+				console.log('上啦')
+			},
+
+			// 下拉加载
+			loadBottom() {
+				console.log('hello')
+			},
+
 			canOption() {
 				if(!this.canShow) {
 					this.$Message.error('当前用户还未审核通过');
@@ -99,23 +158,60 @@
 				return true
 				
 			},
-			_handleData(data) {
-				console.log(data)
-				data.forEach((item, index) => {
-					item.shopId = this.businessId
-					item.num = 0
-					item.itemId = item.id;
-                    item.price = item.price
-					if(this.shopCart[item.id]) {
-						item.num = this.shopCart[item.id].num
-					}
-					if(item.valid_time>0) {
-						let time = item.valid_time
-						this.time = this.$moment.unix(time).format("YYYY.MM.DD")
-					}
-				})
-				return data
+			// _handleData(data) {
+			// 	console.log(data,this.shopCart)
+			// 	data.forEach((item, index) => {
+			// 		item.shopId = this.businessId
+			// 		item.num = 0
+			// 		item.itemId = item.id;
+            //         item.price = item.price
+			// 		if(this.shopCart[item.id]) {
+			// 			item.num = this.shopCart[item.id].num
+			// 		}
+			// 		if(item.valid_time>0) {
+			// 			let time = item.valid_time
+			// 			this.time = this.$moment.unix(time).format("YYYY.MM.DD")
+			// 		}
+			// 	})
+			// 	// console.log(data, 'data')
+			// 	return data
+			// },
+
+			 // 添加至购物车
+            add_shop_car(item) {
+				item.num++
+                let data = {
+                    supplier_id: this.businessId,
+                    good_id: item.id
+                }
+                if(this.shopCart[item.id]) {
+                    this.shopCart[item.id].num++
+                     
+                } else {
+                    this.$set(this.shopCart, `${item.id}`, {...item})
+                }
+                this.cartNum = this.calculateCartNum()
+                this.totalPrice = this.calculateTotalPrice()
+                addShopCar(data)
 			},
+			
+			handleNumber(item) {
+                // console.log(item)
+                // debugger
+                // if(item.num <= item.order_min_num) return
+                let data = {
+                    supplier_id: this.businessId,
+                    good_id: item.id
+                }
+                
+                onlyDelShopCar(data)
+                // this.shopCart[item.id].num--
+                this.shopCart[item.id].num--
+                item.num--
+                this.cartNum = this.calculateCartNum()
+                this.totalPrice = this.calculateTotalPrice()
+                
+            },
 			addToMiniCart(event, item) {
 				console.log(item)
 				if(this.canOption()) {
@@ -123,6 +219,30 @@
 					item.num++
 				}
 			},
+
+			// 计算总件数函数
+            calculateCartNum() {
+                 let num = 0;
+                Object.values(this.shopCart).forEach((item, index) => {
+                    // console.log(item, 'cartNum')
+                    if(item&&item.num>0) {
+                        num +=  +item.num;
+                    }
+                })
+                // console.log(num, 'num')
+               return num
+			},
+			// 计算总价格
+			calculateTotalPrice() {
+                 
+                let total_price = 0
+                Object.values(this.shopCart).forEach((item, index) => {
+                    if(item&&item.num>0) {
+                        total_price += item.num * item.price;
+                    }
+                })
+                return total_price.toFixed(2)
+            },
 			removeToMiniCart(event, item) {
 				if(this.canOption()) {
 					this.BUSINESS_REMOVE_CART(item)
@@ -137,45 +257,45 @@
 			},
 
 
-			async getOrderData(options, loadMore = false) {
-				let params = {
-					page: this.page,
-					limit: 20,
-					supplier_id:this.businessId
-				}
-				businessEntities(params, loadMore)
-						.then(({
-								   data = []
-							   }) => {
-							if(loadMore) {
-								this.items = [...this.items, ...data.data.recommendList]
-							} else {
-								this.items = data.data.recommendList
-							}
-							this.items = this._handleData(this.items)
-							this.page = this.page + 1
-							this.$refs.loadmore.afterLoadMore(data.data.recommendList.length < options.limit)
-							if(options.callback) {
-								options.callback()
-							}
-						})
-			},
-			onOrdersRefresh(callback) {
-				console.log("loading")
-				this.page = 1
-				let options = {
-					limit: 20,
-					callback: callback
-				}
-				this.getOrderData(options)
-			},
-			onOrdersLoadMore() {
-				console.log("more")
-				let options = {
-					limit: 20,
-				}
-				this.getOrderData(options, true)
-			},
+			// async getOrderData(options, loadMore = false) {
+			// 	let params = {
+			// 		page: this.page,
+			// 		limit: 20,
+			// 		supplier_id:this.businessId
+			// 	}
+			// 	businessEntities(params, loadMore)
+			// 			.then(({
+			// 					   data = []
+			// 				   }) => {
+			// 				if(loadMore) {
+			// 					this.items = [...this.items, ...data.data.recommendList]
+			// 				} else {
+			// 					this.items = data.data.recommendList
+			// 				}
+			// 				this.items = this._handleData(this.items)
+			// 				this.page = this.page + 1
+			// 				this.$refs.loadmore.afterLoadMore(data.data.recommendList.length < options.limit)
+			// 				if(options.callback) {
+			// 					options.callback()
+			// 				}
+			// 			})
+			// },
+			// onOrdersRefresh(callback) {
+			// 	console.log("loading")
+			// 	this.page = 1
+			// 	let options = {
+			// 		limit: 20,
+			// 		callback: callback
+			// 	}
+			// 	this.getOrderData(options)
+			// },
+			// onOrdersLoadMore() {
+			// 	console.log("more")
+			// 	let options = {
+			// 		limit: 20,
+			// 	}
+			// 	this.getOrderData(options, true)
+			// },
 
 
 		}
@@ -258,6 +378,31 @@
 		align-items: center;
 		justify-content: space-between;
 		margin-top: .2rem;
+		 .carImg {
+            float: right;
+            height: .54rem;
+            .shopCart {
+                width: 30px;
+                height: 30px;
+            }
+            .controls {
+                padding: 0 .12rem;
+                display: inline-flex;
+                align-items: center;
+                background: #F5F5F5;
+                border-radius: .16rem;
+                height: 100%;
+                & > div {
+                    margin: 0 .2rem;
+                    display: flex;
+                }
+                .shopCart,img {
+                    width: .2rem;
+                    height: .2rem
+                }
+                
+        }
+        }
 	}
 	
 	.selling .unit_price {
