@@ -68,8 +68,8 @@
 			</mt-tab-container-item>
 		</mt-tab-container> -->
 
-        <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded">
-                <OrderCard :key="`businsess_order_rec_${index}`" :data="order" v-for="(order,index) in oriderListt"  :delectOrder="delectOrder"></OrderCard>
+        <mt-loadmore :autoFill="false" :top-method="loadTop" ref="load" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded">
+                <OrderCard style="min-height: 6rem;"  :key="`businsess_order_rec_${index}`" :data="order" v-for="(order,index) in oriderListt"  :delectOrder="delectOrder"></OrderCard>
         </mt-loadmore>
 
     </div>
@@ -144,6 +144,7 @@
             // },
             handleClick(id) {
                 this.state = id
+                this.page = 1
                 this.getOrderList()
                 // this.$nextTick().then(()=>{
                 //     // console.log( id)
@@ -182,17 +183,24 @@
             },
 
             // 上拉加载
-            loadTop() {
-                console.log('上啦')
+            async loadTop() {
+                this.page = 1
+               await this.getOrderList(true)
+               console.log('123')
+                // this.$refs.load.onTopLoaded()
+                // console.log('上啦')
             },
 
             //下拉加载更多
             loadBottom() {
-                console.log('下拉')
+                // console.log('下拉')
+                this.page++
+                this.getOrderList(false, true)
+               
             }, 
 
             // 获取订单数据
-            getOrderList() {
+            getOrderList(top, bottom) {
                 let params = {
                     page : this.page,
                     limit: this.limit,
@@ -200,8 +208,15 @@
                 }
                 getBusinessOrderList(params).then(res=>{
                     // console.log(res.data)
-                    this.oriderListt = res.data.data.orderList
-                    console.log( this.oriderListt)
+                    if(this.page>1) {
+                         this.oriderListt = [...this.oriderListt, ...res.data.data.orderList]
+                    } else {
+                        this.oriderListt = res.data.data.orderList
+                    }
+                    
+                     top&&this.$refs.load.onTopLoaded()
+                     bottom&&this.$refs.load.onBottomLoaded()
+                    // console.log( this.oriderListt)
                 })
             },
             

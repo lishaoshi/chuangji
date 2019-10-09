@@ -1,6 +1,6 @@
 <template>
     <PullRefresh @refresh="refresh">
-        <page-aptitude v-if="CERT_STATUS === 3" />
+        <page-aptitude v-if="CERT_STATUS === 3" :userType="USER_TYPE" />
         <section v-else-if="CERT_STATUS === 1">
             <clxsd-head-top title="审核中"></clxsd-head-top>
             <div class="examining">

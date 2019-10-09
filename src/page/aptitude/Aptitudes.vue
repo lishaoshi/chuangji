@@ -103,18 +103,38 @@
 					let threeToOne = 1
 					if(currentInfo['shop_supplier']) {
 						companyName = currentInfo['shop_supplier']['display_name'] || currentInfo['shop_supplier']['name']
-						companyAddress = currentInfo['shop_supplier']['address'] || currentInfo['location']
+						companyAddress = `${currentInfo['shop_supplier']['province_lng']} ${currentInfo['shop_supplier']['city_lng']} ${currentInfo['shop_supplier']['county_lng']} ${currentInfo['shop_supplier']['address']}` || currentInfo['location']
 					}
 					if(currentInfo['certification']){
 						let aptitudeData = currentInfo['certification']['data']
-						console.log(aptitudeData);
-						business_license = aptitudeData.business_license
+						aptitudeData.forEach(element => {
+							switch(element.label) {
+								case 'GSP证书':
+									gsp = element.value
+									break
+								case '营业执照':
+									business_license = element.value
+									break
+								case '经营许可证':
+									business_executive = element.value
+									break
+								case 'GMP证书':
+									gmp = element.value
+									break
+
+							}
+						});
+						// console.log(aptitudeData);
+						// business_license = aptitudeData.business_license
 					}
 					return {
 						companyName,
 						companyAddress,
 						business_license,
 						threeToOne,
+						gsp,
+						gmp,
+						business_executive
 					}
 
 				},
