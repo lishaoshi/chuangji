@@ -60,8 +60,9 @@
 
 				this.$messagebox.confirm("确定要切换账号吗?").then(action => {
 				    if('confirm' === action){
+						// debugger
                         this.$store.dispatch('SIGN_OUT');
-                        this.$router.push('/home')
+                        this.$router.push('/signin')
 					}
 				}).catch(err => err);
 

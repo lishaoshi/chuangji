@@ -37,6 +37,7 @@ export default {
     SIGN_OUT({ commit }) {
         //
         try {
+            // console.log('helllo')
             http.post(`auth/logout`, {},
                 { validateStatus: s => (s >= 200 && s < 300) || s === 401 }
             );
