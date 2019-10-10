@@ -130,6 +130,7 @@
                         }
                     }
                 })
+                // console.log(Object.values(shops), shops, 'shops')
                 return Object.values(shops)
             },
             //实现全选

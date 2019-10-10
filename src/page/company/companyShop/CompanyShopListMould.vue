@@ -64,7 +64,7 @@
 						</div>
 						
 					</div>
-					<div v-if="!canShow" style="color:red;">请先完成认证或等待审核通过</div>
+					<div v-if="!canShow" style="color:red;">身份未认证</div>
 				</div>
 					<!-- </ClxsdLoadMore> -->
 					<div class="clearfloat"></div>

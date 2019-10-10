@@ -4,7 +4,7 @@
         <div v-if="isFullScreen" style="height: 35px"></div>
         <div class="entities-container" v-if="supplierId" style="margin-top: .88rem">
             <div class="search">
-                <SearchBar v-model="value" :searchFn ="searchFn"></SearchBar>
+                <SearchBar v-model="value" :searchFn ="searchFn" @keyup="keyupEnter"></SearchBar>
             </div>
             <div class="product-list">
                 <!--
@@ -187,6 +187,17 @@
                     this.toggleSlide(item, 0, '500');
                 })
 
+            },
+            keyupEnter(value) {
+                // this.value = value
+                 let params = {
+                    cat_id:this.current_id,
+                    status:this.current_status,
+                    search:value
+                }
+
+                this.init_Goods(params)
+                console.log(123, value)
             },
             async initData() {
                 if (this.supplierId) {

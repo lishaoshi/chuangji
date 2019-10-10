@@ -1,7 +1,7 @@
 <template>
 	<div class="c-search-bar">
 		<form class="input-wrap" onsubmit="return false">
-			<input :value="value" :placeholder="placeholder"  type="search" @input="$emit('input', $event.target.value)">
+			<input :value="value" :placeholder="placeholder" @keyup.enter="keyEnter($event)"  type="search" @input="$emit('input', $event.target.value)">
 			<svg class="m-icon-svg m-svg-small" @click="searchFn">
 				<use xlink:href="#icon-search1" />
 			</svg>
@@ -17,6 +17,9 @@
 
 	export default {
 		name: "SearchBar",
+		model: {
+			// event: 'keyup'
+		},
 		props: {
 			value: {
 				type: String,
@@ -40,6 +43,10 @@
 				if(this.back === noop) this.goBack();
 				else this.back();
 			},
+			keyEnter(e) {
+				// console.log(e.target.value)
+				this.$emit('keyup', e.target.value)
+			}
 
 		}
 	};

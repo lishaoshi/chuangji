@@ -44,7 +44,7 @@
                         </div>
                     </div>
 
-                    <div v-if="!canShow" style="color:red;">请先完成认证或等待审核通过</div>
+                    <div v-if="!canShow" style="color:red;">身份未认证</div>
 
                     <!-- <div class="gw_num" v-if="(!item.is_multi_spec && canShow && USER_TYPE==3)">
                         <em class="lose" @click="removeToMiniCart($event,item)" 　v-if="item.num > 0">

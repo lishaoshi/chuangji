@@ -120,6 +120,8 @@
             }
         },
         created() {
+            // debugger
+            
             if(JSON.stringify(this.confirmOrderData)=="{}") {
                 this.$router.go(-1)
             }
@@ -169,7 +171,6 @@
                     type: 'factory',
                     items: checkedItems
                 }
-
                 const {data} = await this.$http.post('hippo-shop/confirm-order', params)
                 data.forEach((shop, i) => {
                     let cnum = 0
@@ -191,6 +192,7 @@
                     shop.real_price = cprice
                 })
                 this.shopData = data
+               
             },
             async initBusinessData(confirmData) {
                 const params = {
@@ -198,17 +200,18 @@
                     shopId: confirmData.shopId,
                     items: confirmData.checkedItems
                 }
+                // debugger
                 let {data} = await this.$http.post('hippo-shop/confirm-order', params)
                 data.forEach((shop, i) => {
                     let cnum = 0
                     let cprice = 0
-                    Object.values(shop.entities).forEach((entity, ix) => {
+                    shop.entities.forEach((entity, ix) => {
                         entity['sale_price'] = entity.price
                         entity['show_unit'] = entity.unit
                         confirmData.checkedItems.forEach(item => {
                             if (item.id === entity.id) {
-                                cnum += item.num
-                                entity['num'] = item.num
+                                cnum += +item.num
+                                entity['num'] = +item.num
                                 cprice += entity['sale_price'] * entity['num']
                             }
                         })
@@ -217,7 +220,9 @@
                     shop.cprice = cprice
                     shop.real_price = cprice
                 })
+                
                 this.shopData = data
+                 console.log(this.shopData, 'shop')
             },
             onSubmit() {
                 if (!this.choosedAddress) {
