@@ -112,7 +112,7 @@
             // ...mapState(['POSITION']),
             ...mapState({
                 POSITION:(state)=>{state.POSITION},
-                USERTYPE:state=>{ return state.CURRENTUSER.data.user_type}
+                USERTYPE:state=>{state.CURRENTUSER.data.user_type}
             }),
             // ...mapState({
 			// 	USER_TYPE: state => state.CURRENTUSER.data.user_type,
