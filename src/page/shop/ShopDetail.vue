@@ -143,13 +143,14 @@
             //hippo-shop/supplier/factory/15/entities
             //hippo-shop/supplier/factory/15/entities/10
             async _initData() {
-                let params = {
-                    id: this.id
-                }
+                // let params = {
+                //     id: this.id
+                // }factory/3/detail/15
                 const {
                     data
-                } = await this.$http.get(`hippo-shop/factory/entities/detail`, {params})
-                this.data = this._handleData(data)
+                } = await this.$http.get(`hippo-shop/factory/${this.factoryId}/detail/${this.id}`)
+                console.log(data, 'is data')
+                this.data = this._handleData(data.data)
             //是否收藏
                 isDetailFollow(this.id).then(res => {
                     console.log(res.data.data.hasrelation)

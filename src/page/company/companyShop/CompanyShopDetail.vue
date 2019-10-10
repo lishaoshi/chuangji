@@ -34,21 +34,26 @@
         <!-- <div style="height: 1rem"></div> -->
         <div class="goodInfo">
             <div>
-                <span>品牌：</span>
-                <!-- <span>{{data.brand.name}}</span> -->
+                <span class="letter">品牌</span>
+                <span>{{this.name}}</span>
             </div>
             <div>
-                <span>规格：</span>
+                <span class="letter">规格</span>
                 <span>{{data.spec}}</span>
             </div>
             <div>
-                <span>效期：</span>
-                <span>{{data.time}}</span>
+                <span class="letter">效期</span>
+                <span>{{data.time||'无限期'}}</span>
             </div>
             <div>
-                <span>批准文号：</span>
+                <span>批准文号</span>
                 <span>123</span>
             </div>
+        </div>
+
+        <div class="textBox">
+            <div>药品详情</div>
+            <span>|</span>
         </div>
 
         <div class="imgList">
@@ -93,10 +98,12 @@
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
                 time:'',
                 num: 0,
-                shopCart: {}
+                shopCart: {},
+                name: ''
             }
         },
         created() {
+            // console.log(this.$router)
             this.id = parseInt(this.$route.params.id);
             this.businessId = parseInt(this.$route.params.shopId);
             this._initData();
@@ -140,6 +147,7 @@
                     data
                 } = await this.$http.get(`hippo-shop/business/${this.businessId}/detail/${this.id}`)
                 this.data = data.data
+                this.name = this.data.brand.name
                 // data.num = this.num
                 this.data = this._handleData(this.data)
                 queryShopCarList({}, this.businessId).then(res=>{
@@ -286,11 +294,28 @@
             display: flex;
             font-size: .24rem;
             span:first-child {
-
+                margin-right: .5rem;
             }
             span:last-child {
                 color:rgba(102,102,102,1);
             }
+        }
+        .letter {
+            letter-spacing: .48rem;
+            margin-right: .02rem!important;
+        }
+    }
+    .textBox {
+        height: 1.90rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;;
+        align-items: center;
+        color: #0090FF;
+        // letter-spacing: 10px;
+        font-size: .28rem;
+        div {
+            margin-bottom: 10px;
         }
     }
     .img {

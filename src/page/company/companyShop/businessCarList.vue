@@ -237,11 +237,13 @@
 
                 this.data.shops.forEach(shop => {
                     shop.items.forEach(item => {
-                        params.checkedItems.push({
-                            shopId:item.shopId,
-                            num:item.num,
-                            id:item.id
-                        })
+                        if(item.checked){
+                            params.checkedItems.push({
+                                shopId:item.shopId,
+                                num:item.num,
+                                id:item.id
+                            })
+                        }
                     })
                 })
 

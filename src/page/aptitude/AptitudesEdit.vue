@@ -10,7 +10,7 @@
                 <p>请认真上传，一经保存<i>不可修改</i></p>
             </div>
             <ul class="edit-ul">
-                <li class="choice-icon" v-if="userType === 3" @click="showRolePicker"><label>角色类型</label>{{companyTypeName}}</li>
+                <li class="choice-icon" v-if="userType === 3" @click="showRolePicker"><label>公司类型</label>{{companyTypeName}}</li>
                 <li class="choice-icon" v-else style="background: none"><label>公司类型</label>{{companyType}}</li>
                 <li><label>公司名称</label><input type="text" name="companyName" v-model="companyName" placeholder="请填写公司名称" style="font-size: .28rem"></li>
             </ul>
