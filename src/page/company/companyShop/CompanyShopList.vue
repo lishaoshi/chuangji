@@ -42,7 +42,9 @@
 		</div>
 		<!--列表开始-->
 		<p class="title">药品推荐</p>
-		<list :business-id="businessId" :title="title" :shopCart="shopCart" :items="items"></list>
+		<mt-loadmore ref="loadmore" :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false">
+			<list :business-id="businessId" :title="title" :shopCart="shopCart" :items.sync="items"></list>
+		</mt-loadmore>
         <div style="height: 1.2rem"></div>
         <div style="position: fixed;width: 100%;bottom: 0px" v-if="entities.length>0">
             <mini-company-cart ref="MiniCompanyCart" :shop-id="businessId" :count="cartNum" :total-price="totalPrice" style="bottom: 0px"></mini-company-cart>
@@ -80,7 +82,8 @@
 				swipers:[],
 				shopCart: {},
 				page: 1,
-				items: []
+				items: [],
+				allLoaded: false
 			}
 		},
 		computed:{
@@ -139,40 +142,38 @@
 					this.items = this._handleData(this.items)
 					
 				})
-				console.log(this.items, 'items')
 				this.entities = data.data.recommendList;
-				/*
-                infoList({from:'platform',supplier_id:this.businessId}).then( data => {
-                    this.notices = data.data.data
-                })
-				 */
 				this.notices = this.infos
 				adList({channel: 'app', space: 'global-top'}).then( data => {
 					this.swipers = data.data.data
 				})
 			},
-			// async initData() {
-            //     let  data = {}
-				
-			// },
-			_queryShopCarList() {
-                queryShopCarList({}, this.businessData.id).then(res=>{
-					console.log(res, 'res data')
-                })
-            },
+			// 上啦刷新
+			loadBottom() {
+				console.log('下拉')
+				this.$emit('loadMore')
+			},
+			// 下拉加载
+			loadTop() {
+				this.$refs.loadmore.onTopLoaded()
+				console.log('上啦')
+			},
+
 			// 对获取到的购物车数据进行处理
 			_handleData(data) {
                 // console.log(data,'data')
-                data.forEach((item, index) => {
+                data.forEach((item, index, arr) => {
                     item.shopId = this.factoryId
                     item.num = 0
                     item.itemId = item.id
                     item.sale_price = item.price
                     if (this.shopCart[item.id]) {
                         item.num = this.shopCart[item.id].num
-                    }
+					}
+					arr[index].time = this.$moment.unix(item.valid_time).format("YYYY.MM.DD")
                 })
-                this.loading = false
+				this.loading = false
+				// console.log(data)
                 return data
             },
 		}

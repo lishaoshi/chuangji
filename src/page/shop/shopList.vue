@@ -390,7 +390,7 @@
             padding: .01rem 0;
 
             span {
-                display: inline-block;
+                // display: inline-block;
                 font-size: .18rem;
                 font-family: PingFang SC;
                 font-weight: 500;

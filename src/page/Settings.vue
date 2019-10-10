@@ -29,7 +29,8 @@
 
 <script>
 	import ClxsdCell from '@/components/common/Cell';
-    import { mapState } from "vuex";
+	import { mapState } from "vuex";
+	import http from "@/api/api";
 	export default {
 		name: "Settings",
 		data() {
@@ -56,13 +57,19 @@
             })
         },
 		methods: {
-			loginChange: function() {
+			async loginChange() {
 
 				this.$messagebox.confirm("确定要切换账号吗?").then(action => {
 				    if('confirm' === action){
 						// debugger
-                        this.$store.dispatch('SIGN_OUT');
-                        this.$router.push('/signin')
+						http.post(`auth/logout`, {},
+							// { validateStatus: s => (s >= 200 && s < 300) || s === 401 }
+						).then(()=>{
+							this.$store.dispatch('SIGN_OUT');
+							this.$router.push('/signin')
+						});
+                    	
+                        // this.$router.push('/signin')
 					}
 				}).catch(err => err);
 

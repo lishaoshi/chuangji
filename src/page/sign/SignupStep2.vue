@@ -49,7 +49,7 @@
             </div>
 
             <div class="m-form-row" style="border: 0;margin-top:.1rem;">
-                <button :disabled="!active" class="m-long-btn m-signin-btn" @click="signUp">
+                <button class="m-long-btn m-signin-btn" @click="signUp">
                     <span>立即注册</span>
                 </button>
             </div>
@@ -175,8 +175,9 @@
                     this.$lstore.removeData(REGISTER_DATA)
                     this.$router.push('/signin');
                 }).catch(error => {
+                    // console.log(error.response.data.error, 'err')
                     this.loading = false;
-                    this.$toast(error.response.data.message);
+                    // this.$toast(error.response.data.error[0]);
                 })
 
             },

@@ -2,7 +2,7 @@
 	<div>
 		<div class="shop">
 			<!-- <ClxsdLoadMore key="orders-list" ref="loadmore" @onRefresh="onOrdersRefresh" @onLoadMore="onOrdersLoadMore"> -->
-			<mt-loadmore ref="loadmore" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded">
+			
 				<div class="list" v-for="(item,index) in items">
 					<router-link :to="`/business/shop/${businessId}/${item.id}`">
 						<img :src="item.cover" class="list-img" />
@@ -10,7 +10,7 @@
 					</router-link>
 					<p class="p1">{{title}}</p>
 					<p class="p1">规格:{{item.spec}}</p>
-					<p class="p1">效期:{{time}}</p>
+					<p class="p1">效期:{{item.time}}</p>
 					<div class="selling" v-if="canShow">
 						<div class="unit_price">
 							<p class="font"><i>￥</i><i>{{item.price}}</i><span>{{item.market_price}}</span></p>
@@ -60,11 +60,13 @@
 								<img @click="add_shop_car(item)" src="@/images/add_shopping.png" alt="">
 							</div>
 						</div>
+						
 					</div>
+					<div v-if="!canShow" style="color:red;">请先完成认证或等待审核通过</div>
 				</div>
 					<!-- </ClxsdLoadMore> -->
 					<div class="clearfloat"></div>
-			</mt-loadmore>
+			
 		<!--<mini-company-cart ref="MiniCompanyCart"   :shop-id="businessId"></mini-company-cart>-->
 			<CircleLoading v-if="loading"></CircleLoading>
 		</div>
@@ -78,6 +80,7 @@
     import { businessEntities } from '@/api/business'
 	import { Toast } from 'mint-ui';
 	import { queryShopCarList, delShopCar, addShopCar, onlyDelShopCar } from '@/api/shopCar'
+	//  arr[index].date = this.$moment.unix(time).format("YYYY-MM-DD")
 	export default {
 		name: "CompanyShopListMould",
 		components: {
@@ -95,12 +98,16 @@
 				time:'',
 				factoryId: this.route,  //当前商家id
 				goodsList: [],
-				allLoaded: true,
+				allLoaded: false,
 				// shopCart: {}, //当前商店购物信息
 			}
 		},
 		mounted() {
-			this.initData(false)
+			// this._handleData(this.items)
+		},
+		updated() {
+			// this._handleData(this.items)
+			// console.log('updated:', this.items)
 		},
 		computed: {
 			...mapState({
@@ -118,37 +125,8 @@
 			async initData() {
 				// this._businessEntities(false)
 			},
-
-			// // 获取商店所属商品、
-			// _businessEntities(loadMore) {
-			// 	let params = {
-			// 		page: this.page,
-			// 		limit: 20,
-			// 		supplier_id:this.businessId
-			// 	}
-			// 	businessEntities(params,loadMore=false)
-			// 		.then(({
-			// 					data = []
-			// 				}) => {
-			// 			if(loadMore) {
-			// 				this.items = [...this.items, ...data.data.recommendList]
-			// 			} else {
-			// 				this.items = data.data.recommendList
-			// 			}
-			// 			this.items = this._handleData(this.items)
-			// 			this.page = this.page + 1
-			// 			// this.$refs.loadmore.afterLoadMore(data.data.recommendList.length < options.limit)
-			// 	})
-			// },
-			// 上啦刷新
-			loadTop() {
-				console.log('上啦')
-			},
-
-			// 下拉加载
-			loadBottom() {
-				console.log('hello')
-			},
+			
+			
 
 			canOption() {
 				if(!this.canShow) {
@@ -158,24 +136,18 @@
 				return true
 				
 			},
-			// _handleData(data) {
-			// 	console.log(data,this.shopCart)
-			// 	data.forEach((item, index) => {
-			// 		item.shopId = this.businessId
-			// 		item.num = 0
-			// 		item.itemId = item.id;
-            //         item.price = item.price
-			// 		if(this.shopCart[item.id]) {
-			// 			item.num = this.shopCart[item.id].num
-			// 		}
-			// 		if(item.valid_time>0) {
-			// 			let time = item.valid_time
-			// 			this.time = this.$moment.unix(time).format("YYYY.MM.DD")
-			// 		}
-			// 	})
-			// 	// console.log(data, 'data')
-			// 	return data
-			// },
+			_handleData(data) {
+				console.log(data, 'hello')
+				data.forEach((item, index,arr) => {
+					if(item.valid_time>0) {
+						let time = item.valid_time
+						arr[index].time = this.$moment.unix(time).format("YYYY.MM.DD")
+					}
+				})
+				// console.log(data)
+				// console.log(data, 'data')
+				// return data
+			},
 
 			 // 添加至购物车
             add_shop_car(item) {

@@ -34,18 +34,11 @@ export default {
     },
 
     // 注销登录
-    SIGN_OUT({ commit }) {
+    async SIGN_OUT({ commit }) {
         //
-        try {
-            // console.log('helllo')
-            http.post(`auth/logout`, {},
-                { validateStatus: s => (s >= 200 && s < 300) || s === 401 }
-            );
+            console.log('helllo')
+            // await 
             commit("SIGN_OUT");
-        } catch (e) {
-            // no condition here
-            //console.log(e)
-        }
     },
 
     /**

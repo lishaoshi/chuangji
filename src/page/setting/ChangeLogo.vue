@@ -46,9 +46,9 @@
              initData(){
                 const {
                     avatar = '',
-                } = this.CURRENTUSER.data.userInfo;
-                this.value = avatar;
-                this.avatar = (this.value || {})
+                } = this.CURRENTUSER.data;
+                // this.value = avatar;
+                this.avatar = (avatar || '')
             },
             beforeSelectFile(){
                 this.$refs.uploader.select()
