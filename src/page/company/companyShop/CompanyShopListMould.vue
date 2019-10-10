@@ -4,7 +4,7 @@
 			<!-- <ClxsdLoadMore key="orders-list" ref="loadmore" @onRefresh="onOrdersRefresh" @onLoadMore="onOrdersLoadMore"> -->
 			
 				<div class="list" v-for="(item,index) in items">
-					<router-link :to="`/business/shop/${businessId}/${item.id}`">
+					<router-link :to="`/business/shop/${businessId}/${item.id}?num=${item.num}`">
 						<img :src="item.cover" class="list-img" />
 						<p class="list-title">{{item.good_name}}</p>
 					</router-link>
@@ -36,28 +36,30 @@
 							</small>
 						</div> -->
 						<!-- 商品右下角购物车 -->
-						<div class="carImg" v-if="canShow">
+						<div class="carImg">
 							<!-- <img src="@/images/shop-car.png" alt="" v-if="!item.num" @click="add_shop_car(item)"> -->
 							<!-- <i class="iconfont" @click="add_shop_car(item)" v-if="!item.num">icon-shop-car</i> -->
 							<!-- <svg class="icon shopCart" v-if="!item.num"  @click="add_shop_car(item)" aria-hidden="true">
 								<use xlink:href="#icon-shop-car"></use>
 							</svg> -->
-							<svg class="icon shopCart" v-if="item.num<=0"  @click="add_shop_car(item)" aria-hidden="true">
+							<!-- <span>{{test}}</span> -->
+							<svg class="icon shopCart" v-if="!item.num"  @click="add_shop_car(item,index)" aria-hidden="true">
 								<use xlink:href="#icon-shop-car"></use>
 							</svg>
+							
 							<!-- <svg v-else-if="userType==2" class="icon shopCart" aria-hidden="true"> 
 								<use xlink:href="#icon-shop-car-0"></use> 
 							</svg> -->
 							<div class="controls" v-else>
-								<img @click="handleNumber(item)" src="@/images/del_shopping.png" alt="">
+								<img @click="handleNumber(item,index)" src="@/images/del_shopping.png" alt="">
 								
 								<div>
-									<span>{{shopCart[item.id].num}}</span>
+									<span>{{item.num}}</span>
 									<span>{{item.unit}}</span>
 									<!-- <span>件</span> -->
 								</div>
 								
-								<img @click="add_shop_car(item)" src="@/images/add_shopping.png" alt="">
+								<img @click="add_shop_car(item, index)" src="@/images/add_shopping.png" alt="">
 							</div>
 						</div>
 						
@@ -97,17 +99,10 @@
 				page:1,
 				time:'',
 				factoryId: this.route,  //当前商家id
-				goodsList: [],
+				// goodsList: [],
 				allLoaded: false,
 				// shopCart: {}, //当前商店购物信息
 			}
-		},
-		mounted() {
-			// this._handleData(this.items)
-		},
-		updated() {
-			// this._handleData(this.items)
-			// console.log('updated:', this.items)
 		},
 		computed: {
 			...mapState({
@@ -136,22 +131,22 @@
 				return true
 				
 			},
-			_handleData(data) {
-				console.log(data, 'hello')
-				data.forEach((item, index,arr) => {
-					if(item.valid_time>0) {
-						let time = item.valid_time
-						arr[index].time = this.$moment.unix(time).format("YYYY.MM.DD")
-					}
-				})
-				// console.log(data)
-				// console.log(data, 'data')
-				// return data
-			},
+			// _handleData(data) {
+			// 	// console.log(data, 'hello')
+			// 	data.forEach((item, index,arr) => {
+			// 		if(item.valid_time>0) {
+			// 			let time = item.valid_time
+			// 			arr[index].time = this.$moment.unix(time).format("YYYY.MM.DD")
+			// 		}
+			// 	})
+			// 	// console.log(data)
+			// 	// console.log(data, 'data')
+			// 	// return data
+			// },
 
 			 // 添加至购物车
-            add_shop_car(item) {
-				item.num++
+            add_shop_car(item, index) {
+				this.$emit('add_shop_car', index)
                 let data = {
                     supplier_id: this.businessId,
                     good_id: item.id
@@ -167,10 +162,11 @@
                 addShopCar(data)
 			},
 			
-			handleNumber(item) {
+			handleNumber(item, index) {
                 // console.log(item)
                 // debugger
-                // if(item.num <= item.order_min_num) return
+				// if(item.num <= item.order_min_num) return
+				this.$emit('del_shop_cart', index)
                 let data = {
                     supplier_id: this.businessId,
                     good_id: item.id
@@ -179,7 +175,7 @@
                 onlyDelShopCar(data)
                 // this.shopCart[item.id].num--
                 this.shopCart[item.id].num--
-                item.num--
+                // item.num--
                 this.cartNum = this.calculateCartNum()
                 this.totalPrice = this.calculateTotalPrice()
                 

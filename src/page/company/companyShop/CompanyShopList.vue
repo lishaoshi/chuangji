@@ -44,7 +44,7 @@
 		<p class="title">药品推荐</p>
 		<div style="overflow:scroll">
 			<mt-loadmore ref="loadmore" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false">
-				<list :business-id="businessId" :title="title" :shopCart="shopCart" :items.sync="items"></list>
+				<list :business-id="businessId" :title="title" @add_shop_car="add_shop_car" @del_shop_cart="del_shop_cart" :shopCart="shopCart" :items="items"></list>
 			</mt-loadmore>
 		</div>
         <div style="height: 1.2rem"></div>
@@ -149,6 +149,15 @@
 				adList({channel: 'app', space: 'global-top'}).then( data => {
 					this.swipers = data.data.data
 				})
+			},
+			add_shop_car(index) {
+				this.items = JSON.parse(JSON.stringify(this.items))
+				this.items[index].num++
+			},
+			// 删除购物车
+			del_shop_cart(index) {
+				this.items = JSON.parse(JSON.stringify(this.items))
+				this.items[index].num--
 			},
 			// 上啦刷新
 			loadBottom() {

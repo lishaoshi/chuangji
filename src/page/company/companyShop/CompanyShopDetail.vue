@@ -11,14 +11,14 @@
         <div class="detail-box1" v-if="canShow">
             <div class="left">
                 <span style="font-size: .3rem">￥</span> {{data.price}}<span style="font-size: .24rem">/{{data.unit || '件'}}</span>
-                <i>{{data.market_price}}</i>
+                <i>￥{{data.market_price}}</i>
             </div>
             <div class="rigit">
                 <div class="gw_num" v-if="(!data.is_multi_spec && canShow)">
-                    <em class="lose" @click="removeToMiniCart()" v-if="nums>0">-</em>
+                    <em class="lose" @click="removeToMiniCart()" v-if="data.num>0">-</em>
                     <em class="lose"  v-else>-</em>
                     <div class="num">
-                        <span class="amount">{{nums||0}}</span>
+                        <span class="amount">{{data.num||0}}</span>
                         <p>{{data.unit || '件'}}</p>
                     </div>
                     <em class="add" @click="addToMiniCart()">+</em>
@@ -27,23 +27,35 @@
         </div>
         <div class="contant">
             <div class="title">{{data.good_name}}</div>
-        </div>
-        <div class="contant" style="margin-bottom: 30px;padding-bottom: 0px">
-            <div class="contant-title">产品参数</div>
-            <div class="info">
-                <span>产品规格</span>
-                <samp>{{data.spec}}</samp>
-            </div>
-            <div class="info">
-                <span>生产厂家</span>
-                <samp>{{data.brand}}</samp>
-            </div>
-            <div class="info">
-                <span>有效期至</span>
-                <samp>{{time}}</samp>
+            <div>
+                销量：{{data.sale_num}}
             </div>
         </div>
-        <div style="height: 1rem"></div>
+        <!-- <div style="height: 1rem"></div> -->
+        <div class="goodInfo">
+            <div>
+                <span>品牌：</span>
+                <!-- <span>{{data.brand.name}}</span> -->
+            </div>
+            <div>
+                <span>规格：</span>
+                <span>{{data.spec}}</span>
+            </div>
+            <div>
+                <span>效期：</span>
+                <span>{{data.time}}</span>
+            </div>
+            <div>
+                <span>批准文号：</span>
+                <span>123</span>
+            </div>
+        </div>
+
+        <div class="imgList">
+            <div class="img" v-for="(item, index) of data.imgs" :key="index">
+                <img :src="item.new" alt="">
+            </div>
+        </div>
         <div style="position: fixed;width: 100%;bottom: 0px">
             <mini-company-cart ref="MiniCompanyCart" :shop-id="businessId" :count="cartNum" :total-price="totalPrice" style="bottom: 0px"></mini-company-cart>
         </div>
@@ -55,6 +67,7 @@
     import MiniCompanyCart from '@/page/company/CompanyClassify/MiniShopCart.vue'
     import {Swipe, SwipeItem} from 'mint-ui';
     import {isBusinessGoodsFollow, deleteBusinessGoodsFollow, SaveBusinessGoodsFollow} from "@/api/follow.js"
+    import { queryShopCarList, delShopCar, addShopCar, onlyDelShopCar } from '@/api/shopCar'
 
     export default {
         name: "CompanyShopDetail",
@@ -78,13 +91,14 @@
                 data: [],
                 nums: 0,
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
-                time:''
+                time:'',
+                num: 0,
+                shopCart: {}
             }
         },
         created() {
             this.id = parseInt(this.$route.params.id);
             this.businessId = parseInt(this.$route.params.shopId);
-            console.log(this.businessId + ":" + this.id)
             this._initData();
         },
         computed: {
@@ -94,13 +108,13 @@
 
                 cartList: state => state.shop.BUSINESS_CART_LIST
             }),
-            shopCart() {
-                return {...this.cartList[this.businessId]}
-            },
+            // shopCart() {
+            //     return {...this.cartList[this.businessId]}
+            // },
             cartNum() {
                 let num = 0;
                 Object.values(this.shopCart).forEach((data, index) => {
-                    num += data.num;
+                    num += +data.num;
                 })
                 return num
             },
@@ -126,7 +140,19 @@
                     data
                 } = await this.$http.get(`hippo-shop/business/${this.businessId}/detail/${this.id}`)
                 this.data = data.data
+                // data.num = this.num
                 this.data = this._handleData(this.data)
+                queryShopCarList({}, this.businessId).then(res=>{
+                    this.shopCart = res
+                    // console.log(this.id, res)
+                    if(res[this.id].num) {
+                        this.data.num = res[this.id].num
+                    } else {
+                        this.data.num = 0
+                    }
+                    // res[this.id].num && ()
+                    // console.log(this.data)
+                })
 
                 //是否收藏
                 isBusinessGoodsFollow(this.id).then(res => {
@@ -154,7 +180,7 @@
             _handleData(data) {
                 if(data.valid_time!=0){
                     let time = data.valid_time
-                    this.time = this.$moment(time).format("YYYY-MM-DD")
+                    data.time = this.$moment(time).format("YYYY-MM-DD")
                 }
                 Object.values(this.shopCart).forEach((cartItem, cartindex) => {
                     if (this.id === cartItem.id) {
@@ -164,28 +190,30 @@
                 return data
             },
             addToMiniCart() {
-                const item = {
-                    shopId: this.businessId,
-                    itemId: this.id,
-                    price: this.data.price
+                let params = {
+                    supplier_id: this.businessId,
+                    good_id: this.id
                 }
-                if (this.canOption()) {
-                    this.BUSINESS_ADD_CART(item)
-                    this.nums++
+                addShopCar(params)
+                this.data.num++
+                if(this.shopCart[this.id]) {
+                    // debugger
+                    
+                    this.shopCart[this.id].num++
+                } else {
+                    this.shopCart[this.id] = data
                 }
 
             },
             removeToMiniCart() {
-                const item = {
-                    shopId: this.businessId,
-                    itemId: this.id,
-                    price: this.data.price
+                this.data.num--
+                console.log(this.data)
+                this.shopCart[this.id].num--
+                let params = {
+                    supplier_id: this.businessId,
+                    good_id: this.id
                 }
-                if (this.canOption()) {
-                    this.BUSINESS_REMOVE_CART(item)
-                    this.nums--
-
-                }
+                onlyDelShopCar(params)
             },
             CollectionFn() {
                 const params = {
@@ -236,23 +264,50 @@
     }
 
     .contant {
-        background: #fff;
-        padding: 10px;
-        margin-top: .15rem;
-
-        &-title {
-            border-bottom: 1px solid #e6e6e6;
-            height: 1rem;
-            line-height: 1rem;
-            font-size: .28rem;
-            text-align: center;
+        display: flex;
+        padding: 0 .32rem;
+        height: 1.16rem;
+        justify-content: space-between;
+        div {
+            display: flex;
+            align-items: center;
         }
+        div:last-child {
+            align-items: flex-end;
+            color:rgba(153,153,153,1);
+            font-size: .2rem;
+            margin-bottom: .12rem;
+        }
+    }
+    .goodInfo {
+        line-height: .56rem;
+        padding: 0 .32rem;
+        div {
+            display: flex;
+            font-size: .24rem;
+            span:first-child {
+
+            }
+            span:last-child {
+                color:rgba(102,102,102,1);
+            }
+        }
+    }
+    .img {
+        width: 100%;
+        height: 5.9rem;
+        img {
+            width: 100%;
+            height: 100%;
+        }
+        // height: 100%;
     }
 
     .title {
-        font-size: .32rem;
+        font-size: .34rem;
         line-height: 150%;
         margin-bottom: 3px;
+        font-weight: bold;
     }
 
 

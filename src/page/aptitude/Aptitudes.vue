@@ -18,27 +18,27 @@
 			</ul>
 			<ul class="show-ul" >
 				<div>
-					<router-link to="/company-detail">
-						<li>
+					<!-- <router-link to="/company-detail"> -->
+						<li @click="showBigImg(userInfo.business_license)">
 							<span>营业执照</span>
 							<img :src="userInfo.business_license" width="40" height="35" />
 						</li>
-					</router-link>
+					<!-- </router-link> -->
 				</div>
 				<!--工业证书-->
 				<div v-if="userType === 1 ">
-					<li>
+					<li @click="showBigImg(userInfo.gmp)">
 						<span>药品生产质量管理规范认证证书(GMP)</span>
 						<img :src="aptitudeData.gmp" width="40" height="35" />
 					</li>
 				</div>
 				<!-- 商业证书 -->
 				<div v-if="userType === 2 ">
-					<li>
+					<li @click="showBigImg(userInfo.business_executive)">
 						<span>药品经营许可证</span>
 						<img :src="userInfo.business_executive" width="40" height="35" />
 					</li>
-					<li>
+					<li @click="showBigImg(userInfo.gsp)">
 						<span>药品经营质量管理规范认证证书(GSP)</span>
 						<img :src="userInfo.gsp" width="40" height="35" />
 					</li>
@@ -46,11 +46,11 @@
 				<!-- 采购端证件 -->
 				<div v-if="userType === 3 ">
 					<div v-if="companyTypeName != '诊所'">
-						<li>
+						<li @click="showBigImg(userInfo.business_executive)">
 							<span>药品经营许可证</span>
 							<img :src="userInfo.business_executive" width="40" height="35" />
 						</li>
-						<li>
+						<li @click="showBigImg(userInfo.gsp)">
 							<span>药品经营质量管理规范认证证书(GSP)</span>
 							<img :src="userInfo.gsp" width="40" height="35" />
 						</li>
@@ -59,6 +59,11 @@
 			</ul>
 		</section>
 
+		 <div v-if="isShowBigImg" @click="close" class="popBox">
+           <!-- <span>123</span> -->
+           <img :src="current" alt="">
+
+       </div>
 	</div>
 
 </template>
@@ -87,7 +92,9 @@
 					gmp:null,//药品生产质量管理规范认证证书(GMP)
                     business_license:null,//营业执照
 					business_executive:null //药品经营许可证
-				}
+				},
+				isShowBigImg: false,
+				current: ''
 			}
 		},
 		computed: {
@@ -141,7 +148,14 @@
 			})
 		},
 		methods: {
-
+			close() {
+            	this.isShowBigImg = false
+			},
+			showBigImg (i) {
+            // cosnole.log(i)
+				this.current = i
+				this.isShowBigImg = true
+			},
 		}
 	}
 </script>
@@ -161,7 +175,23 @@
 				color: rgb(255, 181, 64);
 			}
 		}
+		
 	}
+	.popBox {
+        position: absolute;
+        opacity: 1;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background: #000;
+        z-index: 999;
+        display: flex;
+        align-items: center;
+        img {
+            width: 100%;
+        }
+    }
 
 	.edit-ul {
 		background: #fff;
