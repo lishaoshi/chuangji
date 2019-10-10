@@ -176,6 +176,9 @@
                 notification: 'unreadMessage',
             })
         },
+        updated(){
+            console.log('userType', this.userType)
+        },
         methods: {
             to(path) {
                 this.$router.push({path})

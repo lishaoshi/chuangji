@@ -11,6 +11,10 @@
 					<p>去购买</p>
 				</div>
 			</router-link>
+
+			<!-- <div class="join_shop">
+				<p>去购买</p>
+			</div> -->
 			<div class="shop_iocn">
 				<img src="../../../images/coupon/shop_show.png" alt="">
 			</div>

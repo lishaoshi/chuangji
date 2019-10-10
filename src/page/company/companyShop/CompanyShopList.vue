@@ -42,9 +42,11 @@
 		</div>
 		<!--列表开始-->
 		<p class="title">药品推荐</p>
-		<mt-loadmore ref="loadmore" :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false">
-			<list :business-id="businessId" :title="title" :shopCart="shopCart" :items.sync="items"></list>
-		</mt-loadmore>
+		<div style="overflow:scroll">
+			<mt-loadmore ref="loadmore" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false">
+				<list :business-id="businessId" :title="title" :shopCart="shopCart" :items.sync="items"></list>
+			</mt-loadmore>
+		</div>
         <div style="height: 1.2rem"></div>
         <div style="position: fixed;width: 100%;bottom: 0px" v-if="entities.length>0">
             <mini-company-cart ref="MiniCompanyCart" :shop-id="businessId" :count="cartNum" :total-price="totalPrice" style="bottom: 0px"></mini-company-cart>
@@ -129,7 +131,7 @@
 				}
 				let data = {}
 				let shopList = []
-				await Promise.all([queryShopCarList({}, this.businessData.id),businessEntities(params), businessEntities(params)]).then(res=>{
+				await Promise.all([queryShopCarList({}, this.businessData.id),businessEntities(params)]).then(res=>{
 					// console.log(res, 'res')
 					data = res[1].data
 					shopList = res[1].data.data.recommendList
@@ -150,13 +152,22 @@
 			},
 			// 上啦刷新
 			loadBottom() {
-				console.log('下拉')
-				this.$emit('loadMore')
-			},
-			// 下拉加载
-			loadTop() {
-				this.$refs.loadmore.onTopLoaded()
-				console.log('上啦')
+				this.page++
+				let params = {
+					page: this.page,
+					limit: 20,
+					supplier_id:this.businessId
+				}
+				businessEntities(params).then(res=>{
+					let list = res.data.data.recommendList
+					if(list.length) {
+						list =  this._handleData(list)
+						this.items = [...this.items, ...list]
+					} else {
+						this.allLoaded = true
+					}
+					this.$refs.loadmore.onBottomLoaded()
+				})
 			},
 
 			// 对获取到的购物车数据进行处理
