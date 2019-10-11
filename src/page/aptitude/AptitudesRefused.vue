@@ -14,7 +14,7 @@
       <div class="companyInfo">
           <div>
               <span class="title">公司类型：</span>
-              <span>{{cate_name}}</span>
+              <span>{{userType==3?'采购 - ': ''}}{{sub_type_name}}</span>
           </div>
           <div>
               <span class="title">公司名称：</span>
@@ -85,6 +85,14 @@ export default {
         refuse_reason: {
             type: String,
             required:true
+        },
+        sub_type_name: {
+            type: String,
+            required: true
+        },
+        userType: {
+            type: Number,
+            required: true
         }
     },
      updated() {

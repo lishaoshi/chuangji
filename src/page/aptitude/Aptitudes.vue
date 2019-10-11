@@ -45,7 +45,7 @@
 				</div>
 				<!-- 采购端证件 -->
 				<div v-if="userType === 3 ">
-					<div v-if="companyTypeName != '诊所'">
+					<div v-if="sub_type != 4">
 						<li @click="showBigImg(userInfo.business_executive)">
 							<span>药品经营许可证</span>
 							<img :src="userInfo.business_executive" width="40" height="35" />
@@ -81,6 +81,10 @@
 				type: Number,
 				required: true
 			},
+			sub_type: {
+                type: Number,
+                required: true
+            }
 		},
 		data() {
 			return {

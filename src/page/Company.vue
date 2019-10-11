@@ -1,6 +1,6 @@
 <template>
     <PullRefresh @refresh="refresh">
-        <page-aptitude v-if="CERT_STATUS === 3" :userType="USER_TYPE" />
+        <page-aptitude v-if="CERT_STATUS === 3" :userType="USER_TYPE" :sub_type="sub_type" />
         <section v-else-if="CERT_STATUS === 1">
             <clxsd-head-top title="审核中"></clxsd-head-top>
             <div class="examining">
@@ -8,8 +8,8 @@
                 <p>正在审核中，请耐心等待...</p>
             </div>
         </section>
-        <page-edit-aptitude v-else-if="CERT_STATUS === 0 || CERT_STATUS===4" :user-type="USER_TYPE" :imgList="imgList" :isEdit="true" :certStatus="CERT_STATUS" :org_name="org_name"/>
-        <PageAptitudesRefused v-else-if="CERT_STATUS===2" :cate_name="cate_name" :org_name="org_name" :imgList="imgList" :refuse_reason="refuse_reason" @updateCompany="updateCompany(3)"></PageAptitudesRefused>
+        <page-edit-aptitude v-else-if="CERT_STATUS === 0 || CERT_STATUS===4" :sub_type="sub_type" :userType="USER_TYPE" :imgList="imgList" :isEdit="true" :certStatus="CERT_STATUS" :org_name="org_name"/>
+        <PageAptitudesRefused v-else-if="CERT_STATUS===2" :userType="USER_TYPE" :sub_type_name="sub_type_name" :cate_name="cate_name" :org_name="org_name" :imgList="imgList" :refuse_reason="refuse_reason" @updateCompany="updateCompany(3)"></PageAptitudesRefused>
     </PullRefresh>
 </template>
 
@@ -28,7 +28,9 @@
                 cate_name: '',
                 org_name: '',
                 imgList:[],
-                refuse_reason: ''
+                refuse_reason: '',
+                sub_type_name: '',
+                sub_type: 0
             }
         },
         components:{
@@ -93,6 +95,8 @@
                         this.org_name = data.certificationInfo.org_name
                         this.imgList = data.certificationInfo.files.reverse()
                         this.refuse_reason = data.certificationInfo.refuse_reason
+                        this.sub_type_name = data.certificationInfo.sub_type_name
+                        this.sub_type = data.certificationInfo.sub_type
                     }
                 })
             },

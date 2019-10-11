@@ -40,6 +40,8 @@
                                 type="storage"
                                 prefixPath="certs"
                         />
+                    </div>
+                    <div class="everyCard">
                         <FormImageItem
                                 v-model="aptitudeData.gmp"
                                 :label="'药品生产质量管理规范认证证书(GMP)'"
@@ -71,7 +73,7 @@
 
                 <!--采购端需要的证件-->
                 <div v-if="userType === 3 ">
-                    <div v-if="companyTypeName != '诊所'">
+                    <div v-if="sub_type != 4 && companyTypeName!='诊所'">
                         <div class="everyCard">
                             <FormImageItem
                                     v-model="aptitudeData.business_executive"
@@ -115,7 +117,11 @@
             isEdit: {type: Boolean, default: false},
             imgList: {type:Array, default:()=>{return []}},
             org_name:{type: String, default: ''},
-            certStatus: {type: Number, default:0}
+            certStatus: {type: Number, default:0},
+            sub_type: {
+                type: Number,
+                required: true
+            }
         },
         components: {
             FormImageItem,
