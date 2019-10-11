@@ -14,7 +14,8 @@
       <div class="companyInfo">
           <div>
               <span class="title">公司类型：</span>
-              <span>{{userType==3?'采购 - ': ''}}{{sub_type_name}}</span>
+              <span v-if="userType==3">{{userType==3?'采购 - ': ''}}{{sub_type_name}}</span>
+              <span v-else>{{cate_name}}</span>
           </div>
           <div>
               <span class="title">公司名称：</span>
