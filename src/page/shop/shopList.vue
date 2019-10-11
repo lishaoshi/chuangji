@@ -455,9 +455,10 @@
     }
 
     .selling .unit_price {
+        // display: flex;
         font-size: 10px;
         color: #999;
-        width: 100%;
+        // width: 100%;
     }
 
     .selling .unit_price .font {

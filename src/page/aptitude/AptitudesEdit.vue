@@ -121,7 +121,11 @@
             sub_type: {
                 type: Number,
                 required: true
-            }
+            },
+            sub_type_name: {
+                type: String,
+                default: ''
+            },
         },
         components: {
             FormImageItem,
@@ -147,7 +151,7 @@
 
             return {
                 popupVisible: false,
-                companyTypeName: "请选择",
+                companyTypeName: this.$props.sub_type_name || "请选择",
                 userMap: [
                     /*
                     {

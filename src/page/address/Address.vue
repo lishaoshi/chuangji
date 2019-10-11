@@ -55,12 +55,26 @@
                 addressList: []
             }
         },
-        watch: {
-            $route(to) {
-                if(to.path!=null){
-                    this._initData();
-                }
+         created() {
+            // debugger
+            console.log('dello')
+            if (!!this.$route.query.choose) {
+                this.choose = true
             }
+            // this._initData();
+        },
+        watch: {
+            // $route(to) {
+            //     console.log(to, '123')
+            //     debugger
+            //     if(to.path!=null){
+            //         this._initData();
+            //     }
+            // }
+        },
+        activated() {
+            // console.log('hello123')
+            this._initData();
         },
         methods: {
             ...mapMutations(['CHOOSE_ADDRESS']),
@@ -96,14 +110,7 @@
                     }
                 })
             }
-        },
-        created() {
-            console.log(44)
-            if (!!this.$route.query.choose) {
-                this.choose = true
-            }
-            this._initData();
-        },
+        }
     }
 </script>
 
@@ -132,7 +139,10 @@
 
     .address {
         background: #fff;
-        margin-bottom: 1.3rem;
+        // margin-bottom: 1.3rem; 
+        &>div:last-child {
+            margin-bottom: 1.4rem;
+        }
     }
 
     .choose-icon {

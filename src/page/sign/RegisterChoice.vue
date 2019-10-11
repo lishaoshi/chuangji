@@ -35,7 +35,7 @@
 				<li>
 					<router-link  to="/signup?user_type=4">
 					<img src="../../images/login/tuiguang.png">
-					<p>合伙注册</p>
+					<p>推广注册</p>
 					</router-link>
 				</li>
 		</ul>

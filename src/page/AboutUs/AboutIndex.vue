@@ -12,7 +12,7 @@
         <div class="tel-box">
             <div>
                 <p>服务热线 0371-xxxxxxxx</p>
-                <p>服务时间：9：00-18：00</p>
+                <p>服务时间:9：00-18:00</p>
             </div>
             <div>
                 <a href="tel:0371-xxxxxxx">

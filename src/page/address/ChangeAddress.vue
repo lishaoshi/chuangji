@@ -67,6 +67,7 @@
 		},
         watch: {
             $route(to) {
+				debugger
                     this.addressId = to.params.addressId;
                     this._initData();
             }

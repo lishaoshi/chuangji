@@ -23,7 +23,7 @@
 				<p>已选<i id="totalProductCount">0</i>件</p>
 			</div>
 			<div class="join_shop">
-				<p>去购买</p>
+				<p>去结算</p>
 			</div>
 			<div class="shop_iocn" @click="showShop">
 				<img src="../../../images/coupon/shop_show.png" alt="">

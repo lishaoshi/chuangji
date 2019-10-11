@@ -64,12 +64,12 @@
             }
         },
         watch: {
-            $route(from) {
-                console.log(from)
-                if (from.path == '/address-add') {
-                    this.$router.go(0)
-                }
-            }
+            // $route(from) {
+            //     console.log(from)
+            //     if (from.path == '/address-add') {
+            //         this.$router.go(0)
+            //     }
+            // }
         },
         methods: {
             addressChange(data) {
@@ -149,6 +149,7 @@
                         console.log(params)
                         Toast('添加成功');
                         this.goBack();
+                        // this.$router.replace('/address')
                     })
                     .catch(res => {
                         Toast('出现异常，请重试');
@@ -162,6 +163,9 @@
 </script>
 
 <style lang="scss" scoped>
+input, textarea {
+    font-size: .28rem;
+}
     .picker-toolbar-title {
         font-size: 14px;
         padding: 10px;
@@ -233,6 +237,7 @@
         border-bottom: 1px solid #f4f5f5;
         span {
             display: inline-block;
+            width: 20%;
         }
         img {
             width:.15rem;
