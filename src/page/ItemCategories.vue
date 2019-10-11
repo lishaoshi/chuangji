@@ -12,7 +12,7 @@
                     <div>分类</div>
                 </div>
                 -->
-                <div style="width: 2rem;float: left;background: #E6e6e6">
+                <div style="width: 2rem;float: left;background: #E6e6e6;overflow:auto">
                     <span class="all-goods" @click="all_Goods()" :class="`${is_active == 0?'all-goods-active':''}`">全部</span>
                     <div class="mint-navbar">
                         <div class="menu-list" :id="`menu_${index}`" :key="`menu-${index}`"
