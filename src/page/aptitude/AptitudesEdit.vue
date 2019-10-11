@@ -258,7 +258,7 @@
                     }
                 }
                 if (this.userType === 1) {
-                    if (!aptitudeData.pblg) {
+                    if (!aptitudeData.sc_z) {
                         this.$messagebox.alert('请上传药品生产许可证！')
                         return
                     }

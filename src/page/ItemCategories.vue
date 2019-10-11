@@ -66,7 +66,7 @@
                                                     <p class="font"><i>￥</i><i>{{entity.price}}</i><span>{{entity.market_price}}</span>
                                                     </p>
                                                 </div>
-                                                <div class="gw_num" v-if="entity.status == 1" @click="DownSelf(entity.id,entity.status)">
+                                                <div class="gw_num" v-if="entity.status == 1" @click="DownSelf(entity.id,entity.status,ikey)">
                                                     下架&nbsp;&darr;
                                                 </div>
                                                 <div class="gw_num up" v-if="entity.status == 0" @click="UpSelf(entity.id)">上架&nbsp;&uarr;
@@ -291,15 +291,17 @@
             },
 
             //下架
-            DownSelf(id, ids) {
+            DownSelf(id, ids, index) {
+                console.log(index, 'index')
+                return
                 this.$messagebox.confirm("确定要下架此商品吗?").then(action => {
                     if (action === 'confirm') {
                         this.$http.patch(`hippo-shop/business/changeStatus`, {good_id: id, status: 0}).then(res => {
-                            console.log(res)
-                            this.$toast(res.data.data)
-                            var list = document.getElementById('list-item')
-                            list.remove()
-                            this.$router.go(0)
+                            // console.log(res)
+                            // this.$toast(res.data.data)
+                            // var list = document.getElementById('list-item')
+                            // list.remove()
+                            // this.$router.go(0)
                         }).catch(error => {
                             this.$toast("下架失败")
                         })
@@ -310,7 +312,7 @@
             UpSelf(id) {
                 this.$messagebox.confirm("确定要上架此商品吗?").then(action => {
                     this.$http.patch(`hippo-shop/business/changeStatus`, {good_id: id, status: 1}).then(res => {
-                        this.$router.go(0)
+                        // this.$router.go(0)
                     }).catch(error => {
                         this.$toast("上架失败")
                     })
