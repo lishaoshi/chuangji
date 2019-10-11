@@ -35,7 +35,7 @@
                 <div v-if="userType === 1 ">
                     <div class="everyCard">
                         <FormImageItem
-                                v-model="aptitudeData.sc_z"
+                                v-model="aptitudeData.production_license"
                                 label="生产许可证"
                                 type="storage"
                                 prefixPath="certs"
@@ -186,7 +186,7 @@
                     health_c: "",//健康证
                     hyg_l: "",//卫生许可证,
                     pblg: "",//药品生产许可证
-                    sc_z: "",//生产许可证
+                    production_license: "",//生产许可证
                     sub_type:0
                 },
                  aptitudeList: {
@@ -258,7 +258,7 @@
                     }
                 }
                 if (this.userType === 1) {
-                    if (!aptitudeData.sc_z) {
+                    if (!aptitudeData.production_license) {
                         this.$messagebox.alert('请上传药品生产许可证！')
                         return
                     }
