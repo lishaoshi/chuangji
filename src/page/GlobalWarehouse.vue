@@ -28,7 +28,7 @@
                     <div class="company-name" @click="entryBusinessShop(item)">
                         <img :src="item.logo" alt=" ">
                         <p>{{item.display_name || item.name }}</p>
-                        <span>24小时</span>
+                        <span>{{item.config?item.config.delivery_time:'0'}}小时</span>
                     </div>
                     <div class="company-box">
                         <div class="left">
@@ -175,7 +175,7 @@
                     search:this.searchValue
                 }
                 businessList(params).then(response => {
-                    console.log(response.data.data)
+                   
                     this.allLoaded = false; // 可以进行上拉
                     this.businesses = response.data.data.businessList;
                     this.$refs.loadmore.onTopLoaded();

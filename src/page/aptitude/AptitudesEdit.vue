@@ -73,7 +73,7 @@
 
                 <!--采购端需要的证件-->
                 <div v-if="userType === 3 ">
-                    <div v-if="sub_type != 4 && companyTypeName!='诊所'">
+                    <div v-if=" companyTypeName!='诊所'">
                         <div class="everyCard">
                             <FormImageItem
                                     v-model="aptitudeData.business_executive"
@@ -175,7 +175,7 @@
                 ],
                 threeToOne: true,
                 companyType,
-                companyCType: 0,
+                companyCType: this.$props.isEdit? this.$props.sub_type:0,
                 companyName: this.$props.org_name||'',
                 aptitudeData: {
                     gsp: "",//药品经营质量管理规范认证证书(GSP)
@@ -198,7 +198,7 @@
                     health_c: "",//健康证
                     hyg_l: "",//卫生许可证,
                     pblg: "",//药品生产许可证
-                    sc_z: "",//生产许可证
+                    production_license: "",//生产许可证
                     sub_type:0
                 },
             }
@@ -213,6 +213,7 @@
             chooseTranTypes(data) {
                 this.aptitudeData.sub_type = data.type
                 this.companyTypeName = data.label;
+                console.log(data, this.companyTypeName, this.sub_type)
                 this.companyCType = data.type;
                 this.popupVisible = false;
             },
@@ -307,7 +308,7 @@
                     })
                } else {
                 Object.keys(this.aptitudeList).forEach(item=>{
-                    if(item!="sub_type"&&!this.aptitudeList[item]!=this.aptitudeList[item]&&!this.aptitudeData[item].includes('https')) {
+                    if(item!="sub_type"&&!this.aptitudeList[item]!=this.aptitudeData[item]&&!this.aptitudeData[item].includes('https')) {
                         this.aptitudeList[item] = this.aptitudeData[item]
                     }
                 })

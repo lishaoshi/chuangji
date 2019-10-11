@@ -75,6 +75,7 @@
     .scroll-content {
         position: relative;
         height: 100%;
+        // margin-top: .06rem;
         li {
             height: .88rem;
             line-height: .88rem;
@@ -83,7 +84,6 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-
             span {
                 display: inline-block;
                 width: 60%;

@@ -12,7 +12,7 @@
 				<div class="m-input">
 					<input id="phone" v-model="phone" type="number" autocomplete="off" pattern="[0-9]*" oninput="value=value.slice(0, 11)" placeholder="输入11位手机号">
 				</div>
-				<span :class="{ disabled: phone.length < 11 || countdown > 0 }" style="color: #0090ff;" class="m-flex-grow0 m-flex-shrink0 signup-form--row-append c_59b6d7 inp-sp" @click="getCode">{{ codeText }}</span>
+				<span :class="{ disabled: phone.length < 11 || countdown > 0 }" class="m-flex-grow0 m-flex-shrink0 signup-form--row-append c_59b6d7 inp-sp" @click="getCode">{{ codeText }}</span>
 			</div>
 			<div v-if="verifiable_type === 'mail'" class="m-form-row m-main send-code">
 				<label for="mail"><svg class="icon-svg"><use xlink:href="#icon-denglushoujihao"/></svg></label>
@@ -320,6 +320,7 @@
 		font-size: 16px;
 		&[disabled] {
 			background: #26A2FF;
+			color: #26A2FF;
 		}
 	}
 

@@ -14,7 +14,10 @@
                     </mt-swipe-item>
                 </mt-swipe>
             </div>
-            <Notice :notices="notices" v-if="notices!=null"></Notice>
+            <div class="noticesBox"  v-if="notices!=null">
+                <Notice :notices="notices"></Notice>
+            </div>
+            
             <div class="notice" v-else>
                 <svg>
                     <use xlink:href="#icon-notice"/>
@@ -112,7 +115,9 @@
             // ...mapState(['POSITION']),
             ...mapState({
                 POSITION:(state)=>{state.POSITION},
-                USERTYPE:state=>{state.CURRENTUSER.data.user_type}
+                USERTYPE:state=>{
+                    return state.CURRENTUSER.data.user_type
+                    }
             }),
             // ...mapState({
 			// 	USER_TYPE: state => state.CURRENTUSER.data.user_type,
@@ -128,6 +133,7 @@
             window.addEventListener('scroll', this.handleScroll, true)
         },
         created() {
+            console.log('USERTYPE',this.USERTYPE)
             this.initData()
             this.loadFrist();
             this.$nextTick().then(res => {
@@ -203,6 +209,9 @@
     .main-body {
         /* 加上这个才会有当数据充满整个屏幕，可以进行上拉加载更多的操作 */
         overflow: scroll;
+    }
+    .noticesBox {
+        margin-top: 0.06rem;
     }
 
     .select-box {
