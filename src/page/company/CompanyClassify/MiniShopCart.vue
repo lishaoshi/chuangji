@@ -8,7 +8,7 @@
 			</div>
 			<router-link :to="`/business/cart${shopId ? '/'+shopId:''}`">
 				<div class="join_shop">
-					<p>去购买</p>
+					<p>去结算</p>
 				</div>
 			</router-link>
 

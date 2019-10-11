@@ -214,7 +214,7 @@ export default [
         component: AddressAdd,
         meta:{
             title:"添加新地址",
-            keepAlive: true,
+            keepAlive: false,
             requiresAuth: true,
         },
 
@@ -224,7 +224,7 @@ export default [
         component: AddressChange,
         meta:{
             title:"编辑地址",
-            keepAlive: true,
+            keepAlive: false,
             requiresAuth: true,
         },
     },

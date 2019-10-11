@@ -60,7 +60,7 @@
                                             </router-link>
                                             <p class="item-box-p1" v-if="entity.brand">{{entity.brand.name}}</p>
                                             <p class="item-box-p1">规格: {{entity.spec}}</p>
-                                            <p class="item-box-p1">效期:  {{time}}</p>
+                                            <p class="item-box-p1">效期: {{entity.time}}</p>
                                             <div class="selling">
                                                 <div class="unit_price">
                                                     <p class="font"><i>￥</i><i>{{entity.price}}</i><span>{{entity.market_price}}</span>
@@ -161,15 +161,17 @@
             //this.loadFrist();
         },
         methods: {
-            async _handleData(data) {
-                console.log(data)
+             _handleData(data) {
+                console.log(data, 'data')
                 if (data.list) {
-                    data.list.forEach(data => {
+                    data.list.forEach((data,index, arr) => {
                         console.log(data)
                         let time = data.valid_time
-                        this.time = this.$moment.unix(time).format("YYYY.MM.DD")
+                        arr[index].time = this.$moment.unix(time).format("YYYY.MM.DD")
                     })
                 }
+                console.log(data, 'isData')
+                return data
             },
             all_Goods() {
                 let params = {}
@@ -342,10 +344,11 @@
                 console.log(params)
                 servicBusinessGoodList(params).then(res => {
                     this.goodList = res.data.data.businessGoods
+                    this.goodList = this._handleData(this.goodList)
                     this.DownSaleNum = this.goodList.unSale
                     this.OnSaleNum = this.goodList.onSale
                 })
-                this.goodList = this._handleData(this.goodList)
+                // this.goodList = this._handleData(this.goodList)
             },
 
             //搜索

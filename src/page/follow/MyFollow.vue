@@ -3,8 +3,8 @@
         <clxsd-head-top title='关注收藏'></clxsd-head-top>
 
         <mt-navbar v-model="selected">
-            <mt-tab-item id="1">工业关注</mt-tab-item>
-            <mt-tab-item id="2">产品收藏</mt-tab-item>
+            <mt-tab-item id="1"><span>工业关注</span class="title"></mt-tab-item>
+            <mt-tab-item id="2"><span class="title">产品收藏</span></mt-tab-item>
         </mt-navbar>
         <mt-tab-container v-model="selected" style="margin-top: .2rem">
             <mt-tab-container-item id="1">
@@ -70,7 +70,7 @@
                 </div>
             </mt-tab-container-item>
         </mt-tab-container>
-
+        <EmptyOrder v-if="!collectList.length && !followList.length" />
 
     </div>
 </template>
@@ -265,6 +265,9 @@
 </script>
 
 <style lang="scss" scoped>
+   .title {
+        font-size: .28rem!important;
+    }
     #Myfollow {
         min-height: 5rem;
     }

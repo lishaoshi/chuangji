@@ -57,7 +57,7 @@
                  <!-- <svg v-if="USERTYPE==2" class="m-style-svg m-svg-def">
                     <use xlink:href="#icon-promote-promoter"/>
                 </svg> -->
-                <svg v-else class="icon shopcar" aria-hidden="true"> 
+                <svg v-else class="icon shopcar newClass" aria-hidden="true"> 
                     <use xlink:href="#icon-shop-car-0"></use> 
                 </svg>
             </div>
@@ -256,6 +256,12 @@
         right: 0px;
         bottom: 1.3rem;
         z-index: 99;
+        &.newClass {
+            width: 1rem;
+            height: 1rem;
+            right: 20px;
+            bottom: 60px;
+        }
     }
 
     .notice {
