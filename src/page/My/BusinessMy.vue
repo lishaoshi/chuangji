@@ -80,7 +80,7 @@
 </template>
 
 <script>
-	import { mapState } from "vuex";
+	import { mapState, mapActions } from "vuex";
 	import ClxsdCell from '@/components/common/Cell';
 	export default {
 		name: "page-business-my",
@@ -148,9 +148,13 @@
                 })
             },
             refresh(callback){
-                //this.$store.dispatch("fetchUserInfo");
+				//this.$store.dispatch("fetchUserInfo");
+				this.fetchUserInfo()
                 this.initData(callback);
-			}
+			},
+			...mapActions([
+				'fetchUserInfo'
+			])
         }
 	}
 </script>

@@ -101,8 +101,7 @@
             .right {
                 font-size:.28rem;
                 font-family:PingFang SC;
-                font-weight:500;
-                color:rgba(51,51,51,1);
+                color:#333;
                 display: flex;
                 align-items: center;
                 height: 1rem;

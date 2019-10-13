@@ -140,7 +140,7 @@
                 })
             },
             refresh(callback){
-               // this.$store.dispatch("fetchUserInfo");
+               this.$store.dispatch("fetchUserInfo");
                 this.initData(callback);
             }
         }

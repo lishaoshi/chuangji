@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="swiper-box">
-            <mt-swipe :auto="4000" class="swiper" v-if="swippers.length > 0">
+            <mt-swipe :auto="4000" class="swiper" v-if="swippers&&swippers.length&&swippers.length>0">
                 <mt-swipe-item :key="index" v-for="(swipe,index) in swippers">
                     <a :href="swipe.link" target="_blank">
                         <img :src="swipe.picture" width="100%">
@@ -95,6 +95,7 @@
             }
         },
         created() {
+            // debugger
             this.initData()
             setInterval(this.scroll, 2500)
             this.loadFrist();
@@ -192,7 +193,7 @@
                 }
                 businessList(params).then(response => {
                     response.data.data.businessList && ( this.businesses = this.businesses.concat(response.data.data.businessList))
-                    if (!response.data.data.businessList || response.data.data.businessList.length < this.limit) {
+                    if (!response.data.data.businessList && response.data.data.businessList.length < this.limit) {
                         this.allLoaded = true; // 若数据已全部获取完毕
                     }
                     this.$refs.loadmore.onBottomLoaded();

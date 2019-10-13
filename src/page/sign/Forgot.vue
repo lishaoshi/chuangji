@@ -47,9 +47,9 @@
 
 			<div class="m-form-row" style="border: 0">
 				<button :disabled="loading||disabled" class="m-long-btn m-signin-btn" @click="handleOk">
-          <circle-loading v-if="loading" />
-          <span v-else>修改</span>
-        </button>
+					<circle-loading v-if="loading" />
+					<span v-else>修改</span>
+        		</button>
 			</div>
 		</main>
 	</div>
@@ -226,7 +226,7 @@
 							response: {
 								status = null,
 								data: {
-									errors = {}
+									error = []
 								} = {}
 							} = {}
 						}) => {
@@ -237,7 +237,10 @@
 								return;
 							}
 							if(status === 422) {
-								this.error = errors;
+								// debugger
+								// console.log(error[0])
+								// this.error = error;
+								this.$toast(error[0])
 							}
 							setTimeout(() => {
 								this.error = "";
@@ -320,7 +323,6 @@
 		font-size: 16px;
 		&[disabled] {
 			background: #26A2FF;
-			color: #26A2FF;
 		}
 	}
 

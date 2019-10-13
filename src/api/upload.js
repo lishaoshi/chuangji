@@ -47,5 +47,5 @@ export default async function (file,prefixPath) {
             throw new Error('不支持')
     }
 
-    return task.node
+    return task
 }

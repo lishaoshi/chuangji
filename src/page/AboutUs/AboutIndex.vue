@@ -11,8 +11,8 @@
         <clxsd-cell :title="'隐私条款'" :to="'/privacy'" is-link/>
         <div class="tel-box">
             <div>
-                <p>服务热线 0371-xxxxxxxx</p>
-                <p>服务时间:9：00-18:00</p>
+                <p>服务热线<span class="tel">0371-xxxxxxxx</span></p>
+                <p>服务时间<span class="time">9:00-18:00</span></p>
             </div>
             <div>
                 <a href="tel:0371-xxxxxxx">
@@ -72,5 +72,11 @@
                 color: #7C7C7C;
             }
         }
+    }
+    .tel {
+        margin-left: 12px;
+    }
+    .time {
+        margin-left: 9px;
     }
 </style>

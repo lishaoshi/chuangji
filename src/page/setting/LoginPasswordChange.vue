@@ -207,17 +207,20 @@
             },
             handleCode() {
                 if(this.code.length === 6) {
+                    this.loading = true
                     let params = {
                         verifiable_code: this.code,
+                        phone: this.USER_INFO.phone
                     };
-                    this.$http.get("/verifycodes/check", {params,validate: state => state === 200})
-                    .then(response => {
-                        if(response.data.status){
+                    this.$http.post("/verifycodes/validate", params,{validate: state => state === 200})
+                    .then(res => {
+                        // console.log()
+                        // console.log(res)
+                        if(res.data.data.istrue){
                             this.is_code = false
                         }else{
                             this.$toast('验证码不正确！')
                         }
-
                         this.loading = false;
                     })
                     .catch(error => {
@@ -259,10 +262,12 @@
                     this.$lstore.removeData("H5_CUR_USER");
                     this.$lstore.removeData("H5_ACCESS_TOKEN");
                     this.$store.dispatch("SIGN_OUT");
-                    this.$router.push('/home')
                     this.oldPassword = ""
                     this.newPassword = ""
                     this.rePassword =""
+                    setTimeout(() => {
+                        this.$router.push('/home')
+                    }, 1000);
                 })
                 .catch(error => {
                     this.loading = false;

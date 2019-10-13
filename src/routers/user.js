@@ -49,7 +49,7 @@ export default [
         component: LoginPasswordChange,
         meta:{
             title:"登陆密码设置",
-            keepAlive: true,
+            keepAlive: false,
             requiresAuth: true,
         },
         

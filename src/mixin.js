@@ -44,12 +44,20 @@ export default {
             this.$router.push(options);
         },
         authToRouter(router){
-            console.log(11)
+            // console.log(11)
             const userInfo = this.$store.state.CURRENTUSER.data;
             if(userInfo.shop_supplier){
                 this.$router.push(router);
             }else{
-                this.$toast("未认证用户，没有权限操作！");
+                this.$messagebox.confirm('',{
+                    title: '提示',
+                    message:'没有操作权限,请先完成认证',
+                    confirmButtonText: '去认证'
+                }).then(action => {
+                    if (action === 'confirm') {
+                        this.$router.push('/company-info')
+                    }
+                }).catch(err => err);
             }
         }
     },

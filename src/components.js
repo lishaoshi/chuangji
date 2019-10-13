@@ -9,6 +9,7 @@ import HeadTop from "./components/HeadTop.vue";
 import CircleLoading from '@/icons/CircleLoading.vue';
 import PullRefresh from "./components/PullRefresh";
 import BetterScroll from "./components/better-scroll"
+import PROPMT from "./components/showPrompt/prompt.vue"
 
 export default [
     Avatar,
@@ -20,5 +21,6 @@ export default [
     LoadingFull,
     CircleLoading,
     PullRefresh,
-    BetterScroll
+    BetterScroll,
+    PROPMT
 ]

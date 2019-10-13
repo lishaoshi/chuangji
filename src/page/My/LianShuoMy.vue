@@ -72,7 +72,7 @@
 
 <script>
     import ClxsdCell from '@/components/common/Cell';
-    import { mapState } from "vuex";
+    import { mapState, mapActions } from "vuex";
     export default {
         name: "page-lianshuo-my",
         components:{
@@ -124,6 +124,16 @@
         },
         methods:{
             initData(callback){
+                // /user
+                // Promise.all([this.$http.get('lianbei/info'),this.$http.get('user')]).then(res=>{
+                //     // console.log(res)
+                //     let lianbeiData = res[0].data
+                //     let userData = res[1].data
+                //     this.lianBeiValue = lianbeiData.value;
+                //     this.currentValue = userData.currentValue
+                    
+                // })
+               
                 this.$http.get('lianbei/info')
                     .then(response => {
                         const { data } = response;
@@ -141,7 +151,11 @@
             refresh(callback){
                 //this.$store.dispatch("fetchUserInfo");
                 this.initData(callback);
-            }
+                 this.fetchUserInfo()
+            },
+            ...mapActions(
+                ['fetchUserInfo']
+            )
         }
     }
 </script>

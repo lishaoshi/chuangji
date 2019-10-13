@@ -86,6 +86,7 @@
         },
         watch: {
             avatar (src) {
+                // debugger
                 this.$emit('update:src', src)
             },
         },
@@ -134,8 +135,15 @@
                     // 如果需要新文件存储方式上传
                     this.avatarBlob = blob
                     const file = new File([blob], this.filename, { type: blob.type, lastModified: new Date() })
-                    const node = await uploadApi(file,this.prefixPath)
-                    this.$emit('input', node)
+                    const task = await uploadApi(file,this.prefixPath)
+                    // console.log(node, 'node')
+                    if(task.node) {
+                        this.$emit('input', task.node)
+                    } else {
+                        this.avatar = ''
+                        this.$toast(task.errors['size'][0])
+                    }
+                    
                 }
             },
         },

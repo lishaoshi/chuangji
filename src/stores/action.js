@@ -27,6 +27,7 @@ export default {
      * @constructor
      */
     FETCH_USER_VERIFY({ commit }) {
+        debugger
         return userApi.getUserVerifyInfo().then(({ data = {} }) => {
             commit("SAVE_USER_VERIFY", data);
             return data;

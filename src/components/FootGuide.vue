@@ -15,7 +15,7 @@
             <section
                     :class="{active: isCurPath('/global-warehouse')}"
                     class="clxsd-guide-item guide-item"
-                    @click="to('/global-warehouse')">
+                    @click="to('/global-warehouse', true)">
                 <svg class="m-style-svg m-svg-def">
                     <use xlink:href="#icon-footer-gloable"/>
                 </svg>
@@ -59,7 +59,7 @@
             <section
                     :class="{active: isCurPath('/item-categories')}"
                     class="clxsd-guide-item guide-item"
-                    @click="to('/item-categories')">
+                    @click="to('/item-categories', true)">
                 <svg class="m-style-svg m-svg-def">
                     <use xlink:href="#icon-footer-shangye-yaopin"/>
                 </svg>
@@ -102,7 +102,7 @@
             <section
                     :class="{active: isCurPath('/spread')}"
                     class="clxsd-guide-item guide-item"
-                    @click="to('/spread')">
+                    @click="to('/spread', true)">
                 <svg class="m-style-svg m-svg-def">
                     <use xlink:href="#icon-footer-factory-tuiguang" v-if="isCurPath('/spread')"/>
                     <use xlink:href="#icon-footer-factory-tuiguang-0" 　v-else/>
@@ -112,7 +112,7 @@
             <section
                     :class="{active: isCurPath('/factory-port-order')}"
                     class="clxsd-guide-item guide-item"
-                    @click="to('/factory-port-order')">
+                    @click="to('/factory-port-order', true)">
                 <clxsd-badge :dot="profile">
                     <svg class="m-style-svg m-svg-def">
                         <use xlink:href="#icon-footer-factory-qiangdan" v-if="isCurPath('/factory-port-order')"/>
@@ -170,18 +170,45 @@
         },
         computed: {
             ...mapState('message', {
-                profile: state => true
+                profile: state => true,
             }),
             ...mapGetters('message', {
                 notification: 'unreadMessage',
+            }),
+            ...mapState({
+                userInfo: state => state.CURRENTUSER.data
             })
         },
         updated(){
             console.log('userType', this.userType)
         },
         methods: {
-            to(path) {
-                this.$router.push({path})
+            to(path, flag=false) {
+                // debugger
+                console.log(this.userInfo, 'hello')
+                
+                if(flag) {
+                    // debugger
+                    console.log(this.userInfo.shop_supplier==true, 'this.userInfo')
+                    // return
+                    if(!this.userInfo.shop_supplier) {
+                        debugger
+                        this.$messagebox.confirm('',{
+                            title: '提示',
+                            message:'没有操作权限,请先完成认证',
+                            confirmButtonText: '去认证'
+                        }).then(action => {
+                            if (action === 'confirm') {
+                                this.$router.push('/company-info')
+                            }
+                        }).catch(err => err);
+                    }
+                     this.$router.push({path})
+                    return
+                } else {
+                     this.$router.push({path})
+                }
+                
             },
             isCurPath(path) {
                 return this.$route.fullPath.indexOf(path) > -1;
