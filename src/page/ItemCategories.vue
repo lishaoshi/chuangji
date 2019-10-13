@@ -42,8 +42,8 @@
                 <div class="mint-tab-container" style="margin-top: 0px">
                     <div>
                         <div class="sale-nav">
-                            <p @click="onSaleGoods(cat_id)" :class="{active,isUp}">在售<span>({{goodList.onSale||OnSaleNum}})</span></p>
-                            <p @click="downSaleGoods(cat_id)" :class="{active,isDown}">下架<span>({{goodList.unSale||DownSaleNum}})</span>
+                            <p @click="onSaleGoods(cat_id)" :class="{active,isUp}">在售<span>({{goodList.onSale}})</span></p>
+                            <p @click="downSaleGoods(cat_id)" :class="{active,isDown}">下架<span>({{goodList.unSale}})</span>
                             </p>
                         </div>
                         <div style="height: 8.2rem;overflow: scroll">
@@ -317,7 +317,6 @@
                         this.goodList.onSale++
                         this.goodList.unSale--
                     }).catch(error => {
-                        debugger
                         this.$toast("上架失败")
                     })
                 }).catch(err => err);

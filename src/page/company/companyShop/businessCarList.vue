@@ -226,6 +226,8 @@
                     }
                     await onlyDelShopCar(data)
                     item.num--;
+                } else {
+                    this.$toast(`已经是最少购买量啦`)
                 }
             },
             submitDataFunc(){

@@ -6,7 +6,7 @@
 			</mt-swipe-item>
 		</mt-swipe>
 		<div style="background: #fff;padding: .2rem .32rem">
-			<Notice :notices="notices" v-if="notices!=null" style="background: #f4f5f5;border-radius: 2px"></Notice>
+			<Notice :notices="notices" v-if="notices.length" style="background: #f4f5f5;border-radius: 2px"></Notice>
 			<div class="notice" v-else>
 				<svg>
 					<use xlink:href="#icon-notice"/>
@@ -145,19 +145,26 @@
 					
 				})
 				this.entities = data.data.recommendList;
+				// console.log(this.infos, 'this.infos')
 				this.notices = this.infos
 				adList({channel: 'app', space: 'global-top'}).then( data => {
 					this.swipers = data.data.data
 				})
 			},
-			add_shop_car(index) {
+			add_shop_car(index, item) {
 				this.items = JSON.parse(JSON.stringify(this.items))
 				this.items[index].num++
+				if(this.shopCart[item.id]) {
+                    this.shopCart[item.id].num++
+                } else {
+					this.$set(this.shopCart, `${item.id}`, {...this.items[index]})
+                }
 			},
 			// 删除购物车
-			del_shop_cart(index) {
+			del_shop_cart(index, item) {
 				this.items = JSON.parse(JSON.stringify(this.items))
 				this.items[index].num--
+				 this.shopCart[item.id].num--
 			},
 			// 上啦刷新
 			loadBottom() {

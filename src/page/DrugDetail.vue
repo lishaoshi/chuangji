@@ -127,7 +127,7 @@
             },
         },
         created() {
-            // console.log(this.$route)
+            console.log(this.$route)
             this.id = parseInt(this.$route.params.id);
             this.supplierId = parseInt(this.$route.params.supplierId);
             this._initData();

@@ -146,39 +146,21 @@
 
 			 // 添加至购物车
             add_shop_car(item, index) {
-				this.$emit('add_shop_car', index)
+				this.$emit('add_shop_car', index, item)
                 let data = {
                     supplier_id: this.businessId,
                     good_id: item.id
                 }
-                if(this.shopCart[item.id]) {
-                    this.shopCart[item.id].num++
-                     
-                } else {
-                    this.$set(this.shopCart, `${item.id}`, {...item})
-                }
-                this.cartNum = this.calculateCartNum()
-                this.totalPrice = this.calculateTotalPrice()
                 addShopCar(data)
 			},
-			
 			handleNumber(item, index) {
-                // console.log(item)
-                // debugger
-				// if(item.num <= item.order_min_num) return
-				this.$emit('del_shop_cart', index)
+				this.$emit('del_shop_cart', index, item)
                 let data = {
                     supplier_id: this.businessId,
                     good_id: item.id
                 }
                 
                 onlyDelShopCar(data)
-                // this.shopCart[item.id].num--
-                this.shopCart[item.id].num--
-                // item.num--
-                this.cartNum = this.calculateCartNum()
-                this.totalPrice = this.calculateTotalPrice()
-                
             },
 			addToMiniCart(event, item) {
 				console.log(item)
@@ -189,28 +171,28 @@
 			},
 
 			// 计算总件数函数
-            calculateCartNum() {
-                 let num = 0;
-                Object.values(this.shopCart).forEach((item, index) => {
-                    // console.log(item, 'cartNum')
-                    if(item&&item.num>0) {
-                        num +=  +item.num;
-                    }
-                })
-                // console.log(num, 'num')
-               return num
-			},
+            // calculateCartNum() {
+            //      let num = 0;
+            //     Object.values(this.shopCart).forEach((item, index) => {
+            //         // console.log(item, 'cartNum')
+            //         if(item&&item.num>0) {
+            //             num +=  +item.num;
+            //         }
+            //     })
+            //     // console.log(num, 'num')
+            //    return num
+			// },
 			// 计算总价格
-			calculateTotalPrice() {
+			// calculateTotalPrice() {
                  
-                let total_price = 0
-                Object.values(this.shopCart).forEach((item, index) => {
-                    if(item&&item.num>0) {
-                        total_price += item.num * item.price;
-                    }
-                })
-                return total_price.toFixed(2)
-            },
+            //     let total_price = 0
+            //     Object.values(this.shopCart).forEach((item, index) => {
+            //         if(item&&item.num>0) {
+            //             total_price += item.num * item.price;
+            //         }
+            //     })
+            //     return total_price.toFixed(2)
+            // },
 			removeToMiniCart(event, item) {
 				if(this.canOption()) {
 					this.BUSINESS_REMOVE_CART(item)
