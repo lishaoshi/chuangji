@@ -25,7 +25,7 @@ export default [
         component: Home,
         meta:{
             title:"首页",
-            keepAlive: false,
+            keepAlive: true,
             requiresAuth: true,
         },
 

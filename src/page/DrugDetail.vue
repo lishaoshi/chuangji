@@ -114,7 +114,8 @@
                 info: '上架',
                 loading: true,
                 name1: '',
-                name2: ''
+                name2: '',
+                supplierId: 0
             }
         },
         computed: {
@@ -122,11 +123,13 @@
                 USER_INFO: state => state.CURRENTUSER.data
             }),
             suppler_id() {
-                return this.USER_INFO.id;
+                return this.supplierId;
             },
         },
         created() {
+            // console.log(this.$route)
             this.id = parseInt(this.$route.params.id);
+            this.supplierId = parseInt(this.$route.params.supplierId);
             this._initData();
         },
         methods: {

@@ -51,7 +51,7 @@
                             <div v-for="(entity,ikey) in goodList.list" v-if="goodList.list!==''" :key="ikey">
                                 <div style="margin-left: .2rem">
                                     <div class="item" id="list-item">
-                                        <router-link :to="`/drug-detail/${entity.id}`">
+                                        <router-link :to="`/drug-detail/${supplier_id}/${entity.id}`">
                                             <img :src="entity.cover" class="item-img">
                                         </router-link>
                                         <div class="item-box">
@@ -137,7 +137,8 @@
                 time:'',
 
                 OnSaleNum:0,//在售数量
-                DownSaleNum:0//下架数量
+                DownSaleNum:0,//下架数量
+                supplier_id: 0
             }
         },
         computed: {
@@ -280,6 +281,7 @@
             },
             //二级菜单商品
             showSlideGoods(id, ids, $event) {
+                console.log('id',id, 'ids: ', ids)
                 this.is_active = id
                 this.is_child_id = id
                 this.cat_id = id
@@ -351,6 +353,7 @@
                     this.goodList = this._handleData(this.goodList)
                     this.DownSaleNum = this.goodList.unSale
                     this.OnSaleNum = this.goodList.onSale
+                    this.supplier_id = this.goodList.supplier_id
                 })
                 // this.goodList = this._handleData(this.goodList)
             },
