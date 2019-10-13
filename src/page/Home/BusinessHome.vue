@@ -56,7 +56,7 @@
             </div>
             -->
             <div>
-                <img @click="goShopCart" v-if="USERTYPE!=2" src="../../images/index/shop.png" class="shopcar"/>
+                <img @click="goShopCart" v-if="USERTYPE!=2" src="../../images/index/shop.png" class="shopcar newClass"/>
                  <!-- <svg v-if="USERTYPE==2" class="m-style-svg m-svg-def">
                     <use xlink:href="#icon-promote-promoter"/>
                 </svg> -->

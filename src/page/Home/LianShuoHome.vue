@@ -52,7 +52,7 @@
         </div>
         -->
 		<router-link to="/factory/cart">
-			<img src="../../images/index/shop.png" class="shopcar"/>
+			<img src="../../images/index/shop.png" class="shopcar newClass"/>
 		</router-link>
 		<clxsd-foot-guide :user-type="3"/>
 	</div>
@@ -234,6 +234,12 @@
 		right: 0px;
 		bottom: 1.3rem;
 		z-index: 99;
+		&.newClass {
+            width: 1rem;
+            height: 1rem;
+            right: 20px;
+            bottom: 60px;
+        }
 	}
 
 	.notice {
