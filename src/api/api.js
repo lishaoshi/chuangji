@@ -3,6 +3,7 @@ import { baseURL } from "./index";
 import router from '@/routers'
 import Message from "@/plugins/message-box";
 import lstore from "@/plugins/lstore/lstore";
+import store from '@/stores'
 
 let cancel;
 let pending = {};
@@ -96,6 +97,15 @@ instance.interceptors.response.use(
                     case 505:
                         err.tips = "http版本不支持该请求";
                         break;
+                    case 411:
+                        // debugger
+                        err.tips = err.response.data.message
+                        store.dispatch('SIGN_OUT')
+                        // this.$toast(err.response.data.message)
+                        requireAuth()
+                        break
+
+                        // console.log(err.response.data.message, 'test')
                 }
             }else {
                 err.tips = "网络不可用，请检查！";

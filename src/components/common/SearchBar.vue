@@ -57,7 +57,7 @@
 		position: relative;
 		align-items: center;
 		background-color: #fff;
-		border-radius: .6rem;
+		border-radius: 1rem;
 		width: 96%;
         margin-left: 2%;
 		height: .6rem;

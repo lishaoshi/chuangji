@@ -11,17 +11,32 @@ import lstore from "@/plugins/lstore/lstore";
  * @returns {PromiseLike<T | boolean> | Promise<T | boolean> | *}
  */
 export function signinByAccount(payload){
-    return api.post("/auth/login",payload, { validateStatus: s => s > 0}).then(({data: { message, access_token },status}) =>{
-        switch (status){
-            case 422:
-                $Message.error(message);
-                return false;
-            case 200:
-                lstore.setData("H5_ACCESS_TOKEN", `Bearer ${access_token}`)
-                // store.dispatch("fetchUserInfo");
-                return true;
+    return api.post("/auth/login",payload, { validateStatus: s => s == 200}).then((res) =>{
+        // debugger
+        // console.log(res, 'res')
+        if(res.data.code==400) {
+            $Message.error(res.data.message);
+        } else {
+            console.log(res.data.access_token, 'res')
+            lstore.setData("H5_ACCESS_TOKEN", `Bearer ${res.data.access_token}`)
         }
-    }).catch(() => false)
+        return res.data
+        
+        // return data
+        // debugger
+        // switch (status){
+        //     case 422:
+        //         $Message.error(message);
+        //         return false;
+        //     case 200:
+                
+        //         // store.dispatch("fetchUserInfo");
+        //         return true;
+            
+        // }
+    }).catch(() => {
+        // debugger
+    })
     // return new Promise((resolve, reject)=>{
     //     api.post("/auth/login",payload, { validateStatus: s => s > 0}).then(res =>{
     //         switch (res.status){

@@ -73,7 +73,8 @@
 				eye: false,
 				account: "",
 				password: "",
-				loading: false
+				loading: false,
+				isTrue: false
 			}
 		},
 		computed: {
@@ -88,6 +89,8 @@
 		},
 		methods: {
 		    async  signByAccount() {
+				// console.log(this.$route)
+				// return
 				// debugger
 				this.err = "";
 				if(this.account.length === 0) {
@@ -107,26 +110,20 @@
 					login: this.account,
 					password: this.password
 				}).then(state => {
-					this.loading = false;
-					state &&
-						// this.UPDATECURRENTUSER(state)
-						
-						Toast("登陆成功")
-					if (state === false) {
-						stateType = state
-						Toast("账号或密码输入有误")
-                    }
+					this.loading = false
+					if(state.access_token) {
+						Toast("登陆成功");
+						this.isTrue = true
+					} else {
+						return false
+					}
 				}).catch(error =>{
-					// return
-				    console.log(error)
 				})
-				if(!stateType) {
-					return false
+				if(this.isTrue) {
+					await this.$store.dispatch("fetchUserInfo");
+				this.$router.push(this.$route.fullPath.redirect || "/");
 				}
-				// await fetchUserInfo()
-				await this.$store.dispatch("fetchUserInfo");
-				this.$router.push('/' || "/");
-				return false;
+				
 			},
 			...mapActions([
 				'UPDATECURRENTUSER'

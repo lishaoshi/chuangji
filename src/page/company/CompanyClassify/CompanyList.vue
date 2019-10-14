@@ -9,10 +9,10 @@
         <div style="min-height: 5rem;" class="company-list">
             <ClxsdLoadMore key="factory-list" ref="loadmore" @onRefresh="onRefresh" @onLoadMore="onLoadMore">
                 <li class="company" :key="`en-${index}`" v-for="(item,index) in businesses">
-                    <div @click="entryBusinessShop(item)">
+                    <div @click="chooseBrands(item)">
                         {{item.display_name || item.name }}
                     </div>
-                    <svg v-if="item.id == id">
+                    <svg v-if="item.id == itemId">
                         <use xlink:href="#icon-pay-chosed"></use>
                     </svg>
                     <!--
@@ -46,7 +46,8 @@
                 swippers: [],
                 areaList: null,
                 active: 0,
-                preActive: 0
+                preActive: 0,
+                itemId: ''
             }
         },
         created() {
@@ -88,11 +89,11 @@
                 const {
                     data
                 } = await supplierBusinessEntities(this.id)
-                console.log(data)
-                if (loadMore) {
-                    console.log(this.businesses)
+                // console.log(data)
+                if (this.page==1) {
+                    // console.log(this.businesses)
                     this.businesses = [...this.businesses, ...data.data.brandList]
-                    console.log(this.businesses)
+                    // console.log(this.businesses)
                 } else {
                     this.businesses = data.data.brandList
                 }
@@ -125,6 +126,11 @@
                     limit: 6
                 }
                 this.getData(options, true)
+            },
+            chooseBrands(item) {
+                // console.log(item)
+                this.itemId = item.id
+                this.entryBusinessShop(item)
             }
         },
     }

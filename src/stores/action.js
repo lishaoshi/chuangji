@@ -37,7 +37,8 @@ export default {
     // 注销登录
     async SIGN_OUT({ commit }) {
         //
-            console.log('helllo')
+        // debugger
+            // console.log('helllo')
             // await 
             commit("SIGN_OUT");
     },

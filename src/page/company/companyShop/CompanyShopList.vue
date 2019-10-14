@@ -5,13 +5,16 @@
 			<mt-swipe-item :key="key" v-for="(swipe,key) in swipers"><a :href="swipe.link"> <img :src="swipe.picture" width="100%"></a>
 			</mt-swipe-item>
 		</mt-swipe>
-		<div style="background: #fff;padding: .2rem .32rem">
-			<Notice :notices="notices" v-if="notices.length" style="background: #f4f5f5;border-radius: 2px"></Notice>
+		<div style="background: #fff;">
+			<Notice :notices="notices" v-if="notices.length" style="background: #f4f5f5;border-radius: 2px;padding-top: 6px;"></Notice>
 			<div class="notice" v-else>
-				<svg>
-					<use xlink:href="#icon-notice"/>
-				</svg>
-				<span style="padding-left: 5px">暂时没有消息</span>
+				<div>
+					<svg>
+						<use xlink:href="#icon-notice"/>
+					</svg>
+					<span style="padding-left: 5px">暂时没有消息</span>
+				</div>
+			
 			</div>
 		</div>
 		<div class="nav">
@@ -210,13 +213,22 @@
 
 <style lang="scss" scoped>
     .notice {
-        background: #fff;
-        width: 100%;
-        height: .64rem;
-        line-height: .64rem;
-        display: flex;
-        padding: 0 .24rem;
-        align-items: center;
+			padding: 0 .32rem;
+			padding-top: 6px;
+		div {
+			background: #FFF9F9F9;
+			width: 100%;
+			height: .64rem;
+			line-height: .64rem;
+			display: flex;
+			border-radius: 4px;
+			align-items: center;
+			svg {
+				margin-left: .24rem;
+			}
+			
+		}
+      
 
         .notice-list {
             width: 6.2rem;

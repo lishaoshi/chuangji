@@ -6,7 +6,14 @@
 				<p><i>￥</i><i id="totalPrice">{{totalPrice}}</i></p>
 				<p>已选<i id="totalProductCount">{{count}}</i>件产品</p>
 			</div>
-			<router-link :to="`/business/cart${shopId ? '/'+shopId:''}`">
+
+			<!-- 修改当前组件去购买时， 跳转到总购物车页面 -->
+			<!-- <router-link :to="`/business/cart${shopId ? '/'+shopId:''}`">
+				<div class="join_shop">
+					<p>去结算</p>
+				</div>
+			</router-link> -->
+			<router-link :to="`/factory/cart`">
 				<div class="join_shop">
 					<p>去结算</p>
 				</div>

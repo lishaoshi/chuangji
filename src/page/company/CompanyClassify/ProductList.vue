@@ -5,15 +5,6 @@
             <SearchBar v-model="value" :searchFn ="searchFn"></SearchBar>
         </div>
         <div class="product-list">
-            <div class="choose">
-                <div>分类</div>
-                <ul>
-                    <li :class="`${is_active == 1?'active':''}`" @click="is_active = 1">销量</li>
-                    <li :class="`${is_active == 2?'active':''}`" @click="is_active = 2">时间</li>
-                    <li :class="`${is_active == 3?'active':''}`" @click="is_active = 3">价格</li>
-                    <li @click="is_business_list = !is_business_list">工业</li>
-                </ul>
-            </div>
             <div style="width: 2rem;float: left;background: #E6e6e6">
                 <span class="all-goods" @click="all_Goods()" :class="`${is_active == 0?'all-goods-active':''}`">全部</span>
                 <div class="mint-navbar">
@@ -38,6 +29,28 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+              <div class="choose">
+                <ul>
+                    <li :class="`${is_active == 1?'active':''}`" @click="changeType(1)">销量</li>
+                    <li :class="`${is_active == 2?'active':''}`" @click="changeType(2)">时间</li>
+                    <li :class="`${is_active == 3?'active':''}`" @click="changeType(3)">
+                        价格
+                        <div class="iconBox">
+                            <!-- <svg class="top">
+                                icon-business-price-down
+                                icon-business-price-up
+                                <use xlink:href="#icon-actity-down"></use>
+                            </svg> -->
+                            <svg>
+                                <use :xlink:href="`#icon-business-price-${!isPrice?'0':isUp?'up':'down'}`"></use>
+                            </svg>
+                        </div>
+                       
+                    </li>
+                    <li @click="is_business_list = !is_business_list">品牌</li>
+                </ul>
             </div>
             <!-- tab-container -->
             <div class="mt-tab-container">
@@ -125,7 +138,9 @@
                 is_active: 0,
                 goodList: [],//产品列表
                 value:'',
-                current_id:''
+                current_id:'',
+                isPrice: false,
+                isUp: false
             }
         },
         created() {
@@ -135,7 +150,7 @@
             var data1 = JSON.parse(localStorage.getItem('search'));
             console.log(data1)
             this.value = data1
-            this.searchFn()
+            // this.searchFn()
             localStorage.removeItem('search');
         },
         computed: {
@@ -200,10 +215,24 @@
             closedMyFrame() {
                 this.is_business_list = false
             },
+
+            // 点击tabel栏函数
+            changeType(i) {
+                this.is_active = i
+                if(i==3) {
+                    this.isPrice = true
+                    this.isUp = !this.isUp
+                } else {
+                     this.isPrice = false
+                     this.isUp = false
+                }
+                // this.isUp?
+            },
             entryBusinessShop(item) {
-                this.$store.commit('SAVE_CURRENT_BUSINESS_SHOP', item.id)
-                this.$store.commit('SAVE_CURRENT_BUSINESS_SHOP_DATA', item)
-                this.$router.go(0)
+                console.log(item)
+                // this.$store.commit('SAVE_CURRENT_BUSINESS_SHOP', item.id)
+                // this.$store.commit('SAVE_CURRENT_BUSINESS_SHOP_DATA', item)
+                // this.$router.go(0)
             },
             _handleData(data) {
                 data.forEach((entity, entityIndex) => {
@@ -463,16 +492,30 @@
         }
 
         ul {
-            width: 72%;
+            width: 100%;
 
             li {
                 display: inline-block;
                 width: 25%;
                 text-align: center;
+                &:nth-last-child(2) {
+                    display: inline-flex;
+                }
             }
+
 
             .active {
                 color: #2da2ff;
+            }
+        }
+        .iconBox {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            svg {
+                width: .48rem;
+                height: .24rem;
+                // margin-left: px;
             }
         }
     }
