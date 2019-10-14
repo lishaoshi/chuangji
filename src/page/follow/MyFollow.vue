@@ -3,18 +3,14 @@
         <clxsd-head-top title='关注收藏'></clxsd-head-top>
 
         <mt-navbar v-model="selected">
-            <mt-tab-item id="1"><span>工业关注</span class="title"></mt-tab-item>
-            <mt-tab-item id="2"><span class="title">产品收藏</span></mt-tab-item>
+            <mt-tab-item id="1" @click.native="chooseType(selected)"><span class="mint-tab-item-label">工业关注</span></mt-tab-item>
+            <mt-tab-item id="2" @click.native="chooseType(selected)"><span class="mint-tab-item-label">产品收藏</span></mt-tab-item>
         </mt-navbar>
-        <mt-tab-container v-model="selected" style="margin-top: .2rem">
-            <mt-tab-container-item id="1">
+        <mt-tab-container v-model="selected" style="margin-top: .2rem;">
+            <mt-tab-container-item class="cont" id="1">
                 <div class="container">
-                    <ul>
-                        <ClxsdLoadMore
-                                key="follow-list"
-                                ref="loadmore"
-                                @onRefresh="onFactoryRefresh"
-                                @onLoadMore="onLoadMoreFactory">
+                    <mt-loadmore :top-method="onFactoryRefresh" :bottom-method="onLoadMoreFactory" ref="loadmore" :bottom-all-loaded="allLoaded">
+                        <ul>
                             <li class="list-item " v-for="(item,index) in followList" data-type="0" id="list-item">
                                 <div class="list-box" @touchstart.capture="touchStart" @touchend.capture="touchEnd">
                                     <div class="list-img">
@@ -27,26 +23,24 @@
                                             <p class="title">{{item.display_name||item.name}}</p>
                                         </router-link>
                                     </div>
-                                </div>
-                                <div class="delete" @click="deleteFollowFn(index,item)" :data-index="index">
-                                    <div class="delete_Img"></div>
-                                    <span>取消收藏</span>
-                                </div>
-                            </li>
-                        </ClxsdLoadMore>
-                    </ul>
+                                    </div>
+                                    <div class="delete" @click="deleteFollowFn(index,item)" :data-index="index">
+                                        <div class="delete_Img"></div>
+                                        <span>取消收藏</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </mt-loadmore>
+                   
                 </div>
             </mt-tab-container-item>
             <mt-tab-container-item id="2">
 
                 <div class="container">
-                    <ul>
-                        <ClxsdLoadMore
-                                key="goods-list"
-                                ref="loadmoreGoods"
-                                @onRefresh="onGoodsRefresh"
-                                @onLoadMore="onLoadMoreGoods">
-                            <li class="list-item " v-for="(enItem,enIndex) in collectList" data-type="0" id="list-item2">
+                    <mt-loadmore :top-method="onGoodsRefresh" :bottom-method="onLoadMoreGoods" ref="loadmoreGoods" :bottom-all-loaded="allLoaded">
+                        <ul>
+                        
+                            <li class="list-item " v-for="(enItem,enIndex) in collectList" data-type="0" id="list-item2" >
                                 <div class="list-box" @touchstart.capture="touchStart" @touchend.capture="touchEnd">
                                     <div class="list-img">
                                         <router-link :to="`/factory/shop/${enItem.id}`">
@@ -65,12 +59,12 @@
                                     <span>取消收藏</span>
                                 </div>
                             </li>
-                        </ClxsdLoadMore>
-                    </ul>
+                        </ul>
+                     </mt-loadmore>
                 </div>
             </mt-tab-container-item>
         </mt-tab-container>
-        <EmptyOrder v-if="!collectList.length && !followList.length" />
+        <EmptyOrder v-if="(selected==1&&!followList.length) || (selected==2&&!collectList.length)" />
 
     </div>
 </template>
@@ -96,11 +90,15 @@
 
                 clientNum: {}, // 记录开始滑动（x1）,结束滑动（x2）的鼠标指针的位置
                 candelete: {},
-
+                allLoaded: false
             }
         },
         components: {
             EmptyOrder
+        },
+        created() {
+            // this.onLoadMoreFactory()
+            // this.onLoadMoreGoods()
         },
         computed: {
             ...mapState(['POSITION']),
@@ -122,6 +120,9 @@
                         //this.$router.go(0)
                     }
                 }).catch(err => err);
+            },
+            chooseType(id) {
+                console.log(id)
             },
             //取消商品收藏
             async deleteGoodsFn(enIndex, enItem) {
@@ -146,33 +147,32 @@
                 }
                 getFollowList(params, loadMore)
                 .then(({data = []}) => {
-                    console.log(data.data.factoryFollows)
+                    this.$refs.loadmore.onTopLoaded()
                     if (loadMore) {
                         this.followList = [...this.followList, ...data.data.factoryFollows]
                     } else {
                         this.followList = data.data.factoryFollows
                     }
                     this.factoryPage = this.factoryPage + 1
-                    this.$refs.loadmore.afterLoadMore(data.data.factoryFollows.length < options.limit)
                     if (options.callback) {
                         options.callback()
                     }
                 })
             },
-            onFactoryRefresh(callback) {
+           async onFactoryRefresh(callback) {
                 this.factoryPage = 1
                 let options = {
                     limit: 17,
                     callback: callback
                 }
-                this.getFollowData(options)
+                 this.getFollowData(options)
             },
-            onLoadMoreFactory() {
-                console.log('more')
+            async onLoadMoreFactory() {
+                // console.log('more123')
                 let options = {
                     limit: 17,
                 }
-                this.getFollowData(options, true)
+                await this.getFollowData(options, true)
             },
             
             
@@ -194,7 +194,7 @@
                         console.log(this.collectList)
                     }
                     this.goodsPage = this.goodsPage + 1
-                    this.$refs.loadmoreGoods.afterLoadMore(data.data.entityFollows.length < options.limit)
+                    // this.$refs.loadmoreGoods.afterLoadMore(data.data.entityFollows.length < options.limit)
                     if (options.callback) {
                         options.callback()
                     }
@@ -210,7 +210,7 @@
                 this.getGoodsData(options)
             },
             onLoadMoreGoods() {
-                //console.log('more')
+                console.log('more')
                 let options = {
                     limit: 17,
                 }
@@ -270,6 +270,9 @@
     }
     #Myfollow {
         min-height: 5rem;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
     }
 
     .mint-navbar .mint-tab-item.is-selected {
@@ -373,6 +376,9 @@
 </style>
 
 <style lang="scss" scoped>
+.cont {
+    height: 100%!important;
+}
     .container ul {
         overflow: hidden;
         width: 100%;
@@ -506,4 +512,23 @@
         display: block;
         height: 100%;
     }
+</style>
+<style lang="scss">
+#Myfollow {
+    .mint-tab-container-wrap {
+        height: 100%;
+        .mint-tab-container-item {
+            height: 100%;
+            .container {
+                 height: 100%;
+                 ul {
+                     height: 100%;
+                     .mint-loadmore {
+                         height: 100%;
+                     }
+                 }
+            }
+        }
+    }
+}
 </style>

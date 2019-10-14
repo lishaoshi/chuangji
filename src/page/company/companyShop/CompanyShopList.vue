@@ -216,7 +216,7 @@
 			padding: 0 .32rem;
 			padding-top: 6px;
 		div {
-			background: #FFF9F9F9;
+			background: #F9F9F9;
 			width: 100%;
 			height: .64rem;
 			line-height: .64rem;

@@ -94,7 +94,7 @@
             _handleData(data) {
                 if(!data) return []
                 // console.log(data,'data')
-                data.forEach((item, index) => {
+                data.forEach((item, index, arr) => {
                     item.shopId = this.factoryId
                     item.num = 0
                     item.itemId = item.id
@@ -102,6 +102,7 @@
                     if (this.shopCart[item.id]) {
                         item.num = this.shopCart[item.id].num
                     }
+                    arr[index].time = this.$moment.unix(item.valid_time).format("YYYY.MM.DD")
                 })
                 this.loading = false
                 return data

@@ -211,7 +211,7 @@
         overflow: scroll;
     }
     .noticesBox {
-        margin-top: 0.06rem;
+        padding: .08rem;
     }
 
     .select-box {

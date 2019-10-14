@@ -225,7 +225,8 @@
             },
             CollectionFn() {
                 const params = {
-                    entity_id: this.id
+                    entity_id: this.id,
+                    supplier_id: this.businessId
                 }
                 console.log(params)
                 if (this.follow_status) {//followed
