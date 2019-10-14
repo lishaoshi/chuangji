@@ -1,7 +1,7 @@
 <template>
     <div>
         <clxsd-head-top :title="title"></clxsd-head-top>
-        <span class="manage" @click="is_delete=true">管理</span>
+        <span class="manage" @click="is_delete=!is_delete">{{is_delete?'取消':'管理'}}</span>
         <div class="" v-if="data.shops.length>0">
             <CartsShoplist 
                 :data="data"

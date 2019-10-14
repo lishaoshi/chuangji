@@ -20,10 +20,11 @@
                 </div>
             </div>
         </div>
-        <div v-else class="empty">
+        <!-- <div v-else class="empty">
             <img src="../../images/address_empty.png" width="40%">
             <p>地址空空如也~ </p>
-        </div>
+        </div> -->
+        <EmptyList v-else/>
         <router-link to="/address-add">
             <div class="bottom-btn">
                 <svg>
@@ -38,6 +39,7 @@
 <script>
     import {mapState, mapMutations} from 'vuex'
     import {getAddressList, deleteAddress} from "@/api/address.js"
+    import EmptyList from "@/components/EmptyList"
 
     export default {
         name: "Address",
@@ -55,13 +57,16 @@
                 addressList: []
             }
         },
+        components: {
+            EmptyList
+        },
          created() {
             // debugger
             console.log('dello')
             if (!!this.$route.query.choose) {
                 this.choose = true
             }
-            // this._initData();
+            this._initData();
         },
         watch: {
             // $route(to) {
@@ -74,11 +79,12 @@
         },
         activated() {
             // console.log('hello123')
-            this._initData();
+            // this._initData();
         },
         methods: {
             ...mapMutations(['CHOOSE_ADDRESS']),
             async _initData() {
+                // debugger
                 let {data} = await getAddressList()
                 console.log(data)
                 if (data instanceof Array && data.length) {

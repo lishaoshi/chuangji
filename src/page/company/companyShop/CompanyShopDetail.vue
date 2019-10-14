@@ -57,9 +57,11 @@
         </div>
 
         <div class="imgList">
-            <div class="img" v-for="(item, index) of data.imgs" :key="index">
+            <!-- <span></span> -->
+            <div v-html="data.content"></div>
+            <!-- <div class="img" v-for="(item, index) of data.imgs" :key="index">
                 <img :src="item.new" alt="">
-            </div>
+            </div> -->
         </div>
         <div style="position: fixed;width: 100%;bottom: 0px">
             <mini-company-cart ref="MiniCompanyCart" :shop-id="businessId" :count="cartNum" :total-price="totalPrice" style="bottom: 0px"></mini-company-cart>
@@ -277,6 +279,7 @@
         padding: 0 .32rem;
         height: 1.16rem;
         justify-content: space-between;
+        background: #fff;
         div {
             display: flex;
             align-items: center;
@@ -290,7 +293,9 @@
     }
     .goodInfo {
         line-height: .56rem;
-        padding: 0 .32rem;
+        padding: .2rem .32rem;
+        background: #fff;
+        margin-top: .2rem;
         div {
             display: flex;
             font-size: .24rem;

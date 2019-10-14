@@ -2,11 +2,13 @@
 	<div id="CompanyShopFast">
 	<clxsd-head-top :title='`快速补货`'></clxsd-head-top>
 		<div class="nav">
-			<span @click="chooseType(1)" :class="`${is_active == 1 ? 'active':''}`">按收藏品分类</span>
+			<span @click="chooseType(1)" :class="`${is_active == 1 ? 'active':''}`">按收藏品类</span>
 			<span @click="chooseType(2)" :class="`${is_active == 2 ? 'active':''}`">按购买时间</span>
 			<span @click="chooseType(3)" :class="`${is_active == 3 ? 'active':''}`">按购买次数</span>
 		</div>
-		<list :business-id="businessId" :title="title" :items="entities" :shopCart="shopCart"></list>
+        
+		<list :business-id="businessId" :title="title" :items="entities" v-if="entities.length" :shopCart="shopCart"></list>
+        <EmptyOrder v-else/>
         <div style="height: 1.3rem"></div>
         <div style="position: fixed;width: 100%;bottom: 0px">
             <mini-company-cart ref="MiniCompanyCart" :shop-id="businessId" :count="cartNum" :total-price="totalPrice" style="bottom: 0px"></mini-company-cart>
@@ -21,12 +23,14 @@
     import {quickreplenish} from '@/api/business'
     import MiniCompanyCart from '@/page/company/CompanyClassify/MiniShopCart.vue'
     import { queryShopCarList, delShopCar, addShopCar, onlyDelShopCar } from '@/api/shopCar'
+    import EmptyOrder from '@/components/EmptyList'
 
 	export default {
 		name: "CompanyShopFast",
 		components: {
 			list,
-            MiniCompanyCart
+            MiniCompanyCart,
+            EmptyOrder
 		},
         data(){
             return {

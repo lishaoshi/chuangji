@@ -23,7 +23,7 @@
             </mt-swipe>
         </div>
         <div class="main-body" ref="wrapper" :style="{ height: (wrapperHeight-50) + 'px' }">
-            <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
+            <mt-loadmore v-if="businesses.length>0" :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
                 <div class="company" :key="`en-${index}`" v-for="(item,index) in businesses">
                     <div class="company-name" @click="entryBusinessShop(item)">
                         <img :src="item.logo" alt=" ">
@@ -49,8 +49,10 @@
                     </div>
                 </div>
             </mt-loadmore>
+             <EmptyList v-else/>
         </div>
-        <p v-if="allLoaded" class="loader-over">没有更多了</p>
+        <p v-if="allLoaded&&businesses.length" class="loader-over">没有更多了</p>
+       
         <clxsd-foot-guide :user-type="3"/>
     </div>
 </template>
@@ -63,6 +65,9 @@
     import Notice from "@/components/modules/Extension/Notice"
     import {adList} from "@/api/ad";
     import GlobalItem from "@/page/GlobalItem"
+    import EmptyList from "@/components/EmptyList"
+
+    
 
     export default {
         name: "GlobalWarehouse",
@@ -193,7 +198,8 @@
                 }
                 businessList(params).then(response => {
                     response.data.data.businessList && ( this.businesses = this.businesses.concat(response.data.data.businessList))
-                    if (!response.data.data.businessList && response.data.data.businessList.length < this.limit) {
+                    if (response.data.data.businessList.length==0 || response.data.data.businessList.length < this.limit) {
+                        // debugger
                         this.allLoaded = true; // 若数据已全部获取完毕
                     }
                     this.$refs.loadmore.onBottomLoaded();
@@ -207,6 +213,7 @@
     .main-body {
         /* 加上这个才会有当数据充满整个屏幕，可以进行上拉加载更多的操作 */
         overflow: scroll;
+        // margin-bottom: 30px;
     }
 
     .shopcar {

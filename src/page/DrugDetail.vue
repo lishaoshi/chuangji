@@ -35,29 +35,29 @@
         <div class="price-flex">
             <div>
                 <p class="price"><span>￥{{data.price}}</span>
-                    <small>/盒</small>
+                    <small style="color: #999">/{{data.unit}}</small>
                 </p>
-                <p class="name">订货价</p>
+                <p class="name" style="color: #999">订货价</p>
             </div>
             <div>
                 <p class="price"><span>￥{{data.market_price}}</span>
-                    <small>/盒</small>
+                    <small style="color: #999">/{{data.unit}}</small>
                 </p>
-                <p class="name">市场</p>
+                <p class="name" style="color: #999">市场</p>
             </div>
         </div>
         <div class="trans-box">
             <div class="trans-box-box1">
                 <h2>{{data.big_unit}}</h2>
-                <p>大单位</p>
+                <p style="color: #999">大单位</p>
             </div>
             <div class="trans-box-box2">
-                <h2>1</h2>
-                <p>转换系数</p>
+                <h2>{{data.tran}}</h2>
+                <p style="color: #999">转换系数</p>
             </div>
             <div class="trans-box-box1">
                 <h2>{{data.unit}}</h2>
-                <p>销售单位</p>
+                <p style="color: #999">销售单位</p>
             </div>
         </div>
         <div class="price-flex">
@@ -66,11 +66,11 @@
                     <span v-if="data.is_recommend === 1">是</span>
                     <span v-else>否</span>
                 </p>
-                <p class="name">推荐</p>
+                <p class="name" style="color: #999">推荐</p>
             </div>
             <div>
                 <p class="price" style="color: #333;font-size: .28rem">{{name2}}</p>
-                <p class="name">分类</p>
+                <p class="name" style="color: #999">分类</p>
             </div>
         </div>
         <div class="contant">
@@ -85,8 +85,8 @@
         </div>
         <div style="background: #fff;margin-top: .2rem;padding-top: .3rem">
             <p style="color:#0090FF;text-align: center;line-height: 2;font-size: .28rem">商品详情<br>|</p>
-            <div class="edit-box">
-                {{data.content}}
+            <div class="edit-box" v-for=" (item, index) of data.imgs" :key="index">
+                <img :src="item.new" alt="">
             </div>
         </div>
         <div class="bg-fade"></div>

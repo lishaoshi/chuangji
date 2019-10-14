@@ -25,6 +25,6 @@
         color: #666666;
         font-size: .25rem;
         line-height: 300%;
-        padding-top: 2rem;
+        padding-top: 1.8rem;
     }
 </style>

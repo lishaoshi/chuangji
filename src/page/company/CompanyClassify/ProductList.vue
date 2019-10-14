@@ -55,43 +55,47 @@
             <!-- tab-container -->
             <div class="mt-tab-container">
                 <div>
-                    <div style="height: 9rem;overflow-y: scroll;margin-top: .2rem">
-                        <div class="item" :id="`menu_${index}`" v-for="(entity,index) in goodList" :key="`product_shop_list_${index}`"
-                             v-if="goodList.length>0">
-                            <router-link :to="`/business/shop/${businessId}/${entity.id}`">
-                                <img :src="entity.cover" class="item-img">
-                            </router-link>
-                            <div class="item-box">
-                                <router-link :to="`/business/shop/${businessId}/${entity.id}`">
-                                    <p class="title">{{entity.good_name}}</p>
-                                    <p class="title2">{{title}}</p>
-                                    <p class="title2">{{entity.spec}}</p>
-                                </router-link>
-                                <div class="selling">
-                                    <div class="unit_price">
-                                        <p class="font" v-if="canShow"><i>￥</i><i>{{entity.price}}</i><span>{{entity.market_price}}</span></p>
-                                        <p class="font" v-else><span>价格- - - -</span></p>
-                                    </div>
-                                    <div class="gw_num" v-if="(!entity.is_multi_spec && canShow)">
-                                        <em class="lose" @click="removeToMiniCart($event,entity)" v-if="entity.num > 0">-</em>
-                                        <em class="error-num" 　v-if="entity.num <= 0" @click="errorInfo()">-</em>
-                                        <div class="num">
-                                            <span class="amount">{{entity.num || 0}}</span>
+                    <mt-loadmore ref="list" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :auto-fill="false">
+                        <div style="height: 9rem;overflow-y: scroll;margin-top: .2rem">
+                            <!--  -->
+                                <div class="item" :id="`menu_${index}`" v-for="(entity,index) in goodList" :key="`product_shop_list_${index}`"
+                                    v-if="goodList.length>0">
+                                    <router-link :to="`/business/shop/${businessId}/${entity.id}`">
+                                        <img :src="entity.cover" class="item-img">
+                                    </router-link>
+                                    <div class="item-box">
+                                        <router-link :to="`/business/shop/${businessId}/${entity.id}`">
+                                            <p class="title">{{entity.good_name}}</p>
+                                            <p class="title2">{{title}}</p>
+                                            <p class="title2">{{entity.spec}}</p>
+                                        </router-link>
+                                        <div class="selling">
+                                            <div class="unit_price">
+                                                <p class="font" v-if="canShow"><i>￥</i><i>{{entity.price}}</i><span>{{entity.market_price}}</span></p>
+                                                <p class="font" v-else><span>价格- - - -</span></p>
+                                            </div>
+                                            <div class="gw_num" v-if="(!entity.is_multi_spec && canShow)">
+                                                <em class="lose" @click="removeToMiniCart($event,entity)" v-if="entity.num > 0">-</em>
+                                                <em class="error-num" 　v-if="entity.num <= 0" @click="errorInfo()">-</em>
+                                                <div class="num">
+                                                    <span class="amount">{{entity.num || 0}}</span>
+                                                </div>
+                                                <em class="add" @click="addToMiniCart($event,entity)">+</em>
+                                            </div>
                                         </div>
-                                        <em class="add" @click="addToMiniCart($event,entity)">+</em>
                                     </div>
+                                </div>
+                            <!--  -->
+                            <div v-if="goodList==''">
+                                <div class="empty">
+                                    <svg style="width: 2.4rem;height: 2.4rem">
+                                        <use xlink:href="#icon-empty"></use>
+                                    </svg>
+                                    <p>抱歉没有数据展示</p>
                                 </div>
                             </div>
                         </div>
-                        <div v-if="goodList==''">
-                            <div class="empty">
-                                <svg style="width: 2.4rem;height: 2.4rem">
-                                    <use xlink:href="#icon-empty"></use>
-                                </svg>
-                                <p>抱歉没有数据展示</p>
-                            </div>
-                        </div>
-                    </div>
+                    </mt-loadmore>
                 </div>
             </div>
             <div style="height: 1rem"></div>
@@ -99,7 +103,9 @@
                 <mini-company-cart ref="MiniCompanyCart" :shop-id="businessId" :count="cartNum" :total-price="totalPrice"></mini-company-cart>
             </div>
             <div style="position: fixed;right: 0px;width: 82%;z-index: 99;top:0px;height: 100%;background: #fff" v-if="is_business_list">
-                <BusinessList :closedMyFrame="closedMyFrame" :entryBusinessShop="entryBusinessShop"></BusinessList>
+                
+                    <BusinessList :closedMyFrame="closedMyFrame" :entryBusinessShop="entryBusinessShop" :current_id="current_id"></BusinessList>
+                
             </div>
             <div class="fixed-bg" v-if="is_business_list" @click="is_business_list = !is_business_list"></div>
         </div>
@@ -115,7 +121,8 @@
     import MiniCompanyCart from '@/page/company/CompanyClassify/MiniShopCart.vue'
     import BusinessList from './CompanyList'
     import EmptyList from "@/components/EmptyList"
-    import {servicBusinessGoodList} from "@/api/business"
+    import {_servicBusinessGoodList} from "@/api/business"
+    import { queryShopCarList, delShopCar, addShopCar, onlyDelShopCar } from '@/api/shopCar'
 
     export default {
         name: "ProductList",
@@ -140,13 +147,21 @@
                 value:'',
                 current_id:'',
                 isPrice: false,
-                isUp: false
+                isUp: false,
+                page: 1,
+                limit: 20,
+                cat_id: '',
+                brand_id: '',
+                price: '',
+                type: '',
+                allLoaded: false
             }
         },
         created() {
+            // this.is_active = 1
             let id = this.businessId
             this.initData(id)
-            this.init_Goods()
+            this.init_Goods(true)
             var data1 = JSON.parse(localStorage.getItem('search'));
             console.log(data1)
             this.value = data1
@@ -190,12 +205,42 @@
                 'BUSINESS_ADD_CART', 'BUSINESS_REMOVE_CART',
             ]),
             //产品显示
-            init_Goods(params) {
-                servicBusinessGoodList(params).then(res => {
-                    this.goodList = res.data.data.businessGoods.list
+            init_Goods(isFirst=false) {
+                let params = {
+                    page: this.page,
+                    limit: this.limit,
+                    cat_id: this.current_id,
+                    brand_id: this.brand_id,
+                    price: this.price,
+                    type: this.type
+                }
+                _servicBusinessGoodList(params,this.businessId).then(res => {
+                    
+                    if(this.page==1) {
+                        this.goodList = res.data.data.recommendList
+                    } else {
+                        this.goodList = [...this.goodList, ...res.data.data.recommendList]
+                    }
+                   
+                    !isFirst&&this.$refs.list.onBottomLoaded()
                     this.goodList = this._handleData(this.goodList)
+                     if(!res.data.data.recommendList.length) {
+                        this.allLoaded = true
+                        return false
+                    }
                 })
                 // console.log("长度："+this.goodList.list.length())
+            },
+
+            // 加载更多
+            loadBottom() {
+                // debugger
+                this.page++
+                this.init_Goods()
+                
+            },
+            topReft() {
+                console.log('上啦')
             },
             canOption() {
                 if (!this.canShow) {
@@ -205,9 +250,12 @@
                 return true
             },
             async initData(id) {
+                let params = {
+                    supplier_id : this.businessId
+                }
                 const {
                     data
-                } = await this.$http.get(`/hippo-shop/business/menuEntities`);
+                } = await this.$http.get(`/hippo-shop/business/menuEntities`, {params});
                 //this.menuList = data
                 this.menuList = data.data.cates
                 console.log(this.menuList)
@@ -219,6 +267,7 @@
             // 点击tabel栏函数
             changeType(i) {
                 this.is_active = i
+                this.page = 1
                 if(i==3) {
                     this.isPrice = true
                     this.isUp = !this.isUp
@@ -226,10 +275,28 @@
                      this.isPrice = false
                      this.isUp = false
                 }
+                switch (i) {
+                    case 1:
+                        this.price = ""
+                        this.type = i
+                        break;
+                    case 2:
+                        this.type = i
+                         this.price = ""
+                        break;
+                    case 3:
+                        this.price==1?this.price=2:this.price=1
+                        break;
+                    default:
+                        break;
+                }
+                this.init_Goods()
                 // this.isUp?
             },
             entryBusinessShop(item) {
-                console.log(item)
+                // console.log(item)
+                this.current_id = item.id
+                this.init_Goods()
                 // this.$store.commit('SAVE_CURRENT_BUSINESS_SHOP', item.id)
                 // this.$store.commit('SAVE_CURRENT_BUSINESS_SHOP_DATA', item)
                 // this.$router.go(0)
@@ -251,12 +318,18 @@
                 return data
             },
             addToMiniCart(event, entity) {
+                console.log(entity, 'entity')
                 if (this.canOption()) {
                     this.BUSINESS_ADD_CART(entity)
                     entity.num++
                     this.$nextTick(() => {
                         this.$refs.MiniCompanyCart.drop(event.target)
                     })
+                    let params = {
+                        supplier_id: entity.shopId,
+                        good_id: entity.id
+                    }
+                    addShopCar(params)
 
                 }
 
@@ -265,7 +338,11 @@
                 if (this.canOption()) {
                     this.BUSINESS_REMOVE_CART(entity)
                     entity.num--
-
+                     let params = {
+                        supplier_id: entity.shopId,
+                        good_id: entity.id
+                    }
+                    onlyDelShopCar(params)
                 }
             },
             //搜索
@@ -275,14 +352,12 @@
                     search:this.value
                 }
 
-                this.init_Goods(params)
+                this.init_Goods()
             },
             all_Goods() {
-                let params = {}
                 this.cat_id = ''
-                this.init_Goods(params)
+                this.init_Goods()
                 this.is_active = 0
-
             },
         }
     }
@@ -493,10 +568,11 @@
 
         ul {
             width: 100%;
-
+            display: flex;
+            justify-content: space-around;
             li {
-                display: inline-block;
-                width: 25%;
+                // display: inline-block;
+                // width: 25%;
                 text-align: center;
                 &:nth-last-child(2) {
                     display: inline-flex;

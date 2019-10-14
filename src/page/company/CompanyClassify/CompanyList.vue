@@ -4,15 +4,16 @@
             <svg @click="closedMyFrame()">
                 <use xlink:href="#icon-closed"></use>
             </svg>
-            <SearchBar></SearchBar>
+            <SearchBar v-model="searchValue" :searchFn="searchFn"></SearchBar>
         </div>
         <div style="min-height: 5rem;" class="company-list">
-            <ClxsdLoadMore key="factory-list" ref="loadmore" @onRefresh="onRefresh" @onLoadMore="onLoadMore">
-                <li class="company" :key="`en-${index}`" v-for="(item,index) in businesses">
+            <!-- <ClxsdLoadMore key="factory-list" ref="loadmore" @onRefresh="onRefresh" @onLoadMore="onLoadMore"> -->
+            <mt-loadmore :top-method="loadTop" ref="load" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded">
+                <li :class="{'active':item.id == current_id}" class="company" :key="`en-${index}`" v-for="(item,index) in businesses">
                     <div @click="chooseBrands(item)">
                         {{item.display_name || item.name }}
                     </div>
-                    <svg v-if="item.id == itemId">
+                    <svg v-if="item.id == current_id">
                         <use xlink:href="#icon-pay-chosed"></use>
                     </svg>
                     <!--
@@ -21,7 +22,8 @@
                     </svg>
                     -->
                 </li>
-            </ClxsdLoadMore>
+            </mt-loadmore>
+            <!-- </ClxsdLoadMore> -->
         </div>
     </div>
 </template>
@@ -36,7 +38,7 @@
         components: {
             SearchBar
         },
-        props:["closedMyFrame","entryBusinessShop","item"],
+        props:["closedMyFrame","entryBusinessShop","item", "current_id"],
         data() {
             return {
                 isActive: true,
@@ -47,7 +49,10 @@
                 areaList: null,
                 active: 0,
                 preActive: 0,
-                itemId: ''
+                itemId: '',
+                searchValue: '',
+                allLoaded: false,
+                limit: 20
             }
         },
         created() {
@@ -79,30 +84,40 @@
                     this.hasError = 0;
                 }
             },
-            async getData(options, loadMore = false) {
-                options.is_load_ad = options.is_load_ad || false
-                const params = {
-                    limit: options.limit,
-                    province: options.areaCode,
-                    is_load_ad: options.is_load_ad ? true : false
+            async getData(isUp, isDown) {
+                let params = {
+                    page: this.page,
+                    limit: this.limit,
+                    search: this.searchValue
                 }
                 const {
                     data
-                } = await supplierBusinessEntities(this.id)
+                } = await supplierBusinessEntities(params,this.id)
                 // console.log(data)
-                if (this.page==1) {
-                    // console.log(this.businesses)
+                if (this.page!=1) {
                     this.businesses = [...this.businesses, ...data.data.brandList]
-                    // console.log(this.businesses)
                 } else {
                     this.businesses = data.data.brandList
                 }
-                this.page = this.page + 1
-                this.$refs.loadmore.afterLoadMore(data.data.brandList.length < options.limit)
-                if (options.callback) {
-                    options.callback()
+                if(!data.data.brandList.length) {
+                    this.allLoaded = true
                 }
-
+                isUp&&this.$refs.load.onTopLoaded()
+                isDown&&this.page!=1&&this.$refs.load.onBottomLoaded()
+                this.page++
+            },
+            loadTop() {
+                this.page = 1
+                this.getData(true, false)
+            },
+            loadBottom() {
+                // this.page++
+                this.getData(false, true)
+            },
+            searchFn() {
+                this.page = 1
+                this.getData()
+                console.log(this.searchValue)
             },
             /*
             entryBusinessShop(item) {
@@ -111,22 +126,24 @@
                 this.$router.push('/company-product-list')
             },
             */
-            onRefresh(callback) {
-                this.page = 1;
-                const options = {
-                    limit: 6,
-                    callback: callback
-                }
-                this.getData(options)
+            // onRefresh(callback) {
+            //     // debugger
+            //     this.page = 1;
+            //     const options = {
+            //         limit: 6,
+            //         callback: callback
+            //     }
+            //     this.getData(options)
 
-            },
-            onLoadMore() {
-                console.log('loadMore')
-                const options = {
-                    limit: 6
-                }
-                this.getData(options, true)
-            },
+            // },
+            // onLoadMore() {
+            //     debugger
+            //     console.log('loadMore')
+            //     const options = {
+            //         limit: 6
+            //     }
+            //     this.getData(options, true)
+            // },
             chooseBrands(item) {
                 // console.log(item)
                 this.itemId = item.id
@@ -139,6 +156,9 @@
 <style lang="scss" scoped>
     .mint-cell {
         border-bottom: 1px solid #f1f1f1;
+    }
+    .active {
+        color: #0090ff;
     }
 
     .search {

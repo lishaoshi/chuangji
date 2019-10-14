@@ -226,6 +226,8 @@
 		border-bottom: 1px solid #f4f5f5;
 		span {
 			display: inline-block;
+			// width: 1.6rem;
+			min-width: 1.6rem;
 		}
 		img {
 			width:.15rem;

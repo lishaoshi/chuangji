@@ -17,6 +17,10 @@ export function servicBusinessGoodList(params){
     return http.get('hippo-shop/business/entity',{params, validateStatus: s => s === 200});
 };
 
+// 终端商业数据
+export function _servicBusinessGoodList(params, id){
+    return http.get(`hippo-shop/business/${id}/recommends`,{params, validateStatus: s => s === 200});
+};
 
 
 /*

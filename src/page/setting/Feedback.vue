@@ -31,7 +31,8 @@
                 console.log(this.feedback)
                 this.$http.post("comments/add",{body:this.feedback}).then(res => {
                     this.feedback =''
-                    this.$toast(res.data.message)
+                    this.$toast('感谢您的反馈')
+                    this.$router.go(-1)
                 }).catch(error => {
                     console.log(this.error)
                 })

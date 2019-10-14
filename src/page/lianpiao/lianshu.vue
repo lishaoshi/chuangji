@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="lianshuPage">
         <clxsd-head-top title='联数明细' style="border-bottom: 0px"></clxsd-head-top>
         <div class="top">
             <div class="otc-box">
@@ -40,13 +40,19 @@
         </ul>
         <EmptyList v-if="entities.length==0&&loading==false" message="数据为空！" />
         <CircleLoading v-if="loading" />
-        <mt-popup v-model="regionVisible" position="bottom" class="bottom-region" style="width:100%;">
+        <!-- <mt-popup v-model="regionVisible" :position="position" class="bottom-region" style="width:100%;">
             <mt-datetime-picker v-model="dateValue" type="date" ref="datePicker" year-format="{value} 年" month-format="{value} 月"
                                 :startDate="startDate"
                                 :endDate="new Date()"
                                 @confirm="handleConfirm">
             </mt-datetime-picker>
-        </mt-popup>
+        </mt-popup> -->
+          <mt-datetime-picker v-model="dateValue" type="date" ref="datePicker" year-format="{value} 年" month-format="{value} 月"
+                                :startDate="startDate"
+                                :endDate="new Date()"
+                                @confirm="handleConfirm">
+            </mt-datetime-picker>
+        <!-- <div class="bgBox" v-if="regionVisible"></div> -->
     </div>
 </template>
 
@@ -69,7 +75,8 @@
                 activeType:0,
                 totalIncome:0.00,
                 totalExpenditure:0.00,
-                entities:[]
+                entities:[],
+                position: 'bottom'
             }
         },
         computed:{
@@ -126,6 +133,16 @@
 </script>
 
 <style lang="scss" scoped>
+.bgBox {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 10;
+    background: #000;
+    opacity: 0.5;
+}
     .otc-box {
         margin-bottom: .18rem;
         padding: 0 .2rem;
@@ -245,4 +262,14 @@
         margin-top: .3rem;
         margin-bottom: 0px;
     }
+</style>
+<style lang="scss">
+.lianshuPage {
+    .picker-toolbar {
+        background: #F5F5F5;
+        height: .88rem;
+        display: flex;
+        align-items: center;
+    }
+}
 </style>
