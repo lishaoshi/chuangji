@@ -5,11 +5,11 @@
             <img src="../../images/logo.png">
             <p>版本号 1.0</p>
         </div>
-        <clxsd-cell :title="'版本更新'" :to="'/update-list'" is-link/>
+        <clxsd-cell :title="'版本介绍'" :to="'/update-list'" is-link/>
         <clxsd-cell :title="'服务协议'" :to="'/protocal'" is-link/>
         <clxsd-cell :title="'服务条款'" :to="'/serve'" is-link/>
         <clxsd-cell :title="'隐私条款'" :to="'/privacy'" is-link/>
-        <div class="tel-box">
+        <div class="tel-box" v-if="userType!=3">
             <div>
                 <p>服务热线<span class="tel">0371-xxxxxxxx</span></p>
                 <p>服务时间<span class="time">9:00-18:00</span></p>
@@ -27,11 +27,21 @@
 
 <script>
     import ClxsdCell from '@/components/common/Cell';
+    import {mapState} from 'vuex'
     export default {
         name: "AboutIndex",
         components:{
             ClxsdCell
         },
+        computed: {
+            ...mapState({
+                userType: state=>state.CURRENTUSER.data.user_type
+            })
+        },
+        created() {
+            // debugger
+            console.log(this.userType)
+        }
     }
 </script>
 

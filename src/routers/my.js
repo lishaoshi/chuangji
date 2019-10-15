@@ -265,7 +265,8 @@ export default [
         component: PurchasingPortOrder,
         meta: {
             title: "采购端口订单",
-            requiresAuth: true
+            requiresAuth: true,
+            keepAlive: false
         }
     },
     {

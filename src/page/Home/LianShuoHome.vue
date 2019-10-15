@@ -1,7 +1,7 @@
 <template>
 	<div class="home">
 		<div v-bind:class="{ search: isActive, 'bg-blue': hasError ,activeTop: isFullScreen }">
-			<SearchBar></SearchBar>
+			<SearchBar :searchFn="searchFn" v-model="searchValue"></SearchBar>
 			<router-link to="/develop">
 				<div class="approve">
 					<img src="../../images/index/study1@2x.png"/>
@@ -17,7 +17,7 @@
 		<!-- <Notice :notices="notices" v-if="notices!=null"></Notice>
 		 -->
 		  <div class="noticesBox"  v-if="notices!=null">
-                <Notice :notices="notices"></Notice>
+                <Notice class="noticesContent" :notices="notices"></Notice>
             </div>
 		<div class="notice" v-else>
 			<svg>
@@ -93,7 +93,8 @@
 				isAutoFill: false,
 				wrapperHeight: 0,
 				courrentPage: 1,
-				limit:15
+				limit:15,
+				searchValue: ''
 			}
 		},
 		mounted() {
@@ -131,7 +132,8 @@
 			loadFrist() {
 				const params = {
 					page: this.courrentPage,
-					limit: this.limit
+					limit: this.limit,
+					search: this.searchValue
 				}
 				findNearBySuppliers(params).then(response => {
 					console.log(response.data.data)
@@ -146,7 +148,8 @@
 				this.courrentPage++;
 				const params = {
 					page: this.courrentPage,
-					limit: this.limit
+					limit: this.limit,
+					search: this.searchValue
 				}
 				findNearBySuppliers(params).then(response => {
 					response.data.data && (this.suppliers = this.suppliers.concat(response.data.data))
@@ -163,6 +166,22 @@
 				infoList({from: 'platform'}).then(data => {
 					this.notices = data.data.data
 					console.log(this.notices)
+				})
+			},
+			// 点击搜索
+			searchFn() {
+				// console.log(this.searchVaue)
+				const params = {
+					page: 1,
+					limit: this.limit,
+					search: this.searchValue
+				}
+				findNearBySuppliers(params).then(response => {
+					console.log(response.data.data)
+					this.allLoaded = false; // 可以进行上拉
+					this.suppliers = response.data.data;
+					console.log(this.suppliers, 'this.suppliers')
+					this.$refs.loadmore.onTopLoaded();
 				})
 			},
 			handleScroll() {
@@ -183,7 +202,14 @@
 		overflow: scroll;
 	}
 	.noticesBox {
-		padding: .08rem;
+		padding: .04rem;
+		height: .88rem;
+		background: #fff;
+		display: flex;
+		align-items: center;
+		.noticesContent {
+
+		}
 	}
 	.select-box {
 		display: flex;
@@ -250,7 +276,7 @@
 	}
 
 	.notice {
-		margin: .2rem 0;
+		// margin: .2rem 0;
 		margin-top: 0px;
 		background: #fff;
 		width: 100%;

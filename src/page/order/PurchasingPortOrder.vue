@@ -1,35 +1,36 @@
 <template>
-    <div>
-        <div class="search" :class="{activeTop: isFullScreen}">
-            <div v-if="is_search == true" class="search-form">
-                <input type="text" placeholder="请输入搜索内容">
-                <svg>
-                    <use xlink:href="#icon-ordering-search" />
-                </svg>
+   
+        <div class="content">
+            <div class="search" :class="{activeTop: isFullScreen}">
+                <div v-if="is_search == true" class="search-form">
+                    <input type="text" placeholder="请输入搜索内容">
+                    <svg>
+                        <use xlink:href="#icon-ordering-search" />
+                    </svg>
+                </div>
+                <ul class="nav-list"  v-if="is_search==false">
+                    <li :class="`${selected == 2 ? 'active':''}`" @click="selected = 2">商业订单</li>
+                    <li :class="`${selected == 1 ? 'active':''}`" @click="selected =1">工业订单</li>
+                </ul>
+                <div class="approve">
+                    <svg @click="is_search = !is_search" v-if="is_search == false">
+                        <use xlink:href="#icon-ordering-search" />
+                    </svg>
+                    <p @click="is_search = !is_search" v-if="is_search == true">取消</p>
+                </div>
             </div>
-            <ul class="nav-list"  v-if="is_search==false">
-                <li :class="`${selected == 2 ? 'active':''}`" @click="selected = 2">商业订单</li>
-                <li :class="`${selected == 1 ? 'active':''}`" @click="selected =1">工业订单</li>
-            </ul>
-            <div class="approve">
-                <svg @click="is_search = !is_search" v-if="is_search == false">
-                    <use xlink:href="#icon-ordering-search" />
-                </svg>
-                <p @click="is_search = !is_search" v-if="is_search == true">取消</p>
+            <businessPage v-if="selected === 2"/>
+            <!--订量生产结束-->
+            <clxsd-foot-guide :user-type="USER_TYPE"  v-if="selected === 1"/>
+            <div class="detail"  v-if="selected==1">
+                <img src="../../images/developing.png" width="50%">
+                <p>
+                    <span>功能开发中, 敬请期待...</span>
+                </p>
             </div>
+         <clxsd-foot-guide :user-type="USER_TYPE" />
         </div>
-        <businessPage v-if="selected === 2"/>
-        <!--订量生产结束-->
-        <clxsd-foot-guide :user-type="USER_TYPE"  v-if="selected === 1"/>
-        <div class="detail"  v-if="selected==1">
-            <img src="../../images/developing.png" width="50%">
-            <p>
-                <span>功能开发中, 敬请期待...</span>
-            </p>
-        </div>
-        <clxsd-foot-guide :user-type="USER_TYPE" />
-    </div>
-
+    
 </template>
 
 <script>
@@ -60,6 +61,9 @@
 </script>
 
 <style lang="scss" scoped>
+.wrapper {
+    height: 600px;
+}
     .detail {
         font-size: .3rem;
         text-align: center;
@@ -109,6 +113,8 @@
         }
     }
     .search {
+        position: relative;
+        z-index: 5;
         background: #26A2FF;
         display: flex;
         width: 100%;

@@ -1,6 +1,10 @@
 <template>
     <div id="OrderSuccess">
-        <clxsd-head-top :title='`下单成功`'></clxsd-head-top>
+        <clxsd-head-top :title='`下单成功`'>
+            <template slot="prepend">
+                <i></i>
+            </template>
+        </clxsd-head-top>
         <!-- 旧版本页面 -->
         <!-- <img src="../../images/shopping/order_success.png" class="img">
         <p class="success-info">购买成功</p>
@@ -17,7 +21,7 @@
             <img src="@/images/successOrder.png" alt="">
             <div>
                 <span>等待买家支付</span>
-                <span>剩30分钟自动关闭</span>
+                <span>剩{{time}}分钟自动关闭</span>
             </div>
         </div>
 
@@ -36,7 +40,7 @@
         </div>
 
         <div class="buttonBtn">
-           <router-link to="/factory-order" v-if="orderType == 'factory'"> 
+           <router-link to="/purchasing-port-order" v-if="orderType == 'factory'"> 
                 <div  class="query">查看订单</div> 
             </router-link> 
            <router-link to="/business-order" v-if="orderType == 'business'"> 
@@ -54,7 +58,8 @@
         data() {
             return {
                 data: {},
-                orderType: ''
+                orderType: '',
+                time: ''
             }
         },
         // props:["orderType"],
@@ -64,6 +69,7 @@
                 // console.log(this.$route)
                 this.data = this.$route.params.data
                 this.orderType = this.$route.params.orderType
+                this.time = this.$route.params.time
             } else {
                 this.goBack(-3)
             }
@@ -76,6 +82,7 @@
 #OrderSuccess {
     min-height: 100%;
     background: #fff;
+    overflow: scroll;
     // padding-top: 2rem;
     
     .headBox {
@@ -145,8 +152,10 @@
         display: flex;
         justify-content: center;
         margin-top: 1.6rem;
+        font-size: .3rem;
+        margin-bottom: .3rem;
         div {
-            border:2px solid rgba(0,144,255,1);
+            border:2px solid #0090ff;
              padding: .22rem .84rem;
              border-radius:.08rem;
         }
@@ -154,7 +163,8 @@
             margin-right: .32rem;
             background:rgba(0,144,255,1);
             border-radius:.08rem;
-            padding: .22rem .84rem;
+            // padding: .22rem .84rem;
+            width: 2.6rem;
             color: #fff;
         }
     }

@@ -213,6 +213,9 @@
 
             },
             removeToMiniCart() {
+                if(this.data.num<=0) {
+                    return false
+                }
                 this.data.num--
                 console.log(this.data)
                 this.shopCart[this.id].num--

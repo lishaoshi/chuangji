@@ -1,6 +1,7 @@
 <template>
     <div id="MyOrder">
-        <mt-navbar v-model="selected">
+        <div class="tab">
+            <mt-navbar v-model="selected">
 			<mt-tab-item id="1" >
                 <div class="nav-li" @click="handleClick('')">
                     <svg class="icon">
@@ -42,37 +43,30 @@
                 </div>
             </mt-tab-item>
 		</mt-navbar>
-
-		<!-- tab-container -->
-		<!-- <mt-tab-container v-model="selected" style="min-height: 5rem;">
-			<mt-tab-container-item id="1">
-				<ClxsdLoadMore key="orders-list" ref="loadmore" @onRefresh="onOrdersRefresh" @onLoadMore="onOrdersLoadMore">
-					<OrderCard :key="`businsess_order_all_${index}`" :data="order" v-for="(order,index) in orders" :sureOrder="sureOrder" :delectOrder="delectOrder">
-					</OrderCard>
-				</ClxsdLoadMore>
-			</mt-tab-container-item>
-			<mt-tab-container-item id="2">
-				<ClxsdLoadMore key="orders-list-unPay" ref="loadmoreUnPay" @onRefresh="unPayRefresh" @onLoadMore="unPayLoadMore">
-					<OrderCard :key="`businsess_order_unPay_${index}`" :data="order" v-for="(order,index) in unPayOrders"></OrderCard>
-				</ClxsdLoadMore>
-			</mt-tab-container-item>
-			<mt-tab-container-item id="3">
-				<ClxsdLoadMore key="orders-list-unSend" ref="loadmoreUnSend" @onRefresh="unSendRefresh" @onLoadMore="unSendLoadMore">
-					<OrderCard :key="`businsess_order_unSend_${index}`" :data="order" v-for="(order,index) in unSendOrders" :sureOrder="sureOrder"></OrderCard>
-				</ClxsdLoadMore>
-			</mt-tab-container-item>
-			<mt-tab-container-item id="4">
-				<ClxsdLoadMore key="orders-list-rec" ref="loadmoreRec" @onRefresh="recRefresh" @onLoadMore="recLoadMore">
-					<OrderCard :key="`businsess_order_rec_${index}`" :data="order" v-for="(order,index) in recOrders"  :delectOrder="delectOrder"></OrderCard>
-				</ClxsdLoadMore>
-			</mt-tab-container-item>
-		</mt-tab-container> -->
-        <div style="overflow:auto" v-if="oriderListt.length >0">
-            <mt-loadmore :autoFill="false" :top-method="loadTop" ref="load" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded">
-                <OrderCard style="min-height: 6rem;"  :key="`businsess_order_rec_${index}`" @update="updateList" :data="order" v-for="(order,index) in oriderListt"  :delectOrder="delectOrder"></OrderCard>
-            </mt-loadmore>
         </div>
-       <EmptyOrder v-else/>>
+        
+
+            <scroll
+                class="wrapper"
+                :pullup="pullup"
+                :probeType="probeType"
+                :pulldown="pulldown"
+                v-if="oriderListt.length>0"
+                @scrollToEnd="scrollToEnd"
+                @dowm="dowm"
+            >
+                <div>
+                    <OrderCard :key="`businsess_order_rec_${index}`" @update="updateList" :data="order" v-for="(order,index) in oriderListt"  :delectOrder="delectOrder"></OrderCard>
+                </div>
+
+            </scroll>
+        
+                    <!-- </div> -->
+               
+            <!-- </mt-loadmore> -->
+        <!-- </div> -->
+       
+       <EmptyOrder v-else/>
     </div>
 </template>
 
@@ -101,70 +95,30 @@
                 state: '',
                 allLoaded: false,    //是否已经加载全部
                 limit: 15,
-                page: 1
-                
+                page: 1,
+                probeType: 1,
+                pulldown: true,
+                pullup: true
             }
         },
         created() {
             this.getOrderList()
         },
         methods: {
-            // _handleData(data) {
-            //     data.forEach(order => {
-            //         let order_status_display = '待付款'
-            //         if (order.pay_status) order_status_display = '待收货'
-            //         if (order.shipping_status === 2) order_status_display = '已收货'
-            //         order.order_status_display = order_status_display
-            //         order.pay_status = order.pay_status
-            //         //state11 = order.pay_status
-            //         order.shipping_status = order.shipping_status
-            //         order.id = order.id
-            //         let id = order.id
-            //         this.state = order.pay_status
-            //         order.entities = []
-            //         order.items.forEach(item => {
-            //             order.entities.push({
-            //                 cover: item.entity.cover,
-            //                 name: item.entity.good_name,
-            //             })
-            //             order.total_num = item.num
-            //             if (order.items.length == 1) {
-            //                 order.total_num = order.total_num
-            //             } else {
-            //                 order.total_num = order.total_num + order.total_num
-            //             }
-            //         })
-            //         order.total_price = order.money_paid
-            //         order.total_num = order.total_num
-            //         order.order_time = order.created_at
-            //         order.logo = order.supplier.logo
-            //         order.supplier_name = order.supplier.display_name || order.supplier.name
-            //     })
-            //     return data
-
-            // },
             handleClick(id) {
                 this.state = id
                 this.page = 1
                 this.getOrderList()
-                // this.$nextTick().then(()=>{
-                //     // console.log( id)
-                //     // switch(this.selected) {
-                //     //     case 1:
-                //     //         // this.state = 
-                //     //         break
-                //     //     case 2:
-                //     //         break
-                //     //     case 3:
-                //     //         break
-                //     //     case 4:
-                //     //         break
-                //     // }
-                // })
                 
             },
             updateList() {
                 this.getOrderList()
+            },
+            scrollToEnd() {
+                this.pullup&&this.getOrderList(false, true)
+            },
+            dowm(value) {
+                console.log(value)
             },
             sureOrder(id) {
 				this.$messagebox.confirm("确定收到货物了吗?").then(action => {
@@ -186,23 +140,6 @@
 				}).catch(err => err);
             },
 
-            // 上拉加载
-            async loadTop() {
-                this.page = 1
-               await this.getOrderList(true)
-               console.log('123')
-                // this.$refs.load.onTopLoaded()
-                // console.log('上啦')
-            },
-
-            //下拉加载更多
-            loadBottom() {
-                // console.log('下拉')
-                this.page++
-                this.getOrderList(false, true)
-               
-            }, 
-
             // 获取订单数据
             getOrderList(top, bottom) {
                 let params = {
@@ -212,14 +149,20 @@
                 }
                 getBusinessOrderList(params).then(res=>{
                     // console.log(res.data)
+                    this.pullup = true
                     if(this.page>1) {
                          this.oriderListt = [...this.oriderListt, ...res.data.data.orderList]
                     } else {
                         this.oriderListt = res.data.data.orderList
                     }
+                    if(res.data.data.orderList.length==0) {
+                        console.log(res.data.data.orderList)
+                        this.pullup = false
+                    }
                     
-                     top&&this.$refs.load.onTopLoaded()
-                     bottom&&this.$refs.load.onBottomLoaded()
+                    //  top&&this.$refs.load.onTopLoaded()
+                    //  bottom&&this.$refs.load.onBottomLoaded()
+                     this.page++
                     // console.log( this.oriderListt)
                 })
             },
@@ -391,6 +334,13 @@
 </script>
 
 <style lang="scss" scoped>
+.wrapper {
+    height: 9rem;
+}
+.tab {
+    position: relative;
+    z-index: 5;
+}
     .order-list {
         margin-top: 12px;
 

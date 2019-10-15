@@ -257,6 +257,8 @@
                     cat_id: id
                 }
                  this.current_id = id
+                 this.page = 1
+                 this.allLoaded = false
                 this.init_Goods(params)
                
             },
@@ -395,6 +397,7 @@
             },
             //二级菜单商品
             showSlideGoods(id, ids, $event) {
+                this.page = 1
                 console.log('id',id, 'ids: ', ids)
                 // this.is_active = id
                 this.is_child_id = id
@@ -443,6 +446,7 @@
                 this.init_Goods()
             },
             all_Goods() {
+                this.page = 1
                 this.current_id = ''
                 this.brand_id = ''
                 this.init_Goods()
@@ -513,7 +517,10 @@
         display: block;
         text-align: left;
         width: 2rem;
-        height: 9.5rem;
+        // height: 9.5rem;
+        
+        margin-bottom: 1rem;
+        height: calc(100vh);
         overflow: scroll;
 
         .menu-list {

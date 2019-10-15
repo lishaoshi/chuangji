@@ -79,7 +79,7 @@
         },
         activated() {
             // console.log('hello123')
-            // this._initData();
+            this._initData();
         },
         methods: {
             ...mapMutations(['CHOOSE_ADDRESS']),

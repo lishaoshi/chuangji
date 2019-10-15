@@ -24,7 +24,7 @@
        */
       click: {
         type: Boolean,
-        default: false
+        default: true
       },
       /**
        * 是否开启横向滚动
@@ -91,7 +91,6 @@
         this.scroll = new BScroll(this.$refs.wrapper, {
           probeType: this.probeType,
           click: this.click,
-          scrollX: this.scrollX
         })
 
         // 是否派发滚动事件
@@ -113,10 +112,13 @@
 
         // 是否派发顶部下拉事件，用于下拉刷新
         if (this.pulldown) {
+          console.log(123456)
           this.scroll.on('touchend', (pos) => {
             // 下拉动作
             if (pos.y > 50) {
-              this.$emit('pulldown')
+              debugger
+              console.log(123)
+              this.$emit('dowm', '123')
             }
           })
         }

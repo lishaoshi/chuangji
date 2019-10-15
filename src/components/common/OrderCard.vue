@@ -17,17 +17,17 @@
                     <div class="drug_message">
                         <div>{{data.supplier.name}}</div>
                         <div>生产规格：{{data.items[0].entity_spec}}</div>
-                        <div>生产公司：{{data.items[0].entity_spec}}</div>
+                        <!-- <div>生产公司：{{data.items[0].entity_spec}}</div> -->
                     </div>
                 </div>
                 <div class="totle_pay">
                      <p>订单编号：{{data.order_sn}}</p>
-                    <p>{{data.order_time?data.order_time:'暂无时间'}}</p>
+                    <p>{{data.created_at?data.created_at:'暂无时间'}}</p>
                    
                 </div>
             </div>
             <div class="need_pay">
-                <div>剩余时间30分钟</div>
+                <div>剩余时间{{data.diff_seconds | fillterTime}}分钟</div>
                 <div class="need_fu">
                     <p><b>数量<i style="padding-left: 4px;display: inline-block; ">{{data.items.length}}</i></b></p>
                     <p>{{data.order_status==0? '应付':'金额：'}}</p>
@@ -40,7 +40,7 @@
                 <div id="wrapper">
                     <div class="iscroll">
                         <div class="drug_img" v-for="(entity,skey) in data.items">
-                            <img :src="entity.entity.img_cover" :alt="entity.name">
+                            <img :src="entity.entity.cover" :alt="entity.name">
                         </div>
                     </div>
                 </div>
@@ -94,6 +94,11 @@
             status: {
                 type: Number,
                 default: 0
+            }
+        },
+        filters: {
+            fillterTime(value) {
+                return Math.ceil(value/60)
             }
         },
         computed: {

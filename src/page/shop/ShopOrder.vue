@@ -246,11 +246,11 @@
                 }
                 
                 confirmOrder(params).then(res=>{
-                    // console.log(res.data, 'res')
-                    let data = res.data.data
-                    // console.log(data, 'data')
+                    console.log(res)
+                    let data = res.data.data.orders
+                    let time = res.data.data.timeout_to_order_cancel
                     this.CLEAR_CONFIRM_ORDER_DATA()
-                    this.$router.push({name: 'OrderSuccess', params: {data:data, orderType: this.orderType}})
+                    this.$router.push({name: 'OrderSuccess', params: {data:data,time: time, orderType: this.orderType}})
                 })
                 // console.log(params, ids, this.confirmOrderData)
 

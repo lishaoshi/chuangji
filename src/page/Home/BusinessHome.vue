@@ -212,6 +212,7 @@
     }
     .noticesBox {
         padding: .08rem;
+        background: #fff;
     }
 
     .select-box {
