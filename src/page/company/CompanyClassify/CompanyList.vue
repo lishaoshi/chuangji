@@ -9,11 +9,11 @@
         <div style="min-height: 5rem;" class="company-list">
             <!-- <ClxsdLoadMore key="factory-list" ref="loadmore" @onRefresh="onRefresh" @onLoadMore="onLoadMore"> -->
             <mt-loadmore :top-method="loadTop" ref="load" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded">
-                <li :class="{'active':item.id == current_id}" class="company" :key="`en-${index}`" v-for="(item,index) in businesses">
+                <li :class="{'active':item.id == brand_id}" class="company" :key="`en-${index}`" v-for="(item,index) in businesses">
                     <div @click="chooseBrands(item)">
                         {{item.display_name || item.name }}
                     </div>
-                    <svg v-if="item.id == current_id">
+                    <svg v-if="item.id == brand_id">
                         <use xlink:href="#icon-pay-chosed"></use>
                     </svg>
                     <!--
@@ -38,7 +38,7 @@
         components: {
             SearchBar
         },
-        props:["closedMyFrame","entryBusinessShop","item", "current_id"],
+        props:["closedMyFrame","entryBusinessShop","item", "brand_id"],
         data() {
             return {
                 isActive: true,

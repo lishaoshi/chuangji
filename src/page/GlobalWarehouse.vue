@@ -74,7 +74,8 @@
         components: {
             SearchBar,
             Notice,
-            GlobalItem
+            GlobalItem,
+            EmptyList
         },
         data() {
             return {
@@ -418,9 +419,9 @@
     }
 
     .company {
-        width: 100%;
+        // width: 100%;
         background: #fff;
-        margin-top: 0.2rem;
+        margin: 0.2rem .2rem 0 .2rem;
         border-radius: .1rem;
     }
 

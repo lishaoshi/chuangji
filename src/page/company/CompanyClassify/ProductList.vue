@@ -10,15 +10,23 @@
                 <div class="mint-navbar">
                     <div class="menu-list" :id="`menu_${index}`" :key="`menu-${index}`"
                          v-for="(menu,index) in menuList ">
-                        <span v-if="menu.child" @click="slide($event)" class="sp1 up"
-                              :class="`${is_active===menu.id?'active':''}`">{{menu.name}}</span>
-                        <span v-else @click="showGoods(menu.id,$event)" class="sp1"
-                              :class="`${is_active===menu.id?'active':''}`">{{menu.name}}</span>
+                        <!-- 有二级菜单点击下拉 -->
+                        <!-- <span v-if="menu.child" @click="slide($event, menu.id)" class="sp1 up"
+                              >{{menu.name}}</span> -->
+                        <!-- 一级菜单没有下拉 -->
+                        <!-- <span v-else @click="showGoods(menu.id,$event)" class="sp1"
+                              :class="`${is_active===menu.id?'active':''}`">{{menu.name}}</span> -->
+                                <!-- 有二级菜单点击下拉 -->
+                            <span v-if="menu.child" @click="slide($event,menu)" class="sp1 up" ref="slideMenu">{{menu.name}}</span>
+                            <!-- 一级菜单没有下拉 -->
+                            <span v-else @click="showGoods(menu.id)" class="sp1"
+                                  :class="`${is_active===menu.id?'tabActive':''}`">{{menu.name}}</span>
                         <div class="down-menu" style="height: 0px">
                             <div>
                                 <p v-for="(childrenMenu,index) in menu.child"
                                    :class="`${childrenMenu.id===is_child_id?'child-active':''}`"
                                    @click="showSlideGoods(childrenMenu.id,menu.id)"
+                                   :key="index"
                                 >
                                     <span>{{childrenMenu.name}}</span>
                                     <svg v-if="childrenMenu.id===is_child_id">
@@ -104,7 +112,7 @@
             </div>
             <div style="position: fixed;right: 0px;width: 82%;z-index: 99;top:0px;height: 100%;background: #fff" v-if="is_business_list">
                 
-                    <BusinessList :closedMyFrame="closedMyFrame" :entryBusinessShop="entryBusinessShop" :current_id="current_id"></BusinessList>
+                    <BusinessList :closedMyFrame="closedMyFrame" :entryBusinessShop="entryBusinessShop" :brand_id="brand_id"></BusinessList>
                 
             </div>
             <div class="fixed-bg" v-if="is_business_list" @click="is_business_list = !is_business_list"></div>
@@ -143,6 +151,7 @@
                 is_business_list: false,
                 loading: false,
                 is_active: 0,
+                is_child_id: 0,
                 goodList: [],//产品列表
                 value:'',
                 current_id:'',
@@ -231,6 +240,26 @@
                 })
                 // console.log("长度："+this.goodList.list.length())
             },
+             //一级菜单点击商品
+            showGoods(id, $event) {
+                // console.log("当前id：" + id)
+                this.is_active = id //是否当前一级菜单
+                let parentNode = event.target.parentNode;
+                let a = this.sibling(parentNode)
+                for (var i = 0; i < a.length; i++) {
+                    a[i].childNodes[0].classList.remove("active");
+                    a[i].childNodes[0].classList.add("up");
+                    let b = a[i].childNodes[1]
+                    this.toggleSlide(b, 0, '500');
+                }
+                this.cat_id = id
+                let params = {
+                    cat_id: id
+                }
+                 this.current_id = id
+                this.init_Goods(params)
+               
+            },
 
             // 加载更多
             loadBottom() {
@@ -295,7 +324,7 @@
             },
             entryBusinessShop(item) {
                 // console.log(item)
-                this.current_id = item.id
+                this.brand_id = item.id
                 this.init_Goods()
                 // this.$store.commit('SAVE_CURRENT_BUSINESS_SHOP', item.id)
                 // this.$store.commit('SAVE_CURRENT_BUSINESS_SHOP_DATA', item)
@@ -316,6 +345,65 @@
                 })
                 this.loading = false
                 return data
+            },
+             //点击下拉菜单
+            slide: function (event,id) {
+                // this.is_active=id
+                // this.current_id = id
+                let targetNode = event.target
+                targetNode.classList.add("active"); //添加当前样式
+                let parentNode = targetNode.parentNode;
+                let a = this.sibling(parentNode)
+                for (var i = 0; i < a.length; i++) {
+                    a[i].childNodes[0].classList.remove("active");
+                    a[i].childNodes[0].classList.add("up");
+                    let b = a[i].childNodes[1]
+                    this.toggleSlide(b, 0, '500');
+                }
+                //targetNode.classList.remove("active");
+                let curTarget = event.currentTarget,
+                    containsCurClass = curTarget.classList.contains("up"),
+                    nextSibling = curTarget.nextSibling;
+                while (nextSibling.nodeType == 3 && /\s/.test(nextSibling.nodeValue)) {
+                    nextSibling = nextSibling.nextSibling;
+                }
+                ;
+                let detailScrollHeight = nextSibling.scrollHeight;
+                if (containsCurClass) {
+                    curTarget.classList.remove("up");
+                    this.toggleSlide(nextSibling, detailScrollHeight, '500');
+                } else {
+                    curTarget.classList.add("up");
+                    this.toggleSlide(nextSibling, 0, '500');
+                }
+            },
+            //toggle动画
+            toggleSlide: function (dom, height, time) {
+                dom.style.transition = 'height ' + time + 'ms';
+                dom.style.height = height + 'px';
+            },
+            //同胞节点
+            sibling: function (elem) {
+                var r = [];
+                var n = elem.parentNode.firstChild;
+                for (; n; n = n.nextSibling) {
+                    if (n.nodeType === 1 && n !== elem) {
+                        r.push(n);
+                    }
+                }
+                return r;
+            },
+            //二级菜单商品
+            showSlideGoods(id, ids, $event) {
+                console.log('id',id, 'ids: ', ids)
+                // this.is_active = id
+                this.is_child_id = id
+                this.current_id = id
+                let params = {
+                    cat_id: id
+                }
+                this.init_Goods(params)
+                this.current_id = id
             },
             addToMiniCart(event, entity) {
                 console.log(entity, 'entity')
@@ -355,9 +443,20 @@
                 this.init_Goods()
             },
             all_Goods() {
-                this.cat_id = ''
+                this.current_id = ''
+                this.brand_id = ''
                 this.init_Goods()
                 this.is_active = 0
+                let nodes =this.$refs.slideMenu
+                let childNode = this.$refs.slideChild
+                // console.log(nodes)
+                nodes.forEach(item => {
+                    item.classList.remove("active");
+                    item.classList.add("up");
+                })
+                childNode.forEach(item => {
+                    this.toggleSlide(item, 0, '500');
+                })
             },
         }
     }
@@ -412,25 +511,65 @@
     .mint-navbar {
         background-color: #E6E6E6;
         display: block;
-        left: 0x;
         text-align: left;
         width: 2rem;
-        height: 9rem;
+        height: 9.5rem;
         overflow: scroll;
-    }
 
-    .mint-navbar .mint-tab-item {
-        width: 100%;
-        font-size: .3rem;
-        color: #333;
-        padding-left: .2rem;
-    }
+        .menu-list {
+            width: 100%;
+            font-size: .3rem;
+            color: #333;
 
-    .mint-navbar .mint-tab-item.is-selected {
-        border-bottom: 0px;
-        color: #333;
-        background: #fff;
-        border-left: 2px solid #2da2ff;
+            .sp1 {
+                display: block;
+                height: 1rem;
+                line-height: 1rem;
+                padding-left: .15rem;
+                overflow: hidden;
+                border-left: 2px solid #E6E6E6;
+            }
+
+            .active {
+                background: #eef6fb;
+                border-left: 2px solid #26a2ff;
+            }
+
+            .down-menu {
+                background: #fff;
+                overflow: hidden;
+
+                p {
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    font-size: .24rem;
+                    padding-left: .2rem;
+                    padding-right: .1rem;
+                    height: .8rem;
+                    line-height: .8rem;
+
+                    span {
+                        display: inline-block;
+                        width: 1.3rem;
+                        white-space: normal;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+
+                    svg {
+                        width: .18rem;
+                        height: .18rem;
+                    }
+                }
+
+                .child-active {
+                    color: #2da2ff;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+            }
+        }
     }
 
     .mint-tab-container {
@@ -664,4 +803,42 @@
             }
         }
     }
+    .tabActive {
+        background: #eef6fb;
+        border-left: 2px solid #26a2ff;
+    }
+    .down-menu {
+                background: #fff;
+                overflow: hidden;
+
+                p {
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    font-size: .24rem;
+                    padding-left: .2rem;
+                    padding-right: .1rem;
+                    height: .8rem;
+                    line-height: .8rem;
+
+                    span {
+                        display: inline-block;
+                        width: 1.3rem;
+                        white-space: normal;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+
+                    svg {
+                        width: .18rem;
+                        height: .18rem;
+                    }
+                }
+
+                .child-active {
+                    color: #2da2ff;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+            }
 </style>

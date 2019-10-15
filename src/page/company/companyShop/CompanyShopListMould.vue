@@ -6,7 +6,7 @@
 				<div class="list" v-for="(item,index) in items">
 					<router-link :to="`/business/shop/${businessId}/${item.id}?num=${item.num}`">
 						<img :src="item.cover" class="list-img" />
-						<p class="list-title">{{item.good_name}}</p>
+						<div class="list-title">{{item.good_name}}</div>
 					</router-link>
 					<p class="p1">{{title}}</p>
 					<p class="p1">规格:{{item.spec}}</p>
@@ -315,11 +315,13 @@
 			height: 2.6rem;
 		}
 		.list-title {
-			white-space: normal;
-			overflow: hidden;
 			font-size: 14px;
 			line-height: 180%;
 			color: #333;
+			word-break:keep-all;
+			overflow: hidden;
+			text-overflow:ellipsis;
+			white-space: normal;
 		}
 	}
 	

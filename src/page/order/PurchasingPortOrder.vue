@@ -113,7 +113,7 @@
         display: flex;
         width: 100%;
         top: 0px;
-        padding: 10px 10px 6px;
+        padding: 12px;
         z-index: 999;
         justify-content: space-between;
         .retreat {
@@ -138,7 +138,7 @@
         }
     }
     .activeTop {
-        padding-top: 38px;
+        // padding-top: 38px;
     }
 
 </style>

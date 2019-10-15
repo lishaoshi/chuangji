@@ -3,6 +3,7 @@ import api from "./api";
 import store from "@/stores";
 import $Message from "@/plugins/message-box";
 import lstore from "@/plugins/lstore/lstore";
+import {Toast} from "mint-ui"
 
 /**
  * 用户登录
@@ -12,10 +13,8 @@ import lstore from "@/plugins/lstore/lstore";
  */
 export function signinByAccount(payload){
     return api.post("/auth/login",payload, { validateStatus: s => s == 200}).then((res) =>{
-        // debugger
-        // console.log(res, 'res')
         if(res.data.code==400) {
-            $Message.error(res.data.message);
+            Toast(res.data.message)
         } else {
             console.log(res.data.access_token, 'res')
             lstore.setData("H5_ACCESS_TOKEN", `Bearer ${res.data.access_token}`)

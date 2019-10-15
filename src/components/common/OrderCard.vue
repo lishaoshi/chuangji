@@ -31,7 +31,7 @@
                 <div class="need_fu">
                     <p><b>数量<i style="padding-left: 4px;display: inline-block; ">{{data.items.length}}</i></b></p>
                     <p>{{data.order_status==0? '应付':'金额：'}}</p>
-                    <p>￥{{data.order_status==0?data.order_amount:data.money_paid.toFixed(2)}}</p>
+                    <p>￥{{data.order_status==0?data.order_amount:data.money_paid}}</p>
                 </div>
             </div>
         </div>
@@ -54,12 +54,12 @@
                 <div class="need_fu">
                     <p><b>数量<i style="padding-left: 4px;display: inline-block; ">{{data.items.length}}</i></b></p>
                     <p>{{data.order_status==0? '应付':'金额：'}}</p>
-                    <p>￥{{data.order_status==0?data.order_amount:data.money_paid.toFixed(2)}}</p>
+                    <p>￥{{data.order_status==0?data.order_amount:data.money_paid}}</p>
                 </div>
             </div>
         </div>
         <div class="again">
-            <div class="much" @click="goOrderDetail" v-if="data.order_status == 0">
+            <div class="much" @click="goOrderDetail(data)" v-if="data.order_status == 0">
                 <p>去付款</p>
             </div>
             <div class="much" v-if="data.pay_status == 1">
@@ -74,6 +74,7 @@
 </template>
 
 <script>
+  import { orderPay } from "@/api/businessOrder"
     export default {
         name: "OrderCard",
         props: {
@@ -131,7 +132,19 @@
             console.log(this.data, 'try daa')
         },
         methods: {
-            goOrderDetail() {
+            goOrderDetail(item) {
+                this.$messagebox.confirm('',{
+                    title: '提示',
+                    message: '确认支付吗？',
+                }).then(res=>{
+                    if(res=='confirm') {
+                        orderPay(item.id).then(()=>{
+                            this.$toast('支付成功')
+                            this.$emit('update')
+                        })
+                    }
+                })
+                return false
                 this.$router.push({name:'bussinessOrderDetail', query: {id: this.data.id}})
             }
         }

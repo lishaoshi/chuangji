@@ -17,6 +17,11 @@ export function sureBusinessOrder(id) {
      return http.post(`hippo-shop/business/confirm-receipt/${id}`, { validateStatus: s => s > 200 })
 }
 
+// 确认支付
+export function orderPay(orderId) {
+    return http.patch(`hippo-shop/business/orders/${orderId}/pay`)
+}
+
 /* 商业服务端订单 */
 export const serviceBusinessOrderList = (params) =>{
     return http.get('hippo-shop/business/service-orders',{params, validateStatus: s => s === 200});

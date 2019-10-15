@@ -18,7 +18,7 @@
                     <em class="lose" @click="removeToMiniCart()" v-if="data.num>0">-</em>
                     <em class="lose"  v-else>-</em>
                     <div class="num">
-                        <span class="amount">{{data.num||0}}</span>
+                        <span class="amount">{{data.num}}</span>
                         <p>{{data.unit || '件'}}</p>
                     </div>
                     <em class="add" @click="addToMiniCart()">+</em>
@@ -95,7 +95,7 @@
                 follow_status: 0,
                 follow_info: '收藏',
                 businessId: 0,
-                data: [],
+                data: {},
                 nums: 0,
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
                 time:'',
@@ -150,18 +150,14 @@
                 } = await this.$http.get(`hippo-shop/business/${this.businessId}/detail/${this.id}`)
                 this.data = data.data
                 this.name = this.data.brand.name
-                // data.num = this.num
                 this.data = this._handleData(this.data)
                 queryShopCarList({}, this.businessId).then(res=>{
                     this.shopCart = res
-                    // console.log(this.id, res)
-                    if(res[this.id].num) {
-                        this.data.num = res[this.id].num
+                    if(res[this.id]) {
+                        this.$set(this.data, 'num',  res[this.id].num)
                     } else {
-                        this.data.num = 0
+                        this.$set(this.data, 'num',  0)
                     }
-                    // res[this.id].num && ()
-                    // console.log(this.data)
                 })
 
                 //是否收藏
@@ -200,19 +196,20 @@
                 return data
             },
             addToMiniCart() {
+                this.data.num++
                 let params = {
                     supplier_id: this.businessId,
                     good_id: this.id
                 }
                 addShopCar(params)
-                this.data.num++
                 if(this.shopCart[this.id]) {
                     // debugger
                     
                     this.shopCart[this.id].num++
                 } else {
-                    this.shopCart[this.id] = data
+                    this.shopCart[this.id] = this.data
                 }
+
 
             },
             removeToMiniCart() {

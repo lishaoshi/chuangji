@@ -73,6 +73,7 @@
 <script>
 	import Spread from "../Spread";
 	import {sureSendBusinessOrder} from "@/api/businessOrder.js"
+	import { orderPay } from "@/api/businessOrder"
     export default {
 		name: "OrderDetail",
         components: {Spread},
@@ -101,7 +102,7 @@
 			}
 		},
 		created() {
-			this.orderId = this.$route.query.id;
+			this.orderId = this.$route.params.id;
 			this._initData();
 		},
 		methods: {
@@ -110,6 +111,18 @@
 					data
 				} = await this.$http.get(`hippo-shop/business/orders/${this.orderId}`)
 				this.data = this._handleData(data.data.order)
+			},
+			goComfirm() {
+				 this.$messagebox.confirm('',{
+                    title: '提示',
+                    message: '确认支付吗？',
+                }).then(res=>{
+                    if(res=='confirm') {
+                        orderPay(item.id).then(()=>{
+                            this.$toast('支付成功')
+                        })
+                    }
+                })
 			},
 			_handleData(data) {
 				console.log(data)

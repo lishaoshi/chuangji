@@ -67,11 +67,12 @@
 				</ClxsdLoadMore>
 			</mt-tab-container-item>
 		</mt-tab-container> -->
-
-        <mt-loadmore :autoFill="false" :top-method="loadTop" ref="load" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded">
-                <OrderCard style="min-height: 6rem;"  :key="`businsess_order_rec_${index}`" :data="order" v-for="(order,index) in oriderListt"  :delectOrder="delectOrder"></OrderCard>
-        </mt-loadmore>
-
+        <div style="overflow:auto" v-if="oriderListt.length >0">
+            <mt-loadmore :autoFill="false" :top-method="loadTop" ref="load" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded">
+                <OrderCard style="min-height: 6rem;"  :key="`businsess_order_rec_${index}`" @update="updateList" :data="order" v-for="(order,index) in oriderListt"  :delectOrder="delectOrder"></OrderCard>
+            </mt-loadmore>
+        </div>
+       <EmptyOrder v-else/>>
     </div>
 </template>
 
@@ -161,6 +162,9 @@
                 //     // }
                 // })
                 
+            },
+            updateList() {
+                this.getOrderList()
             },
             sureOrder(id) {
 				this.$messagebox.confirm("确定收到货物了吗?").then(action => {
