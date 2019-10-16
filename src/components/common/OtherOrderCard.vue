@@ -11,12 +11,12 @@
 					<p v-if="data.supplier">{{data.supplier.name}}</p>
 					<p v-if="data.consignee">{{data.consignee}}</p>
 					<p class="color-gray">订单编号：{{data.order_sn}}</p>
-					<p class="color-gray">下单日期：{{data.created_at}}</p>
+					<p class="color-gray">下单日期：{{data.time}}</p>
 				</router-link>
 			</div>
 			<div class="item-box2">
 				<p>实付金额</p>
-				<p>￥{{data.total_price}}</p>
+				<p>￥{{data.money_paid}}</p>
 				<p>使用活动卷</p>
 				<p v-if="data.is_coupon == null">无</p>
 				<p v-else>{{data.is_coupon}}</p>

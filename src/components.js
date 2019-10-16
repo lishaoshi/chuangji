@@ -10,6 +10,7 @@ import CircleLoading from '@/icons/CircleLoading.vue';
 import PullRefresh from "./components/PullRefresh";
 import BetterScroll from "./components/better-scroll"
 import PROPMT from "./components/showPrompt/prompt.vue"
+import NewLoad from "./components/newLoadMore"
 
 export default [
     Avatar,
@@ -22,5 +23,6 @@ export default [
     CircleLoading,
     PullRefresh,
     BetterScroll,
-    PROPMT
+    PROPMT,
+    NewLoad
 ]

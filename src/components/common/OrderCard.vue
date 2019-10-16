@@ -46,24 +46,24 @@
                 </div>
                 <p class="list-info">
                     <span>订单编号：{{data.order_sn}}</span>
-                    <span>{{data.order_time}}</span>
+                    <span>{{data.created_at}}</span>
                 </p>
             </router-link>
-          <div class="need_pay">
+          <!-- <div class="need_pay">
                 <div>剩余时间30分钟</div>
                 <div class="need_fu">
                     <p><b>数量<i style="padding-left: 4px;display: inline-block; ">{{data.items.length}}</i></b></p>
                     <p>{{data.order_status==0? '应付':'金额：'}}</p>
                     <p>￥{{data.order_status==0?data.order_amount:data.money_paid}}</p>
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="again">
             <div class="much" @click="goOrderDetail(data)" v-if="data.order_status == 0">
                 <p>去付款</p>
             </div>
-            <div class="much" v-if="data.pay_status == 1">
-                <p v-if="data.shipping_status != 2" @click="sureOrder(data.id)">确认收货</p>
+            <div class="much" v-if="data.order_status !=0 && data.order_status!=3">
+                <p v-if="data.order_status != 2" @click="sureOrder(data.id)">确认收货</p>
                 <p v-else @click="delectOrder(data.id)">删除订单</p>
                 <p>
                     <router-link to="/factory/cart">再来一单</router-link>
@@ -277,7 +277,7 @@
 
     .again {
         width: 100%;
-        height: .9rem;
+        max-height: .9rem;
         background: #fff;
         // text-align: right;
         .much {

@@ -16,102 +16,33 @@
                 <p>货款(元)</p>
             </div>
         </div>
-        <mt-navbar v-model="selected">
-            <mt-tab-item id="1">
-                <div class="nav-li">
-                    <svg class="icon">
-                        <use :xlink:href="`#icon-ordering-extracting-${selected==1 ? '1':'0'}`"/>
-                    </svg>
-                    <p>待提取</p>
-                </div>
-            </mt-tab-item>
-            <mt-tab-item id="2">
-                <div class="nav-li">
-                    <svg class="icon">
-                        <use :xlink:href="`#icon-ordering-deliverGoods-${selected==2 ? '1':'0'}`"/>
-                    </svg>
-                    <p>待发货</p>
-                </div>
-            </mt-tab-item>
-            <mt-tab-item id="3">
-                <div class="nav-li">
-                    <svg class="icon">
-                        <use :xlink:href="`#icon-ordering-receipting-${selected==3 ? '1':'0'}`"/>
-                    </svg>
-                    <p>待收款</p>
-                </div>
-            </mt-tab-item>
-            <mt-tab-item id="4">
-                <div class="nav-li">
-                    <svg class="icon">
-                        <use :xlink:href="`#icon-ordering-receipted-${selected==4 ? '1':'0'}`"/>
-                    </svg>
-                    <p>已收货</p>
-                </div>
-            </mt-tab-item>
-        </mt-navbar>
 
-        <mt-tab-container v-model="selected" style="min-height: 5rem;">
-            <mt-tab-container-item id="1">
-                <div v-if="drawOrders.length>0">
-                <!-- <ClxsdLoadMore key="orders-list-UnDrawOrder" ref="loadmoreUnDraw" @onRefresh="unDrawRefresh" @onLoadMore="unDrawLoadMore"> -->
-                    <mt-loadmore :top-method="unDrawRefresh" :bottom-method="unDrawLoadMore" :bottom-all-loaded="drawOrdersAllLoaded" ref="drawOrders">
-                        <UnDrawCard :key="`order_drug_undraw_${index}`" :data="order" v-for="(order,index) in drawOrders"
-                                    :refuseOrder="refuseOrder"
-                                    :extractOrder="extractOrder"
+        <div class="orderType">
+            <div class="nav-li" v-for="(item, index) of data" :key="index" @click="chooseOrderType(index, item)">
+                <svg class="icon">
+                    <use :xlink:href="`${item.icon}${currentIndex==index ? '1':'0'}`"/>
+                </svg>
+                <p :style="{color: `${currentIndex==index?'#0090FF':''}`}">{{item.title}}</p>
+            </div>
+        </div>
+
+        <div v-if="orders.length>0" class="scroll">
+            <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :auto-fill="false" ref="loadmore">
+                <div class="content" ref="content">
+                    <template v-if="currentIndex==0">
+                        <UnDrawCard  :key="`order_drug_undraw_${index}`" :data="order" v-for="(order,index) in orders"
+                            :refuseOrder="refuseOrder"
+                            :extractOrder="extractOrder"
+                            class="content"
                         />
-                    </mt-loadmore>
-                <!-- </ClxsdLoadMore> -->
+                    </template>
+                    <DrugOrderCard v-else class="content" :key="`order_drug_unmoney_${index}`" :data="order" :status="3"  v-for="(order,index) in orders" :sureOrder="sureOrder"></DrugOrderCard>
+                    <div style="text-align: center;color: #999;margin-top: 10px;" v-if="allLoaded">—— 没有更多啦 ——</div>
                 </div>
-                <div v-else>
-                    <EmptyOrder/>
-                </div>
-                <span class="fixed-over" v-if="drawOrders.length>0">
-                    <span v-if="is_over == false" @click="is_over = !is_over">
-                        <svg class="icon">
-                            <use xlink:href="#icon-left-alert"></use>
-                        </svg>
-                    </span>
-                    <span v-if="is_over == true" class="fixed-over-box2">
-                        <span  @click="drawAllOrders">全部提取 </span>
-                        <svg class="icon"  @click="is_over = !is_over">
-                            <use xlink:href="#icon-right-alert"></use>
-                        </svg>
-                    </span>
-                </span>
-            </mt-tab-container-item>
-           <mt-tab-container-item id="2">
-               <div v-if="unSendOrders.length>0">
-               <ClxsdLoadMore key="orders-list-unSend" ref="loadmoreUnSend" @onRefresh="unSendRefresh" @onLoadMore="unSendLoadMore">
-                   <DrugOrderCard :key="`order_drug_unSend_${index}`" :data="order" :status="2" v-for="(order,index) in unSendOrders" :sureSendOrder="sureSendOrder"></DrugOrderCard>
-               </ClxsdLoadMore>
-               </div>
-               <div v-else>
-                   <EmptyOrder/>
-               </div>
-           </mt-tab-container-item>
-           <mt-tab-container-item id="3">
-               <div v-if="unRecMoney.length>0">
-               <ClxsdLoadMore key="orders-list-unRecMoney" ref="loadmoreUnRecMoney" @onRefresh="unRecMoneyRefresh" @onLoadMore="unRecMoneyLoadMore">
-                   <DrugOrderCard :key="`order_drug_unmoney_${index}`" :data="order" :status="3"  v-for="(order,index) in unRecMoney" :sureOrder="sureOrder"></DrugOrderCard>
-               </ClxsdLoadMore>
-               </div>
-               <div v-else>
-                   <EmptyOrder/>
-               </div>
-           </mt-tab-container-item>
-
-           <mt-tab-container-item id="4">
-               <div  v-if="recOrders.length>0">
-               <ClxsdLoadMore key="orders-list-rec" ref="loadmoreRec" @onRefresh="recRefresh" @onLoadMore="recLoadMore">
-                   <DrugOrderCard :key="`order_factory_unSend_${index}`" :data="order" :status="4"  v-for="(order,index) in recOrders"  :delectOrder="delectOrder"></DrugOrderCard>
-               </ClxsdLoadMore>
-               </div>
-               <div v-else>
-                   <EmptyOrder/>
-               </div>
-           </mt-tab-container-item>
-        </mt-tab-container>
+            </mt-loadmore>
+        </div>
+        <EmptyOrder v-else/>
+   
         <clxsd-foot-guide :user-type="USER_TYPE"/>
     </div>
 </template>
@@ -136,29 +67,44 @@
         },
         data() {
             return {
-                selected: '1',
+                pulldown: true,
+                pullup: true,
                 is_over: false,
                 isEmpty: true,
                 order_id: 0,
                 orders: [], //全部订单
-                unPayOrders: [], //待付款
-                unSendOrders: [], //待发货
-                unRecMoney: [], //待收款
-                recOrders: [], //已收款
-                drawOrders:[],//待提取订单
                 state: 1,
-                showLoading: true, //显示加载动画
-                page: 1, //全部订单默认页
-                unPay_page: 1, //未付款订单默认页
-                unSend_page: 1, //未发货订单默认页
-                unRecMoney_page: 1, //代收款默认页
-                rec_page: 1, //已收款默认页
-                draw_page:1,//待提取订单默认页
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
                 daikuanValue: 0.00,
                 lianShuValue: 0.00,
                 drawValue:0,
-                drawOrdersAllLoaded:　false  //标志待提取列表是否已经全部加载， false：没有全部加载， true：已经全部加载
+                data: [
+                    {
+                        title: '待提取',
+                        type: 1,
+                        icon: '#icon-ordering-extracting-',
+                        isActive: true
+                    },{
+                        title: '待发货',
+                        type: 2,
+                        icon: '#icon-ordering-deliverGoods-',
+                        isActive: false
+                    },{
+                        title: '待收货',
+                        type: 3,
+                        icon: '#icon-ordering-receipting-',
+                        isActive: false
+                    },{
+                        title: '已收货',
+                        type: 4,
+                        icon: '#icon-ordering-receipted-',
+                        isActive: false
+                    },
+                ],
+                currentIndex: 0,
+                limit: 20,
+                page: 1,
+                allLoaded: false,   //区分是否已经加载完成
             }
         },
         computed: {
@@ -166,8 +112,50 @@
                 USER_TYPE: state => state.CURRENTUSER.data.user_type,
             })
         },
+        mounted() {
+            this.$nextTick().then(()=>{
+                console.log(this.$refs, 'height')
+            })
+            
+        },
+        watch: {
+            selected(newValue, oldValue) {
+                console.log(newValue, oldValue, this.page)
+                this.page = 1
+                this.unPay_page= 1
+                this.unSend_page = 1
+                this.draw_page = 1
+                this.rec_page = 1
+                let options = {
+                    limit: 20
+                } 
+                switch (newValue) {
+                    case "1":
+                        // debugger
+                        // console.log(123)
+                        this.getDrawOrderData(options)
+                        break;
+                    case "2":
+                        this.getUnSendOrderData(options)
+                        break;
+                    case "3":
+                        this.getUnRecMoneyData(options)
+                        break;
+                    case "4":
+                        this.getRecOrderData(options)
+                        break;
+                    default:
+                        break;
+                }
+            }
+        },
         created(){
             this.initData()
+             let options = {
+                    limit: 20
+                }
+                this.getOrderList()
+            // console.log(this.$refs, 'hello')
         },
 
         methods: {
@@ -175,7 +163,6 @@
                 this.$http.get('hippo-shop/business/dataStatistics')
                 .then(response => {
                     const { data } = response.data;
-                    console.log(data.unExtractInfo)
                     this.drawValue = data.unExtractInfo.count;
                     this.daikuanValue = data.unExtractInfo.sum
                     this.lianShuValue = data.unExtractInfo.supplier_lianbei
@@ -185,6 +172,26 @@
                 }).catch(err => {
 
                 })
+               
+            },
+
+            // 上拉刷新
+            loadBottom() {
+                // console.log(123)
+                this.getOrderList()
+            },
+            // 下拉刷新
+            loadTop() {},
+            chooseOrderType(index, item) {
+                this.page = 1
+                this.currentIndex = index
+                this.getOrderList(item.type)
+            },
+            onPullStart() {
+                console.log('onPullStart')
+            },
+            dowm(vale) {
+                console.log(123123, value)
             },
             _handleData(data,status) {
                 console.log("当前："+this.selected)
@@ -208,7 +215,7 @@
             },
             sureSendOrder(id) {
                 this.$messagebox.confirm("确定发送货物了吗?").then(action => {
-                    console.log("收到的商品id：" + id)
+                    // console.log("收到的商品id：" + id)
                     sureSendBusinessOrder(id)
                     this.UnDrawOrder.splice(this.UnDrawOrder.findIndex(item => item.id === id), 1)
                 }).catch(err => err);
@@ -227,22 +234,20 @@
 
                 }).catch(err => err);
             },
-            extractOrder(id,nums) {
-                    this.$messagebox.confirm("确定提取此订单吗?").then(action => {
-                        console.log("商品id：" + id)
+            async extractOrder(id,nums) {
+                   await this.$messagebox.confirm("确定提取此订单吗?").then(action => {
                         sureDrawBusinessOrder(id).then(res => {
-                            console.log(res)
                             if(res.data.code === 200) {
-                                this.UnDrawOrder.splice(this.UnDrawOrder.findIndex(item => item.id === id), 1)
-                                this.unSendOrders.unshift(this.unSendOrders.findIndex(item => item.id === id), 1)
+                                 this.initData()
+                                this.orders.splice(this.orders.findIndex(item => item.id === id), 1)
                                 this.$toast("提取成功")
                             }else if(res.data.code === 203){
                                 this.$toast(res.data.message)
                             }
                         }).catch(error => {
-                            console.log(error)
                         })
                     }).catch(err => err);
+                    // this.orders.splice()
             },
             drawAllOrders(){
                 this.$messagebox.confirm("确定提取全部订单吗?").then(action => {
@@ -252,174 +257,59 @@
             sureOrder(){
 
             },
-            //代提取
-            async getDrawOrderData(options, loadMore = false) {
+
+            // 获取订单数据
+            async getOrderList(type=1) {
                 let params = {
-                    page: this.draw_page,
-                    limit: options.limit,
-                    status: 1
+                     page: this.page,
+                    limit: this.limit,
+                    status: type
                 }
-                serviceBusinessOrderList(params, loadMore)
+                this.allLoaded = false
+                await serviceBusinessOrderList(params)
                     .then(({
                                data = []
                            }) => {
-                        if (loadMore) {
-                            this.drawOrders = [...this.drawOrders, ...data.data.orderList]
-                        } else {
-                            this.drawOrders = data.data.orderList
+                            if(this.page==1) {
+                                this.orders = data.data.orderList
+                            } else {
+                                this.orders = [...this.orders, ...data.data.orderList]
+                            }
+                        
+                        this.orders.forEach((item, index, arr)=>{
+                            arr[index].time = this.$moment.unix(item.payed_time_int).format("YYYY-MM-DD");
+                            item.left_time && (arr[index].left_time = Math.ceil(item.left_time/60));
+                        })
+                        if(data.data.orderList.length<=0) {
+                            this.allLoaded = true
+                            this.$refs.loadmore.onBottomLoaded()
                         }
-                        this.draw_page = this.draw_page + 1
-                        this.$refs.loadmoreUnDraw.afterLoadMore(data.data.orderList.length < options.limit)
-                        if (options.callback) {
-                            options.callback()
-                        }
-                        this.$refs.drawOrders.onTopLoaded()
                     })
+                    this.page++
             },
-            unDrawRefresh(callback) {
-                this.draw_page = 1
-                let options = {
-                    limit: 10,
-                    callback: callback
-                }
-                this.getDrawOrderData(options)
-            },
-            unDrawLoadMore() {
-                console.log('loard')
-
-                let options = {
-                    limit: 10,
-                }
-
-                this.getDrawOrderData(options, true)
-            },
-            //待发货
-            getUnSendOrderData(options, loadMore = false) {
-                let params = {
-                    page: this.unSend_page,
-                    limit: options.limit,
-                    status: 2
-                }
-                serviceBusinessOrderList(params, loadMore)
-                .then(({data = []}) => {
-                    if (loadMore) {
-                        console.log(data.data.orderList)
-                        this.unSendOrders = [...this.unSendOrders, ...data.data.orderList]
-                    } else {
-                        this.unSendOrders = data.data.orderList
-                    }
-                    this.unSendOrders = this._handleData(this.unSendOrders,params.status)
-                    this.unSend_page = this.unSend_page + 1
-                    console.log(data.data.orderList.length < options.limit )
-                    this.$refs.loadmoreUnSend.afterLoadMore(data.data.orderList.length < options.limit)
-                    if (options.callback) {
-                        options.callback()
-                    }
-                })
-            },
-            unSendRefresh(callback) {
-                this.unSend_page = 1
-                let options = {
-                    limit: 30,
-                    callback: callback
-                }
-                this.getUnSendOrderData(options)
-            },
-            unSendLoadMore() {
-                console.log("more")
-                let options = {
-                    limit: 30,
-                }
-                this.getUnSendOrderData(options, true)
-            },
-
-            //待收款
-            async getUnRecMoneyData(options, loadMore = false) {
-                let params = {
-                    page: this.unRecMoney_page,
-                    limit: options.limit,
-                    status: 3
-                }
-                serviceBusinessOrderList(params, loadMore)
-                .then(({data = []}) => {
-                    if (loadMore) {
-                        this.unRecMoney = [...this.unRecMoney, ...data.data.orderList]
-                    } else {
-                        this.unRecMoney = data.data.orderList
-                    }
-                    this.unRecMoney = this._handleData(this.unRecMoney,params.status)
-                    this.unRecMoney_page = this.unRecMoney_page + 1
-                    this.$refs.loadmoreUnRecMoney.afterLoadMore(data.data.orderList.length < options.limit)
-                    if (options.callback) {
-                        options.callback()
-                    }
-                })
-            },
-            unRecMoneyRefresh(callback) {
-                this.unRecMoney_page = 1
-                let options = {
-                    limit: 20,
-                    callback: callback
-                }
-                this.getUnRecMoneyData(options)
-            },
-            unRecMoneyLoadMore() {
-                let options = {
-                    limit: 20,
-                }
-                this.getUnRecMoneyData(options, true)
-            },
-
-            //已收款
-            async getRecOrderData(options, loadMore = false) {
-                let params = {
-                    page: this.rec_page,
-                    limit: options.limit,
-                    status: 4
-                }
-                serviceBusinessOrderList(params, loadMore)
-                .then(({data = []}) => {
-                    if (loadMore) {
-                        this.recOrders = [...this.recOrders, ...data.data.orderList]
-                    } else {
-                        this.recOrders = data.data.orderList
-                    }
-                    this.recOrders = this._handleData(this.recOrders,params.status)
-                    this.rec_page = this.rec_page + 1
-                    this.$refs.loadmoreRec.afterLoadMore(data.data.orderList.length < options.limit)
-                    if (options.callback) {
-                        options.callback()
-                    }
-                })
-            },
-            recRefresh(callback) {
-                this.rec_page = 1
-                let options = {
-                    limit: 20,
-                    callback: callback
-                }
-                this.getRecOrderData(options)
-            },
-            recLoadMore() {
-                let options = {
-                    limit: 20,
-                }
-                this.getRecOrderData(options, true)
-            },
-
         },
 
     }
 </script>
 
 <style lang="scss" scoped>
+.scroll {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 2.8rem;
+    bottom: 1.1rem;
+    overflow: auto;
+}
     .top-box {
         min-height: .88rem;
         background: rgba(0, 144, 255, 1);
         display: flex;
         justify-content: space-around;
         align-items: center;
-
+        position: relative;
+        z-index: 10;
+        padding-bottom: 10px;
         > div {
             width: 30%;
             text-align: center;
@@ -447,7 +337,7 @@
     }
 
     .active {
-        padding-top: 39px;
+        padding-top: .4rem;
     }
 
     .nav-li {
@@ -456,6 +346,9 @@
             height: .45rem;
             margin-bottom: .25rem;
         }
+        display: flex;
+        align-items: center;
+        flex-direction: column;
     }
 
     .fixed-over {
@@ -584,5 +477,17 @@
 
     .mint-tab-item {
         color: #666;
+    }
+</style>
+
+<style lang="scss" scoped>
+    .orderType {
+        display: flex;
+        justify-content: space-around;
+        background: #fff;
+        height: 1.6rem;
+        align-items: center;
+        position: relative;
+        z-index: 10;
     }
 </style>

@@ -13,10 +13,11 @@
 			<slot/>
 
 			<!-- footer -->
-			<div v-if="bottomStatus > 0 && showBottom" :class="`clxsd-loadmore-foot status-${bottomStatus}`" @click="beforeLoadMore">
+            <!-- @click="beforeLoadMore" -->
+			<div v-if="bottomStatus > 0 && showBottom" :style="{transform: `translateY(${ uTY-45 }px)`, transitionDuration}" :class="`clxsd-loadmore-foot status-${bottomStatus}`">
 				<slot name="foot">
 					<CircleLoading v-if="bottomStatus === 1" />
-					<span>{{ bottomTxt }}</span>
+					<span style="margin-top: 20px">{{ bottomTxt }}</span> 
 				</slot>
 			</div>
 		</div>
@@ -45,7 +46,7 @@
 	};
 
 	export default {
-		name: "ClxsdLoadMore",
+		name: "NewLoadMore",
 		props: {
 			topDistance: {
 				type: Number,
@@ -69,14 +70,15 @@
 				//用于计算 scrollTop 的节点
 				scrollTarget: null,
 
-				dY: 0,
+                dY: 0,   //手指下拉距离
+                uY: 0,   //手指上拉距离
 				startY: 0,
 				pulling: false,
-				dragging: false,
-
-				loading: false,
-				noMore: false,
-				refreshing: false,
+				dragging: false,   //是否正在上拉、下拉动作
+ 
+				loading: false, //是否正在加载
+				noMore: false,   //没有更多数据
+				refreshing: false,  //是否是下拉刷新
 
 				topBarHeight: 0,
 
@@ -87,12 +89,16 @@
 			};
 		},
 		computed: {
+            // 最大位移量
 			maxDistance() {
 				return this.topDistance > 0 ? this.topDistance : this.topBarHeight * 1.5
 			},
 			tY() {
 				return this.noAnimation ? 0 : 80 * Math.atan(this.dY / 200)
-			},
+            },
+            uTY() {
+                return this.noAnimation ? 0 : 80 * Math.atan(this.uY / 200)
+            },
 			transitionDuration() {
 				return this.pulling ? '0s' : '200ms'
 			},
@@ -116,51 +122,56 @@
 		mounted() {
 			this.scrollTarget = getScrollTarget(this.$el);
 			this.topBarHeight = this.$refs.head.clientHeight;
-			//console.log(this.autoLoad) 
-			//console.log(this.$el)
 			if(this.autoLoad && !this.isFulled()) {
 				this.beforeRefresh()
 			}
 		},
 		methods: {
 			startDrag(e) {
-				// console.log(e)
-				// debugger
 				e = e.changedTouches ? e.changedTouches[0] : e;
 				if(this.loading || this.refreshing || this.scrollTarget.scrollTop > 0) {
 					return
-				}
-				this.topBarHeight = this.$refs.head.clientHeight
-				//console.log(this.topBarHeight)
+                }
+                this.topBarHeight = this.$refs.head.clientHeight
+                this.bottomBarHeight = 
 				this.$emit('onPullStart')
 				this.dragging = true
-				this.startY = e.pageY
-			},
-
-			// 开始动作函数
-			startUp(e) {
-				console.log(1234)
-			},
+                this.startY = e.pageY
+            },
+            // 鼠标开始移动动作
 			onDrag(e) {
-				// console.log(123123123)
-				const $e = e.changedTouches ? e.changedTouches[0] : e;
-				const offsetY = $e.pageY - this.startY
+                 
+                const $e = e.changedTouches ? e.changedTouches[0] : e;
+                const offsetY = $e.pageY - this.startY
+                const downY = this.startY - $e.pageY
 				// 是否为下拉操作
-				const isPull = offsetY > 0
+                const isPull = offsetY > 0
+                const isDown = downY < 0
+                // scrollTop + clientHeight == scrollHeight。
+                const isScrollDowm= document.documentElement.scrollTop + document.documentElement.clientHeight == document.documentElement.scrollHeight
+                // console.log(document.documentElement.scrollTop + document.documentElement.clientHeight, document.documentElement.scrollHeight)
+                console.log('ispull', isScrollDowm, isDown, downY)
 
 				if(this.dragging && isPull && window.scrollY <= 0) {
-					// 阻止 原生滚动 事件
+                    // 阻止 原生滚动 事件
+                    // debugger
 					e.preventDefault()
-
 					this.dY = offsetY
 					this.pulling = true
 					this.$emit('onPull', this.dY)
-				}
-			},
+				} else if(this.dragging && isDown && isScrollDowm) {
+                    debugger
+                    this.uY =this.startY- $e.pageY 
+					this.$emit('onPull', this.dY)
+                }
+            },
+            
+            // 松开手指
 			stopDrag() {
-				console.log(123)
 				this.dragging = false
-				this.pulling = false
+                this.pulling = false
+                this.uY = 0
+                this.startY
 
 				this.$emit('onPullEnd')
 
@@ -203,6 +214,7 @@
 				})
 			},
 			afterLoadMore(noMore = true) {
+                // debugger
 				this.noMore = noMore
 				this.loading = false
 				this.$emit('afterLoadMore')
@@ -271,5 +283,8 @@
 		&-main {
 			background-color: inherit;
 		}
+        .clxsd-loadmore {
+            overflow: auto;
+        }
 	}
 </style>

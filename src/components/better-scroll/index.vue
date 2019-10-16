@@ -76,6 +76,13 @@
         default: 20
       }
     },
+    data() {
+      return {
+        isLoad: false,
+        pulldownMsg: '下拉刷新',
+        pullupMsg: '上拉刷新'
+      }
+    },
     mounted() {
       // 保证在DOM渲染完毕后初始化better-scroll
       setTimeout(() => {
@@ -91,12 +98,13 @@
         this.scroll = new BScroll(this.$refs.wrapper, {
           probeType: this.probeType,
           click: this.click,
+          hasVerticalScroll: true
         })
 
         // 是否派发滚动事件
         if (this.listenScroll) {
           this.scroll.on('scroll', (pos) => {
-            this.$emit('scroll', pos)
+            this.$emit('scroll')
           })
         }
 
@@ -105,20 +113,20 @@
           this.scroll.on('scrollEnd', () => {
             // 滚动到底部
             if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
+              console.log('pullup')
               this.$emit('scrollToEnd')
             }
           })
         }
 
         // 是否派发顶部下拉事件，用于下拉刷新
-        if (this.pulldown) {
-          console.log(123456)
-          this.scroll.on('touchend', (pos) => {
+        if (this.pulldown) {     
+           this.scroll.on('touchend', (pos) => {
             // 下拉动作
             if (pos.y > 50) {
               debugger
               console.log(123)
-              this.$emit('dowm', '123')
+              this.$emit('pulldown', ()=>{})
             }
           })
         }

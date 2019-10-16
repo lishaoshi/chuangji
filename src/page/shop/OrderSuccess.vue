@@ -46,7 +46,7 @@
            <router-link to="/business-order" v-if="orderType == 'business'"> 
                 <div class="query">查看订单</div>
             </router-link> 
-           <router-link to="/home"><div>返回首页</div></router-link>
+           <router-link to="/home"><div class="goback">返回首页</div></router-link>
             <!-- <div>返回首页</div> -->
         </div>
     </div>
@@ -156,16 +156,21 @@
         margin-bottom: .3rem;
         div {
             border:2px solid #0090ff;
-             padding: .22rem .84rem;
-             border-radius:.08rem;
+            //  padding: .22rem .84rem;
+            border-radius:.08rem;
+            width: 2.6rem;
+             line-height: .64rem;
         }
         .query {
             margin-right: .32rem;
             background:rgba(0,144,255,1);
             border-radius:.08rem;
-            // padding: .22rem .84rem;
-            width: 2.6rem;
+            text-align: center;
             color: #fff;
+        }
+        .goback {
+            color: rgba(0,144,255,1);
+            text-align: center;
         }
     }
     .img {

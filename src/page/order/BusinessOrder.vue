@@ -3,7 +3,7 @@
         <div class="tab">
             <mt-navbar v-model="selected">
 			<mt-tab-item id="1" >
-                <div class="nav-li" @click="handleClick('')">
+                <div class="nav-li" @click="handleClick(-1)">
                     <svg class="icon">
                         <use :xlink:href="`#icon-ordering-receipting-${selected==1 ? '1':'0'}`"/>
                     </svg>
@@ -53,7 +53,7 @@
                 :pulldown="pulldown"
                 v-if="oriderListt.length>0"
                 @scrollToEnd="scrollToEnd"
-                @dowm="dowm"
+                @pulldown="dowm"
             >
                 <div>
                     <OrderCard :key="`businsess_order_rec_${index}`" @update="updateList" :data="order" v-for="(order,index) in oriderListt"  :delectOrder="delectOrder"></OrderCard>
@@ -92,7 +92,7 @@
                 unPayOrders: [],//未付款
                 unSendOrders: [],//未发货
                 oriderListt: [],//已收货
-                state: '',
+                state: -1,
                 allLoaded: false,    //是否已经加载全部
                 limit: 15,
                 page: 1,
@@ -109,9 +109,9 @@
                 this.state = id
                 this.page = 1
                 this.getOrderList()
-                
             },
             updateList() {
+                this.page = 1
                 this.getOrderList()
             },
             scrollToEnd() {
@@ -166,169 +166,6 @@
                     // console.log( this.oriderListt)
                 })
             },
-            
-            // 
-                 
-            // //加载全部订单
-			// async getOrderData(options, loadMore = false) {
-			// 	let params = {
-			// 		page: this.page,
-			// 		type: 'orders-list',
-			// 		limit: options.limit
-			// 	}
-			// 	getBusinessOrderList(params, loadMore)
-			// 		.then(({
-			// 			data = []
-			// 		}) => {
-			// 			if(loadMore) {
-			// 				this.orders = [...this.orders, ...data]
-			// 			} else {
-			// 				this.orders = data
-			// 			}
-			// 			this.orders = this._handleData(this.orders)
-			// 			this.page = this.page + 1
-            //             console.log(data.length < options.limit)
-			// 			this.$refs.loadmore.afterLoadMore(data.length < options.limit)
-			// 			if(options.callback) {
-			// 				options.callback()
-			// 			}
-			// 		})
-			// },
-			// onOrdersRefresh(callback) {
-			// 	this.page = 1
-			// 	let options = {
-			// 		limit: 10,
-			// 		callback: callback
-			// 	}
-			// 	this.getOrderData(options)
-			// },
-			// onOrdersLoadMore() {
-			// 	let options = {
-			// 		limit: 10,
-			// 	}
-			// 	this.getOrderData(options, true)
-			// },
-			
-			// //加载未付款订单
-			// async getUnPayOrderData(options, loadMore = false) {
-			// 	let params = {
-			// 		page: this.unPay_page,
-			// 		type: 'orders-list-unPay',
-			// 		limit: options.limit,
-			// 		payStatus: 0
-			// 	}
-			// 	getBusinessOrderList(params, loadMore)
-			// 		.then(({
-			// 			data = []
-			// 		}) => {
-			// 			if(loadMore) {
-			// 				this.unPayOrders = [...this.unPayOrders, ...data]
-			// 			} else {
-			// 				this.unPayOrders = data
-			// 			}
-			// 			this.unPayOrders = this._handleData(this.unPayOrders)
-			// 			this.unPay_page = this.unPay_page + 1
-			// 			this.$refs.loadmoreUnPay.afterLoadMore(data.length < options.limit)
-			// 			if(options.callback) {
-			// 				options.callback()
-			// 			}
-			// 		})
-			// },
-			// unPayRefresh(callback) {
-			// 	this.unPay_page = 1
-			// 	let options = {
-			// 		limit: 10,
-			// 		callback: callback
-			// 	}
-			// 	this.getUnPayOrderData(options)
-			// },
-			// unPayLoadMore() {
-			// 	console.log('loard')
-			// 	let options = {
-			// 		limit: 10,
-			// 	}
-			// 	this.getUnPayOrderData(options, true)
-			// },
-			
-			// //待收货
-			// async getUnSendOrderData(options, loadMore = false) {
-			// 	let params = {
-			// 		page: this.unPay_page,
-			// 		type: 'orders-list-unSend',
-			// 		limit: options.limit,
-			// 		shipStatus: 1
-			// 	}
-			// 	getBusinessOrderList(params, loadMore)
-			// 		.then(({
-			// 			data = []
-			// 		}) => {
-			// 			if(loadMore) {
-			// 				this.unSendOrders = [...this.unSendOrders, ...data]
-			// 			} else {
-			// 				this.unSendOrders = data
-			// 			}
-			// 			this.unSendOrders = this._handleData(this.unSendOrders)
-			// 			this.unPay_page = this.unPay_page + 1
-			// 			this.$refs.loadmoreUnSend.afterLoadMore(data.length < options.limit)
-			// 			if(options.callback) {
-			// 				options.callback()
-			// 			}
-			// 		})
-			// },
-			// unSendRefresh(callback) {
-			// 	this.unPay_page = 1
-			// 	let options = {
-			// 		limit: 10,
-			// 		callback: callback
-			// 	}
-			// 	this.getUnSendOrderData(options)
-			// },
-			// unSendLoadMore() {
-			// 	let options = {
-			// 		limit: 10,
-			// 	}
-			// 	this.getUnSendOrderData(options, true)
-			// },
-			
-			// //已收货
-			// async getRecOrderData(options, loadMore = false) {
-			// 	let params = {
-			// 		page: this.unPay_page,
-			// 		type: 'orders-list-unSend',
-			// 		limit: options.limit,
-			// 		shipStatus: 2
-			// 	}
-			// 	getBusinessOrderList(params, loadMore)
-			// 		.then(({
-			// 			data = []
-			// 		}) => {
-			// 			if(loadMore) {
-			// 				this.recOrders = [...this.recOrders, ...data]
-			// 			} else {
-			// 				this.recOrders = data
-			// 			}
-			// 			this.recOrders = this._handleData(this.recOrders)
-			// 			this.rec_page = this.rec_page + 1
-			// 			this.$refs.loadmoreRec.afterLoadMore(data.length < options.limit)
-			// 			if(options.callback) {
-			// 				options.callback()
-			// 			}
-			// 		})
-			// },
-			// recRefresh(callback) {
-			// 	this.rec_page = 1
-			// 	let options = {
-			// 		limit: 10,
-			// 		callback: callback
-			// 	}
-			// 	this.getRecOrderData(options)
-			// },
-			// recLoadMore() {
-			// 	let options = {
-			// 		limit: 10,
-			// 	}
-			// 	this.getRecOrderData(options, true)
-			// },
         },
     }
 </script>
