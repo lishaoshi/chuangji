@@ -5,7 +5,7 @@
             <div class="inpSearch" v-bind:class="{ 'bg-from': hasError }">
                 <input type="text" placeholder="请输入关键词">
                 <i></i>
-                <svg class="icon-location">
+                <svg class="icon-location" @click="">
                     <use xlink:href="#icon-search2"/>
                 </svg>
             </div>
@@ -233,6 +233,7 @@
         position: relative;
         margin-left: 0.24rem;
         padding: 0 .2rem;
+       
         input {
             background: none;
             display: inline-block;
@@ -240,7 +241,7 @@
             height: .56rem;
             padding-left: 6px;
             width: 80%;
-
+             color: #fff;
             &::-webkit-input-placeholder {
                 color: rgba(255, 255, 255);
             }

@@ -11,13 +11,15 @@
                 <div class="drug_top">
                     <div class="drug_img">
                         <router-link :to="`/my-order/detail/${data.id}`">
-                            <img :src="data.items[0].entity.cover">
+                        <div style="display: inline-block;border-radius: 8px;">
+                             <img :src="data.items[0].entity.cover">
+                        </div>
                         </router-link>
                     </div>
                     <div class="drug_message">
                         <div>{{data.supplier.name}}</div>
-                        <div>生产规格：{{data.items[0].entity_spec}}</div>
-                        <!-- <div>生产公司：{{data.items[0].entity_spec}}</div> -->
+                        <div>规格：{{data.items[0].entity_spec}}</div>
+                        <div>品牌：{{data.items[0].entity.brand.name}}</div>
                     </div>
                 </div>
                 <div class="totle_pay">
@@ -27,7 +29,7 @@
                 </div>
             </div>
             <div class="need_pay">
-                <div>剩余时间{{data.diff_seconds | fillterTime}}分钟</div>
+                <div><span v-if="data.order_status==1 ||　data.order_status==0">剩余时间{{data.diff_seconds | fillterTime}}分钟</span></div>
                 <div class="need_fu">
                     <p><b>数量<i style="padding-left: 4px;display: inline-block; ">{{data.items.length}}</i></b></p>
                     <p>{{data.order_status==0? '应付':'金额：'}}</p>
@@ -49,23 +51,23 @@
                     <span>{{data.created_at}}</span>
                 </p>
             </router-link>
-          <!-- <div class="need_pay">
-                <div>剩余时间30分钟</div>
+          <div class="need_pay">
+                <div><span v-if="data.order_status==1 ||　data.order_status==0">剩余时间{{data.diff_seconds | fillterTime}}分钟</span></div>
                 <div class="need_fu">
                     <p><b>数量<i style="padding-left: 4px;display: inline-block; ">{{data.items.length}}</i></b></p>
                     <p>{{data.order_status==0? '应付':'金额：'}}</p>
                     <p>￥{{data.order_status==0?data.order_amount:data.money_paid}}</p>
                 </div>
-            </div> -->
+            </div>
         </div>
         <div class="again">
             <div class="much" @click="goOrderDetail(data)" v-if="data.order_status == 0">
                 <p>去付款</p>
             </div>
-            <div class="much" v-if="data.order_status !=0 && data.order_status!=3">
-                <p v-if="data.order_status != 2" @click="sureOrder(data.id)">确认收货</p>
-                <p v-else @click="delectOrder(data.id)">删除订单</p>
-                <p>
+            <div class="much" v-if="data.order_status !=0 && data.order_status != 1">
+                <p v-if="data.order_status != 1 && data.order_status!=6 " @click="sureOrder(data.id)">确认收货</p>
+                <p v-if="data.order_status != 2 && data.order_status != 3" @click="delectOrder(data.id)">删除订单</p>
+                <p v-if=" data.order_status!=3 ">
                     <router-link to="/factory/cart">再来一单</router-link>
                 </p>
             </div>
@@ -164,8 +166,8 @@
         color: #666;
         justify-content: space-between;
         padding-right: .16rem;
-        padding-top: .16rem;
-        padding-bottom: .16rem;
+        padding-top: .32rem;
+        padding-bottom: .32rem;
     }
     .order-list {
         margin-top: .2rem;
@@ -242,6 +244,7 @@
             display: flex;
             align-items: center;
             font-size: 0.26rem;
+            float: right;
             // margin-right: 0.24rem;
 
             p {
@@ -279,6 +282,7 @@
         width: 100%;
         max-height: .9rem;
         background: #fff;
+        min-height: .4rem;
         // text-align: right;
         .much {
             display: flex;
@@ -360,7 +364,7 @@
         display: flex;
         justify-content: space-between;
         padding: 0 .24rem;
-        margin: 0.48rem 0 .38rem 0;
+        margin: 0.38rem 0 .38rem 0;
         font-size: .22rem;
         color: #666;
         line-height: 1.6;

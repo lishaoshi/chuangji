@@ -24,7 +24,7 @@
             <li v-for="(entity,index) in entities" :key="`en-${index}`">
                 <div class="detail">
                     <p >{{entity.message}}</p>
-                    <p>{{entity.created_at.date | formatDate('MM-dd hh:mm')}}</p>
+                    <p>{{entity.created_at | initDate}}</p>
                 </div>
                 <div class="num">
                     <div v-if="entity.tag=='+'" style="color: #E63C6F">
@@ -82,6 +82,18 @@
         computed:{
             userId(){
                 return this.$store.state.CURRENTUSER.data.id;
+            }
+        },
+        filters: {
+            initDate(value) {
+                const  time = new Date(value*1000)
+                const Y = time.getFullYear()
+                const M = time.getMonth()+1
+                const d = time.getDate()
+                const h = time.getHours()
+                const m = time.getMinutes()
+                const s = time.getSeconds()
+                return `${M}月${d}日 ${h}:${m}:${s}`
             }
         },
         created(){

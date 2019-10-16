@@ -20,7 +20,7 @@
                 <router-link to="/change-phone" class="ul-info-a">
                     <span class="left">手机号</span>
                     <div class="right">
-                        <span>{{info.phone}}</span>
+                        <span>{{info.phone | filter_mobile}}</span>
                         <svg><use xlink:href="#icon-gongsixinxijinruicon"/></svg>
                     </div>
                 </router-link>

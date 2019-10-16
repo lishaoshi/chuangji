@@ -46,7 +46,7 @@
         </div>
         
 
-            <scroll
+            <!-- <scroll
                 class="wrapper"
                 :pullup="pullup"
                 :probeType="probeType"
@@ -54,12 +54,17 @@
                 v-if="oriderListt.length>0"
                 @scrollToEnd="scrollToEnd"
                 @pulldown="dowm"
-            >
+            > -->
+            <div v-if="oriderListt.length>0" class="scrollBox" style="overflow: auto">
+                <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :auto-fill="false" ref="loadmore">
                 <div>
                     <OrderCard :key="`businsess_order_rec_${index}`" @update="updateList" :data="order" v-for="(order,index) in oriderListt"  :delectOrder="delectOrder"></OrderCard>
                 </div>
+            </mt-loadmore>
+            </div>
+            
 
-            </scroll>
+            <!-- </scroll> -->
         
                     <!-- </div> -->
                
@@ -114,8 +119,8 @@
                 this.page = 1
                 this.getOrderList()
             },
-            scrollToEnd() {
-                this.pullup&&this.getOrderList(false, true)
+            loadBottom() {
+                this.getOrderList(false, true)
             },
             dowm(value) {
                 console.log(value)
@@ -148,22 +153,18 @@
                     status: this.state
                 }
                 getBusinessOrderList(params).then(res=>{
-                    // console.log(res.data)
-                    this.pullup = true
                     if(this.page>1) {
                          this.oriderListt = [...this.oriderListt, ...res.data.data.orderList]
+                         this.$refs.loadmore.onBottomLoaded()
                     } else {
+                        // debugger
                         this.oriderListt = res.data.data.orderList
                     }
+                    console.log(this.oriderList)
                     if(res.data.data.orderList.length==0) {
-                        console.log(res.data.data.orderList)
-                        this.pullup = false
+                        this.allLoaded = true
                     }
-                    
-                    //  top&&this.$refs.load.onTopLoaded()
-                    //  bottom&&this.$refs.load.onBottomLoaded()
-                     this.page++
-                    // console.log( this.oriderListt)
+                    this.page++
                 })
             },
         },
@@ -173,6 +174,13 @@
 <style lang="scss" scoped>
 .wrapper {
     height: 9rem;
+}
+.scrollBox {
+    position: absolute;
+    top: 2.4rem;
+    left: 0;
+    right: 0;
+    bottom: 1.1rem;
 }
 .tab {
     position: relative;

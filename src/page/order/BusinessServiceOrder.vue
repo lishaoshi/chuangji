@@ -274,6 +274,7 @@
                                 this.orders = data.data.orderList
                             } else {
                                 this.orders = [...this.orders, ...data.data.orderList]
+                                this.$refs.loadmore.onBottomLoaded()
                             }
                         
                         this.orders.forEach((item, index, arr)=>{
@@ -281,8 +282,7 @@
                             item.left_time && (arr[index].left_time = Math.ceil(item.left_time/60));
                         })
                         if(data.data.orderList.length<=0) {
-                            this.allLoaded = true
-                            this.$refs.loadmore.onBottomLoaded()
+                            this.allLoaded = true   
                         }
                     })
                     this.page++
