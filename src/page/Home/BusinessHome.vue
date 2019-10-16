@@ -3,7 +3,7 @@
         <!-- <scroll> -->
         <div class="content">
             <div v-bind:class="{ search: isActive, 'bg-blue': hasError ,activeTop: isFullScreen }">
-                <SearchBar></SearchBar>
+                <SearchBar v-model="searchValue" :searchFn="searchFn"></SearchBar>
                 <div class="approve">
                     <img src="../../images/index/study1@2x.png"/>
                 </div>
@@ -102,7 +102,9 @@
                 isAutoFill: false,
                 wrapperHeight: 0,
                 courrentPage: 1,
-                limit: 15
+                limit: 15,
+                searchValue: '',
+                isFirst: true
             }
         },
         // mounted() {
@@ -131,7 +133,10 @@
         },
         mounted() {
             window.addEventListener('scroll', this.handleScroll, true)
+            debugger
+            console.log(document.documentElement.scrollTo, 'scrollto')
         },
+       
         created() {
             console.log('USERTYPE',this.USERTYPE)
             this.initData()
@@ -154,6 +159,19 @@
             // 上拉加载
             loadBottom() {
                 this.loadMore();
+            },
+             // 点击搜索
+            searchFn() {
+                const params = {
+                    page: 1,
+                    limit: this.limit,
+                    search: this.searchValue
+                }
+                findNearBySuppliers(params).then(response => {
+                    this.allLoaded = false; // 可以进行上拉
+                    this.suppliers = response.data.data;
+                    this.$refs.loadmore.onTopLoaded();
+                })
             },
             // 下来刷新加载
             loadFrist() {

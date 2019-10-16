@@ -4,6 +4,7 @@ import router from '@/routers'
 import Message from "@/plugins/message-box";
 import lstore from "@/plugins/lstore/lstore";
 import store from '@/stores'
+// import { Toast } from "mint-ui"
 
 let cancel;
 let pending = {};

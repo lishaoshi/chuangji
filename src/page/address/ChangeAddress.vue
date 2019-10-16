@@ -237,8 +237,7 @@
 			margin-top: .4rem;
 		}
 		textarea {
-			height: .88rem;
-			line-height: .88rem;
+			 width: 65%;
 		}
 	}
 	.address-box {

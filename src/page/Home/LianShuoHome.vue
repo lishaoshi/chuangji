@@ -41,13 +41,13 @@
 		</div>
 		<div class="select-box">
 			<img src="../../images/index/home-leftLine.png">
-			<span>推荐厂家</span>
+			<span>—— 推荐厂家 ——</span>
 			<img src="../../images/index/home-rightLine.png">
 		</div>
 		<div class="main-body" ref="wrapper" :style="{ height: (wrapperHeight-50) + 'px' }">
-			<mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
+			<!-- <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill"> -->
 				<supplier-item :data="item" v-for="(item,index) in suppliers"/>
-			</mt-loadmore>
+			<!-- </mt-loadmore> -->
 		</div>
 		<p v-if="allLoaded" class="loader-over">加载完成</p>
 		<!--
@@ -93,7 +93,7 @@
 				isAutoFill: false,
 				wrapperHeight: 0,
 				courrentPage: 1,
-				limit:15,
+				limit:20,
 				searchValue: ''
 			}
 		},
@@ -114,6 +114,7 @@
 		},
 		mounted() {
 			window.addEventListener('scroll', this.handleScroll, true)
+			// console.log(document.scrollTo, 'scrollto')
 		},
 		created() {
 			this.initData()
