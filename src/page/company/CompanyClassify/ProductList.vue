@@ -10,18 +10,12 @@
                 <div class="mint-navbar">
                     <div class="menu-list" :id="`menu_${index}`" :key="`menu-${index}`"
                          v-for="(menu,index) in menuList ">
-                        <!-- 有二级菜单点击下拉 -->
-                        <!-- <span v-if="menu.child" @click="slide($event, menu.id)" class="sp1 up"
-                              >{{menu.name}}</span> -->
-                        <!-- 一级菜单没有下拉 -->
-                        <!-- <span v-else @click="showGoods(menu.id,$event)" class="sp1"
-                              :class="`${is_active===menu.id?'active':''}`">{{menu.name}}</span> -->
                                 <!-- 有二级菜单点击下拉 -->
                             <span v-if="menu.child" @click="slide($event,menu)" class="sp1 up" ref="slideMenu">{{menu.name}}</span>
                             <!-- 一级菜单没有下拉 -->
                             <span v-else @click="showGoods(menu.id)" class="sp1"
                                   :class="`${is_active===menu.id?'tabActive':''}`">{{menu.name}}</span>
-                        <div class="down-menu" style="height: 0px">
+                        <div class="down-menu" style="height: 0px" ref="slideChild">
                             <div>
                                 <p v-for="(childrenMenu,index) in menu.child"
                                    :class="`${childrenMenu.id===is_child_id?'child-active':''}`"
@@ -64,7 +58,7 @@
             <div class="mt-tab-container">
                 <div>
                     <mt-loadmore ref="list" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :auto-fill="false">
-                        <div style="height: 9rem;overflow-y: scroll;margin-top: .2rem">
+                        <div style="height: 9rem;overflow-y: scroll;margin-top: .2rem;padding: 0 .2rem;">
                             <!--  -->
                                 <div class="item" :id="`menu_${index}`" v-for="(entity,index) in goodList" :key="`product_shop_list_${index}`"
                                     v-if="goodList.length>0">
@@ -75,7 +69,8 @@
                                         <router-link :to="`/business/shop/${businessId}/${entity.id}`">
                                             <p class="title">{{entity.good_name}}</p>
                                             <p class="title2">{{title}}</p>
-                                            <p class="title2">{{entity.spec}}</p>
+                                            <p class="title2">规格:{{entity.spec}}</p>
+                                            <p class="title2">效期:{{entity.time}}</p>
                                         </router-link>
                                         <div class="selling">
                                             <div class="unit_price">
@@ -247,7 +242,8 @@
                 let parentNode = event.target.parentNode;
                 let a = this.sibling(parentNode)
                 for (var i = 0; i < a.length; i++) {
-                    a[i].childNodes[0].classList.remove("active");
+                    a[i].childNodes[0].classList.remove("tabActive");
+                     a[i].childNodes[0].classList.remove("all-goods-active");
                     a[i].childNodes[0].classList.add("up");
                     let b = a[i].childNodes[1]
                     this.toggleSlide(b, 0, '500');
@@ -261,6 +257,38 @@
                  this.allLoaded = false
                 this.init_Goods(params)
                
+            },
+
+              //点击下拉菜单
+            slide: function (event,id) {
+                this.is_active=id
+                // this.current_id = id
+                let targetNode = event.target
+                targetNode.classList.add("tabActive"); //添加当前样式
+                let parentNode = targetNode.parentNode;
+                let a = this.sibling(parentNode)
+                for (var i = 0; i < a.length; i++) {
+                    a[i].childNodes[0].classList.remove("tabActive");
+                    a[i].childNodes[0].classList.add("up");
+                    let b = a[i].childNodes[1]
+                    this.toggleSlide(b, 0, '500');
+                }
+                //targetNode.classList.remove("active");
+                let curTarget = event.currentTarget,
+                    containsCurClass = curTarget.classList.contains("up"),
+                    nextSibling = curTarget.nextSibling;
+                while (nextSibling.nodeType == 3 && /\s/.test(nextSibling.nodeValue)) {
+                    nextSibling = nextSibling.nextSibling;
+                }
+                ;
+                let detailScrollHeight = nextSibling.scrollHeight;
+                if (containsCurClass) {
+                    curTarget.classList.remove("up");
+                    this.toggleSlide(nextSibling, detailScrollHeight, '500');
+                } else {
+                    curTarget.classList.add("up");
+                    this.toggleSlide(nextSibling, 0, '500');
+                }
             },
 
             // 加载更多
@@ -333,52 +361,21 @@
                 // this.$router.go(0)
             },
             _handleData(data) {
-                data.forEach((entity, entityIndex) => {
+                data.forEach((entity, entityIndex, arr) => {
                     entity.shopId = this.businessId
                     entity.num = 0
                     entity.itemId = entity.id
-
+                    arr[entityIndex].time = this.$moment(entity.valid_time*1000).format("YYYY-MM-DD")
                     Object.values(this.shopCart).forEach((cartItem, cartindex) => {
                         if (entity.id === cartItem.id) {
                             entity.num = cartItem.num
-
                         }
                     })
                 })
                 this.loading = false
                 return data
             },
-             //点击下拉菜单
-            slide: function (event,id) {
-                // this.is_active=id
-                // this.current_id = id
-                let targetNode = event.target
-                targetNode.classList.add("active"); //添加当前样式
-                let parentNode = targetNode.parentNode;
-                let a = this.sibling(parentNode)
-                for (var i = 0; i < a.length; i++) {
-                    a[i].childNodes[0].classList.remove("active");
-                    a[i].childNodes[0].classList.add("up");
-                    let b = a[i].childNodes[1]
-                    this.toggleSlide(b, 0, '500');
-                }
-                //targetNode.classList.remove("active");
-                let curTarget = event.currentTarget,
-                    containsCurClass = curTarget.classList.contains("up"),
-                    nextSibling = curTarget.nextSibling;
-                while (nextSibling.nodeType == 3 && /\s/.test(nextSibling.nodeValue)) {
-                    nextSibling = nextSibling.nextSibling;
-                }
-                ;
-                let detailScrollHeight = nextSibling.scrollHeight;
-                if (containsCurClass) {
-                    curTarget.classList.remove("up");
-                    this.toggleSlide(nextSibling, detailScrollHeight, '500');
-                } else {
-                    curTarget.classList.add("up");
-                    this.toggleSlide(nextSibling, 0, '500');
-                }
-            },
+           
             //toggle动画
             toggleSlide: function (dom, height, time) {
                 dom.style.transition = 'height ' + time + 'ms';
@@ -455,7 +452,7 @@
                 let childNode = this.$refs.slideChild
                 // console.log(nodes)
                 nodes.forEach(item => {
-                    item.classList.remove("active");
+                    item.classList.remove("tabActive");
                     item.classList.add("up");
                 })
                 childNode.forEach(item => {
@@ -534,7 +531,6 @@
                 line-height: 1rem;
                 padding-left: .15rem;
                 overflow: hidden;
-                border-left: 2px solid #E6E6E6;
             }
 
             .active {
@@ -595,7 +591,6 @@
         background: #fff;
         padding: .16rem .13rem;
         border-radius: .1rem;
-        margin-right: .2rem;
         margin-top: .2rem;
 
         &:nth-child(1) {
@@ -757,6 +752,10 @@
         background: #eef6fb;
         border-left: 2px solid #26a2ff;
     }
+    .tabActive {
+        background: #eef6fb;
+        border-left: 2px solid #26a2ff;
+    }
 
     /*弹出购物车*/
     .shop-list {
@@ -810,42 +809,38 @@
             }
         }
     }
-    .tabActive {
-        background: #eef6fb;
-        border-left: 2px solid #26a2ff;
-    }
     .down-menu {
-                background: #fff;
-                overflow: hidden;
+    background: #fff;
+    overflow: hidden;
 
-                p {
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                    font-size: .24rem;
-                    padding-left: .2rem;
-                    padding-right: .1rem;
-                    height: .8rem;
-                    line-height: .8rem;
+    p {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: .24rem;
+        padding-left: .2rem;
+        padding-right: .1rem;
+        height: .8rem;
+        line-height: .8rem;
 
-                    span {
-                        display: inline-block;
-                        width: 1.3rem;
-                        white-space: normal;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                    }
+        span {
+            display: inline-block;
+            width: 1.3rem;
+            white-space: normal;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
-                    svg {
-                        width: .18rem;
-                        height: .18rem;
-                    }
+        svg {
+            width: .18rem;
+            height: .18rem;
+        }
                 }
 
-                .child-active {
-                    color: #2da2ff;
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                }
-            }
+    .child-active {
+        color: #2da2ff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
 </style>

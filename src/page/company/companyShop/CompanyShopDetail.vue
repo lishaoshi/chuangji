@@ -47,22 +47,21 @@
             </div>
             <div>
                 <span>批准文号</span>
-                <span>123</span>
+                <span>{{data.approval_number}}</span>
             </div>
         </div>
 
         <div class="textBox">
             <div>药品详情</div>
-            <span>|</span>
+            <div>|</div>
+           
         </div>
 
-        <div class="imgList">
-            <!-- <span></span> -->
-            <div v-html="data.content"></div>
-            <!-- <div class="img" v-for="(item, index) of data.imgs" :key="index">
-                <img :src="item.new" alt="">
-            </div> -->
+        <div class="infoDetail">
+                <div v-html="data.content"></div>
         </div>
+
+        
         <div style="position: fixed;width: 100%;bottom: 0px">
             <mini-company-cart ref="MiniCompanyCart" :shop-id="businessId" :count="cartNum" :total-price="totalPrice" style="bottom: 0px"></mini-company-cart>
         </div>
@@ -186,7 +185,7 @@
             _handleData(data) {
                 if(data.valid_time!=0){
                     let time = data.valid_time
-                    data.time = this.$moment(time).format("YYYY-MM-DD")
+                    data.time = this.$moment(time*1000).format("YYYY-MM-DD")
                 }
                 Object.values(this.shopCart).forEach((cartItem, cartindex) => {
                     if (this.id === cartItem.id) {
@@ -320,9 +319,17 @@
         color: #0090FF;
         // letter-spacing: 10px;
         font-size: .28rem;
+        background: #fff;
+        margin-top: .2rem;
         div {
             margin-bottom: 10px;
         }
+    }
+    .infoDetail {
+        background: #fff;
+        padding: 0 .1rem;
+        padding-bottom: 20px;
+        margin-bottom: 1.1rem;
     }
     .img {
         width: 100%;

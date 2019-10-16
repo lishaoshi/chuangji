@@ -43,7 +43,7 @@
                 <p class="price"><span>￥{{data.market_price}}</span>
                     <small style="color: #999">/{{data.unit}}</small>
                 </p>
-                <p class="name" style="color: #999">市场</p>
+                <p class="name" style="color: #999">市价价</p>
             </div>
         </div>
         <div class="trans-box">
@@ -66,7 +66,7 @@
                     <span v-if="data.is_recommend === 1">是</span>
                     <span v-else>否</span>
                 </p>
-                <p class="name" style="color: #999">推荐</p>
+                <p class="name" style="color: #999">类别</p>
             </div>
             <div>
                 <p class="price" style="color: #333;font-size: .28rem">{{name2}}</p>

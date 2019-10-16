@@ -247,7 +247,10 @@
 
         img {
             width: .82rem;
-            height: .002rem;
+            // height: .002rem;
+        }
+        span {
+            padding: 0 .2rem;
         }
     }
 

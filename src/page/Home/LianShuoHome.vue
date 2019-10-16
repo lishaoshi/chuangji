@@ -41,7 +41,7 @@
 		</div>
 		<div class="select-box">
 			<img src="../../images/index/home-leftLine.png">
-			<span>—— 推荐厂家 ——</span>
+			<span> 推荐厂家</span>
 			<img src="../../images/index/home-rightLine.png">
 		</div>
 		<div class="main-body" ref="wrapper" :style="{ height: (wrapperHeight-50) + 'px' }">
@@ -227,7 +227,10 @@
 
 		img {
 			width: .82rem;
-			height: .002rem;
+			// height: .002rem;
+		}
+		span {
+			padding: 0 .2rem; 
 		}
 	}
 

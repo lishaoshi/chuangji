@@ -4,7 +4,7 @@ import router from '@/routers'
 import Message from "@/plugins/message-box";
 import lstore from "@/plugins/lstore/lstore";
 import store from '@/stores'
-// import { Toast } from "mint-ui"
+import { Toast } from 'mint-ui';
 
 let cancel;
 let pending = {};
@@ -100,7 +100,8 @@ instance.interceptors.response.use(
                         break;
                     case 411:
                         // debugger
-                        err.tips = err.response.data.message
+                        err.tips = ''
+                        Toast(err.response.data.message)
                         store.dispatch('SIGN_OUT')
                         // this.$toast(err.response.data.message)
                         requireAuth()
