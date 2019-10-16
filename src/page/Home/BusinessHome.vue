@@ -44,8 +44,8 @@
                 <img src="../../images/index/home-rightLine.png">
             </div>
             <div class="main-body">
-                <!--  :style="{ height: (wrapperHeight-50) + 'px' }" -->
-                <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
+                <!--  :style="{ height: (wrapperHeight-50) + 'px' }" :bottom-method="loadBottom" -->
+                <mt-loadmore :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
                     <supplier-item :data="item" v-for="(item,index) in suppliers"/>
                 </mt-loadmore>
             </div>
@@ -133,8 +133,7 @@
         },
         mounted() {
             window.addEventListener('scroll', this.handleScroll, true)
-            debugger
-            console.log(document.documentElement.scrollTo, 'scrollto')
+            
         },
        
         created() {
