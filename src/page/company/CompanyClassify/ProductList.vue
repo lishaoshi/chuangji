@@ -68,7 +68,7 @@
                                     <div class="item-box">
                                         <router-link :to="`/business/shop/${businessId}/${entity.id}`">
                                             <p class="title">{{entity.good_name}}</p>
-                                            <p class="title2">{{title}}</p>
+                                            <p class="title2">{{entity.brand.name}}</p>
                                             <p class="title2">规格:{{entity.spec}}</p>
                                             <p class="title2">效期:{{entity.time}}</p>
                                         </router-link>
