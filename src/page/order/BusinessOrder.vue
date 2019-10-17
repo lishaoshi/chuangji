@@ -58,7 +58,7 @@
             <div v-if="orderList.length>0" class="scrollBox" style="overflow: auto">
                 <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :auto-fill="false" ref="loadmore">
                 <div>
-                    <OrderCard :key="`businsess_order_rec_${index}`" :sureOrder="sureOrder" @update="updateList" @delSccess="delSccess" :data="order" v-for="(order,index) in orderList" :orderKey="index"></OrderCard>
+                    <OrderCard :flag.sync="flag" :key="`businsess_order_rec_${index}`" :sureOrder="sureOrder" @update="updateList" @delSccess="delSccess" :data="order" v-for="(order,index) in orderList" :orderKey="index"></OrderCard>
                 </div>
             </mt-loadmore>
             </div>
@@ -103,7 +103,8 @@
                 page: 1,
                 probeType: 1,
                 pulldown: true,
-                pullup: true
+                pullup: true,
+                flag: true
             }
         },
         created() {
@@ -145,6 +146,7 @@
                     status: this.state
                 }
                 getBusinessOrderList(params).then(res=>{
+                    this.flag = this.state
                     if(this.page>1) {
                          this.orderList = [...this.orderList, ...res.data.data.orderList]
                          this.$refs.loadmore.onBottomLoaded()

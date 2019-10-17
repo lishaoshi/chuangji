@@ -325,7 +325,7 @@
         background: #fff;
         padding: 0 .1rem;
         padding-bottom: 20px;
-        margin-bottom: 1.1rem;
+        margin-bottom: 1.3rem;
         img {
             width: 100%!important;
         }

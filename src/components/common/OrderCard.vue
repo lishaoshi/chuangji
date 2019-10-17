@@ -29,12 +29,15 @@
                 </div>
             </div>
             <div class="need_pay">
-                <div v-if="data.order_status==1 || data.order_status==0">
-                    <span v-if="data.order_status==0">剩余时间：{{data.diff_seconds |　fillterTime}}分</span>
-                    <span v-else>剩余时间：{{data.left_time | fillterTime}}分</span>
-                    <!-- <span v-if="data.order_status==0">{{_setTimeOutFn(data.diff_seconds)}}</span>
-                    <span v-else>{{_setTimeOutFn(data.left_time)}}</span> -->
+                <div>
+                    <div v-if="data.order_status==1 || data.order_status==0">
+                        <!-- <span v-if="data.order_status==0">剩余时间：{{data.diff_seconds |　fillterTime}}分</span>
+                        <span v-else>剩余时间：{{data.left_time | fillterTime}}分</span> -->
+                        <span v-if="data.order_status==0">剩余{{data.minutes}}分{{data.seconds}}秒</span>
+                        <!-- <span v-else>{{_setTimeOutFn(data.left_time)}}</span> -->
+                    </div>
                 </div>
+                
                 <div class="need_fu">
                     <p><b>数量<i style="padding-left: 4px;display: inline-block; ">{{data.items.length}}</i></b></p>
                     <p>{{data.order_status==0? '应付':'金额：'}}</p>
@@ -57,12 +60,17 @@
                 </p>
             </router-link>
           <div class="need_pay" >
-                <div v-if="data.order_status==1 || data.order_status==0">
-                    <span v-if="data.order_status==0">剩余时间：{{data.diff_seconds |　fillterTime}}分</span>
-                    <span v-else>剩余时间：{{data.left_time | fillterTime}}分</span>
-                    <!-- <span v-if="data.order_status==0">{{_setTimeOutFn(data.diff_seconds)}}</span>
-                    <span v-else>{{_setTimeOutFn(data.left_time)}}</span> -->
-                </div>
+              <div>
+                   <div v-if="data.order_status==1 || data.order_status==0">
+                        <!-- <span v-if="data.order_status==0">剩余时间：{{data.diff_seconds |　fillterTime}}分</span>
+                        <span v-else>剩余时间：{{data.left_time | fillterTime}}分</span> -->
+                        <span v-if="data.order_status==1">剩余{{data.minutes}}分{{data.seconds}}秒</span>
+                        <!-- <span v-else>{{_setTimeOutFn(data.left_time)}}</span>
+                        
+                         -->
+                    </div>
+              </div>
+               
                 <div class="need_fu">
                     <p><b>数量<i style="padding-left: 4px;display: inline-block; ">{{data.items.length}}</i></b></p>
                     <p>{{data.order_status==0? '应付':'金额：'}}</p>
@@ -111,6 +119,10 @@ import { setInterval } from 'timers'
             orderKey: {
                 type: Number,
                 required: true
+            },
+            flag: {
+                type: Number,
+                default: 0
             }
         },
         data() {
@@ -158,8 +170,32 @@ import { setInterval } from 'timers'
         created() {
             console.log(this.data, 'try daa')
         },
+        watch: {
+            flag(value) {
+               if(this.tim) {
+                    clearInterval(this.tim)
+                }
+                if(value==0 || value==1 ||　value == -1) {
+                    clearInterval(this.tim)
+                    this.time = null
+                   if(this.data.order_status==0){
+                       this._setTimeOutFn(this.data. diff_seconds)
+                   } else if(this.data.order_status==1) {
+                       this._setTimeOutFn(this.data.left_time)
+                   }
+                } else {
+                    if(this.tim) {
+                        clearInterval(this.tim)
+                    }
+                }
+            }
+        },
         mounted() {
-            // this._setTimeOutFn(this.data.left_time)
+            if(this.data.order_status==0) {
+                this._setTimeOutFn(this.data.diff_seconds)
+            } else if(this.data.order_status==1) {
+                this._setTimeOutFn(this.data.left_time)
+            }
         },
         methods: {
             goOrderDetail(item) {
@@ -180,26 +216,31 @@ import { setInterval } from 'timers'
 
             // 封装倒计时函数
             _setTimeOutFn(time) {
-                // debugger
+               
                 let minutes = Math.floor(time/60)
                 let seconds = Math.ceil(time%60)
-                // console.log(minutes,seconds)
+                 this.$set(this.data, 'minutes', minutes)
+                this.$set(this.data, 'seconds', seconds)
+                this.data.minutes = minutes
                 this.tim = setInterval(()=>{
-                    console.log(minutes, seconds)
                     seconds--
                     if(seconds<=0&&minutes>0) {
                         minutes--
                         seconds=59
+                        this.data.minutes = minutes
                     } else if(seconds<=0&&minutes<=0) {
-                        // debugger
+                        this.data.minutes = 0
+                        this.data.seconds = 0
                         clearInterval(this.tim)
                     }
                     if(seconds<10) {
                         seconds = '0' + seconds
                     }
+                    this.data.seconds = seconds
                    
                 },1000)
-                 return `剩余${minutes}分${seconds}秒`
+             
+              
             },
             delectOrder(id) {
                 this.$messagebox.confirm('确认删除此订单吗？').then(res=>{
