@@ -1,6 +1,6 @@
 <template>
     <section class="c-form-item c-form-image-item" @click="beforeSelectFile" style="width: 100%;height: 1.2rem">
-        <div :class="shape" class="avatar-wrap" style="height: 1.2rem;display: flex;
+        <div :class="shape" class="avatar-wrap" style="display: flex;
     align-items: center;">
             <img :src="avatar" class="m-avatar-img" v-if="avatar">
             <svg viewBox="0 0 24 24" class="m-style-svg m-svg-big" v-else style="width: 1.2rem;height: 1.2rem；">
@@ -71,14 +71,15 @@ form .c-form-image-item {
 
     .avatar-wrap {
         flex: none;
-        width: 45px;
-        height: 45px;
+        width: 1rem;
+        height: 1rem;
         &.circle {
             border-radius: 100%;
         }
 
         > img {
             width: 100%;
+            height: 100%
         }
     }
 

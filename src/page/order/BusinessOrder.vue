@@ -44,32 +44,14 @@
             </mt-tab-item>
 		</mt-navbar>
         </div>
-        
-
-            <!-- <scroll
-                class="wrapper"
-                :pullup="pullup"
-                :probeType="probeType"
-                :pulldown="pulldown"
-                v-if="orderList.length>0"
-                @scrollToEnd="scrollToEnd"
-                @pulldown="dowm"
-            > -->
-            <div v-if="orderList.length>0" class="scrollBox" style="overflow: auto">
-                <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :auto-fill="false" ref="loadmore">
+        <div v-if="orderList.length>0" class="scrollBox" style="overflow: auto">
+            <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :auto-fill="false" ref="loadmore">
                 <div>
                     <OrderCard :flag.sync="flag" :key="`businsess_order_rec_${index}`" :sureOrder="sureOrder" @update="updateList" @delSccess="delSccess" :data="order" v-for="(order,index) in orderList" :orderKey="index"></OrderCard>
                 </div>
             </mt-loadmore>
-            </div>
+        </div>
             
-
-            <!-- </scroll> -->
-        
-                    <!-- </div> -->
-               
-            <!-- </mt-loadmore> -->
-        <!-- </div> -->
        
        <EmptyOrder v-else/>
     </div>

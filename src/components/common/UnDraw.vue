@@ -7,7 +7,7 @@
                         <div class="list-content">
                             <p class="shop-unit">待提取</p>
                             <p class="shop-name">消耗联数：{{data.consume_lianshu}}</p>
-                            <p class="shop-name">剩余时间：{{data.left_time}}分钟</p>
+                            <p class="shop-name">剩余{{data.minutes}}分{{data.seconds}}秒</p>
                             <p class="shop-name">订单编号：{{data.order_sn}}</p>
                         </div>
                         <div class="list-detail">
@@ -35,22 +35,56 @@
             return {
                 clientNum: {}, // 记录开始滑动（x1）,结束滑动（x2）的鼠标指针的位置
                 candelete: {},
-                time:''
+                time:'',
+                tim: null
             }
         },
-        props:["data","refuseOrder","extractOrder"],
+        props:["data","refuseOrder","extractOrder","flag"],
         created(){
           this.init()
+        },
+        watch: {
+            flag(value) {
+                clearInterval(this.tim)
+                this._setTimeOutFn(this.data.left_time)
+            }
+        },
+        mounted() {
+            if(this.tim) {
+                clearInterval(this.tim)
+            }
+            this._setTimeOutFn(this.data.left_time)
         },
 
         methods: {
             init(){
                 this.time = this.$moment(this.data.payed_time_int).format("h小时mm分")
-                /*
-                this.data.forEach(item => {
-                    this.data = this.$moment(item.payed_time_int).format("YYYY-MM-DD")
-                })
-                */
+            },
+             // 封装倒计时函数
+            _setTimeOutFn(time) {
+                // debugger
+                let minutes = Math.floor(time/60)
+                let seconds = Math.ceil(time%60)
+                 this.$set(this.data, 'minutes', minutes)
+                this.$set(this.data, 'seconds', seconds)
+                this.data.minutes = minutes
+                this.tim = setInterval(()=>{
+                    seconds--
+                    if(seconds<=0&&minutes>0) {
+                        minutes--
+                        seconds=59
+                        this.data.minutes = minutes
+                    } else if(seconds<=0&&minutes<=0) {
+                        this.data.minutes = 0
+                        this.data.seconds = 0
+                        clearInterval(this.tim)
+                    }
+                    if(seconds<10) {
+                        seconds = '0' + seconds
+                    }
+                    this.data.seconds = seconds
+                   
+                },1000) 
             },
             touchStart(e) {
                 this.startX = e.touches[0].clientX;

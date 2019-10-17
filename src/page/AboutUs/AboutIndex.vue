@@ -4,12 +4,13 @@
         <div class="about-box1">
             <img src="../../images/logo.png">
             <p>版本号 1.0</p>
+            <p>创联工厂</p>
         </div>
         <clxsd-cell :title="'版本介绍'" :to="'/update-list'" is-link/>
         <clxsd-cell :title="'服务协议'" :to="'/protocal'" is-link/>
         <clxsd-cell :title="'服务条款'" :to="'/serve'" is-link/>
         <clxsd-cell :title="'隐私条款'" :to="'/privacy'" is-link/>
-        <div class="tel-box" v-if="userType!=3">
+        <div class="tel-box" v-if="userType==-1">
             <div>
                 <p>服务热线<span class="tel">0371-xxxxxxxx</span></p>
                 <p>服务时间<span class="time">9:00-18:00</span></p>
@@ -49,9 +50,15 @@
     .about-box1 {
         padding: .4rem;
         text-align: center;
-        font-size:.30rem;
+        font-size:.18rem;
         color:rgba(153,153,153,1);
-        line-height: 1.8;
+        p:last-child {
+            font-size: .32rem;
+            color: #333;
+        }
+        p:nth-last-child(2) {
+            margin-top: .3rem;
+        }
         img {
             width:1.18rem;
             height:1.18rem;
