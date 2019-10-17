@@ -78,12 +78,12 @@
                                                 <p class="font" v-else><span>价格- - - -</span></p>
                                             </div>
                                             <div class="gw_num" v-if="(!entity.is_multi_spec && canShow)">
-                                                <em class="lose" @click="removeToMiniCart($event,entity)" v-if="entity.num > 0">-</em>
-                                                <em class="error-num" 　v-if="entity.num <= 0" @click="errorInfo()">-</em>
+                                                <em class="lose" @click="removeToMiniCart($event,entity, index)">-</em>
+                                                <!-- <em class="error-num">-</em> -->
                                                 <div class="num">
                                                     <span class="amount">{{entity.num || 0}}</span>
                                                 </div>
-                                                <em class="add" @click="addToMiniCart($event,entity)">+</em>
+                                                <em class="add" @click="addToMiniCart($event,entity, index)">+</em>
                                             </div>
                                         </div>
                                     </div>
@@ -158,7 +158,8 @@
                 brand_id: '',
                 price: '',
                 type: '',
-                allLoaded: false
+                allLoaded: false,
+                shopCart: {}
             }
         },
         created() {
@@ -185,14 +186,14 @@
             title() {
                 return this.businessData.display_name || this.businessData.name
             },
-            shopCart() {
-                return {...this.cartList[this.businessId]}
-            },
+            // shopCart() {
+            //     return {...this.cartList[this.businessId]}
+            // },
             //当前商店购物信息
             cartNum() {
                 let num = 0;
                 Object.values(this.shopCart).forEach((entity, index) => {
-                    num += entity.num;
+                    num += parseInt(entity.num);
                 })
                 return num
             },
@@ -210,7 +211,7 @@
                 'BUSINESS_ADD_CART', 'BUSINESS_REMOVE_CART',
             ]),
             //产品显示
-            init_Goods(isFirst=false) {
+           async init_Goods(isFirst=false) {
                 let params = {
                     page: this.page,
                     limit: this.limit,
@@ -220,7 +221,7 @@
                     type: this.type,
                     search: this.value
                 }
-                _servicBusinessGoodList(params,this.businessId).then(res => {
+               await _servicBusinessGoodList(params,this.businessId).then(res => {
                     
                     if(this.page==1) {
                         this.goodList = res.data.data.recommendList
@@ -234,6 +235,16 @@
                         this.allLoaded = true
                         return false
                     }
+                })
+                queryShopCarList({}, this.businessId).then(res=>{
+                    this.shopCart = res
+                    this.goodList.forEach((item, index, arr)=>{
+                        Object.keys(this.shopCart).forEach((items)=>{
+                            if(item.id==items) {
+                                arr[index].num = this.shopCart[items].num
+                            }
+                        })
+                    })
                 })
                 // console.log("长度："+this.goodList.list.length())
             },
@@ -295,7 +306,6 @@
 
             // 加载更多
             loadBottom() {
-                // debugger
                 this.page++
                 this.init_Goods()
                 
@@ -407,33 +417,61 @@
                 this.init_Goods(params)
                 this.current_id = id
             },
-            addToMiniCart(event, entity) {
-                console.log(entity, 'entity')
-                if (this.canOption()) {
-                    this.BUSINESS_ADD_CART(entity)
-                    entity.num++
-                    this.$nextTick(() => {
-                        this.$refs.MiniCompanyCart.drop(event.target)
-                    })
-                    let params = {
-                        supplier_id: entity.shopId,
-                        good_id: entity.id
-                    }
-                    addShopCar(params)
-
+            addToMiniCart(event, entity, index) {
+                // debugger
+                let params = {
+                    supplier_id: entity.shopId,
+                    good_id: entity.id
                 }
+               entity.num++
+               if(this.shopCart[entity.id]) {
+                   this.shopCart[entity.id].num++
+               } else {
+                //    debugger
+                //    this.shopCart[entity.id] = JSON.parse(JSON.stringify(entity))
+                let data = JSON.parse(JSON.stringify(entity))
+                 this.$set(this.shopCart, `${entity.id}`, data)
+               }
+               
+               addShopCar(params)
+                // console.log(entity, 'entity')
+                // if (this.canOption()) {
+                //     this.BUSINESS_ADD_CART(entity)
+                //     entity.num++
+                //     this.$nextTick(() => {
+                //         this.$refs.MiniCompanyCart.drop(event.target)
+                //     })
+                //     let params = {
+                //         supplier_id: entity.shopId,
+                //         good_id: entity.id
+                //     }
+                //     addShopCar(params)
+
+                // }
+                //  addShopCar(params)
 
             },
-            removeToMiniCart(event, entity) {
-                if (this.canOption()) {
-                    this.BUSINESS_REMOVE_CART(entity)
-                    entity.num--
-                     let params = {
-                        supplier_id: entity.shopId,
-                        good_id: entity.id
-                    }
-                    onlyDelShopCar(params)
+            removeToMiniCart(event, entity, index) {
+                let params = {
+                    supplier_id: entity.shopId,
+                    good_id: entity.id
                 }
+                if(parseInt(entity.num) <= 0) {
+                    this.$toast('不能再减啦~')
+                    return false
+                }
+                entity.num--
+                this.shopCart[entity.id].num--
+                onlyDelShopCar(params)
+                // if (this.canOption()) {
+                //     this.BUSINESS_REMOVE_CART(entity)
+                //     entity.num--
+                //      let params = {
+                //         supplier_id: entity.shopId,
+                //         good_id: entity.id
+                //     }
+                //     onlyDelShopCar(params)
+                // }
             },
             //搜索
             searchFn(){

@@ -3,9 +3,9 @@
         <div class="top-box" :class="{activebox: isFullScreen}">
             <img class="retreat" src="../../images/back.png" @click="goBack">
             <div class="inpSearch" v-bind:class="{ 'bg-from': hasError }">
-                <input type="text" placeholder="请输入关键词">
+                <input type="text" v-model="searchValue" placeholder="请输入关键词">
                 <i></i>
-                <svg class="icon-location" @click="">
+                <svg class="icon-location" @click="searchFn">
                     <use xlink:href="#icon-search2"/>
                 </svg>
             </div>
@@ -67,7 +67,7 @@
                 </div>
             </div>
         </transition>
-        <good-list :factory-id="factoryId" :USER_TYPE = "USER_TYPE"/>
+        <good-list :factory-id="factoryId" ref="list" :USER_TYPE = "USER_TYPE"/>
         <!-- <transition name="fade"> -->
             <mt-popup v-model="popupVisible" position="bottom" style="width: 100%;height: 5.6rem;transition:1s">
                 <p class="pop-title">更多活动券<svg @click="popupVisible=false"><use xlink:href="#icon-promote-my-close"></use> </svg></p>
@@ -114,7 +114,8 @@
                 is_active:false,
                 actity_nums:0,
                 popupVisible:false,
-                goodsList: {}
+                goodsList: {},
+                searchValue: ''
             }
         },
         created() {
@@ -158,6 +159,10 @@
                 }).catch(error => {
                     // console.log(error)
                 })
+            },
+            searchFn() {
+                console.log(123)
+                this.$refs.list._supplierEntities(this.searchValue)
             },
 
             _queryShopCarList() {

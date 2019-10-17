@@ -238,7 +238,19 @@
                     this.totalPrice = this.calculateTotalPrice()
                     data = res[1].data
                 })
+                // debugger
                 this.goodList = this._handleData(data)
+            },
+
+            // 搜索列表
+            _supplierEntities(value) {
+                let params = {
+                    search: value
+                }
+                let data = []
+                supplierEntities(this.factoryId, params).then(res=>{
+                    this.goodList = this._handleData(res)
+                })
             },
             _queryShopCarList() {
                 queryShopCarList({}, this.factoryId).then(res=>{
@@ -296,6 +308,9 @@
                 return true
             },
             _handleData(data) {
+                if(!data.length) {
+                    return []
+                }
                 // console.log(data,'data')
                 data.forEach((item, index) => {
                     item.shopId = this.factoryId

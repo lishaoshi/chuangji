@@ -32,8 +32,8 @@ export const supplierDetails = (factoryId,lat,lng) => {
  * @param factoryId
  * @returns {Promise<T> | *}
  */
-export const supplierEntities = (factoryId) => {
-    return http.get(`hippo-shop/supplier/factory/${factoryId}/entities`).catch(() => {})
+export const supplierEntities = (factoryId, params={search: ''}) => {
+    return http.get(`hippo-shop/supplier/factory/${factoryId}/entities`, {params}).catch(() => {})
 }
 
 export const supplierFactoryEntities = (ids) => {

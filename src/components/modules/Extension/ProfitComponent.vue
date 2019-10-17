@@ -1,6 +1,6 @@
 <template>
     <div class="ProfitComponent">
-        <div class="profit-header">
+        <!-- <div class="profit-header">
             <div>
                 <p class="title">价值(元)</p>
                 <p class="num" style="margin-top: .45rem">&asymp; {{profitData.lianbeiValue | display_price(3)}}</p>
@@ -10,17 +10,17 @@
                 <p class="add">+{{profitData.addValue | display_price}}</p>
                 <p class="num">{{profitData.totalValue | display_price }}</p>
             </div>
-        </div>
+        </div> -->
         <mt-navbar v-model="selected">
-            <mt-tab-item id="1">
+            <!-- <mt-tab-item id="1">
                 <p>市场</p>
-            </mt-tab-item>
+            </mt-tab-item> -->
             <mt-tab-item id="2">
                 <p>明细</p>
             </mt-tab-item>
-            <mt-tab-item id="3">
+            <!-- <mt-tab-item id="3">
                 <p>应用</p>
-            </mt-tab-item>
+            </mt-tab-item> -->
         </mt-navbar>
         <mt-tab-container v-model="selected" style="min-height: 5rem;padding-top: .1rem">
             <mt-tab-container-item id="1">
@@ -37,7 +37,7 @@
                         <p>{{profitData.tongdaoValue | display_price }}</p>
                     </div>
                 </router-link>
-                <router-link to="/business-profit" class="detailed-item">
+                <!-- <router-link to="/business-profit" class="detailed-item">
                     <svg class="item-icon">
                         <use xlink:href="#icon-promote-performanceGains"/>
                     </svg>
@@ -56,7 +56,7 @@
                         <p>收益(贝)</p>
                         <p>{{profitData.adValue | display_price }}</p>
                     </div>
-                </router-link>
+                </router-link> -->
             </mt-tab-container-item>
             <mt-tab-container-item id="3">
                 <Developping/>

@@ -43,7 +43,7 @@
                 <p class="price"><span>￥{{data.market_price}}</span>
                     <small style="color: #999">/{{data.unit}}</small>
                 </p>
-                <p class="name" style="color: #999">市价价</p>
+                <p class="name" style="color: #999">市场价</p>
             </div>
         </div>
         <div class="trans-box">

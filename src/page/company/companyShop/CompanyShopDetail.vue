@@ -122,7 +122,7 @@
             cartNum() {
                 let num = 0;
                 Object.values(this.shopCart).forEach((data, index) => {
-                    num += +data.num;
+                    num += parseInt(data.num);
                 })
                 return num
             },
@@ -151,13 +151,15 @@
                 this.name = this.data.brand.name
                 this.data = this._handleData(this.data)
                 queryShopCarList({}, this.businessId).then(res=>{
+                    // debugger
                     this.shopCart = res
-                    if(res[this.id]) {
-                        this.$set(this.data, 'num',  res[this.id].num)
-                    } else {
-                        this.$set(this.data, 'num',  0)
+                    if(this.shopCart[this.id]) {
+                        // this.$set(this.data, 'num',  res[this.id].num)
+                        this.data.num = this.shopCart[this.id].num
                     }
                 })
+                
+                console.log(this.data)
 
                 //是否收藏
                 isBusinessGoodsFollow(this.id).then(res => {
@@ -186,37 +188,31 @@
                 if(data.valid_time!=0){
                     let time = data.valid_time
                     data.time = this.$moment(time*1000).format("YYYY-MM-DD")
+                    this.$set(this.data, 'num', 0)
                 }
-                Object.values(this.shopCart).forEach((cartItem, cartindex) => {
-                    if (this.id === cartItem.id) {
-                        this.nums = cartItem.num
-                    }
-                })
                 return data
             },
             addToMiniCart() {
                 this.data.num++
+                 console.log(this.data)
                 let params = {
                     supplier_id: this.businessId,
                     good_id: this.id
                 }
                 addShopCar(params)
                 if(this.shopCart[this.id]) {
-                    // debugger
-                    
                     this.shopCart[this.id].num++
                 } else {
-                    this.shopCart[this.id] = this.data
+                    let data = JSON.parse(JSON.stringify(this.data))
+                    this.$set(this.shopCart, `${this.id}`, data)
                 }
-
-
             },
             removeToMiniCart() {
                 if(this.data.num<=0) {
                     return false
                 }
                 this.data.num--
-                console.log(this.data)
+                // console.log(this.data)
                 this.shopCart[this.id].num--
                 let params = {
                     supplier_id: this.businessId,

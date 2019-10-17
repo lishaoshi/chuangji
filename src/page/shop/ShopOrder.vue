@@ -53,8 +53,8 @@
 
                     <ul class="shop-ul">
                         <li>
-                            <span>件数</span>
-                            <i>{{shop.cnum}} {{shop.unit || '件'}}</i>
+                            <span>{{userType==2?"件数":"数量"}}</span>
+                            <i>{{shop.cnum}} {{userType==2?"件":""}}</i>
                         </li>
                         <!-- <li>
                             <span>原价</span>
@@ -107,7 +107,8 @@
         computed: {
             ...mapState({
                 confirmOrderData: state => state.shop.CONFIRM_ORDER_DATA,
-                choosedAddress: state => state.shop.CHOOSED_ADDRESS
+                choosedAddress: state => state.shop.CHOOSED_ADDRESS,
+                userType: state => state.CURRENTUSER.data.user_type
             }),
             totalPrice() {
                 let price = 0

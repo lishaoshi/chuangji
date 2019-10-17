@@ -135,8 +135,9 @@
                     message: '确认支付吗？',
                 }).then(res=>{
                     if(res=='confirm') {
-                        orderPay(item.id).then(()=>{
-                            this.$toast('支付成功')
+                        orderPay(this.orderId).then(()=>{
+							this.$toast('支付成功')
+							this.$router.go(-1)
                         })
                     }
                 })

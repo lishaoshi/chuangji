@@ -29,7 +29,10 @@
                 </div>
             </div>
             <div class="need_pay">
-                <div><span v-if="data.order_status==1 ||　data.order_status==0">剩余时间{{data.diff_seconds | fillterTime}}分钟</span></div>
+                <div v-if="data.order_status==1 || data.order_status==0">
+                    <span v-if="data.order_status==0">{{_setTimeOutFn(data.diff_seconds)}}</span>
+                    <span v-else>{{_setTimeOutFn(data.left_time)}}</span>
+                </div>
                 <div class="need_fu">
                     <p><b>数量<i style="padding-left: 4px;display: inline-block; ">{{data.items.length}}</i></b></p>
                     <p>{{data.order_status==0? '应付':'金额：'}}</p>
@@ -51,8 +54,11 @@
                     <span>{{data.created_at}}</span>
                 </p>
             </router-link>
-          <div class="need_pay">
-                <div><span v-if="data.order_status==1 ||　data.order_status==0">剩余时间{{data.diff_seconds | fillterTime}}分钟</span></div>
+          <div class="need_pay" >
+                <div v-if="data.order_status==1 || data.order_status==0">
+                    <span v-if="data.order_status==0">{{_setTimeOutFn(data.diff_seconds)}}</span>
+                    <span v-else>{{_setTimeOutFn(data.left_time)}}</span>
+                </div>
                 <div class="need_fu">
                     <p><b>数量<i style="padding-left: 4px;display: inline-block; ">{{data.items.length}}</i></b></p>
                     <p>{{data.order_status==0? '应付':'金额：'}}</p>
@@ -67,7 +73,7 @@
             <div class="much" v-if="data.order_status !=0 && data.order_status != 1">
                 <p v-if="data.order_status != 1 && data.order_status!=6 && data.order_status!=5 " @click="sureOrder(data.id)">确认收货</p>
                 <p v-if="data.order_status != 2 && data.order_status != 3" @click="delectOrder(data.id)">删除订单</p>
-                <p v-if=" data.order_status!=3 ">
+                <p v-if=" data.order_status!=0 ">
                     <router-link to="/factory/cart">再来一单</router-link>
                 </p>
             </div>
@@ -77,6 +83,7 @@
 
 <script>
   import { orderPay, deleteBusinessOrder } from "@/api/businessOrder"
+import { setInterval } from 'timers'
     export default {
         name: "OrderCard",
         props: {
@@ -100,6 +107,11 @@
             orderKey: {
                 type: Number,
                 required: true
+            }
+        },
+        data() {
+            return {
+                tim: null
             }
         },
         filters: {
@@ -142,6 +154,9 @@
         created() {
             console.log(this.data, 'try daa')
         },
+        mounted() {
+            // this._setTimeOutFn(this.data.left_time)
+        },
         methods: {
             goOrderDetail(item) {
                 this.$messagebox.confirm('',{
@@ -157,6 +172,30 @@
                 })
                 return false
                 this.$router.push({name:'bussinessOrderDetail', query: {id: this.data.id}})
+            },
+
+            // 封装倒计时函数
+            _setTimeOutFn(time) {
+                // debugger
+                let minutes = Math.floor(time/60)
+                let seconds = Math.ceil(time%60)
+                // console.log(minutes,seconds)
+                this.tim = setInterval(()=>{
+                    console.log(minutes, seconds)
+                    seconds--
+                    if(seconds<=0&&minutes>0) {
+                        minutes--
+                        seconds=59
+                    } else if(seconds<=0&&minutes<=0) {
+                        // debugger
+                        clearInterval(this.tim)
+                    }
+                    if(seconds<10) {
+                        seconds = '0' + seconds
+                    }
+                   
+                },1000)
+                 return `剩余${minutes}分${seconds}秒`
             },
             delectOrder(id) {
                 this.$messagebox.confirm('确认删除此订单吗？').then(res=>{

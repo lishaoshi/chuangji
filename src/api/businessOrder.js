@@ -14,7 +14,7 @@ export function deleteBusinessOrder(id) {
 }
 //确认收货
 export function sureBusinessOrder(id) {
-     return http.post(`hippo-shop/business/confirm-receipt/${id}`)
+     return http.post(`hippo-shop/business/orders/confirm-receipt/${id}`)
 }
 
 // 确认支付
