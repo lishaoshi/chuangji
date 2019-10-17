@@ -63,8 +63,7 @@
         <div class="price-flex">
             <div>
                 <p class="price" style="color: #333;font-size: .28rem">
-                    <span v-if="data.is_recommend === 1">是</span>
-                    <span v-else>否</span>
+                    {{data.category.parent_name?data.category.parent_name:'无'}}
                 </p>
                 <p class="name" style="color: #999">类别</p>
             </div>
@@ -85,8 +84,11 @@
         </div>
         <div style="background: #fff;margin-top: .2rem;padding-top: .3rem">
             <p style="color:#0090FF;text-align: center;line-height: 2;font-size: .28rem">商品详情<br>|</p>
-            <div class="edit-box" v-for=" (item, index) of data.imgs" :key="index">
+            <!-- <div class="edit-box" v-for=" (item, index) of data.imgs" :key="index">
                 <img :src="item.new" alt="">
+            </div> -->
+            <div class="infoDetail">
+                <div v-html="data.content"></div>
             </div>
         </div>
         <div class="bg-fade"></div>
@@ -219,6 +221,12 @@
 </script>
 
 <style lang="scss" scoped>
+.infoDetail {
+        background: #fff;
+        padding: 0 .1rem;
+        padding-bottom: 20px;
+        margin-bottom: 1.1rem;
+    }
     .collect {
         color: #fff;
         padding: 3px 8px;

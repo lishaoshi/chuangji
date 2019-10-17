@@ -3,8 +3,8 @@
         <clxsd-head-top :title='`地址管理`'></clxsd-head-top>
         <div class="address" v-if="addressList.length>0">
             <div class="address-item" :class="choose ? 'choose':''" v-for="(item,index) in addressList">
-                <div class="choose-icon" v-if="choose">
-                    <svg class="check goods-check shopCheck" @click="chooseAddress(index)">
+                <div class="choose-icon" v-if="choose" @click="chooseAddress(index)">
+                    <svg class="check goods-check shopCheck">
                         <use :xlink:href="`#icon-IsCheckedShop-${item.checked ? 'open' : 'close' }`"/>
                     </svg>
                 </div>
@@ -68,14 +68,10 @@
             }
             this._initData();
         },
-        watch: {
-            // $route(to) {
-            //     console.log(to, '123')
-            //     debugger
-            //     if(to.path!=null){
-            //         this._initData();
-            //     }
-            // }
+        computed: {
+            ...mapState({
+                choosedAddress: state => state.shop.CHOOSED_ADDRESS
+            })
         },
         activated() {
             // console.log('hello123')
@@ -94,6 +90,16 @@
                         })
                     }
                     this.addressList = data
+                    if(this.choose) {
+                        this.addressList.forEach((item, index, arr)=>{
+                            if(item.id == this.choosedAddress.id) {
+                                arr[index].checked = true
+                            } else {
+                                arr[index].checked = false
+                            }
+                           
+                        })
+                    }
                 }
             },
             //删除地址
@@ -115,6 +121,7 @@
                         this.addressList[index].checked = false
                     }
                 })
+                this.$router.go(-1)
             }
         }
     }

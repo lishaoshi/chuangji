@@ -2,7 +2,7 @@
 	<div id="OrderDetail">
 		<clxsd-head-top :title='`订单详情`'></clxsd-head-top>
 		<div class="state">
-			<div>剩余时间30分钟</div>
+			<!-- <div>剩余时间30分钟</div> -->
 			<div>{{order_status_display}}</div>
 		</div>
         <div class="company-detail">
@@ -59,12 +59,23 @@
             </ul>
         </div>
 		<div class="foot-fade"></div>
-		<div class="footer-box">
+
+		<!-- 终端底部按钮内容 -->
+		<div class="footer-box" v-if="userType==3">
+
 			<div>
-				<div class="btn" v-if="data.order_status=== 2" @click="sureOrder">确认发货</div>
+				<div class="btn" v-if="data.order_status=== 3 || data.order_status=== 2 " @click="confirmGoods">确认收货</div>
 			</div>
+
 			<div>
 				<div class="btn" v-if="data.order_status=== 0" @click="goComfirm">去支付</div>
+			</div>
+		</div>
+
+		<!-- 商业底部按钮内容 -->
+		<div class="footer-box" v-if="userType==2">
+			<div>
+				<div class="btn" v-if="data.order_status=== 2" @click="sureOrder">确认发货</div>
 			</div>
 		</div>
 	</div>
@@ -74,6 +85,7 @@
 	import Spread from "../Spread";
 	import {sureSendBusinessOrder} from "@/api/businessOrder.js"
 	import { orderPay } from "@/api/businessOrder"
+	import { mapState } from 'vuex'
     export default {
 		name: "OrderDetail",
         components: {Spread},
@@ -100,6 +112,11 @@
                 shopId:0
 				
 			}
+		},
+		computed: {
+			...mapState({
+				userType: state=>state.CURRENTUSER.data.user_type
+			})
 		},
 		created() {
 			this.orderId = this.$route.params.id;
@@ -150,14 +167,23 @@
 			sureOrder: function() {
 				this.$messagebox.confirm("确定要发货了吗?").then(action => {
 					  sureSendBusinessOrder(this.orderId)
-						this.$router.go(0)
+						this.$router.go(-1)
 				});
 			},
-			delectOrder: function() {
-				this.$messagebox.confirm("确定删除此订单吗?").then(action => {
-						console.log(action);
+			// delectOrder: function() {
+			// 	this.$messagebox.confirm("确定删除此订单吗?").then(action => {
+			// 			console.log(action);
+			// 	});
+			// },
+			async confirmGoods() {
+				this.$messagebox.confirm("确认收货吗?").then(action => {
+						// console.log(action);
+						sureBusinessOrder(this.orderId).then(res=>{
+							// if(res.data.data)
+							this.$toast('收货成功')
+						})
 				});
-			},
+			}
 		}
 	}
 </script>
@@ -176,6 +202,7 @@
 		align-items: center;
 		justify-content: space-between;
 		padding: 0 .24rem;
+		flex-direction: row-reverse;
 		div:last-child {
 			color: #F2385A;
 		}

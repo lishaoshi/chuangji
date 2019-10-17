@@ -36,7 +36,7 @@
                             class="content"
                         />
                     </template>
-                    <DrugOrderCard v-else class="content" :key="`order_drug_unmoney_${index}`" :data="order" :status="3"  v-for="(order,index) in orders" :sureOrder="sureOrder"></DrugOrderCard>
+                    <DrugOrderCard v-else class="content" :key="`order_drug_unmoney_${index}`" :data="order"  v-for="(order,index) in orders" :sureOrder="sureOrder"></DrugOrderCard>
                     <div style="text-align: center;color: #999;margin-top: 10px;" v-if="allLoaded">—— 没有更多啦 ——</div>
                 </div>
             </mt-loadmore>
@@ -199,7 +199,7 @@
                     switch (status) {
                         case 0:  order.order_status_display = '待提取'
                         case 1:  order.order_status_display = '待发货'
-                        case 2:  order.order_status_display = '代收款'
+                        case 2:  order.order_status_display = '待收款'
                         case 3:  order.order_status_display = '已付款'
                     }
                     order.pay_status = order.pay_status
@@ -226,12 +226,20 @@
                     console.log("删除的商品id：" + id)
                 }).catch(err => err);
             },
-            refuseOrder(id) {
+            async refuseOrder(id) {
                 this.$messagebox.confirm("确定拒绝此订单吗?").then(action => {
                     console.log("商品id：" + id)
-                    serviceBusinessRefuseOrder(id)
-                    this.unSendOrders.splice(this.unSendOrders.findIndex(item => item.id === id), 1)
-
+                     serviceBusinessRefuseOrder(id).then((res)=>{
+                         console.log(res)
+                         if(res.data.code==200) {
+                            this.orders.splice(this.orders.findIndex(item => item.id === id), 1)
+                            this.$toast("已拒绝")
+                         } else {
+                             this.$toast(res.data.message)
+                         }
+                         
+                     }).catch()
+                    
                 }).catch(err => err);
             },
             async extractOrder(id,nums) {
@@ -278,7 +286,7 @@
                             }
                         
                         this.orders.forEach((item, index, arr)=>{
-                            arr[index].time = this.$moment.unix(item.payed_time_int).format("YYYY-MM-DD");
+                            arr[index].time = this.$moment.unix(item.payed_time_int).format("YYYY-MM-DD hh:mm:ss");
                             item.left_time && (arr[index].left_time = Math.ceil(item.left_time/60));
                         })
                         if(data.data.orderList.length<=0) {

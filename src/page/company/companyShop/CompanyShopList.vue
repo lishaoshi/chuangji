@@ -2,7 +2,7 @@
 	<div id="CompanyShopList">
 		<HeaderTop></HeaderTop>
         <mt-swipe :auto="4000" class="swiper">
-			<mt-swipe-item :key="key" v-for="(swipe,key) in swipers"><a :href="swipe.link"> <img :src="swipe.picture" width="100%"></a>
+			<mt-swipe-item :key="key" v-for="(swipe,key) in swipers"><a :href="swipe.link"> <img :src="swipe.img" width="100%"></a>
 			</mt-swipe-item>
 		</mt-swipe>
 		<div style="background: #fff;">

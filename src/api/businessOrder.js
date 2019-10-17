@@ -10,11 +10,11 @@ export const getBusinessOrderList = (params) => {
 };
 //删除订单
 export function deleteBusinessOrder(id) {
-    return http.delete(`hippo-shop/business/orders/${id}`, { validateStatus: s => s > 200 })
+    return http.delete(`hippo-shop/business/orders/${id}`)
 }
 //确认收货
 export function sureBusinessOrder(id) {
-     return http.post(`hippo-shop/business/confirm-receipt/${id}`, { validateStatus: s => s > 200 })
+     return http.post(`hippo-shop/business/confirm-receipt/${id}`)
 }
 
 // 确认支付

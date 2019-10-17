@@ -65,7 +65,7 @@
 			</router-link>
 			<router-link to="">
 				<p class="num">0.00</p>
-				<p class="name">代收款</p>
+				<p class="name">待收款</p>
 			</router-link>
 			<router-link to="">
 				<p class="num">0.00</p>

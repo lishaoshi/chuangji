@@ -17,7 +17,7 @@
             <mt-swipe :auto="4000" class="swiper" v-if="swippers&&swippers.length&&swippers.length>0">
                 <mt-swipe-item :key="index" v-for="(swipe,index) in swippers">
                     <a :href="swipe.link" target="_blank">
-                        <img :src="swipe.picture" width="100%">
+                        <img :src="swipe.img" width="100%">
                     </a>
                 </mt-swipe-item>
             </mt-swipe>
@@ -32,18 +32,21 @@
                     </div>
                     <div class="company-box">
                         <div class="left">
-                            <div class="notice">
+                             <Notice2 :notices="item.infos" v-if="item.infos.length>0" /> 
+                            <div class="notice" v-else>
                                 <svg>
                                     <use xlink:href="#icon-notice"/>
                                 </svg>
-                                <div class="scroll-wrap" v-if="item.infos!=''">
+                                <!-- <div class="scroll-wrap" v-if="item.infos!=''">
                                     <ul class="scroll-content" ref="con1" :class="{anim:animate==true}">
                                         <li v-for="(entity,index) in item.infos">
                                             {{entity.title}}
                                         </li>
                                     </ul>
-                                </div>
-                                <span v-else> &nbsp;没有消息</span>
+                                </div> -->
+                                <span> &nbsp;没有消息</span>
+                               
+                                
                             </div>
                         </div>
                     </div>
@@ -66,6 +69,7 @@
     import {adList} from "@/api/ad";
     import GlobalItem from "@/page/GlobalItem"
     import EmptyList from "@/components/EmptyList"
+    import Notice2 from "@/components/common/notice2"
 
     
 
@@ -75,7 +79,8 @@
             SearchBar,
             Notice,
             GlobalItem,
-            EmptyList
+            EmptyList,
+            Notice2
         },
         data() {
             return {
@@ -161,7 +166,8 @@
             searchFn() {
                 console.log(this.searchValue)
                 this.courrentPage = 1
-                this.getData()
+                this.loadFrist()
+                // this.getData()
             },
 
 

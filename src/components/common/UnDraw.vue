@@ -6,6 +6,7 @@
                     <div class="list-box" @touchstart.capture="touchStart" @touchend.capture="touchEnd">
                         <div class="list-content">
                             <p class="shop-unit">待提取</p>
+                            <p class="shop-name">消耗联数：{{data.consume_lianshu}}</p>
                             <p class="shop-name">剩余时间：{{data.left_time}}分钟</p>
                             <p class="shop-name">订单编号：{{data.order_sn}}</p>
                         </div>
@@ -203,7 +204,7 @@
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
-            color: #333;
+            color: #999;
         }
 
         .shop-unit {

@@ -4,7 +4,7 @@
 		<div class="mini-shop-cart">
 			<div class="total_price">
 				<p><i>￥</i><i id="totalPrice">{{totalPrice}}</i></p>
-				<p>已选<i id="totalProductCount">{{count}}</i>件产品</p>
+				<p>已选<i id="totalProductCount">{{count}}</i>个产品</p>
 			</div>
 
 			<!-- 修改当前组件去购买时， 跳转到总购物车页面 -->

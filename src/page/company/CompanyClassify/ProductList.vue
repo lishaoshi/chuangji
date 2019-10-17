@@ -94,7 +94,7 @@
                                     <svg style="width: 2.4rem;height: 2.4rem">
                                         <use xlink:href="#icon-empty"></use>
                                     </svg>
-                                    <p>抱歉没有数据展示</p>
+                                    <p>抱歉，没有数据展示</p>
                                 </div>
                             </div>
                         </div>
@@ -164,11 +164,12 @@
         created() {
             // this.is_active = 1
             let id = this.businessId
-            this.initData(id)
-            this.init_Goods(true)
             var data1 = JSON.parse(localStorage.getItem('search'));
             console.log(data1)
             this.value = data1
+            this.initData(id)
+            this.init_Goods(true)
+            
             // this.searchFn()
             localStorage.removeItem('search');
         },
@@ -216,7 +217,8 @@
                     cat_id: this.current_id,
                     brand_id: this.brand_id,
                     price: this.price,
-                    type: this.type
+                    type: this.type,
+                    search: this.value
                 }
                 _servicBusinessGoodList(params,this.businessId).then(res => {
                     

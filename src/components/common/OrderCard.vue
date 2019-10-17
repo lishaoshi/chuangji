@@ -1,9 +1,11 @@
 <template>
     <div class="order-list">
         <div class="list-top">
-            <img src="../../images/default_company_logo.png" width="22" height="22" v-if="data.supplier.logo == null">
-            <img :src="data.supplier.logo" alt="" width="22" height="22" v-else>
-            <span>{{data.supplier.name}}</span>
+            <div>
+                <img src="../../images/default_company_logo.png" width="22" height="22" v-if="data.supplier.logo == null">
+                <img :src="data.supplier.logo" alt="" width="22" height="22" v-else>
+                <span>{{data.supplier.name}}</span>
+            </div>
             <span class="state">{{order_status_display}}</span>
         </div>
         <div v-if="data.items.length == 1">
@@ -11,9 +13,7 @@
                 <div class="drug_top">
                     <div class="drug_img">
                         <router-link :to="`/my-order/detail/${data.id}`">
-                        <div style="display: inline-block;border-radius: 8px;">
                              <img :src="data.items[0].entity.cover">
-                        </div>
                         </router-link>
                     </div>
                     <div class="drug_message">
@@ -65,7 +65,7 @@
                 <p>去付款</p>
             </div>
             <div class="much" v-if="data.order_status !=0 && data.order_status != 1">
-                <p v-if="data.order_status != 1 && data.order_status!=6 " @click="sureOrder(data.id)">确认收货</p>
+                <p v-if="data.order_status != 1 && data.order_status!=6 && data.order_status!=5 " @click="sureOrder(data.id)">确认收货</p>
                 <p v-if="data.order_status != 2 && data.order_status != 3" @click="delectOrder(data.id)">删除订单</p>
                 <p v-if=" data.order_status!=3 ">
                     <router-link to="/factory/cart">再来一单</router-link>
@@ -76,7 +76,7 @@
 </template>
 
 <script>
-  import { orderPay } from "@/api/businessOrder"
+  import { orderPay, deleteBusinessOrder } from "@/api/businessOrder"
     export default {
         name: "OrderCard",
         props: {
@@ -96,6 +96,10 @@
             status: {
                 type: Number,
                 default: 0
+            },
+            orderKey: {
+                type: Number,
+                required: true
             }
         },
         filters: {
@@ -114,7 +118,7 @@
                         name="待提取"
                         break;
                     case 2:
-                        name="待发货"
+                        name="待收货"
                         break;
                     case 3:
                         name="待收货"
@@ -153,6 +157,16 @@
                 })
                 return false
                 this.$router.push({name:'bussinessOrderDetail', query: {id: this.data.id}})
+            },
+            delectOrder(id) {
+                this.$messagebox.confirm('确认删除此订单吗？').then(res=>{
+                    if(res=='confirm') {
+                        deleteBusinessOrder(id).then(res=>{
+                            this.$emit('delSccess', this.orderKey)
+                            this.$toast('删除成功')
+                        })
+                    }
+                })
             }
         }
 
@@ -173,7 +187,10 @@
         margin-top: .2rem;
 
         .list-top {
-            height: 32px;
+            height: .88rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             line-height: 32px;
             padding: 0 .2rem;
             background: #fff;
@@ -203,7 +220,7 @@
         width: 100%;
         height: 1.5rem;
         background: rgb(245, 245, 245);
-        overflow: hidden;
+        overflow: auto;
         position: relative;
         display: flex;
         align-items: center;
@@ -213,7 +230,7 @@
         position: absolute;
         display: flex;
         align-items: center;
-
+        // background: #fff;
         .drug_img {
             width: 1.4rem;
             height: 1.4rem;
@@ -221,10 +238,17 @@
             margin-right: .2rem;
             text-align: center;
             line-height: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
             img {
-                width: 1.4rem;
-                height: 1.4rem;
+               width: 1.2rem;
+                border-radius: 4px;
+                height: 1.2rem;
+                display: inline-block;
+                vertical-align: middle;
+                // margin-right: .16rem;
             }
         }
     }
@@ -243,7 +267,7 @@
         .need_fu {
             display: flex;
             align-items: center;
-            font-size: 0.26rem;
+            font-size: 0.24rem;
             float: right;
             // margin-right: 0.24rem;
 
@@ -321,16 +345,21 @@
             display: flex;
         }
         .drug_img {
-            width: 1.4rem;
+            width: 1.40rem;
             background: #fff;
             margin-left: .2rem;
             text-align: center;
             margin-top: .2rem;
             margin-right: .3rem;
-
+            border-radius: 4px;
+            height: 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             img {
-                width: 100%;
-                height: 1.4rem;
+                width: 1.2rem;
+                border-radius: 4px;
+                height: 1.2rem;
                 display: inline-block;
                 vertical-align: middle;
             }

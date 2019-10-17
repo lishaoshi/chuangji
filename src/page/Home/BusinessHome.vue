@@ -10,7 +10,7 @@
             </div>
             <div class="">
                 <mt-swipe :auto="4000" style="height: 4rem;">
-                    <mt-swipe-item :key="key" v-for="(swipe,key) in swipers"><a :href="swipe.link"> <img :src="swipe.picture" width="100%"></a>
+                    <mt-swipe-item :key="key" v-for="(swipe,key) in swipers"><a :href="swipe.link"> <img :src="swipe.img" width="100%"></a>
                     </mt-swipe-item>
                 </mt-swipe>
             </div>

@@ -4,9 +4,9 @@
 			<div class="item-box">
 				<router-link :to="`/my-order/detail/${data.id}`">
                     <p class="state">
-						<span v-if="status==2">待发货</span>
-						<span v-if="status==3">代收款</span>
-						<span v-if="status==4">已收货</span>
+						<span v-if="data.order_status==2">待发货</span>
+						<span v-if="data.order_status==3">待收款</span>
+						<span v-if="data.order_status==4">已收货</span>
 					</p>
 					<p v-if="data.supplier">{{data.supplier.name}}</p>
 					<p v-if="data.consignee">{{data.consignee}}</p>
@@ -17,13 +17,13 @@
 			<div class="item-box2">
 				<p>实付金额</p>
 				<p>￥{{data.money_paid}}</p>
-				<p>使用活动卷</p>
+				<!-- <p>使用活动卷</p>
 				<p v-if="data.is_coupon == null">无</p>
 				<p v-else>{{data.is_coupon}}</p>
-				<p v-else>{{data.coupon}}</p>
+				<p v-else>{{data.coupon}}</p> -->
                 <div>
-                    <p class="btn" v-if="status==2" @click="sureSendOrder(data.id)">确认发货</p>
-                    <p class="btn" v-if="status==3" @click="delectOrder(data.id)">删除订单</p>
+                    <p class="btn" v-if="data.order_status==2" @click="sureSendOrder(data.id)">确认发货</p>
+                    <!-- <p class="btn" v-if="status==3" @click="delectOrder(data.id)">删除订单</p> -->
                 </div>
 			</div>
 		</div>
@@ -76,6 +76,9 @@
 			border-left: 1px solid #f1f1f1;
 			text-align: center;
 			width: 36%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
 			p{
 				&:nth-child(1){
 					margin-top: .25rem;

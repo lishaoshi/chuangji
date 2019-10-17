@@ -51,14 +51,14 @@
                 :pullup="pullup"
                 :probeType="probeType"
                 :pulldown="pulldown"
-                v-if="oriderListt.length>0"
+                v-if="orderList.length>0"
                 @scrollToEnd="scrollToEnd"
                 @pulldown="dowm"
             > -->
-            <div v-if="oriderListt.length>0" class="scrollBox" style="overflow: auto">
+            <div v-if="orderList.length>0" class="scrollBox" style="overflow: auto">
                 <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :auto-fill="false" ref="loadmore">
                 <div>
-                    <OrderCard :key="`businsess_order_rec_${index}`" @update="updateList" :data="order" v-for="(order,index) in oriderListt"  :delectOrder="delectOrder"></OrderCard>
+                    <OrderCard :key="`businsess_order_rec_${index}`" :sureOrder="sureOrder" @update="updateList" @delSccess="delSccess" :data="order" v-for="(order,index) in orderList" :orderKey="index"></OrderCard>
                 </div>
             </mt-loadmore>
             </div>
@@ -96,7 +96,7 @@
                 orders: [],//全部订单
                 unPayOrders: [],//未付款
                 unSendOrders: [],//未发货
-                oriderListt: [],//已收货
+                orderList: [],//已收货
                 state: -1,
                 allLoaded: false,    //是否已经加载全部
                 limit: 15,
@@ -129,20 +129,12 @@
 				this.$messagebox.confirm("确定收到货物了吗?").then(action => {
 					if(action === 'confirm'){
 						sureBusinessOrder(id)
-						this.unSendOrders.splice(this.unSendOrders.findIndex(item => item.id === id), 1)
-						this.orders.splice(this.orders.findIndex(item => item.id === id), 1)
-						this.recOrders.unshift(this.recOrders.findIndex(item => item.id === id), 1)
+						this.orderList.splice(this.orderList.findIndex(item => item.id === id), 1)
 					}
 				}).catch(err => err);
 			},
-			delectOrder(id) {
-				this.$messagebox.confirm("确定删除此订单吗?").then(action => {
-					if(action === 'confirm'){
-						deleteBusinessOrder(id)
-						this.recOrders.splice(this.recOrders.findIndex(item => item.id === id), 1)
-						this.orders.splice(this.orders.findIndex(item => item.id === id), 1)
-					}
-				}).catch(err => err);
+			delSccess(index) {
+                this.orderList.splice(index, 1)
             },
 
             // 获取订单数据
@@ -154,11 +146,11 @@
                 }
                 getBusinessOrderList(params).then(res=>{
                     if(this.page>1) {
-                         this.oriderListt = [...this.oriderListt, ...res.data.data.orderList]
+                         this.orderList = [...this.orderList, ...res.data.data.orderList]
                          this.$refs.loadmore.onBottomLoaded()
                     } else {
                         // debugger
-                        this.oriderListt = res.data.data.orderList
+                        this.orderList = res.data.data.orderList
                     }
                     console.log(this.oriderList)
                     if(res.data.data.orderList.length==0) {
@@ -177,7 +169,7 @@
 }
 .scrollBox {
     position: absolute;
-    top: 2.4rem;
+    top: 2.52rem;
     left: 0;
     right: 0;
     bottom: 1.1rem;
@@ -187,7 +179,7 @@
     z-index: 5;
 }
     .order-list {
-        margin-top: 12px;
+        margin-top: .2rem;
 
         .list-top {
             height: 32px;

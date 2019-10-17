@@ -81,7 +81,7 @@
                                     <svg style="width: 2.4rem;height: 2.4rem">
                                         <use xlink:href="#icon-empty"></use>
                                     </svg>
-                                    <p>抱歉没有数据展示</p>
+                                    <p>抱歉，没有数据展示</p>
                                 </div>
                             </div>
                             <div style="height: 1rem"></div>

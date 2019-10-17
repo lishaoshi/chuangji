@@ -58,7 +58,7 @@
         </div>
 
         <div class="infoDetail">
-                <div v-html="data.content"></div>
+                <div class="content" v-html="data.content"></div>
         </div>
 
         
@@ -330,6 +330,12 @@
         padding: 0 .1rem;
         padding-bottom: 20px;
         margin-bottom: 1.1rem;
+        img {
+            width: 100%!important;
+        }
+        .content >>> img {
+            width: 100%!important;
+        }
     }
     .img {
         width: 100%;
@@ -496,5 +502,16 @@
 
     .activebtn {
         top: .7rem
+    }
+</style>
+
+<style lang="scss">
+    .infoDetail {
+        img {
+            width: 100%!important;
+        }
+        .content >>> img {
+            width: 100%!important;
+        }
     }
 </style>
