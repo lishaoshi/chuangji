@@ -36,7 +36,7 @@
                             class="content"
                         />
                     </template>
-                    <DrugOrderCard v-else class="content" :key="`order_drug_unmoney_${index}`" :data="order"  v-for="(order,index) in orders" :sureOrder="sureOrder"></DrugOrderCard>
+                    <DrugOrderCard v-else class="content" :sureSendOrder="sureSendOrder" :key="`order_drug_unmoney_${index}`" :data="order"  v-for="(order,index) in orders" :sureOrder="sureOrder"></DrugOrderCard>
                     <div style="text-align: center;color: #999;margin-top: 10px;" v-if="allLoaded">—— 没有更多啦 ——</div>
                 </div>
             </mt-loadmore>
@@ -215,9 +215,10 @@
             },
             sureSendOrder(id) {
                 this.$messagebox.confirm("确定发送货物了吗?").then(action => {
-                    // console.log("收到的商品id：" + id)
-                    sureSendBusinessOrder(id)
-                    this.UnDrawOrder.splice(this.UnDrawOrder.findIndex(item => item.id === id), 1)
+                    sureSendBusinessOrder(id).then(res=>{
+                        this.orders.splice(this.orders.findIndex(item => item.id === id), 1)
+                        this.$toast("发送成功")
+                    }) 
                 }).catch(err => err);
                 ;
             },
