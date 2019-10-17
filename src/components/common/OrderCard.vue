@@ -30,8 +30,10 @@
             </div>
             <div class="need_pay">
                 <div v-if="data.order_status==1 || data.order_status==0">
-                    <span v-if="data.order_status==0">{{_setTimeOutFn(data.diff_seconds)}}</span>
-                    <span v-else>{{_setTimeOutFn(data.left_time)}}</span>
+                    <span v-if="data.order_status==0">剩余时间：{{data.diff_seconds |　fillterTime}}分</span>
+                    <span v-else>剩余时间：{{data.left_time | fillterTime}}分</span>
+                    <!-- <span v-if="data.order_status==0">{{_setTimeOutFn(data.diff_seconds)}}</span>
+                    <span v-else>{{_setTimeOutFn(data.left_time)}}</span> -->
                 </div>
                 <div class="need_fu">
                     <p><b>数量<i style="padding-left: 4px;display: inline-block; ">{{data.items.length}}</i></b></p>
@@ -56,8 +58,10 @@
             </router-link>
           <div class="need_pay" >
                 <div v-if="data.order_status==1 || data.order_status==0">
-                    <span v-if="data.order_status==0">{{_setTimeOutFn(data.diff_seconds)}}</span>
-                    <span v-else>{{_setTimeOutFn(data.left_time)}}</span>
+                    <span v-if="data.order_status==0">剩余时间：{{data.diff_seconds |　fillterTime}}分</span>
+                    <span v-else>剩余时间：{{data.left_time | fillterTime}}分</span>
+                    <!-- <span v-if="data.order_status==0">{{_setTimeOutFn(data.diff_seconds)}}</span>
+                    <span v-else>{{_setTimeOutFn(data.left_time)}}</span> -->
                 </div>
                 <div class="need_fu">
                     <p><b>数量<i style="padding-left: 4px;display: inline-block; ">{{data.items.length}}</i></b></p>
