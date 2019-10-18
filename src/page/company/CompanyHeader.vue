@@ -18,7 +18,7 @@
         <transition name="fade">
             <div class="company" :class="{activebox2: isFullScreen}">
                 <div class="brand">
-                    <img :src="shopDetailData.logo" alt="">
+                    <img :src="shopDetailData.img_cover" alt="">
                 </div>
                 <div class="message">
                     <div class="message_title">

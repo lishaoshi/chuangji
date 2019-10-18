@@ -162,7 +162,7 @@
 					}
 				})
 				this.supplier_name = data.supplier.name
-                this.supplier_logo = data.supplier.logo
+                this.supplier_logo = data.supplier.img_cover
                 return data
 			},
 			sureOrder: function() {

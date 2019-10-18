@@ -3,7 +3,7 @@
         <div class="list-top">
             <div>
                 <img src="../../images/default_company_logo.png" width="22" height="22" v-if="data.supplier.logo == null">
-                <img :src="data.supplier.logo" alt="" width="22" height="22" v-else>
+                <img :src="data.supplier.img_cover" alt="" width="22" height="22" v-else>
                 <span>{{data.supplier.name}}</span>
             </div>
             <span class="state">{{order_status_display}}</span>
