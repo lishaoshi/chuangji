@@ -151,6 +151,9 @@
                         arr[index].seconds = seconds
                         arr[index].diffSecondsInt = setInterval(()=>{
                             seconds-- 
+                             if(seconds<10 && seconds>0) {
+                                seconds = '0' + seconds
+                            }
                             if(seconds<=0&&minutes>0) {
                                 minutes--
                                 seconds=59
@@ -160,9 +163,6 @@
                                 this.data.minutes = '00'
                                 this.data.seconds = '00'
                                 clearInterval(arr[index].diffSecondsInt)
-                            }
-                            if(seconds<10) {
-                                seconds = '0' + seconds
                             }
                             arr[index].seconds = seconds
                         },1000)
