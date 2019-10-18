@@ -75,14 +75,14 @@
                
                 <div class="need_fu">
                     <p><b>数量<i style="padding-left: 4px;display: inline-block; ">{{data.items.length}}</i></b></p>
-                    <p>{{data.order_status==0? '应付':'金额：'}}</p>
+                    <p>{{data.order_status==0? '应付':'金额:'}}</p>
                     <p>￥{{data.order_status==0?data.order_amount:data.money_paid}}</p>
                 </div>
             </div>
         </div>
         <div class="again">
-            <div class="much" @click="goOrderDetail(data)" v-if="data.order_status == 0">
-                <p>去付款</p>
+            <div class="much"  v-if="data.order_status == 0">
+                <p @click="goOrderDetail(data)">去付款</p>
             </div>
             <div class="much" v-if="data.order_status !=0 && data.order_status != 1">
                 <p v-if="data.order_status != 1 && data.order_status!=6 && data.order_status!=5 " @click="sureOrder(data.id)">确认收货</p>
@@ -145,7 +145,7 @@ import { setInterval } from 'timers'
                 let name = ''
                 switch(this.data.order_status) {
                     case 0:
-                        name = '未支付'
+                        name = '待付款'
                         break;
                     case 1:
                         name="待提取"
