@@ -6,8 +6,8 @@
                 <router-link to="/change-logo" class="ul-info-a">
                     <span class="left">头像</span>
                     <div class="right">
-                        <img src="../../images/my/user_default.png" width="35" height="35" v-if="!info.avatar">
-                        <img :src="info.avatar" v-else width="35" height="35"/>
+                        <img src="../../images/my/user_default.png" width="35" height="35" v-if="!userInfo.avatar">
+                        <img :src="userInfo.avatar" v-else width="35" height="35"/>
                         <svg><use xlink:href="#icon-gongsixinxijinruicon"/></svg>
                     </div>
                 </router-link>
@@ -20,7 +20,7 @@
                 <router-link to="/change-phone" class="ul-info-a">
                     <span class="left">手机号</span>
                     <div class="right">
-                        <span>{{info.phone | filter_mobile}}</span>
+                        <span>{{userInfo.phone | filter_mobile}}</span>
                         <svg><use xlink:href="#icon-gongsixinxijinruicon"/></svg>
                     </div>
                 </router-link>
@@ -53,25 +53,16 @@
             }
 
         },
+        computed: {
+            ...mapState({
+                userInfo: state=>state.CURRENTUSER.data
+            })
+        },
         methods: {
-            getInfo(callback) {
-                this.$http.get('user', {
-                    validateStatus: status => status === 200,
-                }).then(response => {
-                    this.info = response.data.data
-                    if (callback) callback();
-                }).catch(response => {
-                    if (callback) callback();
-                    console.log(response);
-                });
-            },
             refresh(callback) {
                 this.getInfo(callback);
             }
         },
-        created() {
-            this.getInfo()
-        }
     }
 </script>
 

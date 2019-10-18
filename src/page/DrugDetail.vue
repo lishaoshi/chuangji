@@ -88,7 +88,7 @@
                 <img :src="item.new" alt="">
             </div> -->
             <div class="infoDetail">
-                <div v-html="data.content"></div>
+                <div class="content" v-html="data.content"></div>
             </div>
         </div>
         <div class="bg-fade"></div>
@@ -386,4 +386,17 @@
     .activebtn {
         top: .7rem
     }
+</style>
+
+<style lang="scss">
+.infoDetail {
+   
+    .content {
+         overflow: hidden!important;
+        img {
+            width: 100%!important;
+        }
+    }
+  
+}
 </style>

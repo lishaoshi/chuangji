@@ -309,6 +309,7 @@
             },
             _handleData(data) {
                 if(!data.length) {
+                    this.loading = false
                     return []
                 }
                 // console.log(data,'data')

@@ -35,7 +35,7 @@
                 </div>
                 <div class="tel">
                     <a :href="`tel:${shopDetailData.tel}`">
-                        <svg>
+                        <svg class="telSvg">
                             <use xlink:href="#icon-gloable-telephone"></use>
                         </svg>
                     </a>
@@ -153,8 +153,9 @@
 </script>
 
 <style lang="scss" scoped>
-
-
+    .telSvg {
+        width: .6rem
+    }
     .inpSearch {
         z-index: 10;
         width: 5.17rem;
@@ -274,6 +275,12 @@ color: #fff;
         color: #fff;
         white-space: nowrap;
         text-overflow: ellipsis;
+        p {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-right: .3rem;
+        }
     }
 
     .company .message .other ul {
