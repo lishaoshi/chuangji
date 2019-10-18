@@ -470,10 +470,14 @@
             border-bottom: 1px solid #f1f1f1;
 
             label {
+                
                 color: #999;
                 width: 1.4rem;
                 font-size: .28rem;
             }
+            input {
+                    flex: 1;
+                }
 
             span {
                 width: 75%;

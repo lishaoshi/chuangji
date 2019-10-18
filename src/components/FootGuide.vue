@@ -184,15 +184,9 @@
         },
         methods: {
             to(path, flag=false) {
-                // debugger
-                console.log(this.userInfo, 'hello')
                 
                 if(flag) {
-                    // debugger
-                    console.log(this.userInfo.shop_supplier==true, 'this.userInfo')
-                    // return
                     if(!this.userInfo.shop_supplier) {
-                        debugger
                         this.$messagebox.confirm('',{
                             title: '提示',
                             message:'没有操作权限,请先完成认证',

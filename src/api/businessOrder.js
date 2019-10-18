@@ -22,6 +22,12 @@ export function orderPay(orderId) {
     return http.patch(`hippo-shop/business/orders/${orderId}/pay`)
 }
 
+// 再来一单
+export function againOrder(orderId) {
+    let url = `hippo-shop/business/orders/${orderId}/again`
+    return http.get(url, { validateStatus: s => s === 200 })
+}
+
 /* 商业服务端订单 */
 export const serviceBusinessOrderList = (params) =>{
     return http.get('hippo-shop/business/service-orders',{params, validateStatus: s => s === 200});

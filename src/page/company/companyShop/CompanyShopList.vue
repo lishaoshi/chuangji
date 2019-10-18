@@ -201,6 +201,7 @@
                         item.num = this.shopCart[item.id].num
 					}
 					arr[index].time = this.$moment.unix(item.valid_time).format("YYYY.MM.DD")
+					arr[index].brandName = item.brand.name
                 })
 				this.loading = false
 				// console.log(data)
