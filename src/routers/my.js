@@ -62,6 +62,14 @@ const Serve = () => import(/* webpackChunkName: "About" */ '@/page/AboutUs/Serve
 const Privacy = () => import(/* webpackChunkName: "About" */ '@/page/AboutUs/Privacy.vue');
 const UpdateList = () => import(/* webpackChunkName: "About" */ '@/page/AboutUs/UpdateList.vue');
 
+
+/* 未授权的我们 */
+const Myinfo = () => import(/* webpackChunkName: "About" */ '@/page/My/UnautMy/Myinfo.vue');
+
+
+/* 下载页面 */
+const Download = () => import(/* webpackChunkName: "About" */ '@/page/download/Download.vue');
+
 export default [
     {
         path: "/update-list",
@@ -443,6 +451,20 @@ export default [
         component: AboutUs,
         meta: {
             title: "关于我们",
+        }
+    },
+    {
+        path: "/UnautMy-us",
+        component: Myinfo,
+        meta: {
+            title: "未授权的关于我们",
+        }
+    },
+    {
+        path: "/download",
+        component: Download,
+        meta: {
+            title: "下载页面",
         }
     },
 ]
