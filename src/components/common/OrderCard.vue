@@ -33,8 +33,8 @@
                     <div v-if="data.order_status==1 || data.order_status==0">
                         <!-- <span v-if="data.order_status==0">剩余时间：{{data.diff_seconds |　fillterTime}}分</span>
                         <span v-else>剩余时间：{{data.left_time | fillterTime}}分</span> -->
-                        <span v-if="data.order_status==0">剩余{{data.minutes}}分{{data.seconds}}秒</span>
-                        <span v-if="data.order_status==1">剩余{{data.minutes}}分{{data.seconds}}秒</span>
+                        <span v-if="data.order_status==0">剩余支付时间：{{data.minutes}}分{{data.seconds}}秒</span>
+                        <span v-if="data.order_status==1">剩余提取时间：{{data.minutes}}分{{data.seconds}}秒</span>
                         <!-- <span v-else>{{_setTimeOutFn(data.left_time)}}</span> -->
                     </div>
                 </div>
@@ -65,8 +65,8 @@
                    <div v-if="data.order_status==1 || data.order_status==0">
                         <!-- <span v-if="data.order_status==0">剩余时间：{{data.diff_seconds |　fillterTime}}分</span>
                         <span v-else>剩余时间：{{data.left_time | fillterTime}}分</span> -->
-                        <span v-if="data.order_status==1">剩余{{data.minutes}}分{{data.seconds}}秒</span>
-                        <span v-if="data.order_status==0">剩余{{data.minutes}}分{{data.seconds}}秒</span>
+                        <span v-if="data.order_status==1">剩余提取时间：{{data.minutes}}分{{data.seconds}}秒</span>
+                        <span v-if="data.order_status==0">剩余支付时间：{{data.minutes}}分{{data.seconds}}秒</span>
                         <!-- <span v-else>{{_setTimeOutFn(data.left_time)}}</span>
                         
                          -->

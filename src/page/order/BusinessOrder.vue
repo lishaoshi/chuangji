@@ -70,6 +70,12 @@
             OrderCard,
             EmptyOrder
         },
+        props: {
+            searchValue: {
+                type: String,
+                default: ''
+            }
+        },
         data() {
             return {
                 selected: '1',
@@ -86,7 +92,7 @@
                 probeType: 1,
                 pulldown: true,
                 pullup: true,
-                flag: true
+                flag: true,
             }
         },
         created() {
@@ -133,12 +139,18 @@
                 },1000)
             },
 
+            _handleSearch() {
+                this.page = 1
+                this.getOrderList()
+            },
+
             // 获取订单数据
             getOrderList(top, bottom) {
                 let params = {
                     page : this.page,
                     limit: this.limit,
-                    status: this.state
+                    status: this.state,
+                    search: this.searchValue
                 }
                 getBusinessOrderList(params).then(res=>{
                     let data = res.data.data.orderList

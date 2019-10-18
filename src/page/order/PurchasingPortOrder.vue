@@ -3,8 +3,8 @@
         <div class="content">
             <div class="search" :class="{activeTop: isFullScreen}">
                 <div v-if="is_search == true" class="search-form">
-                    <input type="text" placeholder="请输入搜索内容">
-                    <svg>
+                    <input type="text" v-model="searchValue" placeholder="请输入搜索内容">
+                    <svg @click="handleSearch">
                         <use xlink:href="#icon-ordering-search" />
                     </svg>
                 </div>
@@ -16,10 +16,10 @@
                     <svg @click="is_search = !is_search" v-if="is_search == false">
                         <use xlink:href="#icon-ordering-search" />
                     </svg>
-                    <p @click="is_search = !is_search" v-if="is_search == true">取消</p>
+                    <p @click="shutDown" v-if="is_search == true">取消</p>
                 </div>
             </div>
-            <businessPage v-if="selected === 2"/>
+            <businessPage ref="list" :searchValue="searchValue" v-if="selected === 2"/>
             <!--订量生产结束-->
             <clxsd-foot-guide :user-type="USER_TYPE"  v-if="selected === 1"/>
             <div class="detail"  v-if="selected==1">
@@ -49,7 +49,8 @@
             return {
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
                 is_search:false,
-                selected:2
+                selected:2,
+                searchValue: ''
             }
         },
         computed: {
@@ -57,6 +58,15 @@
                 USER_TYPE: state => state.CURRENTUSER.data.user_type,
             })
         },
+        methods: {
+            handleSearch() {
+                this.$refs.list._handleSearch()
+            },
+            shutDown() {
+                this.is_search = !this.is_search
+                this.searchValue = ""
+            }
+        }
     }
 </script>
 
