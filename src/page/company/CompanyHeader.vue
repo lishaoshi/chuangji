@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="top-box" :class="{activebox: isFullScreen}">
-            <img class="retreat" src="../../images/back.png" @click="goBack">
+            <img class="retreat" src="../../images/back.png" @click="goBack()">
             <div class="inpSearch" v-bind:class="{ 'bg-from': hasError }">
                 <input type="text" v-model="searchValue" placeholder="请输入关键词">
                 <i></i>

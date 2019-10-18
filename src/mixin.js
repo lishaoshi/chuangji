@@ -34,11 +34,10 @@ export default {
     },
     methods: {
         goBack(num = -1) {
-            // debugger
             const fallIndex = this.isIosWechat ? 2 : 1;
             window.history.length <= fallIndex
                 ? this.$router.replace("/")
-                : this.$router.go(num);
+                : this.$router.back();
         },
         reload: reload,
         toRouter(options){

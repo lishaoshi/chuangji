@@ -27,7 +27,7 @@
                 <div class="company" :key="`en-${index}`" v-for="(item,index) in businesses">
                     <div class="company-name" @click="entryBusinessShop(item)">
                         <div>
-                            <img :src="item.logo" alt=" ">
+                            <img :src="item.img_cover" alt=" ">
                             <p>{{item.display_name || item.name }}</p>
                         </div>
                       
