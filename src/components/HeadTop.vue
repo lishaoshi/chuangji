@@ -53,6 +53,9 @@
         },
         methods: {
             goBackFn() {
+                if(this.goBackNum == -3) {
+                    return this.$router.go(this.goBackNum)
+                }
                 return typeof this.goBackFnc === 'function'
                     ? this.goBack(this.goBackNum)
                     : this.$router.go(-1)
