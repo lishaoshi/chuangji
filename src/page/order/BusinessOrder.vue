@@ -144,7 +144,6 @@
                     let data = res.data.data.orderList
                     data.forEach((item, index, arr)=>{
                     if(item.order_status==0) {
-                        // debugger
                         let minutes = Math.floor(item.diff_seconds/60)
                         let seconds = Math.ceil(item.diff_seconds%60)
                         arr[index].minutes = minutes
@@ -169,7 +168,6 @@
                     }
 
                     if(item.order_status==1) {
-                        // debugger
                         let minutes = Math.floor(item.left_time/60)
                         let seconds = Math.ceil(item.left_time%60)
                         arr[index].minutes = minutes
