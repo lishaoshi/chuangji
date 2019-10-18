@@ -57,6 +57,7 @@ export default {};
 <style lang="scss" scoped>
 .download {
   // overflow: hidden;
+  background-color: #fff;
   position: relative;
 //   border: 0.01rem solid red;
   height: 100vh;
@@ -152,7 +153,7 @@ export default {};
       .app-info {
         width: 100%;
         color: #fff;
-        font-weight: 100;
+        font-weight: bold;
         font-size: 0.36rem;
         position: absolute;
         text-align: center;
