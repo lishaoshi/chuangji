@@ -56,8 +56,7 @@
 export default {
   methods: {
     tostAndroid() {
-      window.location.href =
-        "http://order.yaolb.cn/app/yaolianbang_Android.apk";
+      window.location.href = "https://clxsd-jicai-images.oss-cn-beijing.aliyuncs.com/app/app.apk";
     },
     tostIphone() {
       // ios
