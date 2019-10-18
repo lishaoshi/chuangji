@@ -25,7 +25,7 @@ export function orderPay(orderId) {
 // 再来一单
 export function againOrder(orderId) {
     let url = `hippo-shop/business/orders/${orderId}/again`
-    return http.get(url, { validateStatus: s => s === 200 })
+    return http.patch(url, { validateStatus: s => s === 200 })
 }
 
 /* 商业服务端订单 */
