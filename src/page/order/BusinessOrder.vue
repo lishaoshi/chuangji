@@ -44,32 +44,14 @@
             </mt-tab-item>
 		</mt-navbar>
         </div>
-        
-
-            <!-- <scroll
-                class="wrapper"
-                :pullup="pullup"
-                :probeType="probeType"
-                :pulldown="pulldown"
-                v-if="orderList.length>0"
-                @scrollToEnd="scrollToEnd"
-                @pulldown="dowm"
-            > -->
-            <div v-if="orderList.length>0" class="scrollBox" style="overflow: auto">
-                <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :auto-fill="false" ref="loadmore">
+        <div v-if="orderList.length>0" class="scrollBox" style="overflow: auto">
+            <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :auto-fill="false" ref="loadmore">
                 <div>
-                    <OrderCard :key="`businsess_order_rec_${index}`" :sureOrder="sureOrder" @update="updateList" @delSccess="delSccess" :data="order" v-for="(order,index) in orderList" :orderKey="index"></OrderCard>
+                    <OrderCard :flag.sync="flag" :key="`businsess_order_rec_${index}`" :sureOrder="sureOrder" @update="updateList" @delSccess="delSccess" :data="order" v-for="(order,index) in orderList" :orderKey="index"></OrderCard>
                 </div>
             </mt-loadmore>
-            </div>
+        </div>
             
-
-            <!-- </scroll> -->
-        
-                    <!-- </div> -->
-               
-            <!-- </mt-loadmore> -->
-        <!-- </div> -->
        
        <EmptyOrder v-else/>
     </div>
@@ -103,14 +85,17 @@
                 page: 1,
                 probeType: 1,
                 pulldown: true,
-                pullup: true
+                pullup: true,
+                flag: true
             }
         },
         created() {
             this.getOrderList()
+            // this.testInt()
         },
         methods: {
             handleClick(id) {
+                this.orderList = []
                 this.state = id
                 this.page = 1
                 this.getOrderList()
@@ -137,6 +122,17 @@
                 this.orderList.splice(index, 1)
             },
 
+            testInt() {
+                var i = 60
+                var timTest = setInterval(()=>{
+                    i--
+                    if(i<50) {
+                        clearInterval(timTest);
+                    }
+                    console.log(i);
+                },1000)
+            },
+
             // 获取订单数据
             getOrderList(top, bottom) {
                 let params = {
@@ -145,12 +141,64 @@
                     status: this.state
                 }
                 getBusinessOrderList(params).then(res=>{
+                    let data = res.data.data.orderList
+                    data.forEach((item, index, arr)=>{
+                    if(item.order_status==0) {
+                        let minutes = Math.floor(item.diff_seconds/60)
+                        let seconds = Math.ceil(item.diff_seconds%60)
+                        arr[index].minutes = minutes
+                        arr[index].seconds = seconds
+                        arr[index].diffSecondsInt = setInterval(()=>{
+                            seconds-- 
+                             if(seconds<10 && seconds>0) {
+                                seconds = '0' + seconds
+                            }
+                            if(seconds<=0&&minutes>0) {
+                                minutes--
+                                seconds=59
+                                arr[index].minutes = minutes
+                                
+                            } else if(seconds<=0&&minutes<=0) {
+                                this.data.minutes = '00'
+                                this.data.seconds = '00'
+                                clearInterval(arr[index].diffSecondsInt)
+                            }
+                            arr[index].seconds = seconds
+                        },1000)
+                    }
+
+                    if(item.order_status==1) {
+                        let minutes = Math.floor(item.left_time/60)
+                        let seconds = Math.ceil(item.left_time%60)
+                        arr[index].minutes = minutes
+                        arr[index].seconds = seconds
+                        arr[index].leftTimeInt = setInterval(()=>{
+                            seconds-- 
+                            if(seconds<=0&&minutes>0) {
+                                minutes--
+                                seconds=59
+                                arr[index].minutes = minutes
+                                
+                            } else if(seconds<=0&&minutes<=0) {
+                                this.data.minutes = '00'
+                                this.data.seconds = '00'
+                                clearInterval(arr[index].leftTimeInt)
+                            }
+                            if(seconds<10) {
+                                seconds = '0' + seconds
+                            }
+                            arr[index].seconds = seconds
+                        },1000)
+                    }
+                })
+                    // data.forEach()
+                    this.flag = this.state
                     if(this.page>1) {
-                         this.orderList = [...this.orderList, ...res.data.data.orderList]
+                         this.orderList = [...this.orderList, ...data]
                          this.$refs.loadmore.onBottomLoaded()
                     } else {
                         // debugger
-                        this.orderList = res.data.data.orderList
+                        this.orderList = data
                     }
                     console.log(this.oriderList)
                     if(res.data.data.orderList.length==0) {

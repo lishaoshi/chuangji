@@ -34,6 +34,7 @@
                             :refuseOrder="refuseOrder"
                             :extractOrder="extractOrder"
                             class="content"
+                            :flag="flag"
                         />
                     </template>
                     <DrugOrderCard v-else class="content" :sureSendOrder="sureSendOrder" :key="`order_drug_unmoney_${index}`" :data="order"  v-for="(order,index) in orders" :sureOrder="sureOrder"></DrugOrderCard>
@@ -105,6 +106,7 @@
                 limit: 20,
                 page: 1,
                 allLoaded: false,   //区分是否已经加载完成
+                flag: true
             }
         },
         computed: {
@@ -182,10 +184,13 @@
             },
             // 下拉刷新
             loadTop() {},
-            chooseOrderType(index, item) {
+            async chooseOrderType(index, item) {
                 this.page = 1
+                
+                // debugger
+                await this.getOrderList(item.type)
                 this.currentIndex = index
-                this.getOrderList(item.type)
+                this.flag = !this.flag
             },
             onPullStart() {
                 console.log('onPullStart')
@@ -288,7 +293,7 @@
                         
                         this.orders.forEach((item, index, arr)=>{
                             arr[index].time = this.$moment.unix(item.payed_time_int).format("YYYY-MM-DD hh:mm:ss");
-                            item.left_time && (arr[index].left_time = Math.ceil(item.left_time/60));
+                            // item.left_time && (arr[index].left_time = Math.ceil(item.left_time/60));
                         })
                         if(data.data.orderList.length<=0) {
                             this.allLoaded = true   

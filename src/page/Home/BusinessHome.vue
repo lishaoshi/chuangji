@@ -102,7 +102,7 @@
                 isAutoFill: false,
                 wrapperHeight: 0,
                 courrentPage: 1,
-                limit: 15,
+                limit: 20,
                 searchValue: '',
                 isFirst: true
             }

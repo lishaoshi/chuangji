@@ -7,6 +7,7 @@
                 accept="image/*"
                 @change="selectPhoto"
         >
+        <CircleLoading v-if="isLoad" />
     </div>
 </template>
 
@@ -57,6 +58,7 @@
         data () {
             return {
                 avatarBlob: null,
+                isLoad: false
             }
         },
         computed: {
@@ -97,8 +99,9 @@
             },
             async selectPhoto (e) {
                 let files = e.target.files || e.dataTransfer.files
-                console.log(files)
+                // console.log(files)
                 if (!files.length) return
+                
                 if(this.canCop){
                     const cropperURL = await getFirstFrameOfGif(files[0])
                     this.$ImgCropper.show({
@@ -116,11 +119,13 @@
                         },
                     })
                 }else{
+                    // debugger
                    this.uploadBlob(files[0])
                 }
             },
 
             async uploadBlob (blob) {
+                this.isLoad = true
                 if (this.type === 'id') {
                     // 如果需要得到服务器文件接口返回的 ID
                     const formData = new FormData()
@@ -135,13 +140,13 @@
                     // 如果需要新文件存储方式上传
                     this.avatarBlob = blob
                     const file = new File([blob], this.filename, { type: blob.type, lastModified: new Date() })
-                    const task = await uploadApi(file,this.prefixPath)
-                    // console.log(node, 'node')
+                    const task = await uploadApi(file,this.prefixPath).catch(err=>{
+                        this.$toast(err.response.data.errors.size[0])
+                        this.isLoad = false
+                    })
+                    this.isLoad = false
                     if(task.node) {
                         this.$emit('input', task.node)
-                    } else {
-                        this.avatar = ''
-                        this.$toast(task.errors['size'][0])
                     }
                     
                 }

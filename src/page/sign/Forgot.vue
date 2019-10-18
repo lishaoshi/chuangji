@@ -183,7 +183,8 @@
 				this.$http
 					.put("/user/retrieve-password", param)
 					.then(() => {
-						this.$Message.success("密码修改成功, 返回重新登陆");
+						// this.$Message.success("密码修改成功, 返回重新登陆");
+						this.$toast('密码修改成功')
 						this.$lstore.removeData("H5_CUR_USER");
 						this.$lstore.removeData("H5_ACCESS_TOKEN");
 						this.$store.dispatch("SIGN_OUT");

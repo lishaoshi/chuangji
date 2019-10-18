@@ -29,10 +29,16 @@
                 </div>
             </div>
             <div class="need_pay">
-                <div v-if="data.order_status==1 || data.order_status==0">
-                    <span v-if="data.order_status==0">{{_setTimeOutFn(data.diff_seconds)}}</span>
-                    <span v-else>{{_setTimeOutFn(data.left_time)}}</span>
+                <div>
+                    <div v-if="data.order_status==1 || data.order_status==0">
+                        <!-- <span v-if="data.order_status==0">剩余时间：{{data.diff_seconds |　fillterTime}}分</span>
+                        <span v-else>剩余时间：{{data.left_time | fillterTime}}分</span> -->
+                        <span v-if="data.order_status==0">剩余{{data.minutes}}分{{data.seconds}}秒</span>
+                        <span v-if="data.order_status==1">剩余{{data.minutes}}分{{data.seconds}}秒</span>
+                        <!-- <span v-else>{{_setTimeOutFn(data.left_time)}}</span> -->
+                    </div>
                 </div>
+                
                 <div class="need_fu">
                     <p><b>数量<i style="padding-left: 4px;display: inline-block; ">{{data.items.length}}</i></b></p>
                     <p>{{data.order_status==0? '应付':'金额：'}}</p>
@@ -55,10 +61,18 @@
                 </p>
             </router-link>
           <div class="need_pay" >
-                <div v-if="data.order_status==1 || data.order_status==0">
-                    <span v-if="data.order_status==0">{{_setTimeOutFn(data.diff_seconds)}}</span>
-                    <span v-else>{{_setTimeOutFn(data.left_time)}}</span>
-                </div>
+              <div>
+                   <div v-if="data.order_status==1 || data.order_status==0">
+                        <!-- <span v-if="data.order_status==0">剩余时间：{{data.diff_seconds |　fillterTime}}分</span>
+                        <span v-else>剩余时间：{{data.left_time | fillterTime}}分</span> -->
+                        <span v-if="data.order_status==1">剩余{{data.minutes}}分{{data.seconds}}秒</span>
+                        <span v-if="data.order_status==0">剩余{{data.minutes}}分{{data.seconds}}秒</span>
+                        <!-- <span v-else>{{_setTimeOutFn(data.left_time)}}</span>
+                        
+                         -->
+                    </div>
+              </div>
+               
                 <div class="need_fu">
                     <p><b>数量<i style="padding-left: 4px;display: inline-block; ">{{data.items.length}}</i></b></p>
                     <p>{{data.order_status==0? '应付':'金额：'}}</p>
@@ -73,8 +87,9 @@
             <div class="much" v-if="data.order_status !=0 && data.order_status != 1">
                 <p v-if="data.order_status != 1 && data.order_status!=6 && data.order_status!=5 " @click="sureOrder(data.id)">确认收货</p>
                 <p v-if="data.order_status != 2 && data.order_status != 3" @click="delectOrder(data.id)">删除订单</p>
-                <p v-if=" data.order_status!=0 ">
-                    <router-link to="/factory/cart">再来一单</router-link>
+                <p v-if=" data.order_status!=0" @click="handleContinuTo(data)">
+                    <!-- <router-link to="/factory/cart">再来一单</router-link>  需要添加点击操作， 进行添加进购物车处理 -->
+                    再来一单
                 </p>
             </div>
         </div>
@@ -82,7 +97,8 @@
 </template>
 
 <script>
-  import { orderPay, deleteBusinessOrder } from "@/api/businessOrder"
+let tim = null
+import { orderPay, deleteBusinessOrder, againOrder } from "@/api/businessOrder"
 import { setInterval } from 'timers'
     export default {
         name: "OrderCard",
@@ -107,11 +123,16 @@ import { setInterval } from 'timers'
             orderKey: {
                 type: Number,
                 required: true
+            },
+            flag: {
+                type: Number,
+                default: 0
             }
         },
         data() {
             return {
-                tim: null
+                tim: null,
+                timTest: null
             }
         },
         filters: {
@@ -152,10 +173,34 @@ import { setInterval } from 'timers'
             }
         },
         created() {
-            console.log(this.data, 'try daa')
+        },
+        watch: {
+            // flag(value) {
+            //    if(tim) {
+            //         clearInterval(tim)
+            //         this.tim = null
+            //     }
+            //     if(value==0 || value==1 ||　value == -1) {
+            //        if(this.data.order_status==0){
+            //            this._setTimeOutFn(this.data.diff_seconds)
+            //        } else if(this.data.order_status==1) {
+            //            this._setTimeOutFn(this.data.left_time)
+            //        }
+            //     } else {
+            //         if(this.tim) {
+            //             clearInterval(this.tim)
+            //             this.tim = null
+            //         }
+            //     }
+            // }
         },
         mounted() {
-            // this._setTimeOutFn(this.data.left_time)
+            // if(this.data.order_status==0) {
+            //     this._setTimeOutFn(this.data.diff_seconds)
+            // } else if(this.data.order_status==1) {
+            //     this._setTimeOutFn(this.data.left_time)
+            // }
+            // this.testInt()
         },
         methods: {
             goOrderDetail(item) {
@@ -174,29 +219,52 @@ import { setInterval } from 'timers'
                 this.$router.push({name:'bussinessOrderDetail', query: {id: this.data.id}})
             },
 
-            // 封装倒计时函数
-            _setTimeOutFn(time) {
-                // debugger
-                let minutes = Math.floor(time/60)
-                let seconds = Math.ceil(time%60)
-                // console.log(minutes,seconds)
-                this.tim = setInterval(()=>{
-                    console.log(minutes, seconds)
-                    seconds--
-                    if(seconds<=0&&minutes>0) {
-                        minutes--
-                        seconds=59
-                    } else if(seconds<=0&&minutes<=0) {
-                        // debugger
-                        clearInterval(this.tim)
-                    }
-                    if(seconds<10) {
-                        seconds = '0' + seconds
-                    }
-                   
-                },1000)
-                 return `剩余${minutes}分${seconds}秒`
+            // 再来一单
+            async handleContinuTo(data) {
+                // this.$messagebox.confirm('')
+                await againOrder(data.id).catch(err=>{
+                    this.$toast('商品已经下架')
+                })
+                this.$router.push('/factory/cart')
             },
+
+            // 封装倒计时函数
+            // _setTimeOutFn(time) {
+            //     let minutes = Math.floor(time/60)
+            //     let seconds = Math.ceil(time%60)
+            //     if(this.data['minutes']) {
+            //         this.data['minutes'] = minutes
+            //     } else {
+            //         this.$set(this.data, 'minutes', minutes)
+            //     }
+
+            //     if(this.data['seconds']) {
+            //         this.data['seconds'] = seconds
+            //     } else {
+            //         this.$set(this.data, 'seconds', seconds)
+            //     }
+            //     this.tim = setInterval(()=>{
+            //         seconds--
+            //         if(seconds != 0 ) {
+            //             clearInterval(this.tim)
+            //         }
+                     
+            //         if(seconds<=0&&minutes>0) {
+            //             minutes--
+            //             seconds=59
+            //             this.data.minutes = minutes
+                         
+            //         } else if(seconds<=0&&minutes<=0) {
+            //             this.data.minutes = '00'
+            //             this.data.seconds = '00'
+            //             clearInterval(this.tim)
+            //         }
+            //         if(seconds<10) {
+            //             seconds = '0' + seconds
+            //         }
+            //         this.data.seconds = seconds
+            //     },1000)
+            // },
             delectOrder(id) {
                 this.$messagebox.confirm('确认删除此订单吗？').then(res=>{
                     if(res=='confirm') {
@@ -207,6 +275,9 @@ import { setInterval } from 'timers'
                     }
                 })
             }
+        },
+        beforeDestroy() {
+            clearInterval(this.tim)
         }
 
     }

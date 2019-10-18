@@ -8,7 +8,7 @@
 						<img :src="item.cover" class="list-img" />
 						<div class="list-title">{{item.good_name}}</div>
 					</router-link>
-					<p class="p1">{{item.brand.name}}</p>
+					<p class="p1">{{item.brandName}}</p>
 					<p class="p1">规格:{{item.spec}}</p>
 					<p class="p1">效期:{{item.time}}</p>
 					<div class="selling" v-if="canShow">
