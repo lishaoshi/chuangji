@@ -3,20 +3,20 @@
     <!-- 2 -->
     <div class="header">
       <svg class="bg">
-        <use xlink:href="#icon-xiazaiyindaoye-dianzhui" />
+        <use class="bg-lo" xlink:href="#icon-xiazaiyindaoye-dianzhui" />
       </svg>
 
       <div class="logo-container">
-        <!-- <svg class="logo">
-          <use xlink:href="#icon-loading" />
-        </svg>-->
         <img class="logo" src="../../images/download/1080_1920.png" alt="logo" />
       </div>
     </div>
 
     <div class="middle">
-      <h2>创联工厂</h2>
-      <p>一切源于科技&nbsp;&nbsp;&nbsp;&nbsp;万物始于信任</p>
+      <!-- <h2>创联工厂</h2>
+      <p>一切源于科技&nbsp;&nbsp;&nbsp;&nbsp;万物始于信任</p>-->
+      <svg class="middle-text">
+        <use xlink:href="#icon-chuangliangongchang" />
+      </svg>
     </div>
 
     <div class="footer">
@@ -26,13 +26,13 @@
           <use xlink:href="#icon-xiazaiyindaoye-beijing" />
         </svg>
 
-        <div class="download-iphone">
+        <div class="download-iphone" @click="tostIphone()">
           <svg class="download-logo">
             <use xlink:href="#icon-xiazaiyindaoye-pingguo" />
           </svg>
           <span>iphone下载</span>
         </div>
-        <div class="download-android">
+        <div class="download-android" @click="tostAndroid()">
           <svg class="download-logo">
             <use xlink:href="#icon-xiazaiyindaoye-anzhuo" />
           </svg>
@@ -40,8 +40,11 @@
         </div>
 
         <div class="app-info">
-          <p>医药人的APP</p>
-          <p>让药业进入快速通道</p>
+          <!-- <p>医药人的APP</p>
+          <p>让药业进入快速通道</p>-->
+          <svg class="app-info-text">
+            <use xlink:href="#icon-yiyaorendeapp" />
+          </svg>
         </div>
       </div>
     </div>
@@ -50,7 +53,19 @@
 
 
 <script>
-export default {};
+export default {
+  methods: {
+    tostAndroid() {
+      window.location.href =
+        "http://order.yaolb.cn/app/yaolianbang_Android.apk";
+    },
+    tostIphone() {
+      // ios
+      alert("苹果APP上架中，请通过微信公众号底部登录移动系统");
+      // window.location.href='https://itunes.apple.com/app/palringo-group-messenger-chat/id286274367?mt=8';
+    }
+  }
+};
 </script>
 
 
@@ -59,24 +74,35 @@ export default {};
   // overflow: hidden;
   background-color: #fff;
   position: relative;
-//   border: 0.01rem solid red;
+  //   border: 0.01rem solid red;
   height: 100vh;
   padding-top: 1.42rem;
   .header {
     margin: 0 auto;
-    width: 5.05rem;
-    height: 4.57rem;
+    // width: 5.05rem;
+    // height: 4.57rem;
+    width: 6.05rem;
+    height: 5.57rem;
     position: relative;
     .bg {
-      width: 5.46rem;
-      height: 4.05rem;
+      //   width: 100%;
+      //   height: 100%;
+      //   width: 5.05rem;
+      // height: 4.57rem;
+      width: 6.05rem;
+      height: 5.57rem;
+      //   .bg-lo {
+      //       width: 100%;
+      //   height: 100%;
+      //   }
     }
     .logo-container {
       width: 2.06rem;
       position: absolute;
       transform: translate(50%, -50%);
       top: 50%;
-      right: 50%;
+      right: 54%;
+      font-size: 0;
     }
     .logo {
       width: 2.06rem;
@@ -85,28 +111,15 @@ export default {};
   }
   .middle {
     text-align: center;
-    margin-top: 0.79rem;
-    h2 {
-      font-size: 0.42rem;
-      font-family: KaiTi;
-      font-weight: 400;
-      color: rgba(77, 111, 255, 1);
-      height: 0.36rem;
-      line-height: 1;
-    }
-    p {
-      height: 0.25rem;
-      margin-top: 0.22rem;
-      font-size: 0.28rem;
-      font-family: KaiTi;
-      font-weight: 400;
-      line-height: 1;
+    // margin-top: 0.79rem;
 
-      color: rgba(77, 111, 255, 1);
+    .middle-text {
+      width: 3.89rem;
+      height: 0.83rem;
     }
   }
   .footer {
-      overflow: hidden;
+    overflow: hidden;
     margin-top: 0.67rem;
     // widows: 100%;
     position: absolute;
@@ -158,6 +171,11 @@ export default {};
         position: absolute;
         text-align: center;
         bottom: 0.91rem;
+
+        .app-info-text {
+          height: 0.77rem;
+          width: 3.21rem;
+        }
       }
     }
   }
