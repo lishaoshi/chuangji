@@ -16,7 +16,7 @@
 					<label for="password"><svg class="icon-svg"><use xlink:href="#icon-denglumima"/></svg></label>
 					<div class="m-input">
 						<input v-if="eye" id="password" v-model="password" type="text" maxlength="16" placeholder="输入6位以上登录密码">
-						<input v-else id="password" v-model="password" maxlength="16" type="password" placeholder="输入6位以上登录密码" @keyup.enter="signinByAccount">
+						<input v-else id="password" v-model="password" maxlength="16" type="password" placeholder="输入6位以上登录密码" @keyup.enter="signByAccount">
 					</div>
 					<svg class="m-style-svg m-svg-def" @click="eye = !eye">
 						<use :xlink:href="eye ? '#icon-eye-open' : '#icon-eye-close'" />

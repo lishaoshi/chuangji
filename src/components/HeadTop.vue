@@ -49,11 +49,15 @@
             goBackFnc: {type: [Boolean, Function], default: false},
             append: {type: [Boolean, String], default: false},
             transparent: {type: Boolean, default: false},
+            goBackNum: {type: Number, default: -1}
         },
         methods: {
             goBackFn() {
+                if(this.goBackNum == -3) {
+                    return this.$router.go(this.goBackNum)
+                }
                 return typeof this.goBackFnc === 'function'
-                    ? this.goBack()
+                    ? this.goBack(this.goBackNum)
                     : this.$router.go(-1)
             },
             to(path) {

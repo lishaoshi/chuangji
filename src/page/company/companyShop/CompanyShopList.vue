@@ -6,14 +6,22 @@
 			</mt-swipe-item>
 		</mt-swipe>
 		<div style="background: #fff;">
-			<Notice :notices="notices" v-if="notices.length" style="background: #f4f5f5;border-radius: 2px;padding-top: 6px;"></Notice>
-			<div class="notice" v-else>
+			<!-- <Notice :notices="notices" v-if="notices.length" style="background: #f4f5f5;border-radius: 2px;"></Notice> -->
+			<div class="left">
+				<Notice :notices="notices" v-if="notices.length"/> 
+				<div class="notice" v-else>
+					<svg>
+						<use xlink:href="#icon-notice"/>
+					</svg>
+					<span> &nbsp;没有消息</span>
+				</div>
+			<!-- <div class="notice" v-else>
 				<div>
 					<svg>
 						<use xlink:href="#icon-notice"/>
 					</svg>
 					<span style="padding-left: 5px">暂时没有消息</span>
-				</div>
+				</div> -->
 			
 			</div>
 		</div>
@@ -78,7 +86,6 @@
 			HeaderTop,
             MiniCompanyCart,
 			Notice,
-			
 		},
 		data(){
 			return {
@@ -213,9 +220,18 @@
 </script>
 
 <style lang="scss" scoped>
+	.left {
+		padding: .2rem; 
+		background: #fff;
+	}
     .notice {
-			padding: 0 .32rem;
-			padding-top: 6px;
+			// margin: .2rem;
+        background: #f1f4f5;
+        height: .64rem;
+        line-height: .64rem;
+        display: flex;
+        padding: 0 .24rem;
+        align-items: center;
 		div {
 			background: #F9F9F9;
 			width: 100%;

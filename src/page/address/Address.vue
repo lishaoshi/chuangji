@@ -61,20 +61,19 @@
             EmptyList
         },
          created() {
-            // debugger
-            console.log('dello')
+            // // debugger
+            // console.log('dello')
             if (!!this.$route.query.choose) {
                 this.choose = true
             }
-            this._initData();
+            // this._initData();
         },
         computed: {
             ...mapState({
                 choosedAddress: state => state.shop.CHOOSED_ADDRESS
             })
         },
-        activated() {
-            // console.log('hello123')
+        created() {
             this._initData();
         },
         methods: {
@@ -83,6 +82,7 @@
                 // debugger
                 let {data} = await getAddressList()
                 console.log(data)
+                
                 if (data instanceof Array && data.length) {
                     if (this.choose) {
                         data.forEach((item, i) => {
@@ -100,6 +100,8 @@
                            
                         })
                     }
+                } else {
+                    this.addressList = data
                 }
             },
             //删除地址

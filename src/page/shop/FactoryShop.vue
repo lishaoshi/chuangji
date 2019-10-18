@@ -119,10 +119,7 @@
             }
         },
         created() {
-            // console.log(this.$route)
             this.factoryId = parseInt(this.$route.params.id);
-            // console.log(this.factoryId)
-            // this.initData()
             this._queryShopCarList()
         },
         computed: {
@@ -131,6 +128,7 @@
             })
         },
         mounted() {
+            // debugger
             window.addEventListener('scroll', this.handleScroll, true)
             this.initData()
         },

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <clxsd-head-top title='反馈记录'></clxsd-head-top>
+        <clxsd-head-top title='反馈记录' :goBackFnc="goBackFnc" :goBackNum="-3"></clxsd-head-top>
         <div style="padding-top: .2rem" v-if="feedList.length>0">
             <div class="main-body" ref="wrapper" style="height: 12rem">
                 <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
@@ -53,6 +53,7 @@
                    !flag &&this.$refs.loadmore.onTopLoaded()
                 }
             },
+            goBackFnc() {},
             loadTop() {
                 this.loadFrist();
             },

@@ -3,7 +3,7 @@
         <div class="list-top">
             <div>
                 <img src="../../images/default_company_logo.png" width="22" height="22" v-if="data.supplier.logo == null">
-                <img :src="data.supplier.logo" alt="" width="22" height="22" v-else>
+                <img :src="data.supplier.img_cover" alt="" width="22" height="22" v-else>
                 <span>{{data.supplier.name}}</span>
             </div>
             <span class="state">{{order_status_display}}</span>
@@ -33,8 +33,8 @@
                     <div v-if="data.order_status==1 || data.order_status==0">
                         <!-- <span v-if="data.order_status==0">剩余时间：{{data.diff_seconds |　fillterTime}}分</span>
                         <span v-else>剩余时间：{{data.left_time | fillterTime}}分</span> -->
-                        <span v-if="data.order_status==0">剩余{{data.minutes}}分{{data.seconds}}秒</span>
-                        <span v-if="data.order_status==1">剩余{{data.minutes}}分{{data.seconds}}秒</span>
+                        <span v-if="data.order_status==0">剩余支付时间：{{data.minutes}}分{{data.seconds}}秒</span>
+                        <span v-if="data.order_status==1">剩余提取时间：{{data.minutes}}分{{data.seconds}}秒</span>
                         <!-- <span v-else>{{_setTimeOutFn(data.left_time)}}</span> -->
                     </div>
                 </div>
@@ -65,8 +65,8 @@
                    <div v-if="data.order_status==1 || data.order_status==0">
                         <!-- <span v-if="data.order_status==0">剩余时间：{{data.diff_seconds |　fillterTime}}分</span>
                         <span v-else>剩余时间：{{data.left_time | fillterTime}}分</span> -->
-                        <span v-if="data.order_status==1">剩余{{data.minutes}}分{{data.seconds}}秒</span>
-                        <span v-if="data.order_status==0">剩余{{data.minutes}}分{{data.seconds}}秒</span>
+                        <span v-if="data.order_status==1">剩余提取时间：{{data.minutes}}分{{data.seconds}}秒</span>
+                        <span v-if="data.order_status==0">剩余支付时间：{{data.minutes}}分{{data.seconds}}秒</span>
                         <!-- <span v-else>{{_setTimeOutFn(data.left_time)}}</span>
                         
                          -->
@@ -75,14 +75,14 @@
                
                 <div class="need_fu">
                     <p><b>数量<i style="padding-left: 4px;display: inline-block; ">{{data.items.length}}</i></b></p>
-                    <p>{{data.order_status==0? '应付':'金额：'}}</p>
+                    <p>{{data.order_status==0? '应付':'金额:'}}</p>
                     <p>￥{{data.order_status==0?data.order_amount:data.money_paid}}</p>
                 </div>
             </div>
         </div>
         <div class="again">
-            <div class="much" @click="goOrderDetail(data)" v-if="data.order_status == 0">
-                <p>去付款</p>
+            <div class="much"  v-if="data.order_status == 0">
+                <p @click="goOrderDetail(data)">去付款</p>
             </div>
             <div class="much" v-if="data.order_status !=0 && data.order_status != 1">
                 <p v-if="data.order_status != 1 && data.order_status!=6 && data.order_status!=5 " @click="sureOrder(data.id)">确认收货</p>
@@ -145,7 +145,7 @@ import { setInterval } from 'timers'
                 let name = ''
                 switch(this.data.order_status) {
                     case 0:
-                        name = '未支付'
+                        name = '待付款'
                         break;
                     case 1:
                         name="待提取"

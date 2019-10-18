@@ -26,9 +26,12 @@
             <mt-loadmore v-if="businesses.length>0" :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
                 <div class="company" :key="`en-${index}`" v-for="(item,index) in businesses">
                     <div class="company-name" @click="entryBusinessShop(item)">
-                        <img :src="item.logo" alt=" ">
-                        <p>{{item.display_name || item.name }}</p>
-                        <span>{{item.config?item.config.delivery_time:'0'}}小时</span>
+                        <div>
+                            <img :src="item.img_cover" alt=" ">
+                            <p>{{item.display_name || item.name }}</p>
+                        </div>
+                      
+                        <div>{{item.config?item.config.delivery_time:'0'}}小时</div>
                     </div>
                     <div class="company-box">
                         <div class="left">
@@ -220,6 +223,7 @@
     .main-body {
         /* 加上这个才会有当数据充满整个屏幕，可以进行上拉加载更多的操作 */
         overflow: scroll;
+        padding: 0 .2rem;
         // margin-bottom: 30px;
     }
 
@@ -432,31 +436,41 @@
     }
 
     .company .company-name {
-        width: 7.02rem;
-        height: 1.45rem;
+        // width: 7.02rem;
+        height: 1.2rem;
         display: -webkit-box;
         display: -moz-box;
         display: -ms-flexbox;
         display: flex;
+        padding: 0 .2rem;
         -webkit-box-align: center;
         -moz-box-align: center;
         -ms-flex-align: center;
         align-items: center;
         margin: auto;
         border-bottom: 1px solid rgb(230, 230, 230);
+        justify-content: space-between;
+        div:first-child {
+            display: flex;
+            align-items: center;
+        }
 
         img {
             width: .64rem;
             height: .64rem;
             border-radius: .64rem;
-            margin: 0.2rem 0.2rem 0.24rem 0;
+            // margin: .28rem .2rem;
         }
 
         p {
-            width: 5.2rem;
+            width: 4.8rem;
             font-size: 0.32rem;
             color: rgb(51, 51, 51);
             font-weight: bold;
+            margin-right: .2rem;
+            overflow:hidden; //超出的文本隐藏
+            text-overflow:ellipsis; //用省略号显示
+            word-break:keep-all;
         }
 
         a {
@@ -542,7 +556,7 @@
     }
 
     .notice {
-        margin: .2rem;
+        margin: .38rem;
         background: #f1f4f5;
         height: .64rem;
         line-height: .64rem;

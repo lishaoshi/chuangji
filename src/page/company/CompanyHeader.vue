@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="top-box" :class="{activebox: isFullScreen}">
-            <img class="retreat" src="../../images/back.png" @click="goBack">
+            <img class="retreat" src="../../images/back.png" @click="goBack()">
             <div class="inpSearch" v-bind:class="{ 'bg-from': hasError }">
                 <input type="text" v-model="searchValue" placeholder="请输入关键词">
                 <i></i>
@@ -18,7 +18,7 @@
         <transition name="fade">
             <div class="company" :class="{activebox2: isFullScreen}">
                 <div class="brand">
-                    <img :src="shopDetailData.logo" alt="">
+                    <img :src="shopDetailData.img_cover" alt="">
                 </div>
                 <div class="message">
                     <div class="message_title">
@@ -35,7 +35,7 @@
                 </div>
                 <div class="tel">
                     <a :href="`tel:${shopDetailData.tel}`">
-                        <svg>
+                        <svg class="telSvg">
                             <use xlink:href="#icon-gloable-telephone"></use>
                         </svg>
                     </a>
@@ -153,8 +153,9 @@
 </script>
 
 <style lang="scss" scoped>
-
-
+    .telSvg {
+        width: .6rem
+    }
     .inpSearch {
         z-index: 10;
         width: 5.17rem;
@@ -274,6 +275,12 @@ color: #fff;
         color: #fff;
         white-space: nowrap;
         text-overflow: ellipsis;
+        p {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-right: .3rem;
+        }
     }
 
     .company .message .other ul {

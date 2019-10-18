@@ -216,7 +216,7 @@ export default [
         component: AddressList,
         meta:{
             title:"地址管理",
-            keepAlive: true,
+            keepAlive: false,
             requiresAuth: true,
         },
 
