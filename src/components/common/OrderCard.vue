@@ -175,24 +175,24 @@ import { setInterval } from 'timers'
         created() {
         },
         watch: {
-            flag(value) {
-               if(tim) {
-                    clearInterval(tim)
-                    this.tim = null
-                }
-                if(value==0 || value==1 ||　value == -1) {
-                   if(this.data.order_status==0){
-                       this._setTimeOutFn(this.data.diff_seconds)
-                   } else if(this.data.order_status==1) {
-                       this._setTimeOutFn(this.data.left_time)
-                   }
-                } else {
-                    if(this.tim) {
-                        clearInterval(this.tim)
-                        this.tim = null
-                    }
-                }
-            }
+            // flag(value) {
+            //    if(tim) {
+            //         clearInterval(tim)
+            //         this.tim = null
+            //     }
+            //     if(value==0 || value==1 ||　value == -1) {
+            //        if(this.data.order_status==0){
+            //            this._setTimeOutFn(this.data.diff_seconds)
+            //        } else if(this.data.order_status==1) {
+            //            this._setTimeOutFn(this.data.left_time)
+            //        }
+            //     } else {
+            //         if(this.tim) {
+            //             clearInterval(this.tim)
+            //             this.tim = null
+            //         }
+            //     }
+            // }
         },
         mounted() {
             // if(this.data.order_status==0) {
@@ -229,53 +229,40 @@ import { setInterval } from 'timers'
             },
 
             // 封装倒计时函数
-            _setTimeOutFn(time) {
-                let minutes = Math.floor(time/60)
-                let seconds = Math.ceil(time%60)
-                if(this.data['minutes']) {
-                    this.data['minutes'] = minutes
-                } else {
-                    this.$set(this.data, 'minutes', minutes)
-                }
+            // _setTimeOutFn(time) {
+            //     let minutes = Math.floor(time/60)
+            //     let seconds = Math.ceil(time%60)
+            //     if(this.data['minutes']) {
+            //         this.data['minutes'] = minutes
+            //     } else {
+            //         this.$set(this.data, 'minutes', minutes)
+            //     }
 
-                if(this.data['seconds']) {
-                    this.data['seconds'] = seconds
-                } else {
-                    this.$set(this.data, 'seconds', seconds)
-                }
-                this.tim = setInterval(()=>{
-                    seconds--
-                    if(seconds != 0 ) {
-                        clearInterval(this.tim)
-                    }
-                     
-                    if(seconds<=0&&minutes>0) {
-                        minutes--
-                        seconds=59
-                        this.data.minutes = minutes
-                         
-                    } else if(seconds<=0&&minutes<=0) {
-                        this.data.minutes = '00'
-                        this.data.seconds = '00'
-                        clearInterval(this.tim)
-                    }
-                    if(seconds<10) {
-                        seconds = '0' + seconds
-                    }
-                    this.data.seconds = seconds
-                },1000)
-            },
-
-
-            // 测试顶事情
-            // testInt() {
-            //     let i = 60
-            //     let timTest = setInterval(()=>{
-            //         i--
-            //         if(i<50) {
-            //             clearInterval(timTest);
+            //     if(this.data['seconds']) {
+            //         this.data['seconds'] = seconds
+            //     } else {
+            //         this.$set(this.data, 'seconds', seconds)
+            //     }
+            //     this.tim = setInterval(()=>{
+            //         seconds--
+            //         if(seconds != 0 ) {
+            //             clearInterval(this.tim)
             //         }
-            //         console.log(i);
+                     
+            //         if(seconds<=0&&minutes>0) {
+            //             minutes--
+            //             seconds=59
+            //             this.data.minutes = minutes
+                         
+            //         } else if(seconds<=0&&minutes<=0) {
+            //             this.data.minutes = '00'
+            //             this.data.seconds = '00'
+            //             clearInterval(this.tim)
+            //         }
+            //         if(seconds<10) {
+            //             seconds = '0' + seconds
+            //         }
+            //         this.data.seconds = seconds
             //     },1000)
             // },
             delectOrder(id) {
