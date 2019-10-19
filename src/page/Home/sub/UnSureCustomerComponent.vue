@@ -310,7 +310,7 @@
                 this.promoter_value = rdata.cityCode
                 this.regionVisible_promoter = false
             },
-
+            //市处理
             handleCity() {
                 if (this.cityError || this.cityValue === 0) return;
                 this.$store.commit('SAVE_USER_CHOOSE_DATA', {role: this.selected, data: this.cityValue});

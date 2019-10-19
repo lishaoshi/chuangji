@@ -11,7 +11,7 @@
             <button @click="goBack">
                 不同意
             </button>
-            <router-link to="/extension-pay">
+            <router-link to="/role-yes">
                 同意
             </router-link>
         </div>
@@ -20,7 +20,7 @@
 
 <script>
     export default {
-        name: "AuthorizationAgreement"
+        name: "AuthorizationAgreement",
     }
 </script>
 
