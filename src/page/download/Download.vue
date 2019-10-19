@@ -54,6 +54,7 @@
 
 <script>
 export default {
+  name: "download",
   methods: {
     tostAndroid() {
       window.location.href = "https://clxsd-jicai-images.oss-cn-beijing.aliyuncs.com/app/app.apk";
