@@ -258,8 +258,9 @@ color: #fff;
         display: flex;
         padding: 10px;
         color: #fff;
-        padding-top: 60px;
+        padding-top: 1.08rem;
         padding-bottom: .5rem;
+        min-height: 2.844rem;
     }
 
     .company .brand {

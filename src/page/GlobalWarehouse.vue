@@ -31,7 +31,7 @@
                             <p>{{item.display_name || item.name }}</p>
                         </div>
                       
-                        <div>{{item.config?item.config.delivery_time:'0'}}小时</div>
+                        <div>{{item.config?item.config.delivery_time:'0'}} 小时</div>
                     </div>
                     <div class="company-box">
                         <div class="left">
