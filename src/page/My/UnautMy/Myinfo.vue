@@ -26,61 +26,29 @@
     </div>
 
     <ul class="unautMy-userlist">
-      <li>
-        <svg>
-          <use xlink:href="#icon-my-collection" />
-        </svg>
-        角色选择
-        <svg>
-          <use xlink:href="#icon-cell-allow-right" />
-        </svg>
-      </li>
-    </ul>
-
-    <ul class="unautMy-infolist">
-      <li>
-        <svg>
-          <use xlink:href="#icon-my-message" />
-        </svg>
-        消息通知
-        <svg>
-          <use xlink:href="#icon-cell-allow-right" />
-        </svg>
-      </li>
-      <li class="line"></li>
-      <li>
-        <svg>
-          <use xlink:href="#icon-my-employee" />
-        </svg>
-        个人信息
-        <svg>
-          <use xlink:href="#icon-cell-allow-right" />
-        </svg>
-      </li>
-    </ul>
-
-    <ul class="setting">
-      <li>
-        <svg>
-          <use xlink:href="#icon-my-setting" />
-        </svg>
-        设置
-        <svg>
-          <use xlink:href="#icon-cell-allow-right" />
-        </svg>
-      </li>
-    			<!-- <clxsd-cell :title="'集采返利'" :to="'/ticket-list'" is-link icon="my-banknote" :value="userInfo.lianPiaoVaule" /> -->
-
-    </ul>
-
-    			<!-- <clxsd-cell :title="'集采返利'" :to="'/ticket-list'" is-link icon="my-banknote" :value="userInfo.lianPiaoVaule" /> -->
+      
+      <div style="margin-bottom:.2rem">
+        <clxsd-cell :title="'角色选择'" :to="'/customer-choose-role'" is-link icon="my-collection" />
+      </div>
+      </ul>
+      <div style="margin-bottom:.2rem">
+        <clxsd-cell :title="'消息通知'" :to="'/develop'" is-link icon="my-message" />
+        <clxsd-cell :title="'个人信息'" :to="'/business-setting'" is-link icon="my-employee" />
+      </div>
+      <clxsd-cell :title="'设置'" :to="'/setting'" is-link icon="my-setting" />
 
     <clxsd-foot-guide :user-type="4" />
   </div>
 </template>
 
 <script>
-export default {};
+import ClxsdCell from "@/components/common/Cell";
+export default {
+  name: "Myinfo",
+  components: {
+    ClxsdCell
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -173,38 +141,5 @@ export default {};
     }
   }
 }
-.unautMy-userlist,
-.unautMy-infolist,
-.setting {
-  padding: 0 0.24rem 0 0.27rem;
-  background-color: #fff;
 
-  li {
-    height: 1rem;
-    line-height: 1rem;
-    font-size: 0.34rem;
-    color: #333;
-    font-weight: 500;
-
-    svg {
-      vertical-align: middle;
-      width: 0.46rem;
-      height: 0.5rem;
-
-      &:last-child {
-        margin-top: 0.28rem;
-        float: right;
-      }
-    }
-  }
-}
-.unautMy-infolist {
-  margin-top: 0.2rem;
-  margin-bottom: 0.2rem;
-
-  .line {
-    height: 0.01rem;
-    border-top: 0.01rem solid #ccc;
-  }
-}
 </style>
