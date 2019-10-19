@@ -70,6 +70,10 @@
         </svg>
       </li>
     </ul>
+
+    			<!-- <clxsd-cell :title="'集采返利'" :to="'/ticket-list'" is-link icon="my-banknote" :value="userInfo.lianPiaoVaule" /> -->
+
+    <clxsd-foot-guide :user-type="4" />
   </div>
 </template>
 
