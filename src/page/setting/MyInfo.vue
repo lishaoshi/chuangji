@@ -14,7 +14,7 @@
                 <div  class="ul-info-a" style="margin-top: .2rem">
                     <span class="left">实名认证</span>
                     <div class="right">
-                        <span><svg class="icon1"><use xlink:href="#icon-global-footer-my-1"/></svg>{{info.real_name || info.display_name}}</span>
+                        <span><svg class="icon1"><use xlink:href="#icon-global-footer-my-1"/></svg>{{userInfo.real_name || userInfo.display_name}}</span>
                     </div>
                 </div>
                 <router-link to="/change-phone" class="ul-info-a">
@@ -27,7 +27,7 @@
                 <div  class="ul-info-a" style="margin-top: .2rem">
                     <span class="left">身份证号</span>
                     <div class="right">
-                        {{info.user_identity}}
+                        {{userInfo.user_identity}}
                     </div>
                 </div>
             </div>

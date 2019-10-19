@@ -23,7 +23,7 @@
             </mt-swipe>
         </div>
         <div class="main-body" ref="wrapper" :style="{ height: (wrapperHeight-50) + 'px' }">
-            <mt-loadmore v-if="businesses.length>0" :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
+            <mt-loadmore v-if="businesses.length>0" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
                 <div class="company" :key="`en-${index}`" v-for="(item,index) in businesses">
                     <div class="company-name" @click="entryBusinessShop(item)">
                         <div>
@@ -31,7 +31,7 @@
                             <p>{{item.display_name || item.name }}</p>
                         </div>
                       
-                        <div>{{item.config?item.config.delivery_time:'0'}} 小时</div>
+                        <div>{{item.business_config?item.business_config.delivery_time:'0'}} 小时</div>
                     </div>
                     <div class="company-box">
                         <div class="left">

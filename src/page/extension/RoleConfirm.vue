@@ -171,6 +171,8 @@
             },
             toPay(){
                 if(this.loading) return;
+                this.$router.push('/pay-success');
+                /*
                 let params = {
                     role:this.role,
                     data:JSON.stringify(this.USER_CHOOSED_DATA.selected_save_data),
@@ -188,6 +190,8 @@
                     this.loading = false;
                     this.$toast(error.response.data.message);
                 })
+
+                 */
             },
         }
     };
