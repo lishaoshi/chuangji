@@ -28,11 +28,20 @@
                 </svg>
                 <p>客户</p>
             </mt-tab-item>
-            <mt-tab-item id="2">
+
+            <!-- <mt-tab-item id="2">
                 <svg class="m-style-svg m-svg-def">
                     <use xlink:href="#icon-promote-footer-earnings"/>
                 </svg>
-                <p>收益</p>
+                <p>我的</p>
+            </mt-tab-item> -->
+
+            <!-- 修改为跳转到未授权的我们页面 -->
+                <mt-tab-item id="2">
+                <svg class="m-style-svg m-svg-def">
+                    <use xlink:href="#icon-promote-footer-earnings"/>
+                </svg>
+                <router-link to="/UnautMy-us"><p>我的</p></router-link> 
             </mt-tab-item>
         </mt-navbar>
         <!--我的弹框-->
