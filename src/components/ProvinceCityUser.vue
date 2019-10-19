@@ -13,6 +13,7 @@
 </template>
 <script>
     import regionAddress from "@/plugins/json/pca-codes.json"
+    import areaAddress from "@/plugins/json/pca-codes.json"
     regionAddress.forEach((shengItem,ind) =>{
         shengItem.children.forEach((shiItem,shInd) =>{
             if((shengItem.code + '01') === shiItem.code){

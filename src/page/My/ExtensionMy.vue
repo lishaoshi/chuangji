@@ -43,7 +43,7 @@
             <div class="my-list">
                 <clxsd-cell title="我的联贝" to="/extension-lianbei" is-link icon="promote-my-cell"/>
                 <clxsd-cell v-if="canShou" title="客户授权" to="/customer-authorization" is-link icon="promote-my-safety"/>
-                <clxsd-cell v-if="userInfo.state !== 1" title="选择角色" to="/customer-choose-role" is-link icon="promote-my-safety"/>
+                <clxsd-cell v-if="userInfo.sub_type === 0" title="选择角色" to="/customer-choose-role" is-link icon="promote-my-safety"/>
                 <div v-if="userInfo.state===1 && userInfo.sub_type===4">
                     <clxsd-cell title="增加角色" to="/add-role" is-link icon="promote-my-safety"/>
                 </div>
@@ -97,6 +97,7 @@
             }),
             canShou(){
                 const userInfo = this.userInfo
+                console.log(userInfo)
                 return (userInfo.state === 1 ) && (
                     userInfo.sub_type === 1 ||
                     userInfo.sub_type === 2 ||
