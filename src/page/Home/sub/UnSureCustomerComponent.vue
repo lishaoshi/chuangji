@@ -1,11 +1,6 @@
 <template>
     <div style="min-height: 100%;background: #fff">
-        <mt-header title="">
-            <router-link to="/home" slot="left">
-                <mt-button icon="back"></mt-button>
-            </router-link>
-        </mt-header>
-        <span class="title">角色选择</span>
+        <clxsd-head-top title='角色选择'></clxsd-head-top>
         <PaySuccess v-if="waitStatus"></PaySuccess>
         <div v-else>
             <mt-navbar v-model="selected">
@@ -242,7 +237,7 @@
                 USER_INFO: state => state.CURRENTUSER.data,
             }),
             waitStatus() {
-                return this.USER_INFO.status === 2 || this.USER_INFO.status === 1
+                return this.USER_INFO.partner_status === 1
             },
 
         },

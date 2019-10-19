@@ -1,23 +1,22 @@
 <template>
     <div id="RoleExtension">
-        <div class="header" :class="{ topHeight: isFullScreen }">
-            <div  slot="prepend" @click="openMyFrame()" class="my" style="z-index: 99">
-                <img src="../../images/my/user_default.png" />
-            </div>
-        </div>
+        <!--
         <router-link to="/my" class="close"  :class="{ closeBox: isFullScreen }">
             <svg class="m-style-svg">
                 <use xlink:href="#icon-quanqiucang-close"/>
             </svg>
         </router-link>
+        -->
         <mt-tab-container v-model="selected" style="padding-bottom: 1.3rem;" :class="{ Box2: isFullScreen }">
             <mt-tab-container-item id="1" style="border-radius: 4px;min-height: 11.5rem;background: #fff">
+                <div class="header" :class="{ topHeight: isFullScreen }">
+                </div>
                 <!--非正常情况，没有客户，需要去推广-->
                 <UnSureCustomer/>
             </mt-tab-container-item>
-            <mt-tab-container-item id="2" class="Box4"  :class="{ Box3: isFullScreen }">
-                <p class="t1"  :class="{ t2: isFullScreen }">联贝收益</p>
-                <ProfitComponent></ProfitComponent>
+            <mt-tab-container-item id="2"  :class="{ Box3: isFullScreen }">
+                <!--<p class="t1"  :class="{ t2: isFullScreen }">联贝收益</p>-->
+               <MyFrame></MyFrame>
             </mt-tab-container-item>
         </mt-tab-container>
 
@@ -29,19 +28,11 @@
                 <p>客户</p>
             </mt-tab-item>
 
-            <!-- <mt-tab-item id="2">
+             <mt-tab-item id="2">
                 <svg class="m-style-svg m-svg-def">
                     <use xlink:href="#icon-promote-footer-earnings"/>
                 </svg>
                 <p>我的</p>
-            </mt-tab-item> -->
-
-            <!-- 修改为跳转到未授权的我们页面 -->
-                <mt-tab-item id="2">
-                <svg class="m-style-svg m-svg-def">
-                    <use xlink:href="#icon-promote-footer-earnings"/>
-                </svg>
-                <router-link to="/UnautMy-us"><p>我的</p></router-link> 
             </mt-tab-item>
         </mt-navbar>
         <!--我的弹框-->
@@ -56,12 +47,15 @@
     import ProfitComponent from "@/components/modules/Extension/ProfitComponent";
     import CustomerMy from "@/page/My/ExtensionMy";//我的
     import UnSureCustomer from "@/page/Home/UnSureExtension/UnSureCustomer";
+    import MyFrame from "./MyExtension"
+
     export default {
         name: "RoleExtension",
         components:{
             UnSureCustomer,
             ProfitComponent,
-            CustomerMy
+            CustomerMy,
+            MyFrame
         },
         data(){
             return {
