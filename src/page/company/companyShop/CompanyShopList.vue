@@ -53,11 +53,13 @@
 		</div>
 		<!--列表开始-->
 		<p class="title">药品推荐</p>
-		<div style="overflow:scroll">
+		<div style="overflow:scroll" v-if="items.length">
 			<mt-loadmore ref="loadmore" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false">
 				<list :business-id="businessId" :title="title" @add_shop_car="add_shop_car" @del_shop_cart="del_shop_cart" :shopCart="shopCart" :items="items"></list>
 			</mt-loadmore>
 		</div>
+
+		<EmptyList class="noData" v-else/>
         <div style="height: 1.2rem"></div>
         <div style="position: fixed;width: 100%;bottom: 0px" v-if="entities.length>0">
             <mini-company-cart ref="MiniCompanyCart" :shop-id="businessId" :count="cartNum" :total-price="totalPrice" style="bottom: 0px"></mini-company-cart>
@@ -67,6 +69,7 @@
 
 <script>
 	import list from "@/page/company/companyShop/CompanyShopListMould.vue";
+	import EmptyList from "@/components/EmptyList"
 	import HeaderTop from "@/page/company/CompanyHeader.vue";
 	import foot from "@/page/company/CompanyFooterNav.vue";
 	import SearchBar from '@/components/common/SearchBar';
@@ -86,6 +89,7 @@
 			HeaderTop,
             MiniCompanyCart,
 			Notice,
+			EmptyList
 		},
 		data(){
 			return {
@@ -141,7 +145,7 @@
 				let params = {
 					page: this.page,
 					limit: 20,
-					supplier_id:this.businessId
+					supplier_id:this.shopId
 				}
 				let data = {}
 				let shopList = []
@@ -313,5 +317,8 @@
         text-align: center;
         color: #666;
         font-size: .28rem;
+	}
+	.noData {
+		padding-top: .8rem;
 	}
 </style>
