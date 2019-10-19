@@ -505,9 +505,11 @@
     .infoDetail {
         img {
             width: 100%!important;
+             height: auto;
         }
         .content >>> img {
             width: 100%!important;
+            height: auto;
         }
     }
 </style>

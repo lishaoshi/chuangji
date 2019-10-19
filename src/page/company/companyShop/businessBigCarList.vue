@@ -17,7 +17,7 @@
 
 <script>
     import { mapState,mapMutations} from 'vuex'
-    import { supplierBusinessEntities } from '@/api/business' //接口要换
+    import { supplierBusinessEntities,  } from '@/api/business' //接口要换
     import CartsShoplist  from '@/components/shopcart/CartsShoplist'
     import CartsFooter from "@/components/shopcart/CartsFooter"
     import EmptyCartShop from '@/components/EmptyCarList'
@@ -61,6 +61,7 @@
                 let ids = []
                 let idMapQ = {}
                 let cartData = this.shopId ? this.cartList[this.shopId]:this.cartList
+                this._queryBusinessDetail()
                 if(cartData){
                     if(this.shopId){
                         Object.values(cartData).forEach(item => {
@@ -85,6 +86,8 @@
                 }
                 this.loading = false
             },
+
+
             _handleData(data,map){
                 let shops = {}
                 data.forEach((item,index) =>{

@@ -174,6 +174,7 @@
                                 this.data.minutes = '00'
                                 this.data.seconds = '00'
                                 clearInterval(arr[index].diffSecondsInt)
+                                arr[index].order_status = 6
                             }
                             arr[index].seconds = seconds
                         },1000)

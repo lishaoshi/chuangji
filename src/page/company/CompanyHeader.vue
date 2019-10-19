@@ -18,23 +18,23 @@
         <transition name="fade">
             <div class="company" :class="{activebox2: isFullScreen}">
                 <div class="brand">
-                    <img :src="shopDetailData.img_cover" alt="">
+                    <img :src="businessInfo.img_cover" alt="">
                 </div>
                 <div class="message">
                     <div class="message_title">
-                        <p>{{ shopDetailData.display_name ||shopDetailData.name || ''}}</p>
+                        <p>{{ businessInfo.display_name ||businessInfo.name || ''}}</p>
                     </div>
                     <div class="other">
                         <ul>
                             <li>
-                                <p>调配时间<i>{{shopDetailData.send_duration || 14}}</i>天</p>
+                                <p>调配时间<i>{{businessInfo.send_duration || 14}}</i>天</p>
                                 <div></div>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div class="tel">
-                    <a :href="`tel:${shopDetailData.tel}`">
+                    <a :href="`tel:${businessInfo.tel}`">
                         <svg class="telSvg">
                             <use xlink:href="#icon-gloable-telephone"></use>
                         </svg>
@@ -53,6 +53,16 @@
     export default {
         name: "CompanyShopHeader",
         components: {Spread},
+        props: {
+            shopId: {
+                type: Number,
+                required: true
+            },
+            businessInfo: {
+                type: Object,
+                default: {}
+            }
+        },
         data() {
             return {
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
@@ -86,7 +96,7 @@
             //初始化时获取基本数据
             async initData() {
                 //店铺是否关注信息
-                isBusinessFollow(this.shopDetailData.id).then(res => {
+                isBusinessFollow(this.shopId).then(res => {
                     console.log(res.data.data.hasrelation)
                     if(res.data.data.hasrelation){
                         this.follow_info = "已关注"
@@ -143,7 +153,10 @@
                 this.follow_status = !this.follow_status
             },
             searchFn(){
-                console.log(this.searchValue)
+                if(!this.searchValue) {
+                    return false
+                }
+                // console.log(this.searchValue)
                 let search = this.searchValue
                 localStorage.setItem('search', JSON.stringify(search));
                 this.$router.push('/company-product-list')

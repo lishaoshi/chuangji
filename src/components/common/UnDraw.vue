@@ -7,7 +7,7 @@
                         <div class="list-content">
                             <p class="shop-unit">待提取</p>
                             <p class="shop-name">消耗联数：{{data.consume_lianshu}}</p>
-                            <p class="shop-name">剩余{{data.minutes}}分{{data.seconds}}秒</p>
+                            <p class="shop-name">剩余提取时间：{{data.minutes}}分{{data.seconds}}秒</p>
                             <p class="shop-name">订单编号：{{data.order_sn}}</p>
                         </div>
                         <div class="list-detail">
@@ -150,7 +150,7 @@
         font-size: 20px;
         padding: .2rem;
         position: relative;
-        height: 2.56rem;
+        height: 2.88rem;
         margin-top: .2rem;
     }
 
@@ -179,7 +179,7 @@
     }
 
     .list-box {
-        padding: 11px 15px;
+        padding: .32rem .2rem;
         background: #fff;
         display: flex;
         align-items: center;
@@ -205,8 +205,8 @@
                     font-size:.20rem;
                     line-height: 2;
                     font-weight:bold;
-                    color:rgba(255,59,48,1);
-                    margin-bottom: .25rem;
+                    color:#FF3B30;
+                    margin-bottom: .3rem;
                 }
             }
             button {
@@ -243,7 +243,7 @@
 
         .shop-unit {
             font-size: .27rem;
-            color: rgb(250, 84, 82);
+            color: #FF3B30;
             display: block;
             line-height: 1.5;
             margin-bottom: .4rem;

@@ -183,11 +183,11 @@
             console.log('userType', this.userType)
         },
         methods: {
-            to(path, flag=false) {
-                
+            async to(path, flag=false) {
+                // debugger
                 if(flag) {
                     if(!this.userInfo.shop_supplier) {
-                        this.$messagebox.confirm('',{
+                        await this.$messagebox.confirm('',{
                             title: '提示',
                             message:'没有操作权限,请先完成认证',
                             confirmButtonText: '去认证'
@@ -197,7 +197,7 @@
                             }
                         }).catch(err => err);
                     }
-                     this.$router.push({path})
+                    //  this.$router.push({path})
                     return
                 } else {
                      this.$router.push({path})
