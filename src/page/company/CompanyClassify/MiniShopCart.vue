@@ -47,10 +47,6 @@
 				type: String,
 				default: '0.00'
 			},
-			shopId: {
-				type: Number,
-				required: true
-			}
 		},
 		methods: {
 			drop(target) {
