@@ -69,6 +69,8 @@
           <use xlink:href="#icon-cell-allow-right" />
         </svg>
       </li>
+    			<!-- <clxsd-cell :title="'集采返利'" :to="'/ticket-list'" is-link icon="my-banknote" :value="userInfo.lianPiaoVaule" /> -->
+
     </ul>
 
     			<!-- <clxsd-cell :title="'集采返利'" :to="'/ticket-list'" is-link icon="my-banknote" :value="userInfo.lianPiaoVaule" /> -->
