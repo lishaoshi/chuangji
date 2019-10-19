@@ -9,6 +9,10 @@
         <div class="userinfo-left">
           <img src="../../../images/my/user_default.png" alt />
         </div>
+
+        <div class="province-logo">
+          <img src="../../../images/my/province.png" />
+        </div>
         <div class="userinfo-centre">
           <p class="name">
             张无忌
@@ -23,19 +27,20 @@
           <span>邀请</span>
         </div>
       </div>
+
+      <div></div>
     </div>
 
     <ul class="unautMy-userlist">
-      
       <div style="margin-bottom:.2rem">
         <clxsd-cell :title="'角色选择'" :to="'/customer-choose-role'" is-link icon="my-collection" />
       </div>
-      </ul>
-      <div style="margin-bottom:.2rem">
-        <clxsd-cell :title="'消息通知'" :to="'/develop'" is-link icon="my-message" />
-        <clxsd-cell :title="'个人信息'" :to="'/business-setting'" is-link icon="my-employee" />
-      </div>
-      <clxsd-cell :title="'设置'" :to="'/setting'" is-link icon="my-setting" />
+    </ul>
+    <div style="margin-bottom:.2rem">
+      <clxsd-cell :title="'消息通知'" :to="'/develop'" is-link icon="my-message" />
+      <clxsd-cell :title="'个人信息'" :to="'/business-setting'" is-link icon="my-employee" />
+    </div>
+    <clxsd-cell :title="'设置'" :to="'/setting'" is-link icon="my-setting" />
 
     <clxsd-foot-guide :user-type="4" />
   </div>
@@ -57,6 +62,7 @@ export default {
   font-size: 0.34rem;
 }
 .container {
+  position: relative;
   background: rgba(45, 162, 255, 1);
   .header {
     height: 0.88rem;
@@ -68,6 +74,15 @@ export default {
       height: 0.35rem;
       font-size: 0.37rem;
       color: rgba(255, 255, 255, 1);
+    }
+  }
+  .province-logo {
+    position: absolute;
+    bottom: 0.26rem;
+    left: 1.33rem;
+    img {
+      width: 0.28rem;
+      height: 0.3rem;
     }
   }
   .userinfo {
@@ -141,5 +156,4 @@ export default {
     }
   }
 }
-
 </style>
