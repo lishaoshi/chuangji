@@ -70,6 +70,10 @@ const Myinfo = () => import(/* webpackChunkName: "About" */ '@/page/My/UnautMy/M
 /* 下载页面 */
 const Download = () => import(/* webpackChunkName: "About" */ '@/page/download/Download.vue');
 
+
+/* 角色确认页面 */
+const RoleConfirm = () => import(/* webpackChunkName: "About" */ '@/page/extension/RoleConfirm.vue');
+
 export default [
     {
         path: "/update-list",
@@ -464,7 +468,14 @@ export default [
         path: "/download",
         component: Download,
         meta: {
-            title: "下载页面",
+            title: "APP下载页面",
+        }
+    },
+    {
+        path: "/role-yes",
+        component: RoleConfirm,
+        meta: {
+            title: "角色信息确认页面",
         }
     },
 ]
