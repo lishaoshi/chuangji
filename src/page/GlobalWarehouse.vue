@@ -58,6 +58,15 @@
              <EmptyList v-else/>
         </div>
         <p v-if="allLoaded&&businesses.length" class="loader-over">没有更多了</p>
+        <div v-if="userType==3" @click="goShopCart">
+            <img v-if="userType!=2" src="../images/index/shop.png" class="shopcar newClass"/>
+                 <!-- <svg v-if="USERTYPE==2" class="m-style-svg m-svg-def">
+                    <use xlink:href="#icon-promote-promoter"/>
+                </svg> -->
+            <!-- <svg class="icon shopcar newClass" aria-hidden="true"> 
+                <use xlink:href="#icon-shop-car-0"></use> 
+            </svg> -->
+        </div>
        
         <clxsd-foot-guide :user-type="3"/>
     </div>
@@ -122,12 +131,15 @@
                 this.$refs.wrapper.getBoundingClientRect().top;
         },
         computed: {
-            ...mapState(['POSITION']),
+            ...mapState(['POSITION', 'CURRENTUSER']),
             lat() {
                 return this.POSITION.lat
             },
             lng() {
                 return this.POSITION.lng
+            },
+            userType() {
+                return this.CURRENTUSER.data.user_type
             }
         },
         methods: {
@@ -142,6 +154,10 @@
                 } else {
                     this.hasError = 0;
                 }
+            },
+            // 购物车按钮
+             goShopCart() {
+                this.$router.push({path:'/factory/cart'})
             },
             tab_change(type) {
                 console.log(type)
@@ -225,6 +241,21 @@
         overflow: scroll;
         padding: 0 .2rem;
         // margin-bottom: 30px;
+    }
+     .shopcar {
+        position: fixed;
+        width: 1.3rem;
+        height: 1.3rem;
+        height: auto;
+        right: 0px;
+        bottom: 1.3rem;
+        z-index: 99;
+        &.newClass {
+            width: 1rem;
+            height: 1rem;
+            right: 20px;
+            bottom: 60px;
+        }
     }
 
     .shopcar {
