@@ -28,7 +28,7 @@
                     <div class="shop-name">
                         <div>
                             <img src="../../images/default.jpg" width="30" height="30" v-if="shop.logo==null">
-                            <img :src="shop.logo" v-else width="30" height="30">
+                            <img :src="shop.img_cover" v-else width="30" height="30">
                             <a href="#" class="company-name">{{shop.display_name || shop.name}}</a>
                         </div>
                     </div>

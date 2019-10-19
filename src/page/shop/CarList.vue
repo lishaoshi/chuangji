@@ -125,6 +125,7 @@
                             shopName: item.supplier.display_name || item.supplier.name,
                             logo:item.supplier.logo,
                             type:item.supplier.type,
+                            img_cover: item.supplier.img_cover,
                             checked:false,
                             items:[].concat([item])
                         }

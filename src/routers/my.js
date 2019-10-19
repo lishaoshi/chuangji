@@ -72,7 +72,7 @@ const Download = () => import(/* webpackChunkName: "About" */ '@/page/download/D
 
 
 /* 角色确认页面 */
-const Role = () => import(/* webpackChunkName: "About" */ '@/page/role/Role.vue');
+const RoleConfirm = () => import(/* webpackChunkName: "About" */ '@/page/extension/RoleConfirm.vue');
 
 export default [
     {
@@ -473,7 +473,7 @@ export default [
     },
     {
         path: "/role-yes",
-        component: Role,
+        component: RoleConfirm,
         meta: {
             title: "角色信息确认页面",
         }

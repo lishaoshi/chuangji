@@ -1,6 +1,6 @@
 <template>
 	<div id="CompanyShopList">
-		<HeaderTop></HeaderTop>
+		<HeaderTop :shopId="shopId" :businessInfo="businessInfo"></HeaderTop>
         <mt-swipe :auto="4000" class="swiper">
 			<mt-swipe-item :key="key" v-for="(swipe,key) in swipers"><a :href="swipe.link"> <img :src="swipe.img" width="100%"></a>
 			</mt-swipe-item>
@@ -71,7 +71,7 @@
 	import foot from "@/page/company/CompanyFooterNav.vue";
 	import SearchBar from '@/components/common/SearchBar';
 	import { mapState, mapMutations} from 'vuex';
-    import {businessEntities} from '@/api/business'
+    import {businessEntities, queryBusinessDetail} from '@/api/business'
     import MiniCompanyCart from '@/page/company/CompanyClassify/MiniShopCart.vue'
 	import {adList, infoList} from "@/api/ad";
 	import Notice from '@/components/common/notice2';
@@ -95,7 +95,9 @@
 				shopCart: {},
 				page: 1,
 				items: [],
-				allLoaded: false
+				allLoaded: false,
+				shopId: 0,
+				businessInfo: {}
 			}
 		},
 		computed:{
@@ -130,6 +132,8 @@
             }
 		},
 		created(){
+			// debugger
+			this.shopId = parseInt(this.$route.query.id)
 		    this.initData()
 		},
 		methods:{
@@ -141,8 +145,7 @@
 				}
 				let data = {}
 				let shopList = []
-				await Promise.all([queryShopCarList({}, this.businessData.id),businessEntities(params)]).then(res=>{
-					// console.log(res, 'res')
+				await Promise.all([queryShopCarList({}, this.businessData.id),businessEntities(params),queryBusinessDetail(this.shopId)]).then(res=>{
 					data = res[1].data
 					shopList = res[1].data.data.recommendList
 					this.shopCart = res[0]
@@ -152,15 +155,22 @@
 						this.items = shopList
 					}
 					this.items = this._handleData(this.items)
-					
+					console.log(res[2].data.supplierInfo)
+					this.businessInfo = res[2].data.supplierInfo
+					this.notices = this.businessInfo.infos
 				})
 				this.entities = data.data.recommendList;
-				// console.log(this.infos, 'this.infos')
-				this.notices = this.infos
 				adList({channel: 'app', space: 'global-top'}).then( data => {
 					this.swipers = data.data.data
 				})
 			},
+
+			// 获取商业详情
+            _queryBusinessDetail() {
+                queryBusinessDetail(this.businessData.id).then(res=>{
+                    debugger
+                })
+            },
 			add_shop_car(index, item) {
 				this.items = JSON.parse(JSON.stringify(this.items))
 				this.items[index].num++

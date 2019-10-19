@@ -151,8 +151,8 @@
             },
             entryBusinessShop(item) {
                 // console.log(item)
-                this.$store.commit('SAVE_CURRENT_BUSINESS_SHOP', item.id)
-                this.$store.commit('SAVE_CURRENT_BUSINESS_SHOP_DATA', item)
+                // this.$store.commit('SAVE_CURRENT_BUSINESS_SHOP', item.id)
+                // this.$store.commit('SAVE_CURRENT_BUSINESS_SHOP_DATA', item)
                 this.$router.push({path:"/business-shop", query:{id:item.id}})
             },
             scroll() {
@@ -459,6 +459,7 @@
             width: .64rem;
             height: .64rem;
             border-radius: .64rem;
+            margin-right: .2rem;
             // margin: .28rem .2rem;
         }
 

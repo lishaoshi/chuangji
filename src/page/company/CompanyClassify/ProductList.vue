@@ -6,15 +6,15 @@
         </div>
         <div class="product-list">
             <div style="width: 2rem;float: left;background: #E6e6e6">
-                <span class="all-goods" @click="all_Goods()" :class="`${is_active == 0?'all-goods-active':''}`">全部</span>
+                <span class="all-goods" @click="all_Goods()" :class="`${tabActive == 0?'all-goods-active':''}`">全部</span>
                 <div class="mint-navbar">
                     <div class="menu-list" :id="`menu_${index}`" :key="`menu-${index}`"
                          v-for="(menu,index) in menuList ">
                                 <!-- 有二级菜单点击下拉 -->
                             <span v-if="menu.child" @click="slide($event,menu)" class="sp1 up" ref="slideMenu">{{menu.name}}</span>
                             <!-- 一级菜单没有下拉 -->
-                            <span v-else @click="showGoods(menu.id)" class="sp1"
-                                  :class="`${is_active===menu.id?'tabActive':''}`">{{menu.name}}</span>
+                            <span v-else @click="showGoods($event, menu.id)" class="sp1"
+                                  :class="`${tabActive===menu.id?'tabActive':''}`">{{menu.name}}</span>
                         <div class="down-menu" style="height: 0px" ref="slideChild">
                             <div>
                                 <p v-for="(childrenMenu,index) in menu.child"
@@ -46,7 +46,7 @@
                                 <use xlink:href="#icon-actity-down"></use>
                             </svg> -->
                             <svg>
-                                <use :xlink:href="`#icon-business-price-${!isPrice?'0':isUp?'up':'down'}`"></use>
+                                <use :xlink:href="`#icon-business-price-${!isPrice?'0':!isUp?'down':'up'}`"></use>
                             </svg>
                         </div>
                        
@@ -82,8 +82,9 @@
                                                 <!-- <em class="error-num">-</em> -->
                                                 <div class="num">
                                                     <span class="amount">{{entity.num || 0}}</span>
+                                                    {{entity.unit}}
                                                 </div>
-                                                <em class="add" @click="addToMiniCart($event,entity, index)">+</em>
+                                                <em class="add" @click="addToMiniCart($event,entity, index)">+ <span></span> </em>
                                             </div>
                                         </div>
                                     </div>
@@ -159,7 +160,8 @@
                 price: '',
                 type: '',
                 allLoaded: false,
-                shopCart: {}
+                shopCart: {},
+                tabActive: ''
             }
         },
         created() {
@@ -249,10 +251,13 @@
                 // console.log("长度："+this.goodList.list.length())
             },
              //一级菜单点击商品
-            showGoods(id, $event) {
+            showGoods( $event, id) {
+                // debugger
                 // console.log("当前id：" + id)
-                this.is_active = id //是否当前一级菜单
+                this.tabActive = id //是否当前一级菜单
                 let parentNode = event.target.parentNode;
+                let targetNode = event.target
+                targetNode.classList.add("tabActive"); //添加当前样式
                 let a = this.sibling(parentNode)
                 for (var i = 0; i < a.length; i++) {
                     a[i].childNodes[0].classList.remove("tabActive");
@@ -274,8 +279,9 @@
 
               //点击下拉菜单
             slide: function (event,id) {
-                this.is_active=id
+                // this.is_active=id
                 // this.current_id = id
+                 this.tabActive = id //是否当前一级菜单
                 let targetNode = event.target
                 targetNode.classList.add("tabActive"); //添加当前样式
                 let parentNode = targetNode.parentNode;
@@ -356,7 +362,7 @@
                          this.price = ""
                         break;
                     case 3:
-                        this.price==1?this.price=2:this.price=1
+                        this.price==2?this.price=1:this.price=2
                         break;
                     default:
                         break;

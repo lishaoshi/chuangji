@@ -10,8 +10,9 @@
 					</p>
 					<p v-if="data.supplier">{{data.supplier.name}}</p>
 					<p v-if="data.consignee">{{data.consignee}}</p>
-					<p class="color-gray">订单编号：{{data.order_sn}}</p>
+					
 					<p class="color-gray">下单日期：{{data.time}}</p>
+					<p class="color-gray">订单编号：{{data.order_sn}}</p>
 				</router-link>
 			</div>
 			<div class="item-box2">
@@ -22,7 +23,7 @@
 				<p v-else>{{data.is_coupon}}</p>
 				<p v-else>{{data.coupon}}</p> -->
                 <div>
-                    <p class="btn" v-if="data.order_status==2" @click="sureSendOrder(data.id)">确认发货</p>
+                    <!-- <p class="btn" v-if="data.order_status==2" @click="sureSendOrder(data.id)">确认发货</p> -->
                     <!-- <p class="btn" v-if="status==3" @click="delectOrder(data.id)">删除订单</p> -->
                 </div>
 			</div>

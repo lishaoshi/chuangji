@@ -120,9 +120,6 @@
 			async initData() {
 				// this._businessEntities(false)
 			},
-			
-			
-
 			canOption() {
 				if(!this.canShow) {
 					this.$Message.error('当前用户还未审核通过');
@@ -131,20 +128,6 @@
 				return true
 				
 			},
-			// _handleData(data) {
-			// 	// console.log(data, 'hello')
-			// 	data.forEach((item, index,arr) => {
-			// 		if(item.valid_time>0) {
-			// 			let time = item.valid_time
-			// 			arr[index].time = this.$moment.unix(time).format("YYYY.MM.DD")
-			// 		}
-			// 	})
-			// 	// console.log(data)
-			// 	// console.log(data, 'data')
-			// 	// return data
-			// },
-
-			 // 添加至购物车
             add_shop_car(item, index) {
 				this.$emit('add_shop_car', index, item)
                 let data = {
@@ -169,30 +152,6 @@
 					item.num++
 				}
 			},
-
-			// 计算总件数函数
-            // calculateCartNum() {
-            //      let num = 0;
-            //     Object.values(this.shopCart).forEach((item, index) => {
-            //         // console.log(item, 'cartNum')
-            //         if(item&&item.num>0) {
-            //             num +=  +item.num;
-            //         }
-            //     })
-            //     // console.log(num, 'num')
-            //    return num
-			// },
-			// 计算总价格
-			// calculateTotalPrice() {
-                 
-            //     let total_price = 0
-            //     Object.values(this.shopCart).forEach((item, index) => {
-            //         if(item&&item.num>0) {
-            //             total_price += item.num * item.price;
-            //         }
-            //     })
-            //     return total_price.toFixed(2)
-            // },
 			removeToMiniCart(event, item) {
 				if(this.canOption()) {
 					this.BUSINESS_REMOVE_CART(item)
@@ -205,49 +164,6 @@
 			errorInfo() {
 				Toast('不能再少了，快受不了啦');
 			},
-
-
-			// async getOrderData(options, loadMore = false) {
-			// 	let params = {
-			// 		page: this.page,
-			// 		limit: 20,
-			// 		supplier_id:this.businessId
-			// 	}
-			// 	businessEntities(params, loadMore)
-			// 			.then(({
-			// 					   data = []
-			// 				   }) => {
-			// 				if(loadMore) {
-			// 					this.items = [...this.items, ...data.data.recommendList]
-			// 				} else {
-			// 					this.items = data.data.recommendList
-			// 				}
-			// 				this.items = this._handleData(this.items)
-			// 				this.page = this.page + 1
-			// 				this.$refs.loadmore.afterLoadMore(data.data.recommendList.length < options.limit)
-			// 				if(options.callback) {
-			// 					options.callback()
-			// 				}
-			// 			})
-			// },
-			// onOrdersRefresh(callback) {
-			// 	console.log("loading")
-			// 	this.page = 1
-			// 	let options = {
-			// 		limit: 20,
-			// 		callback: callback
-			// 	}
-			// 	this.getOrderData(options)
-			// },
-			// onOrdersLoadMore() {
-			// 	console.log("more")
-			// 	let options = {
-			// 		limit: 20,
-			// 	}
-			// 	this.getOrderData(options, true)
-			// },
-
-
 		}
 	}
 </script>

@@ -22,6 +22,18 @@ export function _servicBusinessGoodList(params, id){
     return http.get(`hippo-shop/business/${id}/recommends`,{params, validateStatus: s => s === 200});
 };
 
+/**
+ *
+ *  获取商业详情接口
+ * @export id: 商业公司id
+ */
+export function queryBusinessDetail( id) {
+    let url = `hippo-shop/business/${id}/info`
+    return http.get(url).then(res=>{
+        return res.data
+    })
+}
+
 
 /*
     关于快速补货

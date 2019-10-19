@@ -5,13 +5,13 @@
 				<svg class="check goods-check shopCheck" @click="shopChecked(sid)">
 					<use :xlink:href="`#icon-IsCheckedShop-${data.checked ? 'open' : 'close' }`" />
 				</svg>
-				<div>
-                    <router-link :to="`/factory/shop/${data.shopId}`">
-                        <img :src="data.logo" width="30" height="30">
-                    </router-link>
-                    <router-link :to="`/factory/shop/${data.shopId}`" class="company-name">
-                        {{data.shopName}}
-                    </router-link>
+				<div @click="handleQueryDetail(data)">
+                    <!-- <router-link :to="`/factory/shop/${data.shopId}`"> -->
+                        <img :src="data.img_cover" width="30" height="30" style="margin-right: .2rem;">
+                    <!-- </router-link> -->
+                    <!-- <router-link :to="`/factory/shop/${data.shopId}`" class="company-name"> -->
+                        <span>{{data.shopName}}</span> 
+                    <!-- </router-link> -->
 				</div>
 			</div>
 			<ul>
@@ -32,6 +32,15 @@
 		methods: {
 			shopChecked(i) {
 				this.$emit('shopChecked', i)
+			},
+			handleQueryDetail(data) {
+				// console.log(data)
+				if(data.type == 1) {
+					this.$router.push({path: `/factory/shop/${data.shopId}`})
+				} else if(data.type == 2) {
+					// debugger
+					this.$router.push({path: '/business-shop', query: {id: data.shopId}})
+				}
 			}
 		},
 		filters: {

@@ -145,7 +145,7 @@
                 </svg>
                 <span>客户</span>
             </section>
-            <section
+            <!-- <section
                     :class="{active: isCurPath('/Profit')}"
                     class="clxsd-guide-item guide-item"
                     @click="to('/Profit')">
@@ -155,6 +155,18 @@
                     </svg>
                 </clxsd-badge>
                 <span>收益</span>
+            </section> -->
+
+             <section
+                    :class="{active: isCurPath('/UnautMy-us')}"
+                    class="clxsd-guide-item guide-item"
+                    @click="to('/UnautMy-us')">
+                <clxsd-badge :dot="profile">
+                    <svg class="m-style-svg m-svg-def">
+                        <use xlink:href="#icon-promote-footer-earnings"/>
+                    </svg>
+                </clxsd-badge>
+                <span>我的</span>
             </section>
         </footer>
     </div>
@@ -183,11 +195,11 @@
             console.log('userType', this.userType)
         },
         methods: {
-            to(path, flag=false) {
-                
+            async to(path, flag=false) {
+                // debugger
                 if(flag) {
                     if(!this.userInfo.shop_supplier) {
-                        this.$messagebox.confirm('',{
+                        await this.$messagebox.confirm('',{
                             title: '提示',
                             message:'没有操作权限,请先完成认证',
                             confirmButtonText: '去认证'
@@ -197,7 +209,7 @@
                             }
                         }).catch(err => err);
                     }
-                     this.$router.push({path})
+                    //  this.$router.push({path})
                     return
                 } else {
                      this.$router.push({path})
