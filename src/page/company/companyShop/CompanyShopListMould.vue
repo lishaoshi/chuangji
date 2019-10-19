@@ -237,10 +237,9 @@
 			font-size: 14px;
 			line-height: 180%;
 			color: #333;
-			word-break:keep-all;
-			overflow: hidden;
-			text-overflow:ellipsis;
-			white-space: normal;
+			overflow:hidden; //超出的文本隐藏
+			text-overflow:ellipsis; //用省略号显示
+			white-space:nowrap; //不换行
 		}
 	}
 	
