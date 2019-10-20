@@ -3,7 +3,7 @@
         <svg>
             <use xlink:href="#icon-notice"/>
         </svg>
-        <div class="scroll-wrap" style="height: 100%">
+        <div class="scroll-wrap" style="height: 100%; width: 100%;">
             <ul class="scroll-content" ref="con1" :class="{anim:animate==true}">
                 <li v-for="(entity,index_) in notices" :key="`en-${index_}`">
                     <a :href="entity.link" style="color: #333">{{entity.title}}</a>
@@ -70,11 +70,13 @@
         svg {
             width: .38rem;
             height: .38rem;
+            min-width: .38rem;
         }
     }
     .scroll-content {
-        position: relative;
+        // position: relative;
         height: 100%;
+        width: 100%;
         // margin-top: .06rem;
         li {
             height: .88rem;
@@ -84,9 +86,9 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            span {
+            a {
                 display: inline-block;
-                width: 60%;
+                width: 100%;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;

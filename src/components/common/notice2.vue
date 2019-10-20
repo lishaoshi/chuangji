@@ -1,9 +1,12 @@
 <template>
     <div class="notice" v-if="notices!=null">
-        <svg>
-            <use xlink:href="#icon-notice"/>
-        </svg>
-        <div class="scroll-wrap" style="height: 100%">
+        <div>
+            <svg>
+                <use xlink:href="#icon-notice"/>
+            </svg>
+        </div>
+      
+        <div class="scroll-wrap" style="height: 100%;flex:1;">
             <ul class="scroll-content" ref="con1" :class="{anim:animate==true}">
                 <li v-for="(entity,index_) in notices" :key="`en-${index_}`">
                     <a :href="entity.link" style="color: #333">{{entity.title}}</a>
@@ -65,11 +68,14 @@
         svg {
             width: .38rem;
             height: .38rem;
+            display: block;
+            min-width: .38rem;
         }
     }
     .scroll-content {
-        position: relative;
+        // position: relative;
         height: 100%;
+        width: 100;
         li {
             height: .64rem;
             line-height: .64rem;
@@ -79,9 +85,9 @@
             overflow: hidden;
             text-overflow: ellipsis;
 
-            span {
+            a {
                 display: inline-block;
-                width: 60%;
+                width: 100%;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
