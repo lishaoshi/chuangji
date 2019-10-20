@@ -62,7 +62,7 @@
 		<EmptyList class="noData" v-else/>
         <div style="height: 1.2rem"></div>
         <div style="position: fixed;width: 100%;bottom: 0px" v-if="entities.length>0">
-            <mini-company-cart ref="MiniCompanyCart" :shop-id="shopId" :count="cartNum" :total-price="totalPrice" style="bottom: 0px"></mini-company-cart>
+            <mini-company-cart ref="MiniCompanyCart" :count="cartNum" :total-price="totalPrice" style="bottom: 0px"></mini-company-cart>
         </div>
 	</div>
 </template>
@@ -149,7 +149,7 @@
 				}
 				let data = {}
 				let shopList = []
-				await Promise.all([queryShopCarList({}, this.businessData.id),businessEntities(params),queryBusinessDetail(this.shopId)]).then(res=>{
+				await Promise.all([queryShopCarList({}, this.shopId),businessEntities(params),queryBusinessDetail(this.shopId)]).then(res=>{
 					data = res[1].data
 					shopList = res[1].data.data.recommendList
 					this.shopCart = res[0]
@@ -159,7 +159,7 @@
 						this.items = shopList
 					}
 					this.items = this._handleData(this.items)
-					console.log(res[2].data.supplierInfo)
+					// console.log(res[2].data.supplierInfo)
 					this.businessInfo = res[2].data.supplierInfo
 					this.notices = this.businessInfo.infos
 				})
@@ -196,7 +196,7 @@
 				let params = {
 					page: this.page,
 					limit: 20,
-					supplier_id:this.businessId
+					supplier_id:this.shopId
 				}
 				businessEntities(params).then(res=>{
 					let list = res.data.data.recommendList
@@ -212,7 +212,6 @@
 
 			// 对获取到的购物车数据进行处理
 			_handleData(data) {
-                // console.log(data,'data')
                 data.forEach((item, index, arr) => {
                     item.shopId = this.factoryId
                     item.num = 0
