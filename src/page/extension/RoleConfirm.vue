@@ -7,7 +7,7 @@
             <li>
                 <div class="user">
                     <span>姓名</span>
-                    <p>张鑫鑫</p>
+                    <p>{{name}}</p>
                 </div>
                 <!-- <div class="line"></div> -->
                 <div class="iphone">
@@ -18,7 +18,7 @@
             <li>
                 <div class="id-number">
                     <span>身份证号</span>
-                    <p>412326123456786419</p>
+                    <p>{{cartId}}</p>
                 </div>
             </li>
         </ul>
@@ -47,14 +47,12 @@
 
             <li class="money-container" v-if="role==='promoter'">
                 <span class="cost">入驻费用(元)</span>
-                <span class="money">￥{{money}}</span>
+                <span class="money">￥{{money | display_price}}</span>
             </li>
         </ul>
 
         <!-- 确认按钮 -->
-        <div class="button" @click="toPay">
-            确认申请
-        </div>
+        <div class="button" @click="toPay">确认申请</div>
 
         <!-- 注意事项 -->
         <div class="warning">
@@ -95,7 +93,10 @@
             return{
                 areaData:areaData,
                 address:'',
-                money:0
+                money:0,
+                name:'',
+                tel:'',
+                cartId:''
             }
         },
         computed:{
@@ -119,7 +120,11 @@
         },
         methods:{
             initData(){
-                console.log(this.USER_CHOOSED_DATA.selected_save_data)
+               this.$http.get("/user").then(res => {
+                   this.name = res.data.data.real_name
+                   this.tel = res.data.data.phone
+                   this.cartId = res.data.data.user_identity
+               })
                 var code = this.USER_CHOOSED_DATA.selected_save_data
                 if(this.role=='promoter'){
                     var code = this.selectedSaveData.code
@@ -144,26 +149,24 @@
                     .then(response => {
                         console.log(response.data.data)
                         var data = response.data.data
+                        var num1=0,num2=0,num3=0,num4=0,num5=0
                         if(this.selectedSaveData.business){
-                            this.money = this.money + data.business.xianjin
-                            console.log(money)
-                            return this.money
+                            num1 = data.business.xianjin
                         }
                         if(this.selectedSaveData.danti){
-                            this.money = this.money + data.danti.xianjin
-                            return this.money
+                            num2 = data.danti.xianjin
+
                         }
                         if(this.selectedSaveData.lianshuo){
-                            this.money = this.money + data.lianshuo.xianjin
-                            return this.money
+                            num3 = data.lianshuo.xianjin
                         }
                         if(this.selectedSaveData.yiyuan){
-                            this.money = this.money + data.yiyuan.xianjin
-                            return this.money
+                            num4 = data.yiyuan.xianjin
                         }
                         if(this.selectedSaveData.zhenshuo){
-                            this.money = this.money + data.zhenshuo.xianjin
+                            num5 = data.zhenshuo.xianjin
                         }
+                        this.money = num1+num2+num3+num4+num5
                         this.loading = false;
                     }).catch(error => {
                     this.loading = false;
@@ -260,7 +263,7 @@
                         margin-top: 0.1rem;
                         font-size: 0.2rem !important;
                         span {
-                            color: #333;
+                            color: #999;
                             padding-right: .15rem;
                         }
                     }

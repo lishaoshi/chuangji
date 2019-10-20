@@ -2,13 +2,25 @@
     <div class="UnautMy">
         <div class="container">
             <div class="header">
-                <span>未授权</span>
+                <span>{{companyName}}</span>
             </div>
 
             <div class="userinfo">
                 <div class="userinfo-left">
                     <img :src="userInfo.avatar | display_avatar" class="logo" v-if="userInfo.avatar"/>
                     <img src="../../../images/my/user_default.png" v-else/>
+                    <div v-if="userInfo.sub_type === 1">
+                        <img src="../../../images/extension/province.png" class="tag"/>
+                    </div>
+                    <div v-if="userInfo.sub_type === 2">
+                        <img src="../../../images/extension/city.png" class="tag"/>
+                    </div>
+                    <div v-if="userInfo.sub_type === 3">
+                        <img src="../../../images/extension/partner.png" class="tag"/>
+                    </div>
+                    <div v-if="userInfo.sub_type === 4">
+                        <img src="../../../images/extension/promoter.png" class="tag"/>
+                    </div>
                 </div>
                 <div class="userinfo-centre">
                     <p class="name">
@@ -25,9 +37,13 @@
                     </router-link>
                 </div>
             </div>
+            <div class="userinfo-lianshu">
+                <span>联数(包)</span>
+                <b>1800.00</b>
+            </div>
         </div>
-        <clxsd-cell :title="'通道收益'" :to="'/channel-profit'" :value="userInfo.lianPiaoVaule"  is-link icon="my-message"/>
-        <clxsd-cell :title="'广告收益'" :to="'/develop'" :value="userInfo.lianPiaoVaule"  is-link icon="my-message" style="margin-bottom: .2rem"/>
+        <clxsd-cell :title="'通道收益'" :to="'/channel-profit'" :value="userInfo.lianPiaoVaule" is-link icon="my-message"/>
+        <clxsd-cell :title="'广告收益'" :to="'/develop'" :value="userInfo.lianPiaoVaule" is-link icon="my-message" style="margin-bottom: .2rem"/>
         <ul class="unautMy-userlist">
             <div style="margin-bottom:.2rem">
                 <clxsd-cell v-if="userInfo.sub_type === 0" :title="'角色选择'" :to="'/customer-choose-role'" is-link icon="my-collection"/>
@@ -51,11 +67,17 @@
         components: {
             ClxsdCell
         },
+        data(){
+          return{
+              companyName: '未认证'
+          }
+        },
         computed: {
             ...mapState({
                 userInfo: state => {
                     const currentInfo = state.CURRENTUSER.data
                     return {
+                        //companyName: currentInfo.shop_supplier.display_name || currentInfo.shop_supplier.name,
                         userName: currentInfo.display_name || currentInfo.real_name || currentInfo.phone || '丢失信息',
                         userTel: currentInfo.phone || '丢失信息',
                         //role: currentInfo
@@ -64,7 +86,6 @@
                         state: currentInfo.status,
                         avatar: currentInfo.avatar
                     }
-
                 },
             }),
             canShou() {
@@ -120,6 +141,18 @@
                     display: block;
                     width: 1.2rem;
                     height: 1.2rem;
+                    z-index: 9;
+                    position: relative;
+                }
+                >div {
+                    img {
+                        width: .3rem;
+                        height: .3rem;
+                        float: right;
+                        margin-top: -.2rem;
+                        z-index: 99;
+                        position: relative;
+                    }
                 }
             }
 
@@ -178,5 +211,19 @@
             }
         }
     }
-
+    .userinfo-lianshu {
+        height: 1rem;
+        border-top: 1px solid #33a6ff;
+        line-height: 1rem;
+        padding: 0 .3rem;
+        display: flex;
+        justify-content: space-between;
+        color: #fff;
+        span {
+            font-size:.24rem;
+        }
+        b {
+            font-size: .44rem;
+        }
+    }
 </style>
