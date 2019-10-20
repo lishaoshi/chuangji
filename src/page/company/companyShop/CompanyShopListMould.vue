@@ -137,6 +137,7 @@
                 addShopCar(data)
 			},
 			handleNumber(item, index) {
+				// debugger
 				this.$emit('del_shop_cart', index, item)
                 let data = {
                     supplier_id: this.businessId,

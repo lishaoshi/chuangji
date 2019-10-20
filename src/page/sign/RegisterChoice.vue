@@ -15,25 +15,25 @@
 		</div>
 		<ul class="choice-list" v-else>
 				<li>
-					<router-link  to="/signup?user_type=1">
+					<router-link  :to="`/signup?user_type=1&hashid=${hashid}`">
 					<img src="../../images/login/industrySelected@2x.png">	
 					<p class="p1">工业注册</p>
 					</router-link>
 				</li>
 				<li >
-					<router-link  to="/signup?user_type=2">
+					<router-link  :to="`/signup?user_type=2&hashid=${hashid}`">
 					<img src="../../images/login/businessSelected@2x.png">
 					<p>商业注册</p>
 					</router-link>
 				</li>
 				<li>
-					<router-link  to="/signup?user_type=3">
+					<router-link  :to="`/signup?user_type=3&hashid=${hashid}`">
 					<img src="../../images/login/chainShopSelected@2x.png">
 					<p>采购注册</p>
 					</router-link>
 				</li>
 				<li>
-					<router-link  to="/signup?user_type=4">
+					<router-link  :to="`/signup?user_type=4&hashid=${hashid}`">
 					<img src="../../images/login/tuiguang.png">
 					<p>推广注册</p>
 					</router-link>
@@ -54,6 +54,16 @@
                 }
 			})
 		},
+		data() {
+			return {
+				hashid: ''
+			}
+		},
+		created() {
+			if(this.$route.query.hashid) {
+				this.hashid = this.$route.query.hashid
+			}
+		}
 	}
 </script>
 

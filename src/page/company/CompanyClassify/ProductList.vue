@@ -166,7 +166,10 @@
         },
         created() {
             // this.is_active = 1
-            let id = this.businessId
+            if(this.$route.query.shopId) {
+                this.shopId = this.$route.query.shopId
+            }
+            let id = this.shopId
             var data1 = JSON.parse(localStorage.getItem('search'));
             console.log(data1)
             this.value = data1
@@ -183,7 +186,7 @@
                 canShow: state => state.CURRENTUSER.data.shop_supplier,
             }),
             businessId() {
-                return this.businessData.id
+                return this.shopId
             },
             title() {
                 return this.businessData.display_name || this.businessData.name
@@ -424,19 +427,25 @@
                 this.current_id = id
             },
             addToMiniCart(event, entity, index) {
-                // debugger
+                if(entity.num < entity.order_min_num) {
+                    entity.num += entity.order_min_num
+                } else {
+                    entity.num++
+                }
                 let params = {
                     supplier_id: entity.shopId,
                     good_id: entity.id
                 }
-               entity.num++
                if(this.shopCart[entity.id]) {
-                   this.shopCart[entity.id].num++
+                    if(this.shopCart[entity.id].num > 0) {
+                        this.shopCart[entity.id].num++
+                    } else {
+                        this.shopCart[entity.id].num = entity.num
+                    }
+                   
                } else {
-                //    debugger
-                //    this.shopCart[entity.id] = JSON.parse(JSON.stringify(entity))
-                let data = JSON.parse(JSON.stringify(entity))
-                 this.$set(this.shopCart, `${entity.id}`, data)
+                    let data = JSON.parse(JSON.stringify(entity))
+                    this.$set(this.shopCart, `${entity.id}`, data)
                }
                
                addShopCar(params)
@@ -458,16 +467,21 @@
 
             },
             removeToMiniCart(event, entity, index) {
-                let params = {
-                    supplier_id: entity.shopId,
-                    good_id: entity.id
-                }
                 if(parseInt(entity.num) <= 0) {
                     this.$toast('不能再减啦~')
                     return false
                 }
-                entity.num--
-                this.shopCart[entity.id].num--
+                if(entity.num <= entity.order_min_num) {
+                    entity.num = 0
+                    this.shopCart[entity.id].num = 0
+                } else {
+                    entity.num--
+                     this.shopCart[entity.id].num--
+                }
+                let params = {
+                    supplier_id: entity.shopId,
+                    good_id: entity.id
+                }
                 onlyDelShopCar(params)
                 // if (this.canOption()) {
                 //     this.BUSINESS_REMOVE_CART(entity)

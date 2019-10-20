@@ -103,11 +103,30 @@
                 loading: false,
                 error: '',
                 is_Elastic: false,
-                code:''
+                code:'',
+                hashid: ''
             }
         },
         components:{
             protocol
+        },
+        created() {
+            if(this.$route.query.hashid) {
+                this.hashid = this.$route.query.hashid
+                this.$http.get('users/find-user', {
+                    params: {
+                        hashid: this.hashid
+                    },
+                    validate: state => state === 200
+                }).then(response => {
+                    this.loading = false;
+                    this.code = response.data.code
+                    this.yaoData = response.data.data.userInfo;
+                    this.error = null;
+                }).catch(error => {
+                    this.loading = false;
+                })
+            }
         },
         computed: {
             active() {
@@ -186,13 +205,14 @@
                 if (phonePattern.test(this.yao_mobile)) {
                     this.loading = true;
                     this.$http.get('users/find-user', {
-                        params: {phone: this.yao_mobile},
+                        params: {
+                            phone: this.yao_mobile,
+                            hashid: this.hashid
+                        },
                         validate: state => state === 200
                     }).then(response => {
                         this.loading = false;
-                       // console.log(response.data.data)
                         this.code = response.data.code
-                        console.log(this.code)
                         this.yaoData = response.data.data.userInfo;
                         this.error = null;
                     }).catch(error => {

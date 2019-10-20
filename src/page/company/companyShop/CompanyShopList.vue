@@ -45,7 +45,7 @@
 				</router-link>
 			</div>
 			<div>
-				<router-link to="/company-product-list">
+				<router-link :to="`/company-product-list?shopId=${shopId}`">
 					<svg><use xlink:href="#icon-quanqiucang-active3" /></svg>
 					<p>产品分类</p>
 				</router-link>
@@ -177,9 +177,19 @@
             },
 			add_shop_car(index, item) {
 				this.items = JSON.parse(JSON.stringify(this.items))
-				this.items[index].num++
+				if(item.num < item.order_min_num) {
+					this.items[index].num += this.items[index].order_min_num
+				} else {
+					this.items[index].num++
+				}
+				
 				if(this.shopCart[item.id]) {
-                    this.shopCart[item.id].num++
+					if(this.shopCart[item.id].num>0) {
+						this.shopCart[item.id].num++
+					} else {
+						this.shopCart[item.id].num = item.order_min_num
+					}
+                    
                 } else {
 					this.$set(this.shopCart, `${item.id}`, {...this.items[index]})
                 }
@@ -187,8 +197,14 @@
 			// 删除购物车
 			del_shop_cart(index, item) {
 				this.items = JSON.parse(JSON.stringify(this.items))
-				this.items[index].num--
-				 this.shopCart[item.id].num--
+				if(item.num <= item.order_min_num) {
+					this.items[index].num = 0
+					this.shopCart[item.id].num = 0
+				} else {
+					this.items[index].num--
+					this.shopCart[item.id].num--
+				}
+				 
 			},
 			// 上啦刷新
 			loadBottom() {

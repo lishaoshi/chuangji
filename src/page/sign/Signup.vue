@@ -114,7 +114,8 @@
                 verifiable_code: "",
                 user_type: 1,
                 is_code:true,
-                is_phone:false
+                is_phone:false,
+                hashid: ''
             };
         },
         computed: {
@@ -300,7 +301,10 @@
                 this.$lstore.setData(REGISTER_DATA, params);
                 this.$router.push({
                     path: 'register-step2',
-                    params
+                    params,
+                    query: {
+                        hashid: this.hashid
+                    }
                 })
             },
             changeType() {
@@ -324,6 +328,9 @@
             }
             if (!!this.$route.query.user_type) {
                 this.user_type = parseInt(this.$route.query.user_type);
+            }
+            if(this.$route.query.hashid) {
+                this.hashid = this.$route.query.hashid
             }
 
         }

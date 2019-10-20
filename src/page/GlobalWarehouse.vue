@@ -167,8 +167,8 @@
             },
             entryBusinessShop(item) {
                 // console.log(item)
-                // this.$store.commit('SAVE_CURRENT_BUSINESS_SHOP', item.id)
-                // this.$store.commit('SAVE_CURRENT_BUSINESS_SHOP_DATA', item)
+                this.$store.commit('SAVE_CURRENT_BUSINESS_SHOP', item.id)
+                this.$store.commit('SAVE_CURRENT_BUSINESS_SHOP_DATA', item)
                 this.$router.push({path:"/business-shop", query:{id:item.id}})
             },
             scroll() {
