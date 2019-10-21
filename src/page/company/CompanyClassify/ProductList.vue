@@ -5,7 +5,7 @@
             <SearchBar v-model="value" :searchFn ="searchFn"></SearchBar>
         </div>
         <div class="product-list">
-            <div style="width: 2rem;float: left;background: #E6e6e6">
+            <div style="width: 2rem;float: left;background: #E6e6e6" class="typeBox">
                 <span class="all-goods" @click="all_Goods()" :class="`${tabActive == 0?'all-goods-active':''}`">全部</span>
                 <div class="mint-navbar">
                     <div class="menu-list" :id="`menu_${index}`" :key="`menu-${index}`"
@@ -58,7 +58,7 @@
             <div class="mt-tab-container">
                 <div>
                     <mt-loadmore ref="list" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :auto-fill="false">
-                        <div style="height: 9rem;overflow-y: scroll;margin-top: .2rem;padding: 0 .2rem;">
+                        <div style="overflow-y: scroll;margin-top: .2rem;padding: 0 .2rem;" class="goodsList">
                             <!--  -->
                                 <div class="item" :id="`menu_${index}`" v-for="(entity,index) in goodList" :key="`product_shop_list_${index}`"
                                     v-if="goodList.length>0">
@@ -74,7 +74,9 @@
                                         </router-link>
                                         <div class="selling">
                                             <div class="unit_price">
-                                                <p class="font" v-if="canShow"><i>￥</i><i>{{entity.price}}</i><span>{{entity.market_price}}</span></p>
+                                                <p class="font" v-if="canShow"><i>
+                                                    ￥</i><i>{{entity.price}}</i>
+                                                    <span v-if="parseInt(entity.market_price)">{{entity.market_price}}</span></p>
                                                 <p class="font" v-else><span>价格- - - -</span></p>
                                             </div>
                                             <div class="gw_num" v-if="(!entity.is_multi_spec && canShow)">
@@ -386,7 +388,7 @@
                     entity.shopId = this.businessId
                     entity.num = 0
                     entity.itemId = entity.id
-                    arr[entityIndex].time = this.$moment(entity.valid_time*1000).format("YYYY-MM-DD")
+                    arr[entityIndex].time = this.$moment(entity.valid_time*1000).format("YYYY.MM.DD")
                     Object.values(this.shopCart).forEach((cartItem, cartindex) => {
                         if (entity.id === cartItem.id) {
                             entity.num = cartItem.num
@@ -538,6 +540,9 @@
     #ProductList {
         max-height: 100%;
         overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
     }
 
     .m-style-svg {
@@ -565,8 +570,29 @@
 
     .product-list {
         position: relative;
-        height: 11.44rem;
+        // height: 11.44rem;
         overflow: hidden;
+        flex: 1;
+        .typeBox {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            overflow: auto;
+        }
+        .mt-tab-container {
+            margin-left: 2rem;
+            position: absolute;
+            top: 1rem;;
+            bottom: 1.1rem;
+            overflow: auto;
+            .goodsList {
+
+            }
+        }
+        .choose {
+            margin-left: 2rem;
+        }
     }
 
     .mint-navbar {

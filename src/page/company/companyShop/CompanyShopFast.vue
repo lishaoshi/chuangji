@@ -7,7 +7,7 @@
 			<span @click="chooseType(3)" :class="`${is_active == 3 ? 'active':''}`">按购买次数</span>
 		</div>
         
-		<list :business-id="businessId" :title="title" :items="entities" v-if="entities.length" :shopCart="shopCart"></list>
+		<list :business-id="businessId" :title="title" :items="entities" v-if="entities.length" @del_shop_cart="del_shop_cart" @add_shop_car="add_shop_car" :shopCart="shopCart"></list>
         <EmptyOrder v-else/>
         <div style="height: 1.3rem"></div>
         <div style="position: fixed;width: 100%;bottom: 0px">
@@ -84,16 +84,10 @@
                 let data
                 // const {data} = await quickreplenish(params, this.businessId)
                 await Promise.all([quickreplenish(params, this.businessId), queryShopCarList({}, this.businessId)]).then(res=>{
-                    // console.log(res, 'res .data')
                     data = res[0].data.data
-                    console.log('dataL:',data)
                     this.shopCart = res[1]
                 })
                 this.entities = this._handleData(data)
-                // this.shopCart
-                // console.log(data, this.shopCart, 'helllo')
-                // this.entities = data;
-                
             },
             _handleData(data) {
                 if(!data) return []
@@ -111,6 +105,39 @@
                 this.loading = false
                 return data
             },
+            // 添加购物车
+            add_shop_car(index, item) {
+                // debugger
+				this.entities = JSON.parse(JSON.stringify(this.entities))
+				if(item.num < item.order_min_num) {
+					this.entities[index].num += this.entities[index].order_min_num
+				} else {
+					this.entities[index].num++
+				}
+				
+				if(this.shopCart[item.id]) {
+					if(this.shopCart[item.id].num>0) {
+						this.shopCart[item.id].num++
+					} else {
+						this.shopCart[item.id].num = item.order_min_num
+					}
+                    
+                } else {
+					this.$set(this.shopCart, `${item.id}`, {...this.entities[index]})
+                }
+            },
+            
+            // 删除购物车
+			del_shop_cart(index, item) {
+				this.entities = JSON.parse(JSON.stringify(this.entities))
+				if(item.num <= item.order_min_num) {
+					this.entities[index].num = 0
+					this.shopCart[item.id].num = 0
+				} else {
+					this.entities[index].num--
+					this.shopCart[item.id].num--
+				}
+			},
 
             //获取
               // 选择快速补货类型

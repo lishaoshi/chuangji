@@ -28,14 +28,11 @@
                    
                 </div>
             </div>
-            <div class="need_pay">
+            <div :class="{OrderStatus:data.order_status!=1}" class="need_pay">
                 <div>
                     <div v-if="data.order_status==1 || data.order_status==0">
-                        <!-- <span v-if="data.order_status==0">剩余时间：{{data.diff_seconds |　fillterTime}}分</span>
-                        <span v-else>剩余时间：{{data.left_time | fillterTime}}分</span> -->
                         <span v-if="data.order_status==0">剩余支付时间：{{data.minutes}}分{{data.seconds}}秒</span>
                         <span v-if="data.order_status==1">剩余提取时间：{{data.minutes}}分{{data.seconds}}秒</span>
-                        <!-- <span v-else>{{_setTimeOutFn(data.left_time)}}</span> -->
                     </div>
                 </div>
                 
@@ -63,13 +60,8 @@
           <div class="need_pay" >
               <div>
                    <div v-if="data.order_status==1 || data.order_status==0">
-                        <!-- <span v-if="data.order_status==0">剩余时间：{{data.diff_seconds |　fillterTime}}分</span>
-                        <span v-else>剩余时间：{{data.left_time | fillterTime}}分</span> -->
                         <span v-if="data.order_status==1">剩余提取时间：{{data.minutes}}分{{data.seconds}}秒</span>
                         <span v-if="data.order_status==0">剩余支付时间：{{data.minutes}}分{{data.seconds}}秒</span>
-                        <!-- <span v-else>{{_setTimeOutFn(data.left_time)}}</span>
-                        
-                         -->
                     </div>
               </div>
                
@@ -80,7 +72,7 @@
                 </div>
             </div>
         </div>
-        <div class="again">
+        <div class="again" v-if="data.order_status!=1">
             <div class="much"  v-if="data.order_status == 0">
                 <p @click="goOrderDetail(data)">去付款</p>
             </div>
@@ -365,14 +357,16 @@ import { setInterval } from 'timers'
 
     .need_pay {
         width: 100%;
-        height: .8rem;
+        height: .88rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 0 .24rem;
-        border-bottom: 1px solid rgb(230, 230, 230);
         box-sizing: border-box;
         background: #fff;
+        &.OrderStatus {
+            border-bottom: 1px solid rgb(230, 230, 230);
+        }
 
         .need_fu {
             display: flex;

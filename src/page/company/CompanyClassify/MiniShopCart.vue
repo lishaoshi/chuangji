@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="fade"></div>
+		<!-- <div class="fade"></div> -->
 		<div class="mini-shop-cart">
 			<div class="total_price">
 				<p><i>￥</i><i id="totalPrice">{{totalPrice}}</i></p>

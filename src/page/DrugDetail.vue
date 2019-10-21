@@ -36,12 +36,16 @@
             <div>
                 <p class="price"><span>￥{{data.price}}</span>
                     <small style="color: #999">/{{data.unit}}</small>
-                </p>
+                </p> 
+                
                 <p class="name" style="color: #999">订货价</p>
             </div>
             <div>
-                <p class="price"><span>￥{{data.market_price}}</span>
+                <p v-if="parseInt(data.market_price)" class="price"><span>￥{{data.market_price}}</span>
                     <small style="color: #999">/{{data.unit}}</small>
+                </p>
+                <p v-else class="price">
+                    <small>暂无数据</small>
                 </p>
                 <p class="name" style="color: #999">市场价</p>
             </div>
@@ -284,7 +288,7 @@
                     line-height: 160%;
 
                     small {
-                        color: #ccc;
+                        color: #666;
                         font-size: .2rem;
                     }
                 }

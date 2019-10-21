@@ -6,7 +6,7 @@
             </svg>
         </div>
       
-        <div class="scroll-wrap" style="height: 100%;flex:1;">
+        <div class="scroll-wrap" style="height: 100%;flex:1;width: 100%;">
             <ul class="scroll-content" ref="con1" :class="{anim:animate==true}">
                 <li v-for="(entity,index_) in notices" :key="`en-${index_}`">
                     <a :href="entity.link" style="color: #333">{{entity.title}}</a>
