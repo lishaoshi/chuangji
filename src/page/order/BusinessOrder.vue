@@ -162,21 +162,23 @@
                         arr[index].seconds = seconds
                         arr[index].diffSecondsInt = setInterval(()=>{
                             seconds-- 
-                             if(seconds<10 && seconds>0) {
+                            if(seconds<10 && seconds>0) {
                                 seconds = '0' + seconds
-                            }
-                            if(seconds<=0&&minutes>0) {
+                            } 
+                            if(seconds < 0&&minutes>0) {
                                 minutes--
                                 seconds=59
                                 arr[index].minutes = minutes
                                 
                             } else if(seconds<=0&&minutes<=0) {
-                                this.data.minutes = '00'
-                                this.data.seconds = '00'
+                                arr[index].minutes = '00'
+                                arr[index].seconds = '00'
                                 clearInterval(arr[index].diffSecondsInt)
                                 arr[index].order_status = 6
+                                arr[index].money_paid =  arr[index].order_amount
                             }
                             arr[index].seconds = seconds
+                            
                         },1000)
                     }
 
@@ -193,9 +195,11 @@
                                 arr[index].minutes = minutes
                                 
                             } else if(seconds<=0&&minutes<=0) {
-                                this.data.minutes = '00'
-                                this.data.seconds = '00'
+                                // debugger
+                                arr[index].minutes = '00'
+                                arr[index].seconds = '00'
                                 clearInterval(arr[index].leftTimeInt)
+                                arr[index].order_status = 6
                             }
                             if(seconds<10) {
                                 seconds = '0' + seconds

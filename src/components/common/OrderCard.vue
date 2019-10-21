@@ -39,7 +39,7 @@
                 <div class="need_fu">
                     <p><b>数量<i style="padding-left: 4px;display: inline-block; ">{{data.items.length}}</i></b></p>
                     <p>{{data.order_status==0? '应付':'金额：'}}</p>
-                    <p>￥{{data.order_status==0?data.order_amount:data.money_paid}}</p>
+                    <p>￥{{data.money_paid==0?data.order_amount:data.money_paid}}</p>
                 </div>
             </div>
         </div>
@@ -68,7 +68,7 @@
                 <div class="need_fu">
                     <p><b>数量<i style="padding-left: 4px;display: inline-block; ">{{data.items.length}}</i></b></p>
                     <p>{{data.order_status==0? '应付':'金额:'}}</p>
-                    <p>￥{{data.order_status==0?data.order_amount:data.money_paid}}</p>
+                    <p>￥{{data.money_paid==0?data.order_amount:data.money_paid}}</p>
                 </div>
             </div>
         </div>

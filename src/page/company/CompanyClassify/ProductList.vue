@@ -509,7 +509,7 @@
                 this.current_id = ''
                 this.brand_id = ''
                 this.init_Goods()
-                this.is_active = 0
+                this.tabActive = 0
                 let nodes =this.$refs.slideMenu
                 let childNode = this.$refs.slideChild
                 // console.log(nodes)
@@ -602,9 +602,6 @@
         display: block;
         text-align: left;
         width: 2rem;
-        // height: 9.5rem;
-        
-        margin-bottom: 1rem;
         height: calc(100vh);
         overflow: scroll;
 
