@@ -22,6 +22,9 @@
                         <img src="../../../images/extension/promoter.png" class="tag"/>
                     </div>
                 </div>
+                <div class="province-logo">
+                    <img src="../../../images/my/province.png" />
+                </div>
                 <div class="userinfo-centre">
                     <p class="name">
                         {{userInfo.userName}}
@@ -126,6 +129,7 @@
         .userinfo {
             display: flex;
             height: 1.7rem;
+            position: relative;
 
             .userinfo-left {
                 margin-left: 0.36rem;
@@ -153,6 +157,16 @@
                         z-index: 99;
                         position: relative;
                     }
+                }
+            }
+             .province-logo {
+                position: absolute;
+                bottom: 0.34rem;
+                font-size: 0;
+                left: 1.33rem;
+                img {
+                width: 0.28rem;
+                height: 0.3rem;
                 }
             }
 
