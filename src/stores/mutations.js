@@ -93,6 +93,13 @@ export default {
     SAVE_USER_CHOOSE_DATA(state,{role,data}){
         state.USER_CHOOSED_DATA.selected_role = role;
         state.USER_CHOOSED_DATA.selected_save_data = data;
+    },
+
+
+    // 修改记录role-extension页面的tab选项卡值
+
+    UPDATAroleExtension(state,data){
+        state.RoleExtension = data;
     }
 
 }

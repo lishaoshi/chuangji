@@ -433,7 +433,7 @@
 
     .select-area {
         width: 100%;
-        height: 48px;
+        height: 50px;
         border: 1px solid #f1f1f1;
         margin-top: .2rem;
         padding-left: .2rem;

@@ -20,19 +20,18 @@
             </mt-tab-container-item>
         </mt-tab-container>
 
-        <mt-navbar v-model="selected" class="footer">
+        <mt-navbar v-model="selected" class="footer" @change="ddd">
             <mt-tab-item id="1">
                 <svg class="m-style-svg m-svg-def">
                     <use xlink:href="#icon-promote-footer-consumer"/>
                 </svg>
                 <p>客户</p>
             </mt-tab-item>
-
              <mt-tab-item id="2">
                 <svg class="m-style-svg m-svg-def">
                     <use xlink:href="#icon-promote-footer-earnings"/>
                 </svg>
-                <p>我的</p>
+                <p>我的</p> 
             </mt-tab-item>
         </mt-navbar>
         <!--我的弹框-->
@@ -67,8 +66,10 @@
             }
         },
         computed:{
+            // this.$store.commit("SAVE_CURRENTUSER", { ...user, token });
             ...mapState({
                 USER_INFO: state => state.CURRENTUSER.data,
+                // selected: state => state.RoleExtension
             }),
             title(){
                 let shopSupplier = this.USER_INFO.shop_supplier;
@@ -90,6 +91,11 @@
             },
 
 
+        },
+        created(){
+            this.currentId= this.$store.state.RoleExtension
+            this.currentId==1?this.selected = "1":this.selected = "2"
+            
         },
         methods:{
             openMyFrame() {
@@ -253,7 +259,7 @@
         top:.7rem
     }
     .Box2 {
-        margin-top: .5rem;
+        // margin-top: .5rem;
     }
     .Box4 {
         margin-top: .85rem;
