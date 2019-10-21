@@ -148,7 +148,7 @@
             }
             p {
                 color: #fff;
-                line-height: 2.5;
+                line-height: .6rem;
                 font-size: .28rem;
             }
         }

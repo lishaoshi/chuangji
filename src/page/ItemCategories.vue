@@ -63,8 +63,13 @@
                                             <p class="item-box-p1">效期: {{entity.time}}</p>
                                             <div class="selling">
                                                 <div class="unit_price">
-                                                    <p class="font"><i>￥</i><i>{{entity.price}}</i><span>{{entity.market_price}}</span>
-                                                    </p>
+                                                    <div class="font">
+                                                        <div>
+                                                            ￥{{entity.price}}
+                                                            <span>|{{entity.unit}}</span>
+                                                        </div>
+                                                        <span v-if="parseInt(entity.market_price)">{{entity.market_price}}</span>
+                                                    </div>
                                                 </div>
                                                 <div class="gw_num" v-if="entity.status == 1" @click="DownSelf(entity.id,entity.status,ikey)">
                                                     下架&nbsp;&darr;
@@ -535,7 +540,8 @@
         border-radius: .1rem;
         margin-right: .2rem;
         margin-top: .2rem;
-        height: 2.4rem;
+        display: flex;
+        // height: 2.4rem;
     }
 
     .active {
@@ -556,6 +562,8 @@
     }
 
     .selling .unit_price {
+        display: inline-block;
+        flex-direction: column;
         font-size: 10px;
         color: rgb(102, 102, 102);
         width: 60%;

@@ -11,7 +11,7 @@
         <div class="detail-box1" v-if="canShow">
             <div class="left">
                 <span style="font-size: .3rem">￥</span> {{data.price}}<span style="font-size: .24rem">/{{data.unit || '件'}}</span>
-                <i>￥{{data.market_price}}</i>
+                <i v-if="parseInt(data.market_price)">￥{{data.market_price}}</i>
             </div>
             <div class="rigit">
                 <div class="gw_num" v-if="(!data.is_multi_spec && canShow)">

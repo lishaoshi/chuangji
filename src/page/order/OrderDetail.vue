@@ -369,7 +369,6 @@
             img {
                 width: .5rem;
                 height: .5rem;
-                border: 1px solid #f1f1f1;
                 margin-right: .15rem;
             }
             svg {

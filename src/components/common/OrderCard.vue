@@ -57,7 +57,7 @@
                     <span>{{data.created_at}}</span>
                 </p>
             </router-link>
-          <div class="need_pay" >
+          <div :class="{OrderStatus:data.order_status!=1}" class="need_pay" >
               <div>
                    <div v-if="data.order_status==1 || data.order_status==0">
                         <span v-if="data.order_status==1">剩余提取时间：{{data.minutes}}分{{data.seconds}}秒</span>
@@ -77,7 +77,7 @@
                 <p @click="goOrderDetail(data)">去付款</p>
             </div>
             <div class="much" v-if="data.order_status !=0 && data.order_status != 1">
-                <p v-if="data.order_status != 1 && data.order_status!=6 && data.order_status!=5 " @click="sureOrder(data.id)">确认收货</p>
+                <p v-if="data.order_status != 1 && data.order_status!=6 && data.order_status!=5 && data.order_status!=4" @click="sureOrder(data.id)">确认收货</p>
                 <p v-if="data.order_status != 2 && data.order_status != 3" @click="delectOrder(data.id)">删除订单</p>
                 <p v-if=" data.order_status!=0" @click="handleContinuTo(data)">
                     <!-- <router-link to="/factory/cart">再来一单</router-link>  需要添加点击操作， 进行添加进购物车处理 -->

@@ -74,10 +74,15 @@
                                         </router-link>
                                         <div class="selling">
                                             <div class="unit_price">
-                                                <p class="font" v-if="canShow"><i>
-                                                    ￥</i><i>{{entity.price}}</i>
-                                                    <span v-if="parseInt(entity.market_price)">{{entity.market_price}}</span></p>
-                                                <p class="font" v-else><span>价格- - - -</span></p>
+                                                <div class="font" v-if="canShow">
+                                                    <div>
+                                                       ￥{{entity.price}}
+                                                    </div>
+                                                    <span v-if="parseInt(entity.market_price)">￥{{entity.market_price}}</span>
+                                                </div>
+                                                <p class="font" v-else>
+                                                    <span>价格- - - -</span>
+                                                </p>
                                             </div>
                                             <div class="gw_num" v-if="(!entity.is_multi_spec && canShow)">
                                                 <em class="lose" @click="removeToMiniCart($event,entity, index)">-</em>
@@ -93,12 +98,7 @@
                                 </div>
                             <!--  -->
                             <div v-if="goodList==''">
-                                <div class="empty">
-                                    <svg style="width: 2.4rem;height: 2.4rem">
-                                        <use xlink:href="#icon-empty"></use>
-                                    </svg>
-                                    <p>抱歉，没有数据展示</p>
-                                </div>
+                               <EmptyList />
                             </div>
                         </div>
                     </mt-loadmore>
@@ -581,9 +581,11 @@
             overflow: auto;
         }
         .mt-tab-container {
-            margin-left: 2rem;
+            // margin-left: 2rem;
             position: absolute;
-            top: 1rem;;
+            top: 1rem;
+            left: 2rem;
+            right: 0;
             bottom: 1.1rem;
             overflow: auto;
             .goodsList {
@@ -707,7 +709,8 @@
     .selling .unit_price .font {
         color: rgb(255, 59, 48);
         font-size: 14px;
-
+        display: inline-block;
+        flex-direction: column;
         span {
             color: #ccc;
             font-size: 10px;
@@ -741,13 +744,15 @@
     /*加减*/
 
     .gw_num {
-        width: 60px;
-        height: 20px;
+        // width: 60px;
+        height: .54rem;
         background: rgb(245, 245, 245);
-        border-radius: 10px;
+        border-radius: .28rem;
         display: flex;
         align-items: center;
         text-align: center;
+        padding: 0 .1rem;
+        // box-sizing: border-box;
     }
 
     .gw_num em {
@@ -771,6 +776,7 @@
         font-style: normal;
         font-size: 12px;
         color: #333;
+        padding: 0 .1rem;
     }
 
     .gw_num .num input {

@@ -83,7 +83,6 @@
 				padding-left: 8px;
                 height: .6rem;
 				img {
-					border: 1px solid #f1f1f1;
                     width: .52rem;
                     height: .52rem;
 				}

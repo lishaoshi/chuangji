@@ -327,7 +327,7 @@
                 display: flex;
 
                 img {
-                    border: 1px solid #f1f1f1;
+                    // border: 1px solid #f1f1f1;
                 }
 
                 .company-name {
@@ -349,7 +349,7 @@
         padding: .15rem 0;
 
         &-img {
-            border: 1px solid #f1f1f1;
+            // border: 1px solid #f1f1f1;
             border-radius: 2px;
             padding: .02rem;
 
