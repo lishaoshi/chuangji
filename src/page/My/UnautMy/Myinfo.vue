@@ -2,7 +2,7 @@
     <div class="UnautMy">
         <div class="container">
             <div class="header">
-                <span>未授权</span>
+                <span>{{companyName || '未认证'}}</span>
             </div>
 
             <div class="userinfo">
@@ -56,6 +56,7 @@
                 userInfo: state => {
                     const currentInfo = state.CURRENTUSER.data
                     return {
+                        companyName:currentInfo.shop_supplier.display_name||currentInfo.shop_supplier.name,
                         userName: currentInfo.display_name || currentInfo.real_name || currentInfo.phone || '丢失信息',
                         userTel: currentInfo.phone || '丢失信息',
                         //role: currentInfo
