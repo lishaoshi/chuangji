@@ -25,9 +25,9 @@
     </div>
 
     <div class="my-list">
-      <div style="margin-bottom: .2rem">
+      <!-- <div style="margin-bottom: .2rem">
         <clxsd-cell title="角色选择" to="/customer-choose-role" is-link icon="my-collection" />
-      </div>
+      </div> -->
       <clxsd-cell title="消息通知" :to="'/develop'" is-link icon="my-message" />
       <clxsd-cell title="个人信息" :to="'/business-setting'" is-link icon="my-employee" />
       <div style="margin-top: .2rem;margin-bottom: .2rem">

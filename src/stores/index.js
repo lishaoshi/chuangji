@@ -37,6 +37,11 @@ const state = {
         selected_role:null,
         selected_save_data:null,
     },
+
+
+    // 记录role-extension页面的tab选项卡值
+    RoleExtension: 1
+
 };
 
 export default new Vuex.Store({

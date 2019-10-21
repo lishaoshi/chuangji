@@ -35,13 +35,14 @@
 </template>
 
 <script>
-    import {mapState} from "vuex";
+    import {mapState, mapMutations} from "vuex";
 
     export default {
         name: "clxsd-head-top",
         data() {
             return {
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
+                isBROWSER: false
             }
         },
         props: {
@@ -53,6 +54,9 @@
         },
         methods: {
             goBackFn() {
+                if(this.isBROWSER) {
+                    this.UPDATAroleExtension(2)
+                }
                 if(this.goBackNum == -3) {
                     return this.$router.go(this.goBackNum)
                 }
@@ -65,9 +69,23 @@
                     this.$router.push({path})
                 }
             },
+            ...mapMutations([
+                'UPDATAroleExtension'
+            ])
         },
         created() {
             console.log(this.$store.state.BROWSER)
+        },
+        mounted() {
+            if(this.$route.path=='/business-setting') {
+                this.isBROWSER = true
+            }else if(this.$route.path=='/develop'){
+                this.isBROWSER = true
+
+            }else if(this.$route.path=='/setting'){
+                this.isBROWSER = true
+
+            }
         }
     }
 </script>
