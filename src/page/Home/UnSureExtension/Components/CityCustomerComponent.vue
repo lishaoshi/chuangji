@@ -2,7 +2,7 @@
     <PullRefresh @refresh="refresh">
         <CircleLoading v-if="loading" />
         <Swiper space="tuiguang-city"></Swiper>
-        <Notice :entities="notices"></Notice>
+        <notice :notices="notices"></notice>
         <UnSureNav></UnSureNav>
         <div v-if="myEntities.length>0">
             <ul class="mint-navbar" >
@@ -53,7 +53,9 @@
     import EmptyList from "@/components/EmptyList";
     import CircleLoading from "@/icons/CircleLoading";
     import UnSureNav from "./UnSureNav";
-    import Notice from "@/components/modules/Extension/Notice"
+    // import Notice from "@/components/modules/Extension/Notice"
+    import notice from '@/components/common/notice';
+
     import Swiper from "@/components/common/Swiper"
 
     export default {
@@ -63,7 +65,8 @@
             EmptyList,
             CustomerCell,
             UnSureNav,
-            Notice,
+            // Notice,
+            notice,
             Swiper
         },
         data(){
@@ -73,9 +76,9 @@
                 myEntities:[],
                 Type:1,
                 notices:[
-                    '国家食药监局：购药实名制是“无奈的决定”',
-                    '药价调控针对外企 "超国民待遇"将终止？',
-                    '三部委：试点县医院取消药品15%加成',
+                    {title:'国家食药监局：购药实名制是“无奈的决定”'},
+                    {title:'药价调控针对外企 "超国民待遇"将终止？'},
+                    {title:'三部委：试点县医院取消药品15%加成'},
                 ]
             }
         },

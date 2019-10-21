@@ -2,7 +2,7 @@
     <PullRefresh @refresh="refresh">
         <CircleLoading v-if="loading" />
         <Swiper space="tuiguang-partner"></Swiper>
-        <Notice :entities="notices"></Notice>
+        <notice :notices="notices"></notice>
         <UnSureNav></UnSureNav>
         <div v-if="isTabPartner">
             <ul class="mint-navbar" >
@@ -54,7 +54,9 @@
     import CircleLoading from "@/icons/CircleLoading";
     import { mapState } from "vuex";
     import UnSureNav from "./UnSureNav";
-    import Notice from "@/components/modules/Extension/Notice"
+    // import Notice from "@/components/modules/Extension/Notice"
+    import notice from '@/components/common/notice';
+
     import Swiper from "@/components/common/Swiper"
 
     export default {
@@ -64,7 +66,8 @@
             EmptyList,
             CustomerCell,
             UnSureNav,
-            Notice,
+            // Notice,
+            notice,
             Swiper
         },
         data(){
@@ -74,9 +77,9 @@
                 loading: false,
                 Type:1,
                  notices:[
-                    '过半网友反对医院变相收取药品提成',
-                    '招标价或进一步降低 药品流通改革提速有望',
-                    '发改委调整95种药品价格 业内称影响有限',
+                    {title:'过半网友反对医院变相收取药品提成'},
+                    {title:'招标价或进一步降低 药品流通改革提速有望'},
+                    {title:'发改委调整95种药品价格 业内称影响有限'},
                 ]
             }
         },

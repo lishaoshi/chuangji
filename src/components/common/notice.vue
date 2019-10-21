@@ -66,7 +66,7 @@
         padding: 0 .24rem;
         align-items: center;
         overflow: hidden;
-        padding-top: .1rem;
+        // padding-top: .1rem;
         svg {
             width: .38rem;
             height: .38rem;
