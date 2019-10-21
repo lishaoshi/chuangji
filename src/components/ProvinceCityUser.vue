@@ -25,11 +25,17 @@
 
     export default {
         name: "AddressPopup",
+        props: {
+            regionVisible: {
+                type: Boolean,
+                default: false
+            }
+        },
         data(){
             return {
                 region: '',//三级地址
                 province: '',//省
-                city: '',//市
+                city: '',//市b
                 provinceCode: '',//省级代码
                 cityCode: '', //市级代码
                 regionInit: false,
@@ -56,8 +62,26 @@
                 ],
             }
         },
+        watch: {
+            regionVisible() {
+                // debugger
+                if(this.regionVisible) {
+                    this.region = ''
+                    this.province = ''
+                    this.provinceCode = ''
+                    this.city = ''
+                    this.regionInit = ''
+                }
+            }
+        },
         methods:{
             addressChange(picker,values){
+               this.region = ''
+                this.province = ''
+                this.provinceCode = ''
+                this.city = ''
+                this.regionInit = ''
+                // debugger
                 if(!values[0]){
                     this.$nextTick(() => {
                         if (this.regionAddress) {
@@ -66,22 +90,47 @@
                             picker.setValues([regionAddress[0], regionAddress[0].children[0]])
                         }
                     })
-                }else{
+                } else {
+                    // debugger
+                    this.region = ''
+                    this.province = ''
+                    this.provinceCode = ''
+                    this.city = ''
+                    this.regionInit = ''
                     picker.setSlotValues(1,values[0].children)
                 }
-
+                // debugger
+                // this.region = ''
+                // this.province = ''
+                // this.provinceCode = ''
+                // this.city = ''
+                // this.regionInit = ''
+                // if(values[1]) {
+                //     picker.setSlotValues(1,values[0].children)
+                // }
                 if(values[0] && values[1]){
+                    // debugger
+                    // console.log(values[0], values[1])
+                
                     this.province = values[0]["name"]
                     this.city = values[1]["name"]
                     this.provinceCode = values[0]['code']
                     this.cityCode = values[1]["code"]
 
                     this.region = this.province + this.city
+                } else {
+                    // debugger
                 }
+                // this.region = ''
+                // this.province = ''
+                // this.provinceCode = ''
+                // this.city = ''
+                // this.regionInit = ''
+                
 
             },
             confirm(corm){
-                let region = corm ? this.region: ''
+                let region = corm==1 ? this.region: ''
                 let province = corm ? this.province: ''
                 let city = corm ? this.city: ''
                 let cityCode = corm ? this.cityCode: ''

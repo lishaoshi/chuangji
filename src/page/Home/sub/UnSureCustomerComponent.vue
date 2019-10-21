@@ -75,7 +75,7 @@
                         </router-link>
                     </div>
                     <mt-popup v-model="regionVisible" position="bottom" class="bottom-region" style="width:100%;">
-                        <address-popup @listenAreaChange="areaChange"/>
+                        <address-popup :regionVisible="regionVisible" @listenAreaChange="areaChange"/>
                     </mt-popup>
                 </mt-tab-container-item>
 
@@ -123,7 +123,7 @@
                                 </svg>
                             </li>
                             <li @click="handlePromoterChecked('yiyuan')">
-                                <img src="../../../images/extension/promote-pay-client.png">
+                                <img src="../../../images/extension/promote-pay-hospital.png">
                                 <p class="title-p">医院</p>
                                 <p class="gray">{{promoterTypeData.yiyuan.xianjin | display_price}}元</p>
                                 <p class="gray">{{promoterTypeData.yiyuan.lianbei | display_price}}贝</p>
@@ -132,7 +132,7 @@
                                 </svg>
                             </li>
                             <li @click="handlePromoterChecked('lianshuo')">
-                                <img src="../../../images/extension/promote-pay-drugstore.png">
+                                <img src="../../../images/extension/promote-pay-multipleShop.png">
                                 <p class="title-p">连锁店</p>
                                 <p class="gray">{{promoterTypeData.lianshuo.xianjin | display_price}}元</p>
                                 <p class="gray">{{promoterTypeData.lianshuo.lianbei | display_price}}贝</p>
@@ -141,7 +141,7 @@
                                 </svg>
                             </li>
                             <li @click="handlePromoterChecked('danti')">
-                                <img src="../../../images/extension/promote-pay-hospital.png">
+                                <img src="../../../images/extension/promote-pay-drugstore.png">
                                 <p class="title-p">单体药店</p>
                                 <p class="gray">{{promoterTypeData.danti.xianjin | display_price}}元</p>
                                 <p class="gray">{{promoterTypeData.danti.lianbei | display_price}}贝</p>
@@ -150,7 +150,7 @@
                                 </svg>
                             </li>
                             <li @click="handlePromoterChecked('zhenshuo')">
-                                <img src="../../../images/extension/promote-pay-multipleShop.png">
+                                <img src="../../../images/extension/promote-pay-client.png">
                                 <p class="title-p">诊所</p>
                                 <p class="gray">{{promoterTypeData.zhenshuo.xianjin | display_price}}元</p>
                                 <p class="gray">{{promoterTypeData.zhenshuo.lianbei | display_price}}贝</p>
@@ -280,12 +280,14 @@
             handleProvince() {
                 if (this.provinceError || this.provinceValue === 0) return;
                 this.$store.commit('SAVE_USER_CHOOSE_DATA', {role: this.selected, data: this.provinceValue});
-                this.$router.push('/authorization-agreement');
+                this.$router.push('/role-yes');
             },
             showAddressPicker() {
                 this.regionVisible = true;
             },
             async areaChange(rdata) {
+                debugger
+                this.region = ''
                 this.region = rdata.region
                 this.regionVisible = false
                 if (rdata.cityCode) {
@@ -300,6 +302,8 @@
                         this.cityError = false;
                     }
                 }
+                this.region = ''
+
             },
 
             showAddressPickerPromoter() {
@@ -314,20 +318,20 @@
             handleCity() {
                 if (this.cityError || this.cityValue === 0) return;
                 this.$store.commit('SAVE_USER_CHOOSE_DATA', {role: this.selected, data: this.cityValue});
-                this.$router.push('/authorization-agreement');
+                this.$router.push('/role-yes');
             },
 
             //合伙人
             handlePartner() {
                 this.$store.commit('SAVE_USER_CHOOSE_DATA', {role: this.selected, data: this.partner_provinceValue});
-                this.$router.push('/authorization-agreement');
+                this.$router.push('/role-yes');
             },
             handlePromoter() {
                 if (!this.promoterActive) return;
                 if (this.promoter_value === 0) return;
 
                 this.$store.commit('SAVE_USER_CHOOSE_DATA', {role: this.selected, data: Object.assign({code: this.promoter_value}, this.promoterData)});
-                this.$router.push('/authorization-agreement');
+                this.$router.push('/role-yes');
             },
             handlePromoterChecked(value) {
                 this.promoterData[value] = !this.promoterData[value];
