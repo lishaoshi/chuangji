@@ -105,10 +105,10 @@
                 </div>
             </div>
             <div style="height: 1rem"></div>
-            <div style="position: fixed;bottom: 0px;width: 100%">
+            <div style="position: fixed;bottom: 0px;width: 100%;border-top:1px solid #e5e5e5s">
                 <mini-company-cart ref="MiniCompanyCart" :shop-id="businessId" :count="cartNum" :total-price="totalPrice"></mini-company-cart>
             </div>
-            <div style="position: fixed;right: 0px;width: 82%;z-index: 99;top:0px;height: 100%;background: #fff" v-if="is_business_list">
+            <div style="position: fixed;right: 0px;width: 82%;z-index: 9999;top:0px;height: 100%;background: #fff" v-if="is_business_list">
                 
                     <BusinessList :closedMyFrame="closedMyFrame" :entryBusinessShop="entryBusinessShop" :brand_id="brand_id"></BusinessList>
                 
@@ -579,6 +579,7 @@
             top: 0;
             bottom: 0;
             overflow: auto;
+            margin-bottom: 1rem;
         }
         .mt-tab-container {
             // margin-left: 2rem;
@@ -586,7 +587,7 @@
             top: 1rem;
             left: 2rem;
             right: 0;
-            bottom: 1.1rem;
+            bottom: 1rem;
             overflow: auto;
             .goodsList {
 
@@ -602,7 +603,6 @@
         display: block;
         text-align: left;
         width: 2rem;
-        height: calc(100vh);
         overflow: scroll;
 
         .menu-list {

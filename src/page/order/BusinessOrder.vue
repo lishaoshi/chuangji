@@ -154,8 +154,12 @@
                 }
                 getBusinessOrderList(params).then(res=>{
                     let data = res.data.data.orderList
+                    let orderList = []
                     data.forEach((item, index, arr)=>{
-                    if(item.order_status==0) {
+                    if(item.order_status==0){	
+                        if(item.diff_seconds<=0) {
+                            arr.splice(index, 1)
+                        }
                         let minutes = Math.floor(item.diff_seconds/60)
                         let seconds = Math.ceil(item.diff_seconds%60)
                         arr[index].minutes = minutes
@@ -181,25 +185,34 @@
                             
                         },1000)
                     }
+                    if(this.state==0&&item.order_status==0&&item.diff_seconds<=0) {
+                        arr.splice(index, 1)
+                    }
 
                     if(item.order_status==1) {
+                         if(item.left_time<=-1) {
+                            arr.splice(index, 1)
+                        }
                         let minutes = Math.floor(item.left_time/60)
                         let seconds = Math.ceil(item.left_time%60)
                         arr[index].minutes = minutes
                         arr[index].seconds = seconds
                         arr[index].leftTimeInt = setInterval(()=>{
                             seconds-- 
-                            if(seconds<=0&&minutes>0) {
+                            if(seconds<0&&minutes>0) {
                                 minutes--
                                 seconds=59
                                 arr[index].minutes = minutes
                                 
-                            } else if(seconds<=0&&minutes<=0) {
+                            } else if(seconds <= 0&&minutes<=0) {
                                 // debugger
                                 arr[index].minutes = '00'
                                 arr[index].seconds = '00'
                                 clearInterval(arr[index].leftTimeInt)
                                 arr[index].order_status = 6
+                            }
+                             if(seconds==0 && minutes>=0) {
+                                arr[index].seconds = '00'
                             }
                             if(seconds<10) {
                                 seconds = '0' + seconds
@@ -208,13 +221,11 @@
                         },1000)
                     }
                 })
-                    // data.forEach()
                     this.flag = this.state
                     if(this.page>1) {
                          this.orderList = [...this.orderList, ...data]
                          this.$refs.loadmore.onBottomLoaded()
                     } else {
-                        // debugger
                         this.orderList = data
                     }
                     console.log(this.oriderList)
