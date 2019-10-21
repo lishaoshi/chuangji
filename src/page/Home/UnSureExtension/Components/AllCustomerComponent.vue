@@ -1,7 +1,10 @@
 <template>
     <PullRefresh @refresh="refresh">
         <Swiper space="tuiguang-all"/>
-        <Notice :entities="notices"></Notice>
+        <!-- <Notice :entities="notices"></Notice> -->
+        <div class="noticesBox">
+            <notice :notices="notices"></notice>
+        </div>
         <UnSureNav type="all"></UnSureNav>
         <CircleLoading v-if="loading"/>
         <div class="main-body" ref="wrapper" style="height: auto">
@@ -18,7 +21,10 @@
     import EmptyList from "@/components/EmptyList";
     import CircleLoading from "@/icons/CircleLoading";
     import UnSureNav from "./UnSureNav";
-    import Notice from "@/components/modules/Extension/Notice"
+    // import Notice from "@/components/modules/Extension/Notice"
+
+    import notice from '@/components/common/notice';
+
     import Swiper from "@/components/common/Swiper"
 
     export default {
@@ -28,7 +34,8 @@
             EmptyList,
             CustomerCell,
             UnSureNav,
-            Notice,
+            notice,
+            // Notice,
             Swiper
         },
         data() {
@@ -36,8 +43,8 @@
                 entities: [],
                 loading: false,
                 notices: [
-                    '2019年医药行业政策梳理，方法明确教我们如何在用药',
-                    '重磅！国家重点监控药品目录公布',
+                    {title:'2019年医药行业政策梳理，方法明确教我们如何在用药'},
+                    {title:'重磅！国家重点监控药品目录公布'},
                 ],
                 allLoaded: false, //是否自动触发上拉函数
                 isAutoFill: false,

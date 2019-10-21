@@ -2,7 +2,7 @@
     <PullRefresh @refresh="refresh">
         <CircleLoading v-if="loading" />
         <Swiper space="tuiguang-promoter"></Swiper>
-        <Notice :entities="notices"></Notice>
+        <notice :notices="notices"></notice>
         <UnSureNav />
         <div v-if="isTabPartner">
             <ul class="mint-navbar" >
@@ -53,7 +53,9 @@
     import CircleLoading from "@/icons/CircleLoading";
     import UnSureNav from "./UnSureNav";
     import { mapState } from "vuex";
-    import Notice from "@/components/modules/Extension/Notice"
+    // import Notice from "@/components/modules/Extension/Notice"
+    import notice from '@/components/common/notice';
+
     import Swiper from "@/components/common/Swiper"
 
     export default {
@@ -63,7 +65,8 @@
             EmptyList,
             CustomerCell,
             UnSureNav,
-            Notice,
+            // Notice,
+            notice,
             Swiper
         },
         data(){
@@ -73,9 +76,9 @@
                 loading: false,
                 Type:1,
                 notices:[
-                    '发改委要求加强药企信用监管力度',
-                    '国家食药监局：购药实名制是“无奈的决定”',
-                    '新一轮药品降价潮倒逼药企转型升级',
+                   {title:'发改委要求加强药企信用监管力度'},
+                    {title:'国家食药监局：购药实名制是“无奈的决定”'},
+                    {title:'新一轮药品降价潮倒逼药企转型升级'},
                 ]
             }
         },

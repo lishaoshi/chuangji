@@ -77,9 +77,10 @@
 
 <style lang="scss" scoped>
     .is-scroll {
-        width: 6.2rem;
+        width: 7.5rem;
         min-height: .8rem;
-        left: .85rem;
+        // left: .85rem;
+        // margin-left: .2rem;
         overflow-y: hidden;
         overflow-x: scroll;
         z-index: 999;
@@ -97,7 +98,7 @@
         background: #0090ff;
         position: relative;
         height: .88rem;
-        width: 8.35rem;
+        // width: 8.35rem;
     }
     .mint-navbar .mint-tab-item.is-selected {
         border-bottom:0px;

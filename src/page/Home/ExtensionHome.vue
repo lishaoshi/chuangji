@@ -1,9 +1,9 @@
 <template>
     <div id="page-extension-home">
         <div class="header" :class="{ topHeight: isFullScreen }">
-            <div  slot="prepend" @click="openMyFrame()" class="my" :class="{ my2: isFullScreen }">
+            <!-- <div  slot="prepend" @click="openMyFrame()" class="my" :class="{ my2: isFullScreen }">
                 <img src="../../images/my/user_default.png" />
-            </div>
+            </div> -->
         </div>
         <div class="box1"  :class="{ box2: isFullScreen }"></div>
             <un-sure-customer></un-sure-customer>

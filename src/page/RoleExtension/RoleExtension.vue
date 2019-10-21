@@ -7,14 +7,14 @@
             </svg>
         </router-link>
         -->
-        <mt-tab-container v-model="selected" style="padding-bottom: 1.3rem;" :class="{ Box2: isFullScreen }">
+        <mt-tab-container v-model="selected" style="padding-bottom: 1.3rem;" :class="{ Box2: selected==1 }">
             <mt-tab-container-item id="1" style="border-radius: 4px;min-height: 11.5rem;background: #fff">
                 <div class="header" :class="{ topHeight: isFullScreen }">
                 </div>
                 <!--非正常情况，没有客户，需要去推广-->
                 <UnSureCustomer/>
             </mt-tab-container-item>
-            <mt-tab-container-item id="2"  :class="{ Box3: isFullScreen }">
+            <mt-tab-container-item id="2"  :class="{ Box3: selected==2 }">
                 <!--<p class="t1"  :class="{ t2: isFullScreen }">联贝收益</p>-->
                <MyFrame></MyFrame>
             </mt-tab-container-item>
@@ -259,7 +259,7 @@
         margin-top: .85rem;
     }
     .Box3 {
-        margin-top: 1.3rem;
+        // margin-top: 1.3rem;
     }
     .t1 {
         color: #fff;
