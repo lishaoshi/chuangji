@@ -3,7 +3,7 @@
         <clxsd-head-top :title='`邀请二维码`' style="border:0px"></clxsd-head-top>
         <div class="box">
             <p>扫下方二维码，入驻创联</p>
-            <img src="../../images/extension/ewm.png" width="100%">
+           <div v-html="imgUrl" class="qrcodeImgUrl"></div>
             <div class="btn"><router-link to="">邀请记录</router-link><small>|</small><span>保存图片</span></div>
         </div>
     </div>
@@ -11,7 +11,23 @@
 
 <script>
     export default {
-        name: "Invitation"
+        name: "Invitation",
+        data(){
+          return{
+              imgUrl:''
+          }
+        },
+        created() {
+            this.init_Data()
+        },
+        methods:{
+            init_Data(){
+                this.$http.get('/qrcode').then(res => {
+                    console.log(res)
+                    this.imgUrl = res.data
+                })
+            }
+        }
     }
 </script>
 
@@ -19,6 +35,9 @@
     #Invitation {
         min-height: 100%;
         background: #26a2ff;
+        .img {
+            width: 100%;
+        }
     }
     .box {
         height: 8.83rem;
@@ -53,6 +72,14 @@
                 font-size: .24rem;
                 color: #f1f1f1;
             }
+        }
+    }
+</style>
+<style lang="scss">
+    .qrcodeImgUrl {
+        svg {
+            width: 100%;
+            height: 100%;
         }
     }
 </style>

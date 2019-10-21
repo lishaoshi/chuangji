@@ -30,7 +30,7 @@
                         <p id='U_phone'>{{userInfo.userTel}}</p>
                     </div>
                     <div class="code">
-                        <router-link to="/develop">
+                        <router-link to="/invitation">
                             <svg>
                                 <use xlink:href="#icon-promote-my-QR" />
                             </svg>

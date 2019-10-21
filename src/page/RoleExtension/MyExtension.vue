@@ -31,10 +31,10 @@
       </div>
       <clxsd-cell title="消息通知" :to="'/develop'" is-link icon="my-message" />
       <clxsd-cell title="个人信息" :to="'/business-setting'" is-link icon="my-employee" />
-      <div style="margin-top: .2rem">
+      <div style="margin-top: .2rem;margin-bottom: .2rem">
         <clxsd-cell title="设置" :to="'/setting'" is-link icon="my-setting" />
       </div>
-      
+      <clxsd-cell title="返回" :to="'/my'" is-link icon="my-setting" />
     </div>
   </div>
 </template>
