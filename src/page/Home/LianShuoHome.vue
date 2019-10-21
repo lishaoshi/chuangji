@@ -94,7 +94,7 @@
 				wrapperHeight: 0,
 				courrentPage: 1,
 				limit:20,
-				searchValue: ''
+				searchValue: '',
 			}
 		},
 		mounted() {
@@ -203,14 +203,8 @@
 		overflow: scroll;
 	}
 	.noticesBox {
-		padding: .04rem;
-		height: .88rem;
-		background: #fff;
-		display: flex;
-		align-items: center;
-		.noticesContent {
-
-		}
+		padding: 0.16rem 0;
+        background: #fff;
 	}
 	.select-box {
 		display: flex;
@@ -284,8 +278,8 @@
 		margin-top: 0px;
 		background: #fff;
 		width: 100%;
-		height: .88rem;
-		line-height: .88rem;
+		height: .56rem;
+		line-height: .56rem;
 		display: flex;
 		padding: 0 .24rem;
 		align-items: center;

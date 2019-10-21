@@ -228,7 +228,7 @@
         overflow: scroll;
     }
     .noticesBox {
-        padding-top: 0.08rem;
+        padding: 0.16rem 0;
         background: #fff;
     }
 
@@ -295,16 +295,15 @@
     }
 
     .notice {
-        margin: .2rem 0;
+        // margin: .2rem 0;
         margin-top: 0px;
         background: #fff;
         width: 100%;
-        height: .88rem;
-        line-height: .88rem;
+        line-height: .56rem;
         display: flex;
         padding: 0 .24rem;
         align-items: center;
-
+        height: .56rem;
         .notice-list {
             width: 6.2rem;
             height: .88rem;
@@ -320,7 +319,9 @@
                 line-height: .64rem;
                 color: #333;
             }
+          
         }
+        
 
         svg {
             width: .38rem;
@@ -372,4 +373,18 @@
             padding-top: 35px;
         }
     }
+</style>
+
+<style lang="scss">
+.home {
+    .scroll-content  {
+        li {
+            height: .56rem!important;
+            line-height: .56rem!important;
+        }
+        &.anim {
+            margin-top: -.56rem!important;
+        }
+    }
+}
 </style>
