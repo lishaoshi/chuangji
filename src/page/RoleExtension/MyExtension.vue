@@ -7,12 +7,11 @@
       <div class="userinfo">
         <div class="userinfo-left">
           <img :src="userInfo.avatar" v-if="userInfo.avatar!=null" />
-          <img src="../../images/default.jpg" v-else />
+          <img src="../../images/my/user_default.png" v-else />
         </div>
         <div class="userinfo-centre">
           <p class="name">
             {{userInfo.userName}}
-            <small>(0168)</small>
           </p>
           <span class="phone">{{userInfo.userTel}}</span>
         </div>

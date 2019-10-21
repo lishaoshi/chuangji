@@ -144,26 +144,24 @@
                     .then(response => {
                         console.log(response.data.data)
                         var data = response.data.data
+                        var num1,num2,num3,num4,num5
                         if(this.selectedSaveData.business){
-                            this.money = this.money + data.business.xianjin
-                            console.log(money)
-                            return this.money
+                            num1 = data.business.xianjin
                         }
                         if(this.selectedSaveData.danti){
-                            this.money = this.money + data.danti.xianjin
-                            return this.money
+                            num2 = data.danti.xianjin
+
                         }
                         if(this.selectedSaveData.lianshuo){
-                            this.money = this.money + data.lianshuo.xianjin
-                            return this.money
+                            num3 = data.lianshuo.xianjin
                         }
                         if(this.selectedSaveData.yiyuan){
-                            this.money = this.money + data.yiyuan.xianjin
-                            return this.money
+                            num4 = data.yiyuan.xianjin
                         }
                         if(this.selectedSaveData.zhenshuo){
-                            this.money = this.money + data.zhenshuo.xianjin
+                            num5 = data.zhenshuo.xianjin
                         }
+                        this.money = num1+num2+num3+num4+num5
                         this.loading = false;
                     }).catch(error => {
                     this.loading = false;
