@@ -11,9 +11,9 @@
                 <mt-tab-item id="city">
                     <p class="p1">市公司</p>
                 </mt-tab-item>
-                <mt-tab-item id="partner">
-                    <p class="p1">合伙人</p>
-                </mt-tab-item>
+                <!-- <mt-tab-item id="partner">
+                    <p class="p1">合伙aa人</p>
+                </mt-tab-item> -->
                 <mt-tab-item id="promoter">
                     <p class="p1">推广人</p>
                 </mt-tab-item>

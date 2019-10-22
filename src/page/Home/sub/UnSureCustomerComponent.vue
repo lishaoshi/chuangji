@@ -1,6 +1,33 @@
 <template>
     <div style="min-height: 100%;background: #fff">
         <clxsd-head-top title='角色选择'></clxsd-head-top>
+
+       <div class="user-list-container">
+
+            <ul class="user-list">
+            <li>
+                <div class="user">
+                    <span>姓名</span>
+                    <p>{{name}}</p>
+                </div>
+                <!-- <div class="line"></div> -->
+                <div class="iphone">
+                    <span>手机号</span>
+                    <!-- <p>{{tel}}(可更改)</p> -->
+                    <!-- <input type="t" v-model="tel"> -->
+                    
+                <input type="tel" id="tel" v-model="tel">    
+                    <!-- <mt-field type="tel" :value=tel></mt-field>(可更改) -->
+                </div>
+            </li>
+            <li>
+                <div class="id-number">
+                    <span>身份证号</span>
+                    <p>{{cartId}}</p>
+                </div>
+            </li>
+        </ul>
+       </div>
         <PaySuccess v-if="waitStatus"></PaySuccess>
         <div v-else>
             <mt-navbar v-model="selected">
@@ -16,12 +43,12 @@
                     </svg>
                     <p>市公司</p>
                 </mt-tab-item>
-                <mt-tab-item id="partner">
+                <!-- <mt-tab-item id="partner">
                     <svg>
                         <use xlink:href="#icon-promote-partner"/>
                     </svg>
                     <p>合伙人</p>
-                </mt-tab-item>
+                </mt-tab-item> -->
                 <mt-tab-item id="promoter">
                     <svg>
                         <use xlink:href="#icon-promote-promoter"/>
@@ -224,6 +251,14 @@
                 region_promoter: null,
                 promoter_value: 0,
                 regionVisible_promoter: false,
+
+
+                // 用户信息
+                address:'',
+                money:0,
+                name:'',
+                tel:'',
+                cartId:''
             }
         },
         computed: {
@@ -262,6 +297,13 @@
                 }).catch(error => {
                     this.loading = false;
                 })
+
+                // 获取推广人信息
+                this.$http.get("/user").then(res => {
+                   this.name = res.data.data.real_name
+                   this.tel = res.data.data.phone
+                   this.cartId = res.data.data.user_identity
+               })
 
             },
             //省处理
@@ -569,4 +611,61 @@
         margin-top: -27px;
         margin-right: 10px;
     }
+
+.user-list-container{
+    margin-top: 0.2rem;
+    padding: 0 0.2rem;
+    .user-list {
+    background: #fff;
+            border: 1px solid #f1f1f1;
+    border-radius: 4px;
+    box-shadow: 0px 0px 3px #ccc;
+            li {
+                height: 1.4rem;
+                background: rgba(255, 255, 255, 1);
+                display: flex;
+                border-bottom: 0.01rem solid rgba(245, 245, 245, 1);
+
+                .user,
+                .iphone,
+                .id-number {
+                    line-height: 1;
+                    width: 50%;
+                    padding-left: 0.32rem;
+                    padding-top: 0.35rem;
+
+                    span {
+                        font-size: 0.24rem;
+                        // color: rgba(204, 204, 204, 1);
+                        color: #999999;
+                        font-weight: 500;
+                        height: 0.23rem;
+                    }
+
+                    p {
+                        font-size: 0.28rem;
+                        margin-top: 0.16rem;
+                        font-weight: 500;
+                        color: rgba(51, 51, 51, 1);
+                    }
+                }
+
+                .iphone {
+                    border-left: 0.01rem solid rgba(245, 245, 245, 1);
+                    span {
+                    color: #999999;
+
+                    }
+                    #tel {
+                        font-size: 0.28rem;
+                        margin-top: 0.15rem;
+                    }
+                    p {
+                        color: #CCCCCC
+                    }
+                }
+            }
+        }
+}
+
 </style>

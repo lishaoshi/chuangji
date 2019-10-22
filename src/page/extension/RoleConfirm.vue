@@ -12,7 +12,7 @@
                 <!-- <div class="line"></div> -->
                 <div class="iphone">
                     <span>手机号</span>
-                    <p>15237367115</p>
+                    <p>{{tel}}</p>
                 </div>
             </li>
             <li>
