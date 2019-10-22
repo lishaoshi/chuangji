@@ -20,7 +20,7 @@
             </mt-tab-container-item>
         </mt-tab-container>
 
-        <mt-navbar v-model="selected" class="footer" @change="ddd">
+        <mt-navbar v-model="selected" class="footer">
             <mt-tab-item id="1">
                 <svg class="m-style-svg m-svg-def">
                     <use xlink:href="#icon-promote-footer-consumer"/>

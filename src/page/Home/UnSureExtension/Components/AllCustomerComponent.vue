@@ -12,6 +12,7 @@
                 <CustomerCell v-for="(entity, index) in entities" :key="`en-${index}`" :data="entity"></CustomerCell>
             </mt-loadmore>
         </div>
+        <!-- {{entities}} -->
         <p v-if="allLoaded" class="loader-over">加载完毕</p>
     </PullRefresh>
 </template>
@@ -69,7 +70,7 @@
                 this.$http.get('users/list', {params: {'user-type': 'all'}, validate: state => state === 200})
                     .then(response => {
                         this.loading = false;
-                        this.entities = response.data.data.allEntities
+                        this.entities = response.data.data
                         if (callback) callback();
                     }).catch(error => {
                     this.loading = false;
