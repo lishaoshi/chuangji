@@ -35,34 +35,28 @@
         <PaySuccess v-if="waitStatus"></PaySuccess>
         <div v-else>
             <mt-navbar v-model="selected">
-                <mt-tab-item id="province">
+                <mt-tab-item :id="navbar[0].value">
                     <svg>
                         <use xlink:href="#icon-promote-province"/>
                     </svg>
-                    <p>省公司</p>
+                    <p>{{navbar[0].name}}</p>
                 </mt-tab-item>
-                <mt-tab-item id="city">
+                <mt-tab-item :id="navbar[1].value">
                     <svg>
                         <use xlink:href="#icon-promote-city"/>
                     </svg>
-                    <p>市公司</p>
+                    <p>{{navbar[1].name}}</p>
                 </mt-tab-item>
-                <!-- <mt-tab-item id="partner">
-                    <svg>
-                        <use xlink:href="#icon-promote-partner"/>
-                    </svg>
-                    <p>合伙人</p>
-                </mt-tab-item> -->
-                <mt-tab-item id="promoter">
+                <mt-tab-item :id="navbar[2].value">
                     <svg>
                         <use xlink:href="#icon-promote-promoter"/>
                     </svg>
-                    <p>推广人</p>
+                    <p>{{navbar[2].name}}</p>
                 </mt-tab-item>
             </mt-navbar>
             <mt-tab-container v-model="selected" style="min-height: 5rem;">
                 <!--省-->
-                <mt-tab-container-item id="province">
+                <mt-tab-container-item :id="navbar[0].value">
                     <p>选择注册省份</p>
                     <select class="select-area" v-model="provinceValue" @change="handleProvinceChange">
                         <option value="0">选择省份</option>
@@ -85,7 +79,7 @@
                 </mt-tab-container-item>
 
                 <!--市-->
-                <mt-tab-container-item id="city">
+                <mt-tab-container-item :id="navbar[1].value">
                     <p>选择注册省市</p>
                     <div @click="showAddressPicker" class="choiceCity">
                         <mt-field label="" placeholder="请选择省市" type="text" v-model="region" readonly="readonly" class="region-go">
@@ -133,7 +127,8 @@
                 </mt-tab-container-item> -->
 
                 <!-- 推广人 -->
-                <mt-tab-container-item id="promoter">
+
+                <mt-tab-container-item :id="navbar[2].value">
                     <div class="promoter-box">
                         <p>选择注册省市</p>
                         <div @click="showAddressPickerPromoter" class="choiceCity" style="margin-bottom: .2rem">
@@ -147,8 +142,6 @@
                             <li @click="handlePromoterChecked(promoterTypeData[0].value)">
                                 <img src="../../../images/extension/promote-pay-business.png">
                                 <p class="title-p">{{promoterTypeData[0].name}}</p>
-                                <!-- <p class="gray">{{promoterTypeData.business.xianjin | display_price}}元</p>
-                                <p class="gray">{{promoterTypeData.business.lianbei | display_price}}贝</p> -->
                                 <svg class="active" v-if="promoterData.business">
                                     <use xlink:href="#icon-promote-pay-moreChose"/>
                                 </svg>
@@ -156,8 +149,6 @@
                             <li @click="handlePromoterChecked(promoterTypeData[4].value)">
                                 <img src="../../../images/extension/promote-pay-hospital.png">
                                 <p class="title-p">{{promoterTypeData[4].name}}</p>
-                                <!-- <p class="gray">{{promoterTypeData.yiyuan.xianjin | display_price}}元</p>
-                                <p class="gray">{{promoterTypeData.yiyuan.lianbei | display_price}}贝</p> -->
                                 <svg class="active" v-if="promoterData.yiyuan">
                                     <use xlink:href="#icon-promote-pay-moreChose"/>
                                 </svg>
@@ -165,8 +156,6 @@
                             <li @click="handlePromoterChecked(promoterTypeData[2].value)">
                                 <img src="../../../images/extension/promote-pay-multipleShop.png">
                                 <p class="title-p">{{promoterTypeData[2].name}}</p>
-                                <!-- <p class="gray">{{promoterTypeData.lianshuo.xianjin | display_price}}元</p>
-                                <p class="gray">{{promoterTypeData.lianshuo.lianbei | display_price}}贝</p> -->
                                 <svg class="active" v-if="promoterData.lianshuo">
                                     <use xlink:href="#icon-promote-pay-moreChose"/>
                                 </svg>
@@ -174,8 +163,6 @@
                             <li @click="handlePromoterChecked(promoterTypeData[1].value)">
                                 <img src="../../../images/extension/promote-pay-drugstore.png">
                                 <p class="title-p">{{promoterTypeData[1].name}}</p>
-                                <!-- <p class="gray">{{promoterTypeData.danti.xianjin | display_price}}元</p>
-                                <p class="gray">{{promoterTypeData.danti.lianbei | display_price}}贝</p> -->
                                 <svg class="active" v-if="promoterData.danti">
                                     <use xlink:href="#icon-promote-pay-moreChose"/>
                                 </svg>
@@ -183,8 +170,6 @@
                             <li @click="handlePromoterChecked(promoterTypeData[3].value)">
                                 <img src="../../../images/extension/promote-pay-client.png">
                                 <p class="title-p">{{promoterTypeData[3].name}}</p>
-                                <!-- <p class="gray">{{promoterTypeData.zhenshuo.xianjin | display_price}}元</p>
-                                <p class="gray">{{promoterTypeData.zhenshuo.lianbei | display_price}}贝</p> -->
                                 <svg class="active" v-if="promoterData.zhenshuo">
                                     <use xlink:href="#icon-promote-pay-moreChose"/>
                                 </svg>
@@ -229,7 +214,7 @@
             return {
                 areaData: areaData,
                 title: '',
-                selected: 'province',//city,province,partner,promoter,
+                selected: '',//city,province,partner,promoter,
 
                 provinceError: false,
                 provinceValue: 0,
@@ -239,8 +224,9 @@
 
                 partnerData: null,
 
-                promoterTypeData: null,//推广人类型数据信息
-
+                promoterTypeData: [],//推广人类型数据信息
+                
+                navbar:[], //省市推广人
                 promoterData: {
                     business: false,
                     yiyuan: false,
@@ -284,7 +270,6 @@
         },
         created() {
             this.initData();
-            // area-user/check-area?code=11
         },
         methods: {
             initData() {
@@ -300,13 +285,31 @@
                 .then(response => {
                     if (response.data.data) {
                         console.log(response.data.data);
-                        
                         this.promoterTypeData = response.data.data;
                     }
                     this.loading = false;
                 }).catch(error => {
                     this.loading = false;
                 })
+                this.$http.get('hippo-shop/system-config-enum', {
+                    params: {
+                        role: 4,
+                        type:2,
+                    }
+                }).then(response => {
+                    if (response.data.data) {
+                        // console.log(this,response.data.data );
+                        
+                        // debugger
+                        this.selected = response.data.data[0].value
+                        console.log(response.data.data, this.selected, 'text');
+                        this.navbar = response.data.data;
+                    }
+                    this.loading = false;
+                }).catch(error => {
+                    this.loading = false;
+                })
+
 
                 // 获取推广人信息
                 this.$http.get("/user").then(res => {
@@ -356,7 +359,9 @@
                 this.region = rdata.region
                 this.regionVisible = false
                 if (rdata.cityCode) {
+                    
                     this.cityValue = rdata.cityCode;
+                    console.log(this.cityValue);
                     // area-user/check-area?code=1303
                     const {data} = await this.$http.get('/area-user/check-area', {
                         params: {code: rdata.cityCode}

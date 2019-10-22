@@ -28,9 +28,9 @@
                 <div class="user">
                     <span>申请角色</span>
                     <p v-if="role==='promoter'">推广人</p>
-                    <p v-if="role==='partner'">合伙人</p>
-                    <p v-if="role==='city'">市级推广</p>
-                    <p v-if="role==='province'">省级推广</p>
+                    <!-- <p v-if="role==='partner'">合伙人</p> -->
+                    <p v-if="role==='city_company'">市级推广</p>
+                    <p v-if="role==='province_company'">省级推广</p>
                     <p class="type" v-if="selectedSaveData!=undefined">
                         <span v-if="selectedSaveData.business">商业</span>
                         <span v-if="selectedSaveData.danti">单体</span>
@@ -96,7 +96,9 @@
                 money:0,
                 name:'',
                 tel:'',
-                cartId:''
+                cartId:'',
+                roleList:null,
+                apply_sub_role:''
             }
         },
         computed:{
@@ -124,9 +126,33 @@
             
         },
         mounted(){
+            var apply_sub_role = ''
             console.log(this.selectedSaveData);
             console.log(this.role);
+            console.log(this);
+            // this.selectedSaveData
+            if(this.selectedSaveData){
+                if(this.selectedSaveData['business']){
+                this.apply_sub_role +='business,'
+            }
+             if(this.selectedSaveData['danti']){
+                this.apply_sub_role +='danti,'
+            }
+             if(this.selectedSaveData['lianshuo']){
+                this.apply_sub_role +='lianshuo,'
+            }
+            if(this.selectedSaveData['yiyuan']){
+                this.apply_sub_role +='yiyuan,'
+            }
+             if(this.selectedSaveData['zhenshuo']){
+                this.apply_sub_role +='zhenshuo,'
+            }
+            console.log(this.apply_sub_role);
+            this.apply_sub_role = this.apply_sub_role.slice(0,apply_sub_role.length-1)
+            console.log(this.apply_sub_role);
+            }
             
+
         },
         methods:{
             initData(){
@@ -135,6 +161,20 @@
                    this.tel =  sessionStorage.getItem('customer-choose-role-iphone') ||res.data.data.phone
                    this.cartId = res.data.data.user_identity
                })
+               this.$http.get('hippo-shop/system-config-enum', {
+                    params: {
+                        role: 4,
+                        type:2,
+                    }
+                }).then(response => {
+                    if (response.data.data) {
+                        console.log(response.data.data);
+                        this.roleList = response.data.data;
+                    }
+                    this.loading = false;
+                }).catch(error => {
+                    this.loading = false;
+                })
                 var code = this.USER_CHOOSED_DATA.selected_save_data
                 if(this.role=='promoter'){
                     var code = this.selectedSaveData.code
@@ -185,13 +225,49 @@
                     this.loading = false;
                 })
             },
+
+            fliter(data){
+                 if(data.apply_sub_role == null){
+                        console.log(data.apply_sub_role);
+                        delete data.apply_sub_role
+                    }
+                    console.log('data',data);
+                    
+            },
             toPay(){
                 if(this.loading) return;
-                this.$router.push('/pay-success');
+                console.log(this.selectedSaveData);
+                
+                var data = {
+                        apply_role:this.role,
+                        apply_sub_role:this.apply_sub_role?this.apply_sub_role:null,
+                        province:this.selectedSaveData.code||this.selectedSaveData
+                }
+                // function fliter(data) {
+                //     if(data.apply_sub_role == null){
+                //         console.log(data.apply_sub_role);
+                //         delete data.apply_sub_role
+                //     }
+                // }
+                this.fliter(data)
+                console.log(data);
+
+                // return
+                // this.$router.push('/pay-success');
                 this.$http.post('/hippo-shop/area-user',{
-                    data:{
-                        // apply_role:
-                    }
+
+                    // data
+                        // apply_role:this.role,
+                        // apply_sub_role:this.apply_sub_role?this.apply_sub_role:null,
+                        // province:this.selectedSaveData.code||this.selectedSaveData
+                        ...data
+                        // apply_role:this.role,
+                        // apply_sub_role:this.apply_sub_role?this.apply_sub_role:null,
+                        // province:this.selected_save_data
+                    
+                }).then(res=>{
+                    console.log(res);
+                    
                 })
                 // /hippo-shop/area-user
                 /*
