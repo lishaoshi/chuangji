@@ -43,6 +43,9 @@
                 let con1 = this.$refs.con1;
                 this.animate = !this.animate;
                 var that = this; // 在异步函数中会出现this的偏移问题，此处一定要先保存好this的指向
+                if(that.notices.length==1) {
+                    that.notices.push(that.notices[0])
+                }
                 // console.log(this.notices, 'notices')
                 if(this.notices!==null) {
                     setTimeout(function () {

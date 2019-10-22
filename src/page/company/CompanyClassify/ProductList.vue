@@ -283,14 +283,21 @@
             },
 
               //点击下拉菜单
-            slide: function (event,id) {
-                // this.is_active=id
-                // this.current_id = id
-                 this.tabActive = id //是否当前一级菜单
+            slide: function (event,item) {
+                 this.tabActive = item.id //是否当前一级菜单
+                /*
+                *判断当前点击的一级菜单是否是正在激活的菜单
+                this.current_id代表当前激活的id，
+                */
+               if(this.current_id!=item.id) {
+                    this.current_id = item.id
+                    this.init_Goods()
+               }
                 let targetNode = event.target
                 targetNode.classList.add("tabActive"); //添加当前样式
                 let parentNode = targetNode.parentNode;
                 let a = this.sibling(parentNode)
+                
                 for (var i = 0; i < a.length; i++) {
                     a[i].childNodes[0].classList.remove("tabActive");
                     a[i].childNodes[0].classList.add("up");

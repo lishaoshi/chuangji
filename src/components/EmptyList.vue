@@ -3,7 +3,7 @@
         <svg style="width: 32%;max-height: 3rem">
             <use xlink:href="#icon-empty"></use>
         </svg>
-        <p>{{message}}-</p>
+        <p>{{message}}</p>
     </div>
 </template>
 

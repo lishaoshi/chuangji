@@ -47,7 +47,7 @@
                                         </li>
                                     </ul>
                                 </div> -->
-                                <span> &nbsp;没有消息</span>
+                                <span>没有消息</span>
                                
                                 
                             </div>
@@ -616,6 +616,8 @@
         svg {
             width: .38rem;
             height: .38rem;
+            display: inline-block;
+            margin-right: .2rem;
         }
     }
 

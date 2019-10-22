@@ -181,8 +181,12 @@
                 return data
             },
             all_Goods() {
-                let params = {}
-                this.cat_id = ''
+                let params = {
+                    cat_id: '',
+                    status: this.current_status,
+                    search: this.value
+                }
+                this.current_id = 0
                 this.init_Goods(params)
                 this.is_active = 0
                 let nodes =this.$refs.slideMenu
@@ -241,6 +245,16 @@
             },
             //点击下拉菜单
             slide: function (event,id) {
+                // debugger
+                if(this.current_id != id) {
+                    this.current_id = id
+                    let params = {
+                        cat_id: this.current_id, 
+                        status: this.current_status,
+                        search: this.value
+                    }
+                    this.init_Goods(params)
+                }
                 this.is_active=id
                 let targetNode = event.target
                 targetNode.classList.add("active"); //添加当前样式
@@ -333,22 +347,21 @@
                 this.isDown = false;
                 let params = {
                     status: 1,
-                    cat_id: cat_id
+                    cat_id: this.current_id
                 }
                 this.init_Goods(params)
                 this.current_status = 1
-                this.current_id = cat_id
             },
             downSaleGoods(cat_id) {
                 this.isUp = false
                 this.isDown = true
                 let params = {
+                    search: this.value,
                     status: 0,
-                    cat_id: cat_id
+                    cat_id: this.current_id
                 }
                 this.init_Goods(params)
                 this.current_status = 0
-                this.current_id = cat_id
             },
             //产品显示
             init_Goods(params) {
