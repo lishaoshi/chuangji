@@ -14,7 +14,7 @@
 <script>
     import regionAddress from "@/plugins/json/pca-codes.json"
     import areaAddress from "@/plugins/json/pca-codes.json"
-import { fstat } from 'fs';
+    import { fstat } from 'fs';
     regionAddress.forEach((shengItem,ind) =>{
         shengItem.children.forEach((shiItem,shInd) =>{
             if((shengItem.code + '01') === shiItem.code){
@@ -27,10 +27,6 @@ import { fstat } from 'fs';
     export default {
         name: "AddressPopup",
         props: {
-            regionVisible: {
-                type: Boolean,
-                default: false
-            }
         },
         data(){
             return {
@@ -64,63 +60,36 @@ import { fstat } from 'fs';
                 ],
             }
         },
-        watch: {
-            regionVisible() {
-                // debugger
-                if(this.regionVisible) {
-                    this.region = ''
-                    this.province = ''
-                    this.provinceCode = ''
-                    this.city = ''
-                }
-            }
-        },
         methods:{
             addressChange(picker,values){
-                // console.log(this.values[0]);
+                // debugger
                this.region = ''
                 this.province = ''
                 this.provinceCode = ''
                 this.city = ''
-                // debugger
+                // picker.setValues([regionAddress[0], regionAddress[0].children[0]])
                 if(!values[0]){
                     this.$nextTick(() => {
                         if (this.regionAddress) {
-                            // 赋默认值
                         } else {
                             picker.setValues([regionAddress[0], regionAddress[0].children[0]])
                         }
                     })
                 } else {
-                    // debugger
                     picker.setSlotValues(1,values[0].children)
                 }
-                // debugger
-                // this.region = ''
-                // this.province = ''
-                // this.provinceCode = ''
-                // this.city = ''
-                // this.regionInit = ''
-                // if(values[1]) {
-                //     picker.setSlotValues(1,values[0].children)
+                // if(values[0] && values[0].children.length>=2) {
+                //     picker.setSlotValue(1,values[0].children[1])
                 // }
                 if(values[0] && values[1]){
-                    // debugger
                     this.province = values[0]["name"]
                     this.city = values[1]["name"]
                     this.provinceCode = values[0]['code']
                     this.cityCode = values[1]["code"]
                     this.region = this.province + this.city
                 } else {
-                    // debugger
+                    
                 }
-                // this.region = ''
-                // this.province = ''
-                // this.provinceCode = ''
-                // this.city = ''
-                // this.regionInit = ''
-                
-
             },
             confirm(corm){
                 let region = corm ? this.region: ''

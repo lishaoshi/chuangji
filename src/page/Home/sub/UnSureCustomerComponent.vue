@@ -361,7 +361,7 @@
                     const {data} = await this.$http.get('/area-user/check-area', {
                         params: {code: rdata.cityCode}
                     });
-                this.region = null
+                // this.region = null
 
                     if (data.has) {
                         this.cityError = true;
@@ -369,7 +369,7 @@
                         this.cityError = false;
                     }
                 }
-                this.region = null
+                // this.region = null
 
             },
 

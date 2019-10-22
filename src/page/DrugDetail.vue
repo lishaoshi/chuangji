@@ -45,7 +45,7 @@
                     <small style="color: #999">/{{data.unit}}</small>
                 </p>
                 <p v-else class="price">
-                    <small>暂无数据</small>
+                    <small>暂无维护</small>
                 </p>
                 <p class="name" style="color: #999">市场价</p>
             </div>
