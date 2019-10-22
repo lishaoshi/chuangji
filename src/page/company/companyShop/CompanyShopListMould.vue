@@ -13,7 +13,10 @@
 					<p class="p1">效期:{{item.time}}</p>
 					<div class="selling" v-if="canShow">
 						<div class="unit_price">
-							<p class="font"><i>￥</i><i>{{item.price}}</i><span>{{item.market_price}}</span></p>
+							<p class="font">
+								<i>￥</i>
+								<i>{{item.price}}</i>
+								<span v-if="parseInt(item.market_price)!=0">{{item.market_price}}</span></p>
 						</div>
 						<!-- <div class="gw_num"  v-if="(!item.is_multi_spec && canShow)">
 							<small class="lose" @click="removeToMiniCart($event,item)" v-if="item.num > 0">

@@ -50,7 +50,7 @@
                         <div>
                             <!--<ClxsdLoadMore key="orders-list" ref="loadmore" @onRefresh="onOrdersRefresh" @onLoadMore="onOrdersLoadMore">-->
                             <div v-for="(entity,ikey) in goodList.list" v-if="goodList.list!==''" :key="ikey">
-                                <div style="margin-left: .2rem">
+                                <div>
                                     <div class="item" id="list-item">
                                         <router-link :to="`/drug-detail/${supplier_id}/${entity.id}`">
                                             <img :src="entity.cover" class="item-img">
@@ -555,9 +555,11 @@
             position: relative;
             &>div:last-child {
                 // height: auto;
+                padding: 0 .2rem;
                 position: absolute;
                 left: 0;
                 top: 1rem;
+                right: 0;
                 // flex: 1;
                 overflow: auto;
                 bottom: 0;
@@ -569,7 +571,6 @@
         background: #fff;
         padding: .16rem .13rem;
         border-radius: .1rem;
-        margin-right: .2rem;
         margin-top: .2rem;
         display: flex;
         // height: 2.4rem;
