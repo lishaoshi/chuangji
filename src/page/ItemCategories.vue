@@ -1,8 +1,10 @@
 <template>
     <div style="height: 100%;overflow: hidden;" class="goodsClassification">
-        <header v-bind:class="{ activeTop: isFullScreen }">{{title}}</header>
+        <div class="head">
+            <header v-bind:class="{ activeTop: isFullScreen }">{{title}}</header>
+        </div>
         <!-- <div v-if="isFullScreen" style="height: 35px"></div> -->
-        <div class="entities-container" v-if="supplierId" style="margin-top: 1.4rem;flex:1;
+        <div class="entities-container" v-if="supplierId" style="flex:1;
         margin-bottom: 1rem;">
             <div class="search">
                 <SearchBar v-model="value" :searchFn ="searchFn" @keyup="keyupEnter"></SearchBar>
@@ -306,7 +308,9 @@
                 this.is_child_id = id
                 this.cat_id = id
                 let params = {
-                    cat_id: id
+                    cat_id: id,
+                    status: this.current_status,
+                    search: this.value
                 }
                 this.init_Goods(params)
                 this.current_id = id
@@ -347,7 +351,8 @@
                 this.isDown = false;
                 let params = {
                     status: 1,
-                    cat_id: this.current_id
+                    cat_id: this.current_id,
+                    search: this.value
                 }
                 this.init_Goods(params)
                 this.current_status = 1
@@ -445,6 +450,9 @@
     .entities-container {
         display: flex;
         flex-direction: column;
+    }
+    .head {
+        height: 1.4rem;
     }
 }
     .empty {

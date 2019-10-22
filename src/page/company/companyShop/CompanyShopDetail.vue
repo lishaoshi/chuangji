@@ -193,6 +193,12 @@
                 return data
             },
             addToMiniCart() {
+                debugger
+                console.log(this.data)
+                if(this.data.num<this.data.order_min_num) {
+                    this.data.num = this.data.order_min_num
+                } else 
+                return false
                 this.data.num++
                  console.log(this.data)
                 let params = {

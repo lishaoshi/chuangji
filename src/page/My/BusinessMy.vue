@@ -21,7 +21,7 @@
                     </router-link>
 				</div>
 			</div>
-			<div class="info-bottom">
+			<!-- <div class="info-bottom">     
 				<div class="account">
                     <router-link to="/lianshu">
 					<p>联数(包)</p>
@@ -31,12 +31,23 @@
 				<div class="line">
 				</div>
 				<div class="lianbei">
-                    <!--<router-link to="/lianbei">-->
+                    <router-link to="/lianbei">
 						<p>总收入(元)</p>
 						<p id='U_gold'>0.00</p>
-					<!--</router-link>-->
+					</router-link>
 				</div>
-			</div>
+			</div> -->
+			<router-link to="/lianshu">  
+				<div style="margin-top: .3rem;">
+					<div class="line"></div>
+					<div class="account">
+						<p>联数(包)</p>
+						
+						<p id="U_gold_value" class="lianshuNum">{{lianBeiValue | display_price(2)}}</p>
+					
+					</div>
+				</div>
+			 </router-link>
 		</div>
 		<!-- 列表 -->
 		<div class="my-list">
@@ -220,7 +231,7 @@
 	}
 
 	.user-main-info .avatar {
-		margin-left: .2rem;
+		margin-left: .3rem;
 		margin-right: .28rem;
 		border: .08rem solid rgb(150, 209, 255);
 		height: 1.36rem;
@@ -256,36 +267,55 @@
 	.user-main-info .name p:nth-child(2) {
 		font-size: 12px;
 	}
-
-	.info-bottom {
-		text-align: center;
-		padding:.35rem 0px
+	.line {
+		height: 1px;
+		width: 100%;
+		background: #fff;
+		opacity: 0.2;
 	}
-
-	.info-bottom .account,
-	.info-bottom .lianbei {
-		width: 48%;
-	}
-
-	.info-bottom .line {
-		width: 1px;
-		height: 0.5rem;
-		background: #9ccbf0;
-		margin: auto 0;
-	}
-
-	.info-bottom .account p:nth-child(1),
-	.info-bottom .lianbei p:nth-child(1) {
+	.account {
+		display: flex;
+		height: 1rem;
+		padding: 0 .3rem;
+		align-items: center;
+		justify-content: space-between;
+		color: #fff;
 		font-size: .24rem;
-		color: rgba(255, 255, 255, 0.6);
-		margin-bottom: .12rem;
+		
+		.lianshuNum {
+			font-size: .44rem;
+		}
 	}
 
-	.info-bottom .account p:nth-child(2),
-	.info-bottom .lianbei p:nth-child(2) {
-		font-size: .42rem;
-		color: rgb(255, 255, 255);
-	}
+	// .info-bottom {
+	// 	text-align: center;
+	// 	padding:.35rem 0px
+	// }
+
+	// .info-bottom .account,
+	// .info-bottom .lianbei {
+	// 	width: 48%;
+	// }
+
+	// .info-bottom .line {
+	// 	width: 1px;
+	// 	height: 0.5rem;
+	// 	background: #9ccbf0;
+	// 	margin: auto 0;
+	// }
+
+	// .info-bottom .account p:nth-child(1),
+	// .info-bottom .lianbei p:nth-child(1) {
+	// 	font-size: .24rem;
+	// 	color: rgba(255, 255, 255, 0.6);
+	// 	margin-bottom: .12rem;
+	// }
+
+	// .info-bottom .account p:nth-child(2),
+	// .info-bottom .lianbei p:nth-child(2) {
+	// 	font-size: .42rem;
+	// 	color: rgb(255, 255, 255);
+	// }
 
 	.my-list {
 		margin-top: .2rem;
