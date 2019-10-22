@@ -16,8 +16,12 @@
                     <!-- <p>{{tel}}(可更改)</p> -->
                     <!-- <input type="t" v-model="tel"> -->
                     
-                <input type="tel" id="tel" v-model="tel">    
-                    <!-- <mt-field type="tel" :value=tel></mt-field>(可更改) -->
+                <input ref="input" type="tel" id="tel"  v-model="tel" @change="testIphone" :disabled="verify" @focus="modification">
+                 <svg @click="openIphone">
+                    <use xlink:href="#icon-bianji" />
+                </svg>
+                <!-- v-model="tel" (可修改)   -->
+                <!-- <p>(可修改)</p> -->
                 </div>
             </li>
             <li>
@@ -107,7 +111,7 @@
                 </mt-tab-container-item>
 
                 <!--合伙人-->
-                <mt-tab-container-item id="partner">
+                <!-- <mt-tab-container-item id="partner">
                     <p>选择注册省份</p>
                     <select class="select-area" v-model="partner_provinceValue">
                         <option value="0">选择省份</option>
@@ -126,7 +130,7 @@
                             初步了解
                         </router-link>
                     </div>
-                </mt-tab-container-item>
+                </mt-tab-container-item> -->
 
                 <!-- 推广人 -->
                 <mt-tab-container-item id="promoter">
@@ -258,7 +262,9 @@
                 money:0,
                 name:'',
                 tel:'',
-                cartId:''
+                cartId:'',
+                // 手机修改判断
+                verify:true
             }
         },
         computed: {
@@ -301,7 +307,7 @@
                 // 获取推广人信息
                 this.$http.get("/user").then(res => {
                    this.name = res.data.data.real_name
-                   this.tel = res.data.data.phone
+                   this.tel = res.data.data.phone 
                    this.cartId = res.data.data.user_identity
                })
 
@@ -323,9 +329,18 @@
 
             },
             handleProvince() {
+		        var p1=/^1(3|4|5|7|8)\d{9}$/;
+
+                this.testIphone()
+                if(p1.test(this.tel)&&this.tel){
+                console.log(window.sessionStorage);
+                sessionStorage.setItem('customer-choose-role-iphone',this.tel)
+                console.log(window.sessionStorage);
+
                 if (this.provinceError || this.provinceValue === 0) return;
                 this.$store.commit('SAVE_USER_CHOOSE_DATA', {role: this.selected, data: this.provinceValue});
                 this.$router.push('/role-yes');
+                }
             },
             showAddressPicker() {
                 this.regionVisible = true;
@@ -363,9 +378,16 @@
             },
             //市处理
             handleCity() {
-                if (this.cityError || this.cityValue === 0) return;
-                this.$store.commit('SAVE_USER_CHOOSE_DATA', {role: this.selected, data: this.cityValue});
-                this.$router.push('/role-yes');
+                var p1=/^1(3|4|5|7|8)\d{9}$/;
+                sessionStorage.setItem('customer-choose-role-iphone',this.tel)
+
+                this.testIphone()
+
+                 if(p1.test(this.tel)&&this.tel){
+                    if (this.cityError || this.cityValue === 0) return;
+                    this.$store.commit('SAVE_USER_CHOOSE_DATA', {role: this.selected, data: this.cityValue});
+                    this.$router.push('/role-yes');
+                 }
             },
 
             //合伙人
@@ -374,17 +396,48 @@
                 this.$router.push('/role-yes');
             },
             handlePromoter() {
-                if (!this.promoterActive) return;
-                if (this.promoter_value === 0) return;
 
-                this.$store.commit('SAVE_USER_CHOOSE_DATA', {role: this.selected, data: Object.assign({code: this.promoter_value}, this.promoterData)});
-                this.$router.push('/role-yes');
+                 var p1=/^1(3|4|5|7|8)\d{9}$/;
+                sessionStorage.setItem('customer-choose-role-iphone',this.tel)
+
+                this.testIphone()
+                 if(p1.test(this.tel)&&this.tel){
+                    if (!this.promoterActive) return;
+                    if (this.promoter_value === 0) return;
+                    this.$store.commit('SAVE_USER_CHOOSE_DATA', {role: this.selected, data: Object.assign({code: this.promoter_value}, this.promoterData)});
+                    this.$router.push('/role-yes');
+                 }
             },
             handlePromoterChecked(value) {
                 this.promoterData[value] = !this.promoterData[value];
-            }
+            },
+            //判断手机号
+            testIphone(){
+                // this.tel = 
+		    var p1=/^1(3|4|5|7|8)\d{9}$/;
+			if(this.tel !='' && p1.test(this.tel)) {	
 
+            }else{
+		        alert('请填写正确电话号码!!');		  
+            }
         },
+
+        openIphone(){
+            this.verify = false
+            // this.ddd()
+            // debugger
+            console.log(this.$refs.input);
+            this.$nextTick().then(()=>{
+                this.$refs.input.focus();
+            })
+        },
+
+        modification(){
+                console.log(this.$refs.input.style);
+                this.$refs.input.style.color = '#333'
+
+        }
+    }
     }
 </script>
 
@@ -652,15 +705,31 @@
 
                 .iphone {
                     border-left: 0.01rem solid rgba(245, 245, 245, 1);
+                    color: #ccc;
                     span {
                     color: #999999;
-
+                    display: block;
+                    }
+                    svg {
+                        width:.26rem;
+                        position: absolute;
+                        height:.24rem;
+                        top: 2.4rem;
+                        right: 0.5rem;
                     }
                     #tel {
+                        display: inline-block;
                         font-size: 0.28rem;
                         margin-top: 0.15rem;
+                        width: 100%;
+                        color: #ccc;
+
+                        &:disabled {
+                            background: #fff;
+                        }  
                     }
                     p {
+                        display: inline-block;
                         color: #CCCCCC
                     }
                 }

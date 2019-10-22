@@ -122,7 +122,7 @@
             initData(){
                this.$http.get("/user").then(res => {
                    this.name = res.data.data.real_name
-                   this.tel = res.data.data.phone
+                   this.tel =  sessionStorage.getItem('customer-choose-role-iphone') ||res.data.data.phone
                    this.cartId = res.data.data.user_identity
                })
                 var code = this.USER_CHOOSED_DATA.selected_save_data
