@@ -45,10 +45,10 @@
                 </div>
             </li>
 
-            <li class="money-container" v-if="role==='promoter'">
+            <!-- <li class="money-container" v-if="role==='promoter'">
                 <span class="cost">入驻费用(元)</span>
                 <span class="money">￥{{money | display_price}}</span>
-            </li>
+            </li> -->
         </ul>
 
         <!-- 确认按钮 -->
@@ -117,6 +117,16 @@
                 return;
             }
             this.initData();
+
+            this.$http.get('users/list').then(res =>{
+
+            })
+            
+        },
+        mounted(){
+            console.log(this.selectedSaveData);
+            console.log(this.role);
+            
         },
         methods:{
             initData(){
@@ -128,6 +138,9 @@
                 var code = this.USER_CHOOSED_DATA.selected_save_data
                 if(this.role=='promoter'){
                     var code = this.selectedSaveData.code
+                    let params = {
+                        
+                    }
                 }
                 this.areaData.forEach(item => {
                     if(code == item.code){
@@ -175,6 +188,12 @@
             toPay(){
                 if(this.loading) return;
                 this.$router.push('/pay-success');
+                this.$http.post('/hippo-shop/area-user',{
+                    data:{
+                        // apply_role:
+                    }
+                })
+                // /hippo-shop/area-user
                 /*
                 let params = {
                     role:this.role,
@@ -264,6 +283,7 @@
                         font-size: 0.2rem !important;
                         span {
                             color: #999;
+                            font-size: .2rem;
                             padding-right: .15rem;
                         }
                     }

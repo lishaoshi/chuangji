@@ -2,7 +2,10 @@
     <PullRefresh @refresh="refresh">
         <CircleLoading v-if="loading" />
         <Swiper space="tuiguang-promoter"></Swiper>
-        <notice :notices="notices"></notice>
+        <!-- <notice :notices="notices"></notice> -->
+        <div class="noticesBox">
+            <notice class="noticesBox-notices" :notices="notices"></notice>
+        </div>
         <UnSureNav />
         <div v-if="isTabPartner">
             <ul class="mint-navbar" >
@@ -153,5 +156,13 @@
     }
     .empty {
         padding-top: 1rem;
+    }
+    .noticesBox {
+        margin:  .22rem auto 0;
+        width:6.86rem;
+        .noticesBox-notices {
+            height: .64rem;
+            line-height: .64rem;
+        }
     }
 </style>

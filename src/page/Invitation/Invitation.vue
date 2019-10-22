@@ -4,7 +4,7 @@
         <div class="box">
             <p>扫下方二维码，入驻创联</p>
            <div v-html="imgUrl" class="qrcodeImgUrl"></div>
-            <div class="btn"><router-link to="">邀请记录</router-link><small>|</small><span>保存图片</span></div>
+            <!-- <div class="btn"><router-link to="">邀请记录</router-link><small>|</small><span>保存图片</span></div> -->
         </div>
     </div>
 </template>
@@ -78,8 +78,8 @@
 <style lang="scss">
     .qrcodeImgUrl {
         svg {
-            width: 100%;
-            height: 100%;
+            width:5.07rem;
+            height:5.07rem;
         }
     }
 </style>

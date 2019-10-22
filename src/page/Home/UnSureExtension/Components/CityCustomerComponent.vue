@@ -2,7 +2,9 @@
     <PullRefresh @refresh="refresh">
         <CircleLoading v-if="loading" />
         <Swiper space="tuiguang-city"></Swiper>
-        <notice :notices="notices"></notice>
+        <div class="noticesBox">
+            <notice class="noticesBox-notices" :notices="notices"></notice>
+        </div>
         <UnSureNav></UnSureNav>
         <div v-if="myEntities.length>0">
             <ul class="mint-navbar" >
@@ -137,6 +139,14 @@
         }
         .active {
             color: #333;
+        }
+    }
+    .noticesBox {
+        margin:  .22rem auto 0;
+        width:6.86rem;
+        .noticesBox-notices {
+            height: .64rem;
+            line-height: .64rem;
         }
     }
 </style>

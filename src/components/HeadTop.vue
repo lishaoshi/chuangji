@@ -77,6 +77,8 @@
             console.log(this.$store.state.BROWSER)
         },
         mounted() {
+            console.log(this.$route);
+            
             if(this.$route.path=='/business-setting') {
                 this.isBROWSER = true
             }else if(this.$route.path=='/develop'){
@@ -84,7 +86,10 @@
 
             }else if(this.$route.path=='/setting'){
                 this.isBROWSER = true
-
+            }else if (this.$route.path=='/customer-choose-role'){
+                this.isBROWSER = true
+            }else if (this.$route.path =='/invitation'){
+                this.isBROWSER = true
             }
         }
     }

@@ -2,7 +2,9 @@
     <PullRefresh  @refresh="refresh">
         <CircleLoading v-if="loading" />
         <Swiper space="tuiguang-province"></Swiper>
-        <notice :notices="notices"></notice>
+        <div class="noticesBox">
+            <notice class="noticesBox-notices" :notices="notices"></notice>
+        </div>
         <UnSureNav></UnSureNav>
         <div v-if="entities.length > 0">
             <CustomerCell v-for="(entity, index) in entities" :key="`en-${index}`" :data="entity"></CustomerCell>
@@ -65,3 +67,15 @@
         }
     }
 </script>
+
+
+<style lang="scss" scoped>
+.noticesBox {
+        margin:  .22rem auto 0;
+        width:6.86rem;
+        .noticesBox-notices {
+            height: .64rem;
+            line-height: .64rem;
+        }
+    }
+</style>

@@ -144,47 +144,47 @@
                             </svg>
                         </div>
                         <ul class="tui-list" v-if="promoterTypeData">
-                            <li @click="handlePromoterChecked('business')">
+                            <li @click="handlePromoterChecked(promoterTypeData[0].value)">
                                 <img src="../../../images/extension/promote-pay-business.png">
-                                <p class="title-p">商业</p>
-                                <p class="gray">{{promoterTypeData.business.xianjin | display_price}}元</p>
-                                <p class="gray">{{promoterTypeData.business.lianbei | display_price}}贝</p>
+                                <p class="title-p">{{promoterTypeData[0].name}}</p>
+                                <!-- <p class="gray">{{promoterTypeData.business.xianjin | display_price}}元</p>
+                                <p class="gray">{{promoterTypeData.business.lianbei | display_price}}贝</p> -->
                                 <svg class="active" v-if="promoterData.business">
                                     <use xlink:href="#icon-promote-pay-moreChose"/>
                                 </svg>
                             </li>
-                            <li @click="handlePromoterChecked('yiyuan')">
+                            <li @click="handlePromoterChecked(promoterTypeData[4].value)">
                                 <img src="../../../images/extension/promote-pay-hospital.png">
-                                <p class="title-p">医院</p>
-                                <p class="gray">{{promoterTypeData.yiyuan.xianjin | display_price}}元</p>
-                                <p class="gray">{{promoterTypeData.yiyuan.lianbei | display_price}}贝</p>
+                                <p class="title-p">{{promoterTypeData[4].name}}</p>
+                                <!-- <p class="gray">{{promoterTypeData.yiyuan.xianjin | display_price}}元</p>
+                                <p class="gray">{{promoterTypeData.yiyuan.lianbei | display_price}}贝</p> -->
                                 <svg class="active" v-if="promoterData.yiyuan">
                                     <use xlink:href="#icon-promote-pay-moreChose"/>
                                 </svg>
                             </li>
-                            <li @click="handlePromoterChecked('lianshuo')">
+                            <li @click="handlePromoterChecked(promoterTypeData[2].value)">
                                 <img src="../../../images/extension/promote-pay-multipleShop.png">
-                                <p class="title-p">连锁店</p>
-                                <p class="gray">{{promoterTypeData.lianshuo.xianjin | display_price}}元</p>
-                                <p class="gray">{{promoterTypeData.lianshuo.lianbei | display_price}}贝</p>
+                                <p class="title-p">{{promoterTypeData[2].name}}</p>
+                                <!-- <p class="gray">{{promoterTypeData.lianshuo.xianjin | display_price}}元</p>
+                                <p class="gray">{{promoterTypeData.lianshuo.lianbei | display_price}}贝</p> -->
                                 <svg class="active" v-if="promoterData.lianshuo">
                                     <use xlink:href="#icon-promote-pay-moreChose"/>
                                 </svg>
                             </li>
-                            <li @click="handlePromoterChecked('danti')">
+                            <li @click="handlePromoterChecked(promoterTypeData[1].value)">
                                 <img src="../../../images/extension/promote-pay-drugstore.png">
-                                <p class="title-p">单体药店</p>
-                                <p class="gray">{{promoterTypeData.danti.xianjin | display_price}}元</p>
-                                <p class="gray">{{promoterTypeData.danti.lianbei | display_price}}贝</p>
+                                <p class="title-p">{{promoterTypeData[1].name}}</p>
+                                <!-- <p class="gray">{{promoterTypeData.danti.xianjin | display_price}}元</p>
+                                <p class="gray">{{promoterTypeData.danti.lianbei | display_price}}贝</p> -->
                                 <svg class="active" v-if="promoterData.danti">
                                     <use xlink:href="#icon-promote-pay-moreChose"/>
                                 </svg>
                             </li>
-                            <li @click="handlePromoterChecked('zhenshuo')">
+                            <li @click="handlePromoterChecked(promoterTypeData[3].value)">
                                 <img src="../../../images/extension/promote-pay-client.png">
-                                <p class="title-p">诊所</p>
-                                <p class="gray">{{promoterTypeData.zhenshuo.xianjin | display_price}}元</p>
-                                <p class="gray">{{promoterTypeData.zhenshuo.lianbei | display_price}}贝</p>
+                                <p class="title-p">{{promoterTypeData[3].name}}</p>
+                                <!-- <p class="gray">{{promoterTypeData.zhenshuo.xianjin | display_price}}元</p>
+                                <p class="gray">{{promoterTypeData.zhenshuo.lianbei | display_price}}贝</p> -->
                                 <svg class="active" v-if="promoterData.zhenshuo">
                                     <use xlink:href="#icon-promote-pay-moreChose"/>
                                 </svg>
@@ -289,14 +289,18 @@
         methods: {
             initData() {
                 this.loading = true;
-                this.$http.get('user-permission/init-check', {
+                // user-permission/init-check
+                // hippo-shop/system-config-enum
+                this.$http.get('hippo-shop/system-config-enum', {
                     params: {
                         role: 4,
-                        data: {},
+                        type:1,
                     }
                 })
                 .then(response => {
                     if (response.data.data) {
+                        console.log(response.data.data);
+                        
                         this.promoterTypeData = response.data.data;
                     }
                     this.loading = false;
@@ -391,10 +395,12 @@
             },
 
             //合伙人
-            handlePartner() {
-                this.$store.commit('SAVE_USER_CHOOSE_DATA', {role: this.selected, data: this.partner_provinceValue});
-                this.$router.push('/role-yes');
-            },
+            // handlePartner() {
+            //     this.$store.commit('SAVE_USER_CHOOSE_DATA', {role: this.selected, data: this.partner_provinceValue});
+            //     this.$router.push('/role-yes');
+            // },
+
+            // 推广人
             handlePromoter() {
 
                  var p1=/^1(3|4|5|7|8)\d{9}$/;
@@ -409,6 +415,8 @@
                  }
             },
             handlePromoterChecked(value) {
+                console.log(value);
+                
                 this.promoterData[value] = !this.promoterData[value];
             },
             //判断手机号
@@ -597,22 +605,25 @@
         margin-top: .2rem;
         border-radius: 4px;
         display: flex;
+        font-size: .3rem;
         justify-content: space-between;
         padding-right: .2rem;
 
         svg {
-            width: 7px;
-            height: 7px;
-            margin-top: 22px;
-            margin-right: -3px;
+            width: .16rem;
+            height: .09rem;
+            margin-top: .45rem;
+            margin-right: .03rem;
         }
     }
 
     .tui-list {
         li {
             display: inline-block;
-            width: 2.065rem;
-            height: 2.6rem;
+            // width: 2.065rem;
+            // height: 2.6rem;
+            width:2.12rem;
+            height:2.09rem;
             background: rgb(241, 248, 251);
             text-align: center;
             margin-right: .2rem;
@@ -658,21 +669,21 @@
 
     .sel_icon {
         position: relative;
-        width: 7px;
-        height: 7px;
+        width: 0.16rem;
+        height: 0.9rem;
         float: right;
-        margin-top: -27px;
-        margin-right: 10px;
+        margin-top: -.85rem;
+        margin-right: .25rem;
     }
 
 .user-list-container{
     margin-top: 0.2rem;
     padding: 0 0.2rem;
     .user-list {
-    background: #fff;
-            border: 1px solid #f1f1f1;
-    border-radius: 4px;
-    box-shadow: 0px 0px 3px #ccc;
+        background: #fff;
+        border: 1px solid #f1f1f1;
+        border-radius: 4px;
+        box-shadow: 0px 0px 3px #ccc;
             li {
                 height: 1.4rem;
                 background: rgba(255, 255, 255, 1);
@@ -712,10 +723,10 @@
                     }
                     svg {
                         width:.26rem;
-                        position: absolute;
+                        position: relative;
                         height:.24rem;
-                        top: 2.4rem;
-                        right: 0.5rem;
+                        top: -0.3rem;
+                        right: -2.5rem;
                     }
                     #tel {
                         display: inline-block;
