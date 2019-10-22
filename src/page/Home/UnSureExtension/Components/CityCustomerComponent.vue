@@ -95,8 +95,8 @@
                     .then(response => {
                         console.log(response.data.data)
                         this.loading = false;
-                        this.allEntities = response.data.data.allEntities
-                        this.myEntities = response.data.data.myEntities;
+                        this.allEntities = response.data.data;
+                        this.myEntities = response.data.data;
                         if(callback)callback();
                     }).catch(error => {
                     this.loading = false;

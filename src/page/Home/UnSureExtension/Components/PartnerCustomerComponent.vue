@@ -103,8 +103,10 @@
                 this.$http.get('users/list',{params:{'user-type':'partner'},validate: state => state === 200})
                     .then(response => {
                         this.loading = false;
-                        this.allEntities = response.data.data.allEntities;
-                        this.myEntities = response.data.data.myEntities;
+                        this.allEntities = response.data.data;
+                        this.myEntities = response.data.data;
+                        // this.allEntities = response.data.data.allEntities;
+                        // this.myEntities = response.data.data.myEntities;
                         if(callback)callback();
                     }).catch(error => {
                     this.loading = false;

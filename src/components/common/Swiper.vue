@@ -61,6 +61,6 @@
         margin: 0 auto;
         border-radius: .08rem;
         overflow: hidden;
-        margin-top: .2rem;
+        margin-top: .7rem;
     }
 </style>
