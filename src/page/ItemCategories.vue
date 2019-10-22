@@ -452,7 +452,7 @@
         flex-direction: column;
     }
     .head {
-        height: 1.4rem;
+        height: .88rem;
     }
 }
     .empty {
@@ -753,8 +753,9 @@
     }
 
     .activeTop {
-        height: 1.4rem;
-        padding-top: .52rem;
+        height: .88rem;
+        line-height: .88rem
+        // padding-top: .52rem;
     }
 
     .all-goods {
@@ -776,8 +777,9 @@
 
     @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
         .activeTop {
-            height: 1.4rem;
-            padding-top: .52rem;
+             height: .88rem;
+            line-height: .88rem
+            // padding-top: .52rem;
         }
     }
 </style>
