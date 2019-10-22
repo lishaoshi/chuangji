@@ -1,8 +1,9 @@
 <template>
-    <div style="height: 100%;overflow: hidden;">
+    <div style="height: 100%;overflow: hidden;" class="goodsClassification">
         <header v-bind:class="{ activeTop: isFullScreen }">{{title}}</header>
-        <div v-if="isFullScreen" style="height: 35px"></div>
-        <div class="entities-container" v-if="supplierId" style="margin-top: .88rem">
+        <!-- <div v-if="isFullScreen" style="height: 35px"></div> -->
+        <div class="entities-container" v-if="supplierId" style="margin-top: 1.4rem;flex:1;
+        margin-bottom: 1rem;">
             <div class="search">
                 <SearchBar v-model="value" :searchFn ="searchFn" @keyup="keyupEnter"></SearchBar>
             </div>
@@ -12,7 +13,7 @@
                     <div>分类</div>
                 </div>
                 -->
-                <div style="width: 2rem;float: left;background: #E6e6e6;overflow:auto">
+                <div style="width: 2rem;float: left;background: #E6e6e6;overflow:hidden" class="typeBox">
                     <span class="all-goods" @click="all_Goods()" :class="`${is_active == 0?'all-goods-active':''}`">全部</span>
                     <div class="mint-navbar">
                         <div class="menu-list" :id="`menu_${index}`" :key="`menu-${index}`"
@@ -46,7 +47,7 @@
                             <p @click="downSaleGoods(cat_id)" :class="{active,isDown}">下架<span>({{goodList.unSale}})</span>
                             </p>
                         </div>
-                        <div style="height: 8.2rem;overflow: scroll">
+                        <div>
                             <!--<ClxsdLoadMore key="orders-list" ref="loadmore" @onRefresh="onOrdersRefresh" @onLoadMore="onOrdersLoadMore">-->
                             <div v-for="(entity,ikey) in goodList.list" v-if="goodList.list!==''" :key="ikey">
                                 <div style="margin-left: .2rem">
@@ -81,15 +82,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <div v-if="goodList.list==''">
+                            <Empty v-if="goodList.list==''"/>
+                            <!-- <div v-if="goodList.list==''">
                                 <div class="empty">
                                     <svg style="width: 2.4rem;height: 2.4rem">
                                         <use xlink:href="#icon-empty"></use>
                                     </svg>
                                     <p>抱歉，没有数据展示</p>
                                 </div>
-                            </div>
-                            <div style="height: 1rem"></div>
+                            </div> -->
                             <!--</ClxsdLoadMore>-->
                         </div>
 
@@ -425,6 +426,14 @@
 </script>
 
 <style scoped lang="scss">
+.goodsClassification {
+    display: flex;
+    flex-direction: column;
+    .entities-container {
+        display: flex;
+        flex-direction: column;
+    }
+}
     .empty {
         text-align: center;
         color: #999;
@@ -457,8 +466,16 @@
 
     .product-list {
         position: relative;
-        height: 10.5rem;
         overflow: hidden;
+        flex: 1;
+        .typeBox {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+        }
     }
 
     .mint-navbar {
@@ -466,7 +483,8 @@
         display: block;
         text-align: left;
         width: 2rem;
-        height: 9.5rem;
+        height: 100%;
+        flex:1;
         overflow: scroll;
 
         .menu-list {
@@ -528,10 +546,23 @@
 
     .mint-tab-container {
         overflow: hidden;
-        position: relative;
-        width: 73%;
-        float: right;
-        margin-top: -1rem;
+        margin-left: 2rem;
+        height: 100%;
+        & > div{
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            &>div:last-child {
+                // height: auto;
+                position: absolute;
+                left: 0;
+                top: 1rem;
+                // flex: 1;
+                overflow: auto;
+                bottom: 0;
+            }
+        }
     }
 
     .item {
@@ -700,8 +731,8 @@
     }
 
     .activeTop {
-        height: 1.6rem;
-        padding-top: .5rem;
+        height: 1.4rem;
+        padding-top: .52rem;
     }
 
     .all-goods {
@@ -723,8 +754,8 @@
 
     @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
         .activeTop {
-            height: 1.6rem;
-            padding-top: 35px;
+            height: 1.4rem;
+            padding-top: .52rem;
         }
     }
 </style>

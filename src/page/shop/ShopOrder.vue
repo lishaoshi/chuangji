@@ -252,6 +252,8 @@
                     let time = res.data.data.timeout_to_order_cancel
                     this.CLEAR_CONFIRM_ORDER_DATA()
                     this.$router.push({name: 'OrderSuccess', params: {data:data,time: time, orderType: this.orderType}})
+                }).catch(err=>{
+                    this.$toast('下单失败')
                 })
                 // console.log(params, ids, this.confirmOrderData)
 

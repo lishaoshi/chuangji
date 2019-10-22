@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div class="foot-fade"></div>
+    <div class="foodPage">
+        <!-- <div class="foot-fade"></div> -->
         <!--连锁-->
         <footer class="clxsd-foot-guide foot-guide" v-if="userType ===3">
             <section
@@ -228,16 +228,18 @@
     .foot-fade {
         height: 1rem;
     }
-
-    .foot-guide {
+    .foodPage {
         position: fixed;
-        border-top: 1px solid #f1f1f1;
-        z-index: 100;
         left: 0;
         right: 0;
         bottom: 0;
+        z-index: 100;
+        border-top: 1px solid #e5e5e5;
+    }
+
+    .foot-guide {
+        border-top: 1px solid #f1f1f1;
         padding: 0 .2rem;
-        max-width: 768px;
         margin: 0 auto;
         height: 1rem;
         display: flex;

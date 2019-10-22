@@ -1,6 +1,6 @@
 <template>
     <div>
-	<PullRefresh @refresh="refresh">
+	<PullRefresh @refresh="refresh" class="myInfoPage">
 		<header :class="{ activeFull: isFullScreen }">{{userInfo.companyName || '未认证'}}</header>
 		<div class="user-information">
 			<div class="user-main-info">
@@ -160,6 +160,12 @@
 </script>
 
 <style lang="scss" scoped>
+.myInfoPage {
+	display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    height: 100%;
+}
     .activeFull {
         padding-top: 32px;
     }
