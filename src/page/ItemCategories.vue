@@ -476,7 +476,7 @@
         width: 100%;
         height: .88rem;
         line-height: .88rem;
-        background: #26a2ff;
+        background: #0090ff;
         color: #fff;
         text-align: center;
         font-size: .34rem;
