@@ -18,7 +18,8 @@
 			</div>
 			<div class="form-box">
 				<span>详细地址：</span>
-				<textarea  placeholder="请输入详细地址:如街道，门牌号，单元室等" type="textarea" v-model="address"></textarea>
+				<!-- <textarea  placeholder="请输入详细地址:如街道，门牌号，单元室等" type="textarea" v-model="address"></textarea> -->
+				<input type="text" placeholder="请输入详细地址:如门牌号等">
 			</div>
 		</div>
 			<div class="address-box">
@@ -65,13 +66,12 @@
            // console.log("地址ID:" + this.addressId)
 			this._initData();
 		},
-        watch: {
-            $route(to) {
-				debugger
-                    this.addressId = to.params.addressId;
-                    this._initData();
-            }
-        },
+        // watch: {
+        //     $route(to) {
+        //             this.addressId = to.params.addressId;
+        //             this._initData();
+        //     }
+        // },
 		methods: {
 
 			async _initData(){
@@ -229,6 +229,10 @@
 			// width: 1.6rem;
 			min-width: 1.6rem;
 		}
+		input {
+			font-size: .28rem;
+			flex: 1;
+		}
 		img {
 			width:.15rem;
 			height:.24rem;
@@ -236,8 +240,11 @@
 			right: .2rem;
 			margin-top: .4rem;
 		}
+		
 		textarea {
-			 width: 65%;
+			// width: 65%;
+			flex: 1;
+			font-size: .28rem;
 		}
 	}
 	.address-box {

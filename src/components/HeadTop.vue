@@ -100,7 +100,7 @@
         -webkit-box-align: center;
         -ms-flex-align: center;
         align-items: center;
-        background-color: #26a2ff;
+        background-color: #0090ff;
         box-sizing: border-box;
         color: #fff;
         display: -webkit-box;

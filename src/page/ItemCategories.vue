@@ -1,8 +1,10 @@
 <template>
     <div style="height: 100%;overflow: hidden;" class="goodsClassification">
-        <header v-bind:class="{ activeTop: isFullScreen }">{{title}}</header>
+        <div class="head">
+            <header v-bind:class="{ activeTop: isFullScreen }">{{title}}</header>
+        </div>
         <!-- <div v-if="isFullScreen" style="height: 35px"></div> -->
-        <div class="entities-container" v-if="supplierId" style="margin-top: 1.4rem;flex:1;
+        <div class="entities-container" v-if="supplierId" style="flex:1;
         margin-bottom: 1rem;">
             <div class="search">
                 <SearchBar v-model="value" :searchFn ="searchFn" @keyup="keyupEnter"></SearchBar>
@@ -306,7 +308,9 @@
                 this.is_child_id = id
                 this.cat_id = id
                 let params = {
-                    cat_id: id
+                    cat_id: id,
+                    status: this.current_status,
+                    search: this.value
                 }
                 this.init_Goods(params)
                 this.current_id = id
@@ -347,7 +351,8 @@
                 this.isDown = false;
                 let params = {
                     status: 1,
-                    cat_id: this.current_id
+                    cat_id: this.current_id,
+                    search: this.value
                 }
                 this.init_Goods(params)
                 this.current_status = 1
@@ -446,6 +451,9 @@
         display: flex;
         flex-direction: column;
     }
+    .head {
+        height: .88rem;
+    }
 }
     .empty {
         text-align: center;
@@ -468,7 +476,7 @@
         width: 100%;
         height: .88rem;
         line-height: .88rem;
-        background: #26a2ff;
+        background: #0090ff;
         color: #fff;
         text-align: center;
         font-size: .34rem;
@@ -745,8 +753,9 @@
     }
 
     .activeTop {
-        height: 1.4rem;
-        padding-top: .52rem;
+        height: .88rem;
+        line-height: .88rem
+        // padding-top: .52rem;
     }
 
     .all-goods {
@@ -768,8 +777,9 @@
 
     @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
         .activeTop {
-            height: 1.4rem;
-            padding-top: .52rem;
+             height: .88rem;
+            line-height: .88rem
+            // padding-top: .52rem;
         }
     }
 </style>

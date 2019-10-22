@@ -60,20 +60,16 @@
         components: {
             EmptyList
         },
-         created() {
-            // // debugger
-            // console.log('dello')
-            if (!!this.$route.query.choose) {
-                this.choose = true
-            }
-            // this._initData();
-        },
         computed: {
             ...mapState({
                 choosedAddress: state => state.shop.CHOOSED_ADDRESS
             })
         },
         created() {
+             if (!!this.$route.query.choose) {
+                
+                this.choose = true
+            }
             this._initData();
         },
         methods: {

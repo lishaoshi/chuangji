@@ -6,7 +6,7 @@
 				<div class="m-form-row m-main">
 					<label for="account"><svg class="icon-svg"><use xlink:href="#icon-denglushoujihao"/></svg></label>
 					<div class="m-input">
-						<input id="account" v-model="account" type="text" placeholder="手机号">
+						<input id="account" v-model="account" type="number" placeholder="手机号">
 					</div>
 					<svg v-show="account.length > 0" class="m-style-svg m-svg-def" @click="account = ''">
 						<use xlink:href="#icon-clean" />

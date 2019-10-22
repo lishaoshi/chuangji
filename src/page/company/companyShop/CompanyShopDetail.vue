@@ -193,7 +193,11 @@
                 return data
             },
             addToMiniCart() {
-                this.data.num++
+                if(this.data.num<this.data.order_min_num) {
+                    this.data.num = this.data.order_min_num
+                } else {
+                     this.data.num++
+                }
                  console.log(this.data)
                 let params = {
                     supplier_id: this.businessId,
@@ -211,7 +215,12 @@
                 if(this.data.num<=0) {
                     return false
                 }
-                this.data.num--
+                if(this.data.num <= this.data.order_min_num) {
+                    this.data.num = 0
+                } else {
+                    this.data.num--
+                }
+                
                 // console.log(this.data)
                 this.shopCart[this.id].num--
                 let params = {
