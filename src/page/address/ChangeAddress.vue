@@ -19,7 +19,7 @@
 			<div class="form-box">
 				<span>详细地址：</span>
 				<!-- <textarea  placeholder="请输入详细地址:如街道，门牌号，单元室等" type="textarea" v-model="address"></textarea> -->
-				<input type="text" placeholder="请输入详细地址:如门牌号等">
+				<input type="text" v-model="address" placeholder="请输入详细地址:如门牌号等">
 			</div>
 		</div>
 			<div class="address-box">

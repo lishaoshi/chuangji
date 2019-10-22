@@ -8,7 +8,7 @@
 						<span v-if="data.order_status==3">待收款</span>
 						<span v-if="data.order_status==4">已收货</span>
 					</p>
-					<p v-if="data.supplier">{{data.supplier.name}}</p>
+					<p v-if="data.supplier">{{data.client_supplierName}}</p>
 					<p v-if="data.consignee">{{data.consignee}}</p>
 					
 					<p class="color-gray">下单日期：{{data.time}}</p>

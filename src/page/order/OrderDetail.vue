@@ -49,7 +49,7 @@
         <div class="height1"></div>
         <div class="content">
             <ul class="order-ul">
-                <li><b>下单企业：</b><span>{{supplier_name}}</span></li>
+                <li><b>下单企业：</b><span>{{client_supplier}}</span></li>
                 <li><b>收 &nbsp;货 &nbsp;人：</b><span>{{data.consignee}} &nbsp;<small>{{data.tel}}</small></span></li>
                 <li><b>收货地址：</b><span>{{order_address}}</span></li>
                 <li><b>订单编号：</b><span>{{data.order_sn}}</span></li>
@@ -162,6 +162,7 @@
 					}
 				})
 				this.supplier_name = data.supplier.name
+				this.client_supplier = data.client_supplier.name
                 this.supplier_logo = data.supplier.img_cover
                 return data
 			},

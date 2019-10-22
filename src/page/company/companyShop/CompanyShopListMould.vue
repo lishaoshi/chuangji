@@ -215,6 +215,8 @@
 	
 	.shop {
 		padding: .05rem;
+		display: flex;
+		flex-wrap: wrap;
 	}
 	
 	.list {
