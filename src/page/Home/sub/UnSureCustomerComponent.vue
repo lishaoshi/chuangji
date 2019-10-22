@@ -243,6 +243,7 @@
         },
         created() {
             this.initData();
+            // area-user/check-area?code=11
         },
         methods: {
             initData() {
@@ -266,6 +267,8 @@
             //省处理
             async handleProvinceChange() {
                 if (this.provinceValue) {
+                    console.log(this.provinceValue);
+                    
                     const {data} = await this.$http.get('/area-user/check-area', {
                         params: {code: this.provinceValue}
                     });
@@ -284,17 +287,19 @@
             },
             showAddressPicker() {
                 this.regionVisible = true;
+                this.region = null
             },
             async areaChange(rdata) {
-                debugger
                 this.region = ''
                 this.region = rdata.region
                 this.regionVisible = false
                 if (rdata.cityCode) {
                     this.cityValue = rdata.cityCode;
+                    // area-user/check-area?code=1303
                     const {data} = await this.$http.get('/area-user/check-area', {
                         params: {code: rdata.cityCode}
                     });
+                this.region = null
 
                     if (data.has) {
                         this.cityError = true;
@@ -302,7 +307,7 @@
                         this.cityError = false;
                     }
                 }
-                this.region = ''
+                this.region = null
 
             },
 
@@ -503,7 +508,8 @@
         svg {
             width: 7px;
             height: 7px;
-            margin-top: 20px;
+            margin-top: 22px;
+            margin-right: -3px;
         }
     }
 

@@ -14,6 +14,7 @@
 <script>
     import regionAddress from "@/plugins/json/pca-codes.json"
     import areaAddress from "@/plugins/json/pca-codes.json"
+import { fstat } from 'fs';
     regionAddress.forEach((shengItem,ind) =>{
         shengItem.children.forEach((shiItem,shInd) =>{
             if((shengItem.code + '01') === shiItem.code){
@@ -39,10 +40,11 @@
                 provinceCode: '',//省级代码
                 cityCode: '', //市级代码
                 regionInit: false,
+                flag:false,
                 myAddressSlots: [//省
                     {
                         flex: 1,
-                        values: areaAddress, //省份数组
+                        values: regionAddress, //省份数组
                         className: 'slot1',
                         textAlign: 'center'
                     },
@@ -55,7 +57,7 @@
                     //市
                     {
                         flex: 1,
-                        values: areaAddress[0].children,
+                        values: regionAddress[0].children,
                         className: 'slot3',
                         textAlign: 'center'
                     },
@@ -70,17 +72,16 @@
                     this.province = ''
                     this.provinceCode = ''
                     this.city = ''
-                    this.regionInit = ''
                 }
             }
         },
         methods:{
             addressChange(picker,values){
+                // console.log(this.values[0]);
                this.region = ''
                 this.province = ''
                 this.provinceCode = ''
                 this.city = ''
-                this.regionInit = ''
                 // debugger
                 if(!values[0]){
                     this.$nextTick(() => {
@@ -92,11 +93,6 @@
                     })
                 } else {
                     // debugger
-                    this.region = ''
-                    this.province = ''
-                    this.provinceCode = ''
-                    this.city = ''
-                    this.regionInit = ''
                     picker.setSlotValues(1,values[0].children)
                 }
                 // debugger
@@ -110,13 +106,10 @@
                 // }
                 if(values[0] && values[1]){
                     // debugger
-                    // console.log(values[0], values[1])
-                
                     this.province = values[0]["name"]
                     this.city = values[1]["name"]
                     this.provinceCode = values[0]['code']
                     this.cityCode = values[1]["code"]
-
                     this.region = this.province + this.city
                 } else {
                     // debugger
@@ -130,15 +123,15 @@
 
             },
             confirm(corm){
-                let region = corm==1 ? this.region: ''
+                let region = corm ? this.region: ''
                 let province = corm ? this.province: ''
                 let city = corm ? this.city: ''
                 let cityCode = corm ? this.cityCode: ''
                 let provinceCode = corm ? this.provinceCode: ''
                 this.$emit('listenAreaChange',{region,province,city,cityCode,provinceCode})
+                }
             }
         }
-    }
 </script>
 
 <style lang="scss" scoped>
