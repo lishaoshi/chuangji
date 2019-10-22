@@ -67,7 +67,7 @@
         <div class="price-flex">
             <div>
                 <p class="price" style="color: #333;font-size: .28rem">
-                    {{data.category.parent_name?data.category.parent_name:'无'}}
+                    {{parent_name?parent_name:'无'}}
                 </p>
                 <p class="name" style="color: #999">类别</p>
             </div>
@@ -121,7 +121,8 @@
                 loading: true,
                 name1: '',
                 name2: '',
-                supplierId: 0
+                supplierId: 0,
+                parent_name: ''
             }
         },
         computed: {
@@ -148,6 +149,7 @@
                 this.status = data.status
                 this.name1 = data.brand.name
                 this.name2 = data.category.name
+                this.parent_name = data.category.parent_name
                 if (data.valid_time != 0) {
                     let time = data.valid_time
                     this.time = this.$moment.unix(time).format("YYYY.MM.DD")

@@ -65,10 +65,10 @@
         data() {
             return {
                 regionVisible: false,
-                dateValue:null,
+                dateValue:new Date(),
                 year:(new Date()).getFullYear(),
                 month:(new Date()).getMonth()+1,
-                startDate:new Date('2018-01'),
+                startDate:new Date('2018-02'),
                 //startDate:new Date().getFullYear(),
                 popupVisible:false,
                 loading:false,

@@ -311,19 +311,20 @@
     position: absolute;
     left: 0;
     right: 0;
-    top: 2.44rem;
+    top: 2.88rem;
     bottom: 1.1rem;
     overflow: auto;
 }
     .top-box {
-        min-height: .88rem;
+        // min-height: .88rem;
+        height: 1.28rem;
         background: rgba(0, 144, 255, 1);
         display: flex;
         justify-content: space-around;
         align-items: center;
         position: relative;
         z-index: 10;
-        padding-bottom: 10px;
+        padding: .2rem 0;
         > div {
             width: 30%;
             text-align: center;
