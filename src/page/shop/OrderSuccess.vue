@@ -155,7 +155,7 @@
         font-size: .3rem;
         margin-bottom: .3rem;
         div {
-            border:2px solid #0090ff;
+            border:0.02rem solid #0090ff;
             //  padding: .22rem .84rem;
             border-radius:.08rem;
             width: 2.6rem;

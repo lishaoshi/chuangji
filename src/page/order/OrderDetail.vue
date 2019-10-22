@@ -5,7 +5,7 @@
 			<!-- <div>剩余时间30分钟</div> -->
 			<div>{{order_status_display}}</div>
 		</div>
-        <div class="company-detail">
+        <div v-if="userType==3" class="company-detail">
             <router-link :to="`/factory/shop/${data.supplier_id}`">
                 <img :src="supplier_logo">
                 <span>{{ supplier_name }}</span>
@@ -42,7 +42,7 @@
 				<span>{{this.nums}}</span>
 			</div>
 			<div>
-				<span>应付</span>
+				<span>{{data.order_status==0?'应付': '金额'}}</span>
 				<span>￥{{this.data.order_amount}}</span>
 			</div>
 		</div>
@@ -73,11 +73,11 @@
 		</div>
 
 		<!-- 商业底部按钮内容 -->
-		<div class="footer-box" v-if="userType==2">
+		<!-- <div class="footer-box" v-if="userType==2">
 			<div>
 				<div class="btn" v-if="data.order_status=== 2" @click="sureOrder">确认发货</div>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </template>
 
@@ -144,13 +144,13 @@
 			},
 			_handleData(data) {
 				console.log(data)
-                    if(data.order_status === 0)this.order_status_display = '未支付'
+                    if(data.order_status === 0)this.order_status_display = '待付款'
                     if(data.order_status === 1)this.order_status_display = '待提取'
-                    if(data.order_status === 2)this.order_status_display = '待发货'
-					if(data.order_status === 3)this.order_status_display = '待收货'
+                    if(data.order_status === 2 &&  this.userType == 2)this.order_status_display = '待发货'
+					if((data.order_status === 3 || data.order_status === 2) &&  this.userType == 3)this.order_status_display = '待收货'
 					if(data.order_status === 4)this.order_status_display = '已收货'
 					if(data.order_status === 5)this.order_status_display = '已拒绝'
-					if(data.order_status === 6)this.order_status_display = '已退款'
+					if(data.order_status === 6)this.order_status_display = '已超时'
 				this.order_address = data.province + data.city + data.district + data.address
 				this.items = data.items
 				this.items.forEach(item => {
@@ -220,9 +220,9 @@
 		display: flex;
 		background: #fff;
 	
-		padding: .34rem;
+		padding: .34rem 0;
 		border-radius: .1rem;
-        border-bottom: 1px solid #f1f1f1;
+        border-bottom: 1px solid #f5f5f5;
 		justify-content: space-between;
 		& >  div:nth-child(1) {
 			display: flex;

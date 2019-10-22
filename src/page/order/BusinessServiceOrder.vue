@@ -238,6 +238,7 @@
                      serviceBusinessRefuseOrder(id).then((res)=>{
                          console.log(res)
                          if(res.data.code==200) {
+                             this.initData()
                             this.orders.splice(this.orders.findIndex(item => item.id === id), 1)
                             this.$toast("已拒绝")
                          } else {

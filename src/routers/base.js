@@ -15,6 +15,9 @@ import WechatSignin from '@/page/wechat/WechatSignin'
 import WechatSignup from '@/page/wechat/WechatSignup.vue'
 import WechatBindUser from '@/page/wechat/WechatBindUser.vue'
 
+// 广告banner详情页
+const BannerDetail = () => import('@/page/BannerDetail/bannerDetail')
+
 //总授权 我的
 import MyRoot from "@/page/My/RootMy";
 
@@ -28,7 +31,6 @@ export default [
             keepAlive: false,
             requiresAuth: true,
         },
-
     },
     {
         path: "/extension-home",
@@ -87,6 +89,15 @@ export default [
         component: ItemCategories,
         meta:{
             title:'商品分类',
+            requiresAuth: true
+        }
+    },
+    {
+        path: "/bannerDetail",
+        name: "BannerDetail",
+        component: BannerDetail, 
+        meta: {
+            title: '广告详情',
             requiresAuth: true
         }
     },

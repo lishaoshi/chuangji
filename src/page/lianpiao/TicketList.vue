@@ -11,7 +11,20 @@
         <div class="box">
             <div class="balance">
                 <p>您拥有的联票</p>
-                <p id="money">{{lianBeiValue| display_price}}</p>
+                <p>
+                    <!-- <countTo :startVal='currentValue' :endVal='endVal' :duration='5000'></countTo>.00
+                     -->
+                    <i-count-up
+                        :startVal="0"
+                        :endVal="lianBeiValue"
+                        :decimals="0"
+                        :duration="23"
+                        :options="options"
+                    ></i-count-up>
+
+                </p>
+                <!-- <p id="money">{{lianBeiValue| display_price}}</p> -->
+               
             </div>
             <router-link to="/income" class="box-a1">收入记录</router-link>
             <router-link to="/expenditure" class="box-a1" style="background: #fff;color: #2da2ff;">支出入记录</router-link>
@@ -22,13 +35,29 @@
 
 <script>
     import {mapState} from 'vuex'
+    // import countTo from 'vue-count-to';
+    import ICountUp from 'vue-countup-v2'
 
     export default {
         name: "TicketList",
+        components: {
+            // countTo
+            ICountUp
+        },
         data() {
             return{
                 currentValue: 0.00,
                 lianBeiValue: 0.00,
+                options: {
+                    useEasing: true,
+                    useGrouping: true,
+                    separator: ',',
+                    decimal: '.',
+                    prefix: '',
+                    suffix: '',
+                    decimalPlaces: 2
+                },
+                total: 100000.15
             }
         },
         computed: {
@@ -47,7 +76,7 @@
                     }
                 }
             })
-        }
+        },
     }
 </script>
 
@@ -72,8 +101,7 @@
         }
     }
     .box {
-        background: url("../../images/bg.png") no-repeat top;
-        background-size: 100% 100%;
+         background: linear-gradient(#0090ff,70%, #fff);
 
         &-a1 {
             display: block;
@@ -114,6 +142,9 @@
     .balance p:nth-child(2) {
         margin-top: 0.7rem;
         font-size: .8rem;
+        span {
+            display: inline-block;
+        }
     }
 
     .balance p:nth-child(3) {
