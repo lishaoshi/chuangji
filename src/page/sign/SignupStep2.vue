@@ -28,6 +28,7 @@
             <p class="errinfo">{{error}}</p>
             <div class="yaoinfo" v-if="code===203">
                 <div class="yaodes" style="width: 100%;text-align: center;padding: 0px">
+                    <img src="../../images/my/user_default.png">
                     <p class="yaoname" style="font-size: .3rem">未查到此邀请人</p>
                 </div>
             </div>
@@ -395,11 +396,14 @@
         .yaodes {
             width: 70%;
             padding-left: .25rem;
-
+            display: flex;
+            align-items: center;
             p {
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                margin-left: .25rem;
+                padding-left: .25rem;
             }
         }
 
