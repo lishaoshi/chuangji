@@ -12,7 +12,7 @@
                 <div class="header" :class="{ topHeight: isFullScreen }">
                 </div>
                 <!--非正常情况，没有客户，需要去推广-->
-                <UnSureCustomer/>
+                <UnSureCustomer :notices="noticeList"/>
             </mt-tab-container-item>
             <mt-tab-container-item id="2"  :class="{ Box3: selected==2 }">
                 <!--<p class="t1"  :class="{ t2: isFullScreen }">联贝收益</p>-->
@@ -47,6 +47,7 @@
     import CustomerMy from "@/page/My/ExtensionMy";//我的
     import UnSureCustomer from "@/page/Home/UnSureExtension/UnSureCustomer";
     import MyFrame from "./MyExtension"
+    import {adList, infoList} from "@/api/ad";
 
     export default {
         name: "RoleExtension",
@@ -63,6 +64,7 @@
                 myFrame:false,
                 pay_success:false,
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
+                noticeList: []
             }
         },
         computed:{
@@ -95,6 +97,7 @@
         created(){
             this.currentId= this.$store.state.RoleExtension
             this.currentId==1?this.selected = "1":this.selected = "2"
+            this._initData()
             
         },
         methods:{
@@ -104,6 +107,27 @@
             closedMyFrame() {
                 this.myFrame = !this.myFrame
             },
+
+            // 初始化banner、公告数据
+            _initData() {
+                // banner参数
+                let bannerParams = {
+                    channel: 'app',
+                    space:　"tuiguang-all："
+                }
+                
+                // 公告参数
+                let infoParams = {
+                    from: "platform",
+                    supplier_id: 0,
+                    space: "tuiguang-all"
+                }
+                infoList(infoParams).then(res=>{
+                    // debugger
+                    let data = res.data.data
+                    this.noticeList = res.data.data
+                })
+            }
         }
     }
 </script>

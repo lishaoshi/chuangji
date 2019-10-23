@@ -22,19 +22,19 @@
         <Seach></Seach>
         <mt-tab-container v-model="selected" style="min-height: 5rem;padding-bottom: .2rem">
             <mt-tab-container-item id="all">
-                <AllCustomerComponent/>
+                <AllCustomerComponent :notices="notices"/>
             </mt-tab-container-item>
             <mt-tab-container-item id="province">
-                <ProvinceCustomerComponent/>
+                <ProvinceCustomerComponent :notices="notices"/>
             </mt-tab-container-item>
             <mt-tab-container-item id="city">
-                <CityCustomerComponent />
+                <CityCustomerComponent :notices="notices"/>
             </mt-tab-container-item>
             <!-- <mt-tab-container-item id="partner">
                 <PartnerCustomerComponent/>
             </mt-tab-container-item> -->
             <mt-tab-container-item id="promoter">
-                <PromoterCustomerComponent />
+                <PromoterCustomerComponent :notices="notices"/>
             </mt-tab-container-item>
         </mt-tab-container>
     </div>
@@ -58,12 +58,26 @@
             PromoterCustomerComponent,
             Seach
         },
+        props: {
+            notices: {
+                type: Array,
+                default:function(){
+                    return [] 
+                }
+            }
+        },
         data(){
             return {
                 selected:'all',//city,province,partner,promoter,
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
             }
         },
+        mounted() {
+            console.log(this.noticeList, '123')
+        },
+        // updated() {
+            
+        // },
         methods:{
             refresh(callback){
                 this.$store.dispatch('fetchUserInfo')

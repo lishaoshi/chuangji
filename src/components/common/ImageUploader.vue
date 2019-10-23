@@ -88,7 +88,6 @@
         },
         watch: {
             avatar (src) {
-                // debugger
                 this.$emit('update:src', src)
             },
         },
@@ -112,6 +111,7 @@
                             this.$refs.imagefile.value = null
                         },
                         onOk: screenCanvas => {
+                            
                             screenCanvas.toBlob(async blob => {
                                 this.uploadBlob(blob)
                                 this.$refs.imagefile.value = null
@@ -121,6 +121,7 @@
                 }else{
                     // debugger
                    this.uploadBlob(files[0])
+                    this.$refs.imagefile.value = null
                 }
             },
 

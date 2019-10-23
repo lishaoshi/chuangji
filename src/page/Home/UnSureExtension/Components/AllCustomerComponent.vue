@@ -5,6 +5,13 @@
     <div v-if="notices.length" class="noticesBox">
       <notice class="noticesBox-notices" :notices="notices"></notice>
     </div>
+
+     <div class="notice" v-else>
+        <svg>
+            <use xlink:href="#icon-notice"/>
+        </svg>
+        <span style="padding-left: 5px">暂时没有消息</span>
+    </div>
     <UnSureNav type="all"></UnSureNav>
     <CircleLoading v-if="loading" />
     <div class="main-body" ref="wrapper" style="height: auto">
@@ -36,6 +43,14 @@ import Swiper from "@/components/common/Swiper";
 
 export default {
   name: "AllCustomerComponent",
+  props: {
+    notices: {
+      type: Array,
+      default: ()=>{
+          return [] 
+      }
+    }
+  },
   components: {
     CircleLoading,
     EmptyList,
@@ -49,10 +64,7 @@ export default {
     return {
       entities: [],
       loading: false,
-      notices: [
-        { title: "2019年医药行业政策梳理，方法明确教我们如何在用药" },
-        { title: "重磅！国家重点监控药品目录公布" }
-      ],
+      // notices:[],
       allLoaded: false, //是否自动触发上拉函数
       isAutoFill: false,
       wrapperHeight: 0,
@@ -73,6 +85,7 @@ export default {
   methods: {
     getData(callback) {
       this.loading = true;
+
       this.$http
         .get("users/list", {
           params: { "user-type": "all" },
@@ -157,26 +170,55 @@ export default {
             line-height: .64rem;
         }
     }
+    .notice {
+        margin:  .22rem auto 0;
+        width:6.86rem;
+        background: #f9f9f9;
+        line-height: .56rem;
+        display: flex;
+        padding: 0 .24rem;
+        align-items: center;
+        height: .64rem;
+        .notice-list {
+          width: 6.2rem;
+          height: .88rem;
+          overflow-y: hidden;
+          margin-left: .1rem;
+          a {
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: .24rem;
+            line-height: .64rem;
+            color: #333;
+          }
+        } 
+        svg {
+          width: .38rem;
+          height: .38rem;
+        }
+    }
 </style>
 
 <style lang="scss">
 .noticesBox-notices {
-             background:rgba(249,249,249,1) !important;
-            height: .64rem;
-            line-height: .64rem;
-            border-radius:0.08rem;
-            .scroll-wrap {
-                height: .54rem !important;
-                line-height: .54rem;
-                    .anim {
-                        margin-top: -.54rem;
-                        transition: linear .6s;
-                    }
-            }
-            ul,li,a {
-                line-height: .54rem !important;
-                width: 100%;
-                height: .54rem !important;
-            }
-        }
+  background:rgba(249,249,249,1) !important;
+  height: .64rem;
+  line-height: .64rem;
+  border-radius:0.08rem;
+  .scroll-wrap {
+      height: .54rem !important;
+      line-height: .54rem;
+          .anim {
+              margin-top: -.54rem;
+              transition: linear .6s;
+          }
+  }
+  ul,li,a {
+      line-height: .54rem !important;
+      width: 100%;
+      height: .54rem !important;
+  }
+}
 </style>

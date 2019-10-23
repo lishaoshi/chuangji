@@ -36,7 +36,7 @@
         },
         created() {
            this.timing = setInterval(this.scroll, 2200)
-            console.log(this.notices, 'notices')
+            // console.log(this.notices, 'notices')
         },
 
         methods: {
@@ -50,6 +50,7 @@
                 // console.log(this.notices, 'notices')
                 if(this.notices!==null) {
                     setTimeout(function () {
+                        // debugger
                         that.notices.push(that.notices[0]);
                         that.notices.shift();
                         that.animate = !that.animate;  // 这个地方如果不把animate 取反会出现消息回滚的现象，此时把ul 元素的过渡属性取消掉就可以完美实现无缝滚动的效果了

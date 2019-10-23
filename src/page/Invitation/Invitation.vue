@@ -34,7 +34,7 @@
 <style lang="scss" scoped>
     #Invitation {
         min-height: 100%;
-        background: #26a2ff;
+        background: #0090ff;
         .img {
             width: 100%;
         }

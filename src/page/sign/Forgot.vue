@@ -1,6 +1,6 @@
 <template>
 	<div class="p-forgot forgot signup">
-		<mt-header title="">
+		<mt-header class="mint-header" title="">
 			<router-link to="/" slot="left">
 				<mt-button icon="back"></mt-button>
 			</router-link>
@@ -319,12 +319,15 @@
 	
 	.m-long-btn {
 		height: 1rem;
-		background: #26A2FF;
+		background: #0090ff;
 		color: #fff;
 		font-size: 16px;
 		&[disabled] {
-			background: #26A2FF;
+			background: #0090ff;
 		}
+	}
+	.mint-header {
+		background: #0090ff;
 	}
 
 </style>
