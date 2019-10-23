@@ -2,69 +2,71 @@
     <div id="Myfollow">
         <clxsd-head-top title='关注收藏'></clxsd-head-top>
 
-        <mt-navbar v-model="selected">
-            <mt-tab-item id="1" @click.native="chooseType(selected)"><span class="mint-tab-item-label">工业关注</span></mt-tab-item>
-            <mt-tab-item id="2" @click.native="chooseType(selected)"><span class="mint-tab-item-label">产品收藏</span></mt-tab-item>
-        </mt-navbar>
-        <mt-tab-container v-model="selected" style="margin-top: .2rem;">
-            <mt-tab-container-item class="cont" id="1">
-                <div class="container">
-                    <mt-loadmore :top-method="onFactoryRefresh" :bottom-method="onLoadMoreFactory" ref="loadmore" :bottom-all-loaded="allLoaded">
-                        <ul>
-                            <li class="list-item " v-for="(item,index) in followList" data-type="0" id="list-item">
-                                <div class="list-box" @touchstart.capture="touchStart" @touchend.capture="touchEnd">
-                                    <div class="list-img">
-                                        <router-link :to="`/factory/shop/${item.id}`">
-                                            <img :src="item.logo" alt="">
-                                        </router-link>
-                                    </div>
-                                    <div class="list-content">
-                                        <router-link :to="`/factory/shop/${item.id}`">
-                                            <p class="title">{{item.display_name||item.name}}</p>
-                                        </router-link>
-                                    </div>
-                                    </div>
-                                    <div class="delete" @click="deleteFollowFn(index,item)" :data-index="index">
-                                        <div class="delete_Img"></div>
-                                        <span>取消收藏</span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </mt-loadmore>
-                   
-                </div>
-            </mt-tab-container-item>
-            <mt-tab-container-item id="2">
+        <div class="typeBox">
+            <div @click="chooseType(0)" :class="{active:currenIndex==0}">
+                <span>工业关注</span>
+            </div>
+            <div @click="chooseType(1)" :class="{active:currenIndex==1}">
+                <span>产品收藏</span>
+            </div>
+        </div>
 
-                <div class="container">
-                    <mt-loadmore :top-method="onGoodsRefresh" :bottom-method="onLoadMoreGoods" ref="loadmoreGoods" :bottom-all-loaded="allLoaded">
-                        <ul>
-                        
-                            <li class="list-item " v-for="(enItem,enIndex) in collectList" data-type="0" id="list-item2" >
-                                <div class="list-box" @touchstart.capture="touchStart" @touchend.capture="touchEnd">
-                                    <div class="list-img">
-                                        <router-link :to="`/factory/shop/${enItem.id}`">
-                                            <img :src="enItem.cover" alt="">
-                                        </router-link>
-                                    </div>
-                                    <div class="list-content">
-                                        <router-link :to="`/factory/shopdetail/${enItem.id}`">
-                                            <p class="shop-name">{{enItem.good_name}}</p>
-                                            <p class="shop-unit">￥{{enItem.price}}/{{enItem.unit}}</p>
-                                        </router-link>
-                                    </div>
+        <!-- 列表 -->
+        <div class="content" style="oveflow: auto"  v-if="list.length > 0">
+            <mt-loadmore :top-method="onFactoryRefresh" :bottom-method="onLoadMoreFactory" ref="loadmore" :bottom-all-loaded="allLoaded">
+            <div class="container">
+                <!-- <mt-loadmore :top-method="onFactoryRefresh" :bottom-method="onLoadMoreFactory" ref="loadmore" :bottom-all-loaded="allLoaded"> -->
+                    <ul v-if="currenIndex==0">
+                        <li class="list-item " v-for="(item,index) in list" data-type="0" id="list-item">
+                            <div class="list-box" @touchstart.capture="touchStart" @touchend.capture="touchEnd">
+                                <div class="list-img">
+                                    <router-link :to="`/factory/shop/${item.id}`">
+                                        <img :src="item.logo" alt="">
+                                    </router-link>
                                 </div>
-                                <div class="delete" @click="deleteGoodsFn(enIndex,enItem)" :data-index="enIndex">
+                                <div class="list-content">
+                                    <router-link :to="`/factory/shop/${item.id}`">
+                                        <p class="title">{{item.display_name||item.name}}</p>
+                                    </router-link>
+                                </div>
+                                </div>
+                                <div class="delete" @click="deleteFollowFn(index,item)" :data-index="index">
                                     <div class="delete_Img"></div>
-                                    <span>取消收藏</span>
+                                    <span>取消关注</span>
                                 </div>
                             </li>
                         </ul>
-                     </mt-loadmore>
-                </div>
-            </mt-tab-container-item>
-        </mt-tab-container>
-        <EmptyOrder v-if="(selected==1&&!followList.length) || (selected==2&&!collectList.length)" />
+
+                    <ul v-else>
+                        <li class="list-item " v-for="(enItem,enIndex) in list" data-type="0" id="list-item2" >
+                            <div class="list-box" @touchstart.capture="touchStart" @touchend.capture="touchEnd">
+                                <div class="list-img">
+                                    <router-link :to="`/factory/shop/${enItem.id}`">
+                                        <img :src="enItem.cover" alt="">
+                                    </router-link>
+                                </div>
+                                <div class="list-content">
+                                    <router-link :to="`/factory/shopdetail/${enItem.id}`">
+                                        <p class="shop-name">{{enItem.good_name}}</p>
+                                        <p class="shop-unit">￥{{enItem.price}}/{{enItem.unit}}</p>
+                                    </router-link>
+                                </div>
+                            </div>
+                            <div class="delete" @click="deleteGoodsFn(enIndex,enItem)" :data-index="enIndex">
+                                <div class="delete_Img"></div>
+                                <span>取消收藏</span>
+                            </div>
+                        </li>
+                    </ul>
+            </div>
+            <div v-if="allLoaded" class="nomore">
+                <span>没有更多了</span>
+            </div>
+        </mt-loadmore>
+        </div>
+        
+        <!-- <EmptyOrder v-if="(selected==1&&!followList.length) || (selected==2&&!collectList.length)" /> -->
+         <EmptyOrder v-else />
 
     </div>
 </template>
@@ -80,23 +82,26 @@
         data() {
             return {
                 selected: '1',
-                followList: [],//关注工厂数组
+                list: [],//关注工厂数组
                 collectList: [],//收藏商品数组
 
                 showLoading: true, //显示加载动画
 
-                factoryPage: 1,//关注工厂默认页
+                page: 1,//关注工厂默认页
                 goodsPage: 1,//关注商品默认页
 
                 clientNum: {}, // 记录开始滑动（x1）,结束滑动（x2）的鼠标指针的位置
                 candelete: {},
-                allLoaded: false
+                allLoaded: false,
+                currenIndex: 0,
+                limit: 20
             }
         },
         components: {
             EmptyOrder
         },
         created() {
+            this.getFollowData()
             // this.onLoadMoreFactory()
             // this.onLoadMoreGoods()
         },
@@ -122,7 +127,11 @@
                 }).catch(err => err);
             },
             chooseType(id) {
-                console.log(id)
+                this.currenIndex = id
+                this.page = 1
+                // console.log(id)
+                id==0&&this.getFollowData()
+                id==1&&this.getGoodsData()
             },
             //取消商品收藏
             async deleteGoodsFn(enIndex, enItem) {
@@ -139,82 +148,75 @@
 
 
             //加载工厂数据
-            async getFollowData(options, loadMore = false) {
+            async getFollowData(type) {
                 let params = {
-                    page: this.factoryPage,
-                    type: 'Follow',
-                    limit: options.limit
+                    page: this.page,
+                    limit: this.limit
                 }
-                getFollowList(params, loadMore)
+                getFollowList(params)
                 .then(({data = []}) => {
-                    this.$refs.loadmore.onTopLoaded()
-                    if (loadMore) {
-                        this.followList = [...this.followList, ...data.data.factoryFollows]
+                    if (this.page>1) {
+                        this.list = [...this.list, ...data.data.factoryFollows]
                     } else {
-                        this.followList = data.data.factoryFollows
+                        this.list = data.data.factoryFollows
                     }
-                    this.factoryPage = this.factoryPage + 1
-                    if (options.callback) {
-                        options.callback()
+                    if(data.data.factoryFollows.length<=0) {
+                        this.allLoaded = true
                     }
+                    if(type=='topLoad') {
+                        this.$refs.loadmore.onTopLoaded()
+                    }
+                    if(type=='bottomLoad') {
+                        this.$refs.loadmore.onBottomLoaded()
+                    }
+                    this.page++
+                    // this.factoryPage = this.factoryPage + 1
                 })
             },
            async onFactoryRefresh(callback) {
-                this.factoryPage = 1
-                let options = {
-                    limit: 17,
-                    callback: callback
-                }
-                 this.getFollowData(options)
+                this.page = 1
+                await this.currenIndex==0&&this.getFollowData('topLoad')
+                await this.currenIndex==1&&this.getGoodsData('topLoad')  
             },
             async onLoadMoreFactory() {
-                // console.log('more123')
-                let options = {
-                    limit: 17,
-                }
-                await this.getFollowData(options, true)
+                await this.currenIndex==0&&this.getFollowData('bottomLoad')
+                await this.currenIndex==1&&this.getGoodsData('bottomLoad')  
             },
             
             
             //加载商品收藏数据
-            async getGoodsData(options, loadMore = false) {
+            async getGoodsData(type) {
                 let params = {
-                    page: this.goodsPage,
-                    type: 'Goods',
-                    limit: options.limit
+                    page: this.page,
+                    limit: this.limit
                 }
-                getCollectionList(params, loadMore)
+                getCollectionList(params)
                 .then(({data = []}) => {
-                    console.log(data.data.entityFollows)
-                    if (loadMore) {
-                        this.collectList = [...this.collectList, ...data.data.entityFollows]
-                        console.log(typeof(this.collectList))
+                    if (this.page>1) {
+                        this.list = [...this.collectList, ...data.data.entityFollows]
                     } else {
-                        this.collectList = data.data.entityFollows
-                        console.log(this.collectList)
+                        this.list = data.data.entityFollows
                     }
-                    this.goodsPage = this.goodsPage + 1
+                    if(type=='topLoad') {
+                        this.$refs.loadmore.onTopLoaded()
+                    }
+                    if(type=='bottomLoad') {
+                        this.$refs.loadmore.onBottomLoaded()
+                    }
+                    this.page++
+                    // this.goodsPage = this.goodsPage + 1
                     // this.$refs.loadmoreGoods.afterLoadMore(data.data.entityFollows.length < options.limit)
-                    if (options.callback) {
-                        options.callback()
-                    }
                 })
             },
             onGoodsRefresh(callback) {
                 //console.log(22)
                 this.goodsPage = 1
-                let options = {
-                    limit: 17,
-                    callback: callback
-                }
-                this.getGoodsData(options)
+                this.getGoodsData()
             },
             onLoadMoreGoods() {
                 console.log('more')
-                let options = {
-                    limit: 17,
-                }
-                this.getGoodsData(options, true)
+                // this.page++
+                this.getGoodsData()
             },
 
 
@@ -273,6 +275,23 @@
         display: flex;
         flex-direction: column;
         height: 100vh;
+    }
+    .typeBox {
+        display: flex;
+        height:.8rem;
+        // align-items: center;
+        line-height: .8rem;
+        justify-content: center;
+        background: #fff;
+        color: #999999;
+        div {
+            flex: 1;
+            text-align: center;
+            font-size: .28rem;
+        }
+        .active {
+            color: #333333
+        }
     }
 
     .mint-navbar .mint-tab-item.is-selected {
@@ -376,6 +395,17 @@
 </style>
 
 <style lang="scss" scoped>
+.nomore {
+    text-align: center;
+    color: #999;
+    line-height: .6rem;
+    &::before {
+        content: '——'
+    }
+    &::after {
+        content: '——'
+    }
+}
 .cont {
     height: 100%!important;
 }
@@ -503,7 +533,6 @@
     .list-img {
         width: 1rem;
         height: 1rem;
-        border: 1px solid rgb(230, 230, 230);
         border-radius: 4px;
     }
 

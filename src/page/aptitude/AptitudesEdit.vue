@@ -470,8 +470,8 @@
     .edit-ul {
         background: #fff;
         margin-bottom: 10px;
-        line-height: 46px;
-        padding: 0 10px;
+        // line-height: 46px;
+        padding: 0 .2rem;
         .fixdColor {
                 color: #999; 
         }
@@ -479,21 +479,21 @@
             display: flex;
             font-size: .28rem;
             border-bottom: 1px solid #f1f1f1;
-
+            height: 1rem;
+            align-items: center;
             label {
                 color: #999;
                 width: 1.4rem;
                 font-size: .28rem;
             }
             input, div {
-                    flex: 1;
+                flex: 1;
+                padding:0
             }
             
 
             span {
-                // width: 75%;
-                // line-height: 25px;
-                // padding: 10px 0;
+                display: block;
                 color: #999;
                 padding-right: .16rem;
             }

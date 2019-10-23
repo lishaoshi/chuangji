@@ -64,7 +64,8 @@
                 myFrame:false,
                 pay_success:false,
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
-                noticeList: []
+                noticeList: [],
+                limit: 6
             }
         },
         computed:{
@@ -120,7 +121,8 @@
                 let infoParams = {
                     from: "platform",
                     supplier_id: 0,
-                    space: "tuiguang-all"
+                    space: "tuiguang-all",
+                    limit: this.limit
                 }
                 infoList(infoParams).then(res=>{
                     // debugger

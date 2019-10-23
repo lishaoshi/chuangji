@@ -3,7 +3,7 @@
         <div v-if="swipers.length > 0" >
             <mt-swipe :auto="4000" class="swiper" :show-indicators="showIndicator">
                 <mt-swipe-item :key="`sw-${index}`"  v-for="(swiper,index) in swipers">
-                    <img :src="swiper.data.image" width="100%" />
+                    <img :src="swiper.img" width="100%" />
                 </mt-swipe-item>
             </mt-swipe>
         </div>
@@ -31,12 +31,14 @@
                 default:null,
             },
             auto:4000,
-            showIndicator: false
+            showIndicator: true
         },
         data(){
             return {
                 loading: false,
                 swipers:[],
+                limit: 6,
+                temporarySnewpace: 'tuiguang-all'
 
             }
         },
@@ -45,8 +47,9 @@
         },
         methods:{
             async initData(){
-                const { data } =await  adList({channel:this.channel,space:this.space})
-                this.swipers = data
+                const { data } = await  adList({channel:this.channel,space:this.temporarySnewpace,limit:this.limit})
+                // debugger
+                this.swipers = data.data
             }
         }
 
@@ -62,5 +65,8 @@
         border-radius: .08rem;
         overflow: hidden;
         margin-top: .7rem;
+        img {
+            height: 100%;
+        }
     }
 </style>
