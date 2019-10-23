@@ -120,9 +120,6 @@
             }
             this.initData();
 
-            this.$http.get('users/list').then(res =>{
-
-            })
             
         },
         mounted(){
@@ -130,6 +127,8 @@
             console.log(this.selectedSaveData);
             console.log(this.role);
             console.log(this);
+            console.log(this.USER_CHOOSED_DATA.selected_save_data);
+            
             // this.selectedSaveData
             if(this.selectedSaveData){
                 if(this.selectedSaveData['business']){
@@ -161,27 +160,12 @@
                    this.tel =  sessionStorage.getItem('customer-choose-role-iphone') ||res.data.data.phone
                    this.cartId = res.data.data.user_identity
                })
-               this.$http.get('hippo-shop/system-config-enum', {
-                    params: {
-                        role: 4,
-                        type:2,
-                    }
-                }).then(response => {
-                    if (response.data.data) {
-                        console.log(response.data.data);
-                        this.roleList = response.data.data;
-                    }
-                    this.loading = false;
-                }).catch(error => {
-                    this.loading = false;
-                })
-                var code = this.USER_CHOOSED_DATA.selected_save_data
                 if(this.role=='promoter'){
                     var code = this.selectedSaveData.code
-                    let params = {
-                        
-                    }
+                    console.log(code,'dddd');
                 }
+                var code = this.USER_CHOOSED_DATA.selected_save_data.code?this.USER_CHOOSED_DATA.selected_save_data.code:this.USER_CHOOSED_DATA.selected_save_data
+                console.log(code);
                 this.areaData.forEach(item => {
                     if(code == item.code){
                         this.address = item.name
@@ -194,35 +178,6 @@
                             return
                         }
                     })
-                })
-                this.$http.get('user-permission/promoter-data',{params:{
-                        role:this.role,
-                        data:JSON.stringify(this.USER_CHOOSED_DATA.selected_save_data),
-                    }})
-                    .then(response => {
-                        console.log(response.data.data)
-                        var data = response.data.data
-                        var num1=0,num2=0,num3=0,num4=0,num5=0
-                        if(this.selectedSaveData.business){
-                            num1 = data.business.xianjin
-                        }
-                        if(this.selectedSaveData.danti){
-                            num2 = data.danti.xianjin
-
-                        }
-                        if(this.selectedSaveData.lianshuo){
-                            num3 = data.lianshuo.xianjin
-                        }
-                        if(this.selectedSaveData.yiyuan){
-                            num4 = data.yiyuan.xianjin
-                        }
-                        if(this.selectedSaveData.zhenshuo){
-                            num5 = data.zhenshuo.xianjin
-                        }
-                        this.money = num1+num2+num3+num4+num5
-                        this.loading = false;
-                    }).catch(error => {
-                    this.loading = false;
                 })
             },
 

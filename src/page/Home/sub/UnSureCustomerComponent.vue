@@ -395,6 +395,8 @@
             async areaChangePromoter(rdata) {
                 this.region_promoter = rdata.region
                 this.promoter_value = rdata.cityCode
+                console.log(rdata.cityCode);
+                
                 this.regionVisible_promoter = false
             },
             //市处理
