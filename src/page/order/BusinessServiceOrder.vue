@@ -294,6 +294,7 @@
                         
                         this.orders.forEach((item, index, arr)=>{
                             arr[index].time = this.$moment.unix(item.payed_time_int).format("YYYY-MM-DD hh:mm:ss");
+                            arr[index].client_supplierName = arr[index].client_supplier.name
                             // item.left_time && (arr[index].left_time = Math.ceil(item.left_time/60));
                         })
                         if(data.data.orderList.length<=0) {
