@@ -5,14 +5,17 @@
 			<!-- <div>剩余时间30分钟</div> -->
 			<div>{{order_status_display}}</div>
 		</div>
-        <div v-if="userType==3" class="company-detail">
-            <router-link :to="`/factory/shop/${data.supplier_id}`">
-                <img :src="supplier_logo">
+        <div v-if="userType==3" class="company-detail" @click="handleToShop">
+            <!-- <router-link :to="`/factory/shop/${data.supplier_id}`"> -->
+			<div>
+				<img :src="supplier_logo">
                 <span>{{ supplier_name }}</span>
                 <svg>
                     <use xlink:href="#icon-my-enter"></use>
                 </svg>
-            </router-link>
+			</div>
+                
+            <!-- </router-link> -->
         </div>
 		<div class="content">
 			<div class="item" v-for="(item,index) in items">
@@ -109,7 +112,8 @@
                 supplier_logo: '',
 				nums: 0,
 				pay_status:0,
-                shopId:0
+				shopId:0,
+				client_supplier: ''
 				
 			}
 		},
@@ -185,6 +189,14 @@
 							this.$toast('收货成功')
 						})
 				});
+			},
+			handleToShop() {
+				if(this.data.supplier.type==2) {
+					this.$router.push({path: '/business-shop', query: {id: this.data.supplier_id}})
+				}
+				 else if(this.data.supplier.type == 1) {
+					this.$router.push({path: '/business-shop', query: {id: this.data.supplier_id}})
+				}
 			}
 		}
 	}
@@ -361,7 +373,7 @@
         background: #fff;
         padding: .2rem;
         border-bottom: 1px solid #f1f1f1;
-        a {
+        div {
             display: flex;
             height: .5rem;
             align-items: center;
