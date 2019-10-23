@@ -2,7 +2,7 @@
   <PullRefresh @refresh="refresh">
     <Swiper space="tuiguang-all" />
     <!-- <Notice :entities="notices"></Notice> -->
-    <div class="noticesBox">
+    <div v-if="notices.length" class="noticesBox">
       <notice class="noticesBox-notices" :notices="notices"></notice>
     </div>
     <UnSureNav type="all"></UnSureNav>
@@ -113,7 +113,7 @@ export default {
         .then(response => {
           console.log(response.data.data);
           this.allLoaded = true; // 可以进行上拉
-          this.entities = response.data.data.allEntities;
+          this.entities = response.data.data;  //此数据还没有
           this.$refs.loadmore.onTopLoaded();
         });
     },

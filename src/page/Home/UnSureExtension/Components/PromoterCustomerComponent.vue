@@ -3,7 +3,7 @@
         <CircleLoading v-if="loading" />
         <Swiper space="tuiguang-promoter"></Swiper>
         <!-- <notice :notices="notices"></notice> -->
-        <div class="noticesBox">
+        <div v-if="notices.length" class="noticesBox">
             <notice class="noticesBox-notices" :notices="notices"></notice>
         </div>
         <UnSureNav />
@@ -28,13 +28,13 @@
             </ul>
             <div class="container">
                 <div v-show="Type == 1">
-                    <div v-if="allEntities.length > 0">
+                    <div v-if="allEntities&&allEntities.length > 0">
                         <CustomerCell v-for="(entity, index) in allEntities" :key="`en-${index}`" :data="entity"></CustomerCell>
                     </div>
                     <EmptyList v-else></EmptyList>
                 </div>
                 <div v-show="Type == 2">
-                    <div v-if="myEntities.length > 0">
+                    <div v-if="myEntities&&myEntities.length > 0">
                         <CustomerCell v-for="(entity, index) in myEntities" :key="`en-${index}`" :data="entity"></CustomerCell>
                     </div>
                     <EmptyList v-else></EmptyList>
@@ -42,7 +42,7 @@
             </div>
         </div>
         <div v-else>
-            <div v-if="allEntities.length > 0">
+            <div v-if="allEntities&&allEntities.length > 0">
                 <CustomerCell v-for="(entity, index) in allEntities" :key="`en-${index}`" :data="entity"></CustomerCell>
             </div>
             <EmptyList v-else></EmptyList>
@@ -81,7 +81,7 @@
                 notices:[
                    {title:'发改委要求加强药企信用监管力度'},
                     {title:'国家食药监局：购药实名制是“无奈的决定”'},
-                    {title:'新一轮药品降价潮倒逼药企转型升级'},
+                    {title:'新一轮药品降价潮倒逼药企转型升级'}
                 ]
             }
         },
