@@ -10,7 +10,7 @@
         </div>
         <div class="box">
             <div class="balance">
-                <p>您拥有的联票</p>
+                <p>您拥有的收益</p>
                 <p>
                     <!-- <countTo :startVal='currentValue' :endVal='endVal' :duration='5000'></countTo>.00
                      -->

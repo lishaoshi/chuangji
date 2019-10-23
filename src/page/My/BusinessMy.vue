@@ -14,13 +14,13 @@
 						<p id='U_phone'>{{userInfo.userTel}}</p>
 					</div>
 				</div>
-				<div>
-                    <router-link class="code" to="/role-extension">
+				<div class="code" @click="perfectInfo">
+                    <!-- <router-link class="code" to="/role-extension"> -->
                         <svg>
                             <use xlink:href="#icon-my-promotion" />
                         </svg>
                         <p>业务推广</p>
-                    </router-link>
+                    <!-- </router-link> -->
 				</div>
 			</div>
 			<!-- <div class="info-bottom">     
@@ -167,7 +167,18 @@
 			},
 			...mapActions([
 				'fetchUserInfo'
-			])
+			]),
+			perfectInfo(){
+				console.log('ddd');
+				console.log(this.userInfo);
+				
+				if(this.userInfo.infoText!==''){
+					alert('公司信息未完善！')	
+					return				
+				}
+				// this.$router,push()
+				this.$router.push('/role-extension')
+			}
         }
 	}
 </script>
