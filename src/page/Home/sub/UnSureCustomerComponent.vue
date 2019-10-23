@@ -128,7 +128,7 @@
 
                 <!-- 推广人 -->
 
-                <mt-tab-container-item :id="navbar[2].value">
+                <mt-tab-container-item id="promoter">
                     <div class="promoter-box">
                         <p>选择注册省市</p>
                         <div @click="showAddressPickerPromoter" class="choiceCity" style="margin-bottom: .2rem">
@@ -174,7 +174,7 @@
                                     <use xlink:href="#icon-promote-pay-moreChose"/>
                                 </svg>
                             </li>
-                        </ul>
+                        </ul> 
 
                     </div>
                     <div class="go-info" style="text-align: center;margin-top: .8rem">
@@ -224,9 +224,20 @@
 
                 partnerData: null,
 
-                promoterTypeData: [],//推广人类型数据信息
-                
-                navbar:[], //省市推广人
+                promoterTypeData: [
+                    { name: "商业", value: "business"},
+                    { name: "单体药店", value: "danti"},
+                    { name: "连锁店", value: "lianshuo"},
+                    { name: "诊所", value: "zhenshuo"},
+                    { name: "医院", value: "yiyuan"}
+                ],
+                //推广人类型数据信息
+                navbar:[
+                    { name: "省公司", value: "province_company"},
+                    { name: "市公司", value: "city_company"},
+                    { name: "推广人", value: "promoter"},
+                ], 
+                //省市推广人
                 promoterData: {
                     business: false,
                     yiyuan: false,
