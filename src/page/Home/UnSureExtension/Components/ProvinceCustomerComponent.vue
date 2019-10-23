@@ -2,11 +2,11 @@
     <PullRefresh  @refresh="refresh">
         <CircleLoading v-if="loading" />
         <Swiper space="tuiguang-province"></Swiper>
-        <div class="noticesBox">
+        <div v-if="notices.length"  class="noticesBox">
             <notice class="noticesBox-notices" :notices="notices"></notice>
         </div>
         <UnSureNav></UnSureNav>
-        <div v-if="entities.length > 0">
+        <div v-if="entities&&entities.length">
             <CustomerCell v-for="(entity, index) in entities" :key="`en-${index}`" :data="entity"></CustomerCell>
         </div>
         <EmptyList v-else></EmptyList>
@@ -40,7 +40,7 @@
                  notices:[
                     {title:'卫生部拟放开药品招标“二次议价'},
                     {title:'发改委发布加强药品安全信用体系建设指导意见ssssssss'},
-                    {title:'发改委要求加强药企信用监管力度'},
+                    {title:'发改委要求加强药企信用监管力度'}
                 ]
             }
         },
@@ -53,6 +53,8 @@
                 this.$http.get('users/list',{params:{'user-type':'province'},validate: state => state === 200})
                     .then(response => {
                         this.loading = false;
+                        console.log(response);
+                        
                         this.entities = response.data.data;
                         
                         if(callback)callback();

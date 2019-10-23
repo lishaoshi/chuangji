@@ -30,9 +30,9 @@
             <mt-tab-container-item id="city">
                 <CityCustomerComponent />
             </mt-tab-container-item>
-            <mt-tab-container-item id="partner">
+            <!-- <mt-tab-container-item id="partner">
                 <PartnerCustomerComponent/>
-            </mt-tab-container-item>
+            </mt-tab-container-item> -->
             <mt-tab-container-item id="promoter">
                 <PromoterCustomerComponent />
             </mt-tab-container-item>
