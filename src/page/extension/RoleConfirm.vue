@@ -232,7 +232,6 @@
                         delete data.apply_sub_role
                     }
                     console.log('data',data);
-                    
             },
             toPay(){
                 if(this.loading) return;
@@ -243,53 +242,17 @@
                         apply_sub_role:this.apply_sub_role?this.apply_sub_role:null,
                         province:this.selectedSaveData.code||this.selectedSaveData
                 }
-                // function fliter(data) {
-                //     if(data.apply_sub_role == null){
-                //         console.log(data.apply_sub_role);
-                //         delete data.apply_sub_role
-                //     }
-                // }
                 this.fliter(data)
-                console.log(data);
-
-                // return
                 // this.$router.push('/pay-success');
                 this.$http.post('/hippo-shop/area-user',{
-
-                    // data
-                        // apply_role:this.role,
-                        // apply_sub_role:this.apply_sub_role?this.apply_sub_role:null,
-                        // province:this.selectedSaveData.code||this.selectedSaveData
                         ...data
-                        // apply_role:this.role,
-                        // apply_sub_role:this.apply_sub_role?this.apply_sub_role:null,
-                        // province:this.selected_save_data
-                    
                 }).then(res=>{
                     console.log(res);
-                    
+                    if(res.data.code == 200){
+                        this.$router.push('/pay-success');
+                    }
                 })
-                // /hippo-shop/area-user
-                /*
-                let params = {
-                    role:this.role,
-                    data:JSON.stringify(this.USER_CHOOSED_DATA.selected_save_data),
-                    //payType:this.payType,
-                };
-                console.log(params)
-                this.$http.get('user-permission/make-sure',{
-                    params,
-                    validate: state => state === 200
-                }).then(response => {
-                    this.loading = false;
-                    this.$store.dispatch('fetchUserInfo');
-                    this.$router.push('/pay-success');
-                }).catch(error => {
-                    this.loading = false;
-                    this.$toast(error.response.data.message);
-                })
-
-                 */
+               
             },
         }
     };

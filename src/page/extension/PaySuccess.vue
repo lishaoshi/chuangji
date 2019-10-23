@@ -1,6 +1,6 @@
 <template>
         <div id="PaySuccess">
-            <mt-header title="支付成功">
+            <mt-header title="申请通知">
                 <router-link to="/UnautMy-us" slot="left">
                     <mt-button icon="back"></mt-button>
                 </router-link>
@@ -8,8 +8,8 @@
             <svg class="icon">
                 <use xlink:href="#icon-IsCheckedShop-open"/>
             </svg>
-            <p class="p1">支付成功</p>
-            <p class="p2">您已经支付成功，请联系您的收款者开通权限<br>请耐心等待</p>
+            <p class="p1">申请成功</p>
+            <p class="p2">我们已收到您的申请，请耐心等待哟</p>
             <!--
             <a href="tel:xxxx">
                 {{name}} {{phone}}
