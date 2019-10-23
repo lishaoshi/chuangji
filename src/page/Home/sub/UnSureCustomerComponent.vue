@@ -99,9 +99,13 @@
                             初步了解
                         </router-link>
                     </div>
+
                     <mt-popup v-model="regionVisible" position="bottom" class="bottom-region" style="width:100%;">
                         <address-popup :regionVisible="regionVisible" @listenAreaChange="areaChange"/>
-                    </mt-popup>
+                   </mt-popup> 
+                    <!-- <mt-popup v-model="regionVisible" position="bottom" class="bottom-region" style="width:100%;">
+                        
+                    </mt-popup> -->
                 </mt-tab-container-item>
 
                 <!--合伙人-->

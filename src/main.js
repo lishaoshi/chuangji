@@ -26,6 +26,9 @@ import "./style/index.scss";
 import Message from "./plugins/message";
 import {socketUrl} from "./api";
 import moment from 'moment'
+import { Area, Popup } from 'vant';
+
+Vue.use(Area, Popup);
 Vue.prototype.$moment = moment;//赋值使用
 
 moment.locale('zh-cn');//需要汉化

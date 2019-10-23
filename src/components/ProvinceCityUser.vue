@@ -5,7 +5,8 @@
             <div class="title">请选择区域</div>
             <div class="usi-btn-sure" v-on:click="confirm(1)">确定</div>
         </div>
-        <mt-picker :slots="myAddressSlots" valueKey="name" :visibleItemCount="5" @change="addressChange"
+        <!-- <van-area :area-list="newAddressList" :columns-num="2" title="标题" /> -->
+        <mt-picker :slots="myAddressSlots" valueKey="name" :defaultIndex="2" :visibleItemCount="5" @change="addressChange"
                    :itemHeight="40">
 
         </mt-picker>
@@ -14,6 +15,7 @@
 <script>
     import regionAddress from "@/plugins/json/pca-codes.json"
     import areaAddress from "@/plugins/json/pca-codes.json"
+    import newAddressList from "@/plugins/json/newPcaCode"
     import { fstat } from 'fs';
     regionAddress.forEach((shengItem,ind) =>{
         shengItem.children.forEach((shiItem,shInd) =>{
@@ -42,32 +44,32 @@
                         flex: 1,
                         values: regionAddress, //省份数组
                         className: 'slot1',
-                        textAlign: 'center'
+                        textAlign: 'center',
+                        defaultIndex: 0
                     },
                     //分隔符
                     {
                         divider: true,
-                        content: '',
+                        content: '-',
                         className: 'slot2'
                     },
                     //市
                     {
                         flex: 1,
-                        values: regionAddress[0].children,
+                        values: [],
                         className: 'slot3',
-                        textAlign: 'center'
+                        textAlign: 'center',
+                        defaultIndex: 0
                     },
                 ],
+                // currenProvinceName: ""   //当前省名称
+                addressData: []
             }
         },
         methods:{
             addressChange(picker,values){
-                // debugger
-               this.region = ''
-                this.province = ''
-                this.provinceCode = ''
-                this.city = ''
-                // picker.setValues([regionAddress[0], regionAddress[0].children[0]])
+                this.addressData = values
+               let provinceData = picker.getSlotValue(0)
                 if(!values[0]){
                     this.$nextTick(() => {
                         if (this.regionAddress) {
@@ -78,9 +80,14 @@
                 } else {
                     picker.setSlotValues(1,values[0].children)
                 }
-                // if(values[0] && values[0].children.length>=2) {
-                //     picker.setSlotValue(1,values[0].children[1])
-                // }
+                if(provinceData.name&&values[1]) {
+                  let index =  provinceData.children.findIndex((item)=>{
+                       return item.name == values[1].name
+                   })
+                   if(index===null || index === undefinded) {
+                       picker.setSlotValue(1, values[0].children[1])
+                   }
+               }
                 if(values[0] && values[1]){
                     this.province = values[0]["name"]
                     this.city = values[1]["name"]
@@ -92,6 +99,8 @@
                 }
             },
             confirm(corm){
+                this.addressData
+                // debugger
                 let region = corm ? this.region: ''
                 let province = corm ? this.province: ''
                 let city = corm ? this.city: ''
