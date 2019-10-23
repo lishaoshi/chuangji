@@ -2,11 +2,11 @@
     <PullRefresh @refresh="refresh">
         <CircleLoading v-if="loading" />
         <Swiper space="tuiguang-city"></Swiper>
-        <div class="noticesBox">
+        <div  v-if="notices.length"  class="noticesBox">
             <notice class="noticesBox-notices" :notices="notices"></notice>
         </div>
         <UnSureNav></UnSureNav>
-        <div v-if="myEntities.length>0">
+        <div v-if="myEntities&&myEntities.length>0">
             <ul class="mint-navbar" >
                 <li @click="changeType(1)">
                     <p class="p1">
@@ -27,13 +27,13 @@
             </ul>
             <div class="container">
                 <div v-show="Type == 1">
-                    <div v-if="allEntities.length > 0">
+                    <div v-if="allEntities&&allEntities.length > 0">
                         <CustomerCell v-for="(entity, index) in allEntities" :key="`en-${index}`" :data="entity"></CustomerCell>
                     </div>
                     <EmptyList v-else></EmptyList>
                 </div>
                 <div v-show="Type == 2">
-                    <div v-if="myEntities.length > 0">
+                    <div v-if="myEntities&&myEntities.length > 0">
                         <CustomerCell v-for="(entity, index) in myEntities" :key="`en-${index}`" :data="entity"></CustomerCell>
                     </div>
                     <EmptyList v-else></EmptyList>
@@ -41,7 +41,7 @@
             </div>
         </div>
         <div v-else>
-            <div v-if="allEntities.length > 0">
+            <div v-if="allEntities&&allEntities.length > 0">
                 <CustomerCell v-for="(entity, index) in allEntities" :key="`en-${index}`" :data="entity"></CustomerCell>
             </div>
             <EmptyList v-else></EmptyList>
@@ -96,6 +96,8 @@
                 this.$http.get('users/list',{params:{'user-type':'city'},validate: state => state === 200})
                     .then(response => {
                         console.log(response.data.data)
+                        console.log(response);
+                        
                         this.loading = false;
                         this.allEntities = response.data.data;
                         this.myEntities = response.data.data;

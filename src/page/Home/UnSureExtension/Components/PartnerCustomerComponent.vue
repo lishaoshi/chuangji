@@ -2,7 +2,7 @@
     <PullRefresh @refresh="refresh">
         <CircleLoading v-if="loading" />
         <Swiper space="tuiguang-partner"></Swiper>
-        <div class="noticesBox">
+        <div  v-if="notices.length"  class="noticesBox">
             <notice class="noticesBox-notices" :notices="notices"></notice>
         </div>
         <UnSureNav></UnSureNav>
@@ -74,8 +74,8 @@
         },
         data(){
             return {
-                allEntities:[],
-                myEntities:[],
+                allEntities:[{aaa:'ddd'}],
+                myEntities:[{aaa:'ddd'}],
                 loading: false,
                 Type:1,
                  notices:[
@@ -105,8 +105,8 @@
                 this.$http.get('users/list',{params:{'user-type':'partner'},validate: state => state === 200})
                     .then(response => {
                         this.loading = false;
-                        this.allEntities = response.data.data;
-                        this.myEntities = response.data.data;
+                        // this.allEntities = response.data.data;
+                        // this.myEntities = response.data.data;
                         // this.allEntities = response.data.data.allEntities;
                         // this.myEntities = response.data.data.myEntities;
                         if(callback)callback();

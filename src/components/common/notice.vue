@@ -31,10 +31,12 @@
         data() {
             return {
                 animate: false,
+                timing: null
             }
         },
         created() {
-            setInterval(this.scroll, 2200)
+           this.timing = setInterval(this.scroll, 2200)
+            console.log(this.notices, 'notices')
         },
 
         methods: {
