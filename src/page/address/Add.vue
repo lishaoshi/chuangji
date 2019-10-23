@@ -235,6 +235,7 @@ input, textarea {
         line-height: 1rem;
         font-size: .28rem;
         border-bottom: 1px solid #f4f5f5;
+        align-items: center;
         span {
             display: inline-block;
             width: 20%;
@@ -242,12 +243,10 @@ input, textarea {
         img {
             width:.15rem;
             height:.24rem;
-            position: absolute;
-            right: .2rem;
-            margin-top: .4rem;
         }
         input {
             flex: 1;
+            line-height: .96rem;
         }
         textarea {
             // height: .88rem;

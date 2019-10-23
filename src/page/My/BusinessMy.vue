@@ -1,6 +1,7 @@
 <template>
     <div>
 	<PullRefresh @refresh="refresh" class="myInfoPage">
+		<div style="height:.32rem;background: #2da2ff;"></div>
 		<header :class="{ activeFull: isFullScreen }">{{userInfo.companyName || '未认证'}}</header>
 		<div class="user-information">
 			<div class="user-main-info">
@@ -168,7 +169,7 @@
 			...mapActions([
 				'fetchUserInfo'
 			]),
-				async to(path, flag=false) {
+			async to(path, flag=false) {
                 if(flag) {
                     if(!this.userInfo.shop_supplier) {
                         //  debugger
@@ -199,9 +200,6 @@
     margin-bottom: 1rem;
     height: 100%;
 }
-    .activeFull {
-        padding-top: 32px;
-    }
 	header {
 		background: rgb(45, 162, 255);
 		color: #fff;
@@ -242,12 +240,12 @@
 			align-items: center;
 		}
 		& > div:last-child {
-			a {
+			// a {
 				display: inline-flex;
 				flex-direction: column;
 				justify-content: center;
 				align-items: center;
-			}
+			// }
 			
 		}
 	}
@@ -255,13 +253,14 @@
 	.user-main-info .code svg {
 		width: .55rem;
 		height: .55rem;
-		margin-bottom: .12rem;
+		// margin-bottom: .12rem;
 	}
 
 	.code p {
 		font-size: .22rem;
 		color: #fff;
-        line-height: 1;
+		margin-top: .1rem;
+        // line-height: 1;
 	}
 
 	.user-main-info .avatar {
@@ -296,7 +295,8 @@
 	}
 
 	.user-main-info .name p:nth-child(2) {
-		font-size: 12px;
+		font-size: .28rem;
+        margin-top: .28rem;;
 	}
 	.line {
 		height: 1px;

@@ -4,20 +4,23 @@
             <header :class="{ activeFull: isFullScreen }">{{userInfo.companyName || '未认证'}}</header>
             <div class="user-information">
                 <div class="user-main-info">
-                    <div class="avatar">
-                        <img src="../../images/my/user_default.png" v-if="userInfo.userLogo==''">
-                        <img :src="userInfo.userLogo" v-else>
+                    <div>
+                         <div class="avatar">
+                            <img src="../../images/my/user_default.png" v-if="userInfo.userLogo==''">
+                            <img :src="userInfo.userLogo" v-else>
+                        </div>
+                        <div class="name">
+                            <p>{{userInfo.userName}}</p>
+                            <p id='U_phone'>{{userInfo.userTel}}</p>
+                        </div>
                     </div>
-                    <div class="name">
-                        <p>{{userInfo.userName}}</p>
-                        <p id='U_phone'>{{userInfo.userTel}}</p>
-                    </div>
-                    <router-link class="code" to="/role-extension">
+                   
+                    <div class="code" @click="to('/role-extension', true)">
                         <svg>
                             <use xlink:href="#icon-my-promotion" />
                         </svg>
                         <p>业务推广</p>
-                    </router-link>
+                    </div>
                 </div>
                 <!--
                 <div class="info-bottom">
@@ -148,6 +151,26 @@
 
                 })
             },
+            async to(path, flag=false) {
+                if(flag) {
+                    if(!this.userInfo.shop_supplier) {
+                        //  debugger
+                        await this.$messagebox.confirm('',{
+                            title: '提示',
+                            message:'没有操作权限,请先完成认证',
+                            confirmButtonText: '去认证'
+                        }).then(action => {
+                            if (action === 'confirm') {
+                                this.$router.push('/company-info')
+                            }
+                        }).catch(err => err);
+                    } else {
+                        this.$router.push({path})
+                    }
+                } else {
+                     this.$router.push({path})
+                }
+            },
             refresh(callback){
                 //this.$store.dispatch("fetchUserInfo");
                 this.initData(callback);
@@ -194,13 +217,28 @@
 		flex-direction: row;
 		position: relative;
 	}
+    .user-main-info {
+		display: flex;
+		padding: 0 .3rem;
+		align-items: center;
+		& > div:first-child {
+			display: flex;
+			flex:1;
+			align-items: center;
+		}
+		& > div:last-child {
+			a {
+				display: inline-flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+			}
+		}
+	}
 
 	.user-main-info .code {
-        position: absolute;
-        right: .2rem;
-        top: .29rem;
         text-align: center;
-        width: 1rem;
+        // width: 1rem;
 	}
 
 	.user-main-info .code svg {
@@ -211,7 +249,7 @@
 	.code p {
         font-size: .22rem;
         color: #fff;
-        line-height: 90%;
+        // line-height: 90%;
 
 	}
 
@@ -232,7 +270,8 @@
 	}
 
 	.user-main-info .name {
-		width: 56%;
+		// width: 56%;
+        flex:1;
 	}
 
 	.user-main-info .name p {
@@ -244,13 +283,13 @@
 	}
 
 	.user-main-info .name p:nth-child(1) {
-		font-size: .34rem;
-		margin-top: .23rem;
-		line-height: 180%;
+		// line-height: 180%;
+        font-size: .34rem;
 	}
 
 	.user-main-info .name p:nth-child(2) {
-		font-size: 12px;
+		font-size: .28rem;
+        margin-top: .28rem;
 	}
 
 	.info-bottom {
