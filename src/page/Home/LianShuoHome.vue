@@ -45,12 +45,12 @@
 			<img src="../../images/index/home-rightLine.png">
 		</div>
 		<div class="main-body" ref="wrapper" :style="{ height: (wrapperHeight-50) + 'px' }">
-			<!-- <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill"> -->
+			<mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
 				<supplier-item :data="item" v-for="(item,index) in suppliers"/>
-			<!-- </mt-loadmore> -->
+			</mt-loadmore>
 		</div>
 		<p v-if="allLoaded" class="loader-over">加载完成</p>
-		<!--
+<!-- 		
         <div @click="authToRouter('/factory/cart')">
             <img src="../../images/index/shop.png" class="shopcar" />
         </div>
