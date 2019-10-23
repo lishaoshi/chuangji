@@ -189,7 +189,7 @@
 
     }
     .top {
-        background: #26a2ff;
+        background: #0090ff;
         color: #fff;
         padding: .2rem .26rem;
         display: flex;
@@ -234,7 +234,7 @@
             font-size: .3rem;
         }
         .active {
-            background: #26a2ff;
+            background: #0090ff;
             color: #fff;
         }
     }

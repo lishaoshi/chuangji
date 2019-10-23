@@ -96,12 +96,12 @@
                             开启权限
                         </button>
                         <router-link to="/introduction/city">
-                            初步了解
+                            初步了解123
                         </router-link>
                     </div>
 
                     <mt-popup v-model="regionVisible" position="bottom" class="bottom-region" style="width:100%;">
-                        <address-popup :regionVisible="regionVisible" @listenAreaChange="areaChange"/>
+                        <address-popup :regionVisible.sync="regionVisible" @listenAreaChange="areaChange"/>
                    </mt-popup> 
                     <!-- <mt-popup v-model="regionVisible" position="bottom" class="bottom-region" style="width:100%;">
                         
@@ -194,7 +194,7 @@
                     </div>
 
                     <mt-popup v-model="regionVisible_promoter" position="bottom" class="bottom-region" style="width:100%;">
-                        <address-popup @listenAreaChange="areaChangePromoter"/>
+                        <address-popup :regionVisible.sync="regionVisible" @listenAreaChange="areaChangePromoter"/>
                     </mt-popup>
                 </mt-tab-container-item>
             </mt-tab-container>
@@ -370,9 +370,14 @@
                 this.region = null
             },
             async areaChange(rdata) {
+                // debugger
+                this.regionVisible = false
+                if(!rdata) {
+                    return false
+                }
                 this.region = ''
                 this.region = rdata.region
-                this.regionVisible = false
+                
                 if (rdata.cityCode) {
                     
                     this.cityValue = rdata.cityCode;
