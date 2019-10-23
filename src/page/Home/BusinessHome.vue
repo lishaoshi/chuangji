@@ -228,7 +228,7 @@
         overflow: scroll;
     }
     .noticesBox {
-        padding: 0.16rem 0;
+        padding: 0rem 0;
         background: #fff;
     }
 
