@@ -14,12 +14,10 @@
 				</mt-swipe-item>
 			</mt-swipe>
 		</div>
-		<!-- <Notice :notices="notices" v-if="notices!=null"></Notice>
-		 -->
-		  <div class="noticesBox"  v-if="notices!=null">
+		<div class="noticesBox"  v-if="notices!=null">
                 <Notice class="noticesContent" :notices="notices"></Notice>
-            </div>
-		<div class="notice" v-else>
+		</div>
+		<div class="noticeNomoer" v-else>
 			<svg>
 				<use xlink:href="#icon-notice"/>
 			</svg>
@@ -45,9 +43,9 @@
 			<img src="../../images/index/home-rightLine.png">
 		</div>
 		<div class="main-body" ref="wrapper" :style="{ height: (wrapperHeight-50) + 'px' }">
-			<mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
+			<!-- <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill"> -->
 				<supplier-item :data="item" v-for="(item,index) in suppliers"/>
-			</mt-loadmore>
+			<!-- </mt-loadmore> -->
 		</div>
 		<p v-if="allLoaded" class="loader-over">加载完成</p>
 <!-- 		
@@ -164,7 +162,7 @@
 				//console.log(44)
 				const {data} = await adList({channel: 'app', space: 'home-top'})
 				this.swipers = data.data
-				infoList({from: 'platform'}).then(data => {
+				infoList({from: 'platform',space:"global-top"}).then(data => {
 					this.notices = data.data.data
 					console.log(this.notices)
 				})
@@ -202,6 +200,11 @@
 		/* 加上这个才会有当数据充满整个屏幕，可以进行上拉加载更多的操作 */
 		overflow: scroll;
 	}
+	 .home {
+        height: 100vh;
+        margin-bottom: 1rem;
+        overflow: auto;
+    }
 	.noticesBox {
 		padding: 0.16rem 0;
         background: #fff;
@@ -284,6 +287,37 @@
 		padding: 0 .24rem;
 		align-items: center;
 
+		.notice-list {
+			width: 6.2rem;
+			height: .88rem;
+			overflow-y: hidden;
+			margin-left: .1rem;
+
+			a {
+				display: block;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				font-size: .24rem;
+				line-height: .64rem;
+				color: #333;
+			}
+		}
+
+		svg {
+			width: .38rem;
+			height: .38rem;
+		}
+	}
+	.noticeNomoer {
+		margin-top: 0px;
+		background: #fff;
+		width: 100%;
+		height: .88rem;
+		line-height: .88rem;
+		display: flex;
+		padding: 0 .24rem;
+		align-items: center;
 		.notice-list {
 			width: 6.2rem;
 			height: .88rem;
