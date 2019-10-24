@@ -2,7 +2,7 @@
     <PullRefresh @refresh="refresh">
         <CircleLoading v-if="loading" />
         <Swiper space="tuiguang-all"></Swiper>
-        <div  v-if="notices.length"  class="noticesBox">
+        <div  v-if="notices&&notices.length"  class="noticesBox">
             <notice class="noticesBox-notices" :notices="notices"></notice>
         </div>
         <div class="notice" v-else>
