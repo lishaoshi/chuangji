@@ -227,6 +227,11 @@
         /* 加上这个才会有当数据充满整个屏幕，可以进行上拉加载更多的操作 */
         overflow: scroll;
     }
+    .content {
+        height: 100vh;
+        margin-bottom: 1rem;
+        overflow: auto;
+    }
     .noticesBox {
        padding: 0.16rem 0;
         background: #fff;
