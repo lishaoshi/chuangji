@@ -12,7 +12,7 @@
 					<p>{{userInfo.userName}}</p>
 					<p id='U_phone'>{{userInfo.userTel}}</p>
 				</div>
-				<div class="code" @click="perfectInfo">
+				<div class="code" @click="to('/role-extension', true)">
                     <!-- <router-link class="code" to="/role-extension"> -->
                         <svg>
                             <use xlink:href="#icon-my-promotion" />
@@ -166,17 +166,26 @@
 			...mapActions([
 				'fetchUserInfo'
 			]),
-			perfectInfo(){
-				console.log('ddd');
-				console.log(this.userInfo);
-				
-				if(this.userInfo.infoText!==''){
-					alert('公司信息未完善！')	
-					return				
-				}
-				// this.$router,push()
-				this.$router.push('/role-extension')
-			}
+				async to(path, flag=false) {
+                if(flag) {
+                    if(!this.userInfo.shop_supplier) {
+                        //  debugger
+                        await this.$messagebox.confirm('',{
+                            title: '提示',
+                            message:'没有操作权限,请先完成认证',
+                            confirmButtonText: '去认证'
+                        }).then(action => {
+                            if (action === 'confirm') {
+                                this.$router.push('/company-info')
+                            }
+                        }).catch(err => err);
+                    } else {
+                        this.$router.push({path})
+                    }
+                } else {
+                     this.$router.push({path})
+                }
+            },
         }
 	}
 </script>
