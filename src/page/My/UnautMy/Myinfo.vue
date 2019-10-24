@@ -2,7 +2,7 @@
     <div class="UnautMy">
         <div class="container">
             <div class="header">
-                <span>{{companyName}}</span>
+                <span>{{userInfo.companyName}}</span>
             </div>
 
             <div class="userinfo">
@@ -37,10 +37,10 @@
                     </router-link>
                 </div>
             </div>
-            <div class="userinfo-lianshu">
+            <!-- <div class="userinfo-lianshu">
                 <span>联数(包)</span>
                 <b>1800.00</b>
-            </div>
+            </div> -->
         </div>
         <clxsd-cell :title="'通道收益'" :to="'/channel-profit'" :value="userInfo.lianPiaoVaule" is-link icon="my-message"/>
         <clxsd-cell :title="'广告收益'" :to="'/develop'" :value="userInfo.lianPiaoVaule" is-link icon="my-message" style="margin-bottom: .2rem"/>
@@ -77,7 +77,7 @@
                 userInfo: state => {
                     const currentInfo = state.CURRENTUSER.data
                     return {
-                        //companyName: currentInfo.shop_supplier.display_name || currentInfo.shop_supplier.name,
+                        companyName: currentInfo.shop_supplier.display_name || currentInfo.shop_supplier.name,
                         userName: currentInfo.display_name || currentInfo.real_name || currentInfo.phone || '丢失信息',
                         userTel: currentInfo.phone || '丢失信息',
                         //role: currentInfo

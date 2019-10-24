@@ -352,19 +352,16 @@
 
             },
             handleProvince() {
+                // debugger
 		        var p1=/^1(3|4|5|7|8)\d{9}$/;
 
                 this.testIphone()
                 if(p1.test(this.tel)&&this.tel){
-                console.log(window.sessionStorage);
-                sessionStorage.setItem('customer-choose-role-iphone',this.tel)
-                console.log(window.sessionStorage);
-
-                if (this.provinceError || this.provinceValue === 0) return;
-                this.$store.commit('SAVE_USER_CHOOSE_DATA', {role: this.selected, data: this.provinceValue});
-                this.$router.push('/role-yes');
+                    if (this.provinceError || this.provinceValue === 0) return;
+                    this.$store.commit('SAVE_USER_CHOOSE_DATA', {role: this.selected, data: this.provinceValue});
+                    this.$router.push({path:'/role-yes',query:{phone: this.tel}});
                 }
-            },
+            } ,
             showAddressPicker() {
                 this.regionVisible = true;
                 this.region = null
@@ -454,7 +451,7 @@
 			if(this.tel !='' && p1.test(this.tel)) {	
 
             }else{
-		        alert('请填写正确电话号码!!');		  
+		        this.$toast('请填写正确电话号码!!');		  
             }
         },
 

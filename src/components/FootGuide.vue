@@ -137,9 +137,9 @@
         <!--推广人-->
         <footer class="clxsd-foot-guide foot-guide" v-else-if="userType ===4">
             <section
-                    :class="{active: isCurPath('/home')}"
+                    :class="{active: isCurPath('/home', '/promotersCustomer')}"
                     class="clxsd-guide-item guide-item"
-                    @click="to('/home')">
+                    @click="to('isPromoters')">
                 <svg class="m-style-svg m-svg-def">
                     <use xlink:href="#icon-promote-footer-consumer"/>
                 </svg>
@@ -173,7 +173,7 @@
 </template>
 
 <script>
-    import {mapState, mapGetters} from 'vuex'
+    import {mapState, mapGetters, mapMutations} from 'vuex'
 
     export default {
         name: "clxsd-foot-guide",
@@ -196,6 +196,15 @@
         },
         methods: {
             async to(path, flag=false) {
+                if(path=='isPromoters') {
+                    if(this.userInfo.user_type==4) {
+                        this.$router.push('/home')
+                    } else {
+                        this.$router.push('/promotersCustomer')
+                    }
+                    return false
+                    // this.UPDATAroleExtension(1)
+                }
                
                 if(flag) {
                     if(!this.userInfo.shop_supplier) {
@@ -217,9 +226,12 @@
                 }
                 
             },
-            isCurPath(path) {
-                return this.$route.fullPath.indexOf(path) > -1;
+            isCurPath(path, newPath) {
+                return this.$route.fullPath.indexOf(path) > -1 || this.$route.fullPath.indexOf(newPath) > -1;
             },
+            ...mapMutations([
+                'UPDATAroleExtension'
+            ])
         }
     }
 </script>
