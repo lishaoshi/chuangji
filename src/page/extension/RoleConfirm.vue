@@ -204,7 +204,7 @@
                 }).then(res=>{
                     console.log(res);
                     if(res.data.code == 200){
-                        this.$router.push('/pay-success');
+                        this.$router.push('/apply-success');
                     }
                 })
                

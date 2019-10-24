@@ -29,7 +29,7 @@ const UnSureChainInfo = () => import(/* webpackChunkName: "extensition" */ '@/pa
 
 const ExtensionMessage = () => import(/* webpackChunkName: "extensition" */ '@/page/extension/Message.vue');
 const CustomerChooseRole = () => import(/* webpackChunkName: "extensition" */ '@/page/Home/sub/UnSureCustomerComponent.vue');
-const PaySuccess = () => import(/* webpackChunkName: "extensition" */ '@/page/extension/PaySuccess.vue');
+const ApplySuccess = () => import(/* webpackChunkName: "extensition" */ '@/page/extension/PaySuccess.vue');
 
 //公司信息
 const ExtensionAptitudesEdit = () => import(/* webpackChunkName: "extensition" */ '@/page/extension/aptitude/AptitudesEdit');
@@ -37,10 +37,10 @@ const ExtensionAptitudesEdit = () => import(/* webpackChunkName: "extensition" *
 
 export default [
     {
-        path: "/pay-success",
-        component: PaySuccess,
+        path: "/apply-success",
+        component: ApplySuccess,
         meta: {
-            title: "支付成功",
+            title: "申请成功",
             requiresAuth: true
             
         }
