@@ -13,7 +13,7 @@
 
         <!-- 列表 -->
         <div class="content" style="oveflow: auto"  v-if="list.length > 0">
-            <mt-loadmore :top-method="onFactoryRefresh" :bottom-method="onLoadMoreFactory" ref="loadmore" :bottom-all-loaded="allLoaded">
+            <mt-loadmore :top-method="onFactoryRefresh" :auto-fill="false" :bottom-method="onLoadMoreFactory" ref="loadmore" :bottom-all-loaded="allLoaded">
             <div class="container">
                 <!-- <mt-loadmore :top-method="onFactoryRefresh" :bottom-method="onLoadMoreFactory" ref="loadmore" :bottom-all-loaded="allLoaded"> -->
                     <ul v-if="currenIndex==0">
@@ -102,8 +102,6 @@
         },
         created() {
             this.getFollowData()
-            // this.onLoadMoreFactory()
-            // this.onLoadMoreGoods()
         },
         computed: {
             ...mapState(['POSITION']),
@@ -127,9 +125,13 @@
                 }).catch(err => err);
             },
             chooseType(id) {
+                // debugger
+                 this.allLoaded = false
+                if(this.currenIndex == id) {
+                    return false
+                }
                 this.currenIndex = id
                 this.page = 1
-                // console.log(id)
                 id==0&&this.getFollowData()
                 id==1&&this.getGoodsData()
             },
@@ -170,17 +172,22 @@
                         this.$refs.loadmore.onBottomLoaded()
                     }
                     this.page++
-                    // this.factoryPage = this.factoryPage + 1
                 })
             },
+            // 下拉刷新
            async onFactoryRefresh(callback) {
+            //    debugger
+                this.allLoaded = false
                 this.page = 1
                 await this.currenIndex==0&&this.getFollowData('topLoad')
                 await this.currenIndex==1&&this.getGoodsData('topLoad')  
             },
+
+            // 上拉加载
             async onLoadMoreFactory() {
-                await this.currenIndex==0&&this.getFollowData('bottomLoad')
-                await this.currenIndex==1&&this.getGoodsData('bottomLoad')  
+                // this.page++
+                this.currenIndex==0&&this.getFollowData('bottomLoad')
+                this.currenIndex==1&&this.getGoodsData('bottomLoad')  
             },
             
             
@@ -208,16 +215,16 @@
                     // this.$refs.loadmoreGoods.afterLoadMore(data.data.entityFollows.length < options.limit)
                 })
             },
-            onGoodsRefresh(callback) {
-                //console.log(22)
-                this.goodsPage = 1
-                this.getGoodsData()
-            },
-            onLoadMoreGoods() {
-                console.log('more')
-                // this.page++
-                this.getGoodsData()
-            },
+            // onGoodsRefresh(callback) {
+            //     //console.log(22)
+            //     this.goodsPage = 1
+            //     this.getGoodsData()
+            // },
+            // onLoadMoreGoods() {
+            //     console.log('more')
+            //     // this.page++
+            //     this.getGoodsData()
+            // },
 
 
             touchStart(e) {

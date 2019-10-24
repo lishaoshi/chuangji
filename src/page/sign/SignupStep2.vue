@@ -116,7 +116,7 @@
                 this.hashid = this.$route.query.hashid
                 this.$http.get('users/find-user', {
                     params: {
-                        hashid: this.hashid
+                        hash_id: this.hashid
                     },
                     validate: state => state === 200
                 }).then(response => {

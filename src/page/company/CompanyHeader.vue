@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="top-box" :class="{activebox: isFullScreen}">
+        <div class="top-box activebox">
             <img class="retreat" src="../../images/back.png" @click="goBack()">
             <div class="inpSearch" v-bind:class="{ 'bg-from': hasError }">
                 <input type="text" v-model="searchValue" placeholder="请输入关键词">
@@ -16,7 +16,7 @@
         <div v-bind:class="{ search: isActive, 'bg-blue': hasError,bg2: isFullScreen }">
         </div>
         <transition name="fade">
-            <div class="company" :class="{activebox2: isFullScreen}">
+            <div class="company activebox2">
                 <div class="brand">
                     <img :src="businessInfo.img_cover" alt="">
                 </div>
@@ -186,7 +186,7 @@
             height: .56rem;
             padding-left: 6px;
             width: 80%;
-color: #fff;
+            color: #fff;
             &::-webkit-input-placeholder {
                 color: rgba(255, 255, 255);
             }
@@ -211,10 +211,12 @@ color: #fff;
     }
     .top-box {
         display: flex;
+        justify-content: center;
         position: fixed;
         width: 100%;
         top: 0px;
-        padding: 10px;
+        // right: .2rem;
+        // padding: 10px;
         z-index: 10;
         .retreat {
             width: 10px;
@@ -251,16 +253,18 @@ color: #fff;
         height: .88rem;
     }
     .company {
-        width: 100%;
+        // width: 100%;
         border-bottom: 1px solid rgb(230, 230, 230);
         background: url(../../images/shopping/company_bg.jpg) no-repeat;
         background-size: 100% 100%;
         display: flex;
-        padding: 10px;
+        padding: .2rem;
         color: #fff;
+        height: 1rem;
+        box-sizing: content-box;
         padding-top: 1.08rem;
         padding-bottom: .5rem;
-        min-height: 2.844rem;
+        // min-height: 3.2rem;
     }
 
     .company .brand {
@@ -325,10 +329,10 @@ color: #fff;
     }
 
     .activebox {
-        padding-top: 35px;
+        padding-top: .7rem;
     }
     .activebox2 {
-        padding-top: 85px;
+        padding-top: 1.7rem;
     }
     .bg2 {
         height: 1.4rem;

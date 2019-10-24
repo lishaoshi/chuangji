@@ -33,78 +33,73 @@
                 </div>
             </div>
 
-              <div class="choose">
-                <ul>
-                    <li :class="`${is_active == 1?'active':''}`" @click="changeType(1)">销量</li>
-                    <li :class="`${is_active == 2?'active':''}`" @click="changeType(2)">时间</li>
-                    <li :class="`${is_active == 3?'active':''}`" @click="changeType(3)">
-                        价格
-                        <div class="iconBox">
-                            <!-- <svg class="top">
-                                icon-business-price-down
-                                icon-business-price-up
-                                <use xlink:href="#icon-actity-down"></use>
-                            </svg> -->
-                            <svg>
-                                <use :xlink:href="`#icon-business-price-${!isPrice?'0':!isUp?'down':'up'}`"></use>
-                            </svg>
-                        </div>
-                       
-                    </li>
-                    <li @click="is_business_list = !is_business_list">品牌</li>
-                </ul>
-            </div>
+             <div class="rightBox">
+                <div class="choose">
+                    <ul>
+                        <li :class="`${is_active == 1?'active':''}`" @click="changeType(1)">销量</li>
+                        <li :class="`${is_active == 2?'active':''}`" @click="changeType(2)">时间</li>
+                        <li :class="`${is_active == 3?'active':''}`" @click="changeType(3)">
+                            价格
+                            <div class="iconBox">
+                                <svg>
+                                    <use :xlink:href="`#icon-business-price-${!isPrice?'0':!isUp?'down':'up'}`"></use>
+                                </svg>
+                            </div>
+                        
+                        </li>
+                        <li @click="is_business_list = !is_business_list">品牌</li>
+                    </ul>
+                </div>
             <!-- tab-container -->
-            <div class="mt-tab-container">
-                <div>
-                    <mt-loadmore ref="list" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :auto-fill="false">
-                        <div style="overflow-y: scroll;margin-top: .2rem;padding: 0 .2rem;" class="goodsList">
-                            <!--  -->
-                                <div class="item" :id="`menu_${index}`" v-for="(entity,index) in goodList" :key="`product_shop_list_${index}`"
-                                    v-if="goodList.length>0">
-                                    <router-link :to="`/business/shop/${businessId}/${entity.id}`">
-                                        <img :src="entity.cover" class="item-img">
-                                    </router-link>
-                                    <div class="item-box">
+                <div class="mt-tab-container">
+                        <mt-loadmore ref="list" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :auto-fill="false">
+                            <div style="overflow-y: scroll;margin-top: .2rem;padding: 0 .2rem;" class="goodsList">
+                                <!--  -->
+                                    <div class="item" :id="`menu_${index}`" v-for="(entity,index) in goodList" :key="`product_shop_list_${index}`"
+                                        v-if="goodList.length>0">
                                         <router-link :to="`/business/shop/${businessId}/${entity.id}`">
-                                            <p class="title">{{entity.good_name}}</p>
-                                            <p class="title2">{{entity.brand.name}}</p>
-                                            <p class="title2">规格:{{entity.spec}}</p>
-                                            <p class="title2">效期:{{entity.time}}</p>
+                                            <img :src="entity.cover" class="item-img">
                                         </router-link>
-                                        <div class="selling">
-                                            <div class="unit_price">
-                                                <div class="font" v-if="canShow">
-                                                    <div>
-                                                       ￥{{entity.price}}
+                                        <div class="item-box">
+                                            <router-link :to="`/business/shop/${businessId}/${entity.id}`">
+                                                <p class="title">{{entity.good_name}}</p>
+                                                <p class="title2">{{entity.brand.name}}</p>
+                                                <p class="title2">规格:{{entity.spec}}</p>
+                                                <p class="title2">效期:{{entity.time}}</p>
+                                            </router-link>
+                                            <div class="selling">
+                                                <div class="unit_price">
+                                                    <div class="font" v-if="canShow">
+                                                        <div>
+                                                        ￥{{entity.price}}
+                                                        </div>
+                                                        <span v-if="parseInt(entity.market_price)">￥{{entity.market_price}}</span>
                                                     </div>
-                                                    <span v-if="parseInt(entity.market_price)">￥{{entity.market_price}}</span>
+                                                    <p class="font" v-else>
+                                                        <span>价格- - - -</span>
+                                                    </p>
                                                 </div>
-                                                <p class="font" v-else>
-                                                    <span>价格- - - -</span>
-                                                </p>
-                                            </div>
-                                            <div class="gw_num" v-if="(!entity.is_multi_spec && canShow)">
-                                                <em class="lose" @click="removeToMiniCart($event,entity, index)">-</em>
-                                                <!-- <em class="error-num">-</em> -->
-                                                <div class="num">
-                                                    <span class="amount">{{entity.num || 0}}</span>
-                                                    {{entity.unit}}
+                                                <div class="gw_num" v-if="(!entity.is_multi_spec && canShow)">
+                                                    <em class="lose" @click="removeToMiniCart($event,entity, index)">-</em>
+                                                    <!-- <em class="error-num">-</em> -->
+                                                    <div class="num">
+                                                        <span class="amount">{{entity.num || 0}}</span>
+                                                        {{entity.unit}}
+                                                    </div>
+                                                    <em class="add" @click="addToMiniCart($event,entity, index)">+ <span></span> </em>
                                                 </div>
-                                                <em class="add" @click="addToMiniCart($event,entity, index)">+ <span></span> </em>
                                             </div>
                                         </div>
                                     </div>
+                                <!--  -->
+                                <div v-if="goodList==''">
+                                    <EmptyList />
                                 </div>
-                            <!--  -->
-                            <div v-if="goodList==''">
-                               <EmptyList />
                             </div>
-                        </div>
-                    </mt-loadmore>
-                </div>
-            </div>
-            <div style="height: 1rem"></div>
+                        </mt-loadmore>
+                 </div>
+             </div>
+            <!-- <div style="height: 1rem"></div> -->
             <div style="position: fixed;bottom: 0px;width: 100%;border-top:1px solid #e5e5e5s">
                 <mini-company-cart ref="MiniCompanyCart" :shop-id="businessId" :count="cartNum" :total-price="totalPrice"></mini-company-cart>
             </div>
@@ -257,6 +252,7 @@
             },
              //一级菜单点击商品
             showGoods( $event, id) {
+                this.allLoaded = false
                 // debugger
                 // console.log("当前id：" + id)
                 this.tabActive = id //是否当前一级菜单
@@ -278,12 +274,13 @@
                  this.current_id = id
                  this.page = 1
                  this.allLoaded = false
-                this.init_Goods(params)
+                this.init_Goods(true)
                
             },
 
               //点击下拉菜单
             slide: function (event,item) {
+                this.allLoaded = false
                  this.tabActive = item.id //是否当前一级菜单
                 /*
                 *判断当前点击的一级菜单是否是正在激活的菜单
@@ -291,7 +288,7 @@
                 */
                if(this.current_id!=item.id) {
                     this.current_id = item.id
-                    this.init_Goods()
+                    this.init_Goods(true)
                }
                 let targetNode = event.target
                 targetNode.classList.add("tabActive"); //添加当前样式
@@ -379,7 +376,7 @@
                     default:
                         break;
                 }
-                this.init_Goods()
+                this.init_Goods(true)
                 // this.isUp?
             },
             entryBusinessShop(item) {
@@ -512,6 +509,7 @@
                 this.init_Goods()
             },
             all_Goods() {
+                this.allLoaded = false
                 this.page = 1
                 this.current_id = ''
                 this.brand_id = ''
@@ -542,6 +540,12 @@
         p {
             padding-top: .6rem;
         }
+    }
+    .rightBox {
+        margin-left: 2rem;
+        flex:1 ;
+        display: flex;
+        flex-direction: column;
     }
 
     #ProductList {
@@ -580,28 +584,19 @@
         // height: 11.44rem;
         overflow: hidden;
         flex: 1;
+        display: flex;
+        margin-bottom: 1rem;
         .typeBox {
             position: absolute;
             left: 0;
             top: 0;
             bottom: 0;
             overflow: auto;
-            margin-bottom: 1rem;
         }
         .mt-tab-container {
             // margin-left: 2rem;
-            position: absolute;
-            top: 1rem;
-            left: 2rem;
-            right: 0;
-            bottom: 1rem;
             overflow: auto;
-            .goodsList {
-
-            }
-        }
-        .choose {
-            margin-left: 2rem;
+             touch-action: none;
         }
     }
 
