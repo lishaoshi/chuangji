@@ -139,6 +139,7 @@
 			]),
 			async to(path, flag=false) {
                 if(flag) {
+					debugger
                     if(!this.userInfo.shop_supplier) {
                         //  debugger
                         await this.$messagebox.confirm('',{
