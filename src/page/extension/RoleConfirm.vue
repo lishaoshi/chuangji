@@ -64,20 +64,17 @@
                 </svg>
             </div>
             <div class="tontent">
-                <dl>
-                    <dt>
-                        <div></div>
-                        银行公户
-                    </dt>
-                    <dd>1111 2222 3333 4444 555</dd>
-                </dl>
-                <dl>
-                    <dt>
-                        <div></div>
-                        银行公户
-                    </dt>
-                    <dd>1111 2222 3333 4444 555</dd>
-                </dl>
+                <ul>
+                    <li>
+                        1、请核实以上申请信息，以便我们及时与您联系
+                    </li>
+                    <li>
+                        2、为保障您的权限，请确保申请人您的真实信息
+                    </li>
+                    <li>
+                        3、创联工厂使用银行级SSL加密系统，保障您的信息安全传输
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -370,33 +367,12 @@
                 font-size: 0.24rem;
                 font-weight: 500;
                 height: 2.21rem;
-                padding: 0.24rem 0 0.44rem;
+                padding: 0.24rem 0.32rem 0.44rem;
+                // padding-left: 0.32rem;
 
-                dl {
-                    height: 0.61rem;
-                    line-height: 1;
-                    margin-bottom: 0.31rem;
-
-                    dt {
-                        margin-left: 0.6rem;
-                        font-weight: 500;
-                        color: rgba(153, 153, 153, 1);
-                        display: flex;
-                        align-items: center;
-                        margin-bottom: 0.19rem;
-
-                        div {
-                            width: 0.1rem;
-                            height: 0.1rem;
-                            margin-right: 0.2rem;
-                            background: rgba(250, 84, 82, 1);
-                            border-radius: 50%;
-                        }
-                    }
-
-                    dd {
-                        margin-left: 0.9rem;
-                        color: rgba(51, 51, 51, 1);
+                ul {
+                    li {
+                        margin-top: .1rem;
                     }
                 }
             }
