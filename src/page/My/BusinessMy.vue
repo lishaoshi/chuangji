@@ -1,6 +1,5 @@
 <template>
-    <div>
-	<PullRefresh @refresh="refresh" class="myInfoPage">
+    <div class="businessPage">
 		<div style="height:.32rem;background: #2da2ff;"></div>
 		<header :class="{ activeFull: isFullScreen }">{{userInfo.companyName || '未认证'}}</header>
 		<div class="user-information">
@@ -16,30 +15,12 @@
 					</div>
 				</div>
 				<div class="code" @click="to('/role-extension', true)">
-                    <!-- <router-link class="code" to="/role-extension"> -->
-                        <svg>
-                            <use xlink:href="#icon-my-promotion" />
-                        </svg>
-                        <p>业务推广</p>
-                    <!-- </router-link> -->
+					<svg>
+						<use xlink:href="#icon-my-promotion" />
+					</svg>
+					<p>业务推广</p>
 				</div>
 			</div>
-			<!-- <div class="info-bottom">     
-				<div class="account">
-                    <router-link to="/lianshu">
-					<p>联数(包)</p>
-					<p id="U_gold_value">{{lianBeiValue | display_price(2)}}</p>
-                    </router-link>
-				</div>
-				<div class="line">
-				</div>
-				<div class="lianbei">
-                    <router-link to="/lianbei">
-						<p>总收入(元)</p>
-						<p id='U_gold'>0.00</p>
-					</router-link>
-				</div>
-			</div> -->
 			<router-link to="/lianshu">  
 				<div style="margin-top: .3rem;">
 					<div class="line"></div>
@@ -52,43 +33,30 @@
 				</div>
 			 </router-link>
 		</div>
-		<!-- 列表 -->
-		<div class="my-list">
-            <clxsd-cell :title="'我的资产'" :to="'/my-assets'" is-link icon="business-myAsset" :value="userInfo.lianPiaoVaule" />
-           <!-- <clxsd-cell title="业务推广" :to="'/role-extension'" is-link icon="my-businessPromotion"/>-->
-			<clxsd-cell title="关注收藏" :to="'/my-follow'" is-link icon="my-attention" />
-            <div @click="authToRouter('/develop')">
-                <clxsd-cell title="工业订单" icon="my-ordering" />
-            </div>
+		<div class="contentBottom">
+			<PullRefresh @refresh="refresh" class="myInfoPage">
+				<div class="my-list">
+					<!-- <clxsd-cell :title="'我的资产'" :to="'/my-assets'" is-link icon="business-myAsset" :value="userInfo.lianPiaoVaule" /> -->
+					<clxsd-cell title="关注收藏" :to="'/my-follow'" is-link icon="my-attention" />
+					<div @click="authToRouter('/develop')">
+						<clxsd-cell title="工业订单" icon="my-ordering" />
+					</div>
+				</div>
+				<ul class="my-list">
+					<clxsd-cell :title="'集采返利'" :to="'/ticket-list'" is-link icon="my-banknote" :value="userInfo.lianPiaoVaule" />
+					<clxsd-cell :title="'增值理财'" :to="'/develop'" is-link icon="global-my-financing" />
+					<clxsd-cell :title="'授信借贷'" :to="'/develop'" is-link icon="my-loan" />
+				</ul>
+				<ul class="my-list" style="margin-bottom: .2rem">
+					<clxsd-cell title="公司信息" :to="'/company-info'" is-link icon="my-companyMessage" :value="userInfo.infoText"/>
+					<clxsd-cell :title="'地址管理'" :to="'/address'" is-link icon="my-address" />
+					<clxsd-cell :title="'设置'" :to="'/setting'" is-link icon="my-setting" />
+				</ul>
+			</PullRefresh>
+        	<br>
 		</div>
-        <!--
-		<div class="my-list">
+		
 
-			<div @click="authToRouter('/business-service-order')">
-				<clxsd-cell title="药店订单" icon="my-drugstoreOrdering" />
-			</div>
-
-			<div @click="authToRouter('/business-order')">
-				<clxsd-cell title="工业订单" icon="my-ordering" />
-			</div>
-
-			<div @click="authToRouter('/develop')">
-				<clxsd-cell title="集采定制" icon="my-collection" />
-			</div>
-		</div>
-        -->
-		<ul class="my-list">
-			<clxsd-cell :title="'集采返利'" :to="'/ticket-list'" is-link icon="my-banknote" :value="userInfo.lianPiaoVaule" />
-			<clxsd-cell :title="'增值理财'" :to="'/develop'" is-link icon="global-my-financing" />
-			<clxsd-cell :title="'授信借贷'" :to="'/develop'" is-link icon="my-loan" />
-		</ul>
-		<ul class="my-list" style="margin-bottom: .2rem">
-			<clxsd-cell title="公司信息" :to="'/company-info'" is-link icon="my-companyMessage" :value="userInfo.infoText"/>
-			<clxsd-cell :title="'地址管理'" :to="'/address'" is-link icon="my-address" />
-			<clxsd-cell :title="'设置'" :to="'/setting'" is-link icon="my-setting" />
-		</ul>
-        <br>
-	</PullRefresh>
         <clxsd-foot-guide :user-type="2" />
     </div>
 </template>
@@ -199,6 +167,13 @@
     flex-direction: column;
     margin-bottom: 1rem;
     height: 100%;
+}
+.businessPage {
+	display: flex;
+	flex-direction: column;
+	.contentBottom {
+		flex:1;
+	}
 }
 	header {
 		background: rgb(45, 162, 255);
@@ -350,5 +325,12 @@
 
 	.my-list {
 		margin-top: .2rem;
+	}
+	
+</style>
+
+<style lang="scss">
+.clxsd-pull-present-box {
+		// display: flex!important;
 	}
 </style>

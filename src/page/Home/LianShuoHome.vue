@@ -14,12 +14,10 @@
 				</mt-swipe-item>
 			</mt-swipe>
 		</div>
-		<!-- <Notice :notices="notices" v-if="notices!=null"></Notice>
-		 -->
-		  <div class="noticesBox"  v-if="notices!=null">
+		<div class="noticesBox"  v-if="notices!=null">
                 <Notice class="noticesContent" :notices="notices"></Notice>
-            </div>
-		<div class="notice" v-else>
+		</div>
+		<div class="noticeNomoer" v-else>
 			<svg>
 				<use xlink:href="#icon-notice"/>
 			</svg>
@@ -164,7 +162,7 @@
 				//console.log(44)
 				const {data} = await adList({channel: 'app', space: 'home-top'})
 				this.swipers = data.data
-				infoList({from: 'platform'}).then(data => {
+				infoList({from: 'platform',space:"global-top"}).then(data => {
 					this.notices = data.data.data
 					console.log(this.notices)
 				})
@@ -284,6 +282,37 @@
 		padding: 0 .24rem;
 		align-items: center;
 
+		.notice-list {
+			width: 6.2rem;
+			height: .88rem;
+			overflow-y: hidden;
+			margin-left: .1rem;
+
+			a {
+				display: block;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				font-size: .24rem;
+				line-height: .64rem;
+				color: #333;
+			}
+		}
+
+		svg {
+			width: .38rem;
+			height: .38rem;
+		}
+	}
+	.noticeNomoer {
+		margin-top: 0px;
+		background: #fff;
+		width: 100%;
+		height: .88rem;
+		line-height: .88rem;
+		display: flex;
+		padding: 0 .24rem;
+		align-items: center;
 		.notice-list {
 			width: 6.2rem;
 			height: .88rem;

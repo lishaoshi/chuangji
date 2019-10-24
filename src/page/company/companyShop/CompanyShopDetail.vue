@@ -195,34 +195,42 @@
             addToMiniCart() {
                 if(this.data.num<this.data.order_min_num) {
                     this.data.num = this.data.order_min_num
+                    if(this.shopCart[this.id]) {
+                        this.shopCart[this.id].num = this.data.order_min_num
+                }   else {
+                        let data = JSON.parse(JSON.stringify(this.data))
+                        this.$set(this.shopCart, `${this.id}`, data)
+                    }
                 } else {
                      this.data.num++
+                     if(this.shopCart[this.id]) {
+                        this.shopCart[this.id].num++
+                }   else {
+                        let data = JSON.parse(JSON.stringify(this.data))
+                        this.$set(this.shopCart, `${this.id}`, data)
+                    }
                 }
-                 console.log(this.data)
                 let params = {
                     supplier_id: this.businessId,
                     good_id: this.id
                 }
                 addShopCar(params)
-                if(this.shopCart[this.id]) {
-                    this.shopCart[this.id].num++
-                } else {
-                    let data = JSON.parse(JSON.stringify(this.data))
-                    this.$set(this.shopCart, `${this.id}`, data)
-                }
             },
             removeToMiniCart() {
                 if(this.data.num<=0) {
                     return false
                 }
+                // debugger
                 if(this.data.num <= this.data.order_min_num) {
                     this.data.num = 0
+                     this.shopCart[this.id].num = 0
                 } else {
                     this.data.num--
+                    this.shopCart[this.id].num--
                 }
                 
                 // console.log(this.data)
-                this.shopCart[this.id].num--
+                // this.shopCart[this.id].num--
                 let params = {
                     supplier_id: this.businessId,
                     good_id: this.id
