@@ -34,6 +34,9 @@ const ApplySuccess = () => import(/* webpackChunkName: "extensition" */ '@/page/
 //公司信息
 const ExtensionAptitudesEdit = () => import(/* webpackChunkName: "extensition" */ '@/page/extension/aptitude/AptitudesEdit');
 
+// 当前用户不是推广员时，table栏中的客户按钮
+const promotersCustomer = () => import('@/page/My/UnautMy/promotersCustomer');
+
 
 export default [
     {
@@ -43,6 +46,14 @@ export default [
             title: "申请成功",
             requiresAuth: true
             
+        }
+    },
+    {
+        path: "/promotersCustomer",
+        component: promotersCustomer,
+        meta: {
+            title: "客户",
+            requiresAuth: true
         }
     },
     {

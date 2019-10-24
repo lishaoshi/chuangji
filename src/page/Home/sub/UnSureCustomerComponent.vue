@@ -352,19 +352,16 @@
 
             },
             handleProvince() {
+                // debugger
 		        var p1=/^1(3|4|5|7|8)\d{9}$/;
 
                 this.testIphone()
                 if(p1.test(this.tel)&&this.tel){
-                console.log(window.sessionStorage);
-                sessionStorage.setItem('customer-choose-role-iphone',this.tel)
-                console.log(window.sessionStorage);
-
-                if (this.provinceError || this.provinceValue === 0) return;
-                this.$store.commit('SAVE_USER_CHOOSE_DATA', {role: this.selected, data: this.provinceValue});
-                this.$router.push('/role-yes');
+                    if (this.provinceError || this.provinceValue === 0) return;
+                    this.$store.commit('SAVE_USER_CHOOSE_DATA', {role: this.selected, data: this.provinceValue});
+                    this.$router.push({path:'/role-yes',query:{phone: this.tel}});
                 }
-            },
+            } ,
             showAddressPicker() {
                 this.regionVisible = true;
                 this.region = null
@@ -411,14 +408,14 @@
             //市处理
             handleCity() {
                 var p1=/^1(3|4|5|7|8)\d{9}$/;
-                sessionStorage.setItem('customer-choose-role-iphone',this.tel)
+                // sessionStorage.setItem('customer-choose-role-iphone',this.tel)
 
                 this.testIphone()
 
                  if(p1.test(this.tel)&&this.tel){
                     if (this.cityError || this.cityValue === 0) return;
                     this.$store.commit('SAVE_USER_CHOOSE_DATA', {role: this.selected, data: this.cityValue});
-                    this.$router.push('/role-yes');
+                    this.$router.push({path:'/role-yes',query:{phone: this.tel}});
                  }
             },
 
@@ -432,14 +429,14 @@
             handlePromoter() {
 
                  var p1=/^1(3|4|5|7|8)\d{9}$/;
-                sessionStorage.setItem('customer-choose-role-iphone',this.tel)
+                // sessionStorage.setItem('customer-choose-role-iphone',this.tel)
 
                 this.testIphone()
                  if(p1.test(this.tel)&&this.tel){
                     if (!this.promoterActive) return;
                     if (this.promoter_value === 0) return;
                     this.$store.commit('SAVE_USER_CHOOSE_DATA', {role: this.selected, data: Object.assign({code: this.promoter_value}, this.promoterData)});
-                    this.$router.push('/role-yes');
+                   this.$router.push({path:'/role-yes',query:{phone: this.tel}});
                  }
             },
             handlePromoterChecked(value) {

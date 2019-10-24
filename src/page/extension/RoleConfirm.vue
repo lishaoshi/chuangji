@@ -154,7 +154,7 @@
             initData(){
                this.$http.get("/user").then(res => {
                    this.name = res.data.data.real_name
-                   this.tel =  sessionStorage.getItem('customer-choose-role-iphone') ||res.data.data.phone
+                   this.tel =  this.$route.query.phone || ''
                    this.cartId = res.data.data.user_identity
                })
                 if(this.role=='promoter'){
@@ -192,7 +192,8 @@
                 var data = {
                         apply_role:this.role,
                         apply_sub_role:this.apply_sub_role?this.apply_sub_role:null,
-                        province:this.selectedSaveData.code||this.selectedSaveData
+                        province:this.selectedSaveData.code||this.selectedSaveData,
+                        mobile: this.tel
                 }
                 this.fliter(data)
                 // this.$router.push('/pay-success');
