@@ -45,8 +45,8 @@
                 <div class="mint-tab-container" style="margin-top: 0px">
                     <div>
                         <div class="sale-nav">
-                            <p @click="onSaleGoods(cat_id)" :class="{active,isUp}">在售<span>({{goodList.onSale}})</span></p>
-                            <p @click="downSaleGoods(cat_id)" :class="{active,isDown}">下架<span>({{goodList.unSale}})</span>
+                            <p @click="onSaleGoods(cat_id)" :class="{active,isUp}">在售<span>({{goodList.onSale||goodListData.onSale}})</span></p>
+                            <p @click="downSaleGoods(cat_id)" :class="{active,isDown}">下架<span>({{goodList.unSale||goodListData.unSale}})</span>
                             </p>
                         </div>
                         <div>
@@ -122,6 +122,10 @@
                 is_active: 0,//一级菜单默认值
                 menuList: [],//菜单列表
                 goodList: [],//产品列表
+                goodListData:{ //初始化页面商品数据为0
+                    onSale:0,
+                    unSale:0
+                },
                 message: null,
                 loading: true,
                 isUp: true,
