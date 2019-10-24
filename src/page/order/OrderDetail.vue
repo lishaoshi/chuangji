@@ -1,10 +1,6 @@
 <template>
 	<div id="OrderDetail">
 		<clxsd-head-top :title='`订单详情`'></clxsd-head-top>
-		<div class="state">
-			<!-- <div>剩余时间30分钟</div> -->
-			<div>{{order_status_display}}</div>
-		</div>
         <div v-if="userType==3" class="company-detail" @click="handleToShop">
             <!-- <router-link :to="`/factory/shop/${data.supplier_id}`"> -->
 			<div>
@@ -45,8 +41,11 @@
 				<span>{{this.nums}}</span>
 			</div>
 			<div>
-				<span>{{data.order_status==0?'应付': '金额'}}</span>
+				<span class="state">{{order_status_display}}</span>
+				<div>
+					<span>{{data.order_status==0?'应付': '金额'}}</span>
 				<span>￥{{this.data.order_amount}}</span>
+				</div>
 			</div>
 		</div>
         <div class="height1"></div>
@@ -209,19 +208,9 @@
 	}
 	
 	.state {
-		display: flex;
 		font-size: .24rem;
-		text-align: right;
-		height: .6rem;
-		align-items: center;
-		justify-content: space-between;
-		padding: 0 .24rem;
-		flex-direction: row-reverse;
-		div:last-child {
-			color: #F2385A;
-		}
 		// color: #F2385A;
-		// padding: .1rem .2rem;
+		color: #FD4912;
 	}
 	
 	.content {
@@ -334,8 +323,9 @@
 		padding: .1rem .1rem;
 		li {
 			font-size: .28rem;
-			height: .76rem;
-            line-height: .76rem;
+			// height: .76rem;
+            // line-height: .76rem;
+			padding: .2rem 0;
 			b {
 				
 			}
@@ -406,7 +396,7 @@
 			justify-content: space-between;
 		}
 		div:last-child {
-			justify-content: flex-end;
+			justify-content: space-between;
 			span:last-child {
 				margin-left: .24rem;
 				color: #FF3B30;

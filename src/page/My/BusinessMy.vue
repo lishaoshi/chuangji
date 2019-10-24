@@ -1,6 +1,6 @@
 <template>
     <div class="businessPage">
-		<div style="height:.32rem;background: #2da2ff;"></div>
+		<!-- <div style="height:.32rem;background: #2da2ff;"></div> -->
 		<header :class="{ activeFull: isFullScreen }">{{userInfo.companyName || '未认证'}}</header>
 		<div class="user-information">
 			<div class="user-main-info">
@@ -182,13 +182,15 @@
 		background: rgb(45, 162, 255);
 		color: #fff;
 		text-align: center;
-		font-size: .34rem;
-		line-height: .76rem;
+		font-size: .37rem;
+		height: .88rem;
+		line-height: .88rem;
 	}
 
 	.user-information {
 		background: rgb(45, 162, 255);
-		padding-top: .12rem;
+		// padding-top: .12rem;
+		height: 2.62rem;
 	}
 
 	.user-information {
@@ -210,7 +212,7 @@
 	}
 	.user-main-info {
 		display: flex;
-		padding: 0 .3rem;
+		padding: 0 .44rem 0 .36rem;
 		align-items: center;
 		& > div:first-child {
 			display: flex;
@@ -242,19 +244,22 @@
 	}
 
 	.user-main-info .avatar {
-		// margin-left: .3rem;
-		margin-right: .28rem;
-		border: .08rem solid rgb(150, 209, 255);
-		height: 1.36rem;
+		width: 1.28rem;
+		height: 1.28rem;
+		background: white;
+		padding: 0.04rem;
+		border-radius: 0.06rem;
+		opacity: 0.9;
+		margin-right: .32rem;
 		border-radius: 3px;
-        background:rgb(150, 209, 255) ;
 	}
 	.user-main-info .name {
+		margin-top: .09rem;
 		flex: 1;
 	}
 
 	.user-main-info .avatar img {
-		border-radius: 3px;
+		display: block;
 		width: 1.2rem;
 		height: 1.2rem;
 
@@ -274,7 +279,9 @@
 
 	.user-main-info .name p:nth-child(2) {
 		font-size: .28rem;
-        margin-top: .28rem;;
+        margin-top: .2rem;;
+		position: relative;
+    	bottom: .03rem;
 	}
 	.line {
 		height: 1px;

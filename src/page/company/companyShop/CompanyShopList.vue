@@ -27,13 +27,13 @@
 		</div>
 		<div class="nav">
 			<div>
-				<router-link to="">
+				<router-link to="/develop">
 					<svg><use xlink:href="#icon-quanqiucang-active" /></svg>
 					<p>领卷活动</p>
 				</router-link>
 			</div>
 			<div>
-				<router-link to="/company-promotion">
+				<router-link to="/develop">
 					<svg><use xlink:href="#icon-quanqiucang-active1" /></svg>
 					<p>促销活动</p>
 				</router-link>
