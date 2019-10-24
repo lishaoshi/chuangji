@@ -11,7 +11,7 @@
                 </div>
                 <!-- <div class="line"></div> -->
                 <div class="iphone">
-                    <span>手机号</span>
+                    <span>联系电话</span>
                     <p>{{tel}}</p>
                 </div>
             </li>

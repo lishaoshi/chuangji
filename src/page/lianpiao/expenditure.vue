@@ -95,11 +95,18 @@
                 const params = {
                     year:this.year,
                     month: this.month,
+                     tag: 1,
+                    page: 1,
+                    limit: 20
                 }
-                this.$http.get('',{params}).then(response => {
+                this.$http.get('hippo-shop/wallet/trans',{params}).then(response => {
                     this.totalIncome = response.data.income;
-                    this.totalExpenditure = response.data.expenditure;
-                    this.entities = response.data.items;
+                    this.totalExpenditure = response.data.data.sum;
+                    data.forEach((item, index, arr)=>{
+                        arr[index].name = item.business_order.supplier.display_name
+                    })
+                    // debugger
+                    this.entities = data
                     this.loading = false;
                 }).catch(error => {
                     this.loading = false;

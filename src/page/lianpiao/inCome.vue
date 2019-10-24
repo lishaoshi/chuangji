@@ -1,5 +1,5 @@
 <template>
-    <div style="min-height: 100%;background: #fff">
+    <div style="min-height: 100%;background: #fff" class="amountPage">
         <clxsd-head-top title='收入记录' style="border-bottom: 0px"></clxsd-head-top>
         <div class="list-title">
             <div class="left">
@@ -12,18 +12,23 @@
                 </svg>
             </div>
         </div>
-        <ul class="otc-list" v-if="entities.length>0">
-            <li v-for="(entity,index) in entities" :key="`en-${index}`">
-                <div class="detail">
-                    <p >{{entity.message}}</p>
-                    <p>{{entity.created_at | formatDate('MM-dd hh:mm')}}</p>
-                </div>
-                <div class="num" style="color: #E63C6F;font-weight: bold">
-                    <span>{{entity.tag}}</span>
-                    {{entity.value}}
-                </div>
-            </li>
-        </ul>
+        <div style="overflow: auto;flex:1" v-if="entities.length>0">
+            <mt-loadmore :top-method="loadTop" ref="loadmore" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded">
+                <ul class="otc-list">
+                    <li v-for="(entity,index) in entities" :key="`en-${index}`">
+                        <div class="detail">
+                            <p tyle="color: #333">{{entity.name}}</p>
+                            <p>{{entity.created_at | formatDate('MM-dd hh:mm')}}</p>
+                        </div>
+                        <div class="num" style="color: #333;">
+                            <span>{{entity.tag}}</span>
+                            {{entity.value}}
+                        </div>
+                    </li>
+                </ul>
+            </mt-loadmore>
+        </div>
+        
         <EmptyList v-else message="数据为空！" />
         <CircleLoading v-if="loading" />
         <mt-popup v-model="regionVisible" position="bottom" class="bottom-region" style="width:100%;">
@@ -54,7 +59,9 @@
                 activeType:0,
                 totalIncome:0.00,
                 totalExpenditure:0.00,
-                entities:[]
+                entities:[],
+                allLoaded: false,
+                page: 1
             }
         },
         computed:{
@@ -90,20 +97,51 @@
                 this.month = this.dateValue.getMonth() + 1;
                 this.queryTransData();
             },
-            queryTransData(){
+            queryTransData(type){
                 this.loading = true;
                 const params = {
                     year:this.year,
                     month: this.month,
+                    tag: 0,
+                    page: this.page,
+                    limit: 20
                 }
-                this.$http.get('',{params}).then(response => {
-                    this.totalIncome = response.data.income;
-                    this.totalExpenditure = response.data.expenditure;
-                    this.entities = response.data.items;
+                // debugger
+                this.$http.get('hippo-shop/wallet/trans',{params}).then(response => {
                     this.loading = false;
+                    this.totalExpenditure = response.data.data.sum;
+                    let data = response.data.data.trans.splice(0, 20);
+                    if(data.leng<20) {
+                        this.allLoaded = true
+                    }
+                    data.forEach((item, index, arr)=>{
+                        arr[index].name = item.business_order.supplier.display_name
+                    })
+                    if(this.page==1) {
+                        this.entities = data
+                    } else {
+                        this.entities = [...this.entities, ...data]
+                    }
+                    this.page++
+                    
+                    type=='top'&&this.$refs.loadmore.onTopLoaded()
+                    type=='bottom'&&this.$refs.loadmore.onBottomLoaded()
+                    
+                    // this.entities.forEach()
+                    
                 }).catch(error => {
                     this.loading = false;
                 })
+            },
+            // 下拉加载
+            loadTop() {
+                // debugger
+                this.page=1
+                this.queryTransData('top')
+            },
+            // 上拉刷新
+            loadBottom() {
+                this.queryTransData('bottom')
             }
         },
     }
@@ -127,6 +165,11 @@
         span {
             font-size: .6rem;
         }
+    }
+    .amountPage {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
     }
     .trans {
         padding-left: .5rem;

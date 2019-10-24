@@ -29,6 +29,7 @@
             this.type = parseInt(this.$route.params.type);
         },
         mounted(){
+            debugger
             this.initData();
         },
         methods:{

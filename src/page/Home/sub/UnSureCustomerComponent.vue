@@ -12,7 +12,7 @@
                 </div>
                 <!-- <div class="line"></div> -->
                 <div class="iphone">
-                    <span>手机号</span>
+                    <span>联系电话</span>
                     <!-- <p>{{tel}}(可更改)</p> -->
                     <!-- <input type="t" v-model="tel"> -->
                     
@@ -96,7 +96,7 @@
                             开启权限
                         </button>
                         <router-link to="/introduction/city">
-                            初步了解123
+                            初步了解
                         </router-link>
                     </div>
 
@@ -399,11 +399,12 @@
                 this.regionVisible_promoter = true;
             },
             async areaChangePromoter(rdata) {
+                this.regionVisible_promoter = false
+                 if(!rdata) {
+                    return false
+                }
                 this.region_promoter = rdata.region
                 this.promoter_value = rdata.cityCode
-                console.log(rdata.cityCode);
-                
-                this.regionVisible_promoter = false
             },
             //市处理
             handleCity() {

@@ -35,9 +35,8 @@
 
 <script>
     import {mapState} from 'vuex'
-    // import countTo from 'vue-count-to';
     import ICountUp from 'vue-countup-v2'
-
+    import { recordAmound, rebateFn } from '@/api/ticketList'
     export default {
         name: "TicketList",
         components: {
@@ -77,6 +76,22 @@
                 }
             })
         },
+        created() {
+            this._getRecord()
+        },
+        methods: {
+            // 获取集采返利记录
+            _getRecord() {
+                // let params = {
+                //     year: this.yte
+                // }
+                rebateFn().then(res=>{
+                    // debugger
+                    let data = res.data.balance
+                    this.lianBeiValue = parseInt(data)
+                })
+            }
+        }
     }
 </script>
 

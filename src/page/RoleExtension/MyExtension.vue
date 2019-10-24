@@ -28,15 +28,27 @@
     </div>
 
     <div class="my-list">
-      <div style="margin-bottom: .2rem">
+      <div style="margin-top: .2rem">
         <clxsd-cell title="角色选择" to="/customer-choose-role" is-link icon="my-collection" />
       </div>
-      <clxsd-cell title="消息通知" :to="'/develop'" is-link icon="my-message" />
-      <clxsd-cell title="个人信息" :to="'/business-setting'" is-link icon="my-employee" />
-      <div style="margin-top: .2rem;margin-bottom: .2rem">
-        <clxsd-cell title="设置" :to="'/setting'" is-link icon="my-setting" />
+      <div style="margin-top: .2rem">
+        <clxsd-cell title="通道收益" :to="'/develop'" is-link icon="promoter_pass" />
+        <clxsd-cell title="广告收益" :to="'/develop'" is-link icon="promoter_ad" />
       </div>
-      <clxsd-cell title="返回" :to="'/my'" is-link icon="my-setting" />
+      <div style="margin-top: .2rem">
+        <clxsd-cell title="消息通知" :to="'/develop'" is-link icon="my-message" />
+      </div>
+      <!-- <clxsd-cell title="个人信息" :to="'/business-setting'" is-link icon="my-employee" /> -->
+      <!-- <div style="margin-top: .2rem;margin-bottom: .2rem">
+        <clxsd-cell title="设置" :to="'/setting'" is-link icon="my-setting" />
+      </div> -->
+      <!-- <clxsd-cell title="返回" :to="'/my'" is-link icon="my-setting" /> -->
+      <router-link to="/my" style="color:#333;">
+         <div class="back" style="margin-top: .2rem">
+          <span>返回</span>
+        </div>
+      </router-link>
+     
     </div>
   </div>
 </template>
@@ -87,6 +99,12 @@ export default {
 .UnautMy {
   background: #f4f5f5;
   font-size: 0.34rem;
+}
+.back {
+  background: #fff;
+  text-align: center;
+  height: 1rem;
+  line-height: 1rem;
 }
 .container {
   background: rgba(45, 162, 255, 1);
