@@ -95,6 +95,7 @@
             handleConfirm() {
                 this.year = this.dateValue.getFullYear();
                 this.month = this.dateValue.getMonth() + 1;
+                this.page = 1
                 this.queryTransData();
             },
             queryTransData(type){

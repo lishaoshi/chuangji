@@ -27,7 +27,7 @@
                
             </div>
             <router-link to="/income" class="box-a1">收入记录</router-link>
-            <router-link to="/expenditure" class="box-a1" style="background: #fff;color: #2da2ff;">支出入记录</router-link>
+            <router-link to="/expenditure" class="box-a1" style="background: #fff;color: #2da2ff;">支出记录</router-link>
         </div>
 
     </div>

@@ -100,8 +100,8 @@
 				}
 
 				if(this.password.length < 6) {
-					Toast('密码至少6位数，请输入正确的登陆密码');
-					this.err = "密码不正确";
+					Toast('请输入正确的密码');
+					// this.err = "密码不正确";
 					return false;
 				}
 				let stateType = true

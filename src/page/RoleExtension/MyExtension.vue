@@ -32,7 +32,7 @@
         <clxsd-cell title="角色选择" to="/customer-choose-role" is-link icon="my-collection" />
       </div>
       <div style="margin-top: .2rem">
-        <clxsd-cell title="通道收益" :to="'/develop'" is-link icon="promoter_pass" />
+        <clxsd-cell title="通道收益" :to="'/channel-profit'" is-link icon="promoter_pass" />
         <clxsd-cell title="广告收益" :to="'/develop'" is-link icon="promoter_ad" />
       </div>
       <div style="margin-top: .2rem">

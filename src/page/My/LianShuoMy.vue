@@ -157,7 +157,7 @@
             },
             async to(path, flag=false) {
                 if(flag) {
-                    if(!this.userInfo.shop_supplier) {
+                    if(JSON.stringify(this.userInfo.shop_supplier)=="{}") {
                         //  debugger
                         await this.$messagebox.confirm('',{
                             title: '提示',
