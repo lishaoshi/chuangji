@@ -28,7 +28,7 @@
     </div>
 
     <div class="my-list">
-      <div style="margin-bottom: .2rem">
+      <div style="margin-bottom: .2rem" v-if="!is_apply">
         <clxsd-cell title="角色选择" to="/customer-choose-role" is-link icon="my-collection" />
       </div>
       <clxsd-cell title="消息通知" :to="'/develop'" is-link icon="my-message" />
@@ -48,6 +48,11 @@ export default {
   name: "MyExtension",
   components: {
     ClxsdCell
+  },
+  data(){
+    return{
+      is_apply:false
+    }
   },
   computed: {
     ...mapState({
@@ -79,7 +84,24 @@ export default {
           userInfo.sub_type === 3)
       );
     }
+  },
+  created(){
+    this.initData()
+  },
+  methods:{
+    initData(){
+    this.$http.get('hippo-shop/area-user/is-apply')
+      .then(response => {
+          console.log(response.data.data);
+          if(response.data.data.is_apply){
+            this.is_apply = response.data.data.is_apply
+          }
+      }).catch(err => {
+
+      })
+    }
   }
+
 };
 </script>
 
