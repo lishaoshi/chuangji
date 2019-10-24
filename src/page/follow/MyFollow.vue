@@ -434,6 +434,7 @@
         height: 1.56rem;
         padding: .2rem;
         position: relative;
+        margin-top: .2rem;
     }
 
     .list-item[data-type="0"] {

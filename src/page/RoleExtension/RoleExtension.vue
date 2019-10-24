@@ -42,7 +42,8 @@
     import UnSureCustomer from "@/page/Home/UnSureExtension/UnSureCustomer";
     import MyFrame from "./MyExtension"
     import {adList, infoList} from "@/api/ad";
-
+    import { recordAmound, rebateFn } from '@/api/ticketList'
+    
     export default {
         name: "RoleExtension",
         components:{
@@ -89,10 +90,19 @@
 
 
         },
+        watch: {
+            selected(value) {
+                if(value==2) {
+                    this._getRecord()
+                }
+            }
+        },
         created(){
             this.currentId= this.$store.state.RoleExtension
             this.currentId==1?this.selected = "1":this.selected = "2"
             this._initData()
+            //  this.selected==2&&
+            // this.selected==2
             
         },
         methods:{
@@ -101,6 +111,16 @@
             },
             closedMyFrame() {
                 this.myFrame = !this.myFrame
+            },
+             _getRecord() {
+                // let params = {
+                //     year: this.yte
+                // }
+                rebateFn().then(res=>{
+                    // debugger
+                    let data = res.data.balance
+                    this.lianBeiValue = parseInt(data)
+                })
             },
 
             // 初始化banner、公告数据

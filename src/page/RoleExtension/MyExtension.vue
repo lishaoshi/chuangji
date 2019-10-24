@@ -30,7 +30,13 @@
           <span>余额(元)</span>
         </div>
         <div>
-          <span>123456.00</span>
+           <i-count-up
+              :startVal="0"
+              :endVal="balance"
+              :decimals="0"
+              :duration="23"
+              :options="options"
+          ></i-count-up>
         </div>
       </div>
     </div>
@@ -64,14 +70,26 @@
 <script>
 import { mapState } from "vuex";
 import ClxsdCell from "@/components/common/Cell";
+import ICountUp from 'vue-countup-v2'
 export default {
   name: "MyExtension",
   components: {
-    ClxsdCell
+    ClxsdCell,
+    ICountUp
   },
   data(){
     return{
-      is_apply:false
+      is_apply:false,
+      balance: 0,
+      options: {
+          useEasing: true,
+          useGrouping: true,
+          separator: ',',
+          decimal: '.',
+          prefix: '',
+          suffix: '',
+          decimalPlaces: 2
+      },
     }
   },
   computed: {
