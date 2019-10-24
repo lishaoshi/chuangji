@@ -190,11 +190,12 @@
 				});
 			},
 			handleToShop() {
+				// debugger
 				if(this.data.supplier.type==2) {
 					this.$router.push({path: '/business-shop', query: {id: this.data.supplier_id}})
 				}
 				 else if(this.data.supplier.type == 1) {
-					this.$router.push({path: '/business-shop', query: {id: this.data.supplier_id}})
+					this.$router.push({path: `/factory/shop${this.data.supplier_id}`})
 				}
 			}
 		}

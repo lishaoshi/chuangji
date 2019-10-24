@@ -1,5 +1,5 @@
 <template>
-    <div id="GlobalWarehouse">
+    <div id="GlobalWarehouse" class="GlobalWarehouse">
         <div class="top-box" :class="{ activeHome: isFullScreen }">
             <ul>
                 <li :class="`${is_active===1?'active':''}`" @click="tab_change(1)">本市</li>
@@ -22,7 +22,7 @@
                 </mt-swipe-item>
             </mt-swipe>
         </div>
-        <div class="main-body" ref="wrapper" :style="{ height: (wrapperHeight-50) + 'px' }">
+        <div class="main-body" ref="wrapper">
             <mt-loadmore v-if="businesses.length>0" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
                 <div class="company" :key="`en-${index}`" v-for="(item,index) in businesses">
                     <div class="company-name" @click="entryBusinessShop(item)">
@@ -48,14 +48,12 @@
                                     </ul>
                                 </div> -->
                                 <span>没有消息</span>
-                               
-                                
                             </div>
                         </div>
                     </div>
                 </div>
             </mt-loadmore>
-             <EmptyList v-else/>
+             <!-- <EmptyList v-else/> -->
         </div>
         <p v-if="allLoaded&&businesses.length" class="loader-over">没有更多了</p>
         <div v-if="userType==3" @click="goShopCart">
@@ -210,7 +208,7 @@
                    
                     this.allLoaded = false; // 可以进行上拉
                     this.businesses = response.data.data.businessList;
-                    this.$refs.loadmore.onTopLoaded();
+                    // this.$refs.loadmore.onTopLoaded();
                 })
             },
             // 加载更多
@@ -240,7 +238,14 @@
         /* 加上这个才会有当数据充满整个屏幕，可以进行上拉加载更多的操作 */
         overflow: scroll;
         padding: 0 .2rem;
+        flex: 1;
+        margin-bottom: 1rem;
         // margin-bottom: 30px;
+    }
+    .GlobalWarehouse {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
     }
      .shopcar {
         position: fixed;
