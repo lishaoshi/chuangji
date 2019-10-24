@@ -3,7 +3,7 @@
         <CircleLoading v-if="loading" />
         <Swiper space="tuiguang-promoter"></Swiper>
         <!-- <notice :notices="notices"></notice> -->
-        <div v-if="notices.length" class="noticesBox">
+        <div v-if="notices&&notices.length" class="noticesBox">
             <notice class="noticesBox-notices" :notices="notices"></notice>
         </div>
         <div class="notice" v-else>
