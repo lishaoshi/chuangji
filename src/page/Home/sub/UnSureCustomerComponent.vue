@@ -450,18 +450,25 @@
             //判断手机号
             testIphone(){
                 // this.tel = 
-		    var p1=/^1(3|4|5|7|8)\d{9}$/;
+            var p1=/^1(3|4|5|7|8)\d{9}$/;
 			if(this.tel !='' && p1.test(this.tel)) {	
 
             }else{
-		        alert('请填写正确电话号码!!');		  
+                  this.$messagebox.confirm('',{
+                    title: '提示',
+                    message:'手机号格式不正确',
+                    confirmButtonText: '重新填写'
+                    }).then(action=>{
+                        if(action=='confirm'){
+                            console.log('ok');
+                            this.$refs.input.focus();
+                        }
+                    })
             }
         },
 
         openIphone(){
             this.verify = false
-            // this.ddd()
-            // debugger
             console.log(this.$refs.input);
             this.$nextTick().then(()=>{
                 this.$refs.input.focus();
