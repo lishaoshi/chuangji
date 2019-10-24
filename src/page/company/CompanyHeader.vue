@@ -159,7 +159,7 @@
                 // console.log(this.searchValue)
                 let search = this.searchValue
                 localStorage.setItem('search', JSON.stringify(search));
-                this.$router.push('/company-product-list')
+                this.$router.push({path:'/company-product-list', query: {shopId: this.shopId}})
             }
         }
     }

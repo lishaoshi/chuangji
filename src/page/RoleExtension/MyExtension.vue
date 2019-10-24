@@ -15,15 +15,23 @@
           </p>
           <span class="phone">{{userInfo.userTel}}</span>
         </div>
-         <router-link to="/invitation">
-        <div class="userinfo-right">
-          <svg>
-            <use xlink:href="#icon-QRCode" />
-          </svg>
-          <span>邀请</span>
+          <router-link to="/invitation">
+            <div class="userinfo-right">
+              <svg>
+                <use xlink:href="#icon-QRCode" />
+              </svg>
+              <span>邀请</span>
+            </div>
+          </router-link>
+      </div>
+      <div style="width: 100%;height: 1px;background: #fff;opacity: 0.2;"></div>
+      <div class="balance">
+        <div>
+          <span>余额(元)</span>
         </div>
-         </router-link>
-
+        <div>
+          <span>123456.00</span>
+        </div>
       </div>
     </div>
 
@@ -121,6 +129,20 @@ export default {
 .UnautMy {
   background: #f4f5f5;
   font-size: 0.34rem;
+}
+.balance {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  height: 1rem;
+  justify-content: space-between;
+  padding: 0 .44rem;
+  div:first-child {
+    font-size: .24rem;
+  }
+  div:last-child {
+    font-size: .44rem;
+  }
 }
 .back {
   background: #fff;
