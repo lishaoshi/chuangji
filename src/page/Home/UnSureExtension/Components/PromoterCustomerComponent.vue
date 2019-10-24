@@ -6,6 +6,12 @@
         <div v-if="notices.length" class="noticesBox">
             <notice class="noticesBox-notices" :notices="notices"></notice>
         </div>
+        <div class="notice" v-else>
+            <svg>
+                <use xlink:href="#icon-notice"/>
+            </svg>
+            <span style="padding-left: 5px">暂时没有消息</span>
+        </div>
         <UnSureNav />
         <div v-if="isTabPartner">
             <ul class="mint-navbar" >
@@ -63,6 +69,14 @@
 
     export default {
         name: "PromoterCustomerComponent",
+        props: {
+            notices: {
+                type: Array,
+                default: ()=>{
+                    return [] 
+                }
+            }
+        },
         components: {
             CircleLoading,
             EmptyList,
@@ -78,11 +92,7 @@
                 myEntities:[],
                 loading: false,
                 Type:1,
-                notices:[
-                   {title:'发改委要求加强药企信用监管力度'},
-                    {title:'国家食药监局：购药实名制是“无奈的决定”'},
-                    {title:'新一轮药品降价潮倒逼药企转型升级'}
-                ]
+                // notices:this.$props.noticeList || []
             }
         },
         created(){
@@ -163,6 +173,35 @@
         .noticesBox-notices {
             height: .64rem;
             line-height: .64rem;
+        }
+    }
+    .notice {
+        margin:  .22rem auto 0;
+        width:6.86rem;
+        background: #f9f9f9;
+        line-height: .56rem;
+        display: flex;
+        padding: 0 .24rem;
+        align-items: center;
+        height: .64rem;
+        .notice-list {
+          width: 6.2rem;
+          height: .88rem;
+          overflow-y: hidden;
+          margin-left: .1rem;
+          a {
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: .24rem;
+            line-height: .64rem;
+            color: #333;
+          }
+        } 
+        svg {
+          width: .38rem;
+          height: .38rem;
         }
     }
 </style>

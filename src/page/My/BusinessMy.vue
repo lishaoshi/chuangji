@@ -4,13 +4,15 @@
 		<header :class="{ activeFull: isFullScreen }">{{userInfo.companyName || '未认证'}}</header>
 		<div class="user-information">
 			<div class="user-main-info">
-                <div class="avatar">
-                    <img src="../../images/my/user_default.png" v-if="userInfo.userLogo == ''">
-                    <img :src="userInfo.userLogo" v-else>
-                </div>
-				<div class="name">
-					<p>{{userInfo.userName}}</p>
-					<p id='U_phone'>{{userInfo.userTel}}</p>
+				<div>
+					<div class="avatar">
+						<img src="../../images/my/user_default.png" v-if="userInfo.userLogo == ''">
+						<img :src="userInfo.userLogo" v-else>
+					</div>
+					<div class="name">
+						<p>{{userInfo.userName}}</p>
+						<p id='U_phone'>{{userInfo.userTel}}</p>
+					</div>
 				</div>
 				<div class="code" @click="to('/role-extension', true)">
                     <!-- <router-link class="code" to="/role-extension"> -->
@@ -230,18 +232,30 @@
 		flex-direction: row;
 		position: relative;
 	}
-
-	.user-main-info .code {
-		position: absolute;
-		right: .2rem;
-		top: .15rem;
-		text-align: center;
-        width: 1rem;
+	.user-main-info {
+		display: flex;
+		padding: 0 .3rem;
+		align-items: center;
+		& > div:first-child {
+			display: flex;
+			flex:1;
+			align-items: center;
+		}
+		& > div:last-child {
+			a {
+				display: inline-flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+			}
+			
+		}
 	}
 
 	.user-main-info .code svg {
 		width: .55rem;
 		height: .55rem;
+		margin-bottom: .12rem;
 	}
 
 	.code p {
@@ -251,12 +265,15 @@
 	}
 
 	.user-main-info .avatar {
-		margin-left: .3rem;
+		// margin-left: .3rem;
 		margin-right: .28rem;
 		border: .08rem solid rgb(150, 209, 255);
 		height: 1.36rem;
 		border-radius: 3px;
         background:rgb(150, 209, 255) ;
+	}
+	.user-main-info .name {
+		flex: 1;
 	}
 
 	.user-main-info .avatar img {
@@ -264,10 +281,6 @@
 		width: 1.2rem;
 		height: 1.2rem;
 
-	}
-
-	.user-main-info .name {
-		width: 56%;
 	}
 
 	.user-main-info .name p {
@@ -280,8 +293,6 @@
 
 	.user-main-info .name p:nth-child(1) {
 		font-size: .34rem;
-		margin-top: .23rem;
-		line-height: 180%;
 	}
 
 	.user-main-info .name p:nth-child(2) {
