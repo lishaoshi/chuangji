@@ -2,7 +2,9 @@
     <div class="UnautMy">
         <div class="container">
             <div class="header">
-                <span>{{userInfo.companyName}}</span>
+                <span v-if="userInfo.user_type!==4">{{companyName}}</span>
+                
+                 <!-- <span></span> -->
             </div>
 
             <div class="userinfo">
@@ -77,7 +79,7 @@
                 userInfo: state => {
                     const currentInfo = state.CURRENTUSER.data
                     return {
-                        companyName: currentInfo.shop_supplier.display_name || currentInfo.shop_supplier.name,
+                        companyName: currentInfo.shop_supplier&&(currentInfo.shop_supplier.display_name || currentInfo.shop_supplier.name || ''),
                         userName: currentInfo.display_name || currentInfo.real_name || currentInfo.phone || '丢失信息',
                         userTel: currentInfo.phone || '丢失信息',
                         //role: currentInfo
