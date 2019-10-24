@@ -1,6 +1,6 @@
 <template>
     <div class="businessPage">
-		<div style="height:.32rem;background: #2da2ff;"></div>
+		<!-- <div style="height:.32rem;background: #2da2ff;"></div> -->
 		<header :class="{ activeFull: isFullScreen }">{{userInfo.companyName || '未认证'}}</header>
 		<div class="user-information">
 			<div class="user-main-info">
@@ -182,13 +182,14 @@
 		background: rgb(45, 162, 255);
 		color: #fff;
 		text-align: center;
-		font-size: .34rem;
-		line-height: .76rem;
+		font-size: .37rem;
+		height: .88rem;
+		line-height: .88rem;
 	}
 
 	.user-information {
 		background: rgb(45, 162, 255);
-		padding-top: .12rem;
+		// padding-top: .12rem;
 	}
 
 	.user-information {
