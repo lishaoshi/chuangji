@@ -1,12 +1,6 @@
 <template>
     <div id="RoleExtension">
-        <!--
-        <router-link to="/my" class="close"  :class="{ closeBox: isFullScreen }">
-            <svg class="m-style-svg">
-                <use xlink:href="#icon-quanqiucang-close"/>
-            </svg>
-        </router-link>
-        -->
+
         <mt-tab-container v-model="selected" style="padding-bottom: 1.3rem;" :class="{ Box2: selected==1 }">
             <mt-tab-container-item id="1" style="border-radius: 4px;min-height: 11.5rem;background: #fff">
                 <div class="header" :class="{ topHeight: isFullScreen }">

@@ -97,6 +97,8 @@
                     let companyName = '未认证'
                     let infoText = '未上传资质'
                     let userLogo = ''
+                    let shop_supplier = {}		
+
                     if(currentInfo['certification']){
                         if(0 === currentInfo['certification']['status']){
                             infoText = '正在审核中...'
@@ -107,6 +109,7 @@
                     if(currentInfo['shop_supplier']){
                         infoText=''
                         companyName = currentInfo['shop_supplier']['display_name'] || currentInfo['shop_supplier']['name']
+                        shop_supplier = currentInfo.shop_supplier
                     }
                     if(currentInfo.avatar!=null){
                         userLogo = currentInfo.avatar
@@ -117,6 +120,7 @@
                         companyName,
                         infoText,
                         userLogo,
+                        shop_supplier
                     }
 
                 },
