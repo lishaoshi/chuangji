@@ -83,7 +83,8 @@
                     const configInfo = state.CONFIG
                     let companyName = '未认证'
                     let infoText = '未上传资质'
-                    let userLogo = ''
+					let userLogo = ''
+					let shop_supplier = {}	
                     if(currentInfo['certification']){
                         console.log(111)
                         if(0 === currentInfo['certification']['status']){
@@ -94,7 +95,8 @@
                     }
                     if(currentInfo['shop_supplier']){
                         infoText=''
-                        companyName = currentInfo['shop_supplier']['display_name'] || currentInfo['shop_supplier']['name']
+						companyName = currentInfo['shop_supplier']['display_name'] || currentInfo['shop_supplier']['name']
+						shop_supplier = currentInfo.shop_supplier
                     }
                     if(currentInfo.avatar!=null){
                         userLogo = currentInfo.avatar
@@ -104,7 +106,8 @@
                         userTel: 　currentInfo.phone || '丢失信息',
                         companyName,
                         infoText,
-                        userLogo,
+						userLogo,
+                        shop_supplier
                     }
 
 				},
@@ -139,7 +142,6 @@
 			]),
 			async to(path, flag=false) {
                 if(flag) {
-					debugger
                     if(!this.userInfo.shop_supplier) {
                         //  debugger
                         await this.$messagebox.confirm('',{
