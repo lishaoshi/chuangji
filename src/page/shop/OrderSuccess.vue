@@ -21,7 +21,7 @@
             <img src="@/images/successOrder.png" alt="">
             <div>
                 <span>等待买家支付</span>
-                <span>剩{{time}}分钟自动关闭</span>
+                <span>剩余{{time}}分钟自动关闭</span>
             </div>
         </div>
 
