@@ -62,7 +62,7 @@
 </template>
 
 <script>
-	import { mapState, mapActions } from "vuex";
+	import { mapState, mapActions, mapMutations } from "vuex";
 	import ClxsdCell from '@/components/common/Cell';
 	export default {
 		name: "page-business-my",
@@ -140,6 +140,9 @@
 			...mapActions([
 				'fetchUserInfo'
 			]),
+			...mapMutations([
+				'UPDATAroleExtension'
+			]),
 			async to(path, flag=false) {
                 if(flag) {
                     if(JSON.stringify(this.userInfo.shop_supplier)=="{}") {
@@ -153,9 +156,11 @@
                             }
                         }).catch(err => err);
                     } else {
+						this.UPDATAroleExtension(1)
                         this.$router.push({path})
                     }
                 } else {
+					this.UPDATAroleExtension(1)
 					this.$router.push({path})
                 }
             },
