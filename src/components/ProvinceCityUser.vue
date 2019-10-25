@@ -7,7 +7,7 @@
         </div> -->
 
         <!-- <van-popup v-model="myAddressSlots"> -->
-             <van-area @cancel="cancel" :area-list="newAddressList" :columns-num="2" @change="addressChange" @confirm="confirm"/>
+             <van-area @cancel="cancel" :area-list="newAddressList" value="130100" :columns-num="2" @change="addressChange" @confirm="confirm"/>
         <!-- </van-popup> -->
        
         <!-- <mt-picker :slots="myAddressSlots" valueKey="name" :visibleItemCount="5" @change="addressChange"
