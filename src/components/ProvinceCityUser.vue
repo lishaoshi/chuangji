@@ -7,7 +7,7 @@
         </div> -->
 
         <!-- <van-popup v-model="myAddressSlots"> -->
-             <van-area @cancel="cancel" :area-list="newAddressList" :columns-num="2" @change="addressChange" @confirm="confirm"/>
+             <van-area @cancel="cancel" :area-list="newAddressList" value="130100" :columns-num="2" @change="addressChange" @confirm="confirm"/>
         <!-- </van-popup> -->
        
         <!-- <mt-picker :slots="myAddressSlots" valueKey="name" :visibleItemCount="5" @change="addressChange"
@@ -66,6 +66,7 @@
                 ],
                 // currenProvinceName: ""   //当前省名称
                 addressData: [],
+                changeCity:false,
                 newAddressList: newAddressList
             }
         },
@@ -83,6 +84,7 @@
                this.$emit('listenAreaChange')
             },
             addressChange(picker,values){
+                this.changeCity = true
                 console.log(picker,values )
                 this.province = values[0]["name"]
                 this.city = values[1]["name"]
@@ -91,7 +93,11 @@
                 this.region = this.province + this.city
             },
             confirm(corm){
-                this.$emit('listenAreaChange',{region:this.region,province:this.province,city:this.city,cityCode:this.cityCode,provinceCode:this.provinceCode})
+                if(this.changeCity){
+                    this.$emit('listenAreaChange',{region:this.region,province:this.province,city:this.city,cityCode:this.cityCode,provinceCode:this.provinceCode})
+                }else{
+                    this.$emit('listenAreaChange',{region:'河北省石家庄市',province:'河北省',city:'石家庄市',cityCode:'1301',provinceCode:'13'})
+                }
                 }
             }
         }
