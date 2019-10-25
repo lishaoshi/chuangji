@@ -117,7 +117,7 @@
                         this.loading = false;
                         console.log(response)
                         if (!response.data.verifyStatus) {
-                            this.$toast("* 输入密码不正确，请重新输入")
+                            this.$toast("密码不正确，请重新输入")
                             this.oldPassword = ""
                             return
                         }
