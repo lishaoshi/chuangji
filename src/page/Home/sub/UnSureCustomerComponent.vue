@@ -353,7 +353,9 @@
             },
             handleProvince() {
                 // debugger
-		        var p1=/^1(3|4|5|7|8)\d{9}$/;
+                // var p1=/^1(3|4|5|7|8)\d{9}$/;
+                 var p1 = /^1[3456789]\d{9}$/
+                
 
                 this.testIphone()
                 if(p1.test(this.tel)&&this.tel){
@@ -408,7 +410,9 @@
             },
             //市处理
             handleCity() {
-                var p1=/^1(3|4|5|7|8)\d{9}$/;
+                // var p1=/^1(3|4|5|7|8)\d{9}$/;
+                 var p1 = /^1[3456789]\d{9}$/
+
                 // sessionStorage.setItem('customer-choose-role-iphone',this.tel)
 
                 this.testIphone()
@@ -428,8 +432,7 @@
 
             // 推广人
             handlePromoter() {
-
-                 var p1=/^1(3|4|5|7|8)\d{9}$/;
+                 var p1 = /^1[3456789]\d{9}$/
                 // sessionStorage.setItem('customer-choose-role-iphone',this.tel)
 
                 this.testIphone()
@@ -570,6 +573,7 @@
         color: #f30000;
         font-size: .24rem;
         line-height: 2;
+        float: left;
     }
 
     .select-area {
