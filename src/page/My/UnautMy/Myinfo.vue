@@ -72,7 +72,7 @@
         data(){
           return{
               companyName: '未认证',
-              is_apply: false  //是否是推广员
+              is_apply: true  //是否是推广员
           }
         },
         computed: {

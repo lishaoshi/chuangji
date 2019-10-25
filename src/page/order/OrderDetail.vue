@@ -184,6 +184,7 @@
 				this.$messagebox.confirm("确认收货吗?").then(action => {
 						sureBusinessOrder(this.orderId).then(res=>{
 							// if(res.data.data)
+							this.data.order_status = 4
 							this.$toast('收货成功')
 						})
 				});

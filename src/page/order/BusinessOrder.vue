@@ -93,6 +93,7 @@
                 pulldown: true,
                 pullup: true,
                 flag: true,
+                loading: false,
             }
         },
         created() {
@@ -101,6 +102,7 @@
         },
         methods: {
             handleClick(id) {
+                if(this.loading) return false
                 this.orderList = []
                 this.state = id
                 this.page = 1
@@ -226,7 +228,9 @@
                     status: this.state,
                     search: this.searchValue
                 }
+                this.loading  = true;
                 getBusinessOrderList(params).then(res=> {
+                    this.loading = false
                     let {orderList} = res.data.data;
                     let orders = Object.assign([],orderList);
                     this.handleOrderItems(orders)
@@ -242,6 +246,8 @@
                         this.allLoaded = true
                     }
                     this.page++
+                }).catch(error => {
+                    this.loading  = false;
                 });
             },
         },

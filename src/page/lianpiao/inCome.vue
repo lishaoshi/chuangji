@@ -107,19 +107,19 @@
                     page: this.page,
                     limit: 20
                 }
-                // debugger
                 this.$http.get('hippo-shop/wallet/trans',{params}).then(response => {
                     this.loading = false;
                     this.totalExpenditure = response.data.data.sum;
                     let data = response.data.data.trans.splice(0, 20);
-                    // if()
                     if(data.length<20) {
                         this.allLoaded = true
                     }
+                    // debugger
                     data.forEach((item, index, arr)=>{
                         arr[index].name = item.business_order.supplier.display_name
                     })
                     if(this.page==1) {
+                        debugger
                         this.entities = data
                     } else {
                         this.entities = [...this.entities, ...data]
