@@ -130,10 +130,7 @@ export default {
     initData(){
     this.$http.get('hippo-shop/area-user/is-apply')
       .then(response => {
-          console.log(response.data.data);
-          if(response.data.data.is_apply){
-            this.is_apply = response.data.data.is_apply
-          }
+          this.is_apply = response.data.data.is_apply
       }).catch(err => {
 
       })
