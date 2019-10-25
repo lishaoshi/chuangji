@@ -72,7 +72,7 @@
             
             _getData(first, type){
                 let params = {
-                    apply_role: 'promoter',
+                    apply_role: 'province_company',
                     apply_sub_role: '',
                     limit: this.limit,
                     page: this.page,

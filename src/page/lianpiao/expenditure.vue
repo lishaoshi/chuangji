@@ -109,7 +109,7 @@
                 this.$http.get('hippo-shop/wallet/trans',{params}).then(response => {
                     this.totalIncome = response.data.income;
                     this.totalExpenditure = response.data.data.sum;
-                     if(data.leng<20) {
+                     if(data.length<20) {
                         this.allLoaded = true
                     }
                     data.forEach((item, index, arr)=>{

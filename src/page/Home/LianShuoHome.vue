@@ -1,6 +1,7 @@
 <template>
 	<div class="home">
-		<div v-bind:class="{ search: isActive, 'bg-blue': hasError ,activeTop: isFullScreen }">
+		<div class="topContent">
+			<div v-bind:class="{ search: isActive, 'bg-blue': hasError ,activeTop: isFullScreen }">
 			<SearchBar :searchFn="searchFn" v-model="searchValue"></SearchBar>
 			<router-link to="/develop">
 				<div class="approve">
@@ -56,6 +57,8 @@
 		<router-link to="/factory/cart">
 			<img src="../../images/index/shop.png" class="shopcar newClass"/>
 		</router-link>
+		</div>
+		
 		<clxsd-foot-guide :user-type="3"/>
 	</div>
 </template>
@@ -204,7 +207,9 @@
         height: 100vh;
         margin-bottom: 1rem;
         overflow: auto;
-		position: relative;
+		display: flex;
+    	flex-direction: column;
+		// position: relative;
     }
 	.noticesBox {
 		padding: 0.16rem 0;
