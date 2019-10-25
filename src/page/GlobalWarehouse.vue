@@ -52,10 +52,12 @@
                         </div>
                     </div>
                 </div>
+                 <p v-if="allLoaded&&businesses.length" class="loader-over">没有更多了</p>
             </mt-loadmore>
-             <!-- <EmptyList v-else/> -->
+            
+             <EmptyList v-else/>
         </div>
-        <p v-if="allLoaded&&businesses.length" class="loader-over">没有更多了</p>
+       
         <div v-if="userType==3" @click="goShopCart">
             <img v-if="userType!=2" src="../images/index/shop.png" class="shopcar newClass"/>
                  <!-- <svg v-if="USERTYPE==2" class="m-style-svg m-svg-def">
@@ -66,7 +68,10 @@
             </svg> -->
         </div>
        
-        <clxsd-foot-guide :user-type="3"/>
+       <div style="height: 1rem">
+            <clxsd-foot-guide :user-type="3"/>
+       </div>
+       
     </div>
 </template>
 
@@ -236,10 +241,10 @@
 <style lang="scss" scoped>
     .main-body {
         /* 加上这个才会有当数据充满整个屏幕，可以进行上拉加载更多的操作 */
-        overflow: scroll;
+        overflow: auto;
         padding: 0 .2rem;
         flex: 1;
-        margin-bottom: 1rem;
+        // margin-bottom: 1rem;
         // margin-bottom: 30px;
     }
     .GlobalWarehouse {

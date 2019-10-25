@@ -186,14 +186,14 @@
                     console.log('data',data);
             },
             toPay(){
+                // debugger
                 if(this.loading) return;
-                console.log(this.selectedSaveData);
-                
                 var data = {
                         apply_role:this.role,
                         apply_sub_role:this.apply_sub_role?this.apply_sub_role:null,
-                        province:this.selectedSaveData.code||this.selectedSaveData,
-                        mobile: this.tel
+                        province:(this.selectedSaveData.code&&this.selectedSaveData.code.substring(0, 2))||this.selectedSaveData.substring(0, 2),
+                        mobile: this.tel,
+                        city: this.selectedSaveData.code||(this.role=="province_company"?"":this.selectedSaveData)
                 }
                 this.fliter(data)
                 // this.$router.push('/pay-success');

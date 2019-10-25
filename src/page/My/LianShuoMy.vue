@@ -75,7 +75,7 @@
 
 <script>
     import ClxsdCell from '@/components/common/Cell';
-    import { mapState, mapActions } from "vuex";
+    import { mapState, mapActions, mapMutations } from "vuex";
     export default {
         name: "page-lianshuo-my",
         components:{
@@ -169,9 +169,11 @@
                             }
                         }).catch(err => err);
                     } else {
+                        this.UPDATAroleExtension(1)
                         this.$router.push({path})
                     }
                 } else {
+                    this.UPDATAroleExtension(1)
                      this.$router.push({path})
                 }
             },
@@ -182,7 +184,10 @@
             },
             ...mapActions(
                 ['fetchUserInfo']
-            )
+            ),
+            ...mapMutations([
+				'UPDATAroleExtension'
+			]),
         }
     }
 </script>

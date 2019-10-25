@@ -19,7 +19,7 @@
                 </mt-tab-item>
             </mt-navbar>
         </div>
-        <Seach></Seach>
+        <!-- <Seach></Seach> -->
         <mt-tab-container v-model="selected" style="min-height: 5rem;padding-bottom: .2rem">
             <mt-tab-container-item id="all">
                 <AllCustomerComponent :notices="notices"/>

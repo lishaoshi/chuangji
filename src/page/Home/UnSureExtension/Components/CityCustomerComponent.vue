@@ -91,6 +91,8 @@
                 allEntities:[],
                 myEntities:[],
                 Type:1,
+                page:1,
+                limit: 20
                 // notices:this.$props.noticeList || []
             }
         },
@@ -102,12 +104,18 @@
                 this.Type = value
             },
             getData(callback){
+                let params = {
+                    apply_role: 'city_company',
+                    apply_sub_role: '',
+                    limit: this.limit,
+                    page: this.page
+                }
                 this.loading = true;
                 this.$http.get('users/list',{params:{'user-type':'city'},validate: state => state === 200})
                     .then(response => {
                         console.log(response.data.data)
                         console.log(response);
-                        
+                        // debugger
                         this.loading = false;
                         this.allEntities = response.data.data;
                         this.myEntities = response.data.data;

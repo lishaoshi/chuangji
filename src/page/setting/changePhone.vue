@@ -113,7 +113,7 @@
 
             //发送验证码
             sendSmsCode(){
-                this.is_next = ! this.is_next;
+               
                 if(this.loading) return;
                 let params = {
                     phone:this.newPhone,
@@ -126,6 +126,7 @@
                     this.countdown = 60;
                     this.countDown();
                     this.error = "";
+                     this.is_next = ! this.is_next;
                 })
                 .catch(error =>{
                     this.loading = false;
