@@ -66,7 +66,7 @@
 		<div class="footer-box" v-if="userType==3">
 
 			<div>
-				<div class="btn" v-if="data.order_status=== 3 || data.order_status=== 2 " @click="confirmGoods">确认收货</div>
+				<div class="btn" v-if="data.order_status=== 3 " @click="confirmGoods">确认收货</div>
 			</div>
 
 			<div>
@@ -85,7 +85,7 @@
 
 <script>
 	import Spread from "../Spread";
-	import {sureSendBusinessOrder} from "@/api/businessOrder.js"
+	import {sureSendBusinessOrder, sureBusinessOrder} from "@/api/businessOrder.js"
 	import { orderPay } from "@/api/businessOrder"
 	import { mapState } from 'vuex'
     export default {
@@ -182,7 +182,6 @@
 			// },
 			async confirmGoods() {
 				this.$messagebox.confirm("确认收货吗?").then(action => {
-						// console.log(action);
 						sureBusinessOrder(this.orderId).then(res=>{
 							// if(res.data.data)
 							this.$toast('收货成功')

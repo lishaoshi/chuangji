@@ -88,7 +88,8 @@
                 rebateFn().then(res=>{
                     // debugger
                     let data = res.data.balance
-                    this.lianBeiValue = parseInt(data)
+                    // debugger
+                    this.lianBeiValue = data
                 })
             }
         }

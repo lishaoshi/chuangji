@@ -103,12 +103,21 @@
                 loading: false,
                 Type:1,
                 allLoaded: false,
-                isAutoFill: false
+                isAutoFill: false,
+                limit: 20,
+                page: 1
                 // notices:this.$props.noticeList || []
             }
         },
         created(){
             this.getData();
+        },
+        watch: {
+            Type(newValue) {
+                // if(newVa)
+                // debugger
+                this.getData()
+            }
         },
         computed: {
             ...mapState({
@@ -123,9 +132,10 @@
         },
         methods:{
             changeType(value){
+                this.page = 1
                 this.Type = value
             },
-            getData(callback){
+            getData(first, type){
                 let params = {
                     apply_role: 'city_company',
                     apply_sub_role: '',
@@ -137,25 +147,43 @@
                 this.$http.get('users/list',{params:params,validate: state => state === 200})
                     .then(response => {
                         this.loading = false;
-                        // this.allEntities = response.data.data.allEntities;
-                        // this.myEntities = response.data.data.myEntities;
-                        this.allEntities = response.data.data;
-                        this.myEntities = response.data.data;
-                        if(callback)callback();
+                        let list = response.data.data
+                        if(!list || list.length<this.limit) {
+                            this.allLoaded = true
+                        }
+                        if(this.Type==1) {
+                            if(this.page>1) {
+                                 this.allEntities = [... this.allEntities, ...list]
+                            } else {
+                                this.allEntities = list
+                            }
+                        } else if(this.Type == 2) {
+                             if(this.page>1) {
+                                 this.myEntities = [... this.myEntities, ...list]
+                            } else {
+                                this.myEntities = list;
+                            }
+                        }
+                        this.page++
+                        if(!first&&type=="top") {
+                            this.$refs.loadmore.onTopLoaded()
+                        }
+                        if(!first&&type=="bottom") {
+                            this.$refs.loadmore.onBottomLoaded()
+                        }
                     }).catch(error => {
                     this.loading = false;
-                    if(callback)callback();
                 })
             },
              // 下拉刷新
             loadTop() {
                 this.allLoaded = false
                 this.page = 1
-                this._getData(false, 'top')
+                this.getData(false, 'top')
             },
             //  // 上拉加载
             loadBottom() {
-            this._getData(false, 'bottom')
+            this.getData(false, 'bottom')
             },
             refresh(callback){
                 this.getData(callback);

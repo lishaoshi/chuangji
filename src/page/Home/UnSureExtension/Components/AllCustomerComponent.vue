@@ -21,11 +21,13 @@
         </div>
         <UnSureNav type="all"></UnSureNav>
         <CircleLoading v-if="loading" />
-        <div class="main-body" ref="wrapper" style="height: auto">
+        <div class="main-body" v-if="entities.length" ref="wrapper" style="height: auto">
             <CustomerCell v-for="(entity, index) in entities" :key="`en-${index}`" :data="entity"></CustomerCell>
         </div>
-        <p v-if="allLoaded" class="loader-over">加载完毕</p>
+        <!-- <p v-if="allLoaded" class="loader-over">加载完毕</p> -->
+        <EmptyList v-else/>
       </mt-loadmore>
+      
     </div>
 </template>
 
@@ -74,9 +76,9 @@ export default {
   },
   mounted() {
     // 父控件要加上高度，否则会出现上拉不动的情况
-    this.wrapperHeight =
-      document.documentElement.clientHeight -
-      this.$refs.wrapper.getBoundingClientRect().top;
+    // this.wrapperHeight =
+    //   document.documentElement.clientHeight -
+    //   this.$refs.wrapper.getBoundingClientRect().top;
   },
   created() {
     this.getData();
@@ -113,20 +115,27 @@ export default {
           validate: state => state === 200
         }).then(response => {
           this.loading = false;
-          if(this.page>1) {
-            this.entities = [...this.entities, ...response.data.data]
-          } else {
-            this.entities = response.data.data;
-          }
-          if(response.data.data.length<this.limit) {
-            this.allLoaded = true
-          }
-          if(!first&&type=="top") {
+           if(!first&&type=="top") {
             this.$refs.loadmore.onTopLoaded()
           }
           if(!first&&type=="bottom") {
             this.$refs.loadmore.onBottomLoaded()
           }
+          let list = response.data.data
+          if(!list) {
+            this.allLoaded = true
+            // return false
+          }
+          if(list || list.length<this.limit) {
+            this.allLoaded = true
+          }
+          if(this.page>1) {
+            this.entities = [...this.entities, ...list]
+          } else {
+            // debugger
+            this.entities = list;
+          }
+         
           this.page++
         })
         .catch(error => {

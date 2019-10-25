@@ -13,7 +13,7 @@
             </div>
         </div>
         <div style="overflow: auto;flex:1" v-if="entities.length>0">
-            <mt-loadmore :top-method="loadTop" ref="loadmore" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded">
+            <mt-loadmore :top-method="loadTop" ref="loadmore" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :auto-fill="false">
                 <ul class="otc-list">
                     <li v-for="(entity,index) in entities" :key="`en-${index}`">
                         <div class="detail">
@@ -112,7 +112,8 @@
                     this.loading = false;
                     this.totalExpenditure = response.data.data.sum;
                     let data = response.data.data.trans.splice(0, 20);
-                    if(data.leng<20) {
+                    // if()
+                    if(data.length<20) {
                         this.allLoaded = true
                     }
                     data.forEach((item, index, arr)=>{
