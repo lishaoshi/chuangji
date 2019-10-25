@@ -52,10 +52,12 @@
                         </div>
                     </div>
                 </div>
+                 <p v-if="allLoaded&&businesses.length" class="loader-over">没有更多了</p>
             </mt-loadmore>
-             <!-- <EmptyList v-else/> -->
+            
+             <EmptyList v-else/>
         </div>
-        <p v-if="allLoaded&&businesses.length" class="loader-over">没有更多了</p>
+       
         <div v-if="userType==3" @click="goShopCart">
             <img v-if="userType!=2" src="../images/index/shop.png" class="shopcar newClass"/>
                  <!-- <svg v-if="USERTYPE==2" class="m-style-svg m-svg-def">
