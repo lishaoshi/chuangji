@@ -119,7 +119,7 @@
                         arr[index].name = item.business_order.supplier.display_name
                     })
                     if(this.page==1) {
-                        debugger
+                        // debugger
                         this.entities = data
                     } else {
                         this.entities = [...this.entities, ...data]
