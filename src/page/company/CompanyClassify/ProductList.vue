@@ -253,6 +253,7 @@
              //一级菜单点击商品
             showGoods( $event, id) {
                 this.allLoaded = false
+                this.page = 1
                 // debugger
                 // console.log("当前id：" + id)
                 this.tabActive = id //是否当前一级菜单
@@ -282,6 +283,7 @@
             slide: function (event,item) {
                 this.allLoaded = false
                  this.tabActive = item.id //是否当前一级菜单
+                 this.page=1
                 /*
                 *判断当前点击的一级菜单是否是正在激活的菜单
                 this.current_id代表当前激活的id，
@@ -422,7 +424,7 @@
             //二级菜单商品
             showSlideGoods(id, ids, $event) {
                 this.page = 1
-                console.log('id',id, 'ids: ', ids)
+                // console.log('id',id, 'ids: ', ids)
                 // this.is_active = id
                 this.is_child_id = id
                 this.current_id = id
@@ -513,7 +515,7 @@
                 this.page = 1
                 this.current_id = ''
                 this.brand_id = ''
-                this.init_Goods()
+                this.init_Goods(true)
                 this.tabActive = 0
                 let nodes =this.$refs.slideMenu
                 let childNode = this.$refs.slideChild
