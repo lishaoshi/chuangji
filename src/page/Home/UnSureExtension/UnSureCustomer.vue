@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div class="is-scroll" :class="{ active: isFullScreen }">
+    <div class="container" style="height: 100vh">
+        <div class="is-scroll active">
             <mt-navbar v-model="selected">
                 <mt-tab-item id="all">
                     <p class="p1">全部</p>
@@ -20,7 +20,7 @@
             </mt-navbar>
         </div>
         <!-- <Seach></Seach> -->
-        <mt-tab-container v-model="selected" style="min-height: 5rem;padding-bottom: .2rem">
+        <mt-tab-container class="mint-tab-container" v-model="selected">
             <mt-tab-container-item id="all">
                 <AllCustomerComponent :notices="notices"/>
             </mt-tab-container-item>
@@ -90,6 +90,16 @@
 </script>
 
 <style lang="scss" scoped>
+.container {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 1rem;
+    .mint-tab-container {
+        margin-top: 1.55rem;
+        flex:1;
+        overflow: auto;
+    }
+}
     .is-scroll {
         width: 7.5rem;
         min-height: .8rem;
