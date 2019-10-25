@@ -204,6 +204,7 @@
         height: 100vh;
         margin-bottom: 1rem;
         overflow: auto;
+		position: relative;
     }
 	.noticesBox {
 		padding: 0.16rem 0;
