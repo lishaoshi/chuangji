@@ -125,7 +125,7 @@
             changeType(value){
                 this.Type = value
             },
-            _getData(callback){
+            getData(callback){
                 let params = {
                     apply_role: 'city_company',
                     apply_sub_role: '',
