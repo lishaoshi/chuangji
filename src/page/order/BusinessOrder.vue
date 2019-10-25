@@ -85,7 +85,7 @@
                 unPayOrders: [],//未付款
                 unSendOrders: [],//未发货
                 orderList: [],//已收货
-                state: -1,
+                state: -1,//-1全部，0：待付款,1：待提取，3：待收货，4已收货
                 allLoaded: false,    //是否已经加载全部
                 limit: 15,
                 page: 1,
@@ -144,6 +144,80 @@
                 this.getOrderList()
             },
 
+            handleOrderItems(orders){
+                const state = this.state;
+                //-1全部，0：待付款,1：待提取，3：待收货，4已收货
+                orders.forEach((item,index) =>{
+                    if(item.order_status==0){
+                        if(state == 0 && item.order_status == 0){
+                            item.splice(index,1)
+                        } else if(item.diff_seconds<=0 ) {
+                            item.order_status = 6;
+                        }else{
+                            let minutes = Math.floor(item.diff_seconds/60)
+                            let seconds = Math.ceil(item.diff_seconds%60)
+                            item.minutes = minutes
+                            item.seconds = seconds
+                            item.diffSecondsInt = setInterval(()=>{
+                                seconds--
+                                if(seconds<10 && seconds>0) {
+                                    seconds = '0' + seconds
+                                }
+                                if(seconds < 0&&minutes>0) {
+                                    minutes--
+                                    seconds=59
+                                    item.minutes = minutes
+
+                                } else if(seconds<=0&&minutes<=0) {
+                                    item.minutes = '00'
+                                    item.seconds = '00'
+                                    clearInterval(item.diffSecondsInt)
+                                    item.order_status = 6
+                                    item.money_paid =  item.order_amount
+                                }
+                                item.seconds = seconds
+
+                            },1000)
+                        }
+
+
+                    }else if(item.order_status==1){
+                        if(state == 1 && item.order_status == 1){
+                            orders.splice(index,1)
+                        }else if(item.left_time <= 0 ) {
+                            item.order_status = 6;
+                        }else{
+                            let minutes = Math.floor(item.left_time/60)
+                            let seconds = Math.ceil(item.left_time%60)
+                            item.minutes = minutes
+                            item.seconds = seconds
+                            item.leftTimeInt = setInterval(()=>{
+                                seconds--
+                                if(seconds<0&&minutes>0) {
+                                    minutes--
+                                    seconds=59
+                                    item.minutes = minutes
+
+                                } else if(seconds <= 0&&minutes<=0) {
+                                    // debugger
+                                    item.minutes = '00'
+                                    item.seconds = '00'
+                                    clearInterval(arr[index].leftTimeInt)
+                                    item.order_status = 6
+                                }
+                                if(seconds==0 && minutes>=0) {
+                                    item.seconds = '00'
+                                }
+                                if(seconds<10) {
+                                    seconds = '0' + seconds
+                                }
+                                item.seconds = seconds
+                            },1000)
+                        }
+                    }
+                });
+            },
+
             // 获取订单数据
             getOrderList(top, bottom) {
                 let params = {
@@ -152,88 +226,23 @@
                     status: this.state,
                     search: this.searchValue
                 }
-                getBusinessOrderList(params).then(res=>{
-                    let data = res.data.data.orderList
-                    let orderList = []
-                    data.forEach((item, index, arr)=>{
-                    if(item.order_status==0){	
-                        if(item.diff_seconds<=0) {
-                            arr.splice(index, 1)
-                        }
-                        let minutes = Math.floor(item.diff_seconds/60)
-                        let seconds = Math.ceil(item.diff_seconds%60)
-                        arr[index].minutes = minutes
-                        arr[index].seconds = seconds
-                        arr[index].diffSecondsInt = setInterval(()=>{
-                            seconds-- 
-                            if(seconds<10 && seconds>0) {
-                                seconds = '0' + seconds
-                            } 
-                            if(seconds < 0&&minutes>0) {
-                                minutes--
-                                seconds=59
-                                arr[index].minutes = minutes
-                                
-                            } else if(seconds<=0&&minutes<=0) {
-                                arr[index].minutes = '00'
-                                arr[index].seconds = '00'
-                                clearInterval(arr[index].diffSecondsInt)
-                                arr[index].order_status = 6
-                                arr[index].money_paid =  arr[index].order_amount
-                            }
-                            arr[index].seconds = seconds
-                            
-                        },1000)
-                    }
-                    if(this.state==0&&item.order_status==0&&item.diff_seconds<=0) {
-                        arr.splice(index, 1)
-                    }
+                getBusinessOrderList(params).then(res=> {
+                    let {orderList} = res.data.data;
+                    let orders = Object.assign([],orderList);
+                    this.handleOrderItems(orders)
 
-                    if(item.order_status==1) {
-                         if(item.left_time<=-1) {
-                            arr.splice(index, 1)
-                        }
-                        let minutes = Math.floor(item.left_time/60)
-                        let seconds = Math.ceil(item.left_time%60)
-                        arr[index].minutes = minutes
-                        arr[index].seconds = seconds
-                        arr[index].leftTimeInt = setInterval(()=>{
-                            seconds-- 
-                            if(seconds<0&&minutes>0) {
-                                minutes--
-                                seconds=59
-                                arr[index].minutes = minutes
-                                
-                            } else if(seconds <= 0&&minutes<=0) {
-                                // debugger
-                                arr[index].minutes = '00'
-                                arr[index].seconds = '00'
-                                clearInterval(arr[index].leftTimeInt)
-                                arr[index].order_status = 6
-                            }
-                             if(seconds==0 && minutes>=0) {
-                                arr[index].seconds = '00'
-                            }
-                            if(seconds<10) {
-                                seconds = '0' + seconds
-                            }
-                            arr[index].seconds = seconds
-                        },1000)
-                    }
-                })
                     this.flag = this.state
                     if(this.page>1) {
-                         this.orderList = [...this.orderList, ...data]
-                         this.$refs.loadmore.onBottomLoaded()
+                        this.orderList = [...this.orderList, ...orders]
+                        this.$refs.loadmore.onBottomLoaded()
                     } else {
-                        this.orderList = data
+                        this.orderList = orders
                     }
-                    console.log(this.oriderList)
-                    if(res.data.data.orderList.length==0) {
+                    if(orders.length==0) {
                         this.allLoaded = true
                     }
                     this.page++
-                })
+                });
             },
         },
     }
