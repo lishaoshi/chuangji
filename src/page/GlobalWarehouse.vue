@@ -68,7 +68,10 @@
             </svg> -->
         </div>
        
-        <clxsd-foot-guide :user-type="3"/>
+       <div style="height: 1rem">
+            <clxsd-foot-guide :user-type="3"/>
+       </div>
+       
     </div>
 </template>
 
@@ -241,7 +244,7 @@
         overflow: scroll;
         padding: 0 .2rem;
         flex: 1;
-        margin-bottom: 1rem;
+        // margin-bottom: 1rem;
         // margin-bottom: 30px;
     }
     .GlobalWarehouse {
