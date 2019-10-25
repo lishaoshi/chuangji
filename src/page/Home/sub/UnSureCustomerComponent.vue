@@ -573,6 +573,7 @@
         color: #f30000;
         font-size: .24rem;
         line-height: 2;
+        float: left;
     }
 
     .select-area {
