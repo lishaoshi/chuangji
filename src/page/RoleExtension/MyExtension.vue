@@ -42,7 +42,7 @@
     </div>
 
     <div class="my-list">
-      <div style="margin-bottom: .2rem" v-if="is_apply==false&&is_apply!=true">
+      <div style="margin-bottom: .2rem" v-if="!is_apply">
         <clxsd-cell title="角色选择" to="/customer-choose-role" is-link icon="my-collection" />
       </div>
       <div style="margin-top: .2rem">
