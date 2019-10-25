@@ -152,7 +152,7 @@
             },
             handleOk() {
                 if(this.loading) return;
-                this.handleOldPassword()
+                // this.handleOldPassword()
                 // 密码长度
                 if(this.newPassword.length < 6 && this.rePassword <6) {
                     this.$toast("密码长度必须在6-16位之间")
@@ -166,6 +166,7 @@
                     this.$toast("密码确认不一致，请重新输入")
                     return;
                 }
+                this.handleOldPassword()
 
                 let param = {
                     newPassword:this.newPassword,
@@ -237,7 +238,7 @@
                     this.$toast("新密码长度必须在6-16位之间")
                     return;
                 }
-
+                // if ()
                 // 重复新密码
                 if(this.rePassword !== this.newPassword) {
                     this.$toast("密码确认不一致，请重新输入")
