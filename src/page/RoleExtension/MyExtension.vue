@@ -42,7 +42,7 @@
     </div>
 
     <div class="my-list">
-      <div style="margin-bottom: .2rem" v-if="!is_apply">
+      <div style="margin-bottom: .2rem" v-if="is_apply==false&&is_apply!=true">
         <clxsd-cell title="角色选择" to="/customer-choose-role" is-link icon="my-collection" />
       </div>
       <div style="margin-top: .2rem">
@@ -79,7 +79,7 @@ export default {
   },
   data(){
     return{
-      is_apply:false,
+      is_apply:true,
       balance: 0,
       options: {
           useEasing: true,
