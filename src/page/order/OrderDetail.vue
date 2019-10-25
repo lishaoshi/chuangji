@@ -209,7 +209,7 @@
 	}
 	
 	.state {
-		font-size: .24rem;
+		font-size: .36rem;
 		// color: #F2385A;
 		color: #FD4912;
 	}
