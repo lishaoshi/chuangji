@@ -461,7 +461,7 @@ export default [
         path: "/UnautMy-us",
         component: Myinfo,
         meta: {
-            title: "未授权的关于我们",
+            title: "关于我们",
         }
     },
     {
