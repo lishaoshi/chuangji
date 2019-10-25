@@ -120,9 +120,11 @@
                     },
                     validate: state => state === 200
                 }).then(response => {
+                    let data = response.data
                     this.loading = false;
-                    this.code = response.data.code
-                    this.yaoData = response.data.data.userInfo;
+                    this.code = data.code
+                    this.yaoData = data.data.userInfo;
+                    this.yao_mobile = data.data.userInfo.phone
                     this.error = null;
                 }).catch(error => {
                     this.loading = false;

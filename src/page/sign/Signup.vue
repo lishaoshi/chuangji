@@ -219,8 +219,9 @@
                     this.error = "";
                     this.is_phone = true
                 })
-                .catch(({response: {data: {error = ['加载失败']} = {}} = {}}) => {
-                    this.error = error;
+                .catch(error => {
+                    let title = error.response.data.message
+                    this.$toast(title)
                 });
             },
             //检查验证码是否正确

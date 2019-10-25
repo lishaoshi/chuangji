@@ -19,7 +19,7 @@
             </svg>
             <span style="padding-left: 5px">暂时没有消息</span>
         </div>
-        <UnSureNav type="all"></UnSureNav>
+        <UnSureNav></UnSureNav>
         <CircleLoading v-if="loading" />
         <div class="main-body" v-if="entities.length" ref="wrapper" style="height: auto">
             <CustomerCell v-for="(entity, index) in entities" :key="`en-${index}`" :data="entity"></CustomerCell>
