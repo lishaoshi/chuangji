@@ -137,7 +137,7 @@
             },
             getData(first, type){
                 let params = {
-                    apply_role: 'city_company',
+                    apply_role: 'promoter',
                     apply_sub_role: '',
                     limit: this.limit,
                     page: this.page,

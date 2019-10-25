@@ -79,7 +79,7 @@ export default {
   },
   data(){
     return{
-      is_apply:true,
+      is_apply:false,
       balance: 0,
       options: {
           useEasing: true,

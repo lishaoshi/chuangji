@@ -2,17 +2,17 @@
     <div>
         <!--省--->
         <div v-if="data.apply_role === 'province_company'" class="province">
-            <div v-if="data.userData" class="active">
-                <div class="name"><span>{{ data.name | filter_city_name }}</span>{{data.name | filter_city_last}}</div>
+            <div v-if="data.user_id" class="active">
+                <div class="name"><span>{{ data.province_name }}</span>{{data.name}}</div>
                 <div class="detail">
                     <div class="datail-info">
                         <img src="../../../images/default_company_logo.png" class="extension-item-img">
                         <div>
-                            <p>{{data.userData.display_name}}</p>
-                            <p>{{data.userData.phone | filter_mobile}}</p>
+                            <p>{{data.user.real_name}}</p>
+                            <p>{{data.mobile}}</p>
                         </div>
                     </div>
-                    <p class="company-name">{{data.userData.company_name||'未设置'}}</p>
+                    <p class="company-name">{{data.user.supplier.name||'未设置'}}</p>
                 </div>
             </div>
             <div v-else>
@@ -33,17 +33,17 @@
         </div>
         <!--市--->
         <div v-if="data.apply_role === 'city_company'" class="city">
-            <div v-if="data.userData">
-                <div class="name"><span>{{ data.name | filter_city_name }}</span>市</div>
+            <div v-if="data.user_id">
+                <div class="name"><span>{{ data.city_name | filter_city_name }}</span>市</div>
                 <div class="detail">
                     <div class="datail-info">
                         <img src="../../../images/default_company_logo.png" class="extension-item-img">
                         <div>
-                            <p>{{data.userData.display_name}}</p>
-                            <p>{{data.userData.phone | filter_mobile}}</p>
+                            <p>{{data.user.real_name}}</p>
+                            <p>{{data.mobile}}</p>
                         </div>
                     </div>
-                    <p class="company-name">{{data.userData.company_name || '未设置'}}</p>
+                    <p class="company-name">{{data.user.company_name || '未设置'}}</p>
                 </div>
             </div>
             <div v-else>
@@ -99,6 +99,24 @@
                 <p class="company-name">{{data.province}}·{{data.city}}</p>
             </div>
         </div>
+        <!-- 推广人 -->
+        <div v-if="data.apply_role === 'promoter'" class="clinic">
+            <div>
+                <div class="name">
+                    <img :src="data.logo" class="img1" v-if="data.logo">
+                    <img src="../../../images/default.png" class="img1" v-else>
+                </div>
+                <div class="datail-info">
+                    <div>
+                        <b>{{data.user.real_name}}</b>
+                    </div>
+                </div>
+                <!-- <p class="company-name">{{data.province}}·{{data.city}}</p> -->
+                <div>
+                    {{data.mobile}}
+                </div>
+            </div>
+        </div>
         <!--商业--->
         <div v-if="data.type === 'business'" class="business">
             <div>
@@ -108,7 +126,7 @@
                 </div>
                 <div class="datail-info">
                     <div>
-                        <b>{{data.company_name}}</b>
+                        <b>{{data.user.real_name}}</b>
                     </div>
                 </div>
                 <p class="company-name">{{data.province}}·{{data.city}}</p>
@@ -221,6 +239,7 @@
                 width: 70%;
                 .datail-info {
                     display: flex;
+                    align-items: center;
                     img {
                         width: .8rem;
                         height: .8rem;
@@ -232,12 +251,12 @@
                     }
                     p {
                         color: #333;
-                        font-size: .32rem;
+                        font-size: .28rem;
                         padding-left: .2rem;
                         &:nth-child(2) {
                             font-size: .24rem;
                             color: #666;
-                            margin-top: .2rem;
+                            margin-top: .1rem;
                         }
                     }
                 }
