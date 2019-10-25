@@ -149,7 +149,7 @@
                 //-1全部，0：待付款,1：待提取，3：待收货，4已收货
                 orders.forEach((item,index) =>{
                     if(item.order_status==0){
-                        if(state == 0 && item.order_status == 0){
+                        if(state == 0 && item.order_status == 0 && item.diff_seconds<=0){
                             item.splice(index,1)
                         } else if(item.diff_seconds<=0 ) {
                             item.order_status = 6;
@@ -182,7 +182,7 @@
 
 
                     }else if(item.order_status==1){
-                        if(state == 1 && item.order_status == 1){
+                        if(state == 1 && item.order_status == 1 && item.left_time <= 0){
                             orders.splice(index,1)
                         }else if(item.left_time <= 0 ) {
                             item.order_status = 6;

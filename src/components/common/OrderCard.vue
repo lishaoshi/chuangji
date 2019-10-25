@@ -9,12 +9,12 @@
             <span class="state">{{order_status_display}}</span>
         </div>
         <div v-if="data.items.length == 1">
+            <router-link :to="`/my-order/detail/${data.id}`">
+
             <div class="drug_order">
                 <div class="drug_top">
                     <div class="drug_img">
-                        <router-link :to="`/my-order/detail/${data.id}`">
-                             <img :src="data.items[0].entity.cover">
-                        </router-link>
+                        <img :src="data.items[0].entity.cover">
                     </div>
                     <div class="drug_message">
                         <div>{{data.supplier.name}}</div>
@@ -28,6 +28,9 @@
                    
                 </div>
             </div>
+
+            </router-link>
+
             <div :class="{OrderStatus:data.order_status!=1}" class="need_pay">
                 <div>
                     <div v-if="data.order_status==1 || data.order_status==0">
