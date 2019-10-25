@@ -65,7 +65,7 @@
             </div>
         </div> -->
         <!--推广人-->
-        <div v-if="data.length">
+        <div v-if="data && data.length">
             <!-- <div class="detailed-item">
                 <img src="../../images/extension/promote-business.png" class="item-icon" />
                 <p class="title">商业</p>
@@ -151,6 +151,8 @@
                 _incomeDetails().then(res=>{
                     // debugger
                     let list = res.data
+
+                    if(list){
                     list.forEach((item, index, arr) => {
                         let name = ''
                         let img = ""
@@ -183,6 +185,7 @@
                         arr[index].value = parseInt(item.value).toFixed(2)
                         arr[index].img = img
                     })
+                    }
                     // debugger
                     this.data = list
                 })
