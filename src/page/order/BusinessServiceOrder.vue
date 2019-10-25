@@ -293,8 +293,11 @@
                             }
                         
                         this.orders.forEach((item, index, arr)=>{
+                            console.log(arr[index]);
+                            
                             arr[index].time = this.$moment.unix(item.payed_time_int).format("YYYY-MM-DD hh:mm:ss");
-                            arr[index].client_supplierName = arr[index].client_supplier.name
+                            // arr[index].client_supplierName = arr[index].client_supplier.name?arr[index].client_supplier.name:''
+                            arr[index].client_supplierName = arr[index]?arr[index].client_supplier?arr[index].client_supplier.name:'':''
                             // item.left_time && (arr[index].left_time = Math.ceil(item.left_time/60));
                         })
                         if(data.data.orderList.length<=0) {
