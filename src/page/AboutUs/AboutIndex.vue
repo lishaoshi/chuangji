@@ -23,6 +23,11 @@
                 </a>
             </div>
         </div>
+
+
+        <div class="Copy">
+            Copyright  2018 河南康达医药科技有限公司
+        </div>
     </div>
 </template>
 
@@ -95,5 +100,13 @@
     }
     .time {
         margin-left: 9px;
+    }
+    .Copy {
+        color: #A5AAAD;
+        width: 100%;
+        text-align: center;
+        font-size: .18rem;
+        position: fixed;
+        bottom: .48rem;
     }
 </style>
