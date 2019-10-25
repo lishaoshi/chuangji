@@ -1,7 +1,7 @@
 <template>
     <div>
         <!--省--->
-        <div v-if="data.type === 'province'" class="province">
+        <div v-if="data.apply_role === 'province_company'" class="province">
             <div v-if="data.userData" class="active">
                 <div class="name"><span>{{ data.name | filter_city_name }}</span>{{data.name | filter_city_last}}</div>
                 <div class="detail">
@@ -24,7 +24,7 @@
                 <div class="detail">
                     <div class="datail-info">
                         <div>
-                            <b>{{ data.name }}</b>
+                            <b>{{ data.province_name }}</b>
                         </div>
                     </div>
                     <p class="company-name">该地区未启动，欢迎您来启动</p>
@@ -32,7 +32,7 @@
             </div>
         </div>
         <!--市--->
-        <div v-if="data.type === 'city'" class="city">
+        <div v-if="data.apply_role === 'city_company'" class="city">
             <div v-if="data.userData">
                 <div class="name"><span>{{ data.name | filter_city_name }}</span>市</div>
                 <div class="detail">
@@ -55,7 +55,7 @@
                 <div class="detail">
                     <div class="datail-info">
                         <div>
-                            <b>{{ data.name }}</b>
+                            <b>{{ data.province_name }}</b>
                         </div>
                     </div>
                     <p class="company-name">该地区未启动，欢迎您来启动</p>

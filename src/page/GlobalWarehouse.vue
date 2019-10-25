@@ -241,7 +241,7 @@
 <style lang="scss" scoped>
     .main-body {
         /* 加上这个才会有当数据充满整个屏幕，可以进行上拉加载更多的操作 */
-        overflow: scroll;
+        overflow: auto;
         padding: 0 .2rem;
         flex: 1;
         // margin-bottom: 1rem;

@@ -1,33 +1,44 @@
 <template>
-  <PullRefresh @refresh="refresh">
-    <Swiper space="tuiguang-all" />
-    <!-- <Notice :entities="notices"></Notice> -->
-    <div v-if="notices&&notices.length" class="noticesBox">
-      <notice class="noticesBox-notices" :notices="notices"></notice>
-    </div>
+  <!-- <PullRefresh @refresh="refresh"> -->
+    <div class="roleExtension">
+      <!--  :top-method="loadTop" -->
+       <mt-loadmore
+         :top-method="loadTop"
+          :bottom-method="loadBottom"
+          :bottom-all-loaded="allLoaded"
+          ref="loadmore"
+          :autoFill="isAutoFill"
+        >
+        <Swiper space="tuiguang-all" />
+        <!-- <Notice :entities="notices"></Notice> -->
+        <div v-if="notices&&notices.length" class="noticesBox">
+          <notice class="noticesBox-notices" :notices="notices"></notice>
+        </div>
 
-     <div class="notice" v-else>
-        <svg>
-            <use xlink:href="#icon-notice"/>
-        </svg>
-        <span style="padding-left: 5px">暂时没有消息</span>
-    </div>
-    <UnSureNav type="all"></UnSureNav>
-    <CircleLoading v-if="loading" />
-    <div class="main-body" ref="wrapper" style="height: auto">
-      <mt-loadmore
-        :top-method="loadTop"
-        :bottom-method="loadBottom"
-        :bottom-all-loaded="allLoaded"
-        ref="loadmore"
-        :autoFill="isAutoFill"
-      >
-        <CustomerCell v-for="(entity, index) in entities" :key="`en-${index}`" :data="entity"></CustomerCell>
+        <div class="notice" v-else>
+            <svg>
+                <use xlink:href="#icon-notice"/>
+            </svg>
+            <span style="padding-left: 5px">暂时没有消息</span>
+        </div>
+        <UnSureNav type="all"></UnSureNav>
+        <CircleLoading v-if="loading" />
+        <div class="main-body" ref="wrapper" style="height: auto">
+          <!-- <mt-loadmore
+            :top-method="loadTop"
+            :bottom-method="loadBottom"
+            :bottom-all-loaded="allLoaded"
+            ref="loadmore"
+            :autoFill="isAutoFill"
+          > -->
+            <CustomerCell v-for="(entity, index) in entities" :key="`en-${index}`" :data="entity"></CustomerCell>
+          <!-- </mt-loadmore> -->
+        </div>
+        <!-- {{entities}} -->
+        <p v-if="allLoaded" class="loader-over">加载完毕</p>
       </mt-loadmore>
     </div>
-    <!-- {{entities}} -->
-    <p v-if="allLoaded" class="loader-over">加载完毕</p>
-  </PullRefresh>
+  <!-- </PullRefresh> -->
 </template>
 
 <script>
@@ -65,11 +76,12 @@ export default {
       entities: [],
       loading: false,
       // notices:[],
-      allLoaded: false, //是否自动触发上拉函数
-      isAutoFill: false,
+      allLoaded: false, 
+      isAutoFill: false,//是否自动触发上拉函数
       wrapperHeight: 0,
       courrentPage: 1,
-      limit: 15
+      limit: 20,
+      page: 1
     };
   },
   mounted() {
@@ -80,77 +92,61 @@ export default {
   },
   created() {
     this.getData();
-    this.loadFrist();
+    // this.loadFrist();
   },
   methods: {
-    getData(callback) {
-      this.loading = true;
-
-      this.$http
-        .get("users/list", {
-          params: { "user-type": "all" },
-          validate: state => state === 200
-        })
-        .then(response => {
-          this.loading = false;
-          this.entities = response.data.data;
-          if (callback) callback();
-        })
-        .catch(error => {
-          this.loading = false;
-          if (callback) callback();
-        });
+    getData(first) {
+      this._getData(first)
     },
     refresh(callback) {
       this.getData(callback);
     },
     loadTop() {
       this.courrentPage = 1;
-      this.loadFrist();
+      this.loadFrist(false);
     },
     // 上拉加载
     loadBottom() {
       this.loadMore();
     },
-    // 下来刷新加载
-    loadFrist() {
-      const params = {
-        page: this.courrentPage,
-        limit: this.limit
-      };
-      this.$http
-        .get("users/list", {
-          params: { "user-type": "all" },
+
+    /*
+    封装获取全国推广员列表
+    参数first表示是否是页面第一次加载
+    */
+    _getData(first=true, type) {
+      this.loading = true;
+      let params = {
+        apply_role: '',
+        apply_sub_role: '',
+        limit: this.limit,
+        page: this.page
+      }
+
+      this.$http.get("users/list", {params},
+        {
           validate: state => state === 200
+        }).then(response => {
+          this.loading = false;
+          this.entities = response.data.data;
         })
-        .then(response => {
-          console.log(response.data.data);
-          this.allLoaded = true; // 可以进行上拉
-          this.entities = response.data.data;  //此数据还没有
-          this.$refs.loadmore.onTopLoaded();
+        .catch(error => {
+          this.loading = false;
         });
+        if(!first&&type=="top") {
+          debugger
+          this.$refs.loadMore.onTopLoaded()
+        }
+    },
+    // 下来刷新加载
+    loadTop() {
+      debugger
+      this._getData(false, 'top')
     },
     // 加载更多
-    loadMore() {
-      this.courrentPage++;
-      const params = {
-        page: this.courrentPage,
-        limit: this.limit
-      };
-      this.$http
-        .get("users/list", {
-          params: { "user-type": "all" },
-          validate: state => state === 200
-        })
-        .then(response => {
-          // concat数组的追加
-          this.entities = this.entities.concat(response.data.data.allEntities);
-          if (this.courrentPage > 1) {
-            this.allLoaded = true; // 若数据已全部获取完毕
-          }
-
-          this.$refs.loadmore.onBottomLoaded();
-        });
+    async loadMore() {
+      await this._getData()
+      this.$refs.loadMore.onBottomLoaded()
     }
   }
 };
@@ -160,6 +156,9 @@ export default {
     .main-body {
         /* 加上这个才会有当数据充满整个屏幕，可以进行上拉加载更多的操作 */
         overflow: scroll;
+    }
+    .roleExtension {
+      margin-top: 1.55rem;
     }
     .noticesBox {
         margin:  .22rem auto 0;

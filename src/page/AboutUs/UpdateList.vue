@@ -2,7 +2,7 @@
     <div style="min-height: 100%;background: #fff">
         <clxsd-head-top title='更新列表'></clxsd-head-top>
         <h3 class="p1">V1.0.0本次更新内容</h3>
-        <p class="p2">2019.10.04</p>
+        <p class="p2">2019.10.25</p>
         <ol class="ul">
             <li style="text-indent:2em">河南康达医药科技有限公司，集合多年市场运作经验和产业互联网的数字驱动决策需求，潜心研发了《创联工厂》医药共赢销售平台，本次发版主要内容如下：</li>
             <li class="retract">1、 商业公司管理系统。每个商业公司可以方便的管理自己的商品、提取自己的订单等；</li>

@@ -57,7 +57,14 @@
             this.getData();
         },
         methods:{
+            
             getData(callback){
+                let params = {
+                    apply_role: 'promoter',
+                    apply_sub_role: '',
+                    limit: this.limit,
+                    page: this.page
+                }
                 this.loading = true;
                 this.$http.get('users/list',{params:{'user-type':'province'},validate: state => state === 200})
                     .then(response => {

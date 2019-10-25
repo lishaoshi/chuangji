@@ -44,11 +44,11 @@
                 <b>1800.00</b>
             </div> -->
         </div>
-        <clxsd-cell :title="'通道收益'" :to="'/channel-profit'" :value="userInfo.lianPiaoVaule" is-link icon="my-message"/>
-        <clxsd-cell :title="'广告收益'" :to="'/develop'" :value="userInfo.lianPiaoVaule" is-link icon="my-message" style="margin-bottom: .2rem"/>
+        <clxsd-cell :title="'通道收益'" :to="'/channel-profit'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_pass"/>
+        <clxsd-cell :title="'广告收益'" :to="'/develop'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_ad" style="margin-bottom: .2rem"/>
         <ul class="unautMy-userlist">
             <div style="margin-bottom:.2rem">
-                <clxsd-cell v-if="userInfo.sub_type === 0" :title="'角色选择'" :to="'/customer-choose-role'" is-link icon="my-collection"/>
+                <clxsd-cell v-if="!is_apply" :title="'角色选择'" :to="'/customer-choose-role'" is-link icon="my-collection"/>
             </div>
         </ul>
         <div style="margin-bottom:.2rem">
@@ -71,7 +71,8 @@
         },
         data(){
           return{
-              companyName: '未认证'
+              companyName: '未认证',
+              is_apply: false  //是否是推广员
           }
         },
         computed: {
@@ -92,11 +93,27 @@
             }),
             canShou() {
                 const userInfo = this.userInfo
-                console.log(userInfo)
+                // console.log(userInfo)
                 return (userInfo.state === 1) && (
                     userInfo.sub_type === 1 ||
                     userInfo.sub_type === 2 ||
                     userInfo.sub_type === 3)
+            }
+        },
+        created() {
+            this.initData()
+        },
+        methods: {
+            initData(){
+                this.$http.get('hippo-shop/area-user/is-apply')
+                .then(response => {
+                    console.log(response.data.data);
+                    if(response.data.data.is_apply){
+                        this.is_apply = response.data.data.is_apply
+                    }
+                }).catch(err => {
+
+                })
             }
         }
 
