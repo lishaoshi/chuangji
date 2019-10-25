@@ -448,7 +448,7 @@
             //判断手机号
             testIphone(){
                 // this.tel = 
-            var p1=/^1(3|4|5|7|8)\d{9}$/;
+            var p1 = /^1[3456789]\d{9}$/;
 			if(this.tel !='' && p1.test(this.tel)) {	
 
             }else{
