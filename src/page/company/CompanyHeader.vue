@@ -27,8 +27,12 @@
                     <div class="other">
                         <ul>
                             <li>
-                                <p>调配时间<i>{{businessInfo.send_duration || 14}}</i>天</p>
+                                <p>调配时间<i>{{allocate_time || 14}}</i>天</p>
+                                
                                 <div></div>
+                            </li>
+                            <li>
+                                <p>配送时间<i>{{delivery_time || 24}}</i>小时</p>
                             </li>
                         </ul>
                     </div>
@@ -84,9 +88,16 @@
             title() {
                 return this.businessData.display_name || this.businessData.name
             },
+            allocate_time() {
+                return this.businessInfo.business_config&&this.businessInfo.business_config.allocate_time
+            },
+            delivery_time() {
+                return this.businessInfo.business_config&&this.businessInfo.business_config.delivery_time
+            }
         },
         mounted() {
             window.addEventListener('scroll', this.handleScroll, true)
+
         },
         created(){
           this.shopDetailData = this.businessData

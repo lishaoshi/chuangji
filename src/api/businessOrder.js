@@ -10,7 +10,7 @@ export const getBusinessOrderList = (params) => {
 };
 //删除订单
 export function deleteBusinessOrder(id) {
-    return http.delete(`hippo-shop/business/orders/${id}`)
+    return http.patch(`hippo-shop/business/orders/${id}/hidden`)
 }
 //确认收货
 export function sureBusinessOrder(id) {
