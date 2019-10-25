@@ -1,22 +1,30 @@
 <template>
-    <PullRefresh  @refresh="refresh">
-        <CircleLoading v-if="loading" />
-        <Swiper space="tuiguang-all"></Swiper>
-        <div v-if="notices&&notices.length"  class="noticesBox">
-            <notice class="noticesBox-notices" :notices="notices"></notice>
-        </div>
-        <div class="notice" v-else>
-            <svg>
-                <use xlink:href="#icon-notice"/>
-            </svg>
-            <span style="padding-left: 5px">暂时没有消息</span>
-        </div>
-        <UnSureNav></UnSureNav>
-        <div v-if="entities&&entities.length">
-            <CustomerCell v-for="(entity, index) in entities" :key="`en-${index}`" :data="entity"></CustomerCell>
-        </div>
-        <EmptyList v-else></EmptyList>
-    </PullRefresh>
+    <div class="roleExtension">
+        <mt-loadmore
+            :top-method="loadTop"
+            :bottom-method="loadBottom"
+            :bottom-all-loaded="allLoaded"
+            ref="loadmore"
+            :autoFill="isAutoFill"
+            >
+            <CircleLoading v-if="loading" />
+            <Swiper space="tuiguang-all"></Swiper>
+            <div v-if="notices&&notices.length"  class="noticesBox">
+                <notice class="noticesBox-notices" :notices="notices"></notice>
+            </div>
+            <div class="notice" v-else>
+                <svg>
+                    <use xlink:href="#icon-notice"/>
+                </svg>
+                <span style="padding-left: 5px">暂时没有消息</span>
+            </div>
+            <UnSureNav></UnSureNav>
+            <div v-if="entities&&entities.length">
+                <CustomerCell v-for="(entity, index) in entities" :key="`en-${index}`" :data="entity"></CustomerCell>
+            </div>
+            <EmptyList v-else></EmptyList>
+        </mt-loadmore>
+    </div>
 </template>
 
 <script>
@@ -44,44 +52,66 @@
             CustomerCell,
             UnSureNav,
             notice,
-            Swiper
+            Swiper,
+            isAutoFill: false
         },
         data(){
             return {
                 entities:[],
                 loading: false,
-                // notices:this.$props.noticeList || []
+                allLoaded: false,
+                page: 1,
+                limit: 20,
+                isAutoFill: false
             }
         },
         created(){
-            this.getData();
+            this._getData();
         },
         methods:{
             
-            getData(callback){
+            _getData(first, type){
                 let params = {
                     apply_role: 'promoter',
                     apply_sub_role: '',
                     limit: this.limit,
-                    page: this.page
+                    page: this.page,
+                    
                 }
                 this.loading = true;
-                this.$http.get('users/list',{params:{'user-type':'province'},validate: state => state === 200})
+                this.$http.get('users/list',{params:params,validate: state => state === 200})
                     .then(response => {
                         this.loading = false;
-                        console.log(response);
-                        
-                        this.entities = response.data.data;
-                        
-                        if(callback)callback();
+                        if(this.page>1) {
+                            this.entities = [...this.entities, ...response.data.data]
+                        } else {
+                            this.entities = response.data.data;
+                        }
+                        if(!response.data.data||response.data.data.length<this.limit) {
+                            this.allLoaded = true
+                        }
+                        if(!first&&type=="top") {
+                            this.$refs.loadmore.onTopLoaded()
+                        }
+                        if(!first&&type=="bottom") {
+                            this.$refs.loadmore.onBottomLoaded()
+                        }
+                        this.page++
                     }).catch(error => {
                         this.loading = false;
-                    if(callback)callback();
                     })
             },
-            refresh(callback){
-                this.getData(callback);
-            }
+            // 下拉刷新
+            loadTop() {
+                this.allLoaded = false
+                this.page = 1
+                this._getData(false, 'top')
+            },
+            //  // 上拉加载
+            loadBottom() {
+            this._getData(false, 'bottom')
+            },
+
         }
     }
 </script>

@@ -1,5 +1,13 @@
 <template>
-    <PullRefresh @refresh="refresh">
+    <!-- <PullRefresh @refresh="refresh"> -->
+    <div class="roleExtension">
+        <mt-loadmore
+            :top-method="loadTop"
+            :bottom-method="loadBottom"
+            :bottom-all-loaded="allLoaded"
+            ref="loadmore"
+            :autoFill="isAutoFill"
+            >
         <CircleLoading v-if="loading" />
         <Swiper space="tuiguang-promoter"></Swiper>
         <!-- <notice :notices="notices"></notice> -->
@@ -53,7 +61,9 @@
             </div>
             <EmptyList v-else></EmptyList>
         </div>
-    </PullRefresh>
+        </mt-loadmore>
+    </div>
+    <!-- </PullRefresh> -->
 </template>
 
 <script>
@@ -92,6 +102,8 @@
                 myEntities:[],
                 loading: false,
                 Type:1,
+                allLoaded: false,
+                isAutoFill: false
                 // notices:this.$props.noticeList || []
             }
         },
@@ -114,8 +126,15 @@
                 this.Type = value
             },
             getData(callback){
+                let params = {
+                    apply_role: 'city_company',
+                    apply_sub_role: '',
+                    limit: this.limit,
+                    page: this.page,
+                    type: this.Type-1
+                }
                 this.loading = true;
-                this.$http.get('users/list',{params:{'user-type':'promoter'},validate: state => state === 200})
+                this.$http.get('users/list',{params:params,validate: state => state === 200})
                     .then(response => {
                         this.loading = false;
                         // this.allEntities = response.data.data.allEntities;
@@ -127,6 +146,16 @@
                     this.loading = false;
                     if(callback)callback();
                 })
+            },
+             // 下拉刷新
+            loadTop() {
+                this.allLoaded = false
+                this.page = 1
+                this._getData(false, 'top')
+            },
+            //  // 上拉加载
+            loadBottom() {
+            this._getData(false, 'bottom')
             },
             refresh(callback){
                 this.getData(callback);
