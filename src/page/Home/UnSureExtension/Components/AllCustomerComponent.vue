@@ -1,7 +1,5 @@
 <template>
-  <!-- <PullRefresh @refresh="refresh"> -->
     <div class="roleExtension">
-      <!--  :top-method="loadTop" -->
        <mt-loadmore
          :top-method="loadTop"
           :bottom-method="loadBottom"
@@ -24,21 +22,11 @@
         <UnSureNav type="all"></UnSureNav>
         <CircleLoading v-if="loading" />
         <div class="main-body" ref="wrapper" style="height: auto">
-          <!-- <mt-loadmore
-            :top-method="loadTop"
-            :bottom-method="loadBottom"
-            :bottom-all-loaded="allLoaded"
-            ref="loadmore"
-            :autoFill="isAutoFill"
-          > -->
             <CustomerCell v-for="(entity, index) in entities" :key="`en-${index}`" :data="entity"></CustomerCell>
-          <!-- </mt-loadmore> -->
         </div>
-        <!-- {{entities}} -->
         <p v-if="allLoaded" class="loader-over">加载完毕</p>
       </mt-loadmore>
     </div>
-  <!-- </PullRefresh> -->
 </template>
 
 <script>
@@ -101,13 +89,9 @@ export default {
     refresh(callback) {
       this.getData(callback);
     },
-    loadTop() {
-      this.courrentPage = 1;
-      this.loadFrist(false);
-    },
     // 上拉加载
     loadBottom() {
-      this.loadMore();
+      this._getData(false, 'bottom')
     },
 
     /*
@@ -115,6 +99,7 @@ export default {
     参数first表示是否是页面第一次加载
     */
     _getData(first=true, type) {
+      // debugger
       this.loading = true;
       let params = {
         apply_role: '',
@@ -128,26 +113,32 @@ export default {
           validate: state => state === 200
         }).then(response => {
           this.loading = false;
-          this.entities = response.data.data;
+          if(this.page>1) {
+            this.entities = [...this.entities, ...response.data.data]
+          } else {
+            this.entities = response.data.data;
+          }
+          if(response.data.data.length<this.limit) {
+            this.allLoaded = true
+          }
+          if(!first&&type=="top") {
+            this.$refs.loadmore.onTopLoaded()
+          }
+          if(!first&&type=="bottom") {
+            this.$refs.loadmore.onBottomLoaded()
+          }
+          this.page++
         })
         .catch(error => {
           this.loading = false;
         });
-        if(!first&&type=="top") {
-          debugger
-          this.$refs.loadMore.onTopLoaded()
-        }
+       
     },
-    // 下来刷新加载
     loadTop() {
-      debugger
+      this.allLoaded = false
+      this.page = 1
       this._getData(false, 'top')
     },
-    // 加载更多
-    async loadMore() {
-      await this._getData()
-      this.$refs.loadMore.onBottomLoaded()
-    }
   }
 };
 </script>
@@ -156,9 +147,6 @@ export default {
     .main-body {
         /* 加上这个才会有当数据充满整个屏幕，可以进行上拉加载更多的操作 */
         overflow: scroll;
-    }
-    .roleExtension {
-      margin-top: 1.55rem;
     }
     .noticesBox {
         margin:  .22rem auto 0;

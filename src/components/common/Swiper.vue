@@ -64,7 +64,7 @@
         margin: 0 auto;
         border-radius: .08rem;
         overflow: hidden;
-        margin-top: .7rem;
+        margin-top: .2rem;
         img {
             height: 100%;
         }
