@@ -272,7 +272,8 @@
         z-index: 999;
         align-items: center;
         justify-content: space-between;
-
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
         .approve {
             margin-left: .25rem;
 

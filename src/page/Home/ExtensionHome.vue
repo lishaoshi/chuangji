@@ -5,7 +5,7 @@
                 <img src="../../images/my/user_default.png" />
             </div> -->
         </div>
-        <div class="box1"  :class="{ box2: isFullScreen }"></div>
+        <!-- <div class="box1"  :class="{ box2: isFullScreen }"></div> -->
             <un-sure-customer></un-sure-customer>
         <!--我的弹框-->
         <div v-if="myFrame" style="position: fixed;width: 100%;height: 100%;z-index: 9999;top:0;left: 0">
