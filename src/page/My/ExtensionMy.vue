@@ -97,7 +97,6 @@
             }),
             canShou(){
                 const userInfo = this.userInfo
-                console.log(userInfo)
                 return (userInfo.state === 1 ) && (
                     userInfo.sub_type === 1 ||
                     userInfo.sub_type === 2 ||

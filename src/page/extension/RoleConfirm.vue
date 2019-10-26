@@ -121,10 +121,7 @@
         },
         mounted(){
             var apply_sub_role = ''
-            console.log(this.selectedSaveData);
-            console.log(this.role);
-            console.log(this);
-            console.log(this.USER_CHOOSED_DATA.selected_save_data);
+           
             
             // this.selectedSaveData
             if(this.selectedSaveData){
@@ -143,9 +140,7 @@
              if(this.selectedSaveData['zhenshuo']){
                 this.apply_sub_role +='zhenshuo,'
             }
-            console.log(this.apply_sub_role);
             this.apply_sub_role = this.apply_sub_role.slice(0,apply_sub_role.length-1)
-            console.log(this.apply_sub_role);
             }
             
 
@@ -159,10 +154,8 @@
                })
                 if(this.role=='promoter'){
                     var code = this.selectedSaveData.code
-                    console.log(code,'dddd');
                 }
                 var code = this.USER_CHOOSED_DATA.selected_save_data.code?this.USER_CHOOSED_DATA.selected_save_data.code:this.USER_CHOOSED_DATA.selected_save_data
-                console.log(code);
                 this.areaData.forEach(item => {
                     if(code == item.code){
                         this.address = item.name
@@ -180,10 +173,8 @@
 
             fliter(data){
                  if(data.apply_sub_role == null){
-                        console.log(data.apply_sub_role);
                         delete data.apply_sub_role
                     }
-                    console.log('data',data);
             },
             toPay(){
                 // debugger
@@ -200,7 +191,6 @@
                 this.$http.post('/hippo-shop/area-user',{
                         ...data
                 }).then(res=>{
-                    console.log(res);
                     if(res.data.code == 200){
                         this.$router.push('/apply-success');
                     }

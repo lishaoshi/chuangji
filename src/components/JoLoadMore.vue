@@ -35,8 +35,6 @@
 		) {
 			const overflowY = document.defaultView.getComputedStyle(el).overflowY;
 			if(overflowY === "scroll" || overflowY === "auto") {
-			    console.log('scroll')
-                console.log( el)
 				return el;
 			}
 			el = el.parentNode;
@@ -139,7 +137,6 @@
 
 			// 开始动作函数
 			startUp(e) {
-				console.log(1234)
 			},
 			onDrag(e) {
 				// console.log(123123123)
@@ -158,7 +155,6 @@
 				}
 			},
 			stopDrag() {
-				console.log(123)
 				this.dragging = false
 				this.pulling = false
 
@@ -181,7 +177,6 @@
 				})
 			},
 			afterRefresh(noMore = true) {
-				console.log('afterRefresh')
 				this.dY = 0
 				this.noMore = noMore
 				this.refreshing = false

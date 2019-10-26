@@ -38,7 +38,6 @@
         },
         created() {
             setInterval(this.scroll, 2200)
-            console.log(this.notices)
         },
 
         methods: {

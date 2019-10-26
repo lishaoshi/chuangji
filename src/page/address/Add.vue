@@ -146,7 +146,6 @@
                     validateStatus: s => s > 200
                 })
                     .then(response => {
-                        console.log(params)
                         Toast('添加成功');
                         this.goBack();
                         // this.$router.replace('/address')

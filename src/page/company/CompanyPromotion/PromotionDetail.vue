@@ -84,7 +84,6 @@
 		},
 		methods: {
 			showShop() {
-				console.log("aa");
 				this.regionVisible = true;
 			},
 		}

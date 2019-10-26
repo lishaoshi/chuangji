@@ -95,7 +95,6 @@
 		},
 		methods: {
 			showAddressPicker() {
-				console.log("aa");
 				this.regionVisible = true;
 			},
 		}

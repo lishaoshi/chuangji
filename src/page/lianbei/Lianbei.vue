@@ -105,13 +105,10 @@
 				
 			},
 			handleConfirm() {
-				console.log("确认")
 				//console.log(this.dateValue)
 				let time = this.dateValue
 				this.year = this.dateValue.getFullYear();
 				this.month = this.dateValue.getMonth() + 1;
-				console.log(this.year)
-				console.log(this.month)
 				this.isClicked = true;
 				
 			},

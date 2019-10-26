@@ -299,7 +299,6 @@
                 })
                 .then(response => {
                     if (response.data.data) {
-                        console.log(response.data.data);
                         this.promoterTypeData = response.data.data;
                     }
                     this.loading = false;
@@ -317,7 +316,6 @@
                         
                         // debugger
                         this.selected = response.data.data[0].value
-                        console.log(response.data.data, this.selected, 'text');
                         this.navbar = response.data.data;
                     }
                     this.loading = false;
@@ -338,7 +336,6 @@
             async handleProvinceChange() {
                 // debugger
                 if (this.provinceValue) {
-                    console.log(this.provinceValue);
                     
                     const {data} = await this.$http.get('/area-user/check-area', {
                         params: {code: this.provinceValue}
@@ -380,7 +377,6 @@
                 if (rdata.cityCode) {
                     
                     this.cityValue = rdata.cityCode;
-                    console.log(this.cityValue);
                     // area-user/check-area?code=1303
                     const {data} = await this.$http.get('/area-user/check-area', {
                         params: {code: rdata.cityCode}
@@ -444,7 +440,6 @@
                  }
             },
             handlePromoterChecked(value) {
-                console.log(value);
                 
                 this.promoterData[value] = !this.promoterData[value];
             },
@@ -461,7 +456,6 @@
                     confirmButtonText: '重新填写'
                     }).then(action=>{
                         if(action=='confirm'){
-                            console.log('ok');
                             this.$refs.input.focus();
                         }
                     })
@@ -470,14 +464,12 @@
 
         openIphone(){
             this.verify = false
-            console.log(this.$refs.input);
             this.$nextTick().then(()=>{
                 this.$refs.input.focus();
             })
         },
 
         modification(){
-                console.log(this.$refs.input.style);
                 this.$refs.input.style.color = '#333'
 
         }

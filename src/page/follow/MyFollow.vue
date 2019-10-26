@@ -237,7 +237,6 @@
                 this.endX = e.changedTouches[0].clientX;
                 // console.log(this.endX )
                 if (parentElement.dataset.type == 0 && this.startX - this.endX > 30) {
-                    console.log()
                     this.restSlide();
                     parentElement.dataset.type = 1;
                 }

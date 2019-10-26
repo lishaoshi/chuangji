@@ -117,7 +117,6 @@
             searchFn() {
                 this.page = 1
                 this.getData()
-                console.log(this.searchValue)
             },
             /*
             entryBusinessShop(item) {

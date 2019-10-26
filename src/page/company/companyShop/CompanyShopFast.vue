@@ -152,7 +152,6 @@
                 quickreplenish(params, this.businessId).then(res=>{
                     // console.log(res.data)
                     let data = res.data.data
-                    console.log(data)
                    this.entities = this._handleData(data)
                 })
                 // console.log(this.type)

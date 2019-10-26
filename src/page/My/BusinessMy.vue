@@ -86,7 +86,6 @@
 					let userLogo = ''
 					let shop_supplier = {}	
                     if(currentInfo['certification']){
-                        console.log(111)
                         if(0 === currentInfo['certification']['status']){
                             infoText = '正在审核中...'
                         }else if(2 === currentInfo['certification']['status']){

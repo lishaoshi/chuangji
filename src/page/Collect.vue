@@ -48,7 +48,6 @@
 			}
 		},
 		created() {
-			console.log(new Date().getTime() + 10000000)
 			this.timer();
 		},
 		computed: {
@@ -64,14 +63,12 @@
 					_that.orderList.forEach((item, index) => {
 						item.dayTime = countDownFun(item.countDown);
 						_that.$set(_that.orderList, item.dayTime, countDownFun(item.countDown))
-						console.log(this.temp, ‘6’)
 					})*/
 				}, 1000)
 			},
 		},
 		destroyed() { //切记页面销毁需要销毁
 			clearInterval(this.temp);
-			console.log(this.temp, "销毁")
 		}
 	}
 </script>

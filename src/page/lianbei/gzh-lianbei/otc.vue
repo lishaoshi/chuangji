@@ -98,7 +98,6 @@
 				this.year = value.getFullYear();
 				this.month = value.getMonth() + 1;
 				this.isClicked = true;
-				console.log(this.formatDate(this.$refs.datePicker.value));
 			},
 		},
 	}

@@ -159,7 +159,6 @@
                 })
             },
             searchFn() {
-                console.log(123)
                 this.$refs.list._supplierEntities(this.searchValue)
             },
 

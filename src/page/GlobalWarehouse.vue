@@ -163,7 +163,6 @@
                 this.$router.push({path:'/factory/cart'})
             },
             tab_change(type) {
-                console.log(type)
                 this.is_active = type
                 this.courrentPage = 1
                 this.loadFrist();
@@ -186,7 +185,6 @@
                 }, 700)
             },
             searchFn() {
-                console.log(this.searchValue)
                 this.courrentPage = 1
                 this.loadFrist()
                 // this.getData()

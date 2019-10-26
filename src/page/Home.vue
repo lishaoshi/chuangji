@@ -33,7 +33,6 @@
 
         },
         created(){
-            console.log(this.USER_TYPE)
         }
     }
 </script>

@@ -143,13 +143,11 @@
                 }
                 factoryServiceOrderList(params, loadMore)
                     .then(({data = []}) => {
-                        console.log(data)
                         if(loadMore) {
                             this.orders = [...this.orders, ...data]
                         } else {
                             this.orders = data
 
-                            console.log("当前数组长度：" + this.orders.length)
                         }
                         this.orders = this._handleData(this.orders)
                         this.page = this.page + 1
@@ -168,7 +166,6 @@
                 })
             },
             onOrdersRefresh(callback) {
-                console.log("加载")
                 this.page = 1
                 let options = {
                     limit: 10,

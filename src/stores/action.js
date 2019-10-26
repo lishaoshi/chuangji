@@ -49,9 +49,7 @@ export default {
      * @returns {Promise<userApi.UserObject>}
      */
     async fetchUserInfo({ commit }) {
-        console.log('fetchUserInfo');
         const { data } = await userApi.fetchUserInfo();
-        console.log('data'+data)
         commit("SAVE_CURRENTUSER", data);
         return data;
     },

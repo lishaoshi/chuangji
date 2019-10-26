@@ -69,10 +69,8 @@
                             idMapQ[item.id] = item.num
                         })
                     }else{
-                       // console.log(cartData)
                         Object.values(cartData).forEach(item => {
                             Object.values(item).forEach(_item =>{
-                                console.log(item)
                                 ids.push(_item.id)
                                 idMapQ[_item.id] = _item.num
                             })
@@ -81,7 +79,6 @@
                 }
                 if(ids.length){
                     const { data } = await supplierBusinessEntities(ids.join(','))
-                    console.log(data)
                     this.data.shops = this._handleData(data,idMapQ)
                 }
                 this.loading = false
@@ -127,7 +124,6 @@
 
                 let shop = this.data.shops[i]
                 shop.checked = !shop.checked
-                console.log("shop.checked:"+shop.checked)
                 //获取当前店铺的选中的状态
                 let shopChecked=shop.checked
                 //根据当前店铺的状态控制店铺商品的状态的值

@@ -138,10 +138,8 @@
 					search: this.searchValue
 				}
 				findNearBySuppliers(params).then(response => {
-					console.log(response.data.data)
 					this.allLoaded = false; // 可以进行上拉
 					this.suppliers = response.data.data;
-					console.log(this.suppliers, 'this.suppliers')
 					this.$refs.loadmore.onTopLoaded();
 				})
 			},
@@ -167,7 +165,6 @@
 				this.swipers = data.data
 				infoList({from: 'platform',space:"global-top"}).then(data => {
 					this.notices = data.data.data
-					console.log(this.notices)
 				})
 			},
 			// 点击搜索
@@ -179,10 +176,8 @@
 					search: this.searchValue
 				}
 				findNearBySuppliers(params).then(response => {
-					console.log(response.data.data)
 					this.allLoaded = false; // 可以进行上拉
 					this.suppliers = response.data.data;
-					console.log(this.suppliers, 'this.suppliers')
 					this.$refs.loadmore.onTopLoaded();
 				})
 			},

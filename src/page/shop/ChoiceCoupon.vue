@@ -33,7 +33,6 @@
 		},
 		methods: {
 			notChoice:function(){
-				console.log("11");
 				this.isCoupon=false;
 				this.isActive=false;
 			},

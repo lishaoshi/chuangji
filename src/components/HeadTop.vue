@@ -74,10 +74,8 @@
             ])
         },
         created() {
-            console.log(this.$store.state.BROWSER)
         },
         mounted() {
-            console.log(this.$route);
             
             if(this.$route.path=='/business-setting') {
                 this.isBROWSER = true

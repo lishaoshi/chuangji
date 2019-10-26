@@ -150,7 +150,6 @@
                 onlyDelShopCar(data)
             },
 			addToMiniCart(event, item) {
-				console.log(item)
 				if(this.canOption()) {
 					this.BUSINESS_ADD_CART(item)
 					item.num++

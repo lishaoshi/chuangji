@@ -59,7 +59,6 @@
             },
         },
         created() {
-            console.log(this.value,'form')
         }
     }
 </script>

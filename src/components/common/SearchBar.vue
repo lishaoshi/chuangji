@@ -44,7 +44,6 @@
 				else this.back();
 			},
 			keyEnter(e) {
-				// console.log(e.target.value)
 				this.$emit('keyup', e.target.value)
 			}
 

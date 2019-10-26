@@ -111,7 +111,6 @@
 		methods: {
 			buy: function() {
 				this.$messagebox.confirm("确认购买?").then(action => {
-					console.log(action);
 				});
 			},
 		}

@@ -87,11 +87,9 @@
 		},
 		methods: {
 			showAddressPicker() {
-				console.log("aa");
 				this.regionVisible = true;
 			},
 			onMyAddressChange(picker, values) {
-				console.log(picker);
 
 			},
 		},

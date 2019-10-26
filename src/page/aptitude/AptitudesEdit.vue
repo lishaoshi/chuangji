@@ -222,7 +222,6 @@
             chooseTranTypes(data) {
                 this.aptitudeData.sub_type = data.type
                 this.companyTypeName = data.label;
-                console.log(data, this.companyTypeName, this.sub_type)
                 this.companyCType = data.type;
                 this.popupVisible = false;
             },
@@ -313,7 +312,6 @@
                         }
 
                     }).catch(({response: {data: {errors = ['加载认证类型失败']} = {}} = {}}) => {
-                        console.log(resp)
                     })
                } else {
                 Object.keys(this.aptitudeList).forEach(item=>{
@@ -336,7 +334,6 @@
                         }
 
                     }).catch(({response: {data: {errors = ['加载认证类型失败']} = {}} = {}}) => {
-                        console.log(resp)
                     })
                }
 
@@ -368,7 +365,6 @@
                         break
                }
             })
-            console.log(this.aptitudeData,'data')
         }
     }
 </script>

@@ -107,7 +107,6 @@ instance.interceptors.response.use(
                         requireAuth()
                         break
 
-                        // console.log(err.response.data.message, 'test')
                 }
             }else {
                 err.tips = "网络不可用，请检查！";

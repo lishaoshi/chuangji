@@ -144,7 +144,6 @@
                     limit: options.limit,
                     supplier_id:this.businessId
                 }
-                console.log(params)
                 getBusinessOrderList(params, loadMore)
                 .then(({
                            data = []
@@ -212,7 +211,6 @@
                 this.getUnPayOrderData(options)
             },
             unPayLoadMore() {
-                console.log('loard')
                 let options = {
                     limit: 10,
                 }

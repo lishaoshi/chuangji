@@ -72,7 +72,6 @@
             }
         },
         created() {
-            console.log(this.data)
         },
         methods: {
             slide: function (event) {

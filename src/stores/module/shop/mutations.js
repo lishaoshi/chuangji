@@ -15,17 +15,14 @@ export default {
     DELETE_ADDRESS(state,id){
     	let addressList = state.ADDRESS_LIST
     	addressList.forEach((address,index) => {
-    		console.log(id === address.id)
     		if(address.id === id){
     			addressList.splice(index, 1); 
     			//delete addressList[index]
     		}
     	})
-    	console.log(addressList.length)
     	state.ADDRESS_LIST = addressList
     },
     UPDATE_ADDRESS(state,id){
-    	console.log("更新地址")
     	state.ADDRESS_LIST = addressList
     },
     SAVE_CURRENT_BUSINESS_SHOP(state,shopId){
@@ -77,7 +74,6 @@ export default {
         Object.values(cartList).forEach( (item,index) => {
             Object.values(item).forEach( (items,indexs) => {
                if(items.id === itemId) {
-                   console.log(itemId, 'hello')
                 delete item[itemId]
                 }
             })
@@ -109,7 +105,6 @@ export default {
         let shop = cartList[shopId] =(cartList[shopId] || {})
         if(shop[itemId]){
             shop[itemId]['num']++
-            console.log("组件中数量："+shop[itemId]['num'])
         }else{
             shop[itemId] = {
                 "num":1,
@@ -124,11 +119,9 @@ export default {
     BUSINESS_REMOVE_CART(state,{shopId,itemId}) {
         let cartList = state.BUSINESS_CART_LIST
         let shop = (cartList[shopId] || {})
-        console.log("2.删除一条购物")
         if (shop && shop[itemId]) {
             if (shop[itemId]['num'] > 0) {
                 shop[itemId]['num']--;
-                console.log("3.数量："+shop[itemId]['num'])
                 state.BUSINESS_CART_LIST = {...cartList}
                 lstore.setData('BUSINESS_CART_LIST', state.BUSINESS_CART_LIST)
             } else {
