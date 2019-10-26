@@ -28,13 +28,11 @@
                     this.$toast("你的反馈内容不能为空")
                     return;
                 }
-                console.log(this.feedback)
                 this.$http.post("comments/add",{body:this.feedback}).then(res => {
                     this.feedback =''
                     this.$toast('感谢您的反馈')
                     this.$router.push('/feedback-list')
                 }).catch(error => {
-                    console.log(this.error)
                 })
             }
         }

@@ -107,7 +107,6 @@
 					login: this.account,
 					password: this.password
 				}).then(state => {
-					console.log(state);
 					this.loading = false;
 					state &&
 						this.$nextTick(() => {

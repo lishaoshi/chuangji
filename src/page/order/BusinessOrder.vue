@@ -116,7 +116,6 @@
                 this.getOrderList(false, true)
             },
             dowm(value) {
-                console.log(value)
             },
             sureOrder(id) {
 				this.$messagebox.confirm("确定收到货物了吗?").then(action => {
@@ -137,7 +136,6 @@
                     if(i<50) {
                         clearInterval(timTest);
                     }
-                    console.log(i);
                 },1000)
             },
 

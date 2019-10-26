@@ -36,16 +36,13 @@
                 let count = this.balls.length
 
                 while (count--) {
-                    //console.log(count)
                     let ball = this.balls[count]
                     if (ball.show) {
                         let rect = ball.el.getBoundingClientRect() // 获取小球的相对于视口的位移(小球高度)
-                        //console.log(rect)
                         //let x = -(window.innerWidth + rect.left)
                         let x = rect.left
                         //let y = rect.top + 90 
                         let y =-rect.top
-                        //console.log("x:"+x+",y:"+y)
                         el.style.display = '' // 清空display
                         el.style.webkitTransform = `translate3d(0, ${y}px, 0)`
                         el.style.transform = `translate3d(0, ${y}px, 0)`

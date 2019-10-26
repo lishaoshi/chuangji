@@ -48,7 +48,6 @@
             window.addEventListener('scroll', this.handleScroll, true)
         },
         activated() {
-            console.log(1)
         },
         computed: {
             ...mapState(['POSITION']),
@@ -86,9 +85,7 @@
                     this.swippers = data.swippers
                 }
                 if (loadMore) {
-                    console.log(this.businesses)
                     this.businesses = [...this.businesses, ...data.items]
-                    console.log(this.businesses)
                 } else {
                     this.businesses = data.items
                 }
@@ -114,7 +111,6 @@
 
             },
             onLoadMore() {
-                console.log('loadMore')
                 const options = {
                     limit: 6
                 }

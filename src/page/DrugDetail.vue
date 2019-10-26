@@ -134,7 +134,6 @@
             },
         },
         created() {
-            console.log(this.$route)
             this.id = parseInt(this.$route.params.id);
             this.supplierId = parseInt(this.$route.params.supplierId);
             this._initData();
@@ -169,7 +168,6 @@
                 this.data = this._handleData(this.data)
                 //是否收藏
                 isBusinessGoodsFollow(this.id).then(res => {
-                    console.log(res.data.data.hasrelation)
                     if (res.data.data.hasrelation) {
                         this.follow_info = "已收藏"
                         this.follow_status = 1
@@ -178,14 +176,12 @@
                         this.follow_status = 0
                     }
                 }).catch(error => {
-                    console.log(error)
                 })
             },
             CollectionFn() {
                 const params = {
                     entity_id: this.id
                 }
-                console.log(params)
                 if (this.follow_status) {//followed
                     this.$messagebox.confirm("确定要取消收藏吗?").then(action => {
                         if (action === 'confirm') {

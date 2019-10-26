@@ -115,14 +115,12 @@
                         validate: state => state === 200
                     }).then(response => {
                         this.loading = false;
-                        console.log(response)
                         if (!response.data.verifyStatus) {
                             this.$toast("密码不正确，请重新输入")
                             this.oldPassword = ""
                             return
                         }
                     }).catch(error => {
-                        console.log(error)
                         this.loading = false;
                         this.$toast(error)
                         return

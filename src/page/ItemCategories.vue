@@ -175,15 +175,12 @@
         },
         methods: {
              _handleData(data) {
-                console.log(data, 'data')
                 if (data.list) {
                     data.list.forEach((data,index, arr) => {
-                        console.log(data)
                         let time = data.valid_time
                         arr[index].time = this.$moment.unix(time).format("YYYY.MM.DD")
                     })
                 }
-                console.log(data, 'isData')
                 return data
             },
             all_Goods() {
@@ -197,7 +194,6 @@
                 this.is_active = 0
                 let nodes =this.$refs.slideMenu
                 let childNode = this.$refs.slideChild
-                console.log(nodes)
                 nodes.forEach(item => {
                     item.classList.remove("active");
                     item.classList.add("up");
@@ -216,12 +212,10 @@
                 }
 
                 this.init_Goods(params)
-                console.log(123, value)
             },
             async initData() {
                 if (this.supplierId) {
                     const {data} = await this.$http.get(`/hippo-shop/business/menuEntities`)
-                    console.log(data.data.cates)
                     this.menuList = data.data.cates
                     this.init_Goods()
                     this.loading = false
@@ -232,7 +226,6 @@
             },
             //一级菜单点击商品
             showGoods(id, $event) {
-                console.log("当前id：" + id)
                 this.is_active = id //是否当前一级菜单
                 let parentNode = event.target.parentNode;
                 let a = this.sibling(parentNode)
@@ -307,7 +300,6 @@
             },
             //二级菜单商品
             showSlideGoods(id, ids, $event) {
-                console.log('id',id, 'ids: ', ids)
                 this.is_active = id
                 this.is_child_id = id
                 this.cat_id = id
@@ -374,7 +366,6 @@
             },
             //产品显示
             init_Goods(params) {
-                console.log(params)
                 servicBusinessGoodList(params).then(res => {
                     this.goodList = res.data.data.businessGoods
                     this.goodList = this._handleData(this.goodList)

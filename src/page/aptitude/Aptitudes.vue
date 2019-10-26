@@ -107,7 +107,6 @@
 				userInfo: state => {
 					const currentInfo = state.CURRENTUSER.data
 					const configInfo = state.CONFIG
-					//console.log(currentInfo)
 					let companyName = '未认证'
 					let companyAddress = ''
 					let business_license,business_executive,gsp,gmp
@@ -135,7 +134,6 @@
 
 							}
 						});
-						// console.log(aptitudeData);
 						// business_license = aptitudeData.business_license
 					}
 					return {

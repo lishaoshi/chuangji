@@ -77,7 +77,6 @@
             async _initData() {
                 // debugger
                 let {data} = await getAddressList()
-                console.log(data)
                 
                 if (data instanceof Array && data.length) {
                     if (this.choose) {

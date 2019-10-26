@@ -149,11 +149,9 @@
                 const {
                     data
                 } = await this.$http.get(`hippo-shop/factory/${this.factoryId}/detail/${this.id}`)
-                console.log(data, 'is data')
                 this.data = this._handleData(data.data)
             //是否收藏
                 isDetailFollow(this.id).then(res => {
-                    console.log(res.data.data.hasrelation)
                     if(res.data.data.hasrelation){
                         this.follow_info = "已收藏"
                         this.follow_status = 1
@@ -162,7 +160,6 @@
                         this.follow_status = 0
                     }
                 }).catch(error => {
-                    console.log(error)
                 })
             },
             canOption() {
@@ -208,7 +205,6 @@
                 const params = {
                     entity_id: this.id
                 }
-                console.log(params)
                 if (this.follow_status) {//followed
                     this.$messagebox.confirm("确定要取消收藏吗?").then(action => {
                         if (action === 'confirm') {

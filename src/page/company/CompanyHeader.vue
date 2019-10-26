@@ -108,7 +108,6 @@
             async initData() {
                 //店铺是否关注信息
                 isBusinessFollow(this.shopId).then(res => {
-                    console.log(res.data.data.hasrelation)
                     if(res.data.data.hasrelation){
                         this.follow_info = "已关注"
                         this.follow_status = 1
@@ -117,7 +116,6 @@
                         this.follow_status = 0
                     }
                 }).catch(error => {
-                    console.log(error)
                 })
             },
             handleScroll() {
@@ -147,12 +145,10 @@
                     this.$messagebox.confirm("确定要取消关注吗?").then(action => {
                         if (action === 'confirm') {
                             deleteBusinessFollow(id).then(res =>{
-                                console.log(res.data)
                                 if(res.data.message=="success"){
                                     this.$toast("取消成功")
                                 }
                             }).catch( error => {
-                                console.log(error)
                             })
                             this.follow_info = '关注'
                         }
@@ -167,7 +163,6 @@
                 if(!this.searchValue) {
                     return false
                 }
-                // console.log(this.searchValue)
                 let search = this.searchValue
                 localStorage.setItem('search', JSON.stringify(search));
                 this.$router.push({path:'/company-product-list', query: {shopId: this.shopId}})

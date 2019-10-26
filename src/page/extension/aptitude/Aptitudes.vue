@@ -88,7 +88,6 @@
 					}
 					if(currentInfo['certification']){
 						let aptitudeData = currentInfo['certification']['data']
-						console.log(aptitudeData);
 						business_license = aptitudeData.business_license
 						threeToOne = parseInt( aptitudeData.is_three_one)
 						oscc = aptitudeData.oscc

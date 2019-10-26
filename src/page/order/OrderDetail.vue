@@ -146,7 +146,6 @@
                 })
 			},
 			_handleData(data) {
-				console.log(data)
                     if(data.order_status === 0)this.order_status_display = '待付款'
                     if(data.order_status === 1)this.order_status_display = '待提取'
                     if(data.order_status === 2 &&  this.userType == 2)this.order_status_display = '待发货'

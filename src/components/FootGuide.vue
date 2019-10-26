@@ -192,7 +192,6 @@
             })
         },
         updated(){
-            console.log('userType', this.userType)
         },
         methods: {
             async to(path, flag=false) {

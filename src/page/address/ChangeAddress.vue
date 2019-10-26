@@ -63,7 +63,6 @@
 		},
 		created() {
            // this.addressId = this.$route.params.addressId;
-           // console.log("地址ID:" + this.addressId)
 			this._initData();
 		},
         // watch: {
@@ -77,7 +76,6 @@
 			async _initData(){
 				if(this.addressId){
 					const { data } = await getAddress(this.addressId)
-                    //console.log(data)
                     this.consignee =data.consignee
                     this.tel = data.tel
                     this.region = data.province+data.city+data.district,
@@ -161,14 +159,12 @@
 					address,
 					is_default,
 				}
-				console.log(params)
                 //put
 				//4. send http request
                     this.$http.put('hippo-shop/addresses/'+this.addressId, params, {
                         validateStatus: s => s > 200
                     })
                     .then(response => {
-                        console.log(params)
                         Toast('修改成功');
                         this.goBack();
                     })

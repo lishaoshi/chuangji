@@ -34,7 +34,6 @@
 				this.$emit('shopChecked', i)
 			},
 			handleQueryDetail(data) {
-				// console.log(data)
 				if(data.type == 1) {
 					this.$router.push({path: `/factory/shop/${data.shopId}`})
 				} else if(data.type == 2) {

@@ -232,7 +232,6 @@
                         verifiable_code: this.verifiable_code,
                     }).catch(() => resArray)
                     .then(response => {
-                        console.log(response.data.data.istrue)
                         if(response.data.data.istrue){
                             this.is_code = false
                         }else{

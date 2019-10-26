@@ -147,11 +147,9 @@
             },
             // 需要注意店铺的ID值
             shopCheck(i){
-                console.log(i)
                 // return
                 let shop = this.data.shops[i]
                 shop.checked = !shop.checked
-                console.log("shop.checked:"+shop.checked)
                 //获取当前店铺的选中的状态
                 let shopChecked=shop.checked
                 //根据当前店铺的状态控制店铺商品的状态的值

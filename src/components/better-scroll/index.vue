@@ -113,7 +113,6 @@
           this.scroll.on('scrollEnd', () => {
             // 滚动到底部
             if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
-              console.log('pullup')
               this.$emit('scrollToEnd')
             }
           })
@@ -125,7 +124,6 @@
             // 下拉动作
             if (pos.y > 50) {
               debugger
-              console.log(123)
               this.$emit('pulldown', ()=>{})
             }
           })

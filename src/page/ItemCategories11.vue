@@ -106,11 +106,8 @@
         },
         methods: {
             async initData() {
-                console.log("11")
-                console.log(this.supplierId)
                 if (this.supplierId) {
                     const {data} = await this.$http.get(`/hippo-shop/business/menuEntities/${this.supplierId}`)
-                    console.log(data)
                     this.menuList = data
                     this.loading = false
                 } else {
@@ -129,7 +126,6 @@
                         list.remove()
                         //console.log( this.menu.unSale)
                         this.menuList.forEach(item => {
-                            console.log(item)
                         })
                         this.menu.unSale++
                         this.menu.onSale--
@@ -141,12 +137,10 @@
 
             },
             onSaleGoods() {
-                console.log("在售")
                 this.isUp = true;
                 this.isDown = false
             },
             downSaleGoods() {
-                console.log("下架")
                 this.isUp = false
                 this.isDown = true
             }

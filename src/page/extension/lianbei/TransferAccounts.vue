@@ -104,8 +104,7 @@
                 this.tranValue = price;
             },
             toTran(){
-                console.log(444)
-                if(this.tranValue > 0){console.log(777)
+                if(this.tranValue > 0){
                     const curPhone = this.$store.state.CURRENTUSER.data.phone;
                     if(!phonePattern.test(this.searchValue)){
                         this.$toast('请输入正确的手机号！')

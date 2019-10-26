@@ -142,7 +142,6 @@
                         this.initFactoryData(confirmOrderData.checkedItems)
                         break
                     case 'business':
-                        console.log(confirmOrderData.checkedItems)
                         this.initBusinessData(confirmOrderData)
                         break
                 }
@@ -223,7 +222,6 @@
                 })
                 
                 this.shopData = data
-                 console.log(this.shopData, 'shop')
             },
             onSubmit() {
                 if (!this.choosedAddress) {
@@ -247,7 +245,6 @@
                 }
                 
                 confirmOrder(params).then(res=>{
-                    console.log(res)
                     let data = res.data.data.orders
                     let time = res.data.data.timeout_to_order_cancel
                     this.CLEAR_CONFIRM_ORDER_DATA()

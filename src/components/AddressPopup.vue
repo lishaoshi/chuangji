@@ -63,7 +63,6 @@
             }
         },
         created(){
-            console.log(regionAddress)
         },
         methods:{
             addressChange(picker,values){

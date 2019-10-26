@@ -159,11 +159,9 @@
                     }
                 })
                 
-                console.log(this.data)
 
                 //是否收藏
                 isBusinessGoodsFollow(this.id).then(res => {
-                    console.log(res.data.data.hasrelation)
                     if(res.data.data.hasrelation){
                         this.follow_info = "已收藏"
                         this.follow_status = 1
@@ -172,7 +170,6 @@
                         this.follow_status = 0
                     }
                 }).catch(error => {
-                    console.log(error)
                 })
 
 
@@ -242,7 +239,6 @@
                     entity_id: this.id,
                     supplier_id: this.businessId
                 }
-                console.log(params)
                 if (this.follow_status) {//followed
                     this.$messagebox.confirm("确定要取消收藏吗?").then(action => {
                         if (action === 'confirm') {

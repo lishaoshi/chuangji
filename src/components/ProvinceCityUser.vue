@@ -85,7 +85,6 @@
             },
             addressChange(picker,values){
                 this.changeCity = true
-                console.log(picker,values )
                 this.province = values[0]["name"]
                 this.city = values[1]["name"]
                 this.provinceCode = values[0]['code'].substring(0, 2)

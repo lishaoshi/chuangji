@@ -36,8 +36,6 @@
 		) {
 			const overflowY = document.defaultView.getComputedStyle(el).overflowY;
 			if(overflowY === "scroll" || overflowY === "auto") {
-			    console.log('scroll')
-                console.log( el)
 				return el;
 			}
 			el = el.parentNode;
@@ -150,7 +148,6 @@
                 // scrollTop + clientHeight == scrollHeight。
                 const isScrollDowm= document.documentElement.scrollTop + document.documentElement.clientHeight == document.documentElement.scrollHeight
                 // console.log(document.documentElement.scrollTop + document.documentElement.clientHeight, document.documentElement.scrollHeight)
-                console.log('ispull', isScrollDowm, isDown, downY)
 
 				if(this.dragging && isPull && window.scrollY <= 0) {
                     // 阻止 原生滚动 事件
@@ -192,7 +189,6 @@
 				})
 			},
 			afterRefresh(noMore = true) {
-				console.log('afterRefresh')
 				this.dY = 0
 				this.noMore = noMore
 				this.refreshing = false

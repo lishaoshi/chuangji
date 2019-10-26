@@ -51,7 +51,6 @@
             }
         },
         created(){
-            console.log(this.USER_TYPE)
         },
         computed: {
             url() {

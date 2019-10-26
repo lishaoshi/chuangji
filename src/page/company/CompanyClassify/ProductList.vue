@@ -168,7 +168,6 @@
             }
             let id = this.shopId
             var data1 = JSON.parse(localStorage.getItem('search'));
-            console.log(data1)
             this.value = data1
             this.initData(id)
             this.init_Goods(true)
@@ -248,14 +247,12 @@
                         })
                     })
                 })
-                // console.log("长度："+this.goodList.list.length())
             },
              //一级菜单点击商品
             showGoods( $event, id) {
                 this.allLoaded = false
                 this.page = 1
                 // debugger
-                // console.log("当前id：" + id)
                 this.tabActive = id //是否当前一级菜单
                 let parentNode = event.target.parentNode;
                 let targetNode = event.target
@@ -328,7 +325,6 @@
                 
             },
             topReft() {
-                console.log('上啦')
             },
             canOption() {
                 if (!this.canShow) {
@@ -346,7 +342,6 @@
                 } = await this.$http.get(`/hippo-shop/business/menuEntities`, {params});
                 //this.menuList = data
                 this.menuList = data.data.cates
-                console.log(this.menuList)
             },
             closedMyFrame() {
                 this.is_business_list = false

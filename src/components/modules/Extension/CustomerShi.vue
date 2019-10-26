@@ -111,7 +111,6 @@
             }
         },
         created(){
-            console.log(222);
             if(this.$route.params.code){
                 this.code = this.$route.params.code;
             }

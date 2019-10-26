@@ -195,7 +195,6 @@
                 }else{
                     Object.values(this.cartList).forEach((item,index) => ids = ids.concat(Object.keys(item)))
                 }
-                console.log(ids)
 
                 this.initAddress()
 
@@ -226,9 +225,7 @@
             },
             //获取地址信息，第一个地址为默认选择地址
             async initAddress(){
-                console.log(11)
                 const { data } = await getAddressList()
-                console.log(data)
                 if (addressRes instanceof Array && addressRes.length) {
                     this.CHOOSE_ADDRESS({address: addressRes[0], index: 0});
                 }

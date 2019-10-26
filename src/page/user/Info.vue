@@ -54,12 +54,10 @@
 				this.$http.get('user', {
 					validateStatus: status => status == 200,
 				}).then(response => {
-					console.log(response.data);
 					this.userName = response.data.display_name || response.data.name || response.data.phone;
 					this.userTel = response.data.phone;
 					
 				}).catch(response => {
-					console.log(response);
 				});
 			},
 			getLianValue() {

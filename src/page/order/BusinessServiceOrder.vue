@@ -116,13 +116,11 @@
         },
         mounted() {
             this.$nextTick().then(()=>{
-                console.log(this.$refs, 'height')
             })
             
         },
         watch: {
             selected(newValue, oldValue) {
-                console.log(newValue, oldValue, this.page)
                 this.page = 1
                 this.unPay_page= 1
                 this.unSend_page = 1
@@ -193,13 +191,10 @@
                 this.flag = !this.flag
             },
             onPullStart() {
-                console.log('onPullStart')
             },
             dowm(vale) {
-                console.log(123123, value)
             },
             _handleData(data,status) {
-                console.log("当前："+this.selected)
                 data.forEach(order => {
                     switch (status) {
                         case 0:  order.order_status_display = '待提取'
@@ -229,14 +224,11 @@
             },
             delectOrder(id) {
                 this.$messagebox.confirm("确定删除此订单吗?").then(action => {
-                    console.log("删除的商品id：" + id)
                 }).catch(err => err);
             },
             async refuseOrder(id) {
                 this.$messagebox.confirm("确定拒绝此订单吗?").then(action => {
-                    console.log("商品id：" + id)
                      serviceBusinessRefuseOrder(id).then((res)=>{
-                         console.log(res)
                          if(res.data.code==200) {
                              this.initData()
                             this.orders.splice(this.orders.findIndex(item => item.id === id), 1)
@@ -293,7 +285,6 @@
                             }
                         
                         this.orders.forEach((item, index, arr)=>{
-                            console.log(arr[index]);
                             
                             arr[index].time = this.$moment.unix(item.payed_time_int).format("YYYY-MM-DD hh:mm:ss");
                             // arr[index].client_supplierName = arr[index].client_supplier.name?arr[index].client_supplier.name:''

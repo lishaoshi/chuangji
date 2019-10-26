@@ -36,7 +36,6 @@
         },
         created() {
            this.timing = setInterval(this.scroll, 2200)
-            // console.log(this.notices, 'notices')
         },
 
         methods: {
@@ -47,7 +46,6 @@
                 if(that.notices && that.notices.length==1) {
                     that.notices.push(that.notices[0])
                 }
-                // console.log(this.notices, 'notices')
                 if(this.notices!==null) {
                     setTimeout(function () {
                         // debugger

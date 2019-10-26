@@ -125,7 +125,6 @@
         methods:{
             areaSelect(area,_arIndex){
                 this.selected =_arIndex;
-                console.log(area)
 
                 this.cityData = area.children
             },

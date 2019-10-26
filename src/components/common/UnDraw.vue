@@ -92,9 +92,7 @@
             //滑动结束
             touchEnd(e) {
                 let parentElement = e.currentTarget.parentElement;
-                // console.log(parentElement)
                 this.endX = e.changedTouches[0].clientX;
-                // console.log(this.endX )
                 if (parentElement.dataset.type == 0 && this.startX - this.endX > 30) {
                     this.restSlide();
                     parentElement.dataset.type = 1;

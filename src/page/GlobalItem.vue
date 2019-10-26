@@ -63,7 +63,6 @@
         created() {
             setInterval(this.scroll, 2500)
             this.onRefresh()
-            console.log(this.is_active)
         },
         mounted() {
             window.addEventListener('scroll', this.handleScroll, true)
@@ -83,9 +82,7 @@
                     type: this.is_active,
                     limit: options.limit,
                 }
-                console.log(params)
                 businessList(params, loadMore).then(({data = []}) => {
-                    console.log(data.data)
                     if (loadMore) {
                         this.businesses = [...this.businesses, ...data.data.businessList]
                     } else {

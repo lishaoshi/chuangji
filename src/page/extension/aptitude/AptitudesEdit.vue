@@ -117,7 +117,6 @@
                         this.$store.commit('SAVE_USER',Object.assign(currentData,{certification:response.certification}))
                         this.goBack()
                     }).catch(({ response: { data: { errors = ['加载认证类型失败'] } = {} } = {} }) => {
-                        console.log(resp)
                 })
 
 			}

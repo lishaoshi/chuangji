@@ -73,7 +73,6 @@
             }
         },
         mounted() {
-            console.log(this.noticeList, '123')
         },
         // updated() {
             

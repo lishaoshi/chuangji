@@ -16,7 +16,6 @@ export function signinByAccount(payload){
         if(res.data.code==400) {
             Toast(res.data.message)
         } else {
-            console.log(res.data.access_token, 'res')
             lstore.setData("H5_ACCESS_TOKEN", `Bearer ${res.data.access_token}`)
         }
         return res.data

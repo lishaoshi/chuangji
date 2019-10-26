@@ -46,7 +46,6 @@
         },
         created() {
             // debugger
-            console.log(this.userType)
         }
     }
 </script>

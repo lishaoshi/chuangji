@@ -134,7 +134,6 @@
                     this.totalIncome = response.data.income;
                     this.totalExpenditure = response.data.expenditure;
                     this.entities = response.data.items;
-                    console.log(this.entities)
                     this.loading = false;
                 }).catch(error => {
                     this.loading = false;

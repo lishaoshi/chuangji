@@ -63,12 +63,10 @@
             })
         },
         beforeRouteLeave(to, from, next) {
-            // console.log(to, from ,this.CERT_STATUS)
             if(this.CERT_STATUS!=4) {
                 next()
             } else {
                 this.updateCompany(2)
-                console.log(this.$store)
                 next()
             }
         },
@@ -85,10 +83,8 @@
 
             // 获取公司资质信息
             async _queryCompayResults() {
-                // console.log('queryCompayResults')
                 await this.fetchUserInfo()
                 this.CERT_STATUS==2&&queryCompayResults({}).then(res=>{
-                    // console.log(res, 'queryCompayResults')
                     if(res.code==200) {
                         let data = res.data
                         this.cate_name = data.certificationInfo.cate_name

@@ -23,7 +23,6 @@
         methods:{
             init_Data(){
                 this.$http.get('/qrcode').then(res => {
-                    console.log(res)
                     this.imgUrl = res.data
                 })
             }
