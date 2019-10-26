@@ -182,7 +182,7 @@
                         }
                         
                         arr[index].name = name
-                        arr[index].value = parseInt(item.value).toFixed(2)
+                        arr[index].value = parseFloat(item.value).toFixed(2)
                         arr[index].img = img
                     })
                     }
