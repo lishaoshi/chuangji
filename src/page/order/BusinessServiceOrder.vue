@@ -310,8 +310,8 @@
                 let y = dade.getFullYear()
                 let m = dade.getMonth()+1
                 let d = dade.getDate()
-                let h = dade.getHours()
-                let ms = dade.getMinutes()
+                let h = dade.getHours()>=10?dade.getHours():'0'+dade.getHours()
+                let ms = dade.getMinutes()<10?'0'+dade.getMinutes():dade.getMinutes()
                 let ss = dade.getSeconds()
                 return `${y}-${m}-${d} ${h}:${ms}`
             }
