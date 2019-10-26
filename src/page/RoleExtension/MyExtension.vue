@@ -77,10 +77,15 @@ export default {
     ClxsdCell,
     ICountUp
   },
+  props: {
+    balance: {
+      type: Number,
+      default: 0
+    }
+  },
   data(){
     return{
       is_apply:false,
-      balance: 0,
       options: {
           useEasing: true,
           useGrouping: true,
