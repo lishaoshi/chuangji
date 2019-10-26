@@ -285,11 +285,8 @@
                             }
                         
                         this.orders.forEach((item, index, arr)=>{
-                            
-                            arr[index].time = this.$moment.unix(item.payed_time_int).format("YYYY-MM-DD hh:mm:ss");
-                            // arr[index].client_supplierName = arr[index].client_supplier.name?arr[index].client_supplier.name:''
+                            arr[index].time = this.handleTime(item.created_at_int)
                             arr[index].client_supplierName = arr[index]?arr[index].client_supplier?arr[index].client_supplier.name:'':''
-                            // item.left_time && (arr[index].left_time = Math.ceil(item.left_time/60));
                         })
                         if(data.data.orderList.length<=0) {
                             this.allLoaded = true   
@@ -297,8 +294,20 @@
                     })
                     this.page++
             },
+            
+            // 处理下单时间函数
+            handleTime(time) {
+                time = time*1000
+                let dade = new Date(time)
+                let y = dade.getFullYear()
+                let m = dade.getMonth()+1
+                let d = dade.getDate()
+                let h = dade.getHours()
+                let ms = dade.getMinutes()
+                let ss = dade.getSeconds()
+                return `${y}-${m}-${d} ${h}:${ms}`
+            }
         },
-
     }
 </script>
 
