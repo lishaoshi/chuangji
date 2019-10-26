@@ -274,6 +274,7 @@
         justify-content: space-between;
         transform: translateZ(0);
         -webkit-transform: translateZ(0);
+        -webkit-overflow-scroll:touch;
         .approve {
             margin-left: .25rem;
 
