@@ -3,7 +3,7 @@
         <!-- <scroll> -->
         <div class="content">
             <div v-bind:class="{ search: isActive, 'bg-blue': hasError ,activeTop: isFullScreen }">
-                <SearchBar v-model="searchValue" :searchFn="searchFn"></SearchBar>
+                <SearchBar ref="searchBox" v-model="searchValue" :searchFn="searchFn"  @keyup="keyup"></SearchBar>
                 <div class="approve">
                     <img src="../../images/index/study1@2x.png"/>
                 </div>
@@ -168,9 +168,24 @@
                 findNearBySuppliers(params).then(response => {
                     this.allLoaded = false; // 可以进行上拉
                     this.suppliers = response.data.data;
-                    this.$refs.loadmore.onTopLoaded();
+                    // this.$refs.loadmore.onTopLoaded();
                 })
             },
+            // 软键盘弹出时，点击搜索按钮执行
+			keyup() {
+				const params = {
+                    page: 1,
+                    limit: this.limit,
+                    search: this.searchValue
+                }
+                this.$refs.searchBox.$refs.input.blur()
+                findNearBySuppliers(params).then(response => {
+                    this.allLoaded = false; // 可以进行上拉
+                    this.suppliers = response.data.data;
+                    // this.$refs.loadmore.onTopLoaded();
+                })
+                
+			},
             // 下来刷新加载
             loadFrist() {
                 const params = {
@@ -180,7 +195,7 @@
                 findNearBySuppliers(params).then(response => {
                     this.allLoaded = false; // 可以进行上拉
                     this.suppliers = response.data.data;
-                    this.$refs.loadmore.onTopLoaded();
+                    // this.$refs.loadmore.onTopLoaded();
                 })
             },
             // 加载更多

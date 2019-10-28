@@ -40,7 +40,7 @@
                         <img src="../../../images/default_company_logo.png" class="extension-item-img">
                         <div>
                             <p>{{data.user.real_name}}</p>
-                            <p>{{data.mobile}}</p>
+                            <p>{{data.mobile_desensite}}</p>
                         </div>
                     </div>
                     <p class="company-name">{{data.user.company_name || '未设置'}}</p>
@@ -113,7 +113,7 @@
                 </div>
                 <!-- <p class="company-name">{{data.province}}·{{data.city}}</p> -->
                 <div>
-                    {{data.mobile}}
+                    {{data.mobile_desensite}}
                 </div>
             </div>
         </div>

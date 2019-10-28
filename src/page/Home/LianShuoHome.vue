@@ -1,8 +1,8 @@
 <template>
 	<div class="home">
-		<div class="topContent">
+		<div class="topContent" style="flex: 1;overflow: auto">
 			<div v-bind:class="{ search: isActive, 'bg-blue': hasError ,activeTop: isFullScreen }">
-			<SearchBar :searchFn="searchFn" v-model="searchValue"></SearchBar>
+			<SearchBar ref="searchBox" :searchFn="searchFn" v-model="searchValue" @keyup="keyup"></SearchBar>
 			<router-link to="/develop">
 				<div class="approve">
 					<img src="../../images/index/study1@2x.png"/>
@@ -58,8 +58,9 @@
 			<img src="../../images/index/shop.png" class="shopcar newClass"/>
 		</router-link>
 		</div>
-		
-		<clxsd-foot-guide :user-type="3"/>
+		<div class="footer">
+			<clxsd-foot-guide :user-type="3"/>
+		</div>
 	</div>
 </template>
 
@@ -140,7 +141,7 @@
 				findNearBySuppliers(params).then(response => {
 					this.allLoaded = false; // 可以进行上拉
 					this.suppliers = response.data.data;
-					this.$refs.loadmore.onTopLoaded();
+					// this.$refs.loadmore.onTopLoaded();
 				})
 			},
 			// 加载更多
@@ -157,6 +158,20 @@
 						this.allLoaded = true; // 若数据已全部获取完毕
 					}
 					this.$refs.loadmore.onBottomLoaded();
+				})
+			},
+			// 软键盘弹出时，点击搜索按钮执行
+			keyup() {
+				const params = {
+					page: 1,
+					limit: this.limit,
+					search: this.searchValue
+				}
+				this.$refs.searchBox.$refs.input.blur()
+				findNearBySuppliers(params).then(response => {
+					this.allLoaded = false; // 可以进行上拉
+					this.suppliers = response.data.data;
+					// this.$refs.loadmore.onTopLoaded();
 				})
 			},
 			async initData() {
@@ -178,7 +193,7 @@
 				findNearBySuppliers(params).then(response => {
 					this.allLoaded = false; // 可以进行上拉
 					this.suppliers = response.data.data;
-					this.$refs.loadmore.onTopLoaded();
+					// this.$refs.loadmore.onTopLoaded();
 				})
 			},
 			handleScroll() {
@@ -196,15 +211,17 @@
 <style lang="scss" scoped>
 	.main-body {
 		/* 加上这个才会有当数据充满整个屏幕，可以进行上拉加载更多的操作 */
-		overflow: scroll;
+		// overflow: scroll;
 	}
 	 .home {
-        height: 100vh;
-        margin-bottom: 1rem;
+        height: 100%;
         overflow: auto;
 		display: flex;
     	flex-direction: column;
 		// position: relative;
+		.footer {
+			height: 1rem;
+		}
     }
 	.noticesBox {
 		padding: 0.16rem 0;
