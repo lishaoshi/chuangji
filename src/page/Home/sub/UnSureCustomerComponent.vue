@@ -185,8 +185,8 @@
                     </div>
                     <div class="go-info" style="text-align: center;margin-top: .8rem">
                         <button @click="handlePromoter"
-                                :class="promoterActive ? 'active':''"
-                                :disabled="!promoterActive"
+                                :class="promoterActive&& region_promoter!=null? 'active':''"
+                                :disabled="!promoterActive&&region_promoter!=null"
                                 style="display: inline-block;margin-right: .5rem">
                             开启权限
                         </button>
