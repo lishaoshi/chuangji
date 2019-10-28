@@ -58,7 +58,7 @@
                                             <img :src="entity.cover" class="item-img">
                                         </router-link>
                                         <div class="item-box">
-                                            <router-link :to="`/drug-detail/${entity.id}`">
+                                            <router-link :to="`/drug-detail/${supplier_id}/${entity.id}`">
                                                 <p class="title">{{entity.good_name}}</p>
                                             </router-link>
                                             <p class="item-box-p1" v-if="entity.brand">{{entity.brand.name}}</p>

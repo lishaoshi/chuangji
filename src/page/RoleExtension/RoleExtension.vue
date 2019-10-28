@@ -118,9 +118,8 @@
                 //     year: this.yte
                 // }
                 rebateFn().then(res=>{
-                    // debugger
                     let data = res.data.balance
-                    this.balance = parseFloat(data).toFixed(2)
+                    this.balance = data
                 })
             },
 
