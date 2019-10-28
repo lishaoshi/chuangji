@@ -92,7 +92,9 @@
         input {
             margin-left: .4rem;
             width: 84%;
-            height: .5rem;
+            // height: .5rem;
+            // line-height: .52rem;
+            height: 100%;
             background: #0081e5;
             color: #fff;
             &::placeholder {
