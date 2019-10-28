@@ -54,7 +54,6 @@
                 <div class="mt-tab-container">
                         <mt-loadmore ref="list" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :auto-fill="false">
                             <div style="overflow-y: scroll;margin-top: .2rem;padding: 0 .2rem;" class="goodsList">
-                                <!--  -->
                                     <div class="item" :id="`menu_${index}`" v-for="(entity,index) in goodList" :key="`product_shop_list_${index}`"
                                         v-if="goodList.length>0">
                                         <router-link :to="`/business/shop/${businessId}/${entity.id}`">
@@ -81,7 +80,6 @@
                                                 </div>
                                                 <div class="gw_num" v-if="(!entity.is_multi_spec && canShow)">
                                                     <em class="lose" @click="removeToMiniCart($event,entity, index)">-</em>
-                                                    <!-- <em class="error-num">-</em> -->
                                                     <div class="num">
                                                         <span class="amount">{{entity.num || 0}}</span>
                                                         {{entity.unit}}
@@ -91,13 +89,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                <!--  -->
                                 <div v-if="goodList==''">
                                     <EmptyList />
                                 </div>
                             </div>
                         </mt-loadmore>
-                 </div>
+                </div>
              </div>
             <!-- <div style="height: 1rem"></div> -->
             <div style="position: fixed;bottom: 0px;width: 100%;border-top:1px solid #e5e5e5s">
@@ -539,10 +536,10 @@
         }
     }
     .rightBox {
-        margin-left: 2rem;
         flex:1 ;
         display: flex;
         flex-direction: column;
+        overflow: hidden;
     }
 
     #ProductList {
@@ -584,11 +581,9 @@
         display: flex;
         margin-bottom: 1rem;
         .typeBox {
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
             overflow: auto;
+            background: #E6e6e6;
+            flex: 0 1 2rem;
         }
         .mt-tab-container {
             // margin-left: 2rem;
