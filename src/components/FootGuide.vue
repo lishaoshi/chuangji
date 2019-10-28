@@ -207,7 +207,7 @@
                
                 if(flag) {
                     if(!this.userInfo.shop_supplier) {
-                         debugger
+                        //  debugger
                         await this.$messagebox.confirm('',{
                             title: '提示',
                             message:'没有操作权限,请先完成认证',

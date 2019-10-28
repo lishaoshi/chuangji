@@ -228,6 +228,7 @@
 		input {
 			font-size: .28rem;
 			flex: 1;
+			height: 96%;
 		}
 		img {
 			width:.15rem;

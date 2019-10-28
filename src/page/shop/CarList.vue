@@ -46,7 +46,11 @@
                     shops:[],
                     checked:false,
                 },
-                is_delete:false
+                is_delete:false,
+                oldShopData: {
+                    shops:[],
+                    checked:false,
+                }
             }
         },
         created(){
@@ -59,6 +63,20 @@
         mounted(){
             // this.initData()
         },
+        watch: {
+            is_delete(newValue, oldValue) {
+                // console.log(newValue, oldValue, this.data)
+                if(newValue&&this.data.shops.length) {
+                    this.data.shops.forEach((item, index, arr)=>{    
+                        this.data.checked = false
+                        item.checked = false
+                        item.items.forEach((items, key, goodsList)=>{
+                            goodsList[key].checked = false
+                        })
+                    })
+                }
+            }
+        },
         computed:{
             ...mapState({
                 cartList: state =>state.shop.CART_LIST
@@ -66,7 +84,7 @@
         },
         methods:{
             ...mapMutations([
-                'CLEAR_CART', 'CLEAR_ALL_CART', 'ADD_CART', 'REMOVE_CART'
+                'CLEAR_CART', 'CLEAR_ALL_CART', 'ADD_CART', 'REMOVE_CART', 'CHANG_SHOPcART_LIST'
             ]),
             // async initData(){
             //     let ids = []
