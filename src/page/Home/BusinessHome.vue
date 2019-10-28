@@ -3,7 +3,7 @@
         <!-- <scroll> -->
         <div class="content">
             <div v-bind:class="{ search: isActive, 'bg-blue': hasError ,activeTop: isFullScreen }">
-                <SearchBar ref="searchBox" v-model="searchValue" :searchFn="searchFn"  @keyup="keyup"></SearchBar>
+                <SearchBar ref="searchBox" v-model="searchValue" :searchFn="searchFn" @input="input" @keyup="keyup" @clearText='clearText'></SearchBar>
                 <div class="approve">
                     <img src="../../images/index/study1@2x.png"/>
                 </div>
@@ -185,7 +185,10 @@
                     // this.$refs.loadmore.onTopLoaded();
                 })
                 
-			},
+            },
+            input(vlaue){
+                this.searchValue = vlaue
+            },
             // 下来刷新加载
             loadFrist() {
                 const params = {
@@ -229,6 +232,9 @@
                     this.hasError = 0;
                 }
             },
+            clearText(){
+                this.searchValue = ''
+            }
         }
     }
 </script>

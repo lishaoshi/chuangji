@@ -7,7 +7,7 @@
         <div class="entities-container" v-if="supplierId" style="flex:1;
         margin-bottom: 1rem;">
             <div class="search">
-                <SearchBar v-model="value" :searchFn ="searchFn" @keyup="keyupEnter"></SearchBar>
+                <SearchBar v-model="value" :searchFn ="searchFn" @keyup="keyupEnter" @clearText='clearText'></SearchBar>
             </div>
             <div class="product-list">
                 <!--
@@ -386,7 +386,9 @@
 
                 this.init_Goods(params)
             },
-
+            clearText(){
+                this.value = ''
+            }
             /*
 
             //加载更多

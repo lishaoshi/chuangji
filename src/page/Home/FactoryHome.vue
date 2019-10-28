@@ -3,12 +3,17 @@
     	<header v-bind:class="{ activeTop: isFullScreen }">药通</header>
     	<div class="home-top">
     		<form method="" id="" class="top-search">
-    			<input type="text" placeholder="请输入药品名称" />
-    			<button type="submit">
-    				<svg>
+				<button type="submit">
+    				<svg @click="searchFn">
 		                <use xlink:href="#icon-search"/>
 		            </svg>
     			</button>
+    			<input ref="searchBox" type="text" @input="input" v-model="sear_value" placeholder="请输入药品名称" />
+    				<div style="padding-top:.15rem">
+						<svg class="clear" ref="clear">
+		                <use xlink:href="#icon-empty1" @click="clearText"/>
+		            	</svg>
+					</div>
     		</form>
     		<div class="scroll">
     			<ul class="area-ul">
@@ -110,7 +115,8 @@
                   '重磅！国家重点监控药品目录公布',
                   '国家药监局开会，4+7集采又迎来一“战队”?',
                   '最高领导人讲话，中医药机会来了',
-              ],
+			  ],
+			  sear_value:'',
               areaData: areaData,
               cityData:'',
               isActive: false,
@@ -156,7 +162,27 @@
                         this.$router.push('')
 					}
 				}).catch(err => err);
-        	},
+			},
+			clearText(){
+				this.sear_value = ''
+				this.$refs.clear.style.display = 'none'
+
+			},
+			searchFn(){
+
+			},
+			input(){
+				console.log('wer');
+				console.log(this.sear_value);
+				
+				console.log(this.$refs.clear);
+				if(this.sear_value){
+					this.$refs.clear.style.display = 'block'
+				}else {
+					this.$refs.clear.style.display = 'none'
+				}
+				// this.$refs.clear
+			}
         }
     }
 </script>
@@ -184,6 +210,7 @@
 		margin-right: 10px;
 		background: #fff;
 		height: .6rem;
+		line-height: .6rem;
 		display: flex;
 		position: relative;
 		background: #fff;
@@ -362,4 +389,7 @@
             padding-top: 35px;
         }
     }
+	.clear {
+		display: none;
+	}
 </style>

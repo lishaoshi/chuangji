@@ -3,10 +3,14 @@
         <div class="top-box" :class="{activebox: isFullScreen}">
             <img class="retreat" src="../../images/back.png" @click="goBack">
             <div class="inpSearch" v-bind:class="{ 'bg-from': hasError }">
-                <input type="text" v-model="searchValue" placeholder="请输入关键词">
-                <i></i>
                 <svg class="icon-location" @click="searchFn">
                     <use xlink:href="#icon-search2"/>
+                </svg>
+                <input ref="searchBox" type="text" v-model="searchValue" placeholder="请输入关键词">
+                <i></i>
+                
+                <svg class="icon-clearText" @click="cleraText">
+                    <use xlink:href="#icon-empty1"/>
                 </svg>
             </div>
             <div class="approve">
@@ -159,6 +163,9 @@
                 })
             },
             searchFn() {
+                this.$refs.searchBox.blur()
+                console.log(this.$refs.searchBox.blur);
+                
                 this.$refs.list._supplierEntities(this.searchValue)
             },
 
@@ -200,6 +207,9 @@
                     this.follow_info = '已关注'
                 }
                 this.follow_status = !this.follow_status
+            },
+            cleraText(){
+                this.searchValue = ''
             }
 
         }
@@ -239,7 +249,7 @@
         input {
             background: none;
             display: inline-block;
-            float: left;
+            // float: left;
             height: .56rem;
             padding-left: 6px;
             width: 80%;
@@ -252,8 +262,9 @@
         svg {
             width: .38rem;
             height: .38rem;
-            float: right;
-            margin-top: .1rem;
+            // float: right;
+            // margin-top: .1rem;
+            vertical-align: middle;
             display: inline-block;
         }
     }
