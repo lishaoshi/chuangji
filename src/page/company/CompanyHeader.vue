@@ -1,9 +1,9 @@
 <template>
     <div>
-        <div class="top-box activebox">
+        <div class="top-box activebox" :class="{ 'bg-from-box': hasError }">
             <img class="retreat" src="../../images/back.png" @click="goBack()">
             <div class="inpSearch" v-bind:class="{ 'bg-from': hasError }">
-                <input type="text" v-model="searchValue" placeholder="请输入关键词">
+                <input type="text" v-model="searchValue" placeholder="请输入关键词123">
                 <i></i>
                 <svg class="icon-location" @click="searchFn">
                     <use xlink:href="#icon-search2"/>
@@ -206,6 +206,10 @@
             display: inline-block;
         }
     }
+    .bg-from-box {
+         background: #2891e5;
+         padding-bottom: .1rem;
+    }
     .bg-from {
         background: #2891e5;
         input {
@@ -223,7 +227,7 @@
         top: 0px;
         // right: .2rem;
         // padding: 10px;
-        z-index: 10;
+        z-index: 100;
         .retreat {
             width: 10px;
             height: 20px;
@@ -252,7 +256,7 @@
         width: 100%;
         top: 0px;
         height: .88rem;
-        z-index: 9;
+        z-index: 99;
     }
     .bg-blue {
         background: #26a2ff;

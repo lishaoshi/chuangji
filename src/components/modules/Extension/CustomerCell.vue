@@ -9,7 +9,7 @@
                         <img src="../../../images/default_company_logo.png" class="extension-item-img">
                         <div>
                             <p>{{data.user.real_name}}</p>
-                            <p>{{data.mobile}}</p>
+                            <p>{{data.mobile_desensite}}</p>
                         </div>
                     </div>
                     <p class="company-name">{{data.user.supplier.name||'未设置'}}</p>
