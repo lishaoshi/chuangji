@@ -35,6 +35,7 @@
         <PaySuccess v-if="waitStatus"></PaySuccess>
         <div v-else>
             <mt-navbar v-model="selected">
+                        <!-- {{selected}} -->
                 <mt-tab-item :id="navbar[0].value">
                     <svg>
                         <use xlink:href="#icon-promote-province"/>
@@ -97,6 +98,7 @@
                         </button>
                         <router-link to="/introduction/city">
                             初步了解
+                            <!-- understand -->
                         </router-link>
                     </div>
 
@@ -762,7 +764,7 @@
                         font-size: 0.28rem;
                         margin-top: 0.15rem;
                         width: 100%;
-                        color: #ccc;
+                        color: #333;
 
                         &:disabled {
                             background: #fff;
