@@ -322,7 +322,6 @@
             }
         }
     }
-
     .swiper-box {
         background: #fff;
         height: 2.9rem;
@@ -340,7 +339,6 @@
             }
         }
     }
-
     .business-list {
         height: 100%;
     }
