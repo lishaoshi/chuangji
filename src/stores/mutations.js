@@ -53,13 +53,12 @@ export default {
 
         lstore.setData("H5_USERS", state.USERS);
     },
-    /**
-     * 修改购车删除状态的选择数据
-     * 
-     */
-    CHANG_SHOPcART_LIST(state, info) {
-        debugger
-        state.oldShopData = info
+
+    // 保存当前登录用户信息
+    SAVE_CURRENTUSER(state, info) {
+        state.CURRENTUSER = info;
+        lstore.setData("CURRENTUSER", state.CURRENTUSER);
+        lstore.setData("H5_CUR_USER", state.CURRENTUSER);
     },
 
     // 保存用户标签数据
