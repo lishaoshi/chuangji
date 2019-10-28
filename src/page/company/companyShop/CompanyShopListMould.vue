@@ -57,8 +57,15 @@
 								<img @click="handleNumber(item,index)" src="@/images/del_shopping.png" alt="">
 								
 								<div>
-									<span>{{item.num}}</span>
-									<span>{{item.unit}}</span>
+									<div>
+										<span>
+											{{item.num}}
+										</span></div>
+									<div class="goodsUnit">
+										<span>
+											{{item.unit}}
+										</span>
+									</div>
 									<!-- <span>件</span> -->
 								</div>
 								
@@ -275,6 +282,10 @@
                     width: .2rem;
                     height: .2rem
                 }
+				.goodsUnit {
+					font-size: .08rem!important;
+					color: #999;
+				}
                 
         }
         }

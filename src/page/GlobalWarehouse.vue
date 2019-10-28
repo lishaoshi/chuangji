@@ -7,10 +7,13 @@
                 <li :class="`${is_active===3?'active':''}`" @click="tab_change(3)">关注</li>
             </ul>
             <div class="top-box-search">
-                <input type="search" placeholder="请输入商业公司名称" v-model="searchValue">
-                <svg class="search-btn" @click="searchFn">
-                    <use xlink:href="#icon-search2"/>
-                </svg>
+                <form class="input-wrap" onsubmit="return false" action="">
+                     <input type="search" placeholder="请输入商业公司名称" @keyup.enter="keyUp" ref="input" v-model="searchValue">
+                    <svg class="search-btn" @click="searchFn">
+                        <use xlink:href="#icon-search2"/>
+                    </svg>
+                </form>
+               
             </div>
         </div>
         <div class="swiper-box">
@@ -158,6 +161,12 @@
                     this.hasError = 0;
                 }
             },
+            
+            // 点击软键盘弹起搜索按钮，进行搜索
+            keyUp() {
+                this.$refs.input.blur()
+                this.searchFn()
+            },
             // 购物车按钮
              goShopCart() {
                 this.$router.push({path:'/factory/cart'})
@@ -248,7 +257,7 @@
     .GlobalWarehouse {
         display: flex;
         flex-direction: column;
-        height: 100vh;
+        height: 100%;
     }
      .shopcar {
         position: fixed;
