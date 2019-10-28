@@ -8,8 +8,87 @@
             </div>
             <p>推广简介</p>
         </div>
-        <main>
-            <div class="content" v-html="content" />
+        <!-- logo -->
+            <div class="Introduction-logo">
+                <img src='../../images/generalize-img.png' alt="logo">
+            </div>
+        <!-- 省级了解 -->
+        <main class="content" v-if="type === '/introduction/partner'">
+            <div class="content-header">
+                <h1>省公司推荐介</h1>
+                <p>省级公司:就是代表“创联工厂”医药供应链金融服务平台所归属省份的运营加盟服务公司。其角色相当于传统电商平台的省级代理商;</p>
+            </div>
+
+            <div class="content-centre">
+                <h2>
+                业务职责:
+            </h2>
+            <p>创联-省级公司肩负着百姓健康的光荣而神圣商业使命,承担百姓安全用药商业职责。为了构建药品采购的“绿色通道”、共建“阳光药房”,为了光荣和梦想我们释放热情、挥洒青春奋斗在创业的路上。
+            </p>
+            </div>
+
+            <div class="content-footerText">
+                <h2>
+                    业务收益:
+                </h2>
+                <ul>
+                    <li>1.部署招商本省辖区地市公司加盟费。</li>
+                    <li>2.享有所归属省份行政区域所有平台通道收益0.05%分润。</li>
+                    <li>3.广告.SEO竞价等平台附加值收益分润。</li>
+                </ul>
+            </div>
+        </main>
+
+        <!-- 市级了解 -->
+        <main class="content" v-if="type === '/introduction/city'">
+            <div class="content-header">
+                <h1>市公司推荐介</h1>
+                <p>地市公司：就是代表“创联工厂”医药供应链金融服务平台所归属地市的运营加盟公司。其角色相当于传统电商平台的市级代理。</p>
+            </div>
+
+            <div class="content-centre">
+                <h2>
+                业务职责:
+            </h2>
+            <p>创联-地市公司肩负着百姓健康的光荣而神圣商业使命，承担百姓安全用药商业职责。为了构建药品采购的“绿色通道”、共建“阳光药房”，为了光荣和梦想我们释放热情、挥洒青春奋斗在创业的路上。
+            </p>
+            </div>
+
+            <div class="content-footerText">
+                <h2>
+                    业务收益:
+                </h2>
+                <ul>
+                    <li>1.部署招募推广人加盟费。</li>
+                    <li>2.享有所归属地市行政区域所有平台通道收益0.2%分润。</li>
+                    <li>3.广告、SEO竞价、产品上架费等平台价值收益分润。</li>
+                </ul>
+            </div>
+        </main>
+
+        <!-- 推广人了解 -->
+        <main class="content" v-if="type === '/introduction/promoter'">
+            <div class="content-header">
+                <h1>推广人推荐介</h1>
+                <p>推广人：就是代表“创联工厂”医药供应链金融服务平台寻找签约及服务药品采购商。其角色相当于传统电商平台的“业务员”；推广人又分为单体药店推广人、连锁药店推广人、诊所推广人等！</p>
+            </div>
+
+            <div class="content-centre">
+                <h2>
+                业务职责:
+            </h2>
+            <p>创联-推广人肩负着百姓健康的光荣而神圣商业使命，承担百姓安全用药商业职责。为了构建药品采购的“绿色通道”、共建“阳光药房”，为了光荣和梦想我们释放热情、挥洒青春奋斗在创业的路上。
+            </p>
+            </div>
+
+            <div class="content-footerText">
+                <h2>
+                    业务收益:
+                </h2>
+                <ul>
+                    <li>平台通道收益 0.4%分润。 </li>
+                </ul>
+            </div>
         </main>
 
     </div>
@@ -23,32 +102,39 @@
           return{
               type: null,
               content:'',
+              type:''
           }
         },
         created() {
             this.type = parseInt(this.$route.params.type);
         },
         mounted(){
-            debugger
-            this.initData();
+            // debugger
+            // this.initData();
+            console.log(this);
+            console.log(this.$route.path);
+            
+        },
+        created(){
+            this.type = this.$route.path
         },
         methods:{
-            initData(){
-                if(this.type){
-                    this.$http.get('protocol',{
-                        params:{device:'webapp',type:this.type},
-                        validate: state => state === 200
-                    }).then(response =>{
-                        const { data } = response;
-                        if(data.content){
-                            this.content =  markdownIt({ html: true })
-                                .render( data.content.replace(/<br>/, '\n'));
-                        }
-                    }).catch(error => {
+            // initData(){
+            //     if(this.type){
+            //         this.$http.get('protocol',{
+            //             params:{device:'webapp',type:this.type},
+            //             validate: state => state === 200
+            //         }).then(response =>{
+            //             const { data } = response;
+            //             if(data.content){
+            //                 this.content =  markdownIt({ html: true })
+            //                     .render( data.content.replace(/<br>/, '\n'));
+            //             }
+            //         }).catch(error => {
 
-                    })
-                }
-            }
+            //         })
+            //     }
+            // }
         },
 
     }
@@ -161,5 +247,45 @@
     }
     .fade {
         height: 1rem;
+    }
+
+     
+    .content {
+        margin-top: 1rem;
+        font-size: .28rem;
+        color: #333;
+        padding: 0 .58rem 0 .5rem;
+        line-height: 1.5;
+        h2 {
+           margin-top: .2rem;
+           font-size:.3rem;
+           font-weight: bold;
+        }
+        h1 {
+            font-size: .48rem;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: .57rem;
+        }
+        p {
+            text-indent: 2em;
+        }
+        .content-footerText {
+
+            ul {
+                // padding-left: 1.3rem;
+                text-indent: 2em;
+                li {
+                    line-height: 1.5;
+                }
+            }
+        }
+    }
+    .Introduction-logo {
+        font-size: 0;
+        img {
+            width: 100%;
+            height: 100%;
+        }
     }
 </style>
