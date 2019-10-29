@@ -2,7 +2,7 @@
     <div id="ProductList">
         <clxsd-head-top :title='`${title}`' style="border-bottom: 0px"></clxsd-head-top>
         <div class="search">
-            <SearchBar v-model="value" :searchFn ="searchFn" @clearText='clearText' @keyup='keyup'></SearchBar>
+            <SearchBar ref="searchBox" v-model="value" :searchFn ="searchFn" @clearText='clearText' @keyup="keyup"></SearchBar>
         </div>
         <div class="product-list">
             <div style="width: 2rem;float: left;background: #E6e6e6" class="typeBox">
@@ -499,7 +499,9 @@
                     cat_id:this.current_id,
                     search:this.value
                 }
-
+                // this.$refs.searchBox.input.blur()
+                console.log(this.$refs.searchBox);
+                
                 this.init_Goods()
             },
             clearText(){
@@ -523,6 +525,11 @@
                     this.toggleSlide(item, 0, '500');
                 })
             },
+
+            keyup(value){
+                console.log('回车了');
+                this.searchFn()
+            }
         }
     }
 </script>
