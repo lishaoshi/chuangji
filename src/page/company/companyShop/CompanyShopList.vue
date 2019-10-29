@@ -55,7 +55,7 @@
 		<p class="title">药品推荐</p>
 		<div style="overflow:scroll" v-if="items.length">
 			<mt-loadmore ref="loadmore" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false">
-				<list :business-id="shopId" :title="title" @add_shop_car="add_shop_car" @del_shop_cart="del_shop_cart" :shopCart="shopCart" :items="items"></list>
+				<list @updateSlefChoss="handleChoose" @handleBlur="handleBlur" :business-id="shopId" :title="title" @add_shop_car="add_shop_car" @del_shop_cart="del_shop_cart" :shopCart="shopCart" :items="items"></list>
 			</mt-loadmore>
 		</div>
 
@@ -169,6 +169,18 @@
 				})
 			},
 
+			// 通过软键盘输入
+			handleChoose(boolear, index) {
+				this.items = JSON.parse(JSON.stringify(this.items))
+				this.items[index].isSelfChoose = true
+			},
+
+			// 当前商品的输入框失去焦点
+			handleBlur(index) {
+				this.items = JSON.parse(JSON.stringify(this.items))
+				this.items[index].isSelfChoose = false
+			},
+
 			// 获取商业详情
             _queryBusinessDetail() {
                 queryBusinessDetail(this.businessData.id).then(res=>{
@@ -229,6 +241,7 @@
 			// 对获取到的购物车数据进行处理
 			_handleData(data) {
                 data.forEach((item, index, arr) => {
+					item.isSelfChoose = false
                     item.shopId = this.factoryId
                     item.num = 0
                     item.itemId = item.id

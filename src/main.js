@@ -14,6 +14,7 @@ import Mint from 'mint-ui';    //移动端UI
 import * as filters from "./filters.js";
 import components from "./components.js";
 import bus from './bus';
+import './directives'
 
 import './icons/iconfont.js' // from http://www.iconfont.cn h5 仓库
 import 'mint-ui/lib/style.css'

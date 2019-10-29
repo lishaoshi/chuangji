@@ -7,7 +7,7 @@
         <div class="entities-container" v-if="supplierId" style="flex:1;
         margin-bottom: 1rem;">
             <div class="search">
-                <SearchBar v-model="value" :searchFn ="searchFn" @keyup="keyupEnter" @clearText='clearText'></SearchBar>
+                <SearchBar v-model="value" ref="inputBox" :searchFn ="searchFn" @keyup="keyupEnter" @clearText='clearText'></SearchBar>
             </div>
             <div class="product-list">
                 <!--
@@ -205,6 +205,10 @@
             },
             keyupEnter(value) {
                 // this.value = value
+                // debugger
+                // console.log(this.$refs.inputBox.$refs.input)
+                this.$refs.inputBox.$refs.input.blur()
+
                  let params = {
                     cat_id:this.current_id,
                     status:this.current_status,
