@@ -10,7 +10,7 @@
                     <input ref="searchBox" type="text" @keyup.enter="keyUp" v-model="searchValue" placeholder="请输入关键词">
                     <i></i>
                     
-                    <svg class="icon-clearText" @click="cleraText">
+                    <svg class="icon-clearText" v-if="searchValue" @click="cleraText">
                         <use xlink:href="#icon-empty1"/>
                     </svg>
                  </form>
@@ -166,7 +166,7 @@
             },
             // 点击软键盘搜索按钮
             keyUp() {
-                this,searchFn()
+                this.searchFn()
             },
             searchFn() {
                 this.$refs.searchBox.blur()
@@ -256,6 +256,7 @@
             background: none;
             display: inline-block;
             // float: left;
+            vertical-align: middle;
             height: .56rem;
             padding-left: 6px;
             width: 80%;

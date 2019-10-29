@@ -8,12 +8,12 @@
 		                <use xlink:href="#icon-search"/>
 		            </svg>
     			</button>
-    			<input ref="searchBox" type="text" @input="input" v-model="sear_value" placeholder="请输入药品名称" />
-    				<div style="padding-top:.15rem">
-						<svg class="clear" ref="clear">
+    			<input ref="searchBox" type="text" @keyup.enter="keyup" v-model="sear_value" placeholder="请输入药品名称" />
+				<div>
+						<svg v-if="sear_value" ref="clear">
 		                <use xlink:href="#icon-empty1" @click="clearText"/>
 		            	</svg>
-					</div>
+						</div>
     		</form>
     		<div class="scroll">
     			<ul class="area-ul">
@@ -43,7 +43,7 @@
 			</div>
 			<div class="list-right">
 				<router-link to="">
-					<h3 class="title">维生素维生素维生素维生素维生素维生素维生素维生素维生素维生素维生素维生素维生素维生素</h3>
+					<h3 class="title">s维生素维生素维生素维生素维生素维生素维生素维生素维生素维生素维生素维生素维生素维生素</h3>
 				</router-link>
 				<div class="desc">
 					<div class="desc-box">
@@ -103,7 +103,9 @@
 <script>
     import { adList,infoList} from "@/api/ad";
     import areaData from "@/plugins/json/pca-code.json";
-    import Notice from '@/components/common/notice';
+	import Notice from '@/components/common/notice';
+    import {findNearBySuppliers} from '@/api/supplier.js';
+	
     export default {
         name: "page-factory-home",
         components:{
@@ -122,7 +124,8 @@
               isActive: false,
               selected:0,
               isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
-              selectedcity:0,
+			  selectedcity:0,
+			  limit:20
 		  }
 		},
 		created(){
@@ -165,24 +168,39 @@
 			},
 			clearText(){
 				this.sear_value = ''
-				this.$refs.clear.style.display = 'none'
+				// this.$refs.clear.style.display = 'none'
 
 			},
-			searchFn(){
-
+			// 点击搜索
+            searchFn() {
+                const params = {
+                    page: 1,
+                    limit: this.limit,
+                    search: this.searchValue
+                }
+                findNearBySuppliers(params).then(response => {
+                    this.allLoaded = false; // 可以进行上拉
+                    this.suppliers = response.data.data;
+                    // this.$refs.loadmore.onTopLoaded();
+                })
 			},
-			input(){
-				console.log('wer');
-				console.log(this.sear_value);
+			keyup() {
+				console.log('33');
 				
-				console.log(this.$refs.clear);
-				if(this.sear_value){
-					this.$refs.clear.style.display = 'block'
-				}else {
-					this.$refs.clear.style.display = 'none'
-				}
-				// this.$refs.clear
-			}
+				const params = {
+                    page: 1,
+                    limit: this.limit,
+                    search: this.sear_value
+                }
+                // this.$refs.searchBox.input.blur()
+                findNearBySuppliers(params).then(response => {
+                    this.allLoaded = false; // 可以进行上拉
+                    this.suppliers = response.data.data;
+                    // this.$refs.loadmore.onTopLoaded();
+                })
+                
+            },
+			
         }
     }
 </script>
@@ -233,6 +251,7 @@
 			height: .3rem;
 			background: #fff;
 			color: #666;
+			vertical-align: middle;
 		}
 	}
 	.scroll {
@@ -389,7 +408,5 @@
             padding-top: 35px;
         }
     }
-	.clear {
-		display: none;
-	}
+	
 </style>
