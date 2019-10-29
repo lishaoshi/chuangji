@@ -3,7 +3,7 @@
 
         <mt-tab-container v-model="selected" :class="{ Box2: selected==1 }">
             <mt-tab-container-item id="1" style="border-radius: 4px;min-height: 11.5rem;background: #fff">
-                <div class="header" :class="{ topHeight: isFullScreen }">
+                <div class="header">
                 </div>
                 <!--非正常情况，没有客户，需要去推广-->
                 <UnSureCustomer :notices="noticeList"/>
@@ -150,7 +150,8 @@
 
 <style lang="scss" scoped>
     #RoleExtension {
-        min-height: 100%;
+        // min-height: 100%;
+        height: 100%;
     }
     .close {
         position: fixed;

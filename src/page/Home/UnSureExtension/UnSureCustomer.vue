@@ -1,5 +1,5 @@
 <template>
-    <div class="container" style="height: 100vh">
+    <div class="container">
         <div class="is-scroll active">
             <mt-navbar v-model="selected">
                 <mt-tab-item id="all">
