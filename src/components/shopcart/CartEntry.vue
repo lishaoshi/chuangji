@@ -2,8 +2,8 @@
 	<li>
 		<div class="cart-item">
 			<svg class="check goods-check shopCheck" @click="productCheckchange(sid,pid)">
-					<use :xlink:href="`#icon-IsCheckedShop-${data.checked ? 'open' : 'close' }`" />
-				</svg>
+				<use :xlink:href="`#icon-IsCheckedShop-${data.checked ? 'open' : 'close' }`" />
+			</svg>
 			<div class="cart-item-img">
 					<img :src="data.cover" />
 			</div>
@@ -13,10 +13,15 @@
 					<div class="shop-pices">
 						￥<span class="price">{{data.sale_price | display_price}}<i>/{{data.show_unit || '件'}}</i></span>
 					</div>
-					<div class="shop-arithmetic">
-						<a class="minus" @click.prevent.stop="minGoods(sid,pid, data)">-</a>
-						<span class="num">{{data.num}}<i>{{data.unit || '件'}}</i></span>
-						<a class="plus" @click.prevent.stop="addGoods(sid,pid, data)">+</a>
+					<div class="shop-arithmetic" :class="{bgColor : data.isSelfChoose}">
+						<div class="minus" @click.prevent.stop="minGoods(sid,pid, data)">-</div>
+						<span @click="chooseSelf" v-if="!data.isSelfChoose" class="num">{{data.num}}<i>{{data.unit || '件'}}</i></span>
+						<template v-else>
+							<form action="">
+								<input maxlength="3" data-maxlength="3" v-focus type="number" @blur="handleBlur" ref="cart" v-model="data.num">
+							</form>
+						</template>
+						<div class="plus" @click.prevent.stop="addGoods(sid,pid, data)">+</div>
 					</div>
 				</div>
 			</div>
@@ -25,11 +30,24 @@
 </template>
 
 <script>
+import bus from '@/bus'
 	export default {
 		name: "CartEntry",
 		props: [
 			"data", "pid", "productCheckchange", "sid", "addGoods", "minGoods"
 		],
+		methods: {
+			// 点击选择输入
+			chooseSelf() {
+				bus.$emit('chooseSelf', {pid:this.pid, sid: this.sid})
+			},
+
+			// input失去焦点出发
+			handleBlur() {
+				bus.$emit('handleBlur', {pid:this.pid, sid: this.sid})
+			}
+
+		}
 	}
 </script>
 
@@ -81,33 +99,46 @@
 	}
 	
 	.shop-arithmetic {
-		width: 1.6rem;
+		&.bgColor {
+			background: #f5f5f5;
+		}
+		width: 2rem;
 		height: .6rem;
-		background: rgb(245, 245, 245);
 		border-radius: 20px;
-		display: flex;
+		display: inline-flex;
 		align-items: center;
 		text-align: center;
 		position: absolute;
 		right: .1rem;
+		justify-content: center;
 		top: .88rem;
-		a {
+		div {
 			color: #26A2FF;
-			font-size: 19px;
-			flex: 1;
-			line-height: 20px;
+			font-size: .38rem;
+			// flex: 1;
+			// line-height: 20px;
+			height: 100%;
+			border-radius: 50%;
+			width: .6rem;
 			font-style: normal;
 			font-weight: bold;
 			color: rgb(45, 162, 255);
+			background: rgb(245, 245, 245);
 		}
 		.num {
 			font-style: normal;
 			font-size: 14px;
 			color: #333;
+			padding: 0 .1rem;
 			i {
 				font-size: 10px;
 				color: #666;
 			}
+		}
+		input {
+			width: .6rem;
+			text-align: center;
+			background: #f5f5f5;
 		}
 	}
 </style>

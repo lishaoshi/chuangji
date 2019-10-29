@@ -2,7 +2,6 @@
 	<div>
 		<div class="shop">
 			<!-- <ClxsdLoadMore key="orders-list" ref="loadmore" @onRefresh="onOrdersRefresh" @onLoadMore="onOrdersLoadMore"> -->
-			
 				<div class="list" v-for="(item,index) in items">
 					<router-link :to="`/business/shop/${businessId}/${item.id}?num=${item.num}`">
 						<img :src="item.cover" class="list-img" />
@@ -11,6 +10,7 @@
 					<p class="p1">{{item.brandName}}</p>
 					<p class="p1">规格:{{item.spec}}</p>
 					<p class="p1">效期:{{item.time}}</p>
+					
 					<div class="selling" v-if="canShow">
 						<div class="unit_price">
 							<p class="font">
@@ -18,58 +18,36 @@
 								<i>{{item.price}}</i>
 								<span v-if="parseInt(item.market_price)!=0">{{item.market_price}}</span></p>
 						</div>
-						<!-- <div class="gw_num"  v-if="(!item.is_multi_spec && canShow)">
-							<small class="lose" @click="removeToMiniCart($event,item)" v-if="item.num > 0">
-								<svg>
-									<use xlink:href="#icon-factory-productList-reduce-1"></use>
-								</svg>
-							</small>
-							<small class="error-num" 　v-if="item.num <= 0" @click="errorInfo()">
-								<svg>
-									<use xlink:href="#icon-factory-productList-reduce-0"></use>
-								</svg>
-							</small>
-							<div class="num">
-								<span class="amount">{{item.num || 0}}</span>
-							</div>
-							<small class="add" @click="addToMiniCart($event,item)">
-								<svg>
-									<use xlink:href="#icon-factory-productList-plus-1"></use>
-								</svg>
-							</small>
-						</div> -->
 						<!-- 商品右下角购物车 -->
 						<div class="carImg">
-							<!-- <img src="@/images/shop-car.png" alt="" v-if="!item.num" @click="add_shop_car(item)"> -->
-							<!-- <i class="iconfont" @click="add_shop_car(item)" v-if="!item.num">icon-shop-car</i> -->
-							<!-- <svg class="icon shopCart" v-if="!item.num"  @click="add_shop_car(item)" aria-hidden="true">
-								<use xlink:href="#icon-shop-car"></use>
-							</svg> -->
-							<!-- <span>{{test}}</span> -->
 							<svg class="icon shopCart" v-if="!item.num"  @click="add_shop_car(item,index)" aria-hidden="true">
 								<use xlink:href="#icon-shop-car"></use>
 							</svg>
-							
-							<!-- <svg v-else-if="userType==2" class="icon shopCart" aria-hidden="true"> 
-								<use xlink:href="#icon-shop-car-0"></use> 
-							</svg> -->
 							<div class="controls" v-else>
-								<img @click="handleNumber(item,index)" src="@/images/del_shopping.png" alt="">
-								
-								<div>
-									<div>
-										<span>
-											{{item.num}}
-										</span></div>
-									<div class="goodsUnit">
-										<span>
-											{{item.unit}}
-										</span>
-									</div>
-									<!-- <span>件</span> -->
+								<div class="imgBox">
+									<img @click="handleNumber(item,index)" src="@/images/del_shopping.png" alt="">
 								</div>
 								
-								<img @click="add_shop_car(item, index)" src="@/images/add_shopping.png" alt="">
+								<div class="num" @click="handleChoose(item, index)">
+									<template v-if="!item.isSelfChoose">
+										<span>
+											{{item.num}}
+										</span>
+										<span style="color: #999;">
+											{{item.unit}}
+										</span>
+									</template>
+									<template v-else>
+										<form action="">
+											<input v-focus maxlength="3" data-maxlength="3" @blur="handleBlur(index)" ref="cart" type="text" v-model="item.num">
+										</form>
+									</template>
+									
+								</div>
+								<div class="imgBox">
+									<img @click="add_shop_car(item, index)" src="@/images/add_shopping.png" alt="">
+								</div>
+								
 							</div>
 						</div>
 						
@@ -112,6 +90,7 @@
 				// goodsList: [],
 				allLoaded: false,
 				// shopCart: {}, //当前商店购物信息
+				isSelfChoose: false, //默认不是通过输入加入购物车
 			}
 		},
 		computed: {
@@ -138,7 +117,17 @@
 				return true
 				
 			},
+			// 点击选择软键盘加入购物车
+			handleChoose(item, index) {
+				this.$emit('updateSlefChoss', true, index)
+			},
+
+			// 处理输入框失去焦点触发
+			handleBlur(index) {
+				this.$emit('handleBlur', index)
+			},
             add_shop_car(item, index) {
+				console.log(item)
 				this.$emit('add_shop_car', index, item)
                 let data = {
                     supplier_id: this.businessId,
@@ -261,23 +250,35 @@
 		justify-content: space-between;
 		margin-top: .2rem;
 		 .carImg {
-            float: right;
             height: .54rem;
             .shopCart {
                 width: 30px;
                 height: 30px;
             }
+			.imgBox {
+				border-radius: 50%;
+				height: .4rem;
+				width: .4rem;
+				background: #F5F5F5;
+				// text-align: center;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
             .controls {
                 padding: 0 .12rem;
-                display: inline-flex;
+                display: flex;
                 align-items: center;
-                background: #F5F5F5;
-                border-radius: .16rem;
                 height: 100%;
-                & > div {
-                    margin: 0 .2rem;
-                    display: flex;
-                }
+				.num {
+					padding: .04rem;
+					// display: flex;
+					flex:1;
+					input {
+						width: .4rem;
+					}
+				
+				}
                 .shopCart,img {
                     width: .2rem;
                     height: .2rem

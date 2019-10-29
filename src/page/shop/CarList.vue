@@ -26,6 +26,7 @@
     import CartsFooterClear from "@/components/shopcart/CartsFooterClear"
     import EmptyCartShop from '@/components/EmptyCarList'
     import { queryShopCarList, delShopCar, addShopCar, onlyDelShopCar } from '@/api/shopCar'
+    import bus from '@/bus'
 
 
     export default {
@@ -135,6 +136,7 @@
                     item.checked = false
                     item.shopId = item.supplier.id
                     item.show_unit = item.unit
+                    item.isSelfChoose = false
                     if(shops[item.supplier.id]){
                         shops[item.supplier.id]['items'] = shops[item.supplier.id]['items'].concat([item])
                     }else{
@@ -149,6 +151,7 @@
                         }
                     }
                 })
+                // debugger
                 // console.log(Object.values(shops), shops, 'shops')
                 return Object.values(shops)
             },
@@ -217,7 +220,6 @@
                 // console.log(sid, pid, item)
                 this.data.shops[sid].items[pid].num++;
                 let shopId = this.data.shops[sid].shopId
-
                 item.itemId = item.id
                 addShopCar({supplier_id: shopId, good_id:item.id})
                 // item.sale_price = item.price * item.tran
@@ -292,6 +294,22 @@
                     this._queryShopCarList()
                 }
             }
+        },
+        mounted() {
+            bus.$on('chooseSelf',({pid, sid})=>{
+                // debugger
+                this.$nextTick().then(()=>{
+                    // debugger
+                    this.data.shops[sid].items[pid].isSelfChoose = true
+                })
+                
+            })
+            bus.$on('handleBlur', ({pid, sid})=>{
+                 this.$nextTick().then(()=>{
+                    // debugger
+                    this.data.shops[sid].items[pid].isSelfChoose = false
+                })
+            })
         }
     }
 </script>

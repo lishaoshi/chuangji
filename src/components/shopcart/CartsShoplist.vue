@@ -1,14 +1,14 @@
 <template>
     <div class="shopping-cart">
     <clxsd-carts-shop
-            :key="index"
-            :data="value"
-            :sid="index"
-            :addGoods="addGoods"
-            :minGoods="minGoods"
-            @shopChecked="shopCheck"
-            :productCheckchange="productCheckchange"
-            v-for="(value,index) in data.shops" >
+        :key="index"
+        :data="value"
+        :sid="index"
+        :addGoods="addGoods"
+        :minGoods="minGoods"
+        @shopChecked="shopCheck"
+        :productCheckchange="productCheckchange"
+        v-for="(value,index) in data.shops" >
 
     </clxsd-carts-shop>
 
