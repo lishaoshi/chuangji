@@ -3,15 +3,17 @@
         <div class="top-box" :class="{activebox: isFullScreen}">
             <img class="retreat" src="../../images/back.png" @click="goBack">
             <div class="inpSearch" v-bind:class="{ 'bg-from': hasError }">
-                <svg class="icon-location" @click="searchFn">
-                    <use xlink:href="#icon-search2"/>
-                </svg>
-                <input  ref="searchBox" type="text" v-model="searchValue" placeholder="请输入关键词">
-                <i></i>
-                
-                <svg class="icon-clearText" v-if="searchValue" @click="cleraText">
-                    <use xlink:href="#icon-empty1"/>
-                </svg>
+                 <form class="input-wrap" onsubmit="return false" action="">
+                    <svg class="icon-location" @click="searchFn">
+                        <use xlink:href="#icon-search2"/>
+                    </svg>
+                    <input ref="searchBox" type="text" @keyup.enter="keyUp" v-model="searchValue" placeholder="请输入关键词">
+                    <i></i>
+                    
+                    <svg class="icon-clearText" @click="cleraText">
+                        <use xlink:href="#icon-empty1"/>
+                    </svg>
+                 </form>
             </div>
             <div class="approve">
                 <p @click="FollowFactory(shopDetailData.id)">{{follow_info}}</p>
@@ -161,6 +163,10 @@
                 }).catch(error => {
                     // console.log(error)
                 })
+            },
+            // 点击软键盘搜索按钮
+            keyUp() {
+                this,searchFn()
             },
             searchFn() {
                 this.$refs.searchBox.blur()

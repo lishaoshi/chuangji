@@ -46,7 +46,7 @@
             }
         },
         props: {
-            title: {type: String, default: ''},
+            title: {type: String, default: '公告详情'},
             goBackFnc: {type: [Boolean, Function], default: false},
             append: {type: [Boolean, String], default: false},
             transparent: {type: Boolean, default: false},
