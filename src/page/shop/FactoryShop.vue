@@ -6,10 +6,10 @@
                 <svg class="icon-location" @click="searchFn">
                     <use xlink:href="#icon-search2"/>
                 </svg>
-                <input ref="searchBox" type="text" v-model="searchValue" placeholder="请输入关键词">
+                <input  ref="searchBox" type="text" v-model="searchValue" placeholder="请输入关键词">
                 <i></i>
                 
-                <svg class="icon-clearText" @click="cleraText">
+                <svg class="icon-clearText" v-if="searchValue" @click="cleraText">
                     <use xlink:href="#icon-empty1"/>
                 </svg>
             </div>
@@ -250,6 +250,7 @@
             background: none;
             display: inline-block;
             // float: left;
+            vertical-align: middle;
             height: .56rem;
             padding-left: 6px;
             width: 80%;
