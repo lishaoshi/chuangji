@@ -2,7 +2,7 @@
 	<div class="home">
 		<div class="topContent" style="flex: 1;overflow: auto">
 			<div v-bind:class="{ search: isActive, 'bg-blue': hasError ,activeTop: isFullScreen }">
-			<SearchBar ref="searchBox" :searchFn="searchFn" v-model="searchValue" @keyup="keyup"></SearchBar>
+			<SearchBar ref="searchBox" :searchFn="searchFn" v-model="searchValue" @keyup="keyup" @clearText="clearText"></SearchBar>
 			<router-link to="/develop">
 				<div class="approve">
 					<img src="../../images/index/study1@2x.png"/>
@@ -130,6 +130,11 @@
 			// 上拉加载
 			loadBottom() {
 				this.loadMore();
+			},
+
+			// 点击删除搜索的图标
+			clearText() {
+				this.searchValue = ''
 			},
 			// 下来刷新加载
 			loadFrist() {

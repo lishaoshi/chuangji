@@ -4,15 +4,11 @@
 			<svg class="m-icon-svg m-svg-small" @click="searchFn">
 				<use xlink:href="#icon-promote-search" />
 			</svg>
-			<input ref="input"  :value="value" :placeholder="placeholder" @keyup.enter="keyEnter($event)"  type="search" @input="input($event)">
-			<svg ref="clearIcon" class="m-icon-svg m-svg-small clear" @click="clearText">
+			<input ref="input"  :value="value" :placeholder="placeholder" @keyup.enter="keyEnter($event)"  type="search" @input="$emit('input', $event.target.value)">
+			<svg ref="clearIcon" v-if="value" class="m-icon-svg m-svg-small" @click="clearText">
 				<use xlink:href="#icon-empty1" />
 			</svg>
 		</form>
-		
-		<!--
-		<a class="btn-cancel" @click.prevent.stop="onBackClick">取消</a>
-		-->
 	</div>
 </template>
 
@@ -51,36 +47,9 @@
 				this.$emit('keyup', e.target.value)
 			},
 			clearText(){
-				console.log('触发');
 				this.$emit('clearText')
-				this.$refs.clearIcon.style.display = 'none'
-
 			},
-			change(){
-				console.log('e');
-			},
-			input(e){
-			// "$emit('input', $event.target.value)"
-				// this.$refs.clearIcon
-				console.log(this.$refs.clearIcon);
-				console.log(this.value);
-				if(this.value!=''){
-				this.$refs.clearIcon.style.display='block'
-				}else{
-				this.$refs.clearIcon.style.display='none'
-				}
-				console.log(e.target.value);
-				
-				this.$emit('input', e.target.value)
-				// this.$refs.clearIcon.style.display = 'block'
-			}
-			// @input="$emit('input', $event.target.value)"
-
 		},
-		created(){
-			console.log(this.value);
-			
-		}
 	};
 </script>
 
