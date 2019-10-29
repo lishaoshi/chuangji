@@ -3,10 +3,12 @@
         <div class="content">
             <div class="search" :class="{activeTop: isFullScreen}">
                 <div v-if="is_search == true" class="search-form">
-                    <input type="text" v-model="searchValue" placeholder="请输入搜索内容">
-                    <svg @click="handleSearch">
-                        <use xlink:href="#icon-ordering-search" />
-                    </svg>
+                    <form class="input-wrap" onsubmit="return false" action="">
+                        <input type="search" ref="input" v-model="searchValue" placeholder="请输入搜索内容" @keyup.enter="keyUp">
+                        <svg @click="handleSearch">
+                            <use xlink:href="#icon-ordering-search" />
+                        </svg>
+                    </form>
                 </div>
                 <ul class="nav-list"  v-if="is_search==false">
                     <li :class="`${selected == 2 ? 'active':''}`" @click="selected = 2">商业订单</li>
@@ -61,6 +63,13 @@
         methods: {
             handleSearch() {
                 this.$refs.list._handleSearch()
+                this.$refs.input.blur()
+            },
+            
+            // 点击软键盘搜索按钮
+            keyUp() {
+                this.$refs.list._handleSearch()
+                this.$refs.input.blur()
             },
             shutDown() {
                 this.is_search = !this.is_search
@@ -87,25 +96,32 @@
         height: .6rem;
         line-height: .6rem;
         border-radius: .6rem;
-        align-items: center;
         display: flex;
-        input {
-            margin-left: .4rem;
-            width: 84%;
-            // height: .5rem;
-            // line-height: .52rem;
-            height: 100%;
-            background: #0081e5;
-            color: #fff;
-            &::placeholder {
+        // align-items: center;
+        // display: flex;
+        .input-wrap {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            input {
+                margin-left: .4rem;
+                width: 84%;
+                // height: .5rem;
+                // line-height: .52rem;
+                height: 100%;
+                background: #0081e5;
                 color: #fff;
-                opacity: .6;
+                &::placeholder {
+                    color: #fff;
+                    opacity: .6;
+                }
+            }
+            svg {
+                width: .32rem;
+                height: .32rem;
             }
         }
-        svg {
-            width: .32rem;
-            height: .32rem;
-        }
+        
     }
     .nav-list {
         width: 80%;

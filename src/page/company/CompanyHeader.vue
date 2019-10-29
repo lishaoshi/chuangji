@@ -3,11 +3,13 @@
         <div class="top-box activebox" :class="{ 'bg-from-box': hasError }">
             <img class="retreat" src="../../images/back.png" @click="goBack()">
             <div class="inpSearch" v-bind:class="{ 'bg-from': hasError }">
-                <input type="text" v-model="searchValue" placeholder="请输入关键词123">
-                <i></i>
-                <svg class="icon-location" @click="searchFn">
-                    <use xlink:href="#icon-search2"/>
-                </svg>
+                <form class="input-wrap" onsubmit="return false" action="">
+                    <input type="text" ref="input" v-model="searchValue" placeholder="请输入关键词" @keyup.enter="keyUp">
+                    <i></i>
+                    <svg class="icon-location" @click="searchFn">
+                        <use xlink:href="#icon-search2"/>
+                    </svg>
+                </form>
             </div>
             <div class="approve">
                 <p @click="FollowBusiness(shopDetailData.id)">{{follow_info}}</p>
@@ -117,6 +119,11 @@
                     }
                 }).catch(error => {
                 })
+            },
+            // 点击软键盘搜索按钮
+            keyUp() {
+                this.$refs.input.blur()
+                this.searchFn()
             },
             handleScroll() {
                 let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;

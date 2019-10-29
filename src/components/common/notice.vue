@@ -6,7 +6,10 @@
         <div class="scroll-wrap" style="height: 100%; width: 100%;">
             <ul class="scroll-content" ref="con1" :class="{anim:animate==true}">
                 <li v-for="(entity,index_) in notices" :key="`en-${index_}`">
-                    <a :href="entity.link" style="color: #333">{{entity.title}}</a>
+                    <!-- 1.0版本中是点击跳转链接，现在修改为，也可以查看公告详情 -->
+                    <!-- <a :href="entity.link" style="color: #333">{{entity.title}}</a> -->
+                    <a v-if="entity.link&&!entity.content" :href="entity.link" style="color: #333">{{entity.title}}</a>
+                    <div v-else  @click="handleQueryDetail(entity.id)">{{entity.title}}</div>
                 </li>
             </ul>
         </div>
@@ -55,7 +58,15 @@
                     }, 900)
                 }
                 
-            }
+            },
+            /**
+             * 如果公告不是链接。否则跳转至详情页、
+             * 
+             */
+            handleQueryDetail(id) {
+                // this.$emit('handleQueryDetail', id)
+                this.$router.push({path:'/bannerDetail',query: {id}})
+            },
         }
     }
 </script>
