@@ -291,7 +291,7 @@
         line-height: 2;
     }
     .topHeight {
-        // height: 1.55rem;
+        height: 1.55rem;
         .my {
             top:.78rem
         }
