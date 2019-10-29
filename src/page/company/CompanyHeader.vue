@@ -4,10 +4,13 @@
             <img class="retreat" src="../../images/back.png" @click="goBack()">
             <div class="inpSearch" v-bind:class="{ 'bg-from': hasError }">
                 <form class="input-wrap" onsubmit="return false" action="">
-                    <input type="text" ref="input" v-model="searchValue" placeholder="请输入关键词" @keyup.enter="keyUp">
-                    <i></i>
                     <svg class="icon-location" @click="searchFn">
                         <use xlink:href="#icon-search2"/>
+                    </svg>
+                    <input type="text" ref="input" v-model="searchValue" placeholder="请输入关键词" @keyup.enter="keyUp">
+                    <i></i>
+                    <svg class="icon-location"  v-if="searchValue" @click="clearText">
+                        <use xlink:href="#icon-empty1"/>
                     </svg>
                 </form>
             </div>
@@ -173,6 +176,10 @@
                 let search = this.searchValue
                 localStorage.setItem('search', JSON.stringify(search));
                 this.$router.push({path:'/company-product-list', query: {shopId: this.shopId}})
+            },
+            clearText(){
+                // this.$emit('clearText')
+                this.searchValue = ''
             }
         }
     }
@@ -195,7 +202,7 @@
         input {
             background: none;
             display: inline-block;
-            float: left;
+            // float: left;
             height: .56rem;
             padding-left: 6px;
             width: 80%;
@@ -208,8 +215,8 @@
         svg {
             width: .38rem;
             height: .38rem;
-            float: right;
-            margin-top: .1rem;
+            // float: right;
+            // margin-top: .1rem;
             display: inline-block;
         }
     }
@@ -359,6 +366,17 @@
             width: .4rem;
             height: .35rem;
             margin-top: .3rem;
+        }
+    }
+    // 输入框的样式
+    .input-wrap {
+        display: flex;
+        align-items: center;
+        svg {
+            float: initial;
+        }
+        input {
+            float: initial;
         }
     }
     @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {

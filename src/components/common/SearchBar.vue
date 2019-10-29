@@ -79,7 +79,7 @@
 				margin-right: .1rem;
 				width: .55rem;
 				height: .45rem;
-				border-left: 1px solid #f5f5f5;
+				// border-left: 1px solid #f5f5f5;
                 position: relative;
                 padding-left: .1rem;
 			}
@@ -90,9 +90,9 @@
 				font-size: .3rem;
 				border: 0px;
 				line-height: .6rem;
-                text-align: center;
+                text-align: left;
 				&::-webkit-input-placeholder {
-					text-align: center;
+					text-align: left;
 				}
 			}
 		}

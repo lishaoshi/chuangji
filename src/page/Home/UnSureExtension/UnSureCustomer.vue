@@ -94,9 +94,12 @@
     flex-direction: column;
     padding-bottom: 1rem;
     .mint-tab-container {
-        margin-top: 1.55rem;
+        margin-top: .88rem;
         flex:1;
         overflow: auto;
+    }
+    .mint-loadmore-top {
+        margin:0 !important
     }
 }
     .is-scroll {
@@ -114,7 +117,7 @@
         }
     }
     .active {
-        padding-top:.58rem;
+        // padding-top:.58rem;
     }
     .mint-navbar {
         border: 0px;

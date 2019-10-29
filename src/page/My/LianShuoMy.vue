@@ -1,7 +1,7 @@
 <template>
     <div>
         <PullRefresh @refresh="refresh">
-            <header :class="{ activeFull: isFullScreen }">{{userInfo.companyName || '未认证'}}</header>
+            <header>{{userInfo.companyName || '未认证'}}</header>
             <div class="user-information">
                 <div class="user-main-info">
                     <div>
@@ -199,7 +199,8 @@
 		color: #fff;
 		text-align: center;
 		font-size: .36rem;
-		line-height: .76rem;
+		line-height: .88rem;
+		height: .88rem;
         font-weight: bold;
 	}
 
@@ -334,7 +335,5 @@
 	.my-list {
 		margin-top: .2rem;
 	}
-    .activeFull {
-        padding-top: 32px;
-    }
+    
 </style>

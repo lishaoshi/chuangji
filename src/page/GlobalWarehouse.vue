@@ -1,6 +1,6 @@
 <template>
     <div id="GlobalWarehouse" class="GlobalWarehouse">
-        <div class="top-box" :class="{ activeHome: isFullScreen }">
+        <div class="top-box">
             <ul>
                 <li :class="`${is_active===1?'active':''}`" @click="tab_change(1)">本市</li>
                 <li :class="`${is_active===2?'active':''}`" @click="tab_change(2)">推荐</li>
@@ -8,9 +8,17 @@
             </ul>
             <div class="top-box-search">
                 <form class="input-wrap" onsubmit="return false" action="">
-                     <input type="search" placeholder="请输入商业公司名称" @keyup.enter="keyUp" ref="input" v-model="searchValue">
+
                     <svg class="search-btn" @click="searchFn">
-                        <use xlink:href="#icon-search2"/>
+                        <use xlink:href="#icon-sousuo" />
+                    </svg>
+                     <input type="search" placeholder="请输入商业公司名称" @keyup.enter="keyUp" ref="input" v-model="searchValue">
+                    
+                    <!-- <svg  class="search-btn" @click="handleSearch">
+                            <use xlink:href="#icon-sousuo" />
+                    </svg> -->
+                    <svg @click="clearText" v-if="searchValue">
+                            <use xlink:href="#icon-qingkong" />
                     </svg>
                 </form>
                
@@ -109,7 +117,7 @@
                 swippers: [],
                 animate: false,
                 areaList: null,
-                isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
+                // isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
                 active: 0,
                 preActive: 0,
 
@@ -241,6 +249,10 @@
                     this.$refs.loadmore.onBottomLoaded();
                 })
             },
+            // 清空输入框
+            clearText(){
+                this.searchValue = ''
+            }
         },
     }
 </script>
@@ -284,13 +296,13 @@
     }
 
     .search-btn {
-        position: absolute;
-        float: right;
-        width: .4rem;
-        height: .4rem;
-        right: .4rem;
-        z-index: 99;
-        margin-top: .08rem;
+        // position: absolute;
+        // float: right;
+        // width: .4rem;
+        // height: .4rem;
+        // right: .4rem;
+        // z-index: 99;
+        // margin-top: .08rem;
     }
 
     .top-box {
@@ -323,7 +335,7 @@
                 background: rgba(51, 166, 255, 1);
                 border-radius: .27rem;
                 color: #D6EDFF;
-                text-align: center;
+                // text-align: center;
 
                 &::placeholder {
                     color: #D6EDFF;
@@ -366,9 +378,9 @@
         padding-bottom: .15rem;
     }
 
-    .activeHome {
-        padding-top: 0.58rem;
-    }
+    // .activeHome {
+    //     padding-top: 0.58rem;
+    // }
 
     .is_scroll {
         overflow-x: scroll;
@@ -676,7 +688,38 @@
         transition: all .9s;
         margin-top: -.6rem;
     }
+// svg图标样式
+    .top-box-search{
+        width: 90%;
+        background: #0081e5;
+        height: .6rem;
+        line-height: .6rem;
+        border-radius: .6rem;
+        display: flex;
+        padding: 0 .2rem;
+        margin:  0 auto .2rem;
 
+    .input-wrap {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            input {
+                margin-left: .4rem;
+                width: 84%;
+                height: 100%;
+                background: #0081e5;
+                color: #fff;
+                &::placeholder {
+                    color: #fff;
+                    opacity: .6;
+                }
+            }
+            svg {
+                width: .32rem;
+                height: .32rem;
+            }
+        }
+    }
     @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
         .activeTop {
             height: 1.7rem;

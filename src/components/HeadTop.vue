@@ -1,6 +1,6 @@
 <template>
-    <div class="top1" :class="{ topHeight: isFullScreen }">
-        <div class="head-top" :class="{ activeFull: isFullScreen }">
+    <div class="top1" >
+        <div class="head-top" >
             <slot>
                 <div class="head-top-goback">
                     <slot name="prepend">
@@ -41,7 +41,7 @@
         name: "clxsd-head-top",
         data() {
             return {
-                isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
+                // isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
                 isBROWSER: false
             }
         },
@@ -312,11 +312,11 @@
         height: .88rem;
     }
     .topHeight {
-        height: 1.4rem;
+        // height: 1.4rem;
     }
     .activeFull {
-        padding-top: .52rem;
-        height: 1.4rem;
+        // padding-top: .52rem;
+        // height: 1.4rem;
     }
 
     @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {

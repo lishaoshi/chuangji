@@ -4,9 +4,12 @@
             <div class="search" :class="{activeTop: isFullScreen}">
                 <div v-if="is_search == true" class="search-form">
                     <form class="input-wrap" onsubmit="return false" action="">
-                        <input type="search" ref="input" v-model="searchValue" placeholder="请输入搜索内容" @keyup.enter="keyUp">
                         <svg @click="handleSearch">
-                            <use xlink:href="#icon-ordering-search" />
+                            <use xlink:href="#icon-sousuo" />
+                        </svg>
+                        <input type="search" ref="input" v-model="searchValue" placeholder="请输入搜索内容" @keyup.enter="keyUp">
+                        <svg @click="clearText" v-if="searchValue">
+                            <use xlink:href="#icon-qingkong" />
                         </svg>
                     </form>
                 </div>
@@ -74,6 +77,9 @@
             shutDown() {
                 this.is_search = !this.is_search
                 this.searchValue = ""
+            },
+            clearText(){
+                this.searchValue = ''
             }
         }
     }
@@ -97,12 +103,15 @@
         line-height: .6rem;
         border-radius: .6rem;
         display: flex;
+        padding: 0 .2rem;
+
         // align-items: center;
         // display: flex;
         .input-wrap {
             display: flex;
             align-items: center;
             flex: 1;
+            // justify-content: space-around;
             input {
                 margin-left: .4rem;
                 width: 84%;
@@ -128,7 +137,7 @@
         padding-left: 15%;
         color: #fff;
         text-align: center;
-        height: .6rem;
+        // height: .6rem;
         li {
             display: inline-block;
             padding-left: .3rem;
@@ -147,8 +156,11 @@
         display: flex;
         width: 100%;
         top: 0px;
-        padding: 12px;
+        height: .88rem;
+        // line-height: .88rem;
+        // padding: 12px;
         z-index: 999;
+        align-items: center;
         justify-content: space-between;
         .retreat {
             width: 30px;
