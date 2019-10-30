@@ -26,7 +26,7 @@
                    
                     <template v-else>
                         <form class="input_warp" action="">
-                            <input v-focus maxlength="2" data-maxlength="2" @blur="handleBlur($event)" ref="cart" type="number" :value="data.num">
+                            <input v-focus @input="handleInput($event)" @blur="handleBlur($event)" ref="cart" type="number" :value="data.num">
                         </form>
                     </template>
                     <div class="add" @click="addToMiniCart()">+</div>
@@ -172,6 +172,13 @@
                 addShopCar(params)
                 
             },
+            // 处理input长度
+			handleInput(event) {
+				let value = event.target.value
+				if(value>99) {
+					event.target.value = 99
+				}
+			},
             async _initData() {
                 let params = {
                     id: this.id,

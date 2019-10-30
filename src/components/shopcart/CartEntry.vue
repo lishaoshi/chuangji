@@ -18,7 +18,7 @@
 						<span @click="chooseSelf" v-if="!data.isSelfChoose" class="num">{{data.num}}<i>{{data.unit || '件'}}</i></span>
 						<template v-else>
 							<form action="">
-								<input maxlength="3" data-maxlength="3" v-focus type="number" @blur="handleBlur($event, data)" ref="cart" :value="data.num">
+								<input @input="handleInput" v-focus type="number" @blur="handleBlur($event, data)" ref="cart" :value="data.num">
 							</form>
 						</template>
 						<div class="plus" @click.prevent.stop="addGoods(sid,pid, data)">+</div>
@@ -47,6 +47,14 @@ import bus from '@/bus'
 				let num = event.target.value
 				let data = {pid:this.pid, sid: this.sid, num, item}
 				bus.$emit('handleBlur', data)
+			},
+			
+			//处理最大购物量
+			handleInput(event) {
+				let num = event.target.value
+				if(num>=99) {
+					event.target.value = 99
+				}
 			}
 
 		}

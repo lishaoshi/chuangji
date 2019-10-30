@@ -214,6 +214,10 @@
             },
             //要注意店铺与商品的ID
             addGoods(sid,pid, item){
+                if(item.num>=99) {
+                    this.$toast('最大购买量为99')
+                    return false
+                }
                 this.data.shops[sid].items[pid].num++;
                 let shopId = this.data.shops[sid].shopId
                 item.itemId = item.id
@@ -298,9 +302,8 @@
                 
             })
             bus.$on('handleBlur', ({pid, sid, num, item})=>{
+                bus.$off('chooseSelf')
                  this.$nextTick().then(()=>{
-                    //  debugger
-                    //  console.log(item)
                      this.data.shops[sid].items[pid].isSelfChoose = false
                      
                      if(Number.isInteger(parseInt(num))&&(num < this.data.shops[sid].items[pid].order_min_num)) {
@@ -311,6 +314,7 @@
                     if(!num ||　(num == this.data.shops[sid].items[pid].num)) {
                         return false
                     }
+                    console.log(num)
                     this.data.shops[sid].items[pid].num = num
                      let shopId = this.data.shops[sid].shopId
                     let params = {
@@ -318,7 +322,9 @@
                         good_id: item.id,
                         num
                     }
-                    addShopCar(params)  
+                    addShopCar(params).then(res=>{
+                        bus.$off('handleBlur')
+                    }) 
                 })
             })
         }

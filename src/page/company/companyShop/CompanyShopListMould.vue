@@ -39,7 +39,7 @@
 									</template>
 									<template v-else>
 										<form action="">
-											<input v-focus maxlength="2" data-maxlength="2" @keyup.enter="handleBlur($event, item, index)" @blur="handleBlur($event, item, index)" ref="cart" type="number" :value="item.num">
+											<input v-focus @input="handleInput($event)" pattern="[0-9]*" data-maxlength="2" @keyup.enter="handleBlur($event, item, index)" @blur="handleBlur($event, item, index)" ref="cart" type="number" :value="item.num">
 										</form>
 									</template>
 									
@@ -126,7 +126,7 @@
 			handleBlur(event, item, index) {
 				if(Number.isInteger(parseInt(event.target.value))&&(event.target.value < item.order_min_num)) {
 					this.$toast(`最小订货量为${item.order_min_num}`)
-					this.$emit('handleBlur',false, index)
+					this.$emit('handleBlur',false, index, item)
 					return false
 				}
 				// 如果event.target.value是空，则不改变数值
@@ -141,10 +141,22 @@
 				}
 				addShopCar(data)
 				// debugger
-				this.$emit('handleBlur', true, index, event.target.value)
+				this.$emit('handleBlur', true, index, event.target.value, item)
+			},
+
+			// 处理input长度
+			handleInput(event) {
+				let value = event.target.value
+				if(value>99) {
+					event.target.value = 99
+				}
 			},
             add_shop_car(item, index) {
-				console.log(item)
+				// console.log(item)
+				if(item.num>=99) {
+					this.$toast('最大购买量为99')
+					return false
+				}
 				this.$emit('add_shop_car', index, item)
                 let data = {
                     supplier_id: this.businessId,

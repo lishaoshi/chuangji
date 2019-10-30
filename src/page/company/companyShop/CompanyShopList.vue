@@ -180,11 +180,16 @@
 			*flag类型是boolear值，true为正常修改购物车数量，false为小于最小购买量
 			*/
 		
-			handleBlur(flag, index, num) {
+			handleBlur(flag, index, num, item) {
 				this.items = JSON.parse(JSON.stringify(this.items))
 				this.items[index].isSelfChoose = false
 				if(flag) {
 					this.items[index].num = num
+					if(this.shopCart[item.id]) {
+                        this.shopCart[item.id].num = num
+                        } else {
+                            this.$set(this.shopCart, `${item.id}`, {...this.entities[index]})
+                    }
 				}
 			},
 

@@ -89,7 +89,7 @@
                                                     
                                                     <template v-if="entity.isSelfChoose">
                                                         <form action="">
-                                                            <input v-focus maxlength="2" data-maxlength="2" @blur="handleBlur($event, entity, index)" ref="cart" type="number" :value="entity.num">
+                                                            <input v-focus maxlength="2" @input="handleInput($event)" @blur="handleBlur($event, entity, index)" ref="cart" type="number" :value="entity.num">
                                                         </form>
                                                     </template>
                                                     <div class="add controller" @click="addToMiniCart($event,entity, index)">+ <span></span> </div>
@@ -337,21 +337,30 @@
             // 处理输入框失去焦点触发
 			handleBlur(event, item, index) {
                 this.goodList[index].isSelfChoose = false
-				if(Number.isInteger(parseInt(event.target.value))&&(event.target.value < item.order_min_num)) {
+                let num = event.target.value
+				if(Number.isInteger(parseInt(num))&&(num < item.order_min_num)) {
 					this.$toast(`最小订货量为${item.order_min_num}`)
 					return false
 				}
 				// 如果event.target.value是空，则不改变数值
-				if(!event.target.value ||　(event.target.value === item.num)) {
-					// this.$emit('handleBlur',false, index)
+				if(!num ||　(num === item.num)) {
 					return false
-				}
+                }
+                this.shopCart[item.id].num = num
+                this.goodList[index].num = num
 				let data = {
 					supplier_id: this.businessId,
 					good_id: item.id,
-					num: event.target.value
+					num: num
 				}
 				addShopCar(data)
+            },
+            // 处理input长度
+			handleInput(event) {
+				let value = event.target.value
+				if(value>99) {
+					event.target.value = 99
+				}
 			},
             canOption() {
                 if (!this.canShow) {
@@ -459,6 +468,10 @@
                 this.current_id = id
             },
             addToMiniCart(event, entity, index) {
+                if(entity.num>=99) {
+					this.$toast('最大购买量为99')
+					return false
+				}
                 if(entity.num < entity.order_min_num) {
                     entity.num += entity.order_min_num
                 } else {
