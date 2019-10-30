@@ -167,6 +167,7 @@
                 display: block;
                 width: .64rem;
                 height: .64rem; 
+                border-radius: .1rem;
             }
             p {
                 flex-grow: 1;
