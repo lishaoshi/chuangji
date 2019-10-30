@@ -77,7 +77,7 @@
         </div>
         <div class="again" v-if="data.order_status!=1">
             <div class="much"  v-if="data.order_status == 0">
-                <p @click="goOrderDetail(data)">去付款</p>
+                <p @click="goOrderDetail(data)">货到付款</p>
             </div>
             <div class="much" v-if="data.order_status !=0 && data.order_status != 1">
                 <p v-if="data.order_status != 1 && data.order_status!=6 && data.order_status!=5 && data.order_status!=2 && data.order_status!=4" @click="sureOrder(data.id)">确认收货</p>
@@ -201,7 +201,7 @@ import { setInterval } from 'timers'
             goOrderDetail(item) {
                 this.$messagebox.confirm('',{
                     title: '提示',
-                    message: '确认支付吗？',
+                    message: '确认货到付款？',
                 }).then(res=>{
                     if(res=='confirm') {
                         orderPay(item.id).then(()=>{

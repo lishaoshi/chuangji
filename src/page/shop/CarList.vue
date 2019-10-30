@@ -327,6 +327,10 @@
                     })
                 })
             })
+        },
+        destroyed() {
+            bus.$off('chooseSelf')
+            bus.$off('handleBlur')
         }
     }
 </script>

@@ -70,7 +70,7 @@
 			</div>
 
 			<div>
-				<div class="btn" v-if="data.order_status=== 0" @click="goComfirm">去支付</div>
+				<div class="btn" v-if="data.order_status=== 0" @click="goComfirm">货到付款</div>
 			</div>
 		</div>
 
@@ -135,7 +135,7 @@
 			goComfirm() {
 				 this.$messagebox.confirm('',{
                     title: '提示',
-                    message: '确认支付吗？',
+                    message: '确认货到付款？',
                 }).then(res=>{
                     if(res=='confirm') {
                         orderPay(this.orderId).then(()=>{
