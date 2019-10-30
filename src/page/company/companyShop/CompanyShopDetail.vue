@@ -15,13 +15,21 @@
             </div>
             <div class="rigit">
                 <div class="gw_num" v-if="(!data.is_multi_spec && canShow)">
-                    <em class="lose" @click="removeToMiniCart()" v-if="data.num>0">-</em>
-                    <em class="lose"  v-else>-</em>
-                    <div class="num">
-                        <span class="amount">{{data.num}}</span>
-                        <p>{{data.unit || '件'}}</p>
-                    </div>
-                    <em class="add" @click="addToMiniCart()">+</em>
+                    <div class="lose" @click="removeToMiniCart()" v-if="data.num>0">-</div>
+                    <div class="lose"  v-else>-</div>
+                    <template v-if="!data.isChooseSelf">
+                         <div class="num" @click="handleChoose">
+                            <span class="amount">{{data.num}}</span>
+                            <p>{{data.unit || '件'}}</p>
+                        </div>
+                    </template>
+                   
+                    <template v-else>
+                        <form class="input_warp" action="">
+                            <input v-focus maxlength="2" data-maxlength="2" @blur="handleBlur($event)" ref="cart" type="number" :value="data.num">
+                        </form>
+                    </template>
+                    <div class="add" @click="addToMiniCart()">+</div>
                 </div>
             </div>
         </div>
@@ -116,9 +124,6 @@
 
                 cartList: state => state.shop.BUSINESS_CART_LIST
             }),
-            // shopCart() {
-            //     return {...this.cartList[this.businessId]}
-            // },
             cartNum() {
                 let num = 0;
                 Object.values(this.shopCart).forEach((data, index) => {
@@ -133,12 +138,40 @@
 
                 })
                 return total_price.toFixed(2)
-            }
+            },
         },
         methods: {
             ...mapMutations([
                 'BUSINESS_ADD_CART', 'BUSINESS_REMOVE_CART',
             ]),
+             // 选择通过键盘输入选择添加购物车数量
+            handleChoose() {
+                console.log(123, this.data)
+                // this.$set(this.data, 'isChooseSelf', true)
+                // debugger
+                this.data.isChooseSelf = true
+            },
+            // input失去焦点
+            handleBlur(event) {
+                // debugger
+                this.data.isChooseSelf = false
+                if(Number.isInteger(parseInt(event.target.value))&&(event.target.value < this.data.order_min_num)) {
+                    this.$toast('不能小于最小订货量')
+                    return false
+                }
+				// 如果event.target.value是空，则不改变数值
+				if(!event.target.value ||　(event.target.value === this.data.num)) {
+					return false
+                }
+                this.data.num = event.target.value
+                let params = {
+                    supplier_id: this.businessId,
+                    good_id: this.id,
+                    num: event.target.value
+                }
+                addShopCar(params)
+                
+            },
             async _initData() {
                 let params = {
                     id: this.id,
@@ -147,14 +180,14 @@
                 const {
                     data
                 } = await this.$http.get(`hippo-shop/business/${this.businessId}/detail/${this.id}`)
-                this.data = data.data
+                let goodsData = data.data
+                this.data = this._handleData(goodsData)
+                this.$set(this.data, 'isChooseSelf', false)
+                // debugger
                 this.name = this.data.brand.name
-                this.data = this._handleData(this.data)
                 queryShopCarList({}, this.businessId).then(res=>{
-                    // debugger
                     this.shopCart = res
                     if(this.shopCart[this.id]) {
-                        // this.$set(this.data, 'num',  res[this.id].num)
                         this.data.num = this.shopCart[this.id].num
                     }
                 })
@@ -171,8 +204,6 @@
                     }
                 }).catch(error => {
                 })
-
-
             },
             canOption() {
                 if (!this.canShow) {
@@ -185,11 +216,13 @@
                 if(data.valid_time!=0){
                     let time = data.valid_time
                     data.time = this.$moment(time*1000).format("YYYY-MM-DD")
+                    // data.isChooseSelf = false
                     this.$set(this.data, 'num', 0)
                 }
                 return data
             },
             addToMiniCart() {
+                // debugger
                 if(this.data.num<this.data.order_min_num) {
                     this.data.num = this.data.order_min_num
                     if(this.shopCart[this.id]) {
@@ -264,7 +297,8 @@
         background: rgb(255, 234, 233);
 
         .left {
-            width: 68%;
+            // width: 68%;
+            width: 4.8rem;
             background: -webkit-linear-gradient(left, rgb(255, 65, 113), rgb(255, 92, 152)); /* Safari 5.1 - 6.0 */
             background: -o-linear-gradient(right, rgb(255, 65, 113), rgb(255, 92, 152)); /* Opera 11.1 - 12.0 */
             background: -moz-linear-gradient(right, rgb(255, 65, 113), rgb(255, 92, 152)); /* Firefox 3.6 - 15 */
@@ -273,11 +307,31 @@
             font-size: .48rem;
             color: #fff;
             padding-left: .2rem;
+            // flex: 1 0;
             i {
                 font-size: .24rem;
                 text-decoration: line-through;
                 margin-left: 5px;
                 padding: 0 5px;
+            }
+        }
+        .rigit {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            .input_warp {
+                display: inline-flex;
+                flex:1;
+                input {
+                    background: #FE4171;
+                    width: 100%;
+                    text-align: center;
+                    height: 100%;
+                    line-height: 100%;
+                    flex:1 0 auto;
+                    color: #fff;
+                }
             }
         }
     }
@@ -388,30 +442,22 @@
 
     /*加减*/
     .gw_num {
-        width: 1.7rem;
+        // width: 1.7rem;
         height: .58rem;
-        background: rgb(255, 59, 48);
+        flex: 1;
+        margin: 0 .32rem;
+        background: #FE4171;
         border-radius: .58rem;
         display: flex;
-        align-items: center;
+        // align-items: center;
         text-align: center;
-        margin-top: .2rem;
-        margin-left: .3rem;
-    }
-
-    .gw_num em {
-        color: #fff;
-        cursor: pointer;
-        font-size: .28rem;
-        flex: 1;
-        line-height: 24px;
-        font-weight: 100;
-        font-style: normal;
-        font-weight: bold;
-    }
-
-    .shop_num em {
-        color: #fff;
+        .lose, .add {
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: .56rem;
+        }
     }
 
     .gw_num .num {

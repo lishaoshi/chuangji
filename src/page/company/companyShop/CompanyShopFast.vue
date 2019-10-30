@@ -7,7 +7,7 @@
 			<span @click="chooseType(3)" :class="`${is_active == 3 ? 'active':''}`">按购买次数</span>
 		</div>
         
-		<list :business-id="businessId" :title="title" :items="entities" v-if="entities.length" @del_shop_cart="del_shop_cart" @add_shop_car="add_shop_car" :shopCart="shopCart"></list>
+		<list @updateSlefChoss="handleChoose" @handleBlur="handleBlur" :business-id="businessId" :title="title" :items="entities" v-if="entities.length" @del_shop_cart="del_shop_cart" @add_shop_car="add_shop_car" :shopCart="shopCart"></list>
         <EmptyOrder v-else/>
         <div style="height: 1.3rem"></div>
         <div style="position: fixed;width: 100%;bottom: 0px">
@@ -93,6 +93,7 @@
                 if(!data) return []
                 // console.log(data,'data')
                 data.forEach((item, index, arr) => {
+                    item.isSelfChoose = false
                     item.shopId = this.factoryId
                     item.num = 0
                     item.itemId = item.id
@@ -106,6 +107,25 @@
                 this.loading = false
                 return data
             },
+
+            // 通过软键盘输入
+			handleChoose(boolear, index) {
+				this.entities = JSON.parse(JSON.stringify(this.entities))
+				this.entities[index].isSelfChoose = true
+			},
+
+			/*当前商品的输入框失去焦点
+			* 
+			*flag类型是boolear值，true为正常修改购物车数量，false为小于最小购买量
+			*/
+		
+			handleBlur(flag, index, num) {
+				this.entities = JSON.parse(JSON.stringify(this.entities))
+				this.entities[index].isSelfChoose = false
+				if(flag) {
+					this.entities[index].num = num
+				}
+			},
             // 添加购物车
             add_shop_car(index, item) {
                 // debugger
