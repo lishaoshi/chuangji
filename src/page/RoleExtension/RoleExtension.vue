@@ -8,7 +8,7 @@
                 <!--非正常情况，没有客户，需要去推广-->
                 <UnSureCustomer :notices="noticeList"/>
             </mt-tab-container-item>
-            <mt-tab-container-item id="2"  :class="{ Box3: selected==2 }">
+            <mt-tab-container-item id="2"  v-if="selected=='2'" :class="{ Box3: selected==2 }">
                 <!--<p class="t1"  :class="{ t2: isFullScreen }">联贝收益</p>-->
                <MyFrame :balance="balance"></MyFrame>
             </mt-tab-container-item>
