@@ -9,7 +9,7 @@
                     <!-- 1.0版本中是点击跳转链接，现在修改为，也可以查看公告详情 -->
                     <!-- <a :href="entity.link" style="color: #333">{{entity.title}}</a> -->
                     <a v-if="entity.link&&!entity.content" :href="entity.link" style="color: #333">{{entity.title}}</a>
-                    <div v-else  @click="handleQueryDetail(entity.id)">{{entity.title}}</div>
+                    <div v-else  @click="handleQueryDetail(entity)">{{entity.title}}</div>
                 </li>
             </ul>
         </div>
@@ -63,9 +63,12 @@
              * 如果公告不是链接。否则跳转至详情页、
              * 
              */
-            handleQueryDetail(id) {
+            handleQueryDetail(item) {
                 // this.$emit('handleQueryDetail', id)
-                this.$router.push({path:'/bannerDetail',query: {id}})
+                if(!titem.content && !item.link) {
+                    return false
+                }
+                this.$router.push({path:'/bannerDetail',query: {id:item.id}})
             },
         }
     }

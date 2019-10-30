@@ -39,7 +39,7 @@
 									</template>
 									<template v-else>
 										<form action="">
-											<input v-focus @input="handleInput($event)" pattern="[0-9]*" data-maxlength="2" @keyup.enter="handleBlur($event, item, index)" @blur="handleBlur($event, item, index)" ref="cart" type="number" :value="item.num">
+											<input v-focus @input="handleInput($event)" pattern="[0-9]*" @keyup.enter="handleBlur($event, item, index)" @blur="handleBlur($event, item, index)" ref="cart" type="number" :value="item.num">
 										</form>
 									</template>
 									
@@ -280,6 +280,7 @@
 		margin-top: .2rem;
 		 .carImg {
             height: .54rem;
+			// flex:1;
             .shopCart {
                 width: 30px;
                 height: 30px;
@@ -307,8 +308,10 @@
 					padding: .04rem;
 					// display: flex;
 					flex:1;
+					display: flex;
 					input {
-						width: .4rem;
+						// width: 1rem;
+						width: .6rem;
 						background: #f5f5f5;
 					}
 				}

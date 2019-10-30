@@ -12,7 +12,7 @@
                     <!-- 1.0版本中是点击跳转链接，现在修改为，也可以查看公告详情 -->
                     <!-- <a :href="entity.link" style="color: #333">{{entity.title}}</a> -->
                     <a v-if="entity.link&&!entity.content" :href="entity.link" style="color: #333">{{entity.title}}</a>
-                    <div v-else  @click="handleQueryDetail(entity.id)">{{entity.title}}</div>
+                    <div v-else  @click="handleQueryDetail(entity)">{{entity.title}}</div>
                 </li>
             </ul>
         </div>
@@ -57,7 +57,16 @@
                     that.notices.shift();
                     that.animate = !that.animate;  // 这个地方如果不把animate 取反会出现消息回滚的现象，此时把ul 元素的过渡属性取消掉就可以完美实现无缝滚动的效果了
                 }, 900)
-            }
+            },
+
+            // 如果不是连接，则跳转至公告详情
+             handleQueryDetail(item) {
+                // this.$emit('handleQueryDetail', id)
+                if(!titem.content && !item.link) {
+                    return false
+                }
+                this.$router.push({path:'/bannerDetail',query: {id:item.id}})
+            },
         }
     }
 </script>

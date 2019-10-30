@@ -89,7 +89,7 @@
                                                     
                                                     <template v-if="entity.isSelfChoose">
                                                         <form action="">
-                                                            <input v-focus maxlength="2" @input="handleInput($event)" @blur="handleBlur($event, entity, index)" ref="cart" type="number" :value="entity.num">
+                                                            <input v-focus maxlength="2" @keyup.enter="handleBlur($event, entity, index)" @input="handleInput($event)" @blur="handleBlur($event, entity, index)" ref="cart" type="number" :value="entity.num">
                                                         </form>
                                                     </template>
                                                     <div class="add controller" @click="addToMiniCart($event,entity, index)">+ <span></span> </div>
@@ -791,7 +791,7 @@
             background: rgb(245, 245, 245);
         }
         input {
-            width: .4rem;
+            width: .6rem;
             text-align: center;
             background: rgb(245, 245, 245);
         }
