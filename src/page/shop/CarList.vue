@@ -302,7 +302,7 @@
                 
             })
             bus.$on('handleBlur', ({pid, sid, num, item})=>{
-                bus.$off('chooseSelf')
+                // bus.$off('chooseSelf')
                  this.$nextTick().then(()=>{
                      this.data.shops[sid].items[pid].isSelfChoose = false
                      
@@ -323,8 +323,8 @@
                         num
                     }
                     addShopCar(params).then(res=>{
-                        bus.$off('handleBlur')
-                    }) 
+                        // bus.$off('handleBlur')
+                    })
                 })
             })
         }

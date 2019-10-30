@@ -26,7 +26,7 @@
                    
                     <template v-else>
                         <form class="input_warp" action="">
-                            <input v-focus @input="handleInput($event)" @blur="handleBlur($event)" ref="cart" type="number" :value="data.num">
+                            <input v-focus @input="handleInput($event)" @blur="handleBlur($event)" @keyup.enter="handleBlur($event)" ref="cart" type="number" :value="data.num">
                         </form>
                     </template>
                     <div class="add" @click="addToMiniCart()">+</div>
