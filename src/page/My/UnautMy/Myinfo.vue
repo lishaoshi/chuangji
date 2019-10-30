@@ -2,7 +2,7 @@
     <div class="UnautMy">
         <div class="container">
             <div class="header">
-                <span v-if="userInfo.user_type!==4">{{companyName}}</span>
+                <span v-if="userInfo.user_type!==4">{{userInfo.companyName}}</span>
                 
                  <!-- <span></span> -->
             </div>

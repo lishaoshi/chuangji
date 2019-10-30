@@ -1,6 +1,6 @@
 <template>
     <div id="page-extension-home">
-        <div class="header" :class="{ topHeight: isFullScreen }">
+        <div class="header">
             <!-- <div  slot="prepend" @click="openMyFrame()" class="my" :class="{ my2: isFullScreen }">
                 <img src="../../images/my/user_default.png" />
             </div> -->
@@ -34,7 +34,7 @@
                 regionVisible: false,
                 myFrame:false,
                 pay_success:false,
-                isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
+                // isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
             }
         },
         computed:{
@@ -207,10 +207,6 @@
         color: #f30000;
         font-size: .24rem;
         line-height: 2;
-    }
-    .topHeight {
-        padding-top: .52rem;
-        height: 1.5rem;
     }
     .box1 {
         height: .88rem;
