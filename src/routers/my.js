@@ -74,6 +74,10 @@ const Download = () => import(/* webpackChunkName: "About" */ '@/page/download/D
 /* 角色确认页面 */
 const RoleConfirm = () => import(/* webpackChunkName: "About" */ '@/page/extension/RoleConfirm.vue');
 
+/* 邀请记录 */
+const Record = () => import(/* webpackChunkName: "About" */ '@/page/Invitation/Invited_to_record.vue');
+
+
 export default [
     {
         path: "/update-list",
@@ -476,6 +480,13 @@ export default [
         component: RoleConfirm,
         meta: {
             title: "角色信息确认页面",
+        }
+    },
+    {
+        path: "/record",
+        component: Record,
+        meta: {
+            title: "邀请记录",
         }
     },
 ]

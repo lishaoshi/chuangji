@@ -4,6 +4,9 @@
         <div class="box">
             <p>扫下方二维码，入驻创联</p>
            <div v-html="imgUrl" class="qrcodeImgUrl"></div>
+           <div class="btn">
+               <router-link to="/record">邀请记录</router-link>
+           </div>
             <!-- <div class="btn"><router-link to="">邀请记录</router-link><small>|</small><span>保存图片</span></div> -->
         </div>
     </div>
