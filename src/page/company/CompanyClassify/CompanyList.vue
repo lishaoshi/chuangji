@@ -4,7 +4,7 @@
             <svg @click="closedMyFrame()">
                 <use xlink:href="#icon-closed"></use>
             </svg>
-            <SearchBar v-model="searchValue" :searchFn="searchFn"></SearchBar>
+            <SearchBar v-model="searchValue" ref="searchBox" @keyup="keyup" :searchFn="searchFn" @clearText='clearText'></SearchBar>
         </div>
         <div style="min-height: 5rem;" class="company-list">
             <!-- <ClxsdLoadMore key="factory-list" ref="loadmore" @onRefresh="onRefresh" @onLoadMore="onLoadMore"> -->
@@ -147,7 +147,15 @@
                 // console.log(item)
                 this.itemId = item.id
                 this.entryBusinessShop(item)
-            }
+            },
+            clearText(){
+                this.searchValue = ''
+            },
+            // 软键盘弹出时，点击搜索按钮执行
+			keyup() {
+				this.searchFn()
+                this.$refs.searchBox.$refs.input.blur()
+            },
         },
     }
 </script>

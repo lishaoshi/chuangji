@@ -70,6 +70,7 @@
 		.input-wrap {
 			display: flex;
 			// flex: auto;
+			width: 100%;
 			background-color: #fff;
 			align-items: center;
 			padding: 0 .2rem;
@@ -86,6 +87,7 @@
 			input {
 				color: #7c7c7c;
 				// flex: auto;
+				flex-grow: 1;
 				background-color: transparent;
 				font-size: .3rem;
 				border: 0px;

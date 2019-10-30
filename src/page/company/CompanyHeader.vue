@@ -221,7 +221,7 @@
         }
     }
     .bg-from-box {
-         background: #2891e5;
+        //  background: #2891e5;
          padding-bottom: .1rem;
     }
     .bg-from {
@@ -239,13 +239,15 @@
         position: fixed;
         width: 100%;
         top: 0px;
+        align-items: center;
+        height: .88rem;
         // right: .2rem;
         // padding: 10px;
         z-index: 100;
         .retreat {
             width: 10px;
             height: 20px;
-            padding-top: 4px;
+            // padding-top: 4px;
         }
 
         .approve {
@@ -353,13 +355,13 @@
     }
 
     .activebox {
-        padding-top: .7rem;
+        // padding-top: .7rem;
     }
     .activebox2 {
         padding-top: 1.7rem;
     }
     .bg2 {
-        height: 1.4rem;
+        // height: 1.4rem;
     }
     .tel {
         svg {
