@@ -22,19 +22,19 @@
         <!-- <Seach></Seach> -->
         <mt-tab-container class="mint-tab-container" v-model="selected">
             <mt-tab-container-item id="all">
-                <AllCustomerComponent :notices="notices"/>
+                <AllCustomerComponent v-if="selected=='all'" :notices="notices"/>
             </mt-tab-container-item>
             <mt-tab-container-item id="province">
-                <ProvinceCustomerComponent :notices="notices"/>
+                <ProvinceCustomerComponent v-if="selected=='province'" :notices="notices"/>
             </mt-tab-container-item>
             <mt-tab-container-item id="city">
-                <CityCustomerComponent :notices="notices"/>
+                <CityCustomerComponent v-if="selected=='city'" :notices="notices"/>
             </mt-tab-container-item>
             <!-- <mt-tab-container-item id="partner">
                 <PartnerCustomerComponent/>
             </mt-tab-container-item> -->
             <mt-tab-container-item id="promoter">
-                <PromoterCustomerComponent :notices="notices"/>
+                <PromoterCustomerComponent v-if="selected=='promoter'" :notices="notices"/>
             </mt-tab-container-item>
         </mt-tab-container>
     </div>
