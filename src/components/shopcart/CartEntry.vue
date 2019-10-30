@@ -18,7 +18,7 @@
 						<span @click="chooseSelf" v-if="!data.isSelfChoose" class="num">{{data.num}}<i>{{data.unit || '件'}}</i></span>
 						<template v-else>
 							<form action="">
-								<input maxlength="3" data-maxlength="3" v-focus type="number" @blur="handleBlur" ref="cart" v-model="data.num">
+								<input maxlength="3" data-maxlength="3" v-focus type="number" @blur="handleBlur($event, data)" ref="cart" :value="data.num">
 							</form>
 						</template>
 						<div class="plus" @click.prevent.stop="addGoods(sid,pid, data)">+</div>
@@ -43,8 +43,10 @@ import bus from '@/bus'
 			},
 
 			// input失去焦点出发
-			handleBlur() {
-				bus.$emit('handleBlur', {pid:this.pid, sid: this.sid})
+			handleBlur(event, item) {
+				let num = event.target.value
+				let data = {pid:this.pid, sid: this.sid, num, item}
+				bus.$emit('handleBlur', data)
 			}
 
 		}

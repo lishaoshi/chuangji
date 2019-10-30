@@ -21,9 +21,9 @@
 						<!-- 商品右下角购物车 -->
 						<div class="carImg">
 							<svg class="icon shopCart" v-if="!item.num"  @click="add_shop_car(item,index)" aria-hidden="true">
-								<use xlink:href="#icon-shop-car"></use>
+								<use xlink:href="#icon-factory-addPrice"></use>
 							</svg>
-							<div class="controls" v-else>
+							<div class="controls" :class="{baColor:item.isSelfChoose }" v-else>
 								<div class="imgBox">
 									<img @click="handleNumber(item,index)" src="@/images/del_shopping.png" alt="">
 								</div>
@@ -39,7 +39,7 @@
 									</template>
 									<template v-else>
 										<form action="">
-											<input v-focus maxlength="3" data-maxlength="3" @blur="handleBlur(index)" ref="cart" type="text" v-model="item.num">
+											<input v-focus maxlength="2" data-maxlength="2" @keyup.enter="handleBlur($event, item, index)" @blur="handleBlur($event, item, index)" ref="cart" type="number" :value="item.num">
 										</form>
 									</template>
 									
@@ -123,8 +123,25 @@
 			},
 
 			// 处理输入框失去焦点触发
-			handleBlur(index) {
-				this.$emit('handleBlur', index)
+			handleBlur(event, item, index) {
+				if(Number.isInteger(parseInt(event.target.value))&&(event.target.value < item.order_min_num)) {
+					this.$toast(`最小订货量为${item.order_min_num}`)
+					this.$emit('handleBlur',false, index)
+					return false
+				}
+				// 如果event.target.value是空，则不改变数值
+				if(!event.target.value ||　(event.target.value === item.num)) {
+					this.$emit('handleBlur',false, index)
+					return false
+				}
+				let data = {
+					supplier_id: this.businessId,
+					good_id: item.id,
+					num: event.target.value
+				}
+				addShopCar(data)
+				// debugger
+				this.$emit('handleBlur', true, index, event.target.value)
 			},
             add_shop_car(item, index) {
 				console.log(item)
@@ -270,14 +287,18 @@
                 display: flex;
                 align-items: center;
                 height: 100%;
+				&.baColor{
+					background: #f5f5f5;
+					border-radius: .24rem;
+				}
 				.num {
 					padding: .04rem;
 					// display: flex;
 					flex:1;
 					input {
 						width: .4rem;
+						background: #f5f5f5;
 					}
-				
 				}
                 .shopCart,img {
                     width: .2rem;

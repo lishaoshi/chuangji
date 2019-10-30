@@ -35,7 +35,7 @@
 
              <div class="rightBox">
                 <div class="choose">
-                    <ul>
+                    <ul style="height: 1rem;">
                         <li :class="`${is_active == 1?'active':''}`" @click="changeType(1)">销量</li>
                         <li :class="`${is_active == 2?'active':''}`" @click="changeType(2)">时间</li>
                         <li :class="`${is_active == 3?'active':''}`" @click="changeType(3)">
@@ -78,13 +78,21 @@
                                                         <span>价格- - - -</span>
                                                     </p>
                                                 </div>
-                                                <div class="gw_num" v-if="(!entity.is_multi_spec && canShow)">
-                                                    <em class="lose" @click="removeToMiniCart($event,entity, index)">-</em>
-                                                    <div class="num">
-                                                        <span class="amount">{{entity.num || 0}}</span>
-                                                        {{entity.unit}}
-                                                    </div>
-                                                    <em class="add" @click="addToMiniCart($event,entity, index)">+ <span></span> </em>
+                                                <div class="gw_num" :class="{bgColor: entity.isSelfChoose}" v-if="(!entity.is_multi_spec && canShow)">
+                                                    <div class="lose controller" @click="removeToMiniCart($event,entity, index)">-</div>
+                                                    <template v-if="!entity.isSelfChoose">
+                                                        <div class="num" @click="handleChooseSelf(index)">
+                                                            <span class="amount">{{entity.num || 0}}</span>
+                                                            {{entity.unit}}
+                                                        </div>
+                                                    </template>
+                                                    
+                                                    <template v-if="entity.isSelfChoose">
+                                                        <form action="">
+                                                            <input v-focus maxlength="2" data-maxlength="2" @blur="handleBlur($event, entity, index)" ref="cart" type="number" :value="entity.num">
+                                                        </form>
+                                                    </template>
+                                                    <div class="add controller" @click="addToMiniCart($event,entity, index)">+ <span></span> </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -220,16 +228,17 @@
                     search: this.value
                 }
                await _servicBusinessGoodList(params,this.businessId).then(res => {
-                    
+
+                    let list = res.data.data.recommendList
+                    list = this._handleData(list)
                     if(this.page==1) {
-                        this.goodList = res.data.data.recommendList
+                        this.goodList = list
                     } else {
-                        this.goodList = [...this.goodList, ...res.data.data.recommendList]
+                        this.goodList = [...this.goodList, ...list]
                     }
-                   
                     !isFirst&&this.$refs.list.onBottomLoaded()
-                    this.goodList = this._handleData(this.goodList)
-                     if(!res.data.data.recommendList.length) {
+                    
+                     if(!list.length) {
                         this.allLoaded = true
                         return false
                     }
@@ -321,8 +330,29 @@
                 this.init_Goods()
                 
             },
-            topReft() {
+            // 点击数量显示输入框
+            handleChooseSelf(index) {
+                this.goodList[index].isSelfChoose = true
             },
+            // 处理输入框失去焦点触发
+			handleBlur(event, item, index) {
+                this.goodList[index].isSelfChoose = false
+				if(Number.isInteger(parseInt(event.target.value))&&(event.target.value < item.order_min_num)) {
+					this.$toast(`最小订货量为${item.order_min_num}`)
+					return false
+				}
+				// 如果event.target.value是空，则不改变数值
+				if(!event.target.value ||　(event.target.value === item.num)) {
+					// this.$emit('handleBlur',false, index)
+					return false
+				}
+				let data = {
+					supplier_id: this.businessId,
+					good_id: item.id,
+					num: event.target.value
+				}
+				addShopCar(data)
+			},
             canOption() {
                 if (!this.canShow) {
                     this.$Message.error('当前用户还未审核通过');
@@ -383,6 +413,7 @@
             },
             _handleData(data) {
                 data.forEach((entity, entityIndex, arr) => {
+                    entity.isSelfChoose = false
                     entity.shopId = this.businessId
                     entity.num = 0
                     entity.itemId = entity.id
@@ -393,6 +424,7 @@
                         }
                     })
                 })
+                // debugger
                 this.loading = false
                 return data
             },
@@ -483,15 +515,6 @@
                     good_id: entity.id
                 }
                 onlyDelShopCar(params)
-                // if (this.canOption()) {
-                //     this.BUSINESS_REMOVE_CART(entity)
-                //     entity.num--
-                //      let params = {
-                //         supplier_id: entity.shopId,
-                //         good_id: entity.id
-                //     }
-                //     onlyDelShopCar(params)
-                // }
             },
             //搜索
             searchFn(){
@@ -703,7 +726,6 @@
     .selling .unit_price {
         font-size: 10px;
         color: rgb(102, 102, 102);
-        width: 2rem;
         overflow: hidden;
     }
 
@@ -747,30 +769,34 @@
     .gw_num {
         // width: 60px;
         height: .54rem;
-        background: rgb(245, 245, 245);
         border-radius: .28rem;
         display: flex;
         align-items: center;
         text-align: center;
         padding: 0 .1rem;
+        &.bgColor {
+            background: rgb(245, 245, 245);
+        }
+        input {
+            width: .4rem;
+            text-align: center;
+            background: rgb(245, 245, 245);
+        }
         // box-sizing: border-box;
-    }
-
-    .gw_num em {
-        color: #7A7979;
-        cursor: pointer;
-        font-size: 16px;
-        flex: 1;
-        line-height: 20px;
-        font-style: normal;
-    }
-
-    .gw_num .add {
-        color: #26A2FF;
-    }
-
-    .shop_num em {
-        color: rgb(45, 162, 255);
+        & > .controller {
+            // color: #7A7979;
+             color: rgb(45, 162, 255);
+            cursor: pointer;
+            font-size: 16px;
+            flex: 1;
+            line-height: 20px;
+            font-style: normal;
+            width: .4rem;
+            height: .4rem;
+            background: #f5f5f5;
+            border-radius: 50%;
+        }
+        
     }
 
     .gw_num .num {
@@ -793,7 +819,8 @@
         line-height: 1rem;
         font-size: .32rem;
         display: flex;
-
+        height: 1rem;
+        flex: 0 0 auto;
         > div {
             width: 2rem;
             background-color: #E6E6E6;
@@ -876,6 +903,9 @@
 
         .gw_num {
             margin-top: 10px;
+            input {
+                width: .4rem;
+            }
         }
     }
 

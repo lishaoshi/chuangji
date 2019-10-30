@@ -20,6 +20,7 @@
             </mt-navbar>
         </div>
         <!-- <Seach></Seach> -->
+        
         <mt-tab-container class="mint-tab-container" v-model="selected">
             <mt-tab-container-item id="all">
                 <AllCustomerComponent v-if="selected=='all'" :notices="notices"/>

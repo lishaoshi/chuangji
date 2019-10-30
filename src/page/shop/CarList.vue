@@ -61,9 +61,6 @@
             }
             this._queryShopCarList()
         },
-        mounted(){
-            // this.initData()
-        },
         watch: {
             is_delete(newValue, oldValue) {
                 // console.log(newValue, oldValue, this.data)
@@ -217,13 +214,10 @@
             },
             //要注意店铺与商品的ID
             addGoods(sid,pid, item){
-                // console.log(sid, pid, item)
                 this.data.shops[sid].items[pid].num++;
                 let shopId = this.data.shops[sid].shopId
                 item.itemId = item.id
                 addShopCar({supplier_id: shopId, good_id:item.id})
-                // item.sale_price = item.price * item.tran
-                // this.ADD_CART(item)
             },
             //进行商品减的操作
             async minGoods(sid,pid,item){
@@ -299,15 +293,32 @@
             bus.$on('chooseSelf',({pid, sid})=>{
                 // debugger
                 this.$nextTick().then(()=>{
-                    // debugger
                     this.data.shops[sid].items[pid].isSelfChoose = true
                 })
                 
             })
-            bus.$on('handleBlur', ({pid, sid})=>{
+            bus.$on('handleBlur', ({pid, sid, num, item})=>{
                  this.$nextTick().then(()=>{
-                    // debugger
-                    this.data.shops[sid].items[pid].isSelfChoose = false
+                    //  debugger
+                    //  console.log(item)
+                     this.data.shops[sid].items[pid].isSelfChoose = false
+                     
+                     if(Number.isInteger(parseInt(num))&&(num < this.data.shops[sid].items[pid].order_min_num)) {
+                        this.$toast(`最小订货量为${this.data.shops[sid].items[pid].order_min_num}`)
+                        return false
+                     }
+				// 如果event.target.value是空，则不改变数值
+                    if(!num ||　(num == this.data.shops[sid].items[pid].num)) {
+                        return false
+                    }
+                    this.data.shops[sid].items[pid].num = num
+                     let shopId = this.data.shops[sid].shopId
+                    let params = {
+                        supplier_id:shopId,
+                        good_id: item.id,
+                        num
+                    }
+                    addShopCar(params)  
                 })
             })
         }

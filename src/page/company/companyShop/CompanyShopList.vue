@@ -175,10 +175,17 @@
 				this.items[index].isSelfChoose = true
 			},
 
-			// 当前商品的输入框失去焦点
-			handleBlur(index) {
+			/*当前商品的输入框失去焦点
+			* 
+			*flag类型是boolear值，true为正常修改购物车数量，false为小于最小购买量
+			*/
+		
+			handleBlur(flag, index, num) {
 				this.items = JSON.parse(JSON.stringify(this.items))
 				this.items[index].isSelfChoose = false
+				if(flag) {
+					this.items[index].num = num
+				}
 			},
 
 			// 获取商业详情
