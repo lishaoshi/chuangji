@@ -128,7 +128,7 @@
 
                 allLoaded: false, //是否自动触发上拉函数
                 isAutoFill: false,
-                wrapperHeight: 0,
+                // wrapperHeight: 0,
                 courrentPage: 1,
                 limit: 15
             }
@@ -142,9 +142,9 @@
         mounted() {
             window.addEventListener('scroll', this.handleScroll, true)
             // 父控件要加上高度，否则会出现上拉不动的情况
-            this.wrapperHeight =
-                document.documentElement.clientHeight -
-                this.$refs.wrapper.getBoundingClientRect().top;
+            // this.wrapperHeight =
+            //     document.documentElement.clientHeight -
+            //     this.$refs.wrapper.getBoundingClientRect().top;
         },
         computed: {
             ...mapState(['POSITION', 'CURRENTUSER']),
