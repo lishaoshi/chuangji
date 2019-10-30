@@ -7,7 +7,7 @@
                     <svg class="icon-location" @click="searchFn">
                         <use xlink:href="#icon-search2"/>
                     </svg>
-                    <input type="text" ref="input" v-model="searchValue" placeholder="请输入sss关键词" @keyup.enter="keyUp">
+                    <input type="text" ref="input" v-model="searchValue" placeholder="请输入关键词" @keyup.enter="keyUp">
                     <i></i>
                     <svg class="icon-location"  v-if="searchValue" @click="clearText">
                         <use xlink:href="#icon-empty1"/>
