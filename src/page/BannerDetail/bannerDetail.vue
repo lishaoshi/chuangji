@@ -26,7 +26,7 @@ import { queryAnnouncementDetail } from '@/api/announcement'
 export default {
     data() {
         return {
-            title: '知名药企纷纷发力高端仿制药新型药 高毛利仍将持续',
+            title: '',
             id: null,
             content: '',
             logo: ''
