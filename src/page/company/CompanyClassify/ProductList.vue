@@ -1,6 +1,18 @@
 <template>
     <div id="ProductList">
-        <clxsd-head-top :title='`${title}`' style="border-bottom: 0px"></clxsd-head-top>
+        <!-- <clxsd-head-top :title='`${title}`' style="border-bottom: 0px"></clxsd-head-top> -->
+        <div class="header">
+            <div class="backIocn" @click="goBack">
+                <svg class="m-style-svg m-svg-def">
+                    <use xlink:href="#icon-back"/>
+                </svg>
+            </div>
+            <div class="companyName">
+                <span>
+                    {{title}}
+                </span>
+            </div>
+        </div>
         <div class="search">
             <SearchBar ref="searchBox" v-model="value" :searchFn ="searchFn" @clearText='clearText' @keyup="keyup"></SearchBar>
         </div>
@@ -89,7 +101,7 @@
                                                     
                                                     <template v-if="entity.isSelfChoose">
                                                         <form action="">
-                                                            <input v-focus @keyup.enter="handleBlur($event, entity, index)" @input="handleInput($event)" @blur="handleBlur($event, entity, index)" ref="cart" type="number" :value="entity.num">
+                                                            <input v-focus @keyup.enter="handleBlur($event, entity, index)" @blur="handleBlur($event, entity, index)" ref="cart" type="number" :value="entity.num">
                                                         </form>
                                                     </template>
                                                     <div class="add controller" @click="addToMiniCart($event,entity, index)">+ <span></span> </div>
@@ -362,13 +374,6 @@
 				}
 				addShopCar(data)
             },
-            // 处理input长度
-			handleInput(event) {
-				let value = event.target.value
-				if(value>99) {
-					event.target.value = 99
-				}
-			},
             canOption() {
                 if (!this.canShow) {
                     this.$Message.error('当前用户还未审核通过');
@@ -587,6 +592,29 @@
 
         p {
             padding-top: .6rem;
+        }
+    }
+    .header {
+        display: flex;
+        height: .88rem;
+        background: #0090FF;
+        align-items: center;
+        color: #fff;
+        padding: 0 .2rem;
+        .companyName {
+            font-size: .36rem;
+            font-weight: bold;
+            margin-left: .4rem;
+            flex:1;
+            text-align: center;
+            overflow: hidden;
+            span {
+                display: block;
+                width: 100%;
+                white-space:nowrap;/* 不换行 */
+                overflow:hidden;
+                text-overflow:ellipsis;
+            }
         }
     }
     .rightBox {

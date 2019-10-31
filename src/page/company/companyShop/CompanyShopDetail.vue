@@ -26,7 +26,7 @@
                    
                     <template v-else>
                         <form class="input_warp" action="">
-                            <input v-focus @input="handleInput($event)" @blur="handleBlur($event)" @keyup.enter="handleBlur($event)" ref="cart" type="number" :value="data.num">
+                            <input v-focus @blur="handleBlur($event)" @keyup.enter="handleBlur($event)" ref="cart" type="number" :value="data.num">
                         </form>
                     </template>
                     <div class="add" @click="addToMiniCart()">+</div>
@@ -182,13 +182,6 @@
                 addShopCar(params)
                 
             },
-            // 处理input长度
-			handleInput(event) {
-				let value = event.target.value
-				if(value>99) {
-					event.target.value = 99
-				}
-			},
             async _initData() {
                 let params = {
                     id: this.id,
@@ -199,6 +192,7 @@
                 } = await this.$http.get(`hippo-shop/business/${this.businessId}/detail/${this.id}`)
                 let goodsData = data.data
                 this.data = this._handleData(goodsData)
+                this.$set(this.data, 'num', 0)
                 this.$set(this.data, 'isChooseSelf', false)
                 // debugger
                 this.name = this.data.brand.name
@@ -232,9 +226,9 @@
             _handleData(data) {
                 if(data.valid_time!=0){
                     let time = data.valid_time
+                    // data.num = 0
                     data.time = this.$moment(time*1000).format("YYYY-MM-DD")
-                    // data.isChooseSelf = false
-                    this.$set(this.data, 'num', 0)
+                    // 
                 }
                 return data
             },
