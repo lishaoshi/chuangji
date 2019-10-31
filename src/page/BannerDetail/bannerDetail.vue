@@ -9,8 +9,8 @@
               <img :src="logo" alt="">
           </div>
           <div>
-              <span>郑州英莱药业有限公司</span>
-              <span>2019.10.04</span>
+              <span>{{companyName}}</span>
+              <span>{{time}}</span>
           </div>
       </div>
 
@@ -29,7 +29,9 @@ export default {
             title: '',
             id: null,
             content: '',
-            logo: ''
+            logo: '',
+            companyName: '',
+            time: ''
         }
     },
     created() {
@@ -47,9 +49,12 @@ export default {
         _getInfoData() {
             // debugger
             queryAnnouncementDetail({}, this.id).then(res=>{
-                this.content = res.data.content;
-                this.logo = res.data.supplier.img_cover;
-                this.title = res.data.title;
+                let data = res.data
+                this.content = data.content;
+                this.logo = data.supplier.img_cover;
+                this.title = data.title;
+                this.companyName = data.supplier.name;
+                this.time = data.created_at
             })
         }
     },
@@ -73,6 +78,16 @@ export default {
         display: flex;
         margin-top: .32rem;
         margin-bottom: .5rem;
+        align-items: center;
+        span:first-child {
+            font-size: .30rem;
+            font-weight:bold;
+            color: #333333;
+        }
+        span:last-child {
+            font-size: .24rem;
+            color: #999;
+        }
         img {
             width: .8rem;
             height: .8rem;
@@ -89,6 +104,7 @@ export default {
         
     }
     .bannerContent {
+        text-indent: 2em;
         font-size: .36rem;
         color: #333;
     }
