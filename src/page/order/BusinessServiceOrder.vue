@@ -323,7 +323,8 @@
 }
     .top-box {
         // min-height: .88rem;
-        height: 1.28rem;
+        // height: 1.28rem;
+        height: .88rem;
         background: rgba(0, 144, 255, 1);
         display: flex;
         justify-content: space-around;
@@ -358,7 +359,7 @@
     }
 
     .active {
-        padding-top: .4rem;
+        // padding-top: .4rem;
     }
 
     .nav-li {

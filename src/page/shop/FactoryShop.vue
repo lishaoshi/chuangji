@@ -1,6 +1,6 @@
 <template>
     <div id="CompanyList">
-        <div class="top-box" :class="{activebox: isFullScreen}">
+        <div class="top-box" >
             <img class="retreat" src="../../images/back.png" @click="goBack">
             <div class="inpSearch" v-bind:class="{ 'bg-from': hasError }">
                  <form class="input-wrap" onsubmit="return false" action="">
@@ -454,7 +454,7 @@
         }
     }
     .activebox {
-        padding-top: 35px;
+        // padding-top: 35px;
     }
     .activebox2 {
         padding-top: 85px;

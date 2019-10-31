@@ -397,15 +397,5 @@
 		padding-top: 1rem;
 	}
 
-	.activeTop {
-		height: 1.6rem;
-		padding-top: .5rem;
-	}
-
-	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-		.activeTop {
-			height: 1.6rem;
-			padding-top: 35px;
-		}
-	}
+	
 </style>
