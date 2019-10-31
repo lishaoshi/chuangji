@@ -480,10 +480,10 @@
                 this.current_id = id
             },
             addToMiniCart(event, entity, index) {
-                if(entity.num>=99) {
-					this.$toast('最大购买量为99')
-					return false
-				}
+                // if(entity.num>=99) {
+				// 	this.$toast('最大购买量为99')
+				// 	return false
+				// }
                 if(entity.num < entity.order_min_num) {
                     entity.num += entity.order_min_num
                 } else {

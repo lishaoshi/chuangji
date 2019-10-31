@@ -214,10 +214,10 @@
             },
             //要注意店铺与商品的ID
             addGoods(sid,pid, item){
-                if(item.num>=99) {
-                    this.$toast('最大购买量为99')
-                    return false
-                }
+                // if(item.num>=99) {
+                //     this.$toast('最大购买量为99')
+                //     return false
+                // }
                 this.data.shops[sid].items[pid].num++;
                 let shopId = this.data.shops[sid].shopId
                 item.itemId = item.id
