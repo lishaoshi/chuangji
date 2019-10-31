@@ -62,7 +62,7 @@
             // 如果不是连接，则跳转至公告详情
              handleQueryDetail(item) {
                 // this.$emit('handleQueryDetail', id)
-                if(!titem.content && !item.link) {
+                if(!item.content && !item.link) {
                     return false
                 }
                 this.$router.push({path:'/bannerDetail',query: {id:item.id}})

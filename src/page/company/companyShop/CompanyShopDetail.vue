@@ -234,10 +234,10 @@
             },
             addToMiniCart() {
                 // debugger
-                if(this.data.num >=99) {
-                    this.$toast('最大购物量为99')
-                    return false
-                }
+                // if(this.data.num >=99) {
+                //     this.$toast('最大购物量为99')
+                //     return false
+                // }
                 if(this.data.num<this.data.order_min_num) {
                     this.data.num = this.data.order_min_num
                     if(this.shopCart[this.id]) {

@@ -146,10 +146,10 @@
 
             add_shop_car(item, index) {
 				// console.log(item)
-				if(item.num>=99) {
-					this.$toast('最大购买量为99')
-					return false
-				}
+				// if(item.num>=99) {
+				// 	this.$toast('最大购买量为99')
+				// 	return false
+				// }
 				this.$emit('add_shop_car', index, item)
                 let data = {
                     supplier_id: this.businessId,

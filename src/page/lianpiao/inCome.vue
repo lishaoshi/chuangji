@@ -21,8 +21,8 @@
                             <p>{{entity.created_at | formatDate('MM-dd hh:mm')}}</p>
                         </div>
                         <div class="num" style="color: #333;">
-                            <span>{{entity.tag}}</span>
-                            {{entity.value}}
+                            <!-- <span></span> -->
+                            {{entity.benefit_value}}
                         </div>
                     </li>
                 </ul>
