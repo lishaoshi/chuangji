@@ -89,7 +89,7 @@
                                                     
                                                     <template v-if="entity.isSelfChoose">
                                                         <form action="">
-                                                            <input v-focus maxlength="2" @keyup.enter="handleBlur($event, entity, index)" @input="handleInput($event)" @blur="handleBlur($event, entity, index)" ref="cart" type="number" :value="entity.num">
+                                                            <input v-focus @keyup.enter="handleBlur($event, entity, index)" @input="handleInput($event)" @blur="handleBlur($event, entity, index)" ref="cart" type="number" :value="entity.num">
                                                         </form>
                                                     </template>
                                                     <div class="add controller" @click="addToMiniCart($event,entity, index)">+ <span></span> </div>
@@ -346,8 +346,15 @@
 				if(!num ||　(num === item.num)) {
 					return false
                 }
-                this.shopCart[item.id].num = num
                 this.goodList[index].num = num
+                if(this.shopCart[item.id]) {
+                    // debugger
+                    this.shopCart[item.id].num = num
+                } else {
+                    this.$set(this.shopCart, `${item.id}`, item)
+                }
+                
+               
 				let data = {
 					supplier_id: this.businessId,
 					good_id: item.id,

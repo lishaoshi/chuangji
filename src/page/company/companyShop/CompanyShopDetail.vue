@@ -155,19 +155,29 @@
             handleBlur(event) {
                 // debugger
                 this.data.isChooseSelf = false
-                if(Number.isInteger(parseInt(event.target.value))&&(event.target.value < this.data.order_min_num)) {
+                let num =event.target.value
+                if(Number.isInteger(parseInt(num))&&(num < this.data.order_min_num)) {
                     this.$toast('不能小于最小订货量')
                     return false
                 }
 				// 如果event.target.value是空，则不改变数值
-				if(!event.target.value ||　(event.target.value === this.data.num)) {
+				if(!num ||　(num === this.data.num)) {
 					return false
                 }
-                this.data.num = event.target.value
+                this.data.num = num
+                if(this.shopCart[this.id]) {
+                    this.shopCart[this.id].num = num
+                } else {
+                    this.$set(this.shopCart, `${this.id}`, this.data)
+                }
+                // debugger
+                // console.log(this.shopCart)
+                
+                
                 let params = {
                     supplier_id: this.businessId,
                     good_id: this.id,
-                    num: event.target.value
+                    num: num
                 }
                 addShopCar(params)
                 
@@ -230,6 +240,10 @@
             },
             addToMiniCart() {
                 // debugger
+                if(this.data.num >=99) {
+                    this.$toast('最大购物量为99')
+                    return false
+                }
                 if(this.data.num<this.data.order_min_num) {
                     this.data.num = this.data.order_min_num
                     if(this.shopCart[this.id]) {

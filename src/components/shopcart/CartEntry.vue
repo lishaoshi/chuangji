@@ -112,6 +112,11 @@ import bus from '@/bus'
 		&.bgColor {
 			background: #f5f5f5;
 		}
+		.minus, .plus {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
 		width: 2rem;
 		height: .6rem;
 		border-radius: 20px;

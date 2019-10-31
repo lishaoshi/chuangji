@@ -1,4 +1,5 @@
 import http from './api'
+import { Toast } from 'mint-ui'
 
 
 // 获取购物车数据
@@ -26,7 +27,11 @@ export function queryShopCarList(params={}, shopId="") {
 // 添加商品至购物车
 export　function addShopCar(params) {
     let url = `hippo-shop/shoppingcar`
-    return http.post(url, params)
+    return http.post(url, params, { validateStatus: s => s == 200}).catch(err=>{
+        // debugger
+        let message = err.response.data.message
+        Toast(message)
+    })
 }
 
 // 批量移除购物车
