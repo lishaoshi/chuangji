@@ -319,10 +319,10 @@
         // height: 1.4rem;
     }
 
-    @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-        .head-top {
-            padding-top: .52rem;
-            height: 1.4rem;
-        }
-    }
+    // @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+    //     .head-top {
+    //         padding-top: .52rem;
+    //         height: 1.4rem;
+    //     }
+    // }
 </style>
