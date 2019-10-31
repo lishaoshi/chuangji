@@ -254,10 +254,13 @@
 		font-size: 12px;
         margin-right: .1rem;
         margin-left: .1rem;
-        margin-bottom: .2rem;
+        margin-top: .2rem;
         border-radius: 5px;
 		&:nth-child(even) {
 			border-right: 0px;
+		}
+		&:nth-child(-n+2){
+			margin-top: 0;
 		}
 		.list-img {
 			width: 100%;
