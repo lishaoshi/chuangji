@@ -70,6 +70,10 @@
             businessInfo: {
                 type: Object,
                 default: {}
+            },
+            hasError:{
+                type:Boolean,
+                default:false
             }
         },
         data() {
@@ -78,7 +82,7 @@
                 shopDetailData:'',
                 is_active:true,
                 isActive: true,
-                hasError: false,
+                // hasError: false,
                 follow_status: 0,
                 follow_info: '关注',
                 follow_list: [],
@@ -101,7 +105,7 @@
             }
         },
         mounted() {
-            window.addEventListener('scroll', this.handleScroll, true)
+            // window.addEventListener('scroll', this.handleScroll, true)
 
         },
         created(){
@@ -129,12 +133,14 @@
                 this.searchFn()
             },
             handleScroll() {
-                let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-                if (scrollTop > 90) {
-                    this.hasError = 1
-                } else {
-                    this.hasError = 0;
-                }
+                // debugger
+                // let scrollTop = window.pageYOffset || document.documentElement.scrollTop || window.scrollTop;
+                // console.log(scrollTop);
+                // if (scrollTop > 90) {
+                //     this.hasError = 1
+                // } else {
+                //     this.hasError = 0;
+                // }
             },
             followFn(){
                 if(this.is_follow === true) {

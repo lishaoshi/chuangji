@@ -536,7 +536,8 @@
                     search:this.value
                 }
                 // this.$refs.searchBox.input.blur()
-                console.log(this.$refs.searchBox);
+                this.$refs.searchBox.$refs.input.blur()
+                // console.log(this.$refs.searchBox.$refs.input.blur());
                 
                 this.init_Goods()
             },

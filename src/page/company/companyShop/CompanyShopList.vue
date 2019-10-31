@@ -1,71 +1,75 @@
 <template>
 	<div id="CompanyShopList">
-		<HeaderTop :shopId="shopId" :businessInfo="businessInfo"></HeaderTop>
-        <div class="mainbox">
+			
+        <div class="mainbox" ref="mainbox">
+			<HeaderTop :shopId="shopId" :businessInfo="businessInfo" :hasError="hasError"></HeaderTop>
+			<div style="margin-top:-10px">
+				<mt-loadmore ref="loadmore" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false">
+	
 			<!-- <div  v-if="items.length">
 			<mt-loadmore ref="loadmore" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false"> -->
-			<mt-swipe :auto="4000" class="swiper">
-			<mt-swipe-item :key="key" v-for="(swipe,key) in swipers"><a :href="swipe.link"> <img :src="swipe.img" width="100%"></a>
-			</mt-swipe-item>
-		</mt-swipe>
-		<div style="background: #fff;">
-			<!-- <Notice :notices="notices" v-if="notices.length" style="background: #f4f5f5;border-radius: 2px;"></Notice> -->
-			<div class="left">
-				<Notice :notices="notices" v-if="notices.length"/> 
-				<div class="notice" v-else>
-					<svg>
-						<use xlink:href="#icon-notice"/>
-					</svg>
-					<span> &nbsp;没有消息</span>
-				</div>
-			<!-- <div class="notice" v-else>
-				<div>
-					<svg>
-						<use xlink:href="#icon-notice"/>
-					</svg>
-					<span style="padding-left: 5px">暂时没有消息</span>
-				</div> -->
-			
-			</div>
-		</div>
-		<div class="nav">
-			<div>
-				<router-link to="/develop">
-					<svg><use xlink:href="#icon-quanqiucang-active" /></svg>
-					<p>领卷活动</p>
-				</router-link>
-			</div>
-			<div>
-				<router-link to="/develop">
-					<svg><use xlink:href="#icon-quanqiucang-active1" /></svg>
-					<p>促销活动</p>
-				</router-link>
-			</div>
-			<div>
-				<router-link to="/company-shop-fast">
-					<svg><use xlink:href="#icon-quanqiucang-active2" /></svg>
-					<p>快速补货</p>
-				</router-link>
-			</div>
-			<div>
-				<router-link :to="`/company-product-list?shopId=${shopId}`">
-					<svg><use xlink:href="#icon-quanqiucang-active3" /></svg>
-					<p>产品分类</p>
-				</router-link>
-			</div>
-		</div>
-		<div  v-if="items.length">
-			<mt-loadmore ref="loadmore" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false">
-		<!--列表开始-->
-		<p class="title">药品推荐</p>
-		<!-- <div style="overflow:scroll" v-if="items.length">
-			<mt-loadmore ref="loadmore" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false"> -->
-				<list class="list-item" @updateSlefChoss="handleChoose" @handleBlur="handleBlur" :business-id="shopId" :title="title" @add_shop_car="add_shop_car" @del_shop_cart="del_shop_cart" :shopCart="shopCart" :items="items"></list>
-			</mt-loadmore>
+					<mt-swipe :auto="4000" class="swiper">
+						<mt-swipe-item :key="key" v-for="(swipe,key) in swipers"><a :href="swipe.link"> <img :src="swipe.img" width="100%"></a>
+						</mt-swipe-item>
+					</mt-swipe>
+					<div style="background: #fff;">
+						<!-- <Notice :notices="notices" v-if="notices.length" style="background: #f4f5f5;border-radius: 2px;"></Notice> -->
+						<div class="left">
+							<Notice :notices="notices" v-if="notices.length"/> 
+							<div class="notice" v-else>
+								<svg>
+									<use xlink:href="#icon-notice"/>
+								</svg>
+								<span> &nbsp;没有消息</span>
+							</div>
+						<!-- <div class="notice" v-else>
+							<div>
+								<svg>
+									<use xlink:href="#icon-notice"/>
+								</svg>
+								<span style="padding-left: 5px">暂时没有消息</span>
+							</div> -->
+						
+						</div>
+					</div>
+					<div class="nav">
+						<div>
+							<router-link to="/develop">
+								<svg><use xlink:href="#icon-quanqiucang-active" /></svg>
+								<p>领卷活动</p>
+							</router-link>
+						</div>
+						<div>
+							<router-link to="/develop">
+								<svg><use xlink:href="#icon-quanqiucang-active1" /></svg>
+								<p>促销活动</p>
+							</router-link>
+						</div>
+						<div>
+							<router-link to="/company-shop-fast">
+								<svg><use xlink:href="#icon-quanqiucang-active2" /></svg>
+								<p>快速补货</p>
+							</router-link>
+						</div>
+						<div>
+							<router-link :to="`/company-product-list?shopId=${shopId}`">
+								<svg><use xlink:href="#icon-quanqiucang-active3" /></svg>
+								<p>产品分类</p>
+							</router-link>
+						</div>
+					</div>
+			<!-- <div  v-if="items.length">
+				<mt-loadmore ref="loadmore" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false"> -->
+			<!--列表开始-->
+					<p class="title">药品推荐</p>
+			<!-- <div style="overflow:scroll" v-if="items.length">
+				<mt-loadmore ref="loadmore" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false"> -->
+					<list v-if="items.length" class="list-item" @updateSlefChoss="handleChoose" @handleBlur="handleBlur" :business-id="shopId" :title="title" @add_shop_car="add_shop_car" @del_shop_cart="del_shop_cart" :shopCart="shopCart" :items="items"></list>
+					<EmptyList class="noData" v-else/>
+				</mt-loadmore>
 		</div>
 
 			
-		<EmptyList class="noData" v-else/>
 		</div>
 
         <div v-if="items.length" style="height: 1.2rem"></div>
@@ -106,6 +110,7 @@
 				swipers:[],
 				shopCart: {},
 				page: 1,
+				hasError:false,
 				items: [],
 				allLoaded: false,
 				shopId: 0,
@@ -148,6 +153,11 @@
 			this.shopId = parseInt(this.$route.query.id)
 		    this.initData()
 		},
+		mounted() {
+			this.$refs.mainbox.addEventListener('scroll', this.handleScroll, true)
+            // window.addEventListener('scroll', this.handleScroll, true)
+
+        },
 		methods:{
 		    async initData(){
 				let params = {
@@ -182,7 +192,16 @@
 				this.items = JSON.parse(JSON.stringify(this.items))
 				this.items[index].isSelfChoose = true
 			},
-
+			handleScroll() {
+                // debugger
+                let scrollTop = this.$refs.mainbox.pageYOffset || this.$refs.mainbox.scrollTop || this.$refs.mainbox.scrollTop;
+                console.log(scrollTop);
+                if (scrollTop > 90) {
+                    this.hasError = true
+                } else {
+                    this.hasError = false;
+                }
+            },
 			/*当前商品的输入框失去焦点
 			* 
 			*flag类型是boolear值，true为正常修改购物车数量，false为小于最小购买量
@@ -289,7 +308,7 @@
 	.mainbox {
 		flex: 1;
 		overflow: auto;
-		padding: .2rem 0 0 0;
+		// padding: .2rem 0 0 0;
 	}
 	#CompanyShopList {
 
@@ -352,7 +371,7 @@
 		height: 2.6rem;
 		padding-bottom: 0px;
         border-radius: 5px;
-        margin-top: -10px;
+        // margin-top: -10px;
 	}
 	.nav {
 		text-align: center;
