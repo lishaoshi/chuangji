@@ -39,7 +39,7 @@
 									</template>
 									<template v-else>
 										<form action="">
-											<input v-focus @input="handleInput($event)" pattern="[0-9]*" @keyup.enter="handleBlur($event, item, index)" @blur="handleBlur($event, item, index)" ref="cart" type="number" :value="item.num">
+											<input v-focus pattern="[0-9]*" @keyup.enter="handleBlur($event, item, index)" @blur="handleBlur($event, item, index)" ref="cart" type="number" :value="item.num">
 										</form>
 									</template>
 									
@@ -144,13 +144,6 @@
 				this.$emit('handleBlur', true, index, event.target.value, item)
 			},
 
-			// 处理input长度
-			handleInput(event) {
-				let value = event.target.value
-				if(value>99) {
-					event.target.value = 99
-				}
-			},
             add_shop_car(item, index) {
 				// console.log(item)
 				if(item.num>=99) {

@@ -26,7 +26,7 @@
                    
                     <template v-else>
                         <form class="input_warp" action="">
-                            <input v-focus @input="handleInput($event)" @blur="handleBlur($event)" @keyup.enter="handleBlur($event)" ref="cart" type="number" :value="data.num">
+                            <input v-focus @blur="handleBlur($event)" @keyup.enter="handleBlur($event)" ref="cart" type="number" :value="data.num">
                         </form>
                     </template>
                     <div class="add" @click="addToMiniCart()">+</div>
@@ -155,30 +155,33 @@
             handleBlur(event) {
                 // debugger
                 this.data.isChooseSelf = false
-                if(Number.isInteger(parseInt(event.target.value))&&(event.target.value < this.data.order_min_num)) {
+                let num =event.target.value
+                if(Number.isInteger(parseInt(num))&&(num < this.data.order_min_num)) {
                     this.$toast('不能小于最小订货量')
                     return false
                 }
 				// 如果event.target.value是空，则不改变数值
-				if(!event.target.value ||　(event.target.value === this.data.num)) {
+				if(!num ||　(num === this.data.num)) {
 					return false
                 }
-                this.data.num = event.target.value
+                this.data.num = num
+                if(this.shopCart[this.id]) {
+                    this.shopCart[this.id].num = num
+                } else {
+                    this.$set(this.shopCart, `${this.id}`, this.data)
+                }
+                // debugger
+                // console.log(this.shopCart)
+                
+                
                 let params = {
                     supplier_id: this.businessId,
                     good_id: this.id,
-                    num: event.target.value
+                    num: num
                 }
                 addShopCar(params)
                 
             },
-            // 处理input长度
-			handleInput(event) {
-				let value = event.target.value
-				if(value>99) {
-					event.target.value = 99
-				}
-			},
             async _initData() {
                 let params = {
                     id: this.id,
@@ -189,6 +192,7 @@
                 } = await this.$http.get(`hippo-shop/business/${this.businessId}/detail/${this.id}`)
                 let goodsData = data.data
                 this.data = this._handleData(goodsData)
+                this.$set(this.data, 'num', 0)
                 this.$set(this.data, 'isChooseSelf', false)
                 // debugger
                 this.name = this.data.brand.name
@@ -222,14 +226,18 @@
             _handleData(data) {
                 if(data.valid_time!=0){
                     let time = data.valid_time
+                    // data.num = 0
                     data.time = this.$moment(time*1000).format("YYYY-MM-DD")
-                    // data.isChooseSelf = false
-                    this.$set(this.data, 'num', 0)
+                    // 
                 }
                 return data
             },
             addToMiniCart() {
                 // debugger
+                if(this.data.num >=99) {
+                    this.$toast('最大购物量为99')
+                    return false
+                }
                 if(this.data.num<this.data.order_min_num) {
                     this.data.num = this.data.order_min_num
                     if(this.shopCart[this.id]) {

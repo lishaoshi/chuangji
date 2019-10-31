@@ -195,7 +195,6 @@
 			handleScroll() {
                 // debugger
                 let scrollTop = this.$refs.mainbox.pageYOffset || this.$refs.mainbox.scrollTop || this.$refs.mainbox.scrollTop;
-                console.log(scrollTop);
                 if (scrollTop > 90) {
                     this.hasError = true
                 } else {
