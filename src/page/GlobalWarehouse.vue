@@ -13,10 +13,6 @@
                         <use xlink:href="#icon-sousuo" />
                     </svg>
                      <input type="search" placeholder="请输入商业公司名称" @keyup.enter="keyUp" ref="input" v-model="searchValue">
-                    
-                    <!-- <svg  class="search-btn" @click="handleSearch">
-                            <use xlink:href="#icon-sousuo" />
-                    </svg> -->
                     <svg @click="clearText" v-if="searchValue">
                             <use xlink:href="#icon-qingkong" />
                     </svg>
@@ -25,7 +21,7 @@
             </div>
         </div>
         <div class="mainBox">
-             <mt-loadmore v-if="businesses.length>0" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
+             <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
                 <div class="swiper-box">
                     <mt-swipe :auto="4000" class="swiper" v-if="swippers&&swippers.length&&swippers.length>0">
                         <mt-swipe-item :key="index" v-for="(swipe,index) in swippers">
@@ -35,8 +31,7 @@
                         </mt-swipe-item>
                     </mt-swipe>
                 </div>
-                <div class="main-body" ref="wrapper">
-                
+                <div class="main-body" ref="wrapper" v-if="businesses.length>0">
                     <div class="company" :key="`en-${index}`" v-for="(item,index) in businesses">
                         <div class="company-name" @click="entryBusinessShop(item)">
                             <div>
@@ -48,18 +43,11 @@
                         </div>
                         <div class="company-box">
                             <div class="left">
-                                    <Notice2 :notices="item.infos" v-if="item.infos.length>0" /> 
+                                <Notice2 :notices="item.infos" v-if="item.infos.length>0" /> 
                                 <div class="notice" v-else>
                                     <svg>
                                         <use xlink:href="#icon-notice"/>
                                     </svg>
-                                    <!-- <div class="scroll-wrap" v-if="item.infos!=''">
-                                        <ul class="scroll-content" ref="con1" :class="{anim:animate==true}">
-                                            <li v-for="(entity,index) in item.infos">
-                                                {{entity.title}}
-                                            </li>
-                                        </ul>
-                                    </div> -->
                                     <span>没有消息</span>
                                 </div>
                             </div>
@@ -67,8 +55,9 @@
                     </div>
                     <p v-if="allLoaded&&businesses.length" class="loader-over">没有更多了</p>
                 </div>
+                 <EmptyList v-else/>
         </mt-loadmore>
-        <EmptyList v-else/>
+        
         </div>
        
         <div v-if="userType==3" @click="goShopCart">
@@ -227,9 +216,12 @@
                     search:this.searchValue
                 }
                 businessList(params).then(response => {
-                   
+                   let data = response.data.data.businessList
                     this.allLoaded = false; // 可以进行上拉
-                    this.businesses = response.data.data.businessList;
+                    this.businesses = data;
+                    if(data.length<=0) {
+                        this.allLoaded = true;
+                    }
                     // this.$refs.loadmore.onTopLoaded();
                 })
             },
