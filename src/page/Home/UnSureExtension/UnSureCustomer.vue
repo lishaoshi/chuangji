@@ -70,7 +70,7 @@
         data(){
             return {
                 selected:'all',//city,province,partner,promoter,
-                isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
+                // isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
             }
         },
         mounted() {
@@ -94,6 +94,7 @@
     display: flex;
     flex-direction: column;
     padding-bottom: 1rem;
+    height: 100%;
     .mint-tab-container {
         margin-top: .88rem;
         flex:1;
@@ -101,6 +102,9 @@
     }
     .mint-loadmore-top {
         margin:0 !important
+    }
+    .mint-tab-container-wrap {
+        height: 100%;
     }
 }
     .is-scroll {
@@ -176,9 +180,9 @@
             height: .38rem;
         }
     }
-    @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-        .active {
-            padding-top: .58rem;
-        }
-    }
+    // @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+    //     .active {
+    //         padding-top: .58rem;
+    //     }
+    // }
 </style>

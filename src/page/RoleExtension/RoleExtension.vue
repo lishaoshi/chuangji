@@ -1,8 +1,8 @@
 <template>
-    <div id="RoleExtension">
+    <div id="RoleExtension" class="RoleExtension">
 
         <mt-tab-container v-model="selected" :class="{ Box2: selected==1 }">
-            <mt-tab-container-item id="1" style="border-radius: 4px;min-height: 11.5rem;background: #fff">
+            <mt-tab-container-item id="1" style="border-radius: 4px;min-height: 11.5rem;background: #fff;height:100%;">
                 <div class="header">
                 </div>
                 <!--非正常情况，没有客户，需要去推广-->
@@ -263,7 +263,7 @@
         padding: 0px;
     }
     .mint-tab-container {
-
+        height: 100%;
     }
     .go-info {
         margin-top: 1.5rem;
@@ -323,4 +323,11 @@
         top:.85rem;
         z-index: 9;
     }
+</style>
+<style lang="scss">
+.RoleExtension {
+    .mint-tab-container-wrap {
+        height: 100%;
+    }
+}
 </style>
