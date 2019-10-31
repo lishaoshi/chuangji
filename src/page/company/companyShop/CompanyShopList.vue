@@ -68,7 +68,7 @@
 		<EmptyList class="noData" v-else/>
 		</div>
 
-        <div style="height: 1.2rem"></div>
+        <div v-if="items.length" style="height: 1.2rem"></div>
         <div style="position: fixed;width: 100%;bottom: 0px" v-if="entities.length>0">
             <mini-company-cart ref="MiniCompanyCart" :count="cartNum" :total-price="totalPrice" style="bottom: 0px"></mini-company-cart>
         </div>
