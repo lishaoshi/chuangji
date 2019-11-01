@@ -1,8 +1,11 @@
 <template>
-    <div>
-        <clxsd-head-top title='反馈记录' :goBackFnc="goBackFnc" :goBackNum="-3"></clxsd-head-top>
-        <div style="padding-top: .2rem" v-if="feedList.length>0">
-            <div class="main-body" ref="wrapper" style="height: 12rem">
+    <div class="historyPage">
+        <div style="min-height:.88rem;">
+            <clxsd-head-top title='反馈记录' :goBackFnc="goBackFnc" style="height: .88rem;" :goBackNum="-3"></clxsd-head-top>
+        </div>
+      
+        <div style="padding-top: .2rem;flex:1;" v-if="feedList.length>0">
+            <!-- <div class="main-body" ref="wrapper"> -->
                 <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
                 <div class="feed-item" v-for="(item,index) in feedList" :key="`${index}_feeditem`">
                     <p>{{item.date}}</p>
@@ -24,8 +27,9 @@
                     </div>
                 </div>
                 </mt-loadmore>
-            </div>
-            <p v-if="allLoaded" class="loader-over">加载完毕</p>
+                <div style="text-align: center;color: #999;margin-top: 10px;margin-bottom:.2rem;" v-if="allLoaded">—— 没有更多啦 ——</div>
+            <!-- </div> -->
+            <!-- <p v-if="allLoaded" class="loader-over">加载完毕</p> -->
         </div>
         <div v-else><Empty/></div>
     </div>
@@ -74,9 +78,12 @@
         methods:{
             async _handleData(data, flag) {
                 if (data) {
+                    // debugger
                     data.forEach((item, index, arr) => {
                         let time = item.created_at
-                        arr[index].date = this.$moment.unix(time).format("YYYY-MM-DD")
+                        if(!item.date) {
+                            arr[index].date = this.$moment.unix(time).format("YYYY-MM-DD")
+                        }
                     })
                    !flag &&this.$refs.loadmore.onTopLoaded()
                 }
@@ -99,8 +106,6 @@
                     // console.log(response.data.data.data)
                     this.allLoaded = false; // 可以进行上拉
                     this.feedList = response.data.data.list.data;
-                    console.log(response.data.data);
-                    
                     this.admin_logo = response.data.data.admin_logo
                     this._handleData(this.feedList, flag)
                     //this.$refs.loadmore.onTopLoaded();
@@ -114,11 +119,11 @@
                     limit:this.limit
                 }
                 this.$http.get("comments/list",{params}).then(response => {
-
+                    // debugger
                     // concat数组的追加
-                    this.feedList = this.feedList.concat(response.data.data.data);
+                    this.feedList = this.feedList.concat(response.data.data.list.data);
                     this._handleData(this.feedList)
-                    if (this.courrentPage > 1) {
+                    if (response.data.data.list.data.length <=0) {
                         this.allLoaded = true; // 若数据已全部获取完毕
                     }
                     this.$refs.loadmore.onBottomLoaded();
@@ -132,6 +137,13 @@
     .main-body {
         /* 加上这个才会有当数据充满整个屏幕，可以进行上拉加载更多的操作 */
         overflow: scroll;
+        height: 100%;
+    }
+    .historyPage {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow: auto;
     }
     .feed-item {
         width:6.9rem;
