@@ -5,12 +5,14 @@
             <div class="inpSearch" v-bind:class="{ 'bg-from': hasError }">
                 <form class="input-wrap" onsubmit="return false" action="">
                     <svg class="icon-location" @click="searchFn">
-                        <use xlink:href="#icon-search2"/>
+                        <use v-if="hasError" xlink:href="#icon-sousuo"/>
+                        <use v-else xlink:href="#icon-search2"/>
                     </svg>
                     <input type="text" ref="input" v-model="searchValue" placeholder="请输入关键词" @keyup.enter="keyUp">
                     <i></i>
                     <svg class="icon-location"  v-if="searchValue" @click="clearText">
-                        <use xlink:href="#icon-empty1"/>
+                        <use v-if="hasError"  xlink:href="#icon-qingkong"/>
+                        <use v-else  xlink:href="#icon-empty1"/>
                     </svg>
                 </form>
             </div>
@@ -211,8 +213,9 @@
             display: inline-block;
             // float: left;
             height: .56rem;
-            padding-left: 6px;
-            width: 80%;
+            padding-left:.2rem;
+            // width: 80%;
+            flex-grow: 2;
             color: #fff;
             &::-webkit-input-placeholder {
                 color: rgba(255, 255, 255);
@@ -220,8 +223,8 @@
         }
 
         svg {
-            width: .38rem;
-            height: .38rem;
+            width: .3rem;
+            height: .3rem;
             // float: right;
             // margin-top: .1rem;
             display: inline-block;

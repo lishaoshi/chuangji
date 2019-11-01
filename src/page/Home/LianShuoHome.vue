@@ -2,7 +2,7 @@
 	<div class="home">
 		<div class="topContent" style="flex: 1;overflow: auto">
 			<div v-bind:class="{ search: isActive, 'bg-blue': hasError ,activeTop: isFullScreen }">
-			<SearchBar ref="searchBox" :searchFn="searchFn" v-model="searchValue" @keyup="keyup" @clearText="clearText"></SearchBar>
+			<SearchBar ref="searchBox" :searchFn="searchFn" :lianSho='lianSho' v-model="searchValue" @keyup="keyup" @clearText="clearText"></SearchBar>
 			<router-link to="/develop">
 				<div class="approve">
 					<img src="../../images/index/study1@2x.png"/>
@@ -97,6 +97,7 @@
 				courrentPage: 1,
 				limit:20,
 				searchValue: '',
+				lianSho:true
 			}
 		},
 		mounted() {

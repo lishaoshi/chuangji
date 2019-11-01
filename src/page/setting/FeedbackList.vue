@@ -193,7 +193,7 @@
                 // margin: 0 .18rem;
                 padding: .15rem .19rem .16rem .17rem;
                 max-width:4.86rem;
-                min-height:1.42rem;
+                // min-height:1.42rem;
                 color: #333;
                 // line-height: .48rem;
                 background:rgba(245,245,245,1);
@@ -202,7 +202,7 @@
         }
         .feed-item-user-text {
             p {
-                
+                position: relative;
                 text-align: justify;
                 text-justify: newspaper;
                 word-break: break-all;
@@ -211,12 +211,12 @@
                     position: absolute;
                     display: block;
                     content: '';
-                    left: 1.12rem;
+                    left: -.14rem;
                     width:0;
                     height:0;
-                    border-right:.2rem solid rgba(245,245,245,1);
-                    border-top:.2rem solid transparent;
-                    border-bottom:.2rem solid transparent;
+                    border-right:.15rem solid rgba(245,245,245,1);
+                    border-top:.15rem solid transparent;
+                    border-bottom:.15rem solid transparent;
                     
                 }
             }
@@ -226,21 +226,21 @@
             justify-content: flex-end;
 
             p {
-                
+                position: relative;
                 text-align: justify;
                 text-justify: newspaper;
                 word-break: break-all;
-            margin: 0 .18rem 0 0;
+                margin: 0 .18rem 0 0;
                 &::before{
                     position: absolute;
                     display: block;
                     content: '';
-                    right: 1.12rem;
+                    right: -.14rem;
                     width:0;
                     height:0;
-                    border-left:.20rem solid  rgba(245,245,245,1);
-                    border-top:.2rem solid transparent;
-                    border-bottom:.2rem solid transparent;
+                    border-left:.15rem solid  rgba(245,245,245,1);
+                    border-top:.15rem solid transparent;
+                    border-bottom:.15rem solid transparent;
                     
                 }
             }

@@ -103,7 +103,7 @@
         line-height: .6rem;
         border-radius: .6rem;
         display: flex;
-        padding: 0 .2rem;
+        padding: 0 .3rem;
 
         // align-items: center;
         // display: flex;
@@ -113,8 +113,9 @@
             flex: 1;
             // justify-content: space-around;
             input {
-                margin-left: .4rem;
-                width: 84%;
+                margin-left: .3rem;
+                // width: 84%;
+                flex-grow: 2;
                 // height: .5rem;
                 // line-height: .52rem;
                 height: 100%;
@@ -126,8 +127,8 @@
                 }
             }
             svg {
-                width: .32rem;
-                height: .32rem;
+                width: .3rem;
+                height: .3rem;
             }
         }
         

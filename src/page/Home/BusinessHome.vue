@@ -3,7 +3,7 @@
         <!-- <scroll> -->
         <div class="content">
             <div v-bind:class="{ search: isActive, 'bg-blue': hasError  }">
-                <SearchBar ref="searchBox" v-model="searchValue" :searchFn="searchFn" @input="input" @keyup="keyup" @clearText='clearText'></SearchBar>
+                <SearchBar ref="searchBox" :business='business' v-model="searchValue" :searchFn="searchFn" @input="input" @keyup="keyup" @clearText='clearText'></SearchBar>
                 <div class="approve">
                     <img src="../../images/index/study1@2x.png"/>
                 </div>
@@ -104,7 +104,8 @@
                 courrentPage: 1,
                 limit: 20,
                 searchValue: '',
-                isFirst: true
+                isFirst: true,
+                business:true
             }
         },
         // mounted() {

@@ -90,6 +90,8 @@
                 this.isBROWSER = true
             }else if (this.$route.path == '/channel-profit'){
                 this.isBROWSER = true
+            }else if (this.$route.path == '/record'){
+                this.isBROWSER = true
             }
         }
     }

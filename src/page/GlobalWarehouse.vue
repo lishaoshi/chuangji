@@ -328,7 +328,7 @@
             padding: .2rem;
 
             input {
-                width: 100%;
+                // width: 100%;
                 height: .54rem;
                 background: rgba(51, 166, 255, 1);
                 border-radius: .27rem;
@@ -694,7 +694,7 @@
         line-height: .6rem;
         border-radius: .6rem;
         display: flex;
-        padding: 0 .2rem;
+        padding: 0 .3rem;
         margin:  0 auto .2rem;
 
     .input-wrap {
@@ -703,7 +703,8 @@
             flex: 1;
             input {
                 margin-left: .4rem;
-                width: 84%;
+                // width: 84%;
+                flex-grow: 2;
                 height: 100%;
                 background: #0081e5;
                 color: #fff;
@@ -713,8 +714,8 @@
                 }
             }
             svg {
-                width: .32rem;
-                height: .32rem;
+                width: .3rem;
+                height: .3rem;
             }
         }
     }

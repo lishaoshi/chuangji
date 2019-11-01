@@ -43,7 +43,10 @@
     </div>
 
     <div class="my-list">
-      <div style="margin-bottom: .2rem" v-if="!is_apply">
+      <div style="margin-top: .2rem">
+        <clxsd-cell title="我的邀请" :to="'/record'" is-link icon="my-message" />
+      </div>
+      <div style="margin-top: .2rem" v-if="!is_apply">
         <clxsd-cell title="角色选择" to="/customer-choose-role" is-link icon="my-collection" />
       </div>
       <div style="margin-top: .2rem">
@@ -53,6 +56,7 @@
       <div style="margin-top: .2rem">
         <clxsd-cell title="消息通知" :to="'/develop'" is-link icon="my-message" />
       </div>
+      
       <!-- <clxsd-cell title="个人信息" :to="'/business-setting'" is-link icon="my-employee" /> -->
       <!-- <div style="margin-top: .2rem;margin-bottom: .2rem">
         <clxsd-cell title="设置" :to="'/setting'" is-link icon="my-setting" />
@@ -86,7 +90,7 @@ export default {
   },
   data(){
     return{
-      is_apply:false,
+      is_apply:true,
       options: {
           useEasing: true,
           useGrouping: true,
