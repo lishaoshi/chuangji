@@ -3,7 +3,9 @@
         <clxsd-head-top :title='`邀请二维码`' style="border:0px"></clxsd-head-top>
         <div class="box">
             <p>扫下方二维码，入驻创联</p>
-           <div v-html="imgUrl" class="qrcodeImgUrl"></div>
+           <div class="occupy">
+           <div v-if="imgUrl" v-html="imgUrl" class="qrcodeImgUrl"></div>
+           </div>
            <div class="btn">
                <router-link to="/record">邀请记录</router-link>
            </div>
@@ -63,7 +65,7 @@
         .btn {
             display: flex;
             justify-content: space-around;
-            margin-top: .6rem;
+            // margin-top: .6rem;
             padding-bottom: .3rem;
             font-size: .3rem;
             color: #26a2ff;
@@ -75,10 +77,15 @@
                 color: #f1f1f1;
             }
         }
+        .occupy {
+            height:5.07rem;
+        }
     }
 </style>
 <style lang="scss">
     .qrcodeImgUrl {
+        display: inline-block;
+        font-size: 0;
         svg {
             width:5.07rem;
             height:5.07rem;
