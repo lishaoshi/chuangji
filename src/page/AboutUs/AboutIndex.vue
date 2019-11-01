@@ -3,7 +3,7 @@
         <clxsd-head-top title='关于我们'></clxsd-head-top>
         <div class="about-box1">
             <img src="../../images/logo.png">
-            <p>版本号 1.0</p>
+            <p>版本号 1.1.0</p>
             <p>创联工厂</p>
         </div>
         <clxsd-cell :title="'版本介绍'" :to="'/update-list'" is-link/>
