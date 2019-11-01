@@ -51,13 +51,34 @@
         <div class="height1"></div>
         <div class="content">
             <ul class="order-ul">
-                <li><b>下单企业：</b><span>{{client_supplier}}</span></li>
-                <li><b>收 &nbsp;货 &nbsp;人：</b><span>{{data.consignee}} &nbsp;<small>{{data.tel}}</small></span></li>
-                <li><b>收货地址：</b><span>{{order_address}}</span></li>
-                <li><b>订单编号：</b><span>{{data.order_sn}}</span></li>
-                <li><b>下单时间：</b><span>{{data.created_at}}</span></li>
-                <li v-if="data.pay_status === 1"><b>付款时间：</b><span>{{data.pay_at}}</span></li>
-                <li v-if="data.pay_status === 1&&data.shipping_status === 2"><b>收货时间：</b><span>{{data.confirm_at}}</span></li>
+                <li>
+					<b>下单企业：</b>
+					<span>{{client_supplier}}</span>
+				</li>
+                <li>
+					<b>收 &nbsp;货 &nbsp;人：</b>
+					<span>{{data.consignee}} &nbsp;<small>{{data.tel}}</small></span>
+				</li>
+                <li>
+					<b>收货地址：</b>
+					<span>{{order_address}}</span>
+				</li>
+                <li>
+					<b>订单编号：</b>
+					<span>{{data.order_sn}}</span>
+				</li>
+                <li>
+					<b>下单时间：</b>
+					<span>{{data.created_at}}</span>
+				</li>
+                <li v-if="data.pay_status === 1">
+					<b>付款时间：</b>
+					<span>{{data.pay_at}}</span>
+				</li>
+                <li v-if="data.pay_status === 1&&data.shipping_status === 2">
+					<b>收货时间：</b>
+					<span>{{data.confirm_at}}</span>
+				</li>
             </ul>
         </div>
 		<div class="foot-fade"></div>
@@ -321,13 +342,16 @@
 	.order-ul {
 		background: #fff;
 		padding: .1rem .1rem;
+		
 		li {
 			font-size: .28rem;
 			// height: .76rem;
             // line-height: .76rem;
 			padding: .2rem 0;
+			display: flex;
 			b {
-				
+				min-width: 25%;
+				// flex:0 1 25%;
 			}
 			small {
 				font-size: .24rem;

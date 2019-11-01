@@ -1,11 +1,11 @@
 <template>
     <div id="TicketList">
         <div class="top">
-            <router-link to="/my">
-                <svg  class="m-style-svg m-svg-def" style="color: #fff">
+            <div @click="goBack">
+                 <svg  class="m-style-svg m-svg-def" style="color: #fff">
                     <use xlink:href="#icon-back"></use>
                 </svg>
-            </router-link>
+            </div>
             <p>集采返利</p>
         </div>
         <div class="box">
@@ -104,16 +104,23 @@
     .top {
         background: rgba(0, 144, 255, 1);
         color: #fff;
-        text-align: center;
+        // text-align: center;
         font-size: .36rem;
-        padding-top: .2rem;
+        height: .88rem;
+        line-height: .88rem;
+        display: flex;
+        // align-items: center;
         font-weight: bold;
+        padding: 0 .2rem;
         svg {
             width: .32rem;
-            height: .32rem;
             color: #fff;
-            position: absolute;
-            left: .2rem;
+            // position: absolute;
+            // left: .2rem;
+        }
+        p {
+            flex: 1;
+            text-align: center;
         }
     }
     .box {
@@ -148,7 +155,7 @@
     }
 
     .balance p:nth-child(1) {
-        padding-top: 0.45rem;
+        padding-top: 0.38rem;
         color: rgba(255, 255, 255, 1);
         opacity: .8;
         line-height: 140%;
@@ -156,8 +163,8 @@
     }
 
     .balance p:nth-child(2) {
-        margin-top: 0.7rem;
-        font-size: .8rem;
+        margin-top: 0.5rem;
+        font-size: 1.2rem;
         span {
             display: inline-block;
         }

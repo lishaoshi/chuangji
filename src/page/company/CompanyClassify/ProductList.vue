@@ -101,7 +101,7 @@
                                                     
                                                     <template v-if="entity.isSelfChoose">
                                                         <form action="">
-                                                            <input v-focus @keyup.enter="handleBlur($event, entity, index)" @blur="handleBlur($event, entity, index)" ref="cart" type="number" :value="entity.num">
+                                                            <input v-focus @input="handleInput($event)" @keyup.enter="handleBlur($event, entity, index)" @blur="handleBlur($event, entity, index)" ref="cart" type="number" :value="entity.num">
                                                         </form>
                                                     </template>
                                                     <div class="add controller" @click="addToMiniCart($event,entity, index)">+ <span></span> </div>
@@ -374,6 +374,13 @@
 				}
 				addShopCar(data)
             },
+            // 限制input只可以输入五位数
+			handleInput(event) {
+				if(event.target.value.length > 5) {
+					event.target.value = event.target.value.substring(0, 5)
+					return true
+				}
+			},
             canOption() {
                 if (!this.canShow) {
                     this.$Message.error('当前用户还未审核通过');
@@ -480,10 +487,10 @@
                 this.current_id = id
             },
             addToMiniCart(event, entity, index) {
-                // if(entity.num>=99) {
-				// 	this.$toast('最大购买量为99')
-				// 	return false
-				// }
+               if(entity.num >=99999) {
+                    this.$toast('最大购物量为99999')
+                    return false
+                }
                 if(entity.num < entity.order_min_num) {
                     entity.num += entity.order_min_num
                 } else {
@@ -817,7 +824,7 @@
 
     .gw_num {
         // width: 60px;
-        height: .54rem;
+        height: .4rem;
         border-radius: .28rem;
         display: flex;
         align-items: center;
@@ -827,7 +834,7 @@
             background: rgb(245, 245, 245);
         }
         input {
-            width: .6rem;
+            width: .72rem;
             text-align: center;
             background: rgb(245, 245, 245);
         }
