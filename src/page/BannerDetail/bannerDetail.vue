@@ -5,7 +5,13 @@
           {{title}}
       </div>
       <div class="company">
-          <div>
+          <div class="componyImgBox">
+              <!-- <div v-if="!logo">
+                    <svg class="middle-text">
+                        <use xlink:href="#icon-no_square" />
+                    </svg>
+              </div> -->
+              <!-- <img v-if="!logo" src="../../images/company/chuanglianLogo.png"/> -->
               <img :src="logo" alt="">
           </div>
           <div>
@@ -73,12 +79,22 @@ export default {
         font-size: .44rem;
         text-align: left;
         margin-top: .1rem;
+        min-height: .44rem;
     }
     .company {
         display: flex;
         margin-top: .32rem;
         margin-bottom: .5rem;
         align-items: center;
+        
+        .componyImgBox {
+            margin-right: .2rem;
+            background: url("../../images/company/chuanglianLogo.png") no-repeat;
+            background-size: 100% 100%;
+            border-radius: 50%;
+            width: .8rem;
+            height: .8rem;
+        }
         span:first-child {
             font-size: .30rem;
             font-weight:bold;
@@ -92,7 +108,12 @@ export default {
             width: .8rem;
             height: .8rem;
             border-radius: 50%;
-            margin-right: .2rem;
+            // margin-right: .2rem;
+        }
+        svg {
+            width: .8rem;
+            height: .8rem;
+            border-radius: 50%;
         }
         div:last-child {
             display: inline-flex;

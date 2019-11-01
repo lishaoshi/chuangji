@@ -26,7 +26,7 @@
                    
                     <template v-else>
                         <form class="input_warp" action="">
-                            <input v-focus @blur="handleBlur($event)" @keyup.enter="handleBlur($event)" ref="cart" type="number" :value="data.num">
+                            <input v-focus @input="handleInput($event)" @blur="handleBlur($event)" @keyup.enter="handleBlur($event)" ref="cart" type="number" :value="data.num">
                         </form>
                     </template>
                     <div class="add" @click="addToMiniCart()">+</div>
@@ -182,6 +182,14 @@
                 addShopCar(params)
                 
             },
+             // 限制input只可以输入五位数
+			handleInput(event) {
+				if(event.target.value.length > 5) {
+                   this.$toast('最大输入五位数')
+					event.target.value = event.target.value.substring(0, 5)
+					return true
+				}
+			},
             async _initData() {
                 let params = {
                     id: this.id,
@@ -234,10 +242,10 @@
             },
             addToMiniCart() {
                 // debugger
-                // if(this.data.num >=99) {
-                //     this.$toast('最大购物量为99')
-                //     return false
-                // }
+                if(this.data.num >=99999) {
+                    this.$toast('最大购物量为99999')
+                    return false
+                }
                 if(this.data.num<this.data.order_min_num) {
                     this.data.num = this.data.order_min_num
                     if(this.shopCart[this.id]) {

@@ -38,7 +38,7 @@
                 </div>
             </li>
         </ul>
-        <EmptyList v-if="entities.length==0&&loading==false" message="数据为空！" />
+        <EmptyList v-if="entities.length==0&&loading==false" message="抱歉，没有数据展示" />
         <CircleLoading v-if="loading" />
         <!-- <mt-popup v-model="regionVisible" :position="position" class="bottom-region" style="width:100%;">
             <mt-datetime-picker v-model="dateValue" type="date" ref="datePicker" year-format="{value} 年" month-format="{value} 月"

@@ -24,8 +24,8 @@
 								<use xlink:href="#icon-factory-addPrice"></use>
 							</svg>
 							<div class="controls" :class="{baColor:item.isSelfChoose }" v-else>
-								<div class="imgBox">
-									<img @click="handleNumber(item,index)" src="@/images/del_shopping.png" alt="">
+								<div class="imgBox" @click="handleNumber(item,index)">
+									<img src="@/images/del_shopping.png" alt="">
 								</div>
 								
 								<div class="num" @click="handleChoose(item, index)">
@@ -38,14 +38,18 @@
 										</span>
 									</template>
 									<template v-else>
-										<form action="">
-											<input v-focus pattern="[0-9]*" @keyup.enter="handleBlur($event, item, index)" @blur="handleBlur($event, item, index)" ref="cart" type="number" :value="item.num">
+										
+										<form action="" class="input_warp">
+											<!-- <span>
+											{{item.num}}
+										</span> -->
+											<input v-focus pattern="[0-9]*" @input="handleInput($event)" @keyup.enter="handleBlur($event, item, index)" @blur="handleBlur($event, item, index)" ref="cart" type="number" :value="item.num">
 										</form>
 									</template>
 									
 								</div>
-								<div class="imgBox">
-									<img @click="add_shop_car(item, index)" src="@/images/add_shopping.png" alt="">
+								<div class="imgBox" @click="add_shop_car(item, index)">
+									<img src="@/images/add_shopping.png" alt="">
 								</div>
 								
 							</div>
@@ -144,12 +148,20 @@
 				this.$emit('handleBlur', true, index, event.target.value, item)
 			},
 
+			// 限制input只可以输入五位数
+			handleInput(event) {
+				if(event.target.value.length > 5) {
+					event.target.value = event.target.value.substring(0, 5)
+					return true
+				}
+			},
+
             add_shop_car(item, index) {
 				// console.log(item)
-				// if(item.num>=99) {
-				// 	this.$toast('最大购买量为99')
-				// 	return false
-				// }
+				if(item.num>=99999) {
+					this.$toast('最大购买量为99999')
+					return false
+				}
 				this.$emit('add_shop_car', index, item)
                 let data = {
                     supplier_id: this.businessId,
@@ -197,7 +209,7 @@
 		line-height: 300%;
 	}
 	.p1 {
-        font-size:.2rem;
+        font-size:.24rem;
         font-weight:500;
         color:rgba(153,153,153,1);
         line-height:.42rem;
@@ -275,7 +287,7 @@
 		justify-content: space-between;
 		margin-top: .2rem;
 		 .carImg {
-            height: .54rem;
+            height: .4rem;
 			// flex:1;
             .shopCart {
                 width: 30px;
@@ -292,7 +304,7 @@
 				justify-content: center;
 			}
             .controls {
-                padding: 0 .12rem;
+                // padding: 0 .12rem;
                 display: flex;
                 align-items: center;
                 height: 100%;
@@ -305,10 +317,15 @@
 					// display: flex;
 					flex:1;
 					display: flex;
+					.input_warp {
+						// flex:1;
+						display: flex;
+					}
 					input {
-						// width: 1rem;
-						width: .6rem;
+						width: .76rem;
+						// width: 100%;
 						background: #f5f5f5;
+						text-align: center;
 					}
 				}
                 .shopCart,img {

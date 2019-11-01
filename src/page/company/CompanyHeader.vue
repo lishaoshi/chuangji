@@ -40,6 +40,7 @@
                             </li>
                             <li>
                                 <p>配送时间<i>{{delivery_time || 24}}</i>小时</p>
+                                <div></div>
                             </li>
                         </ul>
                     </div>
@@ -374,9 +375,12 @@
     }
     .tel {
         svg {
-            width: .4rem;
-            height: .35rem;
-            margin-top: .3rem;
+            // width: 32px;
+            // height: 28px;
+             width: .64rem;
+            height: .56rem;;
+            // font-size: .64rem;
+            // margin-top: .3rem;
         }
     }
     // 输入框的样式

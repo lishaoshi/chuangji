@@ -6,7 +6,8 @@
                 <div class="name"><span>{{ data.province_name }}</span>{{data.name}}</div>
                 <div class="detail">
                     <div class="datail-info">
-                        <img src="../../../images/default_company_logo.png" class="extension-item-img">
+                        <img v-if="!avatar && !img_cover" src="../../../images/default_company_logo.png" class="extension-item-img">
+                        <img v-else :src="avatar?avatar:img_cover" class="extension-item-img">
                         <div>
                             <p>{{data.user.real_name}}</p>
                             <p>{{data.mobile_desensite}}</p>
@@ -37,7 +38,9 @@
                 <div class="name"><span>{{ data.city_name | filter_city_name }}</span>市</div>
                 <div class="detail">
                     <div class="datail-info">
-                        <img src="../../../images/default_company_logo.png" class="extension-item-img">
+                        <!-- <img src="../../../images/default_company_logo.png" class="extension-item-img"> -->
+                        <img v-if="!avatar && !img_cover" src="../../../images/default_company_logo.png" class="extension-item-img">
+                        <img v-else :src="avatar?avatar:img_cover" class="extension-item-img">
                         <div>
                             <p>{{data.user.real_name}}</p>
                             <p>{{data.mobile_desensite}}</p>
@@ -103,8 +106,10 @@
         <div v-if="data.apply_role === 'promoter'" class="clinic">
             <div>
                 <div class="name">
-                    <img :src="data.logo" class="img1" v-if="data.logo">
-                    <img src="../../../images/default.png" class="img1" v-else>
+                    <!-- <img :src="data.logo" class="img1" v-if="data.logo">
+                    <img src="../../../images/default.png" class="img1" v-else> -->
+                    <img v-if="!avatar && !img_cover" src="../../../images/default_company_logo.png" class="img1">
+                    <img v-else :src="avatar?avatar:img_cover" class="img1">
                 </div>
                 <div class="datail-info">
                     <div>
@@ -200,6 +205,18 @@
         name: "CustomerCell",
         props:{
             data:Object
+        },
+        computed: {
+            avatar() {
+                return this.data.user.avatar&&this.data.user.avatar
+            },
+            img_cover() {
+                return this.data.user.supplier&&this.data.user.supplier.img_cover
+            },
+        },
+        mounted() {
+            // debugger
+            console.log(this.avatar, this.img_cover)
         }
     }
 </script>
