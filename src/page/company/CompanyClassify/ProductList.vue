@@ -713,7 +713,7 @@
                 p {
                     white-space: nowrap;
                     text-overflow: ellipsis;
-                    font-size: .24rem;
+                    font-size: .28rem;
                     padding-left: .2rem;
                     padding-right: .1rem;
                     height: .8rem;
@@ -813,11 +813,18 @@
         }
 
         .title2 {
-            font-size: .2rem;
+            font-size: .24rem;
             font-weight: 500;
             color: rgba(153, 153, 153, 1);
             line-height: 1.5;
+            white-space:nowrap;/* 不换行 */
+            overflow:hidden;
+            text-overflow:ellipsis;
+            margin-right: .24rem;
         }
+        // .title2:nth-child(1) {
+            
+        // }
     }
 
     /*加减*/

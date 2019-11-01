@@ -26,8 +26,6 @@
                     <div style="text-align: center;color: #999;margin-top: 10px;" v-if="allLoaded">—— 没有更多啦 ——</div>
                 </mt-loadmore>
             </div>
-           
-
             <UnJurisdiction  v-else></UnJurisdiction>
         </main>
     </div>
@@ -172,7 +170,7 @@ export default {
                     }
                     .approve {
                         font-size: .2rem !important;
-                        padding: .03rem .09rem .03rem .1rem;
+                        padding: 0 .1rem 0 .1rem;
                         color: #0090FF !important;
                         border:1px solid rgba(0,144,255,1);
                         border-radius:.04rem;
@@ -192,15 +190,15 @@ export default {
         margin-top: .1rem;
         margin-bottom: .2rem;
         color: #999 !important;
-        font-size: .2rem !important;
+        font-size: .28rem !important;
         span {
-        font-size: .2rem !important;
+        // font-size: .2rem !important;
         margin-left: 0 !important;
         }
         
     }
     .province_name {
-            padding: .03rem .09rem .03rem .1rem;
+            padding: 0 .1rem 0 .1rem;
             font-size: .2rem !important;
             // position: absolute;
             color: #0090FF!important;
@@ -219,7 +217,7 @@ export default {
     }
     .NOapprove {
         font-size: .2rem !important;
-        padding: .03rem .09rem .03rem .1rem;
+        padding: 0 .1rem 0 .1rem;
         color: #999999 !important;
         border:1px solid rgba(153,153,153,1);
         border-radius:.04rem;
