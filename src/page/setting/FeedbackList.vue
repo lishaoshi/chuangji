@@ -192,7 +192,6 @@
             div {
                 display: inline-block;
                 align-self: flex-start;
-                flex-grow: 1;
                 padding: .15rem .19rem .16rem .17rem;
                 max-width:4.86rem;
                 color: #333;
@@ -224,10 +223,12 @@
         }
         .feed-item-system-text {
             margin-top: .1rem;
-            text-align: right;            
+            display: flex;
+            justify-content: flex-end;
+            // text-align: right;            
             div {
                 position: relative;
-                text-align: right;
+                // text-align: right;
                 text-justify: newspaper;
                 word-break: break-all;
                 margin: 0 .18rem 0 0;
@@ -243,6 +244,9 @@
                     border-bottom:.15rem solid transparent;
                     
                 }
+            }
+            img {
+                display: block;
             }
         }
     }
