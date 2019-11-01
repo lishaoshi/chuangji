@@ -117,12 +117,11 @@
         },
         methods:{
             initData(callback){
-                this.$http.get('lianbei/list')
+                this.$http.get('hippo-shop/business/dataStatistics')
                     .then(response => {
-                        const { data } = response;
+						const { data } = response.data;
                         if(data){
-                            this.lianBeiValue = data.income-data.expenditure;
-                            this.currentValue = data.currentValue
+                            this.lianBeiValue = data.unExtractInfo.supplier_lianbei;
                         }
                         if(callback){
                             callback();

@@ -14,14 +14,18 @@
 						￥<span class="price">{{data.sale_price | display_price}}<i>/{{data.show_unit || '件'}}</i></span>
 					</div>
 					<div class="shop-arithmetic" :class="{bgColor : data.isSelfChoose}">
-						<div class="minus" @click.prevent.stop="minGoods(sid,pid, data)">-</div>
+						<div class="minus" @click.prevent.stop="minGoods(sid,pid, data)">
+							<img src="../../images/del_shopping.png" alt="">
+						</div>
 						<span @click="chooseSelf" v-if="!data.isSelfChoose" class="num">{{data.num}}<i>{{data.unit || '件'}}</i></span>
 						<template v-else>
 							<form action="">
 								<input v-focus type="number" @blur="handleBlur($event, data)" ref="cart" :value="data.num">
 							</form>
 						</template>
-						<div class="plus" @click.prevent.stop="addGoods(sid,pid, data)">+</div>
+						<div class="plus" @click.prevent.stop="addGoods(sid,pid, data)">
+							<img src="@/images/add_shopping.png" alt="">
+						</div>
 					</div>
 				</div>
 			</div>
@@ -93,9 +97,11 @@ import bus from '@/bus'
 	
 	.shop-price {
 		display: flex;
+		margin-top: .2rem;
+		justify-content: space-between;
 		.shop-pices {
 			color: #FA5452;
-			margin-top: .2rem;
+			
 			font-size: .26rem;
 		}
 	}
@@ -108,16 +114,17 @@ import bus from '@/bus'
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			img {
+				width: .2rem;
+				height: .2rem;
+			}
 		}
-		height: .6rem;
+		height: .4rem;
 		border-radius: 20px;
 		display: inline-flex;
 		align-items: center;
 		text-align: center;
-		position: absolute;
-		right: .1rem;
 		justify-content: center;
-		top: .88rem;
 		div {
 			color: #26A2FF;
 			font-size: .38rem;
@@ -125,7 +132,7 @@ import bus from '@/bus'
 			// line-height: 20px;
 			height: 100%;
 			border-radius: 50%;
-			width: .6rem;
+			width: .4rem;
 			font-style: normal;
 			font-weight: bold;
 			color: rgb(45, 162, 255);
