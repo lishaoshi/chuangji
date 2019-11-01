@@ -44,6 +44,7 @@
                 <b>1800.00</b>
             </div> -->
         </div>
+        <clxsd-cell :title="'我的邀请'" :to="'/record'" is-link icon="wode-wodeyaoqing" />
         <clxsd-cell :title="'通道收益'" :to="'/channel-profit'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_pass"/>
         <clxsd-cell :title="'广告收益'" :to="'/develop'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_ad" style="margin-bottom: .2rem"/>
         <ul class="unautMy-userlist">
