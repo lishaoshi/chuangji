@@ -1,7 +1,15 @@
 <template>
-    <div id="CompanyShopDetail" style="min-height: 100%">
-        <clxsd-head-top :title='`详情`'></clxsd-head-top>
-        <span class="collect" @click="CollectionFn()" :class="{activebtn: isFullScreen}">{{follow_info}}</span>
+    <div id="CompanyShopDetail" class="CompanyShopDetail">
+        <!-- <clxsd-head-top :title='`详情`'></clxsd-head-top> -->
+        <div class="headTop">
+             <img class="retreat" src="../../../images/back.png" @click="goBack()">
+             <div>
+                 <span :class="{active:tabIndex==0}" @click="tabIndex=0">详情</span>
+                 <span :class="{active:tabIndex==1}" @click="tabIndex=1">规格</span>
+             </div>
+        </div>
+     <template v-if="tabIndex==0">
+        <span class="collect" @click="CollectionFn()">{{follow_info}}</span>
         <mt-swipe :auto="4000" style="height: 5.6rem;background: #fff;" v-if="data.imgs!=''">
             <mt-swipe-item v-for="(item,index) in data.imgs"><img :src="item.new" width="100%" height="100%"></mt-swipe-item>
         </mt-swipe>
@@ -66,13 +74,16 @@
         </div>
 
         <div class="infoDetail">
-                <div class="content" v-html="data.content"></div>
+            <div class="content" v-html="data.content"></div>
         </div>
-
-        
-        <div style="position: fixed;width: 100%;bottom: 0px">
+         <div style="position: fixed;width: 100%;bottom: 0px">
             <mini-company-cart ref="MiniCompanyCart" :shop-id="businessId" :count="cartNum" :total-price="totalPrice" style="bottom: 0px"></mini-company-cart>
         </div>
+     </template>
+
+    <div v-if="tabIndex==1">
+        <specifications :data="data"/>
+    </div>
     </div>
 </template>
 
@@ -82,13 +93,15 @@
     import {Swipe, SwipeItem} from 'mint-ui';
     import {isBusinessGoodsFollow, deleteBusinessGoodsFollow, SaveBusinessGoodsFollow} from "@/api/follow.js"
     import { queryShopCarList, delShopCar, addShopCar, onlyDelShopCar } from '@/api/shopCar'
+    import specifications from '@/components/common/specifications'
 
     export default {
         name: "CompanyShopDetail",
         components: {
             'mt-swipe': Swipe,
             'mt-swipe-item': SwipeItem,
-            MiniCompanyCart
+            MiniCompanyCart,
+            specifications
         },
         data() {
             return {
@@ -108,7 +121,8 @@
                 time:'',
                 num: 0,
                 shopCart: {},
-                name: ''
+                name: '',
+                tabIndex: 0
             }
         },
         created() {
@@ -313,7 +327,9 @@
 </script>
 
 <style lang="scss" scoped>
-
+.CompanyShopDetail {
+    min-height: 100%;
+}
     .detail-box1 {
         height: 1rem;
         display: flex;
@@ -354,6 +370,33 @@
                     line-height: 100%;
                     flex:1 0 auto;
                     color: #fff;
+                }
+            }
+        }
+    }
+    .headTop {
+        display: inline-flex;
+        width: 100%;
+        height: .88rem;
+        align-items: center;
+        background: #2DA2FF;
+        padding: .2rem;
+        color: #fff;
+        font-size: .3rem;
+        font-weight: bold;
+        img {
+            width: .3rem;
+            height: .4rem;
+        }
+        div {
+            flex:1;
+            text-align: center;
+            span {
+                display: inline-block;
+                margin-right: .32rem;
+                padding-bottom: .06rem;
+                &.active {
+                    border-bottom: 2px solid #fff;
                 }
             }
         }

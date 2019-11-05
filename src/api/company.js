@@ -12,3 +12,15 @@ export function queryCompayResults(params) {
         })
     })
 }
+
+
+/**
+ * 获取公司信息信息
+ * 
+ */
+export function queryCompanyDetail(supplierId) {
+    let url = `hippo-shop/business/${supplierId}/info`
+    return http.get(url, { validateStatus: s => s === 200 }).then(res=>{
+        return res.data
+    })
+}

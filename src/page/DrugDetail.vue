@@ -1,112 +1,128 @@
 <template>
     <div id="DrugDetail">
-        <clxsd-head-top :title='`详情`'></clxsd-head-top>
+        <!-- <clxsd-head-top :title='`详情`'></clxsd-head-top> -->
         <!--
         <span class="collect" @click="CollectionFn()" :class="{activebtn: isFullScreen}">{{follow_info}}</span>
         -->
-        <mt-swipe :auto="4000" style="height: 5.6rem;background: #fff;" v-if="data.imgs!=''">
-            <mt-swipe-item v-for="(item,index) in data.imgs"><img :src="item.new" width="100%" height="100%"></mt-swipe-item>
-        </mt-swipe>
-        <mt-swipe :auto="4000" style="height: 5.6rem;background: #fff;" v-else>
-            <mt-swipe-item><img :src="data.img_cover" width="100%" height="100%"></mt-swipe-item>
-        </mt-swipe>
-        <div class="contant">
-            <div class="title">{{data.good_name}}</div>
-            <p style="font-size: .2rem;color: #999;text-align: right">销量:{{data.sale_num}}</p>
-        </div>
-        <div class="contant">
-            <div class="info">
-                <span>品 &nbsp;&nbsp;&nbsp;&nbsp; 牌</span>
-                <samp>{{name1}}</samp>
-            </div>
-            <div class="info">
-                <span>规 &nbsp;&nbsp;&nbsp;&nbsp; 格</span>
-                <samp>{{data.spec}}</samp>
-            </div>
-            <div class="info">
-                <span>效 &nbsp;&nbsp;&nbsp;&nbsp; 期</span>
-                <samp>{{time}}</samp>
-            </div>
-            <div class="info">
-                <span>批准文号</span>
-                <samp>{{data.approval_number}}</samp>
-            </div>
-        </div>
-        <div class="price-flex">
+        <div class="headTop">
+            <img class="retreat" src="../images/back.png" @click="goBack()">
             <div>
-                <p class="price"><span>￥{{data.price}}</span>
-                    <small style="color: #999">/{{data.unit}}</small>
-                </p> 
-                
-                <p class="name" style="color: #999">订货价</p>
-            </div>
-            <div>
-                <p v-if="parseInt(data.market_price)" class="price"><span>￥{{data.market_price}}</span>
-                    <small style="color: #999">/{{data.unit}}</small>
-                </p>
-                <p v-else class="price">
-                    <small>暂无维护</small>
-                </p>
-                <p class="name" style="color: #999">市场价</p>
+                <span :class="{active:tabIndex==0}" @click="tabIndex=0">详情</span>
+                <span :class="{active:tabIndex==1}" @click="tabIndex=1">规格</span>
             </div>
         </div>
-        <div class="trans-box">
-            <div class="trans-box-box1">
-                <h2>{{data.big_unit}}</h2>
-                <p style="color: #999">大单位</p>
+        <template v-if="tabIndex==0">
+            <mt-swipe :auto="4000" style="height: 5.6rem;background: #fff;" v-if="data.imgs!=''">
+                <mt-swipe-item v-for="(item,index) in data.imgs"><img :src="item.new" width="100%" height="100%"></mt-swipe-item>
+            </mt-swipe>
+            <mt-swipe :auto="4000" style="height: 5.6rem;background: #fff;" v-else>
+                <mt-swipe-item><img :src="data.img_cover" width="100%" height="100%"></mt-swipe-item>
+            </mt-swipe>
+            <div class="contant">
+                <div class="title">{{data.good_name}}</div>
+                <p style="font-size: .2rem;color: #999;text-align: right">销量:{{data.sale_num}}</p>
             </div>
-            <div class="trans-box-box2">
-                <h2>{{data.tran}}</h2>
-                <p style="color: #999">转换系数</p>
+            <div class="contant">
+                <div class="info">
+                    <span>品 &nbsp;&nbsp;&nbsp;&nbsp; 牌</span>
+                    <samp>{{name1}}</samp>
+                </div>
+                <div class="info">
+                    <span>规 &nbsp;&nbsp;&nbsp;&nbsp; 格</span>
+                    <samp>{{data.spec}}</samp>
+                </div>
+                <div class="info">
+                    <span>效 &nbsp;&nbsp;&nbsp;&nbsp; 期</span>
+                    <samp>{{time}}</samp>
+                </div>
+                <div class="info">
+                    <span>批准文号</span>
+                    <samp>{{data.approval_number}}</samp>
+                </div>
             </div>
-            <div class="trans-box-box1">
-                <h2>{{data.unit}}</h2>
-                <p style="color: #999">销售单位</p>
+            <div class="price-flex">
+                <div>
+                    <p class="price"><span>￥{{data.price}}</span>
+                        <small style="color: #999">/{{data.unit}}</small>
+                    </p> 
+                    
+                    <p class="name" style="color: #999">订货价</p>
+                </div>
+                <div>
+                    <p v-if="parseInt(data.market_price)" class="price"><span>￥{{data.market_price}}</span>
+                        <small style="color: #999">/{{data.unit}}</small>
+                    </p>
+                    <p v-else class="price">
+                        <small>暂无维护</small>
+                    </p>
+                    <p class="name" style="color: #999">市场价</p>
+                </div>
             </div>
+            <div class="trans-box">
+                <div class="trans-box-box1">
+                    <h2>{{data.big_unit}}</h2>
+                    <p style="color: #999">大单位</p>
+                </div>
+                <div class="trans-box-box2">
+                    <h2>{{data.tran}}</h2>
+                    <p style="color: #999">转换系数</p>
+                </div>
+                <div class="trans-box-box1">
+                    <h2>{{data.unit}}</h2>
+                    <p style="color: #999">销售单位</p>
+                </div>
+            </div>
+            <div class="price-flex">
+                <div>
+                    <p class="price" style="color: #333;font-size: .28rem">
+                        {{parent_name?parent_name:'无'}}
+                    </p>
+                    <p class="name" style="color: #999">类别</p>
+                </div>
+                <div>
+                    <p class="price" style="color: #333;font-size: .28rem">{{name2}}</p>
+                    <p class="name" style="color: #999">分类</p>
+                </div>
+            </div>
+            <div class="contant">
+                <div class="info">
+                    <span>添加时间</span>
+                    <samp>{{creat_time}}</samp>
+                </div>
+                <div class="info">
+                    <span>修改时间</span>
+                    <samp>{{creat_time}}</samp>
+                </div>
+            </div>
+            <div style="background: #fff;margin-top: .2rem;padding-top: .3rem">
+                <p style="color:#0090FF;text-align: center;line-height: 2;font-size: .28rem">商品详情<br>|</p>
+                <!-- <div class="edit-box" v-for=" (item, index) of data.imgs" :key="index">
+                    <img :src="item.new" alt="">
+                </div> -->
+                <div class="infoDetail">
+                    <div class="content" v-html="data.content"></div>
+                </div>
+            </div>
+            <div class="bg-fade"></div>
+            <div class="state" @click="changeSelf">{{info}}商品</div>
+        </template>
+        <div v-if="tabIndex==1">
+            <specifications :data="data"/>
         </div>
-        <div class="price-flex">
-            <div>
-                <p class="price" style="color: #333;font-size: .28rem">
-                    {{parent_name?parent_name:'无'}}
-                </p>
-                <p class="name" style="color: #999">类别</p>
-            </div>
-            <div>
-                <p class="price" style="color: #333;font-size: .28rem">{{name2}}</p>
-                <p class="name" style="color: #999">分类</p>
-            </div>
-        </div>
-        <div class="contant">
-            <div class="info">
-                <span>添加时间</span>
-                <samp>{{creat_time}}</samp>
-            </div>
-            <div class="info">
-                <span>修改时间</span>
-                <samp>{{creat_time}}</samp>
-            </div>
-        </div>
-        <div style="background: #fff;margin-top: .2rem;padding-top: .3rem">
-            <p style="color:#0090FF;text-align: center;line-height: 2;font-size: .28rem">商品详情<br>|</p>
-            <!-- <div class="edit-box" v-for=" (item, index) of data.imgs" :key="index">
-                <img :src="item.new" alt="">
-            </div> -->
-            <div class="infoDetail">
-                <div class="content" v-html="data.content"></div>
-            </div>
-        </div>
-        <div class="bg-fade"></div>
-        <div class="state" @click="changeSelf">{{info}}商品</div>
         <CircleLoading v-if="loading"/>
     </div>
 </template>
 
 <script>
     import {mapState} from "vuex"
+    import specifications from '@/components/common/specifications'
     import {isBusinessGoodsFollow, deleteBusinessGoodsFollow, SaveBusinessGoodsFollow} from "@/api/follow.js"
 
     export default {
         name: "DrugDetail",
+        components: {
+            specifications
+        },
         data() {
             return {
                 data: [],
@@ -122,7 +138,8 @@
                 name1: '',
                 name2: '',
                 supplierId: 0,
-                parent_name: ''
+                parent_name: '',
+                tabIndex: 0
             }
         },
         computed: {
@@ -260,6 +277,33 @@
             color: #333;
             width: 60px;
             display: inline-block;
+        }
+    }
+    .headTop {
+        display: inline-flex;
+        width: 100%;
+        height: .88rem;
+        align-items: center;
+        background: #2DA2FF;
+        padding: .2rem;
+        color: #fff;
+        font-size: .3rem;
+        font-weight: bold;
+        img {
+            width: .3rem;
+            height: .4rem;
+        }
+        div {
+            flex:1;
+            text-align: center;
+            span {
+                display: inline-block;
+                margin-right: .32rem;
+                padding-bottom: .06rem;
+                &.active {
+                    border-bottom: 2px solid #fff;
+                }
+            }
         }
     }
 

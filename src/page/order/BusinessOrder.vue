@@ -10,14 +10,14 @@
                     <p>全部</p>
                 </div>
             </mt-tab-item>
-			<mt-tab-item id="2">
+			<!-- <mt-tab-item id="2">
                 <div class="nav-li" @click="handleClick(0)">
                     <svg class="icon">
                         <use :xlink:href="`#icon-ordering-paying-${selected==2 ? '1':'0'}`"/>
                     </svg>
                     <p>待付款</p>
                 </div>
-            </mt-tab-item>
+            </mt-tab-item> -->
             <mt-tab-item id="6">
                 <div class="nav-li"  @click="handleClick(1)">
                     <svg class="icon">

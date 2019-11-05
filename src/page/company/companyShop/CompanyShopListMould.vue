@@ -287,8 +287,6 @@
 		justify-content: space-between;
 		margin-top: .2rem;
 		 .carImg {
-            height: .4rem;
-			// flex:1;
             .shopCart {
                 width: 30px;
                 height: 30px;

@@ -24,7 +24,7 @@
         </div>
         <transition name="fade">
             <div class="company activebox2">
-                <div class="brand">
+                <div class="brand" @click="queryCompanyDetail">
                     <img :src="businessInfo.img_cover" alt="">
                 </div>
                 <div class="message">
@@ -48,7 +48,7 @@
                 <div class="tel">
                     <a :href="`tel:${businessInfo.tel}`">
                         <svg class="telSvg">
-                            <use xlink:href="#icon-gloable-telephone"></use>
+                            <use xlink:href="#icon-gloable-telephone" fill="#fff"></use>
                         </svg>
                     </a>
                 </div>
@@ -189,6 +189,11 @@
             clearText(){
                 // this.$emit('clearText')
                 this.searchValue = ''
+            },
+            // 前往公司详情
+            queryCompanyDetail() {
+                // console.log(this.shopId)
+                this.$router.push({path: `/company/companyDetail/${this.shopId}`})
             }
         }
     }

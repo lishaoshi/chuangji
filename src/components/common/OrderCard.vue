@@ -17,7 +17,7 @@
                         <img :src="data.items[0].entity.cover">
                     </div>
                     <div class="drug_message">
-                        <div>{{data.supplier.name}}</div>
+                        <div>{{data.items[0].entity_name}}</div>
                         <div>规格：{{data.items[0].entity_spec}}</div>
                         <div>品牌：{{data.items[0].entity.brand.name}}</div>
                     </div>

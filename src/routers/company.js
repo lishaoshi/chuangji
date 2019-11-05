@@ -23,6 +23,9 @@ const BusinessShopCart = () => import(/* webpackChunkName: "business-shop" */ '@
 const BusinessShopCartBig = () => import(/* webpackChunkName: "business-shop" */ '@/page/company/companyShop/businessBigCarList.vue');
 const confirmOrder = () => import(/* webpackChunkName: "business-shop" */ '@/page/company/companyShop/confirmOrder.vue');
 
+// 公司详情
+const CompanyDetail = () => import('@/page/company/companyDetail');
+
 export default [
     {
         path:"/business/cart",
@@ -160,6 +163,14 @@ export default [
             title: "确认订单",
             requiresAuth: true
         }
-    },
+	},
+	{
+		path:"/company/companyDetail/:shopId",
+        component:CompanyDetail,
+        meta:{
+            title: "公司详情",
+            requiresAuth: true
+        }
+	}
 	]
 
