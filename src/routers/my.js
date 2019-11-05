@@ -77,6 +77,9 @@ const RoleConfirm = () => import(/* webpackChunkName: "About" */ '@/page/extensi
 /* 邀请记录 */
 const Record = () => import(/* webpackChunkName: "About" */ '@/page/Invitation/Invited_to_record.vue');
 
+/* 发票信息 */
+const Invoice = () => import(/* webpackChunkName: "About" */ '@/page/Invoice/invoice.vue');
+
 
 export default [
     {
@@ -487,6 +490,13 @@ export default [
         component: Record,
         meta: {
             title: "邀请记录",
+        }
+    },
+    {
+        path: "/invoice",
+        component: Invoice,
+        meta: {
+            title: "发票信息",
         }
     },
 ]

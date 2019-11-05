@@ -65,6 +65,7 @@
             </div>
             <div class="my-list" style="margin-bottom: .2rem">
                 <clxsd-cell :title="'公司信息'" :to="'/company-info'" is-link icon="my-companyMessage" :value="userInfo.infoText"/>
+                <clxsd-cell :title="'发票信息'" :to="'/invoice'" is-link icon="my-companyMessage" :value="userInfo.infoText"/>
                 <clxsd-cell :title="'地址管理'" :to="'/address'" is-link icon="my-address"/>
                 <clxsd-cell :title="'设置'" :to="'/setting'" is-link icon="my-setting"/>
             </div>
