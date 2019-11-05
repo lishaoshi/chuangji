@@ -50,34 +50,83 @@
 		</div>
         <div class="height1"></div>
         <div class="content">
+			<div class="title">订单信息</div>
             <ul class="order-ul">
                 <li>
-					<b>下单企业：</b>
+					<span>下单企业：</span>
 					<span>{{client_supplier}}</span>
 				</li>
                 <li>
-					<b>收 &nbsp;货 &nbsp;人：</b>
+					<span>
+						<i class="text3">收</i>
+						<i class="text3">货</i>人：</span>
 					<span>{{data.consignee}} &nbsp;<small>{{data.tel}}</small></span>
 				</li>
                 <li>
-					<b>收货地址：</b>
+					<span>收货地址：</span>
 					<span>{{order_address}}</span>
 				</li>
                 <li>
-					<b>订单编号：</b>
+					<span>订单编号：</span>
 					<span>{{data.order_sn}}</span>
 				</li>
                 <li>
-					<b>下单时间：</b>
+					<span>下单时间：</span>
 					<span>{{data.created_at}}</span>
 				</li>
                 <li v-if="data.pay_status === 1">
-					<b>付款时间：</b>
+					<span>付款时间：</span>
 					<span>{{data.pay_at}}</span>
 				</li>
                 <li v-if="data.pay_status === 1&&data.shipping_status === 2">
-					<b>收货时间：</b>
+					<span>收货时间：</span>
 					<span>{{data.confirm_at}}</span>
+				</li>
+            </ul>
+        </div>
+		<div class="height1"></div>
+		 <div class="content">
+			<div class="title">发票信息</div>
+			<!-- <div class="noInfo">
+				<svg>
+                    <use xlink:href="#icon-lampBulb"></use>
+                </svg>
+				<span>你没有选择开具发票</span>
+			</div> -->
+            <ul class="order-ul">
+                <li>
+					<span>抬头类型：</span>
+					<span>普通发票</span>
+				</li>
+                <li>
+					<span>发票太托：</span>
+					<span>张无忌</span>
+				</li>
+                <li>
+					<span>发票内容：</span>
+					<span>商品明细</span>
+				</li>
+                <li>
+					<span>纳税人号：</span>
+					<span>321323735405323</span>
+				</li>
+				 <li>
+					<span >
+						<i class="text2">地</i>址：</span>
+					<span>321323735405323</span>
+				</li>
+				 <li>
+					<span>
+						<i class="text2">电</i>话：</span>
+					<span>321323735405323</span>
+				</li>
+				 <li>
+					<span>开户银行：</span>
+					<span>321323735405323</span>
+				</li>
+				 <li>
+					<span>银行账号：</span>
+					<span>321323735405323</span>
 				</li>
             </ul>
         </div>
@@ -237,6 +286,46 @@
 	.content {
 		background: #fff;
         padding: 0 .3rem;
+		border-radius: 8px;
+		.title {
+			line-height: .6rem;
+			font-size: .28rem;
+			color: #333;
+			display: flex;
+			align-items: center;
+			&::before {
+				content: '';
+				background-color: #0090FF;
+				display: inline-block;
+				height: .3rem;
+				// line-height: .6rem;
+				width: 2px;
+				margin-right: .1rem;
+			}
+		}
+		.noInfo {
+			color: #644f1b;
+			font-size: .28rem;
+			width: 100%;
+			margin: .4rem 0;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			height: .8rem;
+			background: linear-gradient(to right, #feeec4, #f2dca0);
+			svg {
+				width: .4rem;
+				height: .4rem;
+			}
+		}
+		.text2 {
+			letter-spacing: 2em;
+			// margin-right: -2em;
+		}
+		.text3 {
+			letter-spacing: 0.5em;
+			// margin-right: -0.5em;
+		}
 	}
 	
 	.item {
@@ -349,7 +438,10 @@
             // line-height: .76rem;
 			padding: .2rem 0;
 			display: flex;
-			b {
+			span {
+				display: block;
+			}
+			span:first-child {
 				min-width: 25%;
 				// flex:0 1 25%;
 			}

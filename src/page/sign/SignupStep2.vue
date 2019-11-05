@@ -201,6 +201,7 @@
                     this.$lstore.removeData(REGISTER_DATA)
                     this.$router.push('/signin');
                 }).catch(error => {
+                    this.$toast(error.response.data.message)
                     // console.log(error.response.data.error, 'err')
                     this.loading = false;
                     // this.$toast(error.response.data.error[0]);

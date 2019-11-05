@@ -22,6 +22,23 @@
                 </svg>
             </router-link>
 
+            <!-- 选择发票 -->
+            <div class="chooseInvoice">
+                <div class="top">
+                    <p>选择发票</p>
+                    <svg @click="handleInvoice">
+                        <use xlink:href="#icon-bianji"/>
+                    </svg>
+                </div>
+                <div class="invoiceList">
+                    <div v-for="(item, index) of nvoiceList" :key="index" @click="handleChooseInvoice(item)">
+                        <svg class="check goods-check shopCheck">
+                            <use :xlink:href="`#icon-IsCheckedShop-${item.type==currentInvoice ? 'open' : 'close' }`"/>
+                        </svg>
+                        <span>{{item.invoiceName}}</span>
+                    </div>
+                </div>
+            </div>
             <!---选择的产品内--->
             <div class="shop-list-container">
                 <div class="shop-group-item" :key="index" v-for="(shop,index) in　shopData">
@@ -98,7 +115,18 @@
             return {
                 shopData: [],
                 is_success:false,
-                orderType:1
+                orderType:1,
+                nvoiceList: [{
+                    invoiceName: '不开发票',
+                    type: 0
+                }, {
+                    invoiceName: '普通发票',
+                    type: 1
+                }, {
+                    invoiceName: '专用发票',
+                    type: 2
+                }],
+                currentInvoice: 0
             }
         },
         components:{
@@ -147,6 +175,15 @@
                 }
 
                 this.initAddress()
+            },
+            // 选择发票
+            handleChooseInvoice(item) {
+                this.currentInvoice = item.type
+            },
+
+            // 前往发票页
+            handleInvoice() {
+                this.$router.push('/invoice')
             },
             //获取地址信息，第一个地址为默认选择地址
             async initAddress() {
@@ -308,8 +345,36 @@
             }
         }
     }
-
-
+    .chooseInvoice {
+        background: #fff;
+        margin: .2rem .24rem;
+        border-radius: .16rem;
+        padding:0 .32rem;
+        .top {
+            display: flex;
+            justify-content: space-between;
+            padding-top: .24rem;
+            svg {
+                height: .4rem;
+                width: .4rem;
+            }
+        }
+        .invoiceList {
+            display: flex;
+            justify-content: space-between;
+            margin-top: .48rem;
+            padding-bottom: .32rem;
+            .check {
+                height: 0.35rem;
+                width: 0.35rem;
+                margin-right: .18rem;
+            }
+            div {
+                display: inline-flex;
+                align-items: center;
+            }
+        }
+    }
     .shop-group-item {
         margin-top: .2rem;
         background: #fff;
