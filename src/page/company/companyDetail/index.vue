@@ -115,7 +115,7 @@ export default {
     computed: {
         // 配送信息
         delivery_intro() {
-            return this.supplierInfo.business_config&&this.supplierInfo.business_config.delivery_intro || '暂无维护'
+            return this.supplierInfo.business_config&&this.supplierInfo.business_config.delivery_intro
         },
 
         // 起送价
@@ -140,7 +140,7 @@ export default {
         },
         // 网址
         website() {
-            return this.supplierInfo.website ||　'暂无数据'
+            return this.supplierInfo.website ||　'暂无维护'
         }
     },
     methods: {
