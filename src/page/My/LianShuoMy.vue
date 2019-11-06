@@ -1,76 +1,81 @@
 <template>
-    <div>
-        <PullRefresh @refresh="refresh">
-            <header>{{userInfo.companyName || '未认证'}}</header>
-            <div class="user-information">
-                <div class="user-main-info">
-                    <div>
-                         <div class="avatar">
-                            <img src="../../images/my/user_default.png" v-if="userInfo.userLogo==''">
-                            <img :src="userInfo.userLogo" v-else>
+    <div class="myLianshouPage">
+        <div class="mainBox">
+            <!-- <PullRefresh @refresh="refresh"> -->
+                <header>{{userInfo.companyName || '未认证'}}</header>
+                <div class="user-information">
+                    <div class="user-main-info">
+                        <div>
+                            <div class="avatar">
+                                <img src="../../images/my/user_default.png" v-if="userInfo.userLogo==''">
+                                <img :src="userInfo.userLogo" v-else>
+                            </div>
+                            <div class="name">
+                                <p>{{userInfo.userName}}</p>
+                                <p id='U_phone'>{{userInfo.userTel}}</p>
+                            </div>
                         </div>
-                        <div class="name">
-                            <p>{{userInfo.userName}}</p>
-                            <p id='U_phone'>{{userInfo.userTel}}</p>
+                    
+                        <div class="code" @click="to('/role-extension', true)">
+                            <svg>
+                                <use xlink:href="#icon-my-promotion" />
+                            </svg>
+                            <p>业务推广</p>
                         </div>
                     </div>
-                   
-                    <div class="code" @click="to('/role-extension', true)">
-                        <svg>
-                            <use xlink:href="#icon-my-promotion" />
-                        </svg>
-                        <p>业务推广</p>
+                    <!--
+                    <div class="info-bottom">
+                        <div class="account">
+                            <p>联数(包)</p>
+                            <p id="U_gold_value">{{currentValue | display_price(3)}}</p>
+                        </div>
+                        <div class="line">
+                        </div>
+                        <div class="lianbei">
+                            <router-link to="/lianbei">
+                                <p>联贝(CLB)</p>
+                                <p id='U_gold'>{{lianBeiValue | display_price}}</p>
+                            </router-link>
+                        </div>
                     </div>
+                    -->
+                </div>
+                <!-- 列表 -->
+                <div class="my-list" style="margin-top:0px ">
+                    <!--<clxsd-cell :title="'业务推广'" :to="'/role-extension'" is-link icon="my-businessPromotion"/>-->
+                    <clxsd-cell :title="'关注收藏'" :to="'/my-follow'" is-link icon="my-attention"/>
                 </div>
                 <!--
-                <div class="info-bottom">
-                    <div class="account">
-                        <p>联数(包)</p>
-                        <p id="U_gold_value">{{currentValue | display_price(3)}}</p>
+                <div class="my-list">
+                    <div @click="authToRouter('/factory-order')">
+                        <clxsd-cell title="工业订单"  icon="my-businessOrding"/>
                     </div>
-                    <div class="line">
+                    <div @click="authToRouter('/business-order')">
+                        <clxsd-cell title="商业订单" icon="my-ordering"/>
                     </div>
-                    <div class="lianbei">
-                        <router-link to="/lianbei">
-                            <p>联贝(CLB)</p>
-                            <p id='U_gold'>{{lianBeiValue | display_price}}</p>
-                        </router-link>
+
+                    <div @click="authToRouter('/develop')">
+                        <clxsd-cell title="集采定制" icon="my-collection"/>
                     </div>
                 </div>
                 -->
-            </div>
-            <!-- 列表 -->
-            <div class="my-list" style="margin-top:0px ">
-                <!--<clxsd-cell :title="'业务推广'" :to="'/role-extension'" is-link icon="my-businessPromotion"/>-->
-                <clxsd-cell :title="'关注收藏'" :to="'/my-follow'" is-link icon="my-attention"/>
-            </div>
-            <!--
-            <div class="my-list">
-                <div @click="authToRouter('/factory-order')">
-                    <clxsd-cell title="工业订单"  icon="my-businessOrding"/>
+                <div class="my-list">
+                    <clxsd-cell :title="'集采返利'" :to="'/ticket-list'" is-link icon="my-banknote" :value="userInfo.lianPiaoVaule"/>
+                    <clxsd-cell :title="'增值理财'" :to="'/develop'" is-link icon="global-my-financing"/>
+                    <clxsd-cell :title="'授信借贷'" :to="'/develop'" is-link icon="my-loan"/>
                 </div>
-                <div @click="authToRouter('/business-order')">
-                    <clxsd-cell title="商业订单" icon="my-ordering"/>
+                <div class="my-list" style="margin-bottom: .2rem">
+                    <clxsd-cell :title="'公司信息'" :to="'/company-info'" is-link icon="my-companyMessage" :value="userInfo.infoText"/>
+                    <clxsd-cell :title="'发票信息'" :to="'/invoice'" is-link icon="my-companyMessage" :value="userInfo.infoText"/>
+                    <clxsd-cell :title="'地址管理'" :to="'/address'" is-link icon="my-address"/>
+                    <clxsd-cell :title="'设置'" :to="'/setting'" is-link icon="my-setting"/>
                 </div>
-
-                <div @click="authToRouter('/develop')">
-                    <clxsd-cell title="集采定制" icon="my-collection"/>
-                </div>
-            </div>
-            -->
-            <div class="my-list">
-                <clxsd-cell :title="'集采返利'" :to="'/ticket-list'" is-link icon="my-banknote" :value="userInfo.lianPiaoVaule"/>
-                <clxsd-cell :title="'增值理财'" :to="'/develop'" is-link icon="global-my-financing"/>
-                <clxsd-cell :title="'授信借贷'" :to="'/develop'" is-link icon="my-loan"/>
-            </div>
-            <div class="my-list" style="margin-bottom: .2rem">
-                <clxsd-cell :title="'公司信息'" :to="'/company-info'" is-link icon="my-companyMessage" :value="userInfo.infoText"/>
-                <clxsd-cell :title="'发票信息'" :to="'/invoice'" is-link icon="my-companyMessage" :value="userInfo.infoText"/>
-                <clxsd-cell :title="'地址管理'" :to="'/address'" is-link icon="my-address"/>
-                <clxsd-cell :title="'设置'" :to="'/setting'" is-link icon="my-setting"/>
-            </div>
-        </PullRefresh>
-        <clxsd-foot-guide :user-type="3"/>
+            <!-- </PullRefresh> -->
+        </div>
+        <div class="food">
+            <clxsd-foot-guide :user-type="3"/>
+        </div>
+        
     </div>
 </template>
 
@@ -204,6 +209,18 @@
 		height: .88rem;
         font-weight: bold;
 	}
+    .myLianshouPage {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        .mainBox {
+            flex: 1;
+            overflow: auto;
+        }
+        .food {
+            min-height: 1rem;
+        }
+    }
 
 	.user-information {
 		background: rgb(45, 162, 255);
