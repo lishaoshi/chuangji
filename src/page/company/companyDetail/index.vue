@@ -54,14 +54,15 @@
                     <div class="telBox">
                         <a :href="`tel:${tel}`">
                             <svg class="telSvg" aria-hidden="true">
-                                <use xlink:href="#icon-gloable-telephone"></use>
+                                <use xlink:href="#icon-studioCamera"></use>
                             </svg>
+                            {{tel}}
                         </a>
-                        {{tel}}
+                        
                     </div>          
                  </li>
                  <li>
-                    <div>网址</div>
+                    <div class="text2">网址</div>
                     <div>{{website}}</div>          
                  </li>
                  <li>
@@ -263,6 +264,10 @@ export default {
             font-size: .28rem;
             color: #999;
         }
+        .text2 {
+            letter-spacing: 2em;
+            margin-right: 2em;
+        }
         ul {
             display: flex;
             flex-direction: column;
@@ -272,14 +277,17 @@ export default {
                 margin-top: .48rem;
                 align-items: center;
                 .telBox {
-                    color: #0090FF;
-                    align-items: center;
-                    display: flex;
+                    a {
+                        color: #0090FF;
+                        align-items: center;
+                        display: flex;
+                        align-items: center;
+                    }
+                    
                 }
                  .telSvg {
                         width: .3rem;
                         height: .3rem;
-                        fill:#0090FF;
                         margin-right: .1rem;
                     }
                 div:first-child {
