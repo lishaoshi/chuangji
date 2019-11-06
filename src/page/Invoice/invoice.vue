@@ -48,7 +48,7 @@
                 <li class="list">
                     <div>
                         <span>发票内容</span> 
-                        <span>商品明细</span>
+                        <input type="text" v-model="invoice_content">
                     </div>
                 </li>
                 <li class="list">
@@ -91,7 +91,7 @@
                 <li class="list">
                     <div>
                         <span>发票内容</span> 
-                        <span>商品明细</span>
+                        <input type="text" v-model="invoice_content2">
                     </div>
                 </li>
                 <li class="list">
@@ -102,13 +102,17 @@
                 </li>
                 <li class="list">
                     <div>
-                        <span>地址</span> 
+                        <span>
+                            <i class="text2">地
+                            </i>址</span> 
                         <input type="text" placeholder="填写地址">
                     </div>
                 </li>
                 <li class="list">
                     <div>
-                        <span>电话</span> 
+                        <span>
+                            <i class="text2">电
+                            </i>话</span> 
                         <input type="text" placeholder="填写电话">
                     </div>
                 </li>
@@ -135,7 +139,9 @@ export default {
     name:'invoice',
     data(){
         return{
-            invoice_type:true
+            invoice_type:true,
+            invoice_content:'商品明细',
+            invoice_content2:'商品明细'
         }
     },
     methods:{
@@ -209,8 +215,16 @@ export default {
             }
             .list {
                 div {
-                    & span:first-child{
-                        margin-right: .49rem;
+                    display: flex;
+                    span {
+                        display: inline-block;
+                    }
+                    span:first-child {
+                        margin-right: .49rem
+                    }
+                    .text2 {
+                        display: inline-block;
+                        letter-spacing: 2em;
                     }
                 }
             }
