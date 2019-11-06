@@ -140,6 +140,16 @@
 			</div>
 
 			<div>
+				<div class="btn" v-if="order_status" @click="delectOrder(data.id)">删除订单</div>
+			</div>
+
+			<div>
+				<div class="btn" v-if="data.order_status!=1 " @click="handleContinuTo(data)">再来一单</div>
+			</div>
+
+
+
+			<div>
 				<div class="btn" v-if="data.order_status=== 0" @click="goComfirm">货到付款</div>
 			</div>
 		</div>
@@ -155,7 +165,7 @@
 
 <script>
 	import Spread from "../Spread";
-	import {sureSendBusinessOrder, sureBusinessOrder} from "@/api/businessOrder.js"
+	import {sureSendBusinessOrder, sureBusinessOrder, againOrder, deleteBusinessOrder} from "@/api/businessOrder.js"
 	import { orderPay } from "@/api/businessOrder"
 	import { mapState } from 'vuex'
     export default {
@@ -189,7 +199,11 @@
 		computed: {
 			...mapState({
 				userType: state=>state.CURRENTUSER.data.user_type
-			})
+			}),
+			order_status() {
+				if(this.data.order_status&&(this.data.order_status!=2 && this.data.order_status!=3)) return true
+				return false
+			}
 		},
 		created() {
 			this.orderId = this.$route.params.id;
@@ -226,12 +240,7 @@
 				this.order_address = data.province + data.city + data.district + data.address
 				this.items = data.items
 				this.items.forEach(item => {
-					if(this.items.length == 1) {
-						this.nums = 1
-						// return
-					} else {
 						this.nums = item.num + this.nums
-					}
 				})
 				this.supplier_name = data.supplier.name
 				this.client_supplier = data.client_supplier.name
@@ -244,6 +253,25 @@
 						this.$router.go(-1)
 				});
 			},
+			  // 再来一单
+            async handleContinuTo(data) {
+                await againOrder(data.id).catch(err=>{
+                    this.$toast('商品已经下架')
+                })
+                this.$router.push('/factory/cart')
+			},
+			// 删除订单
+			delectOrder(id) {
+                this.$messagebox.confirm('确认删除此订单吗？').then(res=>{
+                    if(res=='confirm') {
+                        deleteBusinessOrder(id).then(res=>{
+                            this.$emit('delSccess', this.orderKey)
+							this.$toast('删除成功')
+							this.goBack()
+                        })
+                    }
+                })
+            },
 			// delectOrder: function() {
 			// 	this.$messagebox.confirm("确定删除此订单吗?").then(action => {
 			// 			console.log(action);
@@ -462,6 +490,8 @@
 		width: 100%;
 		bottom: 0px;
 		text-align: right;
+		display: flex;
+		justify-content: flex-end;
 		.btn {
 			display: inline-block;
 			width: 1.8rem;

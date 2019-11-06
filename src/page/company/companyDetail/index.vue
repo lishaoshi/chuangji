@@ -12,6 +12,7 @@
         <div class="introduction">
             <p>公司简介</p>
             <div class="content" :class="{textCenter:!supplierInfo.intro}">
+                
                 {{supplierInfo.intro?supplierInfo.intro:'暂无维护'}}
             </div>
         </div>
@@ -39,6 +40,7 @@
                     </li>
                 </ul>
                 <div :class="{textCenter:!delivery_intro}">
+                    <span v-if="delivery_intro" style="font-weight: bold;">配送说明：</span>
                    {{delivery_intro?delivery_intro:'暂无维护'}}
                 </div>
             </div>

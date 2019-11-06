@@ -385,8 +385,8 @@
         font-size: .3rem;
         font-weight: bold;
         img {
-            width: .3rem;
-            height: .4rem;
+            width: 10px;
+            height: 20px;
         }
         div {
             flex:1;
