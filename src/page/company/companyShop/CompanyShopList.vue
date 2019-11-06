@@ -278,6 +278,7 @@
 
 			// 对获取到的购物车数据进行处理
 			_handleData(data) {
+				// debugger
                 data.forEach((item, index, arr) => {
 					item.isSelfChoose = false
                     item.shopId = this.factoryId
@@ -288,7 +289,7 @@
                         item.num = this.shopCart[item.id].num
 					}
 					arr[index].time = this.$moment.unix(item.valid_time).format("YYYY.MM.DD")
-					arr[index].brandName = item.brand.name
+					arr[index].brandName = item.brand&&item.brand.name || '暂无维护'
                 })
 				this.loading = false
 				// console.log(data)

@@ -28,7 +28,7 @@
                     <img :src="businessInfo.img_cover" alt="">
                 </div>
                 <div class="message">
-                    <div class="message_title">
+                    <div class="message_title" @click="queryCompanyDetail">
                         <p>{{ businessInfo.display_name ||businessInfo.name || ''}}</p>
                     </div>
                     <div class="other">

@@ -6,7 +6,7 @@
                 <img :src="supplierInfo.img_cover" alt="">
             </div>
             <div>
-                <span>{{supplierInfo.display_name}}</span>
+                <span>{{supplierInfo.display_name?supplierInfo.display_name:supplierInfo.name}}</span>
             </div>
         </div>
         <div class="introduction">
@@ -115,28 +115,28 @@ export default {
     computed: {
         // 配送信息
         delivery_intro() {
-            return this.supplierInfo.business_config&&this.supplierInfo.business_config.delivery_intro
+            return this.supplierInfo.business_config&&this.supplierInfo.business_config.delivery_intro || '暂无维护'
         },
 
         // 起送价
         starting_price() {
-            return this.supplierInfo.business_config&&this.supplierInfo.business_config.starting_price
+            return this.supplierInfo.business_config&&this.supplierInfo.business_config.starting_price || '暂无维护'
         },
         // 配送费
         shipping_fee() {
-            return this.supplierInfo.business_config&&this.supplierInfo.business_config.shipping_fee
+            return this.supplierInfo.business_config&&this.supplierInfo.business_config.shipping_fee || '暂无维护'
         },
         // 调配时间
         allocate_time() {
-             return this.supplierInfo.business_config&&this.supplierInfo.business_config.allocate_time
+             return this.supplierInfo.business_config&&this.supplierInfo.business_config.allocate_time || '暂无维护'
         },
         //配送时间
         delivery_time() {
-            return this.supplierInfo.business_config&&this.supplierInfo.business_config.delivery_time
+            return this.supplierInfo.business_config&&this.supplierInfo.business_config.delivery_time || '暂无维护'
         },
         // 联系电弧
         tel() {
-            return this.supplierInfo.tel?this.supplierInfo.tel:this.supplierInfo.user&&this.supplierInfo.user.phone
+            return this.supplierInfo.tel?this.supplierInfo.tel:this.supplierInfo.user&&this.supplierInfo.user.phone || '暂无维护'
         },
         // 网址
         website() {
