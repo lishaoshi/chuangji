@@ -1,6 +1,7 @@
 <template>
     <div id="CompanyShopDetail" class="CompanyShopDetail">
         <!-- <clxsd-head-top :title='`详情`'></clxsd-head-top> -->
+         <span class="collect" @click="CollectionFn()">{{follow_info}}</span>
         <div class="headTop">
              <img class="retreat" src="../../../images/back.png" @click="goBack()">
              <div>
@@ -9,7 +10,7 @@
              </div>
         </div>
      <template v-if="tabIndex==0">
-        <span class="collect" @click="CollectionFn()">{{follow_info}}</span>
+       
         <mt-swipe :auto="4000" style="height: 5.6rem;background: #fff;" v-if="data.imgs!=''">
             <mt-swipe-item v-for="(item,index) in data.imgs"><img :src="item.new" width="100%" height="100%"></mt-swipe-item>
         </mt-swipe>
@@ -252,6 +253,10 @@
                     data.time = this.$moment(time*1000).format("YYYY-MM-DD")
                     // 
                 }
+                let defaultImgObj = {
+                    new: data.cover
+                }
+                data.imgs.length==0?data.imgs.push(defaultImgObj):data.imgs
                 return data
             },
             addToMiniCart() {
@@ -328,7 +333,9 @@
 
 <style lang="scss" scoped>
 .CompanyShopDetail {
-    min-height: 100%;
+    height: 100%;
+    overflow:auto; 
+    margin-bottom: 1rem;
 }
     .detail-box1 {
         height: 1rem;
@@ -383,7 +390,7 @@
         padding: .2rem;
         color: #fff;
         font-size: .3rem;
-        font-weight: bold;
+        // font-weight: bold;
         img {
             width: 10px;
             height: 20px;
@@ -397,6 +404,7 @@
                 padding-bottom: .06rem;
                 &.active {
                     border-bottom: 2px solid #fff;
+                    font-weight: bold;
                 }
             }
         }
@@ -603,7 +611,7 @@
     }
 
     .collect {
-        position: fixed;
+        position: absolute;
         right: .2rem;
         line-height: .55rem;
         color: #fff;
@@ -628,6 +636,7 @@
 
 <style lang="scss">
     .infoDetail {
+        // margin-bottom: 1rem;
         img {
             width: 100%!important;
              height: auto;

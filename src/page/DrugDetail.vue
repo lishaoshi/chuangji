@@ -162,6 +162,11 @@
                 } else {
                     this.info = "上架"
                 }
+                let defaultImgObj = {
+                    new: data.cover
+                }
+                data.imgs.length==0?data.imgs.push(defaultImgObj):data.imgs
+                // console.log(data.imgs)
                 this.status = data.status
                 this.name1 = data.brand.name
                 this.name2 = data.category.name

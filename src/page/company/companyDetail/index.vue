@@ -295,6 +295,9 @@ export default {
                 div:first-child {
                     min-width: 20%;
                 }
+                div:last-child {
+                    text-align: right;
+                }
             }
         }
     }
