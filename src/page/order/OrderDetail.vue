@@ -87,47 +87,50 @@
 		<div class="height1"></div>
 		 <div class="content">
 			<div class="title">发票信息</div>
-			<!-- <div class="noInfo">
+			<div class="noInfo" v-if="!data.invoice_type">
 				<svg>
                     <use xlink:href="#icon-lampBulb"></use>
                 </svg>
 				<span>你没有选择开具发票</span>
-			</div> -->
-            <ul class="order-ul">
+			</div>
+            <ul class="order-ul" v-else>
                 <li>
 					<span>抬头类型：</span>
-					<span>普通发票</span>
+					<span>{{data.invoice_type=="dedicated"?"增值税专用发票":"增值税普通发票"}}</span>
 				</li>
                 <li>
-					<span>发票太托：</span>
-					<span>张无忌</span>
+					<span>发票抬头：</span>
+					<span>{{title}}</span>
 				</li>
                 <li>
 					<span>发票内容：</span>
-					<span>商品明细</span>
+					<span>{{contents}}</span>
 				</li>
                 <li>
 					<span>纳税人号：</span>
-					<span>321323735405323</span>
+					<span>{{taxpayer_no}}</span>
 				</li>
-				 <li>
-					<span >
-						<i class="text2">地</i>址：</span>
-					<span>321323735405323</span>
-				</li>
-				 <li>
-					<span>
-						<i class="text2">电</i>话：</span>
-					<span>321323735405323</span>
-				</li>
-				 <li>
-					<span>开户银行：</span>
-					<span>321323735405323</span>
-				</li>
-				 <li>
-					<span>银行账号：</span>
-					<span>321323735405323</span>
-				</li>
+				<template v-if="data.invoice_type=='dedicated'">
+					<li>
+						<span >
+							<i class="text2">地</i>址：</span>
+						<span>{{address}}</span>
+					</li>
+					<li>
+						<span>
+							<i class="text2">电</i>话：</span>
+						<span>{{telephone}}</span>
+					</li>
+					<li>
+						<span>开户银行：</span>
+						<span>{{bank_name}}</span>
+					</li>
+					<li>
+						<span>银行账号：</span>
+						<span>{{bank_no}}</span>
+					</li>
+				</template>
+				
             </ul>
         </div>
 		<div class="foot-fade"></div>
@@ -175,7 +178,7 @@
 			return {
 			    data:[],
 				orderId: null,
-				order_status_display: '待付款',
+				order_status_display: '待提取',
 				order_num: 0,
 				original_price: null,
 				order_sn: null,
@@ -201,8 +204,32 @@
 				userType: state=>state.CURRENTUSER.data.user_type
 			}),
 			order_status() {
-				if(this.data.order_status&&(this.data.order_status!=2 && this.data.order_status!=3)) return true
+				if(this.data.order_status&&(this.data.order_status!=2 && this.data.order_status!=3 && this.data.order_status!=1)) return true
 				return false
+			},
+			// 发票抬头
+			title() {
+				return this.isObject(this.data.invoice)&&this.data.invoice.title
+			},
+			// 发票明细
+			contents() {
+				return this.isObject(this.data.invoice)&&this.data.invoice.contents
+			},
+			// 纳税人号
+			taxpayer_no() {
+				return this.isObject(this.data.invoice)&&this.data.invoice.taxpayer_no
+			},
+			address() {
+				return this.isObject(this.data.invoice)&&this.data.invoice.address
+			},
+			bank_name() {
+				return this.isObject(this.data.invoice)&&this.data.invoice.bank_name
+			},
+			bank_no() {
+				return this.isObject(this.data.invoice)&&this.data.invoice.bank_no
+			},
+			telephone() {
+				return this.isObject(this.data.invoice)&&this.data.invoice.telephone
 			}
 		},
 		created() {
@@ -229,9 +256,18 @@
                     }
                 })
 			},
+
+			// 判断对象是否存在，并且不等于{}、null
+			isObject(obj) {
+				return obj&&obj.toString()!="{}"
+			},
 			_handleData(data) {
                     if(data.order_status === 0)this.order_status_display = '待付款'
-                    if(data.order_status === 1)this.order_status_display = '待提取'
+                    if(data.order_status === 1&&data.diff_seconds>0){
+						this.order_status_display = '待提取' 
+					} else if(data.order_status === 1&&data.diff_seconds<=0) {
+						data.order_status = 6
+					}
                     if(data.order_status === 2 &&  this.userType == 2)this.order_status_display = '待发货'
 					if((data.order_status === 3 || data.order_status === 2) &&  this.userType == 3)this.order_status_display = '待收货'
 					if(data.order_status === 4)this.order_status_display = '已收货'
@@ -344,6 +380,7 @@
 			svg {
 				width: .4rem;
 				height: .4rem;
+				margin-right: .14rem;
 			}
 		}
 		.text2 {
@@ -486,7 +523,7 @@
 		position: fixed;
 		background: #fff;
 		border-top: 1px solid #f1f1f1;
-		padding: .2rem;
+		// padding: .2rem;
 		width: 100%;
 		bottom: 0px;
 		text-align: right;
@@ -494,6 +531,8 @@
 		justify-content: flex-end;
 		.btn {
 			display: inline-block;
+			margin: .2rem;
+			margin-left: 0;
 			width: 1.8rem;
 			height: .7rem;
 			line-height: .7rem;
@@ -502,7 +541,6 @@
 			border-radius: .7rem;
 			text-align: center;
 			font-size: .26rem;
-			margin-left: .2rem;
 		}
 	}
     .company-detail {

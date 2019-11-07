@@ -1,9 +1,9 @@
 <template>
         <div id="PaySuccess">
             <mt-header title="申请通知">
-                <router-link to="/UnautMy-us" slot="left">
+                <div slot="left"  @click="handleBack">
                     <mt-button icon="back"></mt-button>
-                </router-link>
+                </div>
             </mt-header>
             <svg class="icon">
                 <use xlink:href="#icon-IsCheckedShop-open"/>
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
     export default {
         name: "PaySuccess",
         data(){
@@ -27,6 +28,11 @@
                 name:'',
                 phone:''
             }
+        },
+        computed: {
+            ...mapState({
+                userType: state => state.CURRENTUSER.data.user_type
+            })
         },
         methods:{
             async initData(){
@@ -36,6 +42,14 @@
                     this.phone = data.user.phone;
                 }
             },
+            // 点击返回按钮
+            handleBack() {
+                if(this.userType!=4) {
+                    this.$router.push('/role-extension')
+                } else {
+                    this.$router.push('/UnautMy-us')
+                }
+            }
         },
         created(){
             this.initData();

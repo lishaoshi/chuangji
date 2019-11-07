@@ -51,7 +51,7 @@
       </div>
       <div style="margin-top: .2rem">
         <clxsd-cell title="通道收益" :to="'/channel-profit'" is-link icon="promoter_pass" />
-        <clxsd-cell title="广告收益" :to="'/develop'" is-link icon="promoter_ad" />
+        <!-- <clxsd-cell title="广告收益" :to="'/develop'" is-link icon="promoter_ad" /> -->
       </div>
       <div style="margin-top: .2rem">
         <clxsd-cell title="消息通知" :to="'/develop'" is-link icon="my-message" />
@@ -113,7 +113,7 @@ export default {
             currentInfo.phone ||
             "丢失信息",
           userTel: currentInfo.phone || "丢失信息",
-          companyName: currentInfo.shop_supplier.display_name,
+          companyName: currentInfo.shop_supplier&&currentInfo.shop_supplier.display_name,
           //role: currentInfo
           user_type: currentInfo.user_type,
           sub_type: currentInfo.sub_type,

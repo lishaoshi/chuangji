@@ -9,13 +9,13 @@
            <div class="value_incoice">
                <span>增值税发票</span>
            </div>
-           <div class="save">
+           <div class="save" @click="handleSaveInvoice">
                <span>保存</span>
            </div>
         </div>
 
         <main>
-            <ul v-if="invoice_type">
+            <ul>
                 <li class="header_type">
                     <div>
                         <span>抬头类型</span> 
@@ -26,7 +26,7 @@
                             <use xlink:href="#icon-IsCheckedShop-close"/>
                         </svg>
                         <span>
-                            普通发票
+                            增值税普通发票
                         </span>
                         <svg v-if="invoice_type" class="list_type" @click="tabSvg2()">
                             <use xlink:href="#icon-IsCheckedShop-close"/>
@@ -35,69 +35,49 @@
                             <use xlink:href="#icon-promote-pay-chose-1"/>
                         </svg>
                         <span>
-                            专用发票
+                            增值税专用发票
                         </span>
                     </div>
                 </li>
+            </ul>
+            <ul v-if="invoice_type">
+                
                 <li class="list">
                     <div>
                         <span>发票抬头</span> 
-                        <input type="text" placeholder="填写发票抬头">
+                        <input type="text" v-model="params.title" placeholder="填写发票抬头">
                     </div>
                 </li>
                 <li class="list">
                     <div>
                         <span>发票内容</span> 
-                        <input type="text" v-model="invoice_content">
+                        <input type="text" v-model="params.contents"  placeholder="填写发票内容">
                     </div>
                 </li>
                 <li class="list">
                     <div>
                         <span>纳税人号</span> 
-                        <input type="text" placeholder="填写纳税人号">
+                        <input type="text" v-model="params.taxpayer_no" placeholder="填写纳税人号">
                     </div>
                 </li>
             </ul>
             <ul v-else>
-                <li class="header_type">
-                    <div>
-                        <span>抬头类型</span> 
-                        <svg v-if="invoice_type" class="list_type" @click="tabSvg1()">
-                            <use xlink:href="#icon-promote-pay-chose-1"/>
-                        </svg>
-                        <svg v-else class="list_type" @click="tabSvg1()">
-                            <use xlink:href="#icon-IsCheckedShop-close"/>
-                        </svg>
-                        <span>
-                            普通发票
-                        </span>
-                        <svg v-if="invoice_type" class="list_type" @click="tabSvg2()">
-                            <use xlink:href="#icon-IsCheckedShop-close"/>
-                        </svg>
-                        <svg v-else class="list_type" @click="tabSvg2()">
-                            <use xlink:href="#icon-promote-pay-chose-1"/>
-                        </svg>
-                        <span>
-                            专用发票
-                        </span>
-                    </div>
-                </li>
                 <li class="list">
                     <div>
                         <span>发票抬头</span> 
-                        <input type="text" placeholder="填写发票抬头">
+                        <input type="text" v-model="params.title" placeholder="填写发票抬头">
                     </div>
                 </li>
                 <li class="list">
                     <div>
                         <span>发票内容</span> 
-                        <input type="text" v-model="invoice_content2">
+                        <input type="text" placeholder="填写发票内容" v-model="params.contents">
                     </div>
                 </li>
                 <li class="list">
                     <div>
                         <span>纳税人号</span> 
-                        <input type="text" placeholder="填写纳税人号">
+                        <input type="text" v-model="params.taxpayer_no" placeholder="填写纳税人号">
                     </div>
                 </li>
                 <li class="list">
@@ -105,7 +85,7 @@
                         <span>
                             <i class="text2">地
                             </i>址</span> 
-                        <input type="text" placeholder="填写地址">
+                        <input type="text" v-model="params.address" placeholder="填写地址">
                     </div>
                 </li>
                 <li class="list">
@@ -113,19 +93,19 @@
                         <span>
                             <i class="text2">电
                             </i>话</span> 
-                        <input type="text" placeholder="填写电话">
+                        <input type="text" v-model="params.telephone" placeholder="填写电话">
                     </div>
                 </li>
                 <li class="list">
                     <div>
                         <span>开户银行</span> 
-                        <input type="text" placeholder="填写开户银行">
+                        <input type="text" v-model="params.bank_name" placeholder="填写开户银行">
                     </div>
                 </li>
                 <li class="list">
                     <div>
                         <span>银行账号</span> 
-                        <input type="text" placeholder="填写银行账号">
+                        <input type="text" v-model="params.bank_no" placeholder="填写银行账号">
                     </div>
                 </li>
             </ul>
@@ -135,14 +115,31 @@
 
 
 <script>
+import { mapState } from 'vuex'
+import { saveUpdateInvoices, getInvoices } from '@/api/invoices'
 export default {
     name:'invoice',
     data(){
         return{
             invoice_type:true,
-            invoice_content:'商品明细',
-            invoice_content2:'商品明细'
+            params: {
+                title: '',
+                contents: '商品明细',
+                taxpayer_no: '',
+                address: '',
+                telephone: '',
+                bank_name: '',
+                bank_no: ''
+            }
         }
+    },
+    computed: {
+        ...mapState({
+            userId: state=>state.CURRENTUSER.data.id
+        })
+    },
+    created() {
+        this._getInvoices()
     },
     methods:{
         // 返回
@@ -151,9 +148,81 @@ export default {
         },
         tabSvg1(){
             this.invoice_type = true
+            this.backData()
+            this._getInvoices()
         },
         tabSvg2(){
             this.invoice_type = false
+            this.backData()
+            this._getInvoices()
+        },
+
+        /**
+         * params恢复默认值函数
+         */
+        backData() {
+            Object.keys(this.params).forEach((item, index)=>{
+                if(item==='contents') {
+                    this.params[item] = '商品明细'
+                } else {
+                    this.params[item] = ''
+                }
+            })
+        },
+        /**
+         * 获取发票详情
+         */
+        _getInvoices() {
+            let params = {
+                type: this.invoice_type?'normal':'dedicated',
+            }
+            getInvoices(params).then(res=>{
+                // debugger
+                let data = res.data
+                this.params.title = data.title
+                this.params.contents = data.contents
+                this.params.taxpayer_no = data.taxpayer_no
+                this.params.telephone = data.telephone?data.telephone:''
+                this.params.bank_name = data.bank_name?data.bank_name:''
+                this.params.address = data.address?data.address:''
+                this.params.bank_no = data.bank_no?data.bank_no:''
+            })
+        },
+        /**
+         * 点击保存发票信息
+         */
+        async handleSaveInvoice() {
+            if(!this.params.title) {
+                this.$toast('请填写抬头内容')
+                return false
+            } else if(!this.params.contents) {
+                this.$toast('请填写发票内容')
+                return false
+            } else if(!this.params.taxpayer_no) {
+                this.$toast('请填写纳税人号')
+                return false
+            }
+            let params = {
+                type: this.invoice_type?'normal':'dedicated',
+                user_id: this.userId,
+                title: this.params.title,
+                contents: this.params.contents,
+                taxpayer_no: this.params.taxpayer_no,
+                address: this.params.address,
+                telephone: this.params.telephone,
+                bank_name: this.params.bank_name,
+                bank_no: this.params.bank_no
+            }
+            
+           await saveUpdateInvoices(params).then(res=>{
+               this.$toast('保存成功')
+               this.$router.go(-1)
+           }).catch(err=>{
+               let title = err.response.data.message
+               this.$toast(title)
+           })
+
+            // console.log(params)
         }
     }
 }

@@ -56,7 +56,7 @@
             </div>
         </div>
         <div v-else>
-            <div v-if="allEntities&&allEntities.length > 0">
+            <div v-if="allEntities&&allEntities.length > 0" style="padding-bottom: .1rem;">
                 <CustomerCell v-for="(entity, index) in allEntities" :key="`en-${index}`" :data="entity"></CustomerCell>
             </div>
             <EmptyList v-else></EmptyList>

@@ -19,7 +19,7 @@
                 <span style="padding-left: 5px">暂时没有消息</span>
             </div>
             <UnSureNav></UnSureNav>
-            <div v-if="entities&&entities.length">
+            <div v-if="entities&&entities.length" style="padding-bottom: .1rem;">
                 <CustomerCell v-for="(entity, index) in entities" :key="`en-${index}`" :data="entity"></CustomerCell>
             </div>
             <EmptyList v-else></EmptyList>

@@ -93,7 +93,7 @@
 .container {
     display: flex;
     flex-direction: column;
-    padding-bottom: 1rem;
+    padding-bottom: 1.4rem;
     height: 100%;
     .mint-tab-container {
         margin-top: .88rem;

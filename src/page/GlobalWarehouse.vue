@@ -36,7 +36,7 @@
                         <div class="company-name" @click="entryBusinessShop(item)">
                             <div>
                                 <img :src="item.img_cover" alt=" ">
-                                <p>{{item.display_name || item.name }}</p>
+                                <div class="companyName">{{item.display_name || item.name }}</div>
                             </div>
                             
                             <div>{{item.business_config?item.business_config.delivery_time:'0'}} 小时</div>
@@ -500,6 +500,8 @@
         display: flex;
         padding: 0 .2rem;
         -webkit-box-align: center;
+        width: 100%;
+        overflow: hidden;
         -moz-box-align: center;
         -ms-flex-align: center;
         align-items: center;
@@ -509,8 +511,9 @@
         div:first-child {
             display: flex;
             align-items: center;
+            flex: 1;
+            overflow: hidden;
         }
-
         img {
             width: .64rem;
             height: .64rem;
@@ -519,8 +522,7 @@
             // margin: .28rem .2rem;
         }
 
-        p {
-            width: 4.8rem;
+        .companyName {
             font-size: 0.32rem;
             color: rgb(51, 51, 51);
             font-weight: bold;

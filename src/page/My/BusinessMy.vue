@@ -142,7 +142,7 @@
 				'UPDATAroleExtension'
 			]),
 			async to(path, flag=false) {
-                if(flag) {
+                if(!flag) {
                     if(JSON.stringify(this.userInfo.shop_supplier)=="{}") {
                         await this.$messagebox.confirm('',{
                             title: '提示',

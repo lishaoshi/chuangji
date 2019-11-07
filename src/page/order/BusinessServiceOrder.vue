@@ -317,7 +317,7 @@
     position: absolute;
     left: 0;
     right: 0;
-    top: 2.88rem;
+    top: 2.48rem;
     bottom: 1.1rem;
     overflow: auto;
 }

@@ -147,7 +147,7 @@
             handleOrderItems(orders){
                 const state = this.state;
                 //-1全部，0：待付款,1：待提取，3：待收货，4已收货
-                orders.forEach((item,index) =>{
+                orders.forEach((item,index, arr) =>{
                     if(item.order_status==0){
                         if(state == 0 && item.order_status == 0 && item.diff_seconds<=0){
                             item.splice(index,1)

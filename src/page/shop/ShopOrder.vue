@@ -120,10 +120,10 @@
                     invoiceName: '不开发票',
                     type: 0
                 }, {
-                    invoiceName: '普通发票',
+                    invoiceName: '增值税普通发票',
                     type: 1
                 }, {
-                    invoiceName: '专用发票',
+                    invoiceName: '增值税专用发票',
                     type: 2
                 }],
                 currentInvoice: 0
@@ -278,7 +278,8 @@
                 ids = JSON.stringify(ids)
                 const params = {
                     address_id: this.choosedAddress.id,
-                    ids
+                    ids,
+                    invoice_type: this.currentInvoice==0?'':this.currentInvoice==1?'normal':'dedicated'
                 }
                 
                 confirmOrder(params).then(res=>{
@@ -347,8 +348,7 @@
     }
     .chooseInvoice {
         background: #fff;
-        margin: .2rem .24rem;
-        border-radius: .16rem;
+        margin-top: .2rem;
         padding:0 .32rem;
         .top {
             display: flex;
