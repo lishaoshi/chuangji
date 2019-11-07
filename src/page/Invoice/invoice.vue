@@ -17,26 +17,44 @@
         <main>
             <ul>
                 <li class="header_type">
-                    <div>
+                    <div class="topType">
                         <span>抬头类型</span> 
-                        <svg v-if="invoice_type" class="list_type" @click="tabSvg1()">
-                            <use xlink:href="#icon-promote-pay-chose-1"/>
-                        </svg>
-                        <svg v-else class="list_type" @click="tabSvg1()">
-                            <use xlink:href="#icon-IsCheckedShop-close"/>
-                        </svg>
-                        <span>
-                            增值税普通发票
-                        </span>
-                        <svg v-if="invoice_type" class="list_type" @click="tabSvg2()">
-                            <use xlink:href="#icon-IsCheckedShop-close"/>
-                        </svg>
-                        <svg v-else class="list_type" @click="tabSvg2()">
-                            <use xlink:href="#icon-promote-pay-chose-1"/>
-                        </svg>
-                        <span>
-                            增值税专用发票
-                        </span>
+                        <div>
+                            <div class="iconItem">
+                                <div v-if="invoice_type" class="svgBox">
+                                    <svg  class="list_type svg1" @click="tabSvg1()">
+                                        <use xlink:href="#icon-promote-pay-chose-1"/>
+                                    </svg>
+                                </div>
+                                
+                                <div v-else class="svgBox">
+                                    <svg  class="list_type svg2" @click="tabSvg1()">
+                                        <use xlink:href="#icon-IsCheckedShop-close"/>
+                                    </svg>
+                                </div>
+                                
+                                <div class="textBox">
+                                    增值税普通发票
+                                </div>
+                            </div>
+                           <div class="iconItem">
+                               <div v-if="invoice_type" class="svgBox">
+                                    <svg class="list_type svg2" @click="tabSvg2()">
+                                        <use xlink:href="#icon-IsCheckedShop-close"/>
+                                    </svg>
+                                </div>
+                                <div v-else class="svgBox">
+                                    <svg class="list_type svg1" @click="tabSvg2()">
+                                        <use xlink:href="#icon-promote-pay-chose-1"/>
+                                    </svg>
+                                </div>
+                                <div class="textBox">
+                                    增值税专用发票
+                                </div>
+                           </div>
+                            
+                        </div>
+                       
                     </div>
                 </li>
             </ul>
@@ -192,16 +210,46 @@ export default {
          * 点击保存发票信息
          */
         async handleSaveInvoice() {
-            if(!this.params.title) {
-                this.$toast('请填写抬头内容')
-                return false
-            } else if(!this.params.contents) {
-                this.$toast('请填写发票内容')
-                return false
-            } else if(!this.params.taxpayer_no) {
-                this.$toast('请填写纳税人号')
-                return false
+            if(this.invoice_type=='normal') {
+                if(!this.params.title) {
+                    this.$toast('请填写发票抬头内容')
+                    return false
+                } else if(!this.params.contents) {
+                    this.$toast('请填写发票内容')
+                    return false
+                } else if(!this.params.taxpayer_no) {
+                    this.$toast('请填写纳税人号')
+                    return false
+                }
+            } else {
+                if(!this.params.title) {
+                    this.$toast('请填写发票抬头内容')
+                    return false
+                } else if(!this.params.contents) {
+                    this.$toast('请填写发票内容')
+                    return false
+                } else if(!this.params.taxpayer_no) {
+                    this.$toast('请填写纳税人号')
+                    return false
+                }
+                else if(!this.params.address) {
+                    this.$toast('请填写地址')
+                    return false
+                }
+                else if(!this.params.telephone) {
+                    this.$toast('请填写手机号')
+                    return false
+                }
+                else if(!this.params.bank_name) {
+                    this.$toast('请填写开户银行')
+                    return false
+                }
+                else if(!this.params.bank_no) {
+                    this.$toast('请填写银行卡号')
+                    return false
+                }
             }
+          
             let params = {
                 type: this.invoice_type?'normal':'dedicated',
                 user_id: this.userId,
@@ -263,28 +311,67 @@ export default {
                     color: #666666;
                     font-size: .28rem;
                 }
-                svg {
+                .svg1 {
+                    width:.32rem;
+                    height:.32rem;
+                    // margin-right: .2rem;
+                    // margin-right: .19rem;
+                }
+                .svg2 {
                     width:.36rem;
                     height:.36rem;
-                    margin-right: .19rem;
+                    // margin-right: .2rem;
+                    
                 }
             }
             li {
+                display: flex;
+                align-items: center;
                 padding:  0 .24rem;
                 // align-items: center;
                 height:1.20rem;
                 background:rgba(255,255,255,1);     
-                div {
-                    flex-grow: 1;
-                    height: 100%;
+                // div {
+                //     flex-grow: 1;
+                //     height: 100%;
+                //     display: flex;
+                //     align-items: center;
+                //     border-bottom: .01rem solid rgba(230,230,230,1);
+                // }
+                .topType {
                     display: flex;
-                    align-items: center;
-                    border-bottom: .01rem solid rgba(230,230,230,1);
+                    align-items: flex-start;
+                    
+                    .svgBox {
+                        width: .36rem;
+                        height: .36rem;
+                        margin-right: .12rem;
+                        text-align: center;
+                    }
+                    & > div {
+                        display: flex;
+                        flex-direction: column;
+                        // align-items: flex-start;
+                        
+                        &> .iconItem:nth-of-type(2) {
+                            margin-top: .1rem;
+                        }
+                        .iconItem {
+                            display: flex;
+                            align-items: center;
+                            // flex-direction: column;
+                            // // &
+                            // margin-right: .6rem;
+                        }
+                    }
                 }
             }
             .list {
+                display: flex;
+                align-items: center;
                 div {
                     display: flex;
+                    align-items: center;
                     span {
                         display: inline-block;
                     }
