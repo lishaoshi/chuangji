@@ -20,7 +20,7 @@
         <div class="headBox">
             <img src="@/images/successOrder.png" alt="">
             <div>
-                <span>等待买家支付</span>
+                <span>等待卖家提取</span>
                 <span>剩余{{time}}分钟自动关闭</span>
             </div>
         </div>
