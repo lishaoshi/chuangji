@@ -210,43 +210,39 @@ export default {
          * 点击保存发票信息
          */
         async handleSaveInvoice() {
+            
+           
             if(this.invoice_type) {
-                if(!this.params.title) {
-                    this.$toast('请填写发票抬头内容')
-                    return false
-                } else if(!this.params.contents) {
-                    this.$toast('请填写发票内容')
-                    return false
-                } else if(!this.params.taxpayer_no) {
-                    this.$toast('请填写纳税人号')
-                    return false
+                let message = {
+                    title: '请填写发票抬头',
+                    contents: '请填写发票内容',
+                    taxpayer_no: '请填写纳税人号',
+                }
+                let keysList = Object.keys(message)
+                for(let i=0;i< keysList.length; i++) {
+                    let item = keysList[i]
+                    if(!this.params[item]) {
+                        this.$toast(message[item])
+                        return false
+                    }
                 }
             } else {
-                if(!this.params.title) {
-                    this.$toast('请填写发票抬头内容')
-                    return false
-                } else if(!this.params.contents) {
-                    this.$toast('请填写发票内容')
-                    return false
-                } else if(!this.params.taxpayer_no) {
-                    this.$toast('请填写纳税人号')
-                    return false
+                let message = {
+                    title: '请填写发票抬头',
+                    contents: '请填写发票内容',
+                    taxpayer_no: '请填写纳税人号',
+                    address: '请填写地址',
+                    telephone: '请填写手机号',
+                    bank_name: '请填写开户银行',
+                    bank_no: '请填写银行卡号',
                 }
-                else if(!this.params.address) {
-                    this.$toast('请填写地址')
-                    return false
-                }
-                else if(!this.params.telephone) {
-                    this.$toast('请填写手机号')
-                    return false
-                }
-                else if(!this.params.bank_name) {
-                    this.$toast('请填写开户银行')
-                    return false
-                }
-                else if(!this.params.bank_no) {
-                    this.$toast('请填写银行卡号')
-                    return false
+              let keysList = Object.keys(message)
+                for(let i=0;i< keysList.length; i++) {
+                    let item = keysList[i]
+                    if(!this.params[item]) {
+                        this.$toast(message[item])
+                        return false
+                    }
                 }
             }
           

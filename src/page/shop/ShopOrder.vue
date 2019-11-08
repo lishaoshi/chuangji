@@ -182,7 +182,7 @@
             // 选择发票
             handleChooseInvoice(item) {
                 this.currentInvoice = item.type
-                if(!this.invoiceList || !this.invoiceList[this.currentInvoice-1]) {
+                if(this.currentInvoice>0&&(!this.invoiceList || !this.invoiceList[this.currentInvoice-1])) {
                     this.$messagebox.confirm('',{
                         title: '提示',
                         message: `发票信息填写不完整`,
@@ -287,7 +287,7 @@
                     this.$messagebox.alert('请添加收货地址！')
                     return
                 }
-                if(!this.invoiceList || !this.invoiceList[this.currentInvoice-1]) {
+                if(this.currentInvoice>0&&(!this.invoiceList || !this.invoiceList[this.currentInvoice-1])) {
                     this.$messagebox.confirm('',{
                         title: '提示',
                         message: `发票信息填写不完整`,
