@@ -111,7 +111,7 @@
                         <span>
                             <i class="text2">电
                             </i>话</span> 
-                        <input type="text" v-model="params.telephone" placeholder="填写电话">
+                        <input type="number" v-model="params.telephone" placeholder="填写电话">
                     </div>
                 </li>
                 <li class="list">
@@ -123,7 +123,7 @@
                 <li class="list">
                     <div>
                         <span>银行账号</span> 
-                        <input type="text" v-model="params.bank_no" placeholder="填写银行账号">
+                        <input type="number" v-model="params.bank_no" placeholder="填写银行账号">
                     </div>
                 </li>
             </ul>
@@ -264,7 +264,6 @@ export default {
             
            await saveUpdateInvoices(params).then(res=>{
                this.$toast('保存成功')
-               this.$router.go(-1)
            }).catch(err=>{
                let title = err.response.data.message
                this.$toast(title)
