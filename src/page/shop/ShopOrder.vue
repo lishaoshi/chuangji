@@ -108,6 +108,7 @@
     import {getAddressList} from '@/api/address'
     import SuccessOrder from './OrderSuccess'
     import { confirmOrder } from '@/api/shopCar'
+    import { getInvoices } from '@/api/invoices'
 
     export default {
         name: "ShopOrder",
@@ -126,7 +127,8 @@
                     invoiceName: '增值税专用发票',
                     type: 2
                 }],
-                currentInvoice: 0
+                currentInvoice: 0,
+                invoiceList: []
             }
         },
         components:{
@@ -173,17 +175,37 @@
                         this.initBusinessData(confirmOrderData)
                         break
                 }
+                this._getInvoicse()
 
                 this.initAddress()
             },
             // 选择发票
             handleChooseInvoice(item) {
                 this.currentInvoice = item.type
+                if(!this.invoiceList || !this.invoiceList[this.currentInvoice-1]) {
+                    this.$messagebox.confirm('',{
+                        title: '提示',
+                        message: `发票信息填写不完整`,
+                        confirmButtonText: '去填写'
+                    }).then(res=>{
+                        if(res=='confirm') {
+                          this.$router.push('/invoice')
+                        }
+                    })
+                }
             },
 
             // 前往发票页
             handleInvoice() {
                 this.$router.push('/invoice')
+            },
+
+            // 获取已保存的发票列表
+            _getInvoicse() {
+                getInvoices({type:''}).then(res=>{
+                    // debugger
+                    this.invoiceList = res.data
+                })
             },
             //获取地址信息，第一个地址为默认选择地址
             async initAddress() {
@@ -264,6 +286,17 @@
                 if (!this.choosedAddress) {
                     this.$messagebox.alert('请添加收货地址！')
                     return
+                }
+                if(!this.invoiceList || !this.invoiceList[this.currentInvoice-1]) {
+                    this.$messagebox.confirm('',{
+                        title: '提示',
+                        message: `发票信息填写不完整`,
+                        confirmButtonText: '去填写'
+                    }).then(res=>{
+                        if(res=='confirm') {
+                          this.$router.push('/invoice')
+                        }
+                    })
                 }
 
                 
@@ -365,9 +398,9 @@
             margin-top: .48rem;
             padding-bottom: .32rem;
             .check {
-                height: 0.35rem;
-                width: 0.35rem;
-                margin-right: .18rem;
+                height: 0.34rem;
+                width: 0.34rem;
+                margin-right: .14rem;
             }
             div {
                 display: inline-flex;

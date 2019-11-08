@@ -197,20 +197,20 @@ export default {
             getInvoices(params).then(res=>{
                 // debugger
                 let data = res.data
-                this.params.title = data.title
-                this.params.contents = data.contents
-                this.params.taxpayer_no = data.taxpayer_no
-                this.params.telephone = data.telephone?data.telephone:''
-                this.params.bank_name = data.bank_name?data.bank_name:''
-                this.params.address = data.address?data.address:''
-                this.params.bank_no = data.bank_no?data.bank_no:''
+                this.params.title = data[0].title
+                this.params.contents = data[0].contents
+                this.params.taxpayer_no = data[0].taxpayer_no
+                this.params.telephone = data[0].telephone?data[0].telephone:''
+                this.params.bank_name = data[0].bank_name?data[0].bank_name:''
+                this.params.address = data[0].address?data[0].address:''
+                this.params.bank_no = data[0].bank_no?data[0].bank_no:''
             })
         },
         /**
          * 点击保存发票信息
          */
         async handleSaveInvoice() {
-            if(this.invoice_type=='normal') {
+            if(this.invoice_type) {
                 if(!this.params.title) {
                     this.$toast('请填写发票抬头内容')
                     return false
@@ -372,6 +372,7 @@ export default {
                 div {
                     display: flex;
                     align-items: center;
+                    width: 100%;
                     span {
                         display: inline-block;
                     }
@@ -381,6 +382,9 @@ export default {
                     .text2 {
                         display: inline-block;
                         letter-spacing: 2em;
+                    }
+                    input {
+                        flex: 1;
                     }
                 }
             }
