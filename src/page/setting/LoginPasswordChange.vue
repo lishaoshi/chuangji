@@ -30,9 +30,9 @@
             </button>
         </div>
         <div v-else>
-                <p class="tel">手机号：<span>{{phone | filter_mobile}}</span></p>
+                <div class="tel"><label> 手机号</label><div>{{phone | filter_mobile}}</div></div>
                 <div class="m-form-row m-main" style="padding-left: .2rem">
-                    <label for="code">验证码</label>
+                    <label for="code" class="text3">验证码</label>
                     <div class="m-input">
                         <input id="code" v-model="code"  type="number"  autocomplete="off" placeholder="请输入验证码" @input="handleCode">
                     </div>
@@ -40,7 +40,7 @@
                 </div>
                 <main>
                     <div class="m-form-row m-main">
-                        <label for="new_password">新密码</label>
+                        <label for="new_password" class="text3">新密码</label>
                         <div class="m-input">
                             <input id="new_password" v-model="newPassword"  type="password"  autocomplete="off" placeholder="请输入新密码">
                         </div>
@@ -100,7 +100,7 @@
             },
             disabledRes() {
                 return(
-                    this.rePassword.length < 6  || this.newPassword.length < 6 || this.rePassword != this.newPassword
+                    this.rePassword.length < 6  || this.newPassword.length < 6
                 )
             },
             knowTitle(){
@@ -239,7 +239,7 @@
                 // if ()
                 // 重复新密码
                 if(this.rePassword !== this.newPassword) {
-                    this.$toast("密码确认不一致，请重新输入")
+                    this.$toast("密码确认不一致")
                     return;
                 }
 
@@ -293,6 +293,16 @@
         font-size: 14px;
         height: 1rem;
         padding: 0px;
+        .m-input {
+            padding: 0;
+        }
+        label {
+            min-width: 20%;
+        }
+        .text3 {
+            letter-spacing: .5em;
+            // margin-right: -.5em;
+        }
     }
     label {
         width: 56px;
@@ -332,11 +342,19 @@
         border-bottom: 1px solid #f1f1f1;
         line-height: 1rem;
         padding: 0 .2rem;
+        padding-right: 0;
         color: #666;
         font-size: .26rem;
+        display: flex;
+        
         span {
             color: #333;
             font-size: .32rem;
+        }
+        label {
+            letter-spacing: .5em;
+            min-width: 20%;
+            font-size: 14px;
         }
     }
     .code-text {
