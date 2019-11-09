@@ -220,7 +220,6 @@
                                 }
                             })
                         }
-
                         this.CHOOSE_ADDRESS({address: defaultAddress})
                     }
                 }
@@ -430,7 +429,7 @@
 
                 .company-name {
                     color: #333;
-                    background: url(../../images/my/right_cowry.png) no-repeat right;
+                    // background: url(../../images/my/right_cowry.png) no-repeat right;
                     padding-left: 4px;
                     background-size: 6px 9px;
                     padding-right: 15px;

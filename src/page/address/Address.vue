@@ -73,7 +73,7 @@
             this._initData();
         },
         methods: {
-            ...mapMutations(['CHOOSE_ADDRESS']),
+            ...mapMutations(['CHOOSE_ADDRESS', 'DEL_CHOOSED_ADDRESS']),
             async _initData() {
                 // debugger
                 let {data} = await getAddressList()
@@ -85,7 +85,7 @@
                         })
                     }
                     this.addressList = data
-                    if(this.choose) {
+                    if(this.choose&&this.choosedAddress) {
                         this.addressList.forEach((item, index, arr)=>{
                             if(item.id == this.choosedAddress.id) {
                                 arr[index].checked = true
@@ -103,11 +103,17 @@
             async deleteAddressFn(index, item) {
                 this.$messagebox.confirm("确定要删除吗?").then(action => {
                     if (action === 'confirm') {
-                        deleteAddress(item.id)
-                        this.addressList.splice(index, 1)
+                        deleteAddress(item.id).then(res=>{
+                            // this.DELETE_ADDRESS(item.id)
+                            this.addressList.splice(index, 1)
+                            if(item.id == this.choosedAddress.id) {
+                                this.$lstore.removeData('CHOOSED_ADDRESS')
+                                this.DEL_CHOOSED_ADDRESS()
+                            }
+                        })
+                        
                     }
                 }).catch(err => err);
-
             },
             chooseAddress(i) {
                 this.addressList.forEach((address, index) => {

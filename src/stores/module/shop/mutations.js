@@ -22,6 +22,15 @@ export default {
     	})
     	state.ADDRESS_LIST = addressList
     },
+    /**
+     *删除选择地址
+     *
+     * @param {*} state
+     * @param {*} id
+     */
+    DEL_CHOOSED_ADDRESS(state) {
+        state.CHOOSED_ADDRESS = null
+    },
     UPDATE_ADDRESS(state,id){
     	state.ADDRESS_LIST = addressList
     },
