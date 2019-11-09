@@ -18,8 +18,9 @@
 				<clxsd-carts-entry :minGoods="minGoods" :addGoods="addGoods" :productCheckchange="productCheckchange" :pid="index" :sid="sid" :key="index" v-for="(value,index) in data.items" :data="value"></clxsd-carts-entry>
 			</ul>
 			<div class="distributionBox">
-				<span>起送价:{{data.suppliersPrices.starting_price}}</span>
-				<span>配送费:{{data.suppliersPrices.shipping_fee}}</span>
+				<span v-if="isHasPrice">您已享受免费配送服务</span>
+				<span v-else>采购额不足 {{data.suppliersPrices.starting_price}} 元，需要支付 {{data.suppliersPrices.shipping_fee}} 元配送费</span>
+				<!-- :{{data.suppliersPrices.starting_price}} -->
 			</div>
 		</div>
 	</div>
@@ -46,18 +47,25 @@
 				}
 			}
 		},
-		filters: {
+		computed: {
 			//进行店铺价钱总计的计算的操作
-			__shopCount(data) {
+			__shopCount() {
 				let shopCount = 0;
-				data.items.forEach((product, inp) => {
+				this.data.items.forEach((product, inp) => {
 					if(product.checked) {
-						shopCount += product.sale_price * product.qua;
+						shopCount += product.sale_price * product.num;
 					}
 				})
 				return shopCount;
+			},
+			isHasPrice() {
+				if(this.__shopCount > this.data.suppliersPrices.starting_price) {
+					return true
+				} else {
+					return false
+				}
 			}
-		}
+		},
 	}
 </script>
 
