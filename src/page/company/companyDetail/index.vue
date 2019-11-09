@@ -23,7 +23,7 @@
             <div class="content">
                 <ul>
                     <li>
-                        <div>起送价(元)</div>
+                        <div>起送金额(元)</div>
                         <div>{{starting_price}}</div>
                     </li>
                      <li>
