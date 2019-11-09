@@ -297,6 +297,7 @@
                           this.$router.push('/invoice')
                         }
                     })
+                    return false
                 }
 
                 
