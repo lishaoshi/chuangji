@@ -51,7 +51,8 @@
                 oldShopData: {
                     shops:[],
                     checked:false,
-                }
+                },
+                suppliersPrices: {}
             }
         },
         created(){
@@ -121,7 +122,9 @@
                 queryShopCarList().then(res=>{
                     if(res.code==200) {
                         let data = res.data
+                        this.suppliersPrices = data.suppliersPrices
                         this.data.shops = this._handleData(data.goodsList)
+                        
                         this.loading = false
                     }
                 })
@@ -144,7 +147,9 @@
                             type:item.supplier.type,
                             img_cover: item.supplier.img_cover,
                             checked:false,
-                            items:[].concat([item])
+                            items:[].concat([item]),
+                            suppliersPrices:　this.suppliersPrices[item.supplier_id]
+
                         }
                     }
                 })

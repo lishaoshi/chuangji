@@ -17,7 +17,9 @@
 			</div>
 			<div class="item-box2">
 				<p>实付金额</p>
-				<p>￥{{data.money_paid}}</p>
+				<!-- <p>￥{{data.money_paid}}</p>
+				 -->
+				  <p>￥{{+data.money_paid+(+data.freight) | filterFixed}}</p>
 				<!-- <p>使用活动卷</p>
 				<p v-if="data.is_coupon == null">无</p>
 				<p v-else>{{data.is_coupon}}</p>
@@ -37,6 +39,12 @@
 		props: [
 			"sureSendOrder", "data", "delectOrder","status"
 		],
+		 filters: {
+			filterFixed(value) {
+				value = Number(value)
+				return value.toFixed(2)
+			}
+		},
 	}
 </script>
 

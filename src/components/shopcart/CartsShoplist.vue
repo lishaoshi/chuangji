@@ -11,6 +11,7 @@
         v-for="(value,index) in data.shops" >
 
     </clxsd-carts-shop>
+    
 
     </div>
 </template>

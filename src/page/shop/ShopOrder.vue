@@ -83,7 +83,13 @@
                                 <mt-badge size="small" type="error">10个可用</mt-badge>
                             </router-link>
                         </li>
+
                         <li>
+                            <span>配送费</span>
+                            
+                            <span><i v-if="shop.shipping_fee.indexOf('.')!=-1">￥</i>{{shop.shipping_fee}}</span>
+                        </li>
+                        <li class="realPrice">
                             <span>小计</span>
                             <i>￥{{shop.real_price | display_price}}</i>
                         </li>
@@ -148,7 +154,7 @@
 
                 })
                 return price
-            }
+            },
         },
         created() {
             // debugger
@@ -233,6 +239,7 @@
                 data.forEach((shop, i) => {
                     let cnum = 0
                     let cprice = 0
+                    
                     Object.values(shop.entities).forEach((entity, ix) => {
                         entity['show_unit'] = entity.big_unit
                         // entity['sale_price'] = entity.price * entity.tran    //盒单价*盒数==价格
@@ -245,6 +252,7 @@
                             }
                         })
                     })
+                    shop.shipping_fee = cprice < shop.business_config.starting_price?shop.business_config.shipping_fee:'免配送费'
                     shop.cnum = cnum
                     shop.cprice = cprice
                     shop.real_price = cprice
@@ -514,6 +522,11 @@
                     line-height: 23px;
                     float: right;
                 }
+            }
+        }
+        .realPrice {
+            i {
+                color: #FF3B30;
             }
         }
     }

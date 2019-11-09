@@ -12,7 +12,7 @@
                         </div>
                         <div class="list-detail">
                             <p>金额</p>
-                            <p>￥{{data.money_paid || 0.00}}</p>
+                            <p>￥{{+data.money_paid+(+data.freight) | filterFixed}}</p>
                             <button @click="extractOrder(data.id,data.money_paid)">提取</button>
                         </div>
                     </div>
@@ -55,6 +55,12 @@
             }
             this._setTimeOutFn(this.data.left_time)
         },
+        filters: {
+			filterFixed(value) {
+				value = Number(value)
+				return value.toFixed(2)
+			}
+		},
 
         methods: {
             init(){

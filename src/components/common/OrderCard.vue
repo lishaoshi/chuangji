@@ -32,17 +32,18 @@
             </router-link>
 
             <div :class="{OrderStatus:data.order_status!=1}" class="need_pay">
-                <div>
-                    <div v-if="data.order_status==1 || data.order_status==0">
+                <div v-if="data.order_status==1 || data.order_status==0" class="intever">
+                    <div>
                         <span v-if="data.order_status==0">剩余支付时间：{{data.minutes}}分{{data.seconds}}秒</span>
                         <span v-if="data.order_status==1">剩余提取时间：{{data.minutes}}分{{data.seconds}}秒</span>
                     </div>
                 </div>
                 
                 <div class="need_fu">
-                    <p><b>数量<i style="padding-left: 4px;display: inline-block; ">{{data.total_num}}</i></b></p>
+                    <!-- <span><span>数量<i style="padding-left: 4px;display: inline-block; ">{{data.total_num}}</i></span></p> -->
+                    <p><span>共 {{data.total_num}} 件商品</span></p>
                     <p>{{data.order_status==0? '应付':'金额：'}}</p>
-                    <p>￥{{data.money_paid==0?data.order_amount:data.money_paid}}</p>
+                    <div>¥{{data.money_paid==0?+data.order_amount+(+data.freight):+data.money_paid+(+data.freight) |  filterFixed}}<span v-if="data.freight>0">(含配送费：¥{{data.freight}})</span></div>
                 </div>
             </div>
         </div>
@@ -61,17 +62,17 @@
                 </p>
             </router-link>
           <div :class="{OrderStatus:data.order_status!=1}" class="need_pay" >
-              <div>
-                   <div v-if="data.order_status==1 || data.order_status==0">
+              <div v-if="data.order_status==1 || data.order_status==0">
+                   <div>
                         <span v-if="data.order_status==1">剩余提取时间：{{data.minutes}}分{{data.seconds}}秒</span>
                         <span v-if="data.order_status==0">剩余支付时间：{{data.minutes}}分{{data.seconds}}秒</span>
                     </div>
               </div>
                
                 <div class="need_fu">
-                    <p><b>数量<i style="padding-left: 4px;display: inline-block; ">{{data.total_num}}</i></b></p>
+                    <p><span>共 {{data.total_num}} 件商品</span></p>
                     <p>{{data.order_status==0? '应付':'金额:'}}</p>
-                    <p>￥{{data.money_paid==0?data.order_amount:data.money_paid}}</p>
+                    <div>¥{{data.money_paid==0?+data.order_amount+(+data.freight):+data.money_paid+(+data.freight) |  filterFixed}}<span v-if="data.freight>0">(含配送费：¥{{data.freight}})</span></div>
                 </div>
             </div>
         </div>
@@ -133,7 +134,11 @@ import { setInterval } from 'timers'
         filters: {
             fillterTime(value) {
                 return Math.ceil(value/60)
-            }
+            },
+			filterFixed(value) {
+				value = Number(value)
+				return value.toFixed(2)
+			}
         },
         computed: {
             order_status_display() {
@@ -312,7 +317,6 @@ import { setInterval } from 'timers'
                 font-size: .26rem;
                 color: #f30000;
                 float: right;
-                font-weight: bold;
             }
         }
 
@@ -360,13 +364,26 @@ import { setInterval } from 'timers'
 
     .need_pay {
         width: 100%;
-        height: .88rem;
+        // height: .88rem;
         display: flex;
-        align-items: center;
+        flex-direction: column;
+        align-items: flex-start;
         justify-content: space-between;
         padding: 0 .24rem;
         box-sizing: border-box;
         background: #fff;
+        div:first-child {
+            height: .8rem;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+        &>div:last-child {
+            height: .9rem;
+           
+            width: 100%;
+        }
         &.OrderStatus {
             border-bottom: 1px solid rgb(230, 230, 230);
         }
@@ -376,25 +393,23 @@ import { setInterval } from 'timers'
             align-items: center;
             font-size: 0.24rem;
             float: right;
+            justify-content: flex-end;
+            border-top: .01rem solid rgb(224, 223, 223);
             // margin-right: 0.24rem;
 
             p {
                 display: inline-block;
                  &:nth-child(1) {
                     // margin-left: 0.1rem;
-                    margin-right: 0.1rem;
+                    margin-right: 0.3rem;
                     // font-weight: bold;
                 }
-
-                &:nth-child(2) {
-                    margin-left: 0.1rem;
-                    margin-right: 0.1rem;
-                    font-weight: bold;
-                }
-
-                &:nth-child(3) {
-                    font-size: 0.34rem;
-                    font-weight: bold;
+            }
+            div {
+                font-size: 0.34rem;
+                span {
+                    font-size: .24rem;
+                    display: inline-block;
                 }
             }
         }

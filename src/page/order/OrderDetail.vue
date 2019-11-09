@@ -41,10 +41,14 @@
 				<span>{{this.nums}}</span>
 			</div>
 			<div>
+				<span>配送费</span>
+				<span>{{this.data.freight>0?this.data.freight:'免配送费'}}</span>
+			</div>
+			<div>
 				<span class="state">{{order_status_display}}</span>
 				<div>
 					<span>{{data.order_status==0?'应付': '金额'}}</span>
-				<span>￥{{this.data.order_amount}}</span>
+				<span>￥{{+this.data.order_amount+(+this.data.freight) | filterFixed}}</span>
 				</div>
 			</div>
 		</div>
@@ -235,6 +239,12 @@
 		created() {
 			this.orderId = this.$route.params.id;
 			this._initData();
+		},
+		filters: {
+			filterFixed(value) {
+				value = Number(value)
+				return value.toFixed(2)
+			}
 		},
 		methods: {
 			async _initData() {
@@ -574,7 +584,12 @@
 			align-items: center;
 			
 		}
-		div:first-child{
+		div:nth-of-type(1){
+			// display: flex;
+			font-size: .28rem;
+			justify-content: space-between;
+		}
+		div:nth-of-type(2){
 			// display: flex;
 			font-size: .28rem;
 			justify-content: space-between;

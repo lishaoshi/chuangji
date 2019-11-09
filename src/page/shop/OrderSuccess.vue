@@ -32,9 +32,13 @@
         <div class="comfirmOrderInfo">
             <div v-for="(item, index) of data" :key="index">
                 <div>{{item.name}}</div>
-                <div>
-                    <span>{{item.order_sn}}</span>
+                <div class="content">
+                    <span>金额</span>
                     <span>￥{{item.order_amount.toFixed(2)}}</span>
+                </div>
+                <div class="content">
+                    <span>订单编号</span>
+                    <span>￥{{item.order_sn}}</span>
                 </div>
             </div>
         </div>
@@ -129,18 +133,20 @@
         display: flex;
         flex-direction: column;
         padding: 0 .5rem;
+        font-size: .28rem;
         & > div {
-            height: 1.34rem;
+            // height: 1.34rem;
             display: flex;
             flex-direction: column;
+            padding-bottom: .4rem;
+            border-bottom: 1px solid rgb(216, 216, 216);
             // line-height: .67rem;
             // justify-content: space-around;
             div {
-                margin-top: .2rem;
+                margin-top: .38rem;
                 font-size: .28rem;
-                
             }
-            div:last-child {
+            .content {
                 display: flex;
                 justify-content: space-between;
                 color:#999999;
