@@ -64,14 +64,14 @@
           <div :class="{OrderStatus:data.order_status!=1}" class="need_pay" >
               <div v-if="data.order_status==1 || data.order_status==0">
                    <div>
-                        <span v-if="data.order_status==1">剩余提取时间：{{data.minutes}}分{{data.seconds}}秒</span>
-                        <span v-if="data.order_status==0">剩余支付时间：{{data.minutes}}分{{data.seconds}}秒</span>
+                        <span v-if="data.order_status==1">剩余提取时间: {{data.minutes}}分{{data.seconds}}秒</span>
+                        <span v-if="data.order_status==0">剩余支付时间: {{data.minutes}}分{{data.seconds}}秒</span>
                     </div>
               </div>
                
                 <div class="need_fu">
                     <p><span>共 {{data.total_num}} 件商品</span></p>
-                    <p>{{data.order_status==0? '应付':'金额:'}}</p>
+                    <p>{{data.order_status==0? '应付':'金额：'}} </p>
                     <div>¥{{data.money_paid==0?+data.order_amount+(+data.freight):+data.money_paid+(+data.freight) |  filterFixed}}<span v-if="data.freight>0">(含配送费：¥{{data.freight}})</span></div>
                 </div>
             </div>

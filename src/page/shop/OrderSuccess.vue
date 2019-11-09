@@ -34,7 +34,7 @@
                 <div>{{item.name}}</div>
                 <div class="content">
                     <span>金额</span>
-                    <span>￥{{item.order_amount.toFixed(2)}}</span>
+                    <span>￥{{+item.order_amount+(+item.freight) | filterFixed}}</span>
                 </div>
                 <div class="content">
                     <span>订单编号</span>
@@ -77,7 +77,13 @@
             } else {
                 this.goBack(-3)
             }
-    },
+        },
+        filters: {
+			filterFixed(value) {
+				value = Number(value)
+				return value.toFixed(2)
+			}
+        },
   
     }
 </script>
