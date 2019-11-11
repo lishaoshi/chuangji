@@ -336,6 +336,7 @@
     height: 100%;
     overflow:auto; 
     margin-bottom: 1rem;
+    position: relative;
 }
     .detail-box1 {
         height: 1rem;
