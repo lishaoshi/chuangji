@@ -137,7 +137,7 @@
                     item.shopId = item.supplier.id
                     item.show_unit = item.unit
                     item.isSelfChoose = false
-                    item.shopItemTotalPrice = item.sale_price*item.num
+                    item.shopItemTotalPrice = +item.sale_price*+item.num
                     //为商家信息添加配送信息
                     item.suppliersPrices = this.suppliersPrices[item.supplier_id]
                     // debugger

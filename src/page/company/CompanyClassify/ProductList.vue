@@ -118,7 +118,7 @@
              </div>
             <!-- <div style="height: 1rem"></div> -->
             <div style="position: fixed;bottom: 0px;width: 100%;border-top:1px solid #e5e5e5s">
-                <mini-company-cart ref="MiniCompanyCart" :isHasDistribution="isHasDistribution" :shipping_fee="businessConfig.shipping_fee" :shop-id="businessId" :count="cartNum" :total-price="totalPrice"></mini-company-cart>
+                <mini-company-cart ref="MiniCompanyCart" :isHasDistribution="isHasDistribution" :supplierInfo="businessConfig" :shop-id="businessId" :count="cartNum" :totalPrice="totalPrice"></mini-company-cart>
             </div>
             <div style="position: fixed;right: 0px;width: 82%;z-index: 9999;top:0px;height: 100%;background: #fff" v-if="is_business_list">
                 
@@ -216,25 +216,38 @@
                 return num
             },
             totalPrice() {
-                let total_price = 0.00
-                if(this.cartNum == 0) {
+				let total_price = 0.00;
+				// debugger
+				if(this.cartNum == 0) {
 					return total_price.toFixed(2)
 				}
-                Object.values(this.shopCart).forEach((entity, index) => {
-                    total_price += entity.num * entity.price;
-                    if(total_price < (this.businessConfig&&+this.businessConfig.starting_price || 0)) {
-                        
-						total_price += +this.businessConfig.shipping_fee
-					}
-                })
+                Object.values(this.shopCart).forEach((data, index) => {
+					total_price += data.num * data.price;
+				})
+				if(total_price < (this.businessConfig&&+this.businessConfig.starting_price || 0)) {
+					total_price += +this.businessConfig.shipping_fee
+				}
                 return total_price.toFixed(2)
-            },
+			},
+
+			// 出去配送费的总额
+			notPrice() {
+				let total_price = 0.00;
+				// debugger
+				if(this.cartNum == 0) {
+					return total_price.toFixed(2)
+				}
+                Object.values(this.shopCart).forEach((data, index) => {
+					total_price += data.num * data.price;
+				})
+				return total_price
+			},
             businessConfig() {
                 return this.supplierInfo.business_config || {}
 			},
 			// 判断是否有配送费
 			isHasDistribution() {
-				if(this.totalPrice < (this.businessConfig&&+this.businessConfig.starting_price)) {
+				if(this.notPrice < (this.businessConfig&&+this.businessConfig.starting_price)) {
 					return true 
 				} else {
 					return false

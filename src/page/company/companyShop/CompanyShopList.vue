@@ -148,18 +148,31 @@
 				}
                 Object.values(this.shopCart).forEach((data, index) => {
 					total_price += data.num * data.price;
-					if(total_price < (this.businessConfig&&+this.businessConfig.starting_price || 0)) {
-						total_price += +this.businessConfig.shipping_fee
-					}
-                })
+				})
+				if(total_price < (this.businessConfig&&+this.businessConfig.starting_price || 0)) {
+					total_price += +this.businessConfig.shipping_fee
+				}
                 return total_price.toFixed(2)
+			},
+
+			// 出去配送费的总额
+			notPrice() {
+				let total_price = 0.00;
+				// debugger
+				if(this.cartNum == 0) {
+					return total_price.toFixed(2)
+				}
+                Object.values(this.shopCart).forEach((data, index) => {
+					total_price += data.num * data.price;
+				})
+				return total_price
 			},
 			businessConfig() {
 				return this.businessInfo.business_config
 			},
 			// 判断是否有配送费
 			isHasDistribution() {
-				if(this.totalPrice < (this.businessConfig&&+this.businessConfig.starting_price)) {
+				if(this.notPrice < (this.businessConfig&&+this.businessConfig.starting_price)) {
 					return true 
 				} else {
 					return false

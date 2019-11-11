@@ -11,7 +11,7 @@
         <EmptyOrder v-else/>
         <div style="height: 1.3rem"></div>
         <div style="position: fixed;width: 100%;bottom: 0px">
-            <mini-company-cart ref="MiniCompanyCart" :shop-id="businessId" :count="cartNum" :total-price="totalPrice" style="bottom: 0px"></mini-company-cart>
+            <mini-company-cart ref="MiniCompanyCart" :isHasDistribution="isHasDistribution" :shipping_fee="businessConfig&&businessConfig.shipping_fee" :count="cartNum" :total-price="totalPrice" style="bottom: 0px"></mini-company-cart>
         </div>
 	</div>
 	
@@ -20,7 +20,7 @@
 <script>
 	import list from "@/page/company/companyShop/CompanyShopListMould.vue";
     import { mapState} from 'vuex';
-    import {quickreplenish} from '@/api/business'
+    import {quickreplenish, queryBusinessDetail} from '@/api/business'
     import MiniCompanyCart from '@/page/company/CompanyClassify/MiniShopCart.vue'
     import { queryShopCarList, delShopCar, addShopCar, onlyDelShopCar } from '@/api/shopCar'
     import EmptyOrder from '@/components/EmptyList'
@@ -38,7 +38,10 @@
                 is_active:1,
                 page: 1,
                 shopCart: {},
-                type: 1
+                type: 1,
+                businessInfo: {
+
+                }
             }
         },
         computed:{
@@ -53,7 +56,7 @@
             },
 			title() {
 				return this.businessData.display_name || this.businessData.name
-			},
+            },
             cartNum() {
                 let num = 0;
                 Object.values(this.shopCart).forEach((data, index) => {
@@ -62,13 +65,43 @@
                 return num
             },
             totalPrice() {
-                let total_price = 0.00;
+				let total_price = 0.00;
+				// debugger
+				if(this.cartNum == 0) {
+					return total_price.toFixed(2)
+				}
                 Object.values(this.shopCart).forEach((data, index) => {
-                    total_price += data.num * data.price;
-
-                })
+					total_price += data.num * data.price;
+				})
+				if(total_price < (this.businessConfig&&+this.businessConfig.starting_price || 0)) {
+					total_price += +this.businessConfig.shipping_fee
+				}
                 return total_price.toFixed(2)
-            }
+			},
+
+			// 出去配送费的总额
+			notPrice() {
+				let total_price = 0.00;
+				// debugger
+				if(this.cartNum == 0) {
+					return total_price.toFixed(2)
+				}
+                Object.values(this.shopCart).forEach((data, index) => {
+					total_price += data.num * data.price;
+				})
+				return total_price
+			},
+			businessConfig() {
+				return this.businessInfo.business_config
+			},
+			// 判断是否有配送费
+			isHasDistribution() {
+				if(this.notPrice < (this.businessConfig&&+this.businessConfig.starting_price)) {
+					return true 
+				} else {
+					return false
+				}
+			}
         },
         created(){
             this.initData()
@@ -83,9 +116,10 @@
                 }
                 let data
                 // const {data} = await quickreplenish(params, this.businessId)
-                await Promise.all([quickreplenish(params, this.businessId), queryShopCarList({}, this.businessId)]).then(res=>{
+                await Promise.all([quickreplenish(params, this.businessId), queryShopCarList({}, this.businessId), queryBusinessDetail(this.businessId)]).then(res=>{
                     data = res[0].data.data
                     this.shopCart = res[1]
+                    this.businessInfo = res[2].data.supplierInfo
                 })
                 this.entities = this._handleData(data)
             },

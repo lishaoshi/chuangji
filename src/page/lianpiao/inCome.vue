@@ -18,7 +18,7 @@
                     <li v-for="(entity,index) in entities" :key="`en-${index}`">
                         <div class="detail">
                             <p tyle="color: #333">{{entity.name}}</p>
-                            <p>{{entity.created_at | formatDate('MM-dd hh:mm')}}</p>
+                            <p>{{entity.created_at | unitDate()}}</p>
                         </div>
                         <div class="num" style="color: #333;">
                             <!-- <span></span> -->
@@ -67,6 +67,11 @@
         computed:{
             userId(){
                 return this.$store.state.CURRENTUSER.data.id;
+            }
+        },
+        filters: {
+            unitDate(value) {
+                 return value.substring(0, value.length-3)
             }
         },
         created(){
