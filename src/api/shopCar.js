@@ -9,16 +9,16 @@ export function queryShopCarList(params={}, shopId="") {
     return http.get(url,{params}).then(res=>{
         if(shopId) {
             let targetArr = {}
-            res.data.data.goodsList.forEach((item, index, targetList)=> {
-
+            // res.data.data.goodsList.forEach((item, index, targetList)=> {
+                let suppliersPrices = res.data.data.suppliersPrices
                 res.data.data.goodsList.forEach((item, index, arr)=>{
                     if(item.supplier_id==shopId) {
                         targetArr[item.id] = item
                         // return
                     }
                 })
-            })
-            return targetArr
+            // })
+            return Object.assign(targetArr)
         }
         return res.data
     })

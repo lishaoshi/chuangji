@@ -149,9 +149,9 @@
             totalPrice() {
                 let price = 0
                 const shopData = this.shopData
+                // debugger
                 shopData.forEach((shop, i) => {
                     price += shop.real_price
-
                 })
                 return price
             },
@@ -255,7 +255,12 @@
                     shop.shipping_fee = cprice < shop.business_config.starting_price?shop.business_config.shipping_fee:'免配送费'
                     shop.cnum = cnum
                     shop.cprice = cprice
-                    shop.real_price = cprice
+                    if(shop.shipping_fee.indexOf('.')!=-1) {
+                        shop.real_price = cprice +(+shop.shipping_fee)
+                    } else {
+                        shop.real_price = cprice
+                    }
+                    
                 })
                 this.shopData = data
                

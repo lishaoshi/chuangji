@@ -118,7 +118,7 @@
              </div>
             <!-- <div style="height: 1rem"></div> -->
             <div style="position: fixed;bottom: 0px;width: 100%;border-top:1px solid #e5e5e5s">
-                <mini-company-cart ref="MiniCompanyCart" :shop-id="businessId" :count="cartNum" :total-price="totalPrice"></mini-company-cart>
+                <mini-company-cart ref="MiniCompanyCart" :isHasDistribution="isHasDistribution" :shipping_fee="businessConfig.shipping_fee" :shop-id="businessId" :count="cartNum" :total-price="totalPrice"></mini-company-cart>
             </div>
             <div style="position: fixed;right: 0px;width: 82%;z-index: 9999;top:0px;height: 100%;background: #fff" v-if="is_business_list">
                 
@@ -139,7 +139,7 @@
     import MiniCompanyCart from '@/page/company/CompanyClassify/MiniShopCart.vue'
     import BusinessList from './CompanyList'
     import EmptyList from "@/components/EmptyList"
-    import {_servicBusinessGoodList} from "@/api/business"
+    import {_servicBusinessGoodList, queryBusinessDetail} from "@/api/business"
     import { queryShopCarList, delShopCar, addShopCar, onlyDelShopCar } from '@/api/shopCar'
 
     export default {
@@ -175,7 +175,9 @@
                 type: '',
                 allLoaded: false,
                 shopCart: {},
-                tabActive: ''
+                tabActive: '',
+                supplierInfo: {
+                }
             }
         },
         created() {
@@ -188,8 +190,6 @@
             this.value = data1
             this.initData(id)
             this.init_Goods(true)
-            
-            // this.searchFn()
             localStorage.removeItem('search');
         },
         computed: {
@@ -217,11 +217,29 @@
             },
             totalPrice() {
                 let total_price = 0.00
+                if(this.cartNum == 0) {
+					return total_price.toFixed(2)
+				}
                 Object.values(this.shopCart).forEach((entity, index) => {
                     total_price += entity.num * entity.price;
+                    if(total_price < (this.businessConfig&&+this.businessConfig.starting_price || 0)) {
+                        
+						total_price += +this.businessConfig.shipping_fee
+					}
                 })
                 return total_price.toFixed(2)
-            }
+            },
+            businessConfig() {
+                return this.supplierInfo.business_config || {}
+			},
+			// 判断是否有配送费
+			isHasDistribution() {
+				if(this.totalPrice < (this.businessConfig&&+this.businessConfig.starting_price)) {
+					return true 
+				} else {
+					return false
+				}
+			}
         },
 
         methods: {
@@ -255,8 +273,8 @@
                         return false
                     }
                 })
-                queryShopCarList({}, this.businessId).then(res=>{
-                    this.shopCart = res
+                Promise.all([queryShopCarList({}, this.businessId), queryBusinessDetail(this.shopId)]).then(res=>{
+                    this.shopCart = res[0]
                     this.goodList.forEach((item, index, arr)=>{
                         Object.keys(this.shopCart).forEach((items)=>{
                             if(item.id==items) {
@@ -264,13 +282,14 @@
                             }
                         })
                     })
+                    // debugger
+                    this.supplierInfo = res[1].data.supplierInfo
                 })
             },
              //一级菜单点击商品
             showGoods( $event, id) {
                 this.allLoaded = false
                 this.page = 1
-                // debugger
                 this.tabActive = id //是否当前一级菜单
                 let parentNode = event.target.parentNode;
                 let targetNode = event.target
@@ -360,7 +379,6 @@
                 }
                 this.goodList[index].num = num
                 if(this.shopCart[item.id]) {
-                    // debugger
                     this.shopCart[item.id].num = num
                 } else {
                     this.$set(this.shopCart, `${item.id}`, item)
@@ -452,7 +470,6 @@
                         }
                     })
                 })
-                // debugger
                 this.loading = false
                 return data
             },

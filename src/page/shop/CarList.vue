@@ -138,6 +138,8 @@
                     item.show_unit = item.unit
                     item.isSelfChoose = false
                     item.shopItemTotalPrice = item.sale_price*item.num
+                    //为商家信息添加配送信息
+                    item.suppliersPrices = this.suppliersPrices[item.supplier_id]
                     // debugger
                     if(shops[item.supplier.id]){
                         shops[item.supplier.id]['items'] = shops[item.supplier.id]['items'].concat([item])

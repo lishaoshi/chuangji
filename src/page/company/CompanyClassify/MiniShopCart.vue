@@ -3,7 +3,7 @@
 		<!-- <div class="fade"></div> -->
 		<div class="mini-shop-cart">
 			<div class="total_price">
-				<p><i>￥</i><i id="totalPrice">{{totalPrice}}</i></p>
+				<p><i>￥</i><i id="totalPrice">{{totalPrice}}</i><i v-if="isHasDistribution&&totalPrice>0">(含配送费{{shipping_fee}})</i><i v-else-if="!isHasDistribution&&totalPrice>0">(免配送费)</i></p>
 				<p>已选<i id="totalProductCount">{{count}}</i>个产品</p>
 			</div>
 
@@ -47,6 +47,14 @@
 				type: String,
 				default: '0.00'
 			},
+			isHasDistribution: {
+				type: Boolean,
+				default: false
+			},
+			shipping_fee: {
+				type:String,
+				default: '0.00'
+			}
 		},
 		methods: {
 			drop(target) {
@@ -78,7 +86,7 @@
 		.total_price {
 			margin-left: 1.4rem;
 			p:nth-child(1) {
-				font-size: 16px;
+				font-size: .3rem;
 				color: rgb(51, 51, 51);
 			}
 			p:nth-child(2) {

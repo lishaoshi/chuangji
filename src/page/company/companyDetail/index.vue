@@ -3,7 +3,7 @@
         <headTop title="公司详情"></headTop>
         <div class="conpanyName">
             <div>
-                <img :src="supplierInfo.img_cover" alt="">
+                <img v-if="supplierInfo.img_cover" :src="supplierInfo.img_cover" alt="">
             </div>
             <div>
                 <span>{{supplierInfo.display_name?supplierInfo.display_name:supplierInfo.name}}</span>
@@ -13,7 +13,7 @@
             <p>公司简介</p>
             <div class="content" :class="{textCenter:!supplierInfo.intro}">
                 
-                {{supplierInfo.intro?supplierInfo.intro:'暂无维护'}}
+                {{supplierInfo.intro?supplierInfo.intro:'--'}}
             </div>
         </div>
         <div class="line"></div>
@@ -41,7 +41,7 @@
                 </ul>
                 <div :class="{textCenter:!delivery_intro}">
                     <span v-if="delivery_intro" style="font-weight: bold;">配送说明：</span>
-                   {{delivery_intro?delivery_intro:'暂无维护'}}
+                   {{delivery_intro?delivery_intro:'--'}}
                 </div>
             </div>
         </div>
@@ -122,27 +122,27 @@ export default {
 
         // 起送价
         starting_price() {
-            return this.supplierInfo.business_config&&this.supplierInfo.business_config.starting_price || '暂无维护'
+            return this.supplierInfo.business_config&&this.supplierInfo.business_config.starting_price || '--'
         },
         // 配送费
         shipping_fee() {
-            return this.supplierInfo.business_config&&this.supplierInfo.business_config.shipping_fee || '暂无维护'
+            return this.supplierInfo.business_config&&this.supplierInfo.business_config.shipping_fee || '--'
         },
         // 调配时间
         allocate_time() {
-             return this.supplierInfo.business_config&&this.supplierInfo.business_config.allocate_time || '暂无维护'
+             return this.supplierInfo.business_config&&this.supplierInfo.business_config.allocate_time || '--'
         },
         //配送时间
         delivery_time() {
-            return this.supplierInfo.business_config&&this.supplierInfo.business_config.delivery_time || '暂无维护'
+            return this.supplierInfo.business_config&&this.supplierInfo.business_config.delivery_time || '--'
         },
         // 联系电弧
         tel() {
-            return this.supplierInfo.tel?this.supplierInfo.tel:this.supplierInfo.user&&this.supplierInfo.user.phone || '暂无维护'
+            return this.supplierInfo.tel?this.supplierInfo.tel:this.supplierInfo.user&&this.supplierInfo.user.phone || '--'
         },
         // 网址
         website() {
-            return this.supplierInfo.website ||　'暂无维护'
+            return this.supplierInfo.website
         }
     },
     methods: {

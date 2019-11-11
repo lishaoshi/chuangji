@@ -74,7 +74,7 @@
 
         <div v-if="items.length" style="height: 1.2rem"></div>
         <div style="position: fixed;width: 100%;bottom: 0px" v-if="entities.length>0">
-            <mini-company-cart ref="MiniCompanyCart" :count="cartNum" :total-price="totalPrice" style="bottom: 0px"></mini-company-cart>
+            <mini-company-cart ref="MiniCompanyCart" :isHasDistribution="isHasDistribution" :shipping_fee="businessConfig.shipping_fee" :count="cartNum" :total-price="totalPrice" style="bottom: 0px"></mini-company-cart>
         </div>
 	</div>
 </template>
@@ -141,15 +141,32 @@
                 return num
             },
             totalPrice() {
-                let total_price = 0.00;
+				let total_price = 0.00;
+				// debugger
+				if(this.cartNum == 0) {
+					return total_price.toFixed(2)
+				}
                 Object.values(this.shopCart).forEach((data, index) => {
-                    total_price += data.num * data.price;
+					total_price += data.num * data.price;
+					if(total_price < (this.businessConfig&&+this.businessConfig.starting_price || 0)) {
+						total_price += +this.businessConfig.shipping_fee
+					}
                 })
                 return total_price.toFixed(2)
-            }
+			},
+			businessConfig() {
+				return this.businessInfo.business_config
+			},
+			// 判断是否有配送费
+			isHasDistribution() {
+				if(this.totalPrice < (this.businessConfig&&+this.businessConfig.starting_price)) {
+					return true 
+				} else {
+					return false
+				}
+			}
 		},
 		created(){
-			// debugger
 			this.shopId = parseInt(this.$route.query.id)
 		    this.initData()
 		},
@@ -177,7 +194,6 @@
 						this.items = shopList
 					}
 					this.items = this._handleData(this.items)
-					// console.log(res[2].data.supplierInfo)
 					this.businessInfo = res[2].data.supplierInfo
 					this.notices = this.businessInfo.infos
 				})

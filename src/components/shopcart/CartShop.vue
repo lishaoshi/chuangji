@@ -59,7 +59,7 @@
 				return shopCount;
 			},
 			isHasPrice() {
-				if(this.__shopCount > this.data.suppliersPrices.starting_price) {
+				if(this.__shopCount >= this.data.suppliersPrices.starting_price&&this.data.suppliersPrices.shipping_fee>0) {
 					return true
 				} else {
 					return false
