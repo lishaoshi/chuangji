@@ -362,8 +362,8 @@
                     if (action === 'confirm') {
                         this.$http.patch(`hippo-shop/business/changeStatus`, {good_id: id, status: 0}).then(res => {
                             this.goodList.list.splice(index, 1)
-                            this.goodList.onSale--
-                            this.goodList.unSale++
+                            this.OnSaleNum--
+                            this.DownSaleNum++
                         }).catch(error => {
                             this.$toast("下架失败")
                         })
@@ -375,8 +375,8 @@
                 this.$messagebox.confirm("确定要上架此商品吗?").then(action => {
                     this.$http.patch(`hippo-shop/business/changeStatus`, {good_id: id, status: 1}).then(res => {
                         this.goodList.list.splice(index, 1)
-                        this.goodList.onSale++
-                        this.goodList.unSale--
+                        this.OnSaleNum++
+                        this.DownSaleNum--
                     }).catch(error => {
                         this.$toast("上架失败")
                     })
@@ -386,6 +386,7 @@
             onSaleGoods(cat_id) {
                 this.isUp = true;
                 this.isDown = false;
+                this.page = 1
                 let params = {
                     status: 1,
                     cat_id: this.current_id,
@@ -399,6 +400,7 @@
             downSaleGoods(cat_id) {
                 this.isUp = false
                 this.isDown = true
+                this.page = 1
                 let params = {
                     search: this.value,
                     status: 0,
@@ -419,7 +421,7 @@
                     }
                     // if(this.page> 1)
                     if(this.page == 1) {
-                        this.goodList = list
+                        this.goodList = this._handleData(list)
                     } else {
                         this.goodList = this.goodList.concat(this._handleData(list))
                     }

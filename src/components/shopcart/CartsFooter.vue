@@ -7,13 +7,15 @@
 			<label>全选</label>
         </div>
         <div class="total-price">
-            总计：<span class="shop-total-amount ShopTotal">{{ data | _cartCount}}</span>
+            总计：<span class="shop-total-amount ShopTotal">{{ data | _cartCount}} <span v-if="flag" class="priceText">({{flag==1?'含配送费':flag==2?'免配送费':''}})</span></span>
+           
         </div>
         <button  class="sub-btn" :class="hasActive ? 'active':''"  @click="onSubmit">提交</button>
     </div>
 </template>
 
 <script>
+    let that
     export default {
         name: "CartsFooter",
         props:{
@@ -22,6 +24,15 @@
                 type: Function,
                 default:()=>{}
             }
+        },
+        data() {
+            return {
+                flag: 0  //判断总额是否含有配送费
+            }
+        },
+        beforeCreate() {
+            console.log(this)
+            that = this
         },
         computed:{
             hasActive(){
@@ -39,16 +50,18 @@
         },
         filters:{
             _cartCount(data){
-                let totalPrice = 0
+                let totalPrice = 0   
                 data.shops.forEach(shop =>{
                     shop.items.forEach(item => {
                         if(item.checked) {
                             item.totalPrice = +item.sale_price * +item.num
                             if(item.totalPrice < item.suppliersPrices.starting_price) {
+                                that.flag = 1
                                 item.totalPrice += +item.suppliersPrices.shipping_fee        
+                            } else {
+                                that.flag = 2
                             }
                             totalPrice+=item.totalPrice
-                            
                         }   
                     })
                 })
@@ -66,6 +79,10 @@
 </script>
 
 <style scoped lang="scss">
+        .priceText {
+            color: #999!important;
+            font-size: .24rem!important;
+        }
     .shopPrice {
         position: fixed;
         bottom: 0px;
@@ -102,6 +119,7 @@
             }
 
         }
+      
         .sub-btn {
             width: 2.3rem;
             height: 1rem;
