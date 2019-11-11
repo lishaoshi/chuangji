@@ -45,46 +45,49 @@
                 <div class="mint-tab-container" style="margin-top: 0px">
                     <div>
                         <div class="sale-nav">
-                            <p @click="onSaleGoods(cat_id)" :class="{active,isUp}">在售<span>({{goodList.onSale||goodListData.onSale}})</span></p>
-                            <p @click="downSaleGoods(cat_id)" :class="{active,isDown}">下架<span>({{goodList.unSale||goodListData.unSale}})</span>
+                            <p @click="onSaleGoods(cat_id)" :class="{active,isUp}">在售<span>({{OnSaleNum}})</span></p>
+                            <p @click="downSaleGoods(cat_id)" :class="{active,isDown}">下架<span>({{DownSaleNum}})</span>
                             </p>
                         </div>
                         <div>
                             <!--<ClxsdLoadMore key="orders-list" ref="loadmore" @onRefresh="onOrdersRefresh" @onLoadMore="onOrdersLoadMore">-->
-                            <div v-for="(entity,ikey) in goodList.list" v-if="goodList.list!==''" :key="ikey">
-                                <div>
-                                    <div class="item" id="list-item">
-                                        <router-link :to="`/drug-detail/${supplier_id}/${entity.id}`">
-                                            <img :src="entity.cover" class="item-img">
-                                        </router-link>
-                                        <div class="item-box">
+                            <mt-loadmore :bottom-method="loadBottom"  v-if="goodList.length" ref="loadMore" :auto-fill="false" :bottom-all-loaded="allLoaded">
+                                <div v-for="(entity,ikey) in goodList" :key="ikey">
+                                    <div>
+                                        <div class="item" id="list-item">
                                             <router-link :to="`/drug-detail/${supplier_id}/${entity.id}`">
-                                                <p class="title">{{entity.good_name}}</p>
+                                                <img :src="entity.cover" class="item-img">
                                             </router-link>
-                                            <p class="item-box-p1" v-if="entity.brand">{{entity.brand.name}}</p>
-                                            <p class="item-box-p1">规格: {{entity.spec}}</p>
-                                            <p class="item-box-p1">效期: {{entity.time}}</p>
-                                            <div class="selling">
-                                                <div class="unit_price">
-                                                    <div class="font">
-                                                        <div>
-                                                            ￥{{entity.price}}
-                                                            <span>{{entity.unit}}</span>
+                                            <div class="item-box">
+                                                <router-link :to="`/drug-detail/${supplier_id}/${entity.id}`">
+                                                    <p class="title">{{entity.good_name}}</p>
+                                                </router-link>
+                                                <p class="item-box-p1" v-if="entity.brand">{{entity.brand.name}}</p>
+                                                <p class="item-box-p1">规格: {{entity.spec}}</p>
+                                                <p class="item-box-p1">效期: {{entity.time}}</p>
+                                                <div class="selling">
+                                                    <div class="unit_price">
+                                                        <div class="font">
+                                                            <div>
+                                                                ￥{{entity.price}}
+                                                                <span>{{entity.unit}}</span>
+                                                            </div>
+                                                            <span v-if="parseInt(entity.market_price)">{{entity.market_price}}</span>
                                                         </div>
-                                                        <span v-if="parseInt(entity.market_price)">{{entity.market_price}}</span>
                                                     </div>
-                                                </div>
-                                                <div class="gw_num" v-if="entity.status == 1" @click="DownSelf(entity.id,entity.status,ikey)">
-                                                    下架&nbsp;&darr;
-                                                </div>
-                                                <div class="gw_num up" v-if="entity.status == 0" @click="UpSelf(entity.id, ikey)">上架&nbsp;&uarr;
+                                                    <div class="gw_num" v-if="entity.status == 1" @click="DownSelf(entity.id,entity.status,ikey)">
+                                                        下架&nbsp;&darr;
+                                                    </div>
+                                                    <div class="gw_num up" v-if="entity.status == 0" @click="UpSelf(entity.id, ikey)">上架&nbsp;&uarr;
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <Empty v-if="goodList.list==''"/>
+                                <div class="noMeor" v-if="allLoaded">没有更多</div>
+                            </mt-loadmore>
+                            <Empty v-else/>
                             <!-- <div v-if="goodList.list==''">
                                 <div class="empty">
                                     <svg style="width: 2.4rem;height: 2.4rem">
@@ -150,7 +153,11 @@
 
                 OnSaleNum:0,//在售数量
                 DownSaleNum:0,//下架数量
-                supplier_id: 0
+                supplier_id: 0,
+                allLoaded:　false,
+                isFirst: true,
+                page: 1,  //当前页  
+                limit: 10  // 限制每页的条数
             }
         },
         computed: {
@@ -170,24 +177,38 @@
             this.initData()
             let params = {}
             this.cat_id = ''
-            this.init_Goods(params)
-            //this.loadFrist();
         },
         methods: {
              _handleData(data) {
-                if (data.list) {
-                    data.list.forEach((data,index, arr) => {
-                        let time = data.valid_time
-                        arr[index].time = this.$moment.unix(time).format("YYYY.MM.DD")
-                    })
-                }
+                data.forEach((data,index, arr) => {
+                    let time = data.valid_time
+                    arr[index].time = this.$moment.unix(time).format("YYYY.MM.DD")
+                })
                 return data
             },
+
+            // 上拉加载
+            loadBottom() {
+                // console.log(123)
+                let params = {
+                    cat_id: this.current_id, 
+                    status: this.current_status,
+                    search: this.value,
+                    page: this.page,
+                    limit: this.limit
+                }
+                this.isFirst = false
+                this.init_Goods(params)
+                
+            },
             all_Goods() {
+                this.page = 1
                 let params = {
                     cat_id: '',
                     status: this.current_status,
-                    search: this.value
+                    search: this.value,
+                    page: this.page,
+                    limit: this.limit
                 }
                 this.current_id = 0
                 this.init_Goods(params)
@@ -204,15 +225,14 @@
 
             },
             keyupEnter(value) {
-                // this.value = value
-                // debugger
-                // console.log(this.$refs.inputBox.$refs.input)
                 this.$refs.inputBox.$refs.input.blur()
-
+                this.page = 1
                  let params = {
                     cat_id:this.current_id,
                     status:this.current_status,
-                    search:value
+                    search:value,
+                    page: 1,
+                    limit: this.limit
                 }
 
                 this.init_Goods(params)
@@ -221,7 +241,14 @@
                 if (this.supplierId) {
                     const {data} = await this.$http.get(`/hippo-shop/business/menuEntities`)
                     this.menuList = data.data.cates
-                    this.init_Goods()
+                     let params = {
+                        cat_id: this.current_id, 
+                        status: this.current_status,
+                        search: this.value,
+                        page: this.page,
+                        limit: this.limit
+                    }
+                    this.init_Goods(params)
                     this.loading = false
                 } else {
                     this.$toast('当前用户未认证')
@@ -240,21 +267,28 @@
                     this.toggleSlide(b, 0, '500');
                 }
                 this.cat_id = id
+                this.page = 1
                 let params = {
-                    cat_id: id
+                    cat_id: this.cat_id, 
+                    status: this.current_status,
+                    search: this.value,
+                    page: this.page,
+                    limit: this.limit
                 }
                 this.init_Goods(params)
                 this.current_id = id
             },
             //点击下拉菜单
             slide: function (event,id) {
-                // debugger
                 if(this.current_id != id) {
                     this.current_id = id
+                    this.page = 1
                     let params = {
                         cat_id: this.current_id, 
                         status: this.current_status,
-                        search: this.value
+                        search: this.value,
+                        page: this.page,
+                        limit: this.limit
                     }
                     this.init_Goods(params)
                 }
@@ -307,10 +341,13 @@
                 this.is_active = id
                 this.is_child_id = id
                 this.cat_id = id
+                this.page = 1
                 let params = {
                     cat_id: id,
                     status: this.current_status,
-                    search: this.value
+                    search: this.value,
+                    page: this.page,
+                    limit: this.limit
                 }
                 this.init_Goods(params)
                 this.current_id = id
@@ -352,7 +389,9 @@
                 let params = {
                     status: 1,
                     cat_id: this.current_id,
-                    search: this.value
+                    search: this.value,
+                    page: 1,
+                    limit: this.limit
                 }
                 this.init_Goods(params)
                 this.current_status = 1
@@ -363,7 +402,9 @@
                 let params = {
                     search: this.value,
                     status: 0,
-                    cat_id: this.current_id
+                    cat_id: this.current_id,
+                    page: 1,
+                    limit:this.limit
                 }
                 this.init_Goods(params)
                 this.current_status = 0
@@ -371,11 +412,22 @@
             //产品显示
             init_Goods(params) {
                 servicBusinessGoodList(params).then(res => {
-                    this.goodList = res.data.data.businessGoods
-                    this.goodList = this._handleData(this.goodList)
-                    this.DownSaleNum = this.goodList.unSale
-                    this.OnSaleNum = this.goodList.onSale
-                    this.supplier_id = this.goodList.supplier_id
+                    let data = res.data.data.businessGoods
+                    let list = data.list
+                    if(list.length<this.limit) {
+                        this.allLoaded = true
+                    }
+                    // if(this.page> 1)
+                    if(this.page == 1) {
+                        this.goodList = list
+                    } else {
+                        this.goodList = this.goodList.concat(this._handleData(list))
+                    }
+                    this.page++
+                    this.DownSaleNum = data.unSale
+                    this.OnSaleNum = data.onSale
+                    this.supplier_id = data.supplier_id
+                    !this.isFirst&&this.$refs.loadMore.onBottomLoaded()
                 })
                 // this.goodList = this._handleData(this.goodList)
             },
@@ -454,6 +506,20 @@
     }
     .head {
         height: .88rem;
+    }
+}
+.noMeor {
+    text-align: center;
+    line-height: .6rem;
+    color: #999;
+    // margin:0 .1rem;
+    &::before {
+        content: '——';
+        margin-right: .1rem;
+    }
+    &::after {
+        content: '——';
+        margin-left: .1rem;
     }
 }
     .empty {
