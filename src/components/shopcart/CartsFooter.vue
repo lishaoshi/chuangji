@@ -43,10 +43,12 @@
                 data.shops.forEach(shop =>{
                     shop.items.forEach(item => {
                         if(item.checked) {
-                            totalPrice += item.sale_price * item.num
-                            if(totalPrice < item.suppliersPrices.starting_price) {
-                                totalPrice += +item.suppliersPrices.shipping_fee        
+                            item.totalPrice = +item.sale_price * +item.num
+                            if(item.totalPrice < item.suppliersPrices.starting_price) {
+                                item.totalPrice += +item.suppliersPrices.shipping_fee        
                             }
+                            totalPrice+=item.totalPrice
+                            
                         }   
                     })
                 })
