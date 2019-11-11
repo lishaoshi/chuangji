@@ -20,15 +20,15 @@
                     <div class="topType">
                         <span>抬头类型</span> 
                         <div>
-                            <div class="iconItem">
+                            <div class="iconItem" @click="tabSvg1()">
                                 <div v-if="invoice_type" class="svgBox">
-                                    <svg  class="list_type svg1" @click="tabSvg1()">
+                                    <svg  class="list_type svg1" >
                                         <use xlink:href="#icon-promote-pay-chose-1"/>
                                     </svg>
                                 </div>
                                 
                                 <div v-else class="svgBox">
-                                    <svg  class="list_type svg2" @click="tabSvg1()">
+                                    <svg  class="list_type svg2">
                                         <use xlink:href="#icon-IsCheckedShop-close"/>
                                     </svg>
                                 </div>
@@ -37,14 +37,14 @@
                                     增值税普通发票
                                 </div>
                             </div>
-                           <div class="iconItem">
+                           <div class="iconItem"  @click="tabSvg2()">
                                <div v-if="invoice_type" class="svgBox">
-                                    <svg class="list_type svg2" @click="tabSvg2()">
+                                    <svg class="list_type svg2">
                                         <use xlink:href="#icon-IsCheckedShop-close"/>
                                     </svg>
                                 </div>
                                 <div v-else class="svgBox">
-                                    <svg class="list_type svg1" @click="tabSvg2()">
+                                    <svg class="list_type svg1">
                                         <use xlink:href="#icon-promote-pay-chose-1"/>
                                     </svg>
                                 </div>
