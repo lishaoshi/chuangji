@@ -39,14 +39,29 @@
                     </router-link>
                 </div>
             </div>
+            <div style="width: 100%;height: 1px;background: #fff;opacity: 0.2;"></div>
+            <div class="balance">
+                <div>
+                <span>余额(元)</span>
+                </div>
+                <div>
+                <i-count-up
+                    :startVal="0"
+                    :endVal="balance"
+                    :decimals="0"
+                    :duration="23"
+                    :options="options"
+                ></i-count-up>
+                </div>
+            </div>
             <!-- <div class="userinfo-lianshu">
                 <span>联数(包)</span>
                 <b>1800.00</b>
             </div> -->
         </div>
-        <clxsd-cell :title="'我的邀请'" :to="'/record'" is-link icon="wode-wodeyaoqing" />
+        <clxsd-cell style="margin-top:.2rem;" :title="'我的邀请'" :to="'/record'" is-link icon="wode-wodeyaoqing" />
         <clxsd-cell :title="'通道收益'" :to="'/channel-profit'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_pass"/>
-        <clxsd-cell :title="'广告收益'" :to="'/develop'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_ad" style="margin-bottom: .2rem"/>
+        <!-- <clxsd-cell :title="'广告收益'" :to="'/develop'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_ad" style="margin-bottom: .2rem"/> -->
         <ul class="unautMy-userlist">
             <div style="margin-bottom:.2rem">
                 <clxsd-cell v-if="!is_apply" :title="'角色选择'" :to="'/customer-choose-role'" is-link icon="my-collection"/>
@@ -63,17 +78,29 @@
 
 <script>
     import ClxsdCell from "@/components/common/Cell";
+    import ICountUp from 'vue-countup-v2'
     import {mapState} from "vuex";
-
+    import { recordAmound, rebateFn } from '@/api/ticketList'
     export default {
         name: "Myinfo",
         components: {
-            ClxsdCell
+            ClxsdCell,
+            ICountUp
         },
         data(){
           return{
               companyName: '未认证',
-              is_apply: true  //是否是推广员
+              is_apply: true,  //是否是推广员
+              options: {
+                useEasing: true,
+                useGrouping: true,
+                separator: ',',
+                decimal: '.',
+                prefix: '',
+                suffix: '',
+                decimalPlaces: 2
+            },
+            balance:0
           }
         },
         computed: {
@@ -103,6 +130,7 @@
         },
         created() {
             this.initData()
+            this._getRecord()
         },
         methods: {
             initData(){
@@ -112,7 +140,16 @@
                 }).catch(err => {
 
                 })
-            }
+            },
+             _getRecord() {
+                // let params = {
+                //     year: this.yte
+                // }
+                rebateFn().then(res=>{
+                    let data = res.data.balance
+                    this.balance = data
+                })
+            },
         }
 
     };
@@ -225,6 +262,20 @@
                     font-size: 0.22rem;
                     font-weight: 500;
                 }
+            }
+        }
+        .balance {
+            display: flex;
+            align-items: center;
+            color: #fff;
+            height: 1rem;
+            justify-content: space-between;
+            padding: 0 .44rem;
+            div:first-child {
+                font-size: .24rem;
+            }
+            div:last-child {
+                font-size: .44rem;
             }
         }
     }
