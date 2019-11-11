@@ -188,7 +188,6 @@
             // 选择发票
             handleChooseInvoice(item) {
                 this.currentInvoice = item.type
-                debugger
                 if(this.currentInvoice>0&&(!this.invoiceList || !this.invoiceList[this.currentInvoice-1])) {
                     this.$messagebox.confirm('',{
                         title: '提示',
