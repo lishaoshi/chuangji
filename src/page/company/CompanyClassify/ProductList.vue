@@ -118,7 +118,7 @@
              </div>
             <!-- <div style="height: 1rem"></div> -->
             <div style="position: fixed;bottom: 0px;width: 100%;border-top:1px solid #e5e5e5s">
-                <mini-company-cart ref="MiniCompanyCart" :isHasDistribution="isHasDistribution" :supplierInfo="businessConfig" :shop-id="businessId" :count="cartNum" :totalPrice="totalPrice"></mini-company-cart>
+                <mini-company-cart ref="MiniCompanyCart" :isHasDistribution="isHasDistribution" :shipping_fee="businessConfig.shipping_fee" :shop-id="businessId" :count="cartNum" :totalPrice="totalPrice"></mini-company-cart>
             </div>
             <div style="position: fixed;right: 0px;width: 82%;z-index: 9999;top:0px;height: 100%;background: #fff" v-if="is_business_list">
                 
