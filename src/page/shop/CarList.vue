@@ -52,7 +52,8 @@
                     shops:[],
                     checked:false,
                 },
-                suppliersPrices: {}
+                suppliersPrices: {},
+                totalPrice: 0
             }
         },
         created(){
@@ -74,48 +75,44 @@
                         })
                     })
                 }
-            }
+            },
+            data:{
+                handler(newVal, oldVal) {
+                    this.totalPrice = 0
+                    let allChecked = true
+                    let distributionFlag = false; //是否需要配送费  false不需要， true需要
+                    this.data.shops.forEach((shop,index)=>{
+                        shop.items.forEach((product,key)=>{
+                            if(!product.checked){
+                                allChecked=false;
+                            } else {
+                                let totalNum = +product.sale_price * +product.num
+                                this.totalPrice += +product.sale_price * +product.num
+                                if(totalNum < this.suppliersPrices[shop.shopId].starting_price && this.totalPrice > 0) {
+                                    this.totalPrice += +this.suppliersPrices[shop.shopId].shipping_fee
+                                    distributionFlag = true
+                                }
+                            }
+                            bus.$emit('_cartCount',this.totalPrice, distributionFlag)
+                        })
+                    })
+                    this.data.checked=allChecked;
+                },
+                deep: true
+            },
         },
         computed:{
             ...mapState({
                 cartList: state =>state.shop.CART_LIST
             }),
+            shopCartData() {
+                return this.data.shop
+            }
         },
         methods:{
             ...mapMutations([
                 'CLEAR_CART', 'CLEAR_ALL_CART', 'ADD_CART', 'REMOVE_CART', 'CHANG_SHOPcART_LIST'
             ]),
-            // async initData(){
-            //     let ids = []
-            //     let idMapQ = {}
-            //     let cartData = this.shopId ? this.cartList[this.shopId]:this.cartList
-            //     if(cartData){
-            //         if(this.shopId){
-            //             Object.values(cartData).forEach(item => {
-            //                 if(item) {
-            //                     ids.push(item.id)
-            //                     idMapQ[item.id] = item.num
-            //                 }
-                           
-            //             })
-            //         }else{
-            //             Object.values(cartData).forEach(item => {
-            //                 Object.values(item).forEach(_item =>{
-            //                     if(_item&&_item.num>0){
-            //                         ids.push(_item.id)
-            //                         idMapQ[_item.id] = _item.num
-            //                     }
-            //                 })
-
-            //             })
-            //         }
-            //     }
-            //     if(ids.length){
-            //         const { data } = await supplierFactoryEntities(ids.join(','))
-            //         this.data.shops = this._handleData(data,idMapQ)
-            //     }
-            //     this.loading = false
-            // },
 
             // 页面初始化获取购物车数据
             _queryShopCarList() {
@@ -174,59 +171,45 @@
             },
             // 需要注意店铺的ID值
             shopCheck(i){
-                // return
                 let shop = this.data.shops[i]
                 shop.checked = !shop.checked
                 //获取当前店铺的选中的状态
                 let shopChecked=shop.checked
-                //根据当前店铺的状态控制店铺商品的状态的值
-                shop.items.forEach((product,pid)=>{
-                    product.checked=shopChecked
+                shop.items.forEach((shop, index)=>{
+                    if(shopChecked) {
+                        shop.checked = true
+                    } else {
+                        shop.checked = false
+                    }
                 })
-
-                //更具店铺的状态控制全选的状态的值
-                let allChecked=true;
-                //循环当前的店铺的值
-                this.data.shops.forEach((shop,pid)=>{
-                    shop.items.forEach((product,sid)=>{
-                        if(!product.checked){
-                            allChecked=false;
-                        }
-                    })
-                })
-                this.data.checked=allChecked;
             },
             //商品的状态控制店铺的状态与全选的状态
             //首先要注意店铺与商品的ID的值
             productCheckchange(sid,pid){
                 this.data.shops[sid].items[pid].checked = !this.data.shops[sid].items[pid].checked
+                let shopId = this.data.shops[sid].shopId
                 let isChecked=true;
-                //循环店铺的商品
-                this.data.shops[sid].items.forEach((product,kid)=>{
-                    if(!product.checked){
-                        isChecked=false;
-                    }
-                })
-                this.data.shops[sid].checked=isChecked;
                 //根据商品的状态改变全选反选的状态
-
                 let isAllChecked=true;
-
-                this.data.shops.forEach((shop,sid)=>{
-                    shop.items.forEach((product,pid)=>{
-                        if(!product.checked){
-                            isAllChecked=false;
+                this.data.shops.forEach((shop,index)=>{
+                    shop.items.forEach((product,key)=>{
+                        // 只判断当前选择的商品
+                        if(sid == index) {
+                            if(!product.checked){
+                                isChecked=false;
+                            }
                         }
                     })
                 })
+                this.data.shops[sid].checked=isChecked;
                 this.data.checked=isAllChecked;
             },
             //要注意店铺与商品的ID
             addGoods(sid,pid, item){
-                // if(item.num>=99) {
-                //     this.$toast('最大购买量为99')
-                //     return false
-                // }
+                if(item.num>=99999) {
+                    this.$toast('最大购买量为99999')
+                    return false
+                }
                 this.data.shops[sid].items[pid].num++;
                 let shopId = this.data.shops[sid].shopId
                 item.itemId = item.id
@@ -246,14 +229,8 @@
                         supplier_id: shopId,
                         good_id: item.id
                     }
-                    await onlyDelShopCar(data)
-                    // params[`${shopId}`] = [item.id]
-                    // console.log(params)
-                    // delShopCar(params)
-                    // item.sale_price = item.price * item.tran
+                    onlyDelShopCar(data)
                     item.num--;
-                    // console
-                    // this.REMOVE_CART(item)
                 }
             },
             submitDataFunc(){
@@ -323,6 +300,10 @@
                     if(!num ||　(num == this.data.shops[sid].items[pid].num)) {
                         return false
                     }
+                    if(num > 99999) {
+                        this.$toast('最大购买量为99999')
+                        return false
+                    }
                     console.log(num)
                     this.data.shops[sid].items[pid].num = num
                      let shopId = this.data.shops[sid].shopId
@@ -340,6 +321,7 @@
         destroyed() {
             bus.$off('chooseSelf')
             bus.$off('handleBlur')
+            bus.$off('_cartCount')
         }
     }
 </script>

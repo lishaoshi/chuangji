@@ -74,7 +74,7 @@
 
         <div v-if="items.length" style="height: 1.2rem"></div>
         <div style="position: fixed;width: 100%;bottom: 0px" v-if="entities.length>0">
-            <mini-company-cart ref="MiniCompanyCart" :isHasDistribution="isHasDistribution" :shipping_fee="businessConfig.shipping_fee" :count="cartNum" :total-price="totalPrice" style="bottom: 0px"></mini-company-cart>
+            <mini-company-cart ref="MiniCompanyCart" :isHasDistribution="isHasDistribution" :shipping_fee="businessConfig&&businessConfig.shipping_fee" :count="cartNum" :total-price="totalPrice" style="bottom: 0px"></mini-company-cart>
         </div>
 	</div>
 </template>
@@ -142,7 +142,6 @@
             },
             totalPrice() {
 				let total_price = 0.00;
-				// debugger
 				if(this.cartNum == 0) {
 					return total_price.toFixed(2)
 				}
@@ -158,7 +157,6 @@
 			// 出去配送费的总额
 			notPrice() {
 				let total_price = 0.00;
-				// debugger
 				if(this.cartNum == 0) {
 					return total_price.toFixed(2)
 				}

@@ -7,7 +7,7 @@
 			<label>全选</label>
         </div>
         <div class="total-price">
-            总计：<span class="shop-total-amount ShopTotal">{{ data | _cartCount}} <span v-if="flag" class="priceText">({{flag==1?'含配送费':flag==2?'免配送费':''}})</span></span>
+            总计：<span class="shop-total-amount ShopTotal">{{totalPrice}} <span v-if="totalPrice>0" class="priceText">({{flag?'含配送费':'免配送费'}})</span></span>
            
         </div>
         <button  class="sub-btn" :class="hasActive ? 'active':''"  @click="onSubmit">提交</button>
@@ -16,6 +16,7 @@
 
 <script>
     let that
+    import bus from '@/bus'
     export default {
         name: "CartsFooter",
         props:{
@@ -27,12 +28,13 @@
         },
         data() {
             return {
-                flag: 0  //判断总额是否含有配送费
+                flag: false,  //判断总额是否含有配送费
+                totalPrice:　0
             }
         },
         beforeCreate() {
             console.log(this)
-            that = this
+            // that = this
         },
         computed:{
             hasActive(){
@@ -48,25 +50,41 @@
                 return active
             }
         },
-        filters:{
-            _cartCount(data){
-                let totalPrice = 0   
-                data.shops.forEach(shop =>{
-                    shop.items.forEach(item => {
-                        if(item.checked) {
-                            item.totalPrice = +item.sale_price * +item.num
-                            if(item.totalPrice < item.suppliersPrices.starting_price) {
-                                that.flag = 1
-                                item.totalPrice += +item.suppliersPrices.shipping_fee        
-                            } else {
-                                that.flag = 2
-                            }
-                            totalPrice+=item.totalPrice
-                        }   
-                    })
+        mounted() {
+           bus.$on('_cartCount',(value, flag)=>{
+               console.log(123)
+                this.$nextTick().then(()=>{
+                    this.totalPrice = value.toFixed(2)
+                    this.flag = flag
                 })
-                return totalPrice.toFixed(2)
-            }
+                
+            })
+        },
+        filters:{
+            // _cartCount(data){
+            //     let totalPrice = 0   
+            //     // debugger
+            //     // data.shops.forEach(shop =>{
+            //     //     // debugger
+                    
+            //     //     shop.items.forEach(item => {
+            //     //         console.log(item)
+            //     //         if(item.checked) {
+            //     //             totalPrice+=+item.sale_price * +item.num
+            //     //             // item.totalPrice = +item.sale_price * +item.num
+            //     //             // if(item.totalPrice < item.suppliersPrices.starting_price) {
+            //     //             //     that.flag = 1
+            //     //             //     item.totalPrice += +item.suppliersPrices.shipping_fee        
+            //     //             // } else {
+            //     //             //     that.flag = 2
+            //     //             // }
+            //     //             // totalPrice+=item.totalPrice
+            //     //         }   
+            //     //     })
+            //     // })
+            //     for(let i=0; i< )
+            //     return totalPrice.toFixed(2)
+            // }
         },
         methods: {
             onSubmit() {
