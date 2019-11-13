@@ -4,34 +4,38 @@
         <!---知道旧密码-->
         <div v-if="is_know">
             <main>
-                <div class="m-form-row m-main">
+                <div class="m-form-row m-main lastBox">
                     <label for="old_password">旧密码</label>
                     <div class="m-input">
                         <input id="old_password" v-model="oldPassword"  type="password"  autocomplete="off" placeholder="请输入旧密码">
                     </div>
                 </div>
-                <div class="m-form-row m-main">
+               
+            </main>
+            <main>
+                <div class="m-form-row m-main bottomBox">
                     <label for="new_password">新密码</label>
                     <div class="m-input">
                         <input id="new_password" v-model="newPassword"  type="password"  autocomplete="off" placeholder="输入6位以上的登录密码"
                               >
                     </div>
                 </div>
-                <div class="m-form-row m-main">
+                <div class="m-form-row m-main lastBox">
                     <label for="new_again_password">确认密码</label>
                     <div class="m-input">
                         <input id="new_again_password" v-model="rePassword"  type="password"  autocomplete="off" placeholder="请再次输入新设置的密码"
-                              >
+                                >
                     </div>
                 </div>
             </main>
+         
             <button  class="m-long-btn m-signin-btn"  @click="handleOk" :disabled="loading||disabled">
                 <span>确认修改</span>
             </button>
         </div>
         <div v-else>
                 <div class="tel"><label> 手机号</label><div>{{phone | filter_mobile}}</div></div>
-                <div class="m-form-row m-main" style="padding-left: .2rem">
+                <div class="m-form-row m-main lastBox" style="padding-left: .2rem">
                     <label for="code" class="text3">验证码</label>
                     <div class="m-input">
                         <input id="code" v-model="code"  type="number"  autocomplete="off" placeholder="请输入验证码" @input="handleCode">
@@ -45,7 +49,7 @@
                             <input id="new_password" v-model="newPassword"  type="password"  autocomplete="off" placeholder="请输入新密码">
                         </div>
                     </div>
-                    <div class="m-form-row m-main">
+                    <div class="m-form-row m-main lastBox">
                         <label for="new_again_password">确认密码</label>
                         <div class="m-input">
                             <input id="new_again_password" v-model="rePassword"  type="password"  autocomplete="off"
@@ -284,6 +288,12 @@
         padding-left: .2rem;
         line-height: 2;
     }
+    .bottomBox {
+        margin-top: .2rem;
+    }
+    .lastBox {
+        border-bottom: 0;
+    }
     main {
         background: #fff;
         margin-top: .2rem;
@@ -307,6 +317,7 @@
     label {
         width: 56px;
     }
+
     .m-form-row .m-input input {
         font-size: 14px;
     }
@@ -357,6 +368,7 @@
             font-size: 14px;
         }
     }
+    
     .code-text {
         color: #26A2FF;
         font-size: 10px;

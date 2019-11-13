@@ -167,8 +167,8 @@
         align-items:center;
 
         .check {
-            height: 0.35rem;
-            width: 0.35rem;
+            height: 0.36rem;
+            width: 0.36rem;
         }
     }
 

@@ -32,10 +32,6 @@
                 totalPrice:　0
             }
         },
-        beforeCreate() {
-            console.log(this)
-            // that = this
-        },
         computed:{
             hasActive(){
                 let active = false
