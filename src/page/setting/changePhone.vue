@@ -5,7 +5,7 @@
             <div class="m-form-row m-main">
                 手机号 &nbsp;&nbsp;&nbsp; {{phone | filter_mobile}}
             </div>
-            <button  class="send-again" @click="is_change = !is_change" >
+            <button @click="is_change = !is_change" >
                 <span>更换手机号</span>
             </button>
         </div>
@@ -21,7 +21,7 @@
                 <div class="title-container">
                     <p class="p1"><span>{{message}}</span></p>
                 </div>
-                <button  class="send-again"  :disabled = "disabled" @click="sendSmsCode" >
+                <button :disabled = "disabled" @click="sendSmsCode" >
                     <span>下一步</span>
                 </button>
             </div>
@@ -42,7 +42,7 @@
                 </div>
                 <p class="send-info" v-if="countdown">{{countdown}}秒后重新发送</p>
                 <div v-else>
-                    <button class="send-again" @click="sendSmsCode" :disabled="loading||disabled" >点击重新发送</button>
+                    <div class="send-again" @click="sendSmsCode" :disabled="loading||disabled" >重新发送</div>
                 </div>
             </div>
         </div>
@@ -82,7 +82,7 @@
             //判断新手机号是否注册
             handleNewPhone(){
                 if(phonePattern.test(this.newPhone)){
-                    this.loading = true;
+                    // this.loading = true;
                     this.$http.get('users/check-phone',{
                         params:{phone: this.newPhone},
                         validate:state => state === 200
@@ -126,7 +126,7 @@
                     this.countdown = 60;
                     this.countDown();
                     this.error = "";
-                     this.is_next = ! this.is_next;
+                     this.is_next = false;
                 })
                 .catch(error =>{
                     this.loading = false;
@@ -176,15 +176,33 @@
     .p-forgot .m-form-row label {
         width: 100px;
     }
-    .send-again {
+    button {
         display: block;
         height: .88rem;
+        text-align: center;
         border-radius: 4px;
         margin: 0 auto;
         color: #fff;
         background: none;
         font-size: .28rem;
         background: #26a2ff;
+        width: 95%;
+        margin-top: .2rem;
+        margin-bottom: .2rem;
+        &:disabled {
+            background: #ccc;
+        }
+    }
+    .send-again {
+        display: block;
+        height: .88rem;
+        text-align: center;
+        border-radius: 4px;
+        margin: 0 auto;
+        color: #26a2ff;
+        background: none;
+        font-size: .28rem;
+        // background: #26a2ff;
         width: 95%;
         margin-top: .2rem;
         margin-bottom: .2rem;
