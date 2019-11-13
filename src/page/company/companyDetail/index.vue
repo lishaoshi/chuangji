@@ -12,8 +12,7 @@
         <div class="introduction">
             <p>公司简介</p>
             <div class="content" :class="{textCenter:!supplierInfo.intro}">
-                
-                {{supplierInfo.intro?supplierInfo.intro:'--'}}
+                <span  v-html="supplierInfo.intro?supplierInfo.intro:'--'"></span>
             </div>
         </div>
         <div class="line"></div>
@@ -40,8 +39,11 @@
                     </li>
                 </ul>
                 <div :class="{textCenter:!delivery_intro}">
-                    <span v-if="delivery_intro" style="font-weight: bold;">配送说明：</span>
-                   {{delivery_intro?delivery_intro:'--'}}
+                    <div class="textCenterbox">
+                        <div v-if="delivery_intro" style="font-weight: bold;">配送说明：</div>
+                        <div v-html="delivery_intro?delivery_intro:'--'">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -172,7 +174,16 @@ export default {
     .textCenter {
         text-align: center;
     }
-    // padding: 0 .24rem;
+    .textCenterbox {
+        display: inline-flex;
+        width: 100%;
+        div {
+            min-width: 22%;
+        }
+        div:nth-child(2){
+            flex: 1
+        }
+    }
     .conpanyName {
         display: flex;
         align-items: center;
