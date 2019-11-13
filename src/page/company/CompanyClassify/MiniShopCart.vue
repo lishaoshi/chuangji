@@ -3,7 +3,7 @@
 		<!-- <div class="fade"></div> -->
 		<div class="mini-shop-cart">
 			<div class="total_price">
-				<p><i>￥</i><i id="totalPrice">{{totalPrice}}</i><i class="textContent" v-if="isHasDistribution&&totalPrice>=0">(含配送费:{{shipping_fee}})</i><i class="textContent" v-else-if="!isHasDistribution&&totalPrice>=0">(免配送费)</i></p>
+				<p><i>￥</i><i id="totalPrice">{{totalPrice}}</i><i class="textContent" v-if="isHasDistribution&&totalPrice>=0">(含配送费:{{shipping_fee}})</i><i class="textContent" v-else-if="!isHasDistribution&&totalPrice>0">(免配送费)</i></p>
 				<p>已选<i id="totalProductCount">{{count}}</i>个产品</p>
 			</div>
 
