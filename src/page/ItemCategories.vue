@@ -155,7 +155,7 @@
                 DownSaleNum:0,//下架数量
                 supplier_id: 0,
                 allLoaded:　false,
-                isFirst: true,
+                // isFirst: true,
                 page: 1,  //当前页  
                 limit: 10  // 限制每页的条数
             }
@@ -197,12 +197,13 @@
                     page: this.page,
                     limit: this.limit
                 }
-                this.isFirst = false
-                this.init_Goods(params)
+                // this.isFirst = false
+                this.init_Goods(params, false)
                 
             },
             all_Goods() {
                 this.page = 1
+                this.allLoaded = false
                 let params = {
                     cat_id: '',
                     status: this.current_status,
@@ -258,6 +259,7 @@
             //一级菜单点击商品
             showGoods(id, $event) {
                 this.is_active = id //是否当前一级菜单
+                this.allLoaded = false
                 let parentNode = event.target.parentNode;
                 let a = this.sibling(parentNode)
                 for (var i = 0; i < a.length; i++) {
@@ -281,6 +283,7 @@
             //点击下拉菜单
             slide: function (event,id) {
                 if(this.current_id != id) {
+                    this.allLoaded = false
                     this.current_id = id
                     this.page = 1
                     let params = {
@@ -338,6 +341,7 @@
             },
             //二级菜单商品
             showSlideGoods(id, ids, $event) {
+                this.allLoaded = false
                 this.is_active = id
                 this.is_child_id = id
                 this.cat_id = id
@@ -386,6 +390,7 @@
             onSaleGoods(cat_id) {
                 this.isUp = true;
                 this.isDown = false;
+                this.allLoaded = false
                 this.page = 1
                 let params = {
                     status: 1,
@@ -400,6 +405,7 @@
             downSaleGoods(cat_id) {
                 this.isUp = false
                 this.isDown = true
+                this.allLoaded = false
                 this.page = 1
                 let params = {
                     search: this.value,
@@ -412,7 +418,7 @@
                 this.current_status = 0
             },
             //产品显示
-            init_Goods(params) {
+            init_Goods(params, isFirst=true) {
                 servicBusinessGoodList(params).then(res => {
                     let data = res.data.data.businessGoods
                     let list = data.list
@@ -429,7 +435,7 @@
                     this.DownSaleNum = data.unSale
                     this.OnSaleNum = data.onSale
                     this.supplier_id = data.supplier_id
-                    !this.isFirst&&this.$refs.loadMore.onBottomLoaded()
+                    !isFirst&&this.$refs.loadMore.onBottomLoaded()
                 })
                 // this.goodList = this._handleData(this.goodList)
             },
