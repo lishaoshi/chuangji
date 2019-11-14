@@ -9,6 +9,7 @@
                 :min-goods="minGoods"
                 :productCheckchange="productCheckchange"
                  @shopChecked="shopCheck"
+                 :is_delete="is_delete"
             />
             <CartsFooter @shopCheckedAll="shopCheckedAll" :data="data" :toSubmitDataFnc="submitDataFunc" v-if="is_delete!=true"/>
             <CartsFooterClear @shopCheckedAll="shopCheckedAll" :data="data" :toClearDataFnc="clearDataFunc" v-else/>

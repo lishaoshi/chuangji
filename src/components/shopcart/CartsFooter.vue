@@ -7,7 +7,7 @@
 			<label>全选</label>
         </div>
         <div class="total-price">
-            总计：<span class="shop-total-amount ShopTotal">{{totalPrice}} <span v-if="totalPrice>0" class="priceText">({{flag?'含配送费':'免配送费'}})</span></span>
+            总计：<span class="shop-total-amount ShopTotal">{{totalPrice | display_price}} <span v-if="totalPrice>0" class="priceText">({{flag?'含配送费':'免配送费'}})</span></span>
            
         </div>
         <button  class="sub-btn" :class="hasActive ? 'active':''"  @click="onSubmit">提交</button>

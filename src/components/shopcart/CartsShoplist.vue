@@ -8,6 +8,7 @@
         :minGoods="minGoods"
         @shopChecked="shopCheck"
         :productCheckchange="productCheckchange"
+        :is_delete="is_delete"
         v-for="(value,index) in data.shops" >
 
     </clxsd-carts-shop>
@@ -25,7 +26,7 @@
         components:{
             ClxsdCartsShop,
         },
-        props:["data","productCheckchange","addGoods","minGoods"],
+        props:["data","productCheckchange","addGoods","minGoods","is_delete"],
         methods:{
             shopCheck(i){
                 this.$emit("shopChecked",i)
