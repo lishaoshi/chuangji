@@ -154,11 +154,12 @@
     }
 
     .address {
-        background: #fff;
+        // background: #fff;
+        padding-bottom: 1.1rem;
         // margin-bottom: 1.3rem; 
-        &>div:last-child {
-            margin-bottom: 1.4rem;
-        }
+        // &>div:last-child {
+        //     margin-bottom: 1.4rem;
+        // }
     }
 
     .choose-icon {
