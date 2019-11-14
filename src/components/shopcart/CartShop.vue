@@ -11,6 +11,9 @@
                     <!-- </router-link> -->
                     <!-- <router-link :to="`/factory/shop/${data.shopId}`" class="company-name"> -->
                         <span>{{data.shopName}}</span> 
+						<svg class="img-icon1">
+							<use xlink:href="#icon-submitOrder-enter"/>
+						</svg>
                     <!-- </router-link> -->
 				</div>
 			</div>
@@ -59,7 +62,7 @@
 				return shopCount;
 			},
 			isHasPrice() {
-				if(this.__shopCount >= this.data.suppliersPrices.starting_price&&this.data.suppliersPrices.shipping_fee>0) {
+				if(this.__shopCount >= this.data.suppliersPrices.starting_price ||　this.data.suppliersPrices.shipping_fee==0) {
 					return true
 				} else {
 					return false
@@ -70,6 +73,11 @@
 </script>
 
 <style scoped lang="scss">
+	.img-icon1 {
+		width: 19px;
+		height: 20px;
+		color: #666;
+	}
 .fade {
 	height: 1.5rem;
 }

@@ -210,10 +210,14 @@
             //当前商店购物信息
             cartNum() {
                 let num = 0;
-                Object.values(this.shopCart).forEach((entity, index) => {
-                    num += parseInt(entity.num);
-                })
-                return num
+                // Object.values(this.shopCart).forEach((entity, index) => {
+                //     num += parseInt(entity.num);
+                // })
+                /**
+                 * 旧版本是计算出总的购物量（个数）
+                 * 现在替换为购物的种类
+                 */
+                return Object.values(this.shopCart).length
             },
             totalPrice() {
 				let total_price = 0.00;

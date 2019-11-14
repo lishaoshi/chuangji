@@ -59,10 +59,7 @@
             },
             cartNum() {
                 let num = 0;
-                Object.values(this.shopCart).forEach((data, index) => {
-                    num += +data.num;
-                })
-                return num
+                return Object.values(this.shopCart).length
             },
             totalPrice() {
 				let total_price = 0.00;
