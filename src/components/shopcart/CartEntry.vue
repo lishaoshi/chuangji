@@ -58,6 +58,7 @@ import bus from '@/bus'
 </script>
 
 <style scoped lang="scss">
+ 	
 	.cart-item {
 		display: flex;
 		position: relative;
