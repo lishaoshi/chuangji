@@ -75,7 +75,13 @@
         </div>
 
         <div class="infoDetail">
-            <div class="content" v-html="data.content"></div>
+            <div class="content" v-if="data.content" v-html="data.content"></div>
+            <div class="noInfo" v-else>
+				<svg>
+                    <use xlink:href="#icon-lampBulb"></use>
+                </svg>
+				<span>暂无维护</span>
+			</div>
         </div>
          <div style="position: fixed;width: 100%;bottom: 0px">
             <mini-company-cart ref="MiniCompanyCart" :shop-id="businessId" :count="cartNum" :total-price="totalPrice" style="bottom: 0px"></mini-company-cart>
@@ -338,6 +344,21 @@
     margin-bottom: 1rem;
     position: relative;
 }
+    .noInfo {
+        color: #644f1b;
+        font-size: .28rem;
+        width: 90%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: .8rem;
+        background: linear-gradient(to right, #feeec4, #f2dca0);
+        svg {
+            width: .4rem;
+            height: .4rem;
+            margin-right: .14rem;
+        }
+    }
     .detail-box1 {
         height: 1rem;
         display: flex;
@@ -468,6 +489,8 @@
         padding: 0 .1rem;
         padding-bottom: 20px;
         margin-bottom: 1.3rem;
+        display: flex;
+        justify-content: center;
         img {
             width: 100%!important;
         }

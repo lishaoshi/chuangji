@@ -166,22 +166,6 @@
         transform: translate3d(-2.2rem, 0, 0);
     }
 
-    .list-item:after {
-        content: " ";
-        position: absolute;
-        left: 0px;
-        bottom: 0;
-        right: 0;
-        height: 1px;
-        border-bottom: 1px solid #ccc;
-        color: #ccc;
-        -webkit-transform-origin: 0 100%;
-        transform-origin: 0 100%;
-        -webkit-transform: scaleY(0.5);
-        transform: scaleY(0.5);
-        z-index: 2;
-    }
-
     .list-box {
         padding: .32rem .2rem;
         background: #fff;
