@@ -40,9 +40,7 @@
                 </ul>
                 <div :class="{textCenter:!delivery_intro}">
                     <div class="textCenterbox">
-                        <div v-if="delivery_intro" style="font-weight: bold;">配送说明：</div>
-                        <div v-html="delivery_intro?delivery_intro:'--'">
-                        </div>
+                        <div class="textArea" :class="{textCenterMain:!delivery_intro}" v-html="delivery_intro?delivery_intro:'--'"></div>
                     </div>
                 </div>
             </div>
@@ -181,7 +179,11 @@ export default {
             min-width: 22%;
         }
         div:nth-child(2){
-            flex: 1
+            flex: 1;
+        }
+        .textCenterMain {
+            text-align: center;
+            width: 100%;
         }
     }
     .conpanyName {
@@ -311,6 +313,15 @@ export default {
                 }
             }
         }
+    }
+}
+</style>
+
+<style lang="scss">
+.textCenterbox {
+    img {
+        width: 100%!important;
+        height: auto!important;
     }
 }
 </style>

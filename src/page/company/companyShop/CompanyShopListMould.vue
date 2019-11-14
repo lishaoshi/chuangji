@@ -287,9 +287,12 @@
 		justify-content: space-between;
 		margin-top: .2rem;
 		 .carImg {
+			 min-height: .6rem;
+			 display: flex;
+			 align-items: center;
             .shopCart {
-                width: 30px;
-                height: 30px;
+                width: .6rem;
+                height: .6rem;
             }
 			.imgBox {
 				border-radius: 50%;
