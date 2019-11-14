@@ -7,8 +7,7 @@
 			<label>全选</label>
         </div>
         <div class="total-price">
-            总计：<span class="shop-total-amount ShopTotal">{{totalPrice |　display_price}} <span v-if="totalPrice>0" class="priceText">({{flag?'含配送费':'免配送费'}})</span></span>
-           
+            总计：<span class="shop-total-amount ShopTotal">{{totalPrice | display_price}} <span v-if="totalPrice>0" class="priceText">({{flag?'含配送费':'免配送费'}})</span></span>
         </div>
         <button  class="sub-btn" :class="hasActive ? 'active':''"  @click="onSubmit">提交</button>
     </div>
@@ -53,16 +52,16 @@
                     this.totalPrice = value.toFixed(2)
                     this.flag = flag
                 })
-                
+
             })
         },
         filters:{
             // _cartCount(data){
-            //     let totalPrice = 0   
+            //     let totalPrice = 0
             //     // debugger
             //     // data.shops.forEach(shop =>{
             //     //     // debugger
-                    
+
             //     //     shop.items.forEach(item => {
             //     //         console.log(item)
             //     //         if(item.checked) {
@@ -70,12 +69,12 @@
             //     //             // item.totalPrice = +item.sale_price * +item.num
             //     //             // if(item.totalPrice < item.suppliersPrices.starting_price) {
             //     //             //     that.flag = 1
-            //     //             //     item.totalPrice += +item.suppliersPrices.shipping_fee        
+            //     //             //     item.totalPrice += +item.suppliersPrices.shipping_fee
             //     //             // } else {
             //     //             //     that.flag = 2
             //     //             // }
             //     //             // totalPrice+=item.totalPrice
-            //     //         }   
+            //     //         }
             //     //     })
             //     // })
             //     for(let i=0; i< )
@@ -133,7 +132,7 @@
             }
 
         }
-      
+
         .sub-btn {
             width: 2.3rem;
             height: 1rem;

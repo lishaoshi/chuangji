@@ -20,7 +20,7 @@
 			<ul>
 				<clxsd-carts-entry :minGoods="minGoods" :addGoods="addGoods" :productCheckchange="productCheckchange" :pid="index" :sid="sid" :key="index" v-for="(value,index) in data.items" :data="value"></clxsd-carts-entry>
 			</ul>
-			<div class="distributionBox">
+			<div class="distributionBox" v-if="!is_delete">
 				<span v-if="isHasPrice">您已享受免费配送服务</span>
 				<span v-else>采购额不足 {{data.suppliersPrices.starting_price}} 元，需要支付 {{data.suppliersPrices.shipping_fee}} 元配送费</span>
 				<!-- :{{data.suppliersPrices.starting_price}} -->
@@ -33,7 +33,7 @@
 	import ClxsdCartsEntry from "./CartEntry"
 	export default {
 		name: "CartShop",
-		props: ["data", "sid", "productCheckchange", "addGoods", "minGoods"],
+		props: ["data", "sid", "productCheckchange", "addGoods", "minGoods", "is_delete"],
 		components: {
 			ClxsdCartsEntry
 		},
