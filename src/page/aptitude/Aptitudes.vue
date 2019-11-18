@@ -120,16 +120,16 @@
 						aptitudeData.forEach(element => {
 							switch(element.label) {
 								case 'GSP证书':
-									gsp = element.value
+									gsp = `${element.value}?x-oss-process=image/resize,h_100,m_fixed,w_100`
 									break
 								case '营业执照':
-									business_license = element.value
+									business_license =  `${element.value}?x-oss-process=image/resize,h_100,m_fixed,w_100`
 									break
 								case '经营许可证':
-									business_executive = element.value
+									business_executive =  `${element.value}?x-oss-process=image/resize,h_100,m_fixed,w_100`
 									break
 								case 'GMP证书':
-									gmp = element.value
+									gmp =  `${element.value}?x-oss-process=image/resize,h_100,m_fixed,w_100`
 									break
 
 							}
@@ -154,8 +154,9 @@
             	this.isShowBigImg = false
 			},
 			showBigImg (i) {
-            // cosnole.log(i)
-				this.current = i
+			// cosnole.log(i)
+				let data = i.split('?')
+				this.current = `${data[0]}`
 				this.isShowBigImg = true
 			},
 		}

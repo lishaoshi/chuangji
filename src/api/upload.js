@@ -41,6 +41,7 @@ export default async function (file,prefixPath) {
             await uploadByPut(task, file)
             break
         case 'POST':
+            debugger
             await uploadByPost(task, file)
             break
         default:

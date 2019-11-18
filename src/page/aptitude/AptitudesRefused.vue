@@ -81,7 +81,8 @@ export default {
         },
         imgList: {
             type: Array,
-            required:true
+            required:true,
+            default:()=>[]
         },
         refuse_reason: {
             type: String,
@@ -96,23 +97,15 @@ export default {
             required: true
         }
     },
-     updated() {
-        this.$nextTick().then(()=>{
-            // console.log(this.imgList,'list')
-            this.imgList.forEach(item=>{
-                // console.log(item, 'item')
-                this.imgs.push(item.url)
-            })
-        })
-        
-    },
     methods: {
         handleEdit() {
             this.$emit('updateCompany')
         },
         showBigImg (i) {
             // cosnole.log(i)
-            this.current = i
+
+            let data = i.split('?')
+            this.current = `${data[0]}`
             this.isShowBigImg = true
         },
         close() {

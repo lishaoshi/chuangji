@@ -86,13 +86,17 @@
                 await this.fetchUserInfo()
                 this.CERT_STATUS==2&&queryCompayResults({}).then(res=>{
                     if(res.code==200) {
-                        let data = res.data
-                        this.cate_name = data.certificationInfo.cate_name
-                        this.org_name = data.certificationInfo.org_name
-                        this.imgList = data.certificationInfo.files.reverse()
-                        this.refuse_reason = data.certificationInfo.refuse_reason
-                        this.sub_type_name = data.certificationInfo.sub_type_name
-                        this.sub_type = data.certificationInfo.sub_type
+                        console.log(res.data)
+                        let data = res.data.certificationInfo
+                        this.cate_name = data.cate_name
+                        this.org_name = data.org_name
+                        this.imgList = data.files.reverse()
+                          this.imgList.forEach(item=>{
+                              item.value = `${item.value}?x-oss-process=image/resize,w_100,h_100`
+                          })
+                        this.refuse_reason = data.refuse_reason
+                        this.sub_type_name = data.sub_type_name?data.sub_type_name:''
+                        this.sub_type = data.sub_type
                     }
                 })
             },

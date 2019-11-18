@@ -136,6 +136,7 @@
                     item.show_unit = item.unit
                     item.isSelfChoose = false
                     item.shopItemTotalPrice = +item.sale_price*+item.num
+                    item.cover = `${item.cover}?x-oss-process=image/resize,w_130,h_130,m_fixed`
                     //为商家信息添加配送信息
                     item.suppliersPrices = this.suppliersPrices[item.supplier_id]
                     // debugger
@@ -155,7 +156,6 @@
                         }
                     }
                 })
-                // debugger
                 // console.log(Object.values(shops), shops, 'shops')
                 return Object.values(shops)
             },

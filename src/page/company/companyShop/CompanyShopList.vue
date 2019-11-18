@@ -306,7 +306,8 @@
                 data.forEach((item, index, arr) => {
 					item.isSelfChoose = false
                     item.shopId = this.factoryId
-                    item.num = 0
+					item.num = 0
+					item.cover = `${item.cover}?x-oss-process=image/resize,w_150,m_fixed,h_150`
                     item.itemId = item.id
                     item.sale_price = item.price
                     if (this.shopCart[item.id]) {

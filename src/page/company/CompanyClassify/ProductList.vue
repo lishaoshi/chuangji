@@ -293,6 +293,7 @@
                 Promise.all([queryShopCarList({}, this.businessId), queryBusinessDetail(this.shopId)]).then(res=>{
                     this.shopCart = res[0]
                     this.goodList.forEach((item, index, arr)=>{
+                        arr[index].cover = `${item.cover}?x-oss-process=image/resize,h_130,m_fixed,w_130`
                         Object.keys(this.shopCart).forEach((items)=>{
                             if(item.id==items) {
                                 arr[index].num = this.shopCart[items].num

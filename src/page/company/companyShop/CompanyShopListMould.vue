@@ -269,7 +269,8 @@
 		}
 		.list-img {
 			width: 100%;
-			height: 2.6rem;
+			// height: 2.6rem;
+			// height: 100%;
 		}
 		.list-title {
 			font-size: 14px;

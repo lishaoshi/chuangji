@@ -259,6 +259,11 @@
                     data.time = this.$moment(time*1000).format("YYYY-MM-DD")
                     // 
                 }
+                if(data.imgs.length) {
+                    data.imgs.forEach((item, index, arr)=>{
+                        arr[index].new = `${item.new}?x-oss-process=image/resize,m_fixed,w_850,h_850`
+                    })
+                }
                 let defaultImgObj = {
                     new: data.cover
                 }
