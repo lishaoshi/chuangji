@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-        <div class="picker-toolbar-title">
+        <!-- <div class="picker-toolbar-title">
             <div class="usi-btn-cancel" v-on:click="confirm(0)">取消</div>
             <div class="title">请选择收货地址</div>
             <div class="usi-btn-sure" v-on:click="confirm(1)">确定</div>
@@ -8,13 +8,14 @@
         <mt-picker :slots="myAddressSlots" valueKey="name" :visibleItemCount="5" @change="addressChange"
                    :itemHeight="40">
 
-        </mt-picker>
+        </mt-picker> -->
+        <van-area @cancel="cancel" :area-list="newAddressList" @confirm="confirm"/>
     </div>
 </template>
 
 <script>
     import regionAddress from "@/plugins/json/pca-code.json"
-
+    import newAddressList from "@/plugins/json/newPacCode2"
     export default {
         name: "AddressPopup",
         data(){
@@ -60,45 +61,64 @@
                         textAlign: 'center'
                     }
                 ],
+                newAddressList:newAddressList
             }
         },
         created(){
         },
         methods:{
-            addressChange(picker,values){
-                if(!values[0]){
-                    this.$nextTick(() => {
-                        if (this.regionAddress) {
-                            // 赋默认值
-                        } else {
-                            picker.setValues([regionAddress[0], regionAddress[0].children[0], regionAddress[0].children[0].children[0]])
-                        }
-                    })
-                }else{
-                    picker.setSlotValues(1,values[0].children)
-                    let town = []
-                    if (values[1]) {
-                        town = values[1].children
-                    }
-                    picker.setSlotValues(2, town)
-                }
+            // addressChange(picker,values){
+            //     // console.log(values)
+            //     if(!values[0]){
+            //         // debugger
+            //         this.$nextTick(() => {
+            //             if (this.regionAddress) {
+            //                 // 赋默认值
+            //             } else {
+            //                 picker.setValues([regionAddress[0], regionAddress[0].children[0], regionAddress[0].children[0].children[0]])
+            //             }
+            //         })
+            //     }else{
+            //         // debugger
+            //         console.log(values)
+            //         picker.setSlotValues(1,values[0].children)
+            //         let town = []
+            //         if (values[1]) {
+            //             town = values[1].children
+            //         }
+            //         picker.setSlotValues(2, town)
+            //     }
 
-                if(values[0] && values[1]  && values[2]){
-                	this.province = values[0]["name"]
-                	this.city = values[1]["name"]
-                	this.area = values[2]["name"]
+            //     if(values[0] && values[1]  && values[2]){
+            //     	this.province = values[0]["name"]
+            //     	this.city = values[1]["name"]
+            //     	this.area = values[2]["name"]
 
-                    this.region = this.province + this.city +this.area
-                }
+            //         this.region = this.province + this.city +this.area
+            //     }
 
+            // },
+            cancel() {
+                this.$emit('listenAddressChange', {region:'',province: '',city: '',area: ''})
             },
-            confirm(corm){
-                let region = corm ? this.region: ''
-                let province = corm ? this.province: ''
-                let city = corm ? this.city: ''
-                let area = corm ? this.area: ''
-                this.$emit('listenAddressChange',{region,province,city,area})
-            }
+            confirm(val) {
+                let region = ''
+                val.forEach((item,index, arr)=>{
+                    region += item.name
+                })
+                let province = val[0].name
+                let city = val[1].name
+                let area = val[2].name
+                 this.$emit('listenAddressChange',{region,province,city,area})
+            },
+            // confirm(corm){
+            //     let region = corm ? this.region: ''
+            //     let province = corm ? this.province: ''
+            //     let city = corm ? this.city: ''
+            //     let area = corm ? this.area: ''
+            //     debugger
+            //     this.$emit('listenAddressChange',{region,province,city,area})
+            // }
         }
     }
 </script>

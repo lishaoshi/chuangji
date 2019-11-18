@@ -129,7 +129,7 @@
                     } else {
                         this.uploadBlob(files[0])
                     }
-                     this.$refs.imagefile.value = null
+                    this.$refs.imagefile.value = null
                 }
             },
 

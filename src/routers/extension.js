@@ -1,5 +1,8 @@
 const CoustomDetail = () => import(/* webpackChunkName: "extensition" */ '@/page/extension/CoustomDetail.vue');
 const ChannelProfit = () => import(/* webpackChunkName: "extensition" */ '@/page/extension/ChannelProfit.vue');
+
+//通道收益明细
+const earningsDetail = () => import('@/page/extension/earningsDetail/index')
 const BusinessProfit = () => import(/* webpackChunkName: "extensition" */ '@/page/extension/BusinessProfit.vue');
 const AuthorizationAgreement = () => import(/* webpackChunkName: "extensition" */ '@/page/extension/AuthorizationAgreement.vue');
 const ExtensionPay = () => import(/* webpackChunkName: "extensition" */ '@/page/extension/ExtensionPay.vue');
@@ -97,6 +100,14 @@ export default [
         component: ChannelProfit,
         meta: {
             title: "通道收益",
+            requiresAuth: true
+        }
+    },
+    {
+        path: "/earnings-detail",
+        component: earningsDetail,
+        meta: {
+            title: "收益明细",
             requiresAuth: true
         }
     },

@@ -1,6 +1,10 @@
 <template>
     <div id="ChannelProfit">
-        <clxsd-head-top title='通道收益'></clxsd-head-top>
+        <clxsd-head-top title='通道收益' :append="true">
+            <div slot="append">
+                <section @click="to('/earnings-detail')">明细</section>
+            </div>
+        </clxsd-head-top>
         <!--省公司-->
         <!-- <div v-if="data &&  USER_INFO.sub_type === 1">
             <div class="profit-list" v-for="(entity,i) in data" :key="`s-${i}`">
@@ -225,7 +229,12 @@
                 //     this.data = data;
                 // }
 
-            }
+            },
+             to(path) {
+                if (path) {
+                    this.$router.push({path})
+                }
+            },
         },
         created(){
             this.initData();
