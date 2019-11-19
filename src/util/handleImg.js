@@ -37,6 +37,7 @@ function imgPreview (file) {
             img.onload = function () {
                 data = compress(img,Orientation)
                 data = convertImgDataToBlob(data)
+                
             }
           }
         } 

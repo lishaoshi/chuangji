@@ -3,14 +3,14 @@
        <head-top title='收益明细' :append="true">
            <div slot="title">
                 <div class="title">
-                    <span v-for="(item, index) of dateList" :key="index" @click="handleChoose(index)" :class="{active:currentIndex==index}">
+                    <span v-for="(item, index) of dateList" :key="index" @click="handleChoose(index)" :class="{active:(dateDiff==item.dateDiff)}">
                         {{item.name}}
                     </span>
                     
                 </div>
             </div>
             <div slot="append">
-                <section @click="to('/earnings-detail')">筛选</section>
+                <section @click="handleScreening">筛选</section>
             </div>
         </head-top>
 
@@ -21,10 +21,14 @@
             </svg>
             <div>
                 <span>
-                    2019.9.9
+                    {{startDate}}
+                    
+                    
                 </span>
                 至
-                <span>2019.11.11</span>
+                <span>
+                    {{endDate}}
+                </span>
             </div>
         </div>
 
@@ -36,7 +40,7 @@
             </div>
 
              <div class="total-price-spending">
-                <span>总收入(元)</span>
+                <span>总提现(元)</span>
                 <span>100000.00</span>
             </div>
         </div>
@@ -45,31 +49,43 @@
         <div class="price-list">
             <list v-for="(item, index) of priceList" :key="index"></list>
         </div>
+        <!-- 筛选弹出 -->
+        <scrrenning v-if="isScrrenning" :startDate.sync="startDate" :endDate.sync="endDate" :isScrrenning.sync="isScrrenning"> </scrrenning>
   </div>
 </template>
 
 <script>
 import headTop from '@/components/head'
 import list from './list'
+import scrrenning from './screening'
 export default {
     components: {
         headTop,
-        list
+        list,
+        scrrenning
     },
     data() {
         return {
             dateList:[
                 {
                     name: '当天',
+                    type: 0,
+                    dateDiff: 0
                 },
                 {
                     name: '七天',
+                    type: 1,
+                    dateDiff: 7
                 },
                 {
                     name: '一月',
+                    type: 2,
+                    dateDiff: 30
                 }
             ],
             currentIndex: 0,
+            startDate: '',
+            endDate: '',
             priceList: [
                 {
                     time: new Date().getTime(),
@@ -93,13 +109,47 @@ export default {
                     Abstract: '提现'
                 },
             ],   //收益列表
+            isScrrenning: false, //是否是筛选
+            dateDiff: 0, //计算开始时间与结束时间的差值
         }
+    },
+    watch:{
+        startDate(newVal, oldVa) {
+            this.dateDiff = Math.abs(this.$moment(newVal).diff(this.endDate, 'days'))
+            return newVal
+        },
+        endDate(newVal, oldVa) {
+            this.dateDiff = Math.abs(this.$moment(this.startDate).diff(newVal, 'days'))
+            return newVal
+        },
+    },
+    created() {
+        this.initDate()
     },
     methods: {
         handleChoose(index) {
             this.currentIndex = index
+            if(index==2) {
+                this.startDate = this.$moment(new Date()).subtract(30, 'day').format('YYYY/MM/DD')
+            } else if(index==0) {
+                this.startDate = this.$moment(new Date()).format('YYYY/MM/DD')
+            } else {
+                this.startDate = this.$moment(new Date()).subtract(7, 'day').format('YYYY/MM/DD')
+            }
+        },
+
+        // 初始化时间
+        initDate() {
+            this.startDate = this.$moment(new Date()).format('YYYY/MM/DD')
+            this.endDate = this.$moment(new Date()).format('YYYY/MM/DD')
+        },
+        // 筛选
+        handleScreening() {
+            // debugger
+            this.isScrrenning = true
         }
-    }
+    },
+    
 }
 </script>
 
@@ -112,6 +162,9 @@ export default {
         color: #fff;
         font-size:.36rem;
         font-weight: bold;
+    }
+    .price-list {
+      margin-top: .28rem;
     }
     .timeBox {
         height: .8rem;

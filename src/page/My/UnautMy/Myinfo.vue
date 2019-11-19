@@ -61,7 +61,7 @@
         </div>
         <clxsd-cell style="margin-top:.2rem;" :title="'我的邀请'" :to="'/record'" is-link icon="wode-wodeyaoqing" />
         <clxsd-cell :title="'通道收益'" :to="'/channel-profit'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_pass"/>
-        <clxsd-cell :title="'合伙收益'" :to="'/channel-profit'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_pass"/>
+        <clxsd-cell :title="'合伙收益'" v-if="userInfo.user_type==4&&userInfo.sub_type==3" :to="'/cooperation-profit'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_pass"/>
         <!-- <clxsd-cell :title="'广告收益'" :to="'/develop'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_ad" style="margin-bottom: .2rem"/> -->
         <ul class="unautMy-userlist">
             <div style="margin-bottom:.2rem">

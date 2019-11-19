@@ -1,6 +1,11 @@
 <template>
     <div class="record">
-        <clxsd-head-top title='邀请记录' :goBackFnc="goBackFnc" :goBackNum="-1"></clxsd-head-top>
+        <clxsd-head-top title='邀请记录' :append="true">
+            <div slot="append" @click="showPopup">
+                <span>筛选</span>
+            </div>
+        </clxsd-head-top>
+        <!-- <div style="min-height:.88rem;"></div> -->
         <main>
             <div class="searchbox">
                 <SearchBar ref="searchBox" :searchFn="searchFn" :record='record' v-model="searchValue" @keyup="keyup" @clearText="clearText"></SearchBar>
@@ -17,17 +22,37 @@
                                     <p style="margin-bottom:.2rem;" :class="{'supplier':item.supplier}" >{{item.real_name}}<span style="margin-left:.16rem"><b v-if="item.supplier">·</b>{{item.phone_desensite}}</span></p>
                                     <span v-if="item.supplier&&item.supplier.status==1" class="approve">已认证</span>
                                     <span v-else class="NOapprove">未认证</span>
+                                     <span class="approve" style="margin-left:.22rem;">{{item.supplier&&item.supplier.type_desc || item.user_type_desc}}</span>
                                     <span class="province_name"  v-if="item.supplier">{{item.supplier.province_name}}<b v-if="item.supplier.city_name">·</b>{{item.supplier.city_name}}</span>
                                 </section>
                             </div>
                             <div class="created_at">{{item.created_at_int*1000 |formatDate(fmt = "yyyy/MM/dd")}}</div>
                         </li>
                     </ul>
-                    <div style="text-align: center;color: #999;margin-top: 10px;" v-if="allLoaded">—— 没有更多啦 ——</div>
+                    <div style="text-align: center;color: #999;margin:10px 0;" v-if="allLoaded">—— 没有更多啦 ——</div>
                 </mt-loadmore>
             </div>
             <UnJurisdiction  v-else></UnJurisdiction>
         </main>
+        <div class="popupBox">
+            <mt-popup
+            v-model="popupVisible"
+            position="bottom"
+            class="popup"
+            popup-transition="popup-fade">
+                <div class="head">
+                    <div @click="popupVisible=!popupVisible">取消</div>
+                    <div @click="handleChoose">确定</div>
+                </div>
+                <div class="container">
+                    <div class="item" v-for="(item,index) of subRoles" :class="{checked:item.checked}" :key="index" @click="choosePromote(index)">
+                        <div >{{item.name}}</div>
+                    </div>
+                </div>
+               
+            </mt-popup>      
+        </div>
+          
     </div>
 </template>
 
@@ -43,7 +68,9 @@ export default {
             searchValue:'',
             limit:20,
             page:1,
-            allLoaded:false
+            allLoaded:false,
+            popupVisible: false,
+            subRoles: []
         }
     },
     components:{
@@ -72,25 +99,43 @@ export default {
             this.searchFn()
         },
         /**
+         * 点击筛选
+         */
+        showPopup() {
+            this.popupVisible = true
+        },
+        /**
          * 获取李彪
          * flag代表是不是上拉加载
          */
         _getList(flag) {
+            let value = this.subRoles.map(item=>{
+                if(item.checked) {
+                    return item.value
+                }
+            })
             let params = {
                 limit: this.limit,
                 page: this.page,
-                search: this.searchValue
+                search: this.searchValue,
+                apply_sub_role: value
             }
              this.$http.get(`users/self/`,
              {params},
             {
             validate: state => state === 200
             }).then(response => {
-                let data = response.data.data?response.data.data : []
+                
+                let data = response.data.data
+                let list = data.users.length>0?data.users : []
                 flag&&this.$refs.loadmore.onBottomLoaded()
-                // debugger
-                this.list = this.list.concat(data)
-                if(data.length<=0) {
+                // 
+                data.subRoles.forEach((item, index, arr)=>{
+                    arr[index].checked = false
+                })
+                this.subRoles = data.subRoles
+                this.list = this.list.concat(list)
+                if(list.length<=0) {
                     this.allLoaded = true
                 }
                 this.page++
@@ -104,6 +149,17 @@ export default {
         loadTop(){
             // this.$refs.loadmore.onTopLoaded()
         },
+        // 点击选择筛选推广类型
+        choosePromote(index) {
+            this.subRoles[index].checked = !this.subRoles[index].checked
+        },
+        // 点击确认筛选
+        handleChoose() {
+            this.popupVisible = false
+            this.page = 1
+            this.list = []
+            this._getList()
+        },
        
     }
 }
@@ -112,16 +168,27 @@ export default {
 
 <style lang="scss" scoped>
     .record {
+        display: flex;
+        height: 100%;
+        flex-direction: column;
 
     main {
         padding:  0 .2rem;
+        flex:1;
+        overflow: auto;
+        display: flex;
+       
+        flex-direction: column;
         .searchbox {
             margin-top: .1rem;
         }
         ul {
-            margin-top: .3rem;
+            // margin-top: .3rem;
+            flex: 1;
+            overflow: auto;
+            padding-bottom: .1rem;
             li {
-                width:7.1rem;
+                // width:7.1rem;
                 height:2rem;
                 display: flex;
                 flex-direction: column;
@@ -213,7 +280,7 @@ export default {
         // width:126px;
         height:.19rem !important;
         justify-content: flex-end;
-        // margin-top: .1rem;
+        margin-top: .1rem;
     }
     .NOapprove {
         font-size: .2rem !important;
@@ -222,4 +289,69 @@ export default {
         border:1px solid rgba(153,153,153,1);
         border-radius:.04rem;
     }
+    .popupBox {
+        width: 100%;
+        .popup {
+            width: 100%;
+            background: #f5f5f5;
+            .container {
+                margin: .5rem 0;
+                display: flex;
+                // justify-content: space-between;
+                width: 100%;
+                flex-wrap: wrap;
+                padding: 0 .3rem;
+                div {
+                    // width: 100%;
+                }
+               
+                .item {
+                    // width: 2.18rem;
+                    width: 30%!important;
+                    margin-bottom: .1rem;
+                    margin-right: .2rem;
+                    display: inline-block;
+                    height: 1.24rem;
+                    color: #666;
+                    text-align: center;
+                    line-height:  1.24rem;
+                    font-size: .3rem;
+                    background: #fff;
+                }
+                .checked {
+                    background: #0090FF;
+                    color: #fff;
+                }
+            }
+            
+        }
+        .head {
+            height: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 .2rem;
+            width: 100%;
+            div:first-child {
+                color: #333;
+                width:1.4rem;
+                height:.88rem;
+                border:1px solid rgba(51,51,51,1);
+                border-radius:22px;
+                text-align: center;
+                line-height: .88rem;
+            }
+             div:last-child {
+                color: #fff;
+                width:1.4rem;
+                height:.88rem;
+                background: #2DA2FF;
+                // border:1px solid rgba(51,51,51,1);
+                border-radius:22px;
+                text-align: center;
+                line-height: .88rem;
+            }
+        }
+    }
+   
 </style>
