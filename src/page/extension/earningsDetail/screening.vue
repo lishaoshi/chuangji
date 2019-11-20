@@ -37,7 +37,7 @@
                         <span>通道收益</span>
                     </div>
                     <!-- <section style="margin: 0 .1rem;"> — </section> -->
-                    <div @click="handleIncome(2)" :class="{active:incomeFlag==2}">
+                    <div @click="handleIncome(2)" v-if="userInfo.area_type=='partner'" :class="{active:incomeFlag==2}">
                         <span>合伙收益</span>
                     </div>
                 </div>
@@ -63,6 +63,7 @@
 </template>
 
 <script>
+import { mapState  } from 'vuex'
 export default {
     props: {
         isScrrenning: {
@@ -89,6 +90,16 @@ export default {
             dateValue: new Date(),
             dateFlag: 0
         }
+    },
+    computed: {
+        ...mapState({
+            userInfo: state => {
+                const currentInfo = state.CURRENTUSER.data
+                return {
+                    area_type: currentInfo.area_user&&currentInfo.area_user.apply_role
+                }
+            },
+        }),
     },
     methods: {
         clone() {
@@ -128,7 +139,13 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-   
+   position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+   width: 100%;
+   height: 100%;
     .main-box {
         background: #fff;
         position: absolute;
@@ -210,7 +227,7 @@ export default {
         left: 0;
         right: 0;
         bottom: 0;
-        top: .88rem;
+        top: 0;
         background: #000;
         opacity: 0.4;
         z-index: 99;

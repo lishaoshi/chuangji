@@ -69,7 +69,7 @@
         <!-- 推广人了解 -->
         <main class="content" v-if="type === '/introduction/promoter'">
             <div class="content-header">
-                <h1>推广人推荐介</h1>
+                <h1>推广人简介</h1>
                 <p>推广人：就是代表“创联工厂”医药供应链金融服务平台寻找签约及服务药品采购商。其角色相当于传统电商平台的“业务员”；推广人又分为单体药店推广人、连锁药店推广人、诊所推广人等！</p>
             </div>
 

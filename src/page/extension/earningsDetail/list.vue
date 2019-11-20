@@ -10,15 +10,15 @@
         <div class="price-right">
             <div>
                 <section :class="{spending:data.type==2}"></section>
-                <span>{{isIncome}}: </span>
+                <span>{{isIncome}}</span>
                 <span>{{data.benefit_value}}</span>
             </div>
             <div>
-                <span>余额: </span>
+                <span>余额</span>
                 <span>{{data.benefit_old_value}}</span>
             </div>
             <div class="price-right-abstract">
-                <span>摘要: </span>
+                <span>摘要</span>
                 <span>{{data.note}} {{incomeType}}</span>
             </div>
         </div>
@@ -107,7 +107,8 @@ export default {
         display: inline-flex;
         flex-direction: column;
         flex:1;
-        margin-top: .32rem;
+        padding: .32rem 0;
+        justify-content: space-between;
          & section {
             display: inline-block;
             width: .14rem;
@@ -115,20 +116,20 @@ export default {
             background: #E53C6F;
             border-radius: 50%;
             margin-right: .08rem;
-                // position: absolute;
-                // left: -20px;
             }
             .spending {
                 background: #4DB266!important;
             }
+            span {
+                margin-right: .18rem;
+            }
         &>div{
             span:first-child {
                 font-size: .24rem;
+                // 
             }
             span:last-child {
                 font-size: .28rem;
-                margin-top: 8px;
-                font-weight: bold;
             }
            
         }
@@ -137,7 +138,6 @@ export default {
         }
        
         &-abstract {
-            margin-top: 12px;
             font-size: .24rem;
             color: #999;
             span {

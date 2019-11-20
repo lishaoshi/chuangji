@@ -18,7 +18,7 @@
 
                         <div>可提现金额(元)</div>
                         <div class="bottom-price">
-                            <span>{{(data.income-data.expend) |　display_price}}</span>
+                            <span>{{(data.can_expend) |　display_price | moneyCon}}</span>
                             <span>{{userInfo.area_type=='partner'?'合伙人':'推广人'}}</span>
                         </div>
                     </div>
@@ -59,12 +59,12 @@
                 <div class="total-price">
                     <div class="total-price-income">
                         <span>总收入(元)</span>
-                        <span>{{data.income | display_price}}</span>
+                        <span>{{data.income | display_price| moneyCon}}</span>
                     </div>
 
                     <div class="total-price-spending">
                         <span>总提现(元)</span>
-                        <span>{{data.expend | display_price}}</span>
+                        <span>{{data.expend | display_price| moneyCon}}</span>
                     </div>
                 </div>
 
@@ -74,10 +74,16 @@
                 </div>
                 <EmptyList v-else/>
                  <!-- 筛选弹出 -->
-                <scrrenning @comfirmQueryData="comfirmQueryData" v-if="isScrrenning" :startDate.sync="startDate" :endDate.sync="endDate" :isScrrenning.sync="isScrrenning"> </scrrenning>
+             
             </mt-loadmore>
         </div>
-        
+          <transition 
+            name="fade" 
+            enter-active-class="animated slideInRight"  
+            leave-active-class="animated slideOutRight"
+            >
+                <scrrenning @comfirmQueryData="comfirmQueryData" v-if="isScrrenning" :startDate.sync="startDate" :endDate.sync="endDate" :isScrrenning.sync="isScrrenning"> </scrrenning>
+            </transition>
   </div>
 </template>
 
@@ -148,7 +154,8 @@ export default {
             data: {
                 list: [],
                 expend: 0,
-                income: 0
+                income: 0,
+                can_expend: 0
             },
             allLoaded: false
         }
@@ -169,13 +176,13 @@ export default {
     },
     computed: {
         ...mapState({
-                userInfo: state => {
-                    const currentInfo = state.CURRENTUSER.data
-                    return {
-                        area_type: currentInfo.area_user&&currentInfo.area_user.apply_role
-                    }
-                },
-            }),
+            userInfo: state => {
+                const currentInfo = state.CURRENTUSER.data
+                return {
+                    area_type: currentInfo.area_user&&currentInfo.area_user.apply_role
+                }
+            },
+        }),
     },
 
     methods: {
@@ -237,6 +244,7 @@ export default {
                 this.tranType = 2
             }
             this.page = 1
+            this.allLoaded = false
             this.initData()
             this.isScrrenning = false
         },
@@ -326,8 +334,8 @@ export default {
     }
     .active {
         color: #0090FF;
-        font-size:.26rem;
-        font-weight: bold;
+        // font-size:.26rem;
+        // font-weight: bold;
         height: .8rem;
         line-height: .8rem;
         border-bottom: 2px solid #0090ff;
@@ -367,7 +375,7 @@ export default {
             border-right: 1px solid #e6e6e6;
             span:last-child {
                 color: #E53C6F;
-                font-size: .38rem;
+                font-size: .44rem;
             }
         }
          &-spending {
@@ -379,7 +387,7 @@ export default {
             margin-left: .2rem;
             span:last-child {
                 color: #4DB266;
-                font-size: .38rem;
+                font-size: .44rem;
             }
         }
     }
