@@ -28,3 +28,24 @@ export function rebateFn() {
         return res.data
     })
 }
+/***
+ * 合伙收益统计
+ */
+export function heHuoList() {
+    let url = `hippo-shop/wallet/hehuo-details`
+    return http.get(url).then(res=>{
+        return res.data
+    })
+}
+
+/***
+ * 通道/合伙收益明细
+ */
+export function incomeTrans(params) {
+    let url = `hippo-shop/wallet/income-trans`
+    return http.get(url, {params}).then(res=>{
+        return res.data
+    }).catch(err=>{
+        return Promise.reject(err)
+    })
+}

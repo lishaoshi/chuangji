@@ -6,28 +6,50 @@
             </div>
         </clxsd-head-top>
 
-        <div class="content-list">
-            <div class="content-list-item">
+        <div class="content-list" v-if="list.length">
+            <div class="content-list-item" v-for="(item,index) of list" :key="index">
                 <div class="userInfo">
-                    <img src="../../../images/add_shopping.png" alt="">
-                    <span>张鑫鑫</span>
+                    <img src="../../../images/my/user_default.png"/>
+                    <span>{{item.real_name}}</span>
                 </div>
 
                 <div class="price">
                     <span>分佣元</span>
-                    <span>750.00</span>
+                    <span>{{item.sum}}</span>
                 </div>
-
             </div>
         </div>
+         <EmptyList v-else/>
+       
   </div>
 </template>
 
 <script>
+import { heHuoList } from '@/api/ticketList'
+import EmptyList from "@/components/EmptyList"
 export default {
+    components: {
+        EmptyList
+    },
     data() {
         return {
-            
+            list: []
+        }
+    },
+    created() {
+        this.initData()
+    },
+    methods: {
+        /**
+         * 获取合伙收益列表
+         */
+        initData() {
+            heHuoList().then(res=>{
+                if(res&&res.data) {
+                    let data = res.data
+                    this.list = data
+                }
+            })
         }
     }
 }

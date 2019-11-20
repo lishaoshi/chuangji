@@ -9,17 +9,17 @@
         </div> -->
         <div class="price-right">
             <div>
-                <section></section>
-                <span>提现: </span>
-                <span>10000</span>
+                <section :class="{spending:data.type==2}"></section>
+                <span>{{isIncome}}: </span>
+                <span>{{data.benefit_value}}</span>
             </div>
             <div>
                 <span>余额: </span>
-                <span>10000</span>
+                <span>{{data.benefit_old_value}}</span>
             </div>
             <div class="price-right-abstract">
                 <span>摘要: </span>
-                <span>体现</span>
+                <span>{{data.note}} {{incomeType}}</span>
             </div>
         </div>
 
@@ -37,6 +37,24 @@ export default {
         data : {
             type: Object,
             default: ()=>{}
+        }
+    },
+    computed: {
+        incomeType() {
+            let text = ''
+            if(this.data.type==1) {
+                text = '通道收益'
+            } else if(this.data.type==3) {
+                text = '合伙收益'
+            }
+            return text
+        },
+        isIncome() {
+            if(this.data.type!=2) {
+                return '收入'
+            } else {
+                return '支出'
+            }
         }
     },
     methods: {
@@ -99,6 +117,9 @@ export default {
             margin-right: .08rem;
                 // position: absolute;
                 // left: -20px;
+            }
+            .spending {
+                background: #4DB266!important;
             }
         &>div{
             span:first-child {

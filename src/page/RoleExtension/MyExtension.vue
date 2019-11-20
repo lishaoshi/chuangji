@@ -51,6 +51,7 @@
       </div>
       <div style="margin-top: .2rem">
         <clxsd-cell title="通道收益" :to="'/channel-profit'" is-link icon="promoter_pass" />
+        <clxsd-cell :title="'合伙收益'" v-if="userInfo.area_type=='partner'" :to="'/cooperation-profit'" :value="userInfo.lianPiaoVaule" is-link icon="my-banknote"/>
         <!-- <clxsd-cell title="广告收益" :to="'/develop'" is-link icon="promoter_ad" /> -->
       </div>
       <div style="margin-top: .2rem">
@@ -118,7 +119,8 @@ export default {
           user_type: currentInfo.user_type,
           sub_type: currentInfo.sub_type,
           state: currentInfo.status,
-          avatar: currentInfo.avatar
+          avatar: currentInfo.avatar,
+          area_type: currentInfo.area_user&&currentInfo.area_user.apply_role
         };
       }
     }),

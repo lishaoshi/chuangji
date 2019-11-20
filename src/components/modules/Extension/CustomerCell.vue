@@ -66,7 +66,7 @@
             </div>
         </div>
         <!--合伙人--->
-        <div v-if="data.type === 'partner'"  class="partner">
+        <!-- <div v-if="data.apply_role === 'partner'"  class="partner">
             <div class="name">
                 <img :src="data.avatar | display_avatar" v-if="data.avatar" class="img1">
                 <img src="../../../images/default.png" class="img1" v-else>
@@ -85,7 +85,7 @@
                 <b>{{data.name}}</b>
             </div>
             <p class="company-name">{{data.phone | filter_mobile}}</p>
-        </div>
+        </div> -->
 
         <!--工业--->
         <div v-if="data.type === 'factory'"  class="factory">

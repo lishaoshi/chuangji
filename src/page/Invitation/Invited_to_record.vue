@@ -112,6 +112,8 @@ export default {
             let value = this.subRoles.map(item=>{
                 if(item.checked) {
                     return item.value
+                } else {
+                    return ''
                 }
             })
             let params = {

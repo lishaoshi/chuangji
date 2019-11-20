@@ -25,12 +25,12 @@
                     </div>
                     <!-- <section style="margin: 0 .1rem;"> — </section> -->
                     <div @click="handlePrice(2)" :class="{active:priceFlag==2}">
-                        <span>支出</span>
+                        <span>提现</span>
                     </div>
                 </div>
             </div>
              <!-- 收益类型 -->
-            <div class="income-type">
+            <div class="income-type" v-if="priceFlag!=2">
                 <div class="title">收益类型</div>
                 <div class="content">
                     <div @click="handleIncome(1)" :class="{active:incomeFlag==1}">
@@ -45,7 +45,7 @@
              <!-- 底部按钮 -->
             <div class="bottom-btn">
                 <div @click="clone">取消</div>
-                <div class="confirm">确定</div>
+                <div class="confirm" @click="comfirmQueryData">确定</div>
             </div>
         </div>
 
@@ -104,6 +104,8 @@ export default {
             this.dateFlag = type
             if(this.dateFlag=='start') {
                 this.dateValue = new Date(this.startDate)
+            } else if(this.dateFlag=='end') {
+                 this.dateValue = new Date(this.endDate)
             }
             this.$refs.datePicker.open();
         },
@@ -113,7 +115,13 @@ export default {
             this.dateFlag=='start'&&(this.$emit('update:startDate', date))
             this.dateFlag=='end'&&this.$emit('update:endDate', date)
 
-        } 
+        } ,
+        /**
+         * 确认搜索按钮
+         */
+        comfirmQueryData() {
+            this.$emit('comfirmQueryData', this.priceFlag, this.incomeFlag)
+        }
     }
 }
 </script>

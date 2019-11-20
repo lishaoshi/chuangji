@@ -4,9 +4,9 @@
 			<clxsd-head-top :title='`设置`'></clxsd-head-top>
 		</div>
 		<ul class="my-list">
-            <div v-if="userInfo.user_type===4 && (userInfo.sub_type === 3 || userInfo.sub_type === 2)">
+            <!-- <div v-if="userInfo.user_type===4 && (userInfo.sub_type === 3 || userInfo.sub_type === 2)">
                 <clxsd-cell :title="'添加收款微信二维码'" :to="'/weixin-add'" is-link/>
-            </div>
+            </div> -->
             <div v-if="userInfo.user_type===1 || userInfo.user_type===2 || userInfo.user_type===3">
                 <clxsd-cell :title="'个人信息'" :to="'/user/info'" is-link/>
             </div>
