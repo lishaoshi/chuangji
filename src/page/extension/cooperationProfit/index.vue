@@ -14,7 +14,7 @@
                 </div>
 
                 <div class="price">
-                    <span>分佣元</span>
+                    <span>分佣(元)</span>
                     <span>{{item.sum}}</span>
                 </div>
             </div>
@@ -57,13 +57,15 @@ export default {
 
 <style lang="scss" scoped>
 .content-list {
-    
+    padding: 0 .2rem;
     .content-list-item {
         background: #fff;
         display: flex;
         align-items: center;
         height: 1.8rem;
         justify-content: space-between;
+        margin-top: .2rem;
+        border-radius:8px;
         .userInfo {
             display: flex;
             align-items: center;

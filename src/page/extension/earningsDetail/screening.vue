@@ -214,8 +214,11 @@ export default {
                 border-radius: 18px;
                 height: .74rem;
                 line-height: .74rem;
-                border:1px solid rgba(102,102,102,1);
+                
                 color: #666;
+            }
+            div:last-child {
+                border:0!important;
             }
             .confirm {
                 background: #0090FF;
