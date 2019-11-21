@@ -190,10 +190,13 @@ export default {
             this.currentIndex = index
             if(index==2) {
                 this.startDate = this.$moment(new Date()).subtract(30, 'day').format('YYYY/MM/DD')
+                this.endDate = this.$moment(new Date()).format('YYYY/MM/DD')
             } else if(index==0) {
                 this.startDate = this.$moment(new Date()).format('YYYY/MM/DD')
+                this.endDate = this.$moment(new Date()).format('YYYY/MM/DD')
             } else {
                 this.startDate = this.$moment(new Date()).subtract(7, 'day').format('YYYY/MM/DD')
+                this.endDate = this.$moment(new Date()).format('YYYY/MM/DD')
             }
             this.page = 1
             this.allLoaded = false
