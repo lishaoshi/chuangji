@@ -56,7 +56,7 @@
                                     <div>
                                         <div class="item" id="list-item">
                                             <router-link :to="`/drug-detail/${supplier_id}/${entity.id}`">
-                                                <img :src="entity.cover" class="item-img">
+                                                <img :src="entity.cover | handleImgUrl" class="item-img">
                                             </router-link>
                                             <div class="item-box">
                                                 <router-link :to="`/drug-detail/${supplier_id}/${entity.id}`">
@@ -171,6 +171,12 @@
             supplierId() {
                 const shopSupplier = this.USER_INFO.shop_supplier
                 return shopSupplier ? shopSupplier.id : 0
+            }
+        },
+        filters: {
+            handleImgUrl(val) {
+                let ossText = '?x-oss-process=image/resize,w_150,h_150,m_fixed'
+                return val+ossText
             }
         },
         created() {

@@ -13,7 +13,7 @@
         </div>
         <template v-if="tabIndex==0">
             <mt-swipe :auto="4000" style="height: 5.6rem;background: #fff;" v-if="data.imgs!=''">
-                <mt-swipe-item v-for="(item,index) in data.imgs"><img :src="item.new" width="100%" height="100%"></mt-swipe-item>
+                <mt-swipe-item v-for="(item,index) in data.imgs"><img :src="item.new |　handleImgUrl" width="100%" height="100%"></mt-swipe-item>
             </mt-swipe>
             <mt-swipe :auto="4000" style="height: 5.6rem;background: #fff;" v-else>
                 <mt-swipe-item><img :src="data.img_cover" width="100%" height="100%"></mt-swipe-item>
@@ -149,6 +149,12 @@
             suppler_id() {
                 return this.supplierId;
             },
+        },
+        filters: {
+            handleImgUrl(val) {
+                let ossText = '?x-oss-process=image/resize,w_750,h_750,m_fixed'
+                return val+ossText
+            }
         },
         created() {
             this.id = parseInt(this.$route.params.id);
