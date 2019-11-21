@@ -214,16 +214,14 @@ export default {
                 page: this.page
             }
             incomeTrans(params).then(res=>{
+                res.data.list.forEach((item, index,  arr)=>{
+                    if(item.tag===0) {
+                        arr[index].benefit_old_value = (+item.benefit_old_value) +　(+item.benefit_value)
+                    } else {
+                        arr[index].benefit_old_value = (+item.benefit_old_value) -　(+item.benefit_value)
+                    }
+                })
                 if(this.page>1) {
-                    // debugger
-                    res.data.list.forEach((item, index,  arr)=>{
-                        if(item.tag===0) {
-                            arr[index].benefit_old_value = (+item.benefit_old_value) +　(+item.benefit_value)
-                        } else {
-                            arr[index].benefit_old_value = (+item.benefit_old_value) -　(+item.benefit_value)
-                        }
-                        alert(arr[index].benefit_old_value,'text')
-                    })
                     this.data.list = this.data.list.concat(res.data.list)
                     this.$refs.loadmore.onBottomLoaded()
                 } else {
