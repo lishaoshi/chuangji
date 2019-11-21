@@ -147,7 +147,7 @@ export default {
                 },
             ],   //收益列表
             isScrrenning: false, //是否是筛选
-            dateDiff: 0, //计算开始时间与结束时间的差值
+            dateDiff: 30, //计算开始时间与结束时间的差值
             tranType: 0,
             limit: 15,
             page: 1,
@@ -216,7 +216,14 @@ export default {
             incomeTrans(params).then(res=>{
                 if(this.page>1) {
                     // debugger
-                    this.data.list = this.data.list.concat(res.data.list)
+                    res.datata.list.forEach((item, index,  arr)=>{
+                        if(item.tag===0) {
+                            arr[index].benefit_old_value = +item.benefit_old_value +　+item.benefit_value
+                        } else {
+                            arr[index].benefit_old_value = +item.benefit_old_value -　+item.benefit_value
+                        }
+                    })
+                    this.data.list = this.data.list.concat(res.datata.list)
                     this.$refs.loadmore.onBottomLoaded()
                 } else {
                     this.data = res.data
@@ -228,8 +235,9 @@ export default {
         },
         // 初始化时间
         initDate() {
-            this.startDate = this.$moment(new Date()).format('YYYY/MM/DD')
-            this.endDate = this.$moment(new Date()).format('YYYY/MM/DD')
+            this.endDate= this.$moment(new Date()).format('YYYY/MM/DD')
+            this.startDate = this.$moment(new Date()).subtract(30, 'day').format('YYYY/MM/DD')
+            // this.endDate = this.$moment(new Date()).format('YYYY/MM/DD')
         },
         // 筛选
         handleScreening() {
