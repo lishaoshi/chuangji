@@ -314,11 +314,10 @@
                     }
                 }).then(response => {
                     if (response.data.data) {
-                        // console.log(this,response.data.data );
-                        
-                        // debugger
                         this.selected = response.data.data[0].value
-                        this.navbar = response.data.data;
+                          this.navbar = response.data.data.filter(item=>{
+                            return item.name!='合伙人'
+                         })
                     }
                     this.loading = false;
                 }).catch(error => {
