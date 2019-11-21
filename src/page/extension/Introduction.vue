@@ -15,7 +15,7 @@
         <!-- 省级了解 -->
         <main class="content" v-if="type === '/introduction/partner'">
             <div class="content-header">
-                <h1>省公司推荐介</h1>
+                <h1>省公司简介</h1>
                 <p>省级公司:就是代表“创联工厂”医药供应链金融服务平台所归属省份的运营加盟服务公司。其角色相当于传统电商平台的省级代理商;</p>
             </div>
 
@@ -42,7 +42,7 @@
         <!-- 市级了解 -->
         <main class="content" v-if="type === '/introduction/city'">
             <div class="content-header">
-                <h1>市公司推荐介</h1>
+                <h1>市公司简介</h1>
                 <p>地市公司：就是代表“创联工厂”医药供应链金融服务平台所归属地市的运营加盟公司。其角色相当于传统电商平台的市级代理。</p>
             </div>
 

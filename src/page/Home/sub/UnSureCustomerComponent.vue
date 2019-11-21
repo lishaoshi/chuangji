@@ -183,14 +183,15 @@
                         </ul> 
 
                     </div>
-                    <div class="go-info" style="text-align: center;margin-top: .8rem">
+                    <div class="go-info">
                         <button @click="handlePromoter"
+                                style="background: rgb(221,221,221)"
                                 :class="promoterActive&& region_promoter!=null? 'active':''"
                                 :disabled="!promoterActive&&region_promoter!=null"
-                                style="display: inline-block;margin-right: .5rem">
+                                >
                             开启权限
                         </button>
-                        <router-link to="/introduction/promoter" style="display: inline-block">
+                        <router-link to="/introduction/promoter">
                             初步了解
                         </router-link>
                     </div>
@@ -553,7 +554,7 @@
         }
 
         button.active {
-            background: #26a2ff;
+            background: #26a2ff!important;
         }
 
         button {

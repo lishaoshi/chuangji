@@ -19,7 +19,7 @@
             </div>
             <div class="price-right-abstract">
                 <span>摘要</span>
-                <span>{{data.note}} {{incomeType}}</span>
+                <span class="notice">{{data.note}} {{incomeType}}</span>
             </div>
         </div>
 
@@ -111,8 +111,8 @@ export default {
         justify-content: space-between;
          & section {
             display: inline-block;
-            width: .14rem;
-            height: .14rem;;
+            width: .20rem;
+            height: .20rem;;
             background: #E53C6F;
             border-radius: 50%;
             margin-right: .08rem;
@@ -130,6 +130,9 @@ export default {
             }
             span:last-child {
                 font-size: .28rem;
+            }
+            .notice {
+                font-size: .24rem!important;
             }
            
         }
