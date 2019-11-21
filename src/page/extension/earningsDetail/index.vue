@@ -218,9 +218,9 @@ export default {
                     // debugger
                     res.datata.list.forEach((item, index,  arr)=>{
                         if(item.tag===0) {
-                            arr[index].benefit_old_value = +item.benefit_old_value +　+item.benefit_value
+                            arr[index].benefit_old_value = (+item.benefit_old_value) +　(+item.benefit_value)
                         } else {
-                            arr[index].benefit_old_value = +item.benefit_old_value -　+item.benefit_value
+                            arr[index].benefit_old_value = (+item.benefit_old_value) -　(+item.benefit_value)
                         }
                     })
                     this.data.list = this.data.list.concat(res.datata.list)

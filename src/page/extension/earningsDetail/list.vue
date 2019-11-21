@@ -15,7 +15,7 @@
             </div>
             <div>
                 <span>余额</span>
-                <span>{{data.benefit_old_value}}</span>
+                <span>{{data.benefit_old_value | display_price}}</span>
             </div>
             <div class="price-right-abstract">
                 <span>摘要</span>
