@@ -216,7 +216,7 @@ export default {
             incomeTrans(params).then(res=>{
                 if(this.page>1) {
                     // debugger
-                    res.datata.list.forEach((item, index,  arr)=>{
+                    res.data.list.forEach((item, index,  arr)=>{
                         if(item.tag===0) {
                             arr[index].benefit_old_value = (+item.benefit_old_value) +　(+item.benefit_value)
                         } else {
@@ -224,7 +224,7 @@ export default {
                         }
                         alert(arr[index].benefit_old_value,'text')
                     })
-                    this.data.list = this.data.list.concat(res.datata.list)
+                    this.data.list = this.data.list.concat(res.data.list)
                     this.$refs.loadmore.onBottomLoaded()
                 } else {
                     this.data = res.data
