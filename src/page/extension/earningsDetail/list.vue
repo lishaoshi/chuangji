@@ -137,7 +137,7 @@ export default {
            
         }
         &>div:not(:first-child) {
-            margin-left: .22rem;
+            margin-left: .28rem;
         }
        
         &-abstract {
