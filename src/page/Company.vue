@@ -30,7 +30,7 @@
                 imgList:[],
                 refuse_reason: '',
                 sub_type_name: '',
-                sub_type: 0
+                // sub_type: 0
             }
         },
         components:{
@@ -59,7 +59,8 @@
                         }
                         return returnValue
                 },
-                USER_TYPE: state => state.CURRENTUSER.data.user_type
+                USER_TYPE: state => state.CURRENTUSER.data.user_type,
+                sub_type: state => state.CURRENTUSER.data.sub_type
             })
         },
         beforeRouteLeave(to, from, next) {
@@ -84,21 +85,6 @@
             // 获取公司资质信息
             async _queryCompayResults() {
                 await this.fetchUserInfo()
-                this.CERT_STATUS==2&&queryCompayResults({}).then(res=>{
-                    if(res.code==200) {
-                        console.log(res.data)
-                        let data = res.data.certificationInfo
-                        this.cate_name = data.cate_name
-                        this.org_name = data.org_name
-                        this.imgList = data.files.reverse()
-                          this.imgList.forEach(item=>{
-                              item.value = `${item.value}?x-oss-process=image/resize,w_100,h_100`
-                          })
-                        this.refuse_reason = data.refuse_reason
-                        this.sub_type_name = data.sub_type_name?data.sub_type_name:''
-                        this.sub_type = data.sub_type
-                    }
-                })
             },
 
             // 重新获取用户信息

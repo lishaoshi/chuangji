@@ -531,6 +531,7 @@
 
     .go-info {
         margin-top: 1.5rem;
+        display: flex;
 
         a, button {
             display: block;

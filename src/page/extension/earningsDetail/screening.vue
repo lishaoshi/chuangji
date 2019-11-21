@@ -214,7 +214,7 @@ export default {
                 border-radius: 18px;
                 height: .74rem;
                 line-height: .74rem;
-                
+                border: 1px solid #666;
                 color: #666;
             }
             div:last-child {
