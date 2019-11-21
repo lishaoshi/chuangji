@@ -222,7 +222,7 @@ export default {
                         } else {
                             arr[index].benefit_old_value = (+item.benefit_old_value) -　(+item.benefit_value)
                         }
-                        console.log(arr[index].benefit_old_value,'text')
+                        alert(arr[index].benefit_old_value,'text')
                     })
                     this.data.list = this.data.list.concat(res.datata.list)
                     this.$refs.loadmore.onBottomLoaded()
