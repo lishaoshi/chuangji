@@ -1,8 +1,8 @@
 <template>
     <div class="container">
         <div class="date-left">
-            <div>星期一</div>
-            <div>2019/11/11</div>
+            <div>星期{{data.created_at | handleWeek}}</div>
+            <div>{{data.created_at | handleDate}}</div>
         </div>
         <!-- <div class="round">
             <i ></i>
@@ -55,6 +55,17 @@ export default {
             } else {
                 return '支出'
             }
+        }
+    },
+    filters: {
+        handleDate(val) {
+            let value = val.split(' ')
+            return value[0]
+        },
+        handleWeek(val) {
+            
+            let week = new Date(val).getDay()
+            return week
         }
     },
     methods: {
