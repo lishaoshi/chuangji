@@ -2,16 +2,20 @@
     <div class="UnautMy">
         <div class="container">
             <div class="header">
-                <span v-if="userInfo.user_type!==4">{{userInfo.companyName}}</span>
-                
-                 <!-- <span></span> -->
+                <span>我的</span>
             </div>
 
             <div class="userinfo">
                 <div class="userinfo-left">
                     <img :src="userInfo.avatar | display_avatar" class="logo" v-if="userInfo.avatar"/>
                     <img src="../../../images/my/user_default.png" v-else/>
-                    <div v-if="userInfo.sub_type === 1">
+                     <div v-if="userInfo.area_user&&userInfo.area_user.apply_role === 'promoter'">
+                        <img src="../../../images/extension/promoter.png" class="tag"/>
+                    </div>
+                    <div v-else>
+                        <img src="../../../images/extension/partner.png" class="tag"/>
+                    </div>
+                    <!-- <div v-if="userInfo.sub_type === 1">
                         <img src="../../../images/extension/province.png" class="tag"/>
                     </div>
                     <div v-if="userInfo.sub_type === 2">
@@ -22,7 +26,7 @@
                     </div>
                     <div v-if="userInfo.sub_type === 4">
                         <img src="../../../images/extension/promoter.png" class="tag"/>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="userinfo-centre">
                     <p class="name">

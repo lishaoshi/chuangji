@@ -139,13 +139,14 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-   position: absolute;
+    position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
     top: 0;
-   width: 100%;
-   height: 100%;
+    z-index: 99;
+    width: 100%;
+    height: 100%;
     .main-box {
         background: #fff;
         position: absolute;
