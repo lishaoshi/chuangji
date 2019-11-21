@@ -12,7 +12,7 @@
                      <div v-if="userInfo.area_user&&userInfo.area_user.apply_role === 'promoter'">
                         <img src="../../../images/extension/promoter.png" class="tag"/>
                     </div>
-                    <div v-else>
+                    <div v-if="userInfo.area_user&&userInfo.area_user.apply_role === 'partner'">
                         <img src="../../../images/extension/partner.png" class="tag"/>
                     </div>
                     <!-- <div v-if="userInfo.sub_type === 1">
