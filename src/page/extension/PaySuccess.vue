@@ -1,14 +1,16 @@
 <template>
         <div id="PaySuccess">
-            <mt-header title="申请通知">
+            <!-- <mt-header title="申请通知">
                 <div slot="left"  @click="handleBack">
                     <mt-button icon="back"></mt-button>
                 </div>
-            </mt-header>
+            </mt-header> -->
+             <clxsd-head-top title='申请通知' style="border-bottom: 0px">
+            </clxsd-head-top>
             <svg class="icon">
                 <use xlink:href="#icon-IsCheckedShop-open"/>
             </svg>
-            <p class="p1">申请成功</p>
+            <p class="p1">提交成功</p>
             <p class="p2">我们已收到您的申请，请耐心等待哟</p>
             <!--
             <a href="tel:xxxx">

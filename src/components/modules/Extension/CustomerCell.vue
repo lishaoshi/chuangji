@@ -215,8 +215,6 @@
             },
         },
         mounted() {
-            // debugger
-            console.log(this.avatar, this.img_cover)
         }
     }
 </script>
