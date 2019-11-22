@@ -5,7 +5,7 @@
                     <mt-button icon="back"></mt-button>
                 </div>
             </mt-header> -->
-             <clxsd-head-top title='申请通知' style="border-bottom: 0px">
+             <clxsd-head-top goBackNum="-3" title='申请通知' style="border-bottom: 0px">
             </clxsd-head-top>
             <svg class="icon">
                 <use xlink:href="#icon-IsCheckedShop-open"/>

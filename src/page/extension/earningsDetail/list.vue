@@ -157,6 +157,10 @@ export default {
             span {
                 font-weight: normal!important;
             }
+            span:first-child {
+                flex: 0 0 auto;
+            }
+            display: inline-flex;
         }
     }
 }

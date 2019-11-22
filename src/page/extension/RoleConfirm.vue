@@ -30,6 +30,7 @@
                     <p v-if="role==='promoter'">推广人</p>
                     <!-- <p v-if="role==='partner'">合伙人</p> -->
                     <p v-if="role==='city_company'">市级推广</p>
+                    <p v-if="role==='partner'">合伙人</p>
                     <p v-if="role==='province_company'">省级推广</p>
                     <p class="type" v-if="selectedSaveData!=undefined">
                         <span v-if="selectedSaveData.business">商业</span>
@@ -177,7 +178,6 @@
                     }
             },
             toPay(){
-                // debugger
                 if(this.loading) return;
                 var data = {
                         apply_role:this.role,
@@ -187,7 +187,6 @@
                         city: this.selectedSaveData.code||(this.role=="province_company"?"":this.selectedSaveData)
                 }
                 this.fliter(data)
-                // this.$router.push('/pay-success');
                 this.$http.post('/hippo-shop/area-user',{
                         ...data
                 }).then(res=>{

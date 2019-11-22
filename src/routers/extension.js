@@ -46,6 +46,11 @@ const ExtensionAptitudesEdit = () => import(/* webpackChunkName: "extensition" *
 // 当前用户不是推广员时，table栏中的客户按钮
 const promotersCustomer = () => import('@/page/My/UnautMy/promotersCustomer');
 
+/** 
+ * 合伙人简介
+*/
+const partnerInfo = () => import('@/page/My/partnerInfo')
+
 
 export default [
     {
@@ -72,6 +77,14 @@ export default [
             title: "公司信息",
             requiresAuth: true
             
+        }
+    },
+    {
+        path: "/partnerInfo",
+        component: partnerInfo,
+        meta: {
+            title: "合伙人简介",
+            requiresAuth: true
         }
     },
     {

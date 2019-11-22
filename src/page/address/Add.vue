@@ -246,7 +246,7 @@ input, textarea {
         input {
             flex: 1;
             line-height: .96rem;
-            height: 96%;
+            height: 100%;
         }
         textarea {
             // height: .88rem;

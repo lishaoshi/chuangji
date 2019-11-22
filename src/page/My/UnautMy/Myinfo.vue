@@ -63,6 +63,9 @@
                 <b>1800.00</b>
             </div> -->
         </div>
+        <div class="becomePartner" v-if="(userInfo.area_type&&userInfo.area_type!=='partner') || !is_apply">
+            <img src="../../../images/becomePartnr.png" alt="" @click="queryPartnerInfo">
+        </div>
         <clxsd-cell style="margin-top:.2rem;" :title="'我的邀请'" :to="'/record'" is-link icon="wode-wodeyaoqing" />
         <clxsd-cell :title="'通道收益'" :to="'/channel-profit'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_pass"/>
         <clxsd-cell :title="'合伙收益'" v-if="userInfo.area_type=='partner'" :to="'/cooperation-profit'" :value="userInfo.lianPiaoVaule" is-link icon="my-banknote"/>
@@ -156,6 +159,13 @@
                     this.balance = data
                 })
             },
+
+            /**
+             * 查看合伙人简介
+             */
+            queryPartnerInfo() {
+                this.$router.push('/partnerInfo')
+            }
         }
 
     };
@@ -165,6 +175,12 @@
     .UnautMy {
         background: #f4f5f5;
         font-size: 0.34rem;
+    }
+    .becomePartner {
+        padding: .2rem .3rem 0;
+        img {
+            width: 100%;
+        }
     }
 
     .container {

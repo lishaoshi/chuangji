@@ -14,7 +14,7 @@
             <div class="drug_order">
                 <div class="drug_top">
                     <div class="drug_img">
-                        <img :src="data.items[0].entity.cover">
+                        <img :src="data.items[0].entity.cover&&data.items[0].entity.cover">
                     </div>
                     <div class="drug_message">
                         <div>{{data.items[0].entity_name}}</div>
@@ -81,7 +81,7 @@
                 <p @click="goOrderDetail(data)">货到付款</p>
             </div>
             <div class="much" v-if="data.order_status !=0 && data.order_status != 1">
-                <p v-if="data.order_status != 1 && data.order_status!=6 && data.order_status!=5 && data.order_status!=2 && data.order_status!=4" @click="sureOrder(data.id)">确认收货</p>
+                <p v-if="data.order_status == 3" @click="sureOrder(data.id)">确认收货</p>
                 <p v-if="data.order_status != 2 && data.order_status != 3" @click="delectOrder(data.id)">删除订单</p>
                 <p v-if=" data.order_status!=0" @click="handleContinuTo(data)">
                     <!-- <router-link to="/factory/cart">再来一单</router-link>  需要添加点击操作， 进行添加进购物车处理 -->

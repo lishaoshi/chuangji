@@ -36,23 +36,30 @@
         <div v-else>
             <mt-navbar v-model="selected">
                         <!-- {{selected}} -->
-                <mt-tab-item :id="navbar[0].value">
+                <mt-tab-item :id="navbar[0]&&navbar[0].value">
                     <svg>
                         <use xlink:href="#icon-promote-province"/>
                     </svg>
                     <p>{{navbar[0].name}}</p>
                 </mt-tab-item>
-                <mt-tab-item :id="navbar[1].value">
+                <mt-tab-item :id="navbar[1]&&navbar[1].value">
                     <svg>
                         <use xlink:href="#icon-promote-city"/>
                     </svg>
                     <p>{{navbar[1].name}}</p>
                 </mt-tab-item>
-                <mt-tab-item :id="navbar[2].value">
+                <mt-tab-item :id="navbar[2]&&navbar[2].value">
+                    <svg>
+                        <use xlink:href="#icon-promote-partner"/>
+                    </svg>
+                    <p>{{navbar[2].name}}</p>
+                </mt-tab-item>
+
+                <mt-tab-item :id="navbar[3]&&navbar[3].value">
                     <svg>
                         <use xlink:href="#icon-promote-promoter"/>
                     </svg>
-                    <p>{{navbar[2].name}}</p>
+                    <p>{{navbar[3].name}}</p>
                 </mt-tab-item>
             </mt-navbar>
             <mt-tab-container v-model="selected" style="min-height: 5rem;">
@@ -111,26 +118,36 @@
                 </mt-tab-container-item>
 
                 <!--合伙人-->
-                <!-- <mt-tab-container-item id="partner">
+                <mt-tab-container-item id="partner">
                     <p>选择注册省份</p>
-                    <select class="select-area" v-model="partner_provinceValue">
+                    <!-- <select class="select-area" v-model="partner_provinceValue">
                         <option value="0">选择省份</option>
                         <option :value="area.code" v-for="(area,_arIndex) in areaData" :key="`_area_${_arIndex}`">{{area.name}}</option>
-                    </select>
-                    <svg class="sel_icon">
+                    </select> -->
+                    <div @click="showAddressPickerPartner" class="choiceCity" style="margin-bottom: .2rem">
+                        <mt-field label="" placeholder="请选择省市" type="text" v-model="region_partner" readonly="readonly" class="region-go">
+                        </mt-field>
+                        <svg>
+                            <use xlink:href="#icon-promote-dropDown"/>
+                        </svg>
+                    </div>
+                     <mt-popup v-model="regionVisible_partner" position="bottom" class="bottom-region" style="width:100%;">
+                        <address-popup :regionVisible.sync="regionVisible" @listenAreaChange="areaChangePartner"/>
+                    </mt-popup>
+                    <!-- <svg class="sel_icon">
                         <use xlink:href="#icon-promote-dropDown"/>
-                    </svg>
+                    </svg> -->
                     <div class="go-info">
-                        <button @click="handlePartner" class="active"
-                                :disabled=" partner_provinceValue === 0"
-                                :class=" partner_provinceValue === 0 ? '':'active' ">
+                        <button @click="handlePartner"
+                                :disabled="!region_partner"
+                                :class="region_partner ? 'active':'' ">
                             开启权限
                         </button>
                         <router-link to="/introduction/partner">
                             初步了解
                         </router-link>
                     </div>
-                </mt-tab-container-item> -->
+                </mt-tab-container-item>
 
                 <!-- 推广人 -->
 
@@ -243,6 +260,7 @@
                     { name: "省公司", value: "province_company"},
                     { name: "市公司", value: "city_company"},
                     { name: "推广人", value: "promoter"},
+                     { name: "推广人", value: "partner"},
                 ], 
                 //省市推广人
                 promoterData: {
@@ -255,11 +273,12 @@
 
                 region: null,
                 regionVisible: false,
-
+                region_partner: null,
                 region_promoter: null,
                 promoter_value: 0,
                 regionVisible_promoter: false,
-
+                regionVisible_partner: false,
+                partner_value: 0,
 
                 // 用户信息
                 address:'',
@@ -316,9 +335,7 @@
                 }).then(response => {
                     if (response.data.data) {
                         this.selected = response.data.data[0].value
-                          this.navbar = response.data.data.filter(item=>{
-                            return item.name!='合伙人'
-                         })
+                          this.navbar = [...response.data.data]
                     }
                     this.loading = false;
                 }).catch(error => {
@@ -398,21 +415,31 @@
             showAddressPickerPromoter() {
                 this.regionVisible_promoter = true;
             },
+            showAddressPickerPartner() {
+                this.regionVisible_partner = true;
+            },
             async areaChangePromoter(rdata) {
                 this.regionVisible_promoter = false
+                
                  if(!rdata) {
                     return false
                 }
                 this.region_promoter = rdata.region
                 this.promoter_value = rdata.cityCode
             },
+            async areaChangePartner(rdata) {
+                 this.regionVisible_partner = false;
+                if(!rdata) {
+                    return false
+                }
+                this.region_partner = rdata.region
+                this.partner_value = rdata.cityCode
+                // debugger
+            },
             //市处理
             handleCity() {
                 // var p1=/^1(3|4|5|7|8)\d{9}$/;
-                 var p1 = /^1[3456789]\d{9}$/
-
-                // sessionStorage.setItem('customer-choose-role-iphone',this.tel)
-
+                var p1 = /^1[3456789]\d{9}$/
                 this.testIphone()
 
                  if(p1.test(this.tel)&&this.tel){
@@ -423,15 +450,14 @@
             },
 
             //合伙人
-            // handlePartner() {
-            //     this.$store.commit('SAVE_USER_CHOOSE_DATA', {role: this.selected, data: this.partner_provinceValue});
-            //     this.$router.push('/role-yes');
-            // },
+            handlePartner() {
+                this.$store.commit('SAVE_USER_CHOOSE_DATA', {role: this.selected, data: this.partner_value});
+                this.$router.push({path:'/role-yes',query:{phone: this.tel}});
+            },
 
             // 推广人
             handlePromoter() {
                  var p1 = /^1[3456789]\d{9}$/
-                // sessionStorage.setItem('customer-choose-role-iphone',this.tel)
 
                 this.testIphone()
                  if(p1.test(this.tel)&&this.tel){
@@ -442,7 +468,6 @@
                  }
             },
             handlePromoterChecked(value) {
-                
                 this.promoterData[value] = !this.promoterData[value];
             },
             //判断手机号

@@ -226,9 +226,10 @@
 			min-width: 1.6rem;
 		}
 		input {
-			font-size: .28rem;
+			// font-size: .28rem;
 			flex: 1;
-			height: 96%;
+			line-height: .96rem;
+			height: 100%;
 		}
 		img {
 			width:.15rem;

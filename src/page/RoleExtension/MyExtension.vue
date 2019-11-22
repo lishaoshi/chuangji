@@ -2,7 +2,7 @@
   <div class="UnautMy">
     <div class="container">
       <div class="header">
-        <span>{{userInfo.companyName}}</span>
+        <span>我的</span>
       </div>
       <div class="userinfo">
         <div class="userinfo-left">
@@ -48,6 +48,9 @@
       </div>
     </div>
 
+      <div class="becomePartner" v-if="(userInfo.area_type&&userInfo.area_type!=='partner') || !is_apply">
+        <img src="../../images/becomePartnr.png" alt="" @click="queryPartnerInfo" />
+      </div>
     <div class="my-list">
       <div style="margin-top: .2rem">
         <clxsd-cell title="我的邀请" :to="'/record'" is-link icon="wode-wodeyaoqing" />
@@ -82,6 +85,7 @@
 <script>
 import { mapState } from "vuex";
 import ClxsdCell from "@/components/common/Cell";
+
 import ICountUp from 'vue-countup-v2'
 export default {
   name: "MyExtension",
@@ -138,7 +142,8 @@ export default {
           userInfo.sub_type === 2 ||
           userInfo.sub_type === 3)
       );
-    }
+    },
+     
   },
   created(){
     this.initData()
@@ -151,7 +156,13 @@ export default {
       }).catch(err => {
 
       })
-    }
+    },
+     /**
+       * 查看合伙人简介
+       */
+      queryPartnerInfo() {
+          this.$router.push('/partnerInfo')
+      }
   }
 
 };
@@ -161,6 +172,12 @@ export default {
 .UnautMy {
   background: #f4f5f5;
   font-size: 0.34rem;
+}
+.becomePartner {
+  padding: .2rem .3rem 0;
+  img {
+    width: 100%;
+  }
 }
 .balance {
   display: flex;

@@ -87,6 +87,8 @@
 				return this.$store.state.BROWSER.isWechat;
 			}
 		},
+		created() {
+		},
 		methods: {
 		    async  signByAccount() {
 				// console.log(this.$route)
