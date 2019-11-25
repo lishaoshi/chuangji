@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="date-left">
-            <div>星期{{data.created_at | handleWeek}}</div>
+            <div>星期 {{data.created_at | handleWeek}}</div>
             <div>{{data.created_at | handleDate}}</div>
         </div>
         <!-- <div class="round">
@@ -63,9 +63,35 @@ export default {
             return value[0]
         },
         handleWeek(val) {
-            
+            val = val.replace(/\-/g, '/')
             let week = new Date(val).getDay()
-            return week
+            let weekCont = ''
+            switch (week) {
+                case 1:
+                    weekCont = '一'
+                    break;
+                case 2:
+                    weekCont = '二'
+                    break;
+                case 3:
+                    weekCont = '三'
+                    break;
+                case 4:
+                    weekCont = '四'
+                    break;
+                case 5:
+                    weekCont = '五'
+                    break;
+                case 6:
+                    weekCont = '六'
+                    break;
+                case 7:
+                    weekCont = '日'
+                    break;
+                default:
+                    break;
+            }
+            return weekCont
         }
     },
     methods: {
