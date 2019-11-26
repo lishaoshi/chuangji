@@ -96,19 +96,19 @@
         },
         data(){
           return{
-              companyName: '未认证',
-              is_apply: true,  //是否是推广员
-              options: {
-                useEasing: true,
-                useGrouping: true,
-                separator: ',',
-                decimal: '.',
-                prefix: '',
-                suffix: '',
-                decimalPlaces: 2,
-                partner: require("../../../images/extension/partner.png")
-            },
-            balance:0
+                companyName: '未认证',
+                is_apply: true,  //是否是推广员
+                partner: require("../../../images/extension/partner.png"),
+                options: {
+                    useEasing: true,
+                    useGrouping: true,
+                    separator: ',',
+                    decimal: '.',
+                    prefix: '',
+                    suffix: '',
+                    decimalPlaces: 2,
+                },
+                balance:0
           }
         },
         computed: {
