@@ -15,12 +15,16 @@ module.exports = {
             chunkFilename: 'js/[name]-[chunkhash].js',
         },
     },
+
+    /***
+     * 图片小于100K使用base来显示
+     */
     chainWebpack: config => {
         config.module
             .rule('images')
             .use('url-loader')
             .loader('url-loader')
-            .tap(options => Object.assign(options, {limit: 10240}))
+            .tap(options => Object.assign(options, {limit: 102400}))
     },
 
     devServer: {

@@ -35,7 +35,7 @@
 
 <script>
     import {mapState} from 'vuex'
-    import ICountUp from 'vue-countup-v2'
+    import ICountUp from '@/components/countUp'
     import { recordAmound, rebateFn } from '@/api/ticketList'
     export default {
         name: "TicketList",

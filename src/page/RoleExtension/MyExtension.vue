@@ -86,7 +86,7 @@
 import { mapState } from "vuex";
 import ClxsdCell from "@/components/common/Cell";
 
-import ICountUp from 'vue-countup-v2'
+import ICountUp from '@/components/countUp'
 export default {
   name: "MyExtension",
   components: {
