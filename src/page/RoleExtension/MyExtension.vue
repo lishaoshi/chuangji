@@ -52,12 +52,13 @@
         <img src="../../images/becomePartnr.png" alt="" @click="queryPartnerInfo" />
       </div>
     <div class="my-list">
-      <div style="margin-top: .2rem">
-        <clxsd-cell title="我的邀请" :to="'/record'" is-link icon="wode-wodeyaoqing" />
-      </div>
       <div style="margin-top: .2rem" v-if="!is_apply">
         <clxsd-cell title="角色选择" to="/customer-choose-role" is-link icon="my-collection" />
       </div>
+      <div style="margin-top: .2rem">
+        <clxsd-cell title="我的邀请" :to="'/record'" is-link icon="wode-wodeyaoqing" />
+      </div>
+      
       <div style="margin-top: .2rem">
         <clxsd-cell title="通道收益" :to="'/channel-profit'" is-link icon="promoter_pass" />
         <clxsd-cell :title="'合伙收益'" v-if="userInfo.area_type=='partner'" :to="'/cooperation-profit'" :value="userInfo.lianPiaoVaule" is-link icon="my-banknote"/>

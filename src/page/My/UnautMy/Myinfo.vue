@@ -64,16 +64,17 @@
         <div class="becomePartner" v-if="(userInfo.area_type&&userInfo.area_type!=='partner') || !is_apply">
             <img src="../../../images/becomePartnr.png" alt="" @click="queryPartnerInfo">
         </div>
-        <clxsd-cell style="margin-top:.2rem;" :title="'我的邀请'" :to="'/record'" is-link icon="wode-wodeyaoqing" />
-        <clxsd-cell :title="'通道收益'" :to="'/channel-profit'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_pass"/>
-        <clxsd-cell :title="'合伙收益'" v-if="userInfo.area_type=='partner'" :to="'/cooperation-profit'" :value="userInfo.lianPiaoVaule" is-link icon="my-banknote"/>
-        <!-- <clxsd-cell :title="'广告收益'" :to="'/develop'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_ad" style="margin-bottom: .2rem"/> -->
+         <!-- <clxsd-cell :title="'广告收益'" :to="'/develop'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_ad" style="margin-bottom: .2rem"/> -->
         <ul class="unautMy-userlist">
-            <div style="margin-bottom:.2rem">
+            <div style="margin:.2rem 0">
                 <clxsd-cell v-if="!is_apply" :title="'角色选择'" :to="'/customer-choose-role'" is-link icon="my-collection"/>
             </div>
         </ul>
-        <div style="margin-bottom:.2rem">
+        <clxsd-cell style="margin-top:.2rem;" :title="'我的邀请'" :to="'/record'" is-link icon="wode-wodeyaoqing" />
+        <clxsd-cell :title="'通道收益'" :to="'/channel-profit'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_pass"/>
+        <clxsd-cell :title="'合伙收益'" v-if="userInfo.area_type=='partner'" :to="'/cooperation-profit'" :value="userInfo.lianPiaoVaule" is-link icon="my-banknote"/>
+       
+        <div style="margin:.2rem 0">
             <clxsd-cell :title="'消息通知'" :to="'/develop'" is-link icon="my-message"/>
             <clxsd-cell :title="'个人信息'" :to="'/business-setting'" is-link icon="my-employee"/>
         </div>
