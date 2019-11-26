@@ -83,19 +83,21 @@
                     let allChecked = true
                     let distributionFlag = false; //是否需要配送费  false不需要， true需要
                     this.data.shops.forEach((shop,index)=>{
+                        let totalNum = 0
                         shop.items.forEach((product,key)=>{
                             if(!product.checked){
                                 allChecked=false;
                             } else {
-                                let totalNum = +product.sale_price * +product.num
+                                totalNum += +product.sale_price * +product.num
                                 this.totalPrice += +product.sale_price * +product.num
-                                if(totalNum < this.suppliersPrices[shop.shopId].starting_price && this.totalPrice > 0) {
-                                    this.totalPrice += +this.suppliersPrices[shop.shopId].shipping_fee
-                                    distributionFlag = true
-                                }
                             }
-                            bus.$emit('_cartCount',this.totalPrice, distributionFlag)
+                           
                         })
+                        if(totalNum < this.suppliersPrices[shop.shopId].starting_price && this.totalPrice > 0) {
+                                this.totalPrice += +this.suppliersPrices[shop.shopId].shipping_fee
+                                distributionFlag = true
+                        }
+                             bus.$emit('_cartCount',this.totalPrice, distributionFlag)
                     })
                     this.data.checked=allChecked;
                 },
@@ -151,8 +153,8 @@
                             img_cover: item.supplier.img_cover,
                             checked:false,
                             items:[].concat([item]),
-                            suppliersPrices:　this.suppliersPrices[item.supplier_id]
-
+                            suppliersPrices:　this.suppliersPrices[item.supplier_id],
+                            totalPrice: 0
                         }
                     }
                 })

@@ -1,11 +1,12 @@
 <template>
     <div class="container">
         <clxsd-head-top title="合伙人简介"></clxsd-head-top>
+        
+
+    <div class="content">
         <div class="banner">
             <img src="../../images/partnerBgImg.png" alt="">
         </div>
-
-    <div class="content">
         <testTtile></testTtile>
 
         <testTtile>
@@ -34,32 +35,18 @@
                 </div>
             </div>
         </testTtile>
-
         <testTtile>
             <div slot="title">
                 <div class="title">
-                    <span>公司支持</span>
+                    <span>收益方式</span>
                 </div>
             </div>
             <div slot="content">
                 <div class="content">
-                    <span>系统支持、培训支持、宣传支持</span>
+                    <span>推广人输入提成以及药店采购返利分润</span>
                 </div>
             </div>
         </testTtile>
-
-    <testTtile>
-        <div slot="title">
-            <div class="title">
-                <span>收益方式</span>
-            </div>
-        </div>
-        <div slot="content">
-            <div class="content">
-                <span>推广人输入提成以及药店采购返利分润</span>
-            </div>
-        </div>
-    </testTtile>
     </div>
 
     <div class="becomePartnerBtn" @click="handleBecomePartner">
@@ -70,7 +57,7 @@
             成为合伙人
         </span>
       </div>
-  </div>
+    </div>
 </template>
 
 <script>

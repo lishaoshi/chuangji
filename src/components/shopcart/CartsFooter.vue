@@ -47,7 +47,7 @@
         },
         mounted() {
            bus.$on('_cartCount',(value, flag)=>{
-               console.log(123)
+            //    console.log(123)
                 this.$nextTick().then(()=>{
                     this.totalPrice = value.toFixed(2)
                     this.flag = flag
