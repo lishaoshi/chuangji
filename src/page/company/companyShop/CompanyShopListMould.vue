@@ -4,7 +4,10 @@
 			<!-- <ClxsdLoadMore key="orders-list" ref="loadmore" @onRefresh="onOrdersRefresh" @onLoadMore="onOrdersLoadMore"> -->
 				<div class="list" v-for="(item,index) in items">
 					<router-link :to="`/business/shop/${businessId}/${item.id}?num=${item.num}`">
-						<img :src="item.cover" class="list-img" />
+						<div class="list-img">
+							<img :src="item.cover" />
+						</div>
+						
 						<div class="list-title">{{item.good_name}}</div>
 					</router-link>
 					<p class="p1">{{item.brandName}}</p>
@@ -268,7 +271,17 @@
 			margin-top: 0;
 		}
 		.list-img {
-			width: 100%;
+			img {
+				// width: 100%;
+				height: 100%;
+			}
+			height: 3rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			overflow: hidden;
+			
+			
 			// height: 2.6rem;
 			// height: 100%;
 		}
