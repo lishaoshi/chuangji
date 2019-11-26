@@ -5,7 +5,7 @@
 
     <div class="content">
         <div class="banner">
-            <img src="../../images/partnerBgImg.png" alt="">
+            <img :src="partnerImg" alt="">
         </div>
         <testTtile></testTtile>
 
@@ -61,11 +61,12 @@
 </template>
 
 <script>
-import testTtile from "@/components/common/textCom";
+    import testTtile from "@/components/common/textCom";
+    import bgImg from '../../images/partnerBgImg.png'
 export default {
     data() {
         return {
-
+            partnerImg:bgImg
         }
     },
     methods: {
@@ -88,6 +89,10 @@ export default {
         img {
             width: 100%;
         }
+        // width: 100%;
+        // height: 4rem;
+        // background: url("../../images/partnerBgImg.png") no-repeat;
+        // background-size: 100% 100%;
     }
     .content {
         flex: 1;

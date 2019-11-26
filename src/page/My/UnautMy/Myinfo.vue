@@ -13,7 +13,7 @@
                         <img src="../../../images/extension/promoter.png" class="tag"/>
                     </div>
                     <div v-if="userInfo.area_type === 'partner'">
-                        <img src="../../../images/extension/partner.png" class="tag"/>
+                        <img :src="partner" class="tag"/>
                     </div>
                     <!-- <div v-if="userInfo.sub_type === 1">
                         <img src="../../../images/extension/province.png" class="tag"/>
@@ -50,10 +50,8 @@
                 </div>
                 <div>
                 <i-count-up
-                    :startVal="0"
+                    :startVal="20"
                     :endVal="balance"
-                    :decimals="0"
-                    :duration="23"
                     :options="options"
                 ></i-count-up>
                 </div>
@@ -86,7 +84,7 @@
 
 <script>
     import ClxsdCell from "@/components/common/Cell";
-    import ICountUp from 'vue-countup-v2'
+    import ICountUp from '@/components/countUp'
     import {mapState} from "vuex";
     import { recordAmound, rebateFn } from '@/api/ticketList'
     export default {
@@ -106,7 +104,8 @@
                 decimal: '.',
                 prefix: '',
                 suffix: '',
-                decimalPlaces: 2
+                decimalPlaces: 2,
+                partner: require("../../../images/extension/partner.png")
             },
             balance:0
           }
