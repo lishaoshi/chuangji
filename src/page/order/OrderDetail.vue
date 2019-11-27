@@ -91,17 +91,17 @@
 		<div class="height1"></div>
 		 <div class="content">
 			<div class="title">发票信息</div>
-			<div class="noInfo" v-if="!data.invoice_type">
+			<!-- <div class="noInfo" v-if="!data.invoice_type">
 				<svg>
                     <use xlink:href="#icon-lampBulb"></use>
                 </svg>
 				<span>你没有选择开具发票</span>
-			</div>
-            <ul class="order-ul" v-else>
-                <li>
+			</div> -->
+            <ul class="order-ul">
+                <!-- <li>
 					<span>抬头类型：</span>
 					<span>{{data.invoice_type=="dedicated"?"增值税专用发票":"增值税普通发票"}}</span>
-				</li>
+				</li> -->
                 <li>
 					<span>发票抬头：</span>
 					<span>{{title}}</span>
@@ -114,26 +114,24 @@
 					<span>纳税人号：</span>
 					<span>{{taxpayer_no}}</span>
 				</li>
-				<template v-if="data.invoice_type=='dedicated'">
-					<li>
-						<span >
-							<i class="text2">地</i>址：</span>
-						<span>{{address}}</span>
-					</li>
-					<li>
-						<span>
-							<i class="text2">电</i>话：</span>
-						<span>{{telephone}}</span>
-					</li>
-					<li>
-						<span>开户银行：</span>
-						<span>{{bank_name}}</span>
-					</li>
-					<li>
-						<span>银行账号：</span>
-						<span>{{bank_no}}</span>
-					</li>
-				</template>
+				<li>
+					<span >
+						<i class="text2">地</i>址：</span>
+					<span>{{address}}</span>
+				</li>
+				<li>
+					<span>
+						<i class="text2">电</i>话：</span>
+					<span>{{telephone}}</span>
+				</li>
+				<li>
+					<span>开户银行：</span>
+					<span>{{bank_name}}</span>
+				</li>
+				<li>
+					<span>银行账号：</span>
+					<span>{{bank_no}}</span>
+				</li>
 				
             </ul>
         </div>

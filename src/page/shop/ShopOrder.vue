@@ -25,18 +25,13 @@
             <!-- 选择发票 -->
             <div class="chooseInvoice">
                 <div class="top">
-                    <p>选择发票</p>
+                    <div>
+                        <p>发票信息</p>
+                        <p>{{title}}</p>
+                    </div>
                     <svg @click="handleInvoice">
                         <use xlink:href="#icon-bianji"/>
                     </svg>
-                </div>
-                <div class="invoiceList">
-                    <div v-for="(item, index) of nvoiceList" :key="index" @click="handleChooseInvoice(item)">
-                        <svg class="check goods-check shopCheck">
-                            <use :xlink:href="`#icon-IsCheckedShop-${item.type==currentInvoice ? 'open' : 'close' }`"/>
-                        </svg>
-                        <span>{{item.invoiceName}}</span>
-                    </div>
                 </div>
             </div>
             <!---选择的产品内--->
@@ -133,7 +128,7 @@
                     invoiceName: '增值税专用发票',
                     type: 2
                 }],
-                currentInvoice: 0,
+                currentInvoice: 1,
                 invoiceList: []
             }
         },
@@ -155,6 +150,12 @@
                 })
                 return price
             },
+            title() {
+                if(this.invoiceList.length) {
+                    return this.invoiceList[0].title
+                }
+                return '请填写发票信息'
+            }
         },
         created() {
             // debugger
@@ -186,20 +187,20 @@
                 this.initAddress()
             },
             // 选择发票
-            handleChooseInvoice(item) {
-                this.currentInvoice = item.type
-                if(this.currentInvoice>0&&(!this.invoiceList || !this.invoiceList[this.currentInvoice-1])) {
-                    this.$messagebox.confirm('',{
-                        title: '提示',
-                        message: `发票信息填写不完整`,
-                        confirmButtonText: '去填写'
-                    }).then(res=>{
-                        if(res=='confirm') {
-                          this.$router.push('/invoice')
-                        }
-                    })
-                }
-            },
+            // handleChooseInvoice(item) {
+            //     this.currentInvoice = item.type
+            //     if(this.currentInvoice>0&&(!this.invoiceList || !this.invoiceList[this.currentInvoice-1])) {
+            //         this.$messagebox.confirm('',{
+            //             title: '提示',
+            //             message: `发票信息填写不完整`,
+            //             confirmButtonText: '去填写'
+            //         }).then(res=>{
+            //             if(res=='confirm') {
+            //               this.$router.push('/invoice')
+            //             }
+            //         })
+            //     }
+            // },
 
             // 前往发票页
             handleInvoice() {
@@ -208,9 +209,22 @@
 
             // 获取已保存的发票列表
             _getInvoicse() {
-                getInvoices({type:''}).then(res=>{
+                getInvoices({type:'dedicated'}).then(res=>{
                     // debugger
-                    this.invoiceList = res.data
+                    if(res.data&&res.data.length) {
+                        this.invoiceList = res.data
+                    } else {
+                        this.$messagebox.confirm('',{
+                            title: '提示',
+                            message: `发票信息填写不完整`,
+                            confirmButtonText: '去填写'
+                        }).then(res=>{
+                            if(res=='confirm') {
+                            this.$router.push('/invoice')
+                            }
+                        })
+                    }
+                    
                 })
             },
             //获取地址信息，第一个地址为默认选择地址
@@ -299,7 +313,7 @@
                     this.$messagebox.alert('请添加收货地址！')
                     return
                 }
-                if(this.currentInvoice>0&&(!this.invoiceList || !this.invoiceList[this.currentInvoice-1])) {
+                if(!this.invoiceList || !this.invoiceList[this.currentInvoice-1]) {
                     this.$messagebox.confirm('',{
                         title: '提示',
                         message: `发票信息填写不完整`,
@@ -325,9 +339,8 @@
                 const params = {
                     address_id: this.choosedAddress.id,
                     ids,
-                    invoice_type: this.currentInvoice==0?'':this.currentInvoice==1?'normal':'dedicated'
+                    invoice_type: 'dedicated'
                 }
-                
                 confirmOrder(params).then(res=>{
                     let data = res.data.data.orders
                     let time = res.data.data.timeout_to_order_cancel
@@ -396,13 +409,45 @@
         background: #fff;
         margin-top: .2rem;
         padding:0 .32rem;
+        display: flex;
+        align-items: center;
+        height: 1rem;
+        width: 100%;
         .top {
-            display: flex;
+            flex: 1;
+            display: inline-flex;
             justify-content: space-between;
-            padding-top: .24rem;
+            width: 100%;
+            // padding-top: .24rem;
+            div {
+                display: inline-flex;
+                flex: 1 0 auto;
+                width: 80%;
+                overflow: hidden;
+            }
+            div > p {
+                font-size: .26rem;
+                &:first-child {
+                    color: #666;
+                    margin-right: .3rem;
+                    flex: 0 0 auto;
+                }
+                &:last-child {
+                    color: #333;
+                    font-size: .28rem;
+                    flex: 1 0 auto;
+                    max-width: 70%;
+                    overflow:hidden; //超出的文本隐藏
+                    text-overflow:ellipsis; //溢出用省略号显示
+                    white-space:nowrap; //溢出不换行
+                }
+                
+            }
             svg {
                 height: .4rem;
                 width: .4rem;
+                margin-left: 6px;
+                flex: 0 0 auto;
             }
         }
         .invoiceList {

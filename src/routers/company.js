@@ -71,7 +71,7 @@ export default [
 		path: "/business/shop/:shopId/:id",
 		component: CompanyShopDetail,
 		meta: {
-			title: "商城内页",
+			title: "查看商品详情",
 			requiresAuth: true
 		}
 	},

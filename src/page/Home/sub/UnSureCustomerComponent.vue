@@ -80,7 +80,7 @@
                                 :class="provinceError || provinceValue === 0 ? '':'active' ">
                             开启权限
                         </button>
-                        <router-link to="/introduction/partner">
+                        <router-link to="/introduction/province">
                             初步了解
                         </router-link>
                     </div>
@@ -143,9 +143,12 @@
                                 :class="region_partner ? 'active':'' ">
                             开启权限
                         </button>
-                        <router-link to="/introduction/partner">
+                        <!-- <router-link to="/introduction/partner"> -->
+                        <a @click="queryPartner">
                             初步了解
-                        </router-link>
+                        </a>
+                            
+                        <!-- </router-link> -->
                     </div>
                 </mt-tab-container-item>
 
@@ -366,6 +369,12 @@
                     }
                 }
 
+            },
+
+            // 查看合伙人简介
+            queryPartner() {
+                // debugger
+                this.$router.push({path:'/partnerInfo', query: {toView:true}})
             },
             handleProvince() {
                 // debugger

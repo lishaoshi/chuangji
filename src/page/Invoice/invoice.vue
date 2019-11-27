@@ -7,7 +7,7 @@
                 </svg>
            </div>
            <div class="value_incoice">
-               <span>增值税发票</span>
+               <span>发票信息</span>
            </div>
            <div class="save" @click="handleSaveInvoice">
                <span>保存</span>
@@ -15,7 +15,7 @@
         </div>
 
         <main>
-            <ul>
+            <!-- <ul>
                 <li class="header_type">
                     <div class="topType">
                         <span>抬头类型</span> 
@@ -57,8 +57,8 @@
                        
                     </div>
                 </li>
-            </ul>
-            <ul v-if="invoice_type">
+            </ul> -->
+            <!-- <ul v-if="invoice_type">
                 
                 <li class="list">
                     <div>
@@ -78,8 +78,8 @@
                         <input type="text" v-model="params.taxpayer_no" placeholder="填写纳税人号">
                     </div>
                 </li>
-            </ul>
-            <ul v-else>
+            </ul> -->
+            <ul>
                 <li class="list">
                     <div>
                         <span>发票抬头</span> 
@@ -103,7 +103,7 @@
                         <span>
                             <i class="text2">地
                             </i>址</span> 
-                        <input type="text" v-model="params.address" placeholder="填写地址">
+                        <input type="text" v-model="params.address" placeholder="非专用发票可不填写">
                     </div>
                 </li>
                 <li class="list">
@@ -111,19 +111,19 @@
                         <span>
                             <i class="text2">电
                             </i>话</span> 
-                        <input type="number" v-model="params.telephone" placeholder="填写电话">
+                        <input type="number" v-model="params.telephone" placeholder="非专用发票可不填写">
                     </div>
                 </li>
                 <li class="list">
                     <div>
                         <span>开户银行</span> 
-                        <input type="text" v-model="params.bank_name" placeholder="填写开户银行">
+                        <input type="text" v-model="params.bank_name" placeholder="非专用发票可不填写">
                     </div>
                 </li>
                 <li class="list">
                     <div>
                         <span>银行账号</span> 
-                        <input type="number" v-model="params.bank_no" placeholder="填写银行账号">
+                        <input type="number" v-model="params.bank_no" placeholder="非专用发票可不填写">
                     </div>
                 </li>
             </ul>
@@ -164,16 +164,16 @@ export default {
         goback(){
             history.go(-1)
         },
-        tabSvg1(){
-            this.invoice_type = true
-            this.backData()
-            this._getInvoices()
-        },
-        tabSvg2(){
-            this.invoice_type = false
-            this.backData()
-            this._getInvoices()
-        },
+        // tabSvg1(){
+        //     this.invoice_type = true
+        //     this.backData()
+        //     // this._getInvoices()
+        // },
+        // tabSvg2(){
+        //     this.invoice_type = false
+        //     this.backData()
+        //     // this._getInvoices()
+        // },
 
         /**
          * params恢复默认值函数
@@ -192,7 +192,7 @@ export default {
          */
         _getInvoices() {
             let params = {
-                type: this.invoice_type?'normal':'dedicated',
+                type: 'dedicated',
             }
             getInvoices(params).then(res=>{
                 // debugger
@@ -213,31 +213,10 @@ export default {
          * 点击保存发票信息
          */
         async handleSaveInvoice() {
-            
-           
-            if(this.invoice_type) {
                 let message = {
                     title: '请填写发票抬头',
                     contents: '请填写发票内容',
                     taxpayer_no: '请填写纳税人号',
-                }
-                let keysList = Object.keys(message)
-                for(let i=0;i< keysList.length; i++) {
-                    let item = keysList[i]
-                    if(!this.params[item]) {
-                        this.$toast(message[item])
-                        return false
-                    }
-                }
-            } else {
-                let message = {
-                    title: '请填写发票抬头',
-                    contents: '请填写发票内容',
-                    taxpayer_no: '请填写纳税人号',
-                    address: '请填写地址',
-                    telephone: '请填写手机号',
-                    bank_name: '请填写开户银行',
-                    bank_no: '请填写银行卡号',
                 }
               let keysList = Object.keys(message)
                 for(let i=0;i< keysList.length; i++) {
@@ -247,10 +226,9 @@ export default {
                         return false
                     }
                 }
-            }
           
             let params = {
-                type: this.invoice_type?'normal':'dedicated',
+                type:'dedicated',
                 user_id: this.userId,
                 title: this.params.title,
                 contents: this.params.contents,

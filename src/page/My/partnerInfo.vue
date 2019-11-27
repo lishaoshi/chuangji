@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <clxsd-head-top title="合伙人简介"></clxsd-head-top>
+        <clxsd-head-top :title="title" class="top"></clxsd-head-top>
         
 
     <div class="content">
@@ -49,7 +49,7 @@
         </testTtile>
     </div>
 
-    <div class="becomePartnerBtn" @click="handleBecomePartner">
+    <div v-if="!isToView" class="becomePartnerBtn" @click="handleBecomePartner">
         <svg>
             <use xlink:href="#icon-bePartner"/>
         </svg>
@@ -62,11 +62,12 @@
 
 <script>
     import testTtile from "@/components/common/textCom";
-    import bgImg from '../../images/partnerBgImg.png'
+    import bgImg from '../../images/promoteBgImg.png'
 export default {
     data() {
         return {
-            partnerImg:bgImg
+            partnerImg:bgImg,
+            isToView: false
         }
     },
     methods: {
@@ -74,8 +75,16 @@ export default {
             this.$router.push('/customer-choose-role')
         }
     },
+    created() {
+        this.isToView = this.$route.query.toView
+    },
     components: {
         testTtile
+    },
+    computed: {
+        title() {
+            return this.isToView?'推广简介': '合伙人简介'
+        }
     }
 }
 </script>
@@ -114,4 +123,10 @@ export default {
     }
 }
 
+</style>
+
+<style scoped>
+    .top /deep/ .head-top{
+        background-color: #6659ff!important;
+    }
 </style>
