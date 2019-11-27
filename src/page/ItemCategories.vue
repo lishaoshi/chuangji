@@ -371,10 +371,11 @@
                 this.$messagebox.confirm("确定要下架此商品吗?").then(action => {
                     if (action === 'confirm') {
                         this.$http.patch(`hippo-shop/business/changeStatus`, {good_id: id, status: 0}).then(res => {
-                            this.goodList.list.splice(index, 1)
+                            this.goodList.splice(index, 1)
                             this.OnSaleNum--
                             this.DownSaleNum++
                         }).catch(error => {
+                            
                             this.$toast("下架失败")
                         })
                     }
@@ -384,7 +385,7 @@
             UpSelf(id, index) {
                 this.$messagebox.confirm("确定要上架此商品吗?").then(action => {
                     this.$http.patch(`hippo-shop/business/changeStatus`, {good_id: id, status: 1}).then(res => {
-                        this.goodList.list.splice(index, 1)
+                        this.goodList.splice(index, 1)
                         this.OnSaleNum++
                         this.DownSaleNum--
                     }).catch(error => {

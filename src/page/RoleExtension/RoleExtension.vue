@@ -118,7 +118,7 @@
                 //     year: this.yte
                 // }
                 rebateFn().then(res=>{
-                    let data = res.data.balance
+                    let data = res.data.promoter_balance
                     this.balance = data
                 })
             },
