@@ -264,6 +264,8 @@
     }
     .mint-tab-container {
         height: 100%;
+        // overflow: auto;
+        // margin-bottom: 1.1rem;
     }
     .go-info {
         margin-top: 1.5rem;

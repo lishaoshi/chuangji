@@ -1,9 +1,9 @@
 <template>
   <div class="UnautMy">
+    <div class="header">
+      <span>我的</span>
+    </div>
     <div class="container">
-      <div class="header">
-        <span>我的</span>
-      </div>
       <div class="userinfo">
         <div class="userinfo-left">
           <img :src="userInfo.avatar" v-if="userInfo.avatar!=null" />
@@ -31,7 +31,7 @@
             </div>
           </router-link>
       </div>
-      <div style="width: 100%;height: 1px;background: #fff;opacity: 0.2;"></div>
+      <div style="width: 100%;height: 1px;background: #2da2ff;opacity: 0.7;"></div>
       <div class="balance">
         <div>
           <span>余额(元)</span>
@@ -46,40 +46,34 @@
           ></i-count-up>
         </div>
       </div>
-    </div>
-
       <div class="becomePartner" v-if="(userInfo.area_type&&userInfo.area_type!=='partner') || !is_apply">
         <img src="../../images/becomePartnr.png" alt="" @click="queryPartnerInfo" />
       </div>
-    <div class="my-list">
-      <div style="margin-top: .2rem" v-if="!is_apply">
-        <clxsd-cell title="角色选择" to="/customer-choose-role" is-link icon="my-collection" />
-      </div>
-      <div style="margin-top: .2rem">
-        <clxsd-cell title="我的邀请" :to="'/record'" is-link icon="wode-wodeyaoqing" />
-      </div>
-      
-      <div style="margin-top: .2rem">
-        <clxsd-cell title="通道收益" :to="'/channel-profit'" is-link icon="promoter_pass" />
-        <clxsd-cell :title="'合伙收益'" v-if="userInfo.area_type=='partner'" :to="'/cooperation-profit'" :value="userInfo.lianPiaoVaule" is-link icon="my-banknote"/>
-        <!-- <clxsd-cell title="广告收益" :to="'/develop'" is-link icon="promoter_ad" /> -->
-      </div>
-      <div style="margin-top: .2rem">
-        <clxsd-cell title="消息通知" :to="'/develop'" is-link icon="my-message" />
-      </div>
-      
-      <!-- <clxsd-cell title="个人信息" :to="'/business-setting'" is-link icon="my-employee" /> -->
-      <!-- <div style="margin-top: .2rem;margin-bottom: .2rem">
-        <clxsd-cell title="设置" :to="'/setting'" is-link icon="my-setting" />
-      </div> -->
-      <!-- <clxsd-cell title="返回" :to="'/my'" is-link icon="my-setting" /> -->
-      <router-link to="/my" style="color:#333;">
-         <div class="back" style="margin-top: .2rem">
-          <span>返回</span>
+      <div class="my-list">
+        <div style="margin-top: .2rem" v-if="!is_apply">
+          <clxsd-cell title="角色选择" to="/customer-choose-role" is-link icon="my-collection" />
         </div>
-      </router-link>
-     
+        <div style="margin-top: .2rem">
+          <clxsd-cell title="我的邀请" :to="'/record'" is-link icon="wode-wodeyaoqing" />
+        </div>
+        
+        <div style="margin-top: .2rem">
+          <clxsd-cell title="通道收益" :to="'/channel-profit'" is-link icon="promoter_pass" />
+          <clxsd-cell :title="'合伙收益'" v-if="userInfo.area_type=='partner'" :to="'/cooperation-profit'" :value="userInfo.lianPiaoVaule" is-link icon="my-banknote"/>
+          <!-- <clxsd-cell title="广告收益" :to="'/develop'" is-link icon="promoter_ad" /> -->
+        </div>
+        <div style="margin-top: .2rem">
+          <clxsd-cell title="消息通知" :to="'/develop'" is-link icon="my-message" />
+        </div>
+        <router-link to="/my" style="color:#333;">
+          <div class="back" style="margin-top: .2rem">
+            <span>返回</span>
+          </div>
+        </router-link>
+      </div>
     </div>
+
+      
   </div>
 </template>
 
@@ -173,6 +167,24 @@ export default {
 .UnautMy {
   background: #f4f5f5;
   font-size: 0.34rem;
+  display: flex;
+  flex-direction: column;
+  
+  height: 100%;
+  padding-bottom: 1.1rem;
+   .header {
+    height: 0.88rem;
+    line-height: 0.88rem;
+    text-align: center;
+    background: rgba(45, 162, 255, 1);
+
+    span {
+      width: 1.09rem;
+      height: 0.35rem;
+      font-size: 0.37rem;
+      color: rgba(255, 255, 255, 1);
+    }
+  }
 }
 .becomePartner {
   padding: .2rem .3rem 0;
@@ -187,6 +199,7 @@ export default {
   height: 1rem;
   justify-content: space-between;
   padding: 0 .44rem;
+  background: rgba(45, 162, 255, 1);
   div:first-child {
     font-size: .24rem;
   }
@@ -201,23 +214,13 @@ export default {
   line-height: 1rem;
 }
 .container {
-  background: rgba(45, 162, 255, 1);
-  .header {
-    height: 0.88rem;
-    line-height: 0.88rem;
-    text-align: center;
-
-    span {
-      width: 1.09rem;
-      height: 0.35rem;
-      font-size: 0.37rem;
-      color: rgba(255, 255, 255, 1);
-    }
-  }
+  // 
+ flex: 1;
+ overflow: auto;
   .userinfo {
     display: flex;
     height: 1.7rem;
-
+    background: rgba(45, 162, 255, 1);
     .userinfo-left {
       margin-left: 0.36rem;
       margin-right: 0.32rem;

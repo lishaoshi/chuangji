@@ -1,10 +1,9 @@
 <template>
     <div class="UnautMy">
-        <div class="container">
-            <div class="header">
+         <div class="header">
                 <span>我的</span>
             </div>
-
+        <div class="container">
             <div class="userinfo">
                 <div class="userinfo-left">
                     <img :src="userInfo.avatar | display_avatar" class="logo" v-if="userInfo.avatar"/>
@@ -43,7 +42,7 @@
                     </router-link>
                 </div>
             </div>
-            <div style="width: 100%;height: 1px;background: #fff;opacity: 0.2;"></div>
+            <div style="width: 100%;height: 1px;background: #2da2ff;opacity: 0.7;"></div>
             <div class="balance">
                 <div>
                 <span>余额(元)</span>
@@ -60,8 +59,7 @@
                 <span>联数(包)</span>
                 <b>1800.00</b>
             </div> -->
-        </div>
-        <div class="becomePartner" v-if="(userInfo.area_type&&userInfo.area_type!=='partner') || !is_apply">
+             <div class="becomePartner" v-if="(userInfo.area_type&&userInfo.area_type!=='partner') || !is_apply">
             <img src="../../../images/becomePartnr.png" alt="" @click="queryPartnerInfo">
         </div>
          <!-- <clxsd-cell :title="'广告收益'" :to="'/develop'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_ad" style="margin-bottom: .2rem"/> -->
@@ -80,6 +78,8 @@
         </div>
         <clxsd-cell :title="'设置'" :to="'/setting'" is-link icon="my-setting"/>
         <clxsd-foot-guide :user-type="4"/>
+        </div>
+       
     </div>
 </template>
 
@@ -175,6 +175,22 @@
     .UnautMy {
         background: #f4f5f5;
         font-size: 0.34rem;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding-bottom: 1.1rem;
+         .header {
+            height: 0.88rem;
+            line-height: 0.88rem;
+            text-align: center;
+            background: rgba(45, 162, 255, 1);
+            span {
+                width: 1.09rem;
+                height: 0.35rem;
+                font-size: 0.37rem;
+                color: rgba(255, 255, 255, 1);
+            }
+        }
     }
     .becomePartner {
         padding: .2rem .3rem 0;
@@ -184,25 +200,12 @@
     }
 
     .container {
-        background: rgba(45, 162, 255, 1);
-
-        .header {
-            height: 0.88rem;
-            line-height: 0.88rem;
-            text-align: center;
-
-            span {
-                width: 1.09rem;
-                height: 0.35rem;
-                font-size: 0.37rem;
-                color: rgba(255, 255, 255, 1);
-            }
-        }
-
+        flex: 1;
+        overflow: auto;
         .userinfo {
             display: flex;
             height: 1.7rem;
-
+            background: rgba(45, 162, 255, 1);
             .userinfo-left {
                 margin-left: 0.36rem;
                 margin-right: 0.32rem;
@@ -293,6 +296,7 @@
             height: 1rem;
             justify-content: space-between;
             padding: 0 .44rem;
+            background: rgba(45, 162, 255, 1);
             div:first-child {
                 font-size: .24rem;
             }

@@ -10,8 +10,10 @@
 					<label>公司类型</label>
 					<span v-if="USER_TYPE === 1">制药工业</span>
 					<span v-else-if="USER_TYPE === 2">商业公司</span>
-					<span v-else-if="USER_TYPE === 3">连锁药店</span>
-					<!-- 1:医院、2：连锁、 3：单体、 4：诊所 -->
+					<span v-else-if="USER_TYPE === 3">
+						{{userTypeName}}
+					</span>
+					<!-- 1:医院、2：连锁、 3：单体药店、 4：诊所 -->
 					<span v-else>未知</span>
 				</li>
 				<li><label>公司名称</label><span>{{userInfo.companyName || '未认证'}}</span></li>
@@ -105,6 +107,7 @@
 		computed: {
 			...mapState({
 				USER_TYPE: state => state.CURRENTUSER.data.user_type,
+				subType: state => state.CURRENTUSER.data.certification&&state.CURRENTUSER.data.certification.sub_type,
 				userInfo: state => {
 					const currentInfo = state.CURRENTUSER.data
 					const configInfo = state.CONFIG
@@ -148,7 +151,29 @@
 					}
 
 				},
-			})
+			}),
+			userTypeName() {
+				let type = this.subType
+				let name = ''
+				switch (type) {
+					case 1:
+						name = '医院'
+						break;
+					case 2:
+						name = '连锁药店'
+						break;
+					case 3:
+						name = '单体药店'
+						break;
+					case 4:
+						name = '诊所'
+						break;
+					default:
+						name = '未知'
+						break;
+				}
+				return name;
+			}
 		},
 		methods: {
 			close() {
