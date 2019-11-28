@@ -114,12 +114,14 @@
                 this.$http.get('hippo-shop/wallet/trans',{params}).then(response => {
                     this.totalIncome = response.data.income;
                     this.totalExpenditure = response.data.data.sum;
+                    let data = response.data.data.trans;
                      if(data.length<20) {
                         this.allLoaded = true
                     }
                     data.forEach((item, index, arr)=>{
                         arr[index].name = item.business_order.supplier.display_name
                     })
+                    
                      if(this.page==1) {
                         this.entities = data
                     } else {

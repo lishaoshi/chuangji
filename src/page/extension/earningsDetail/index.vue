@@ -246,12 +246,15 @@ export default {
         },
         //确认按钮
         comfirmQueryData(priceFlag,incomeFlag) {
+            
             if(priceFlag!=2&&incomeFlag==1) {
-                this.tranType = 1
+                this.tranType = 4
             } else if(priceFlag!=2&&incomeFlag==2) {
                 this.tranType = 3
             } else if(priceFlag==2) {
                 this.tranType = 2
+            } else if(priceFlag==1&&incomeFlag==0) {
+                 this.tranType = 5
             }
             this.page = 1
             this.allLoaded = false
