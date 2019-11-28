@@ -29,7 +29,7 @@
 
 <script>
 	import ClxsdCell from '@/components/common/Cell';
-	import { mapState } from "vuex";
+	import { mapState, mapMutations } from "vuex";
 	import http from "@/api/api";
 	export default {
 		name: "Settings",
@@ -57,6 +57,7 @@
             })
         },
 		methods: {
+			...mapMutations(['DEL_CHOOSED_ADDRESS']),
 			async loginChange() {
 
 				this.$messagebox.confirm("确定要切换账号吗?").then(action => {
@@ -66,6 +67,7 @@
 							// { validateStatus: s => (s >= 200 && s < 300) || s === 401 }
 						).then(()=>{
 							this.$store.dispatch('SIGN_OUT');
+							this.DEL_CHOOSED_ADDRESS()
 							this.$router.push('/signin')
 						});
                     	
