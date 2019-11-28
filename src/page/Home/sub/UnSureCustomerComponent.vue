@@ -165,7 +165,14 @@
                             </svg>
                         </div>
                         <ul class="tui-list" v-if="promoterTypeData">
-                            <li @click="handlePromoterChecked(promoterTypeData[0].value)">
+                            <li v-for="(item, index) of promoterTypeData" :key="index"  @click="handlePromoterChecked(item.value)" >
+                                <img src="../../../images/extension/promote-pay-business.png">
+                                <p class="title-p">{{item.name}}</p>
+                                <svg class="active" v-if="promoterData[item.value]">
+                                    <use xlink:href="#icon-promote-pay-moreChose"/>
+                                </svg>
+                            </li>
+                            <!-- <li @click="handlePromoterChecked(promoterTypeData[0].value)">
                                 <img src="../../../images/extension/promote-pay-business.png">
                                 <p class="title-p">{{promoterTypeData[0].name}}</p>
                                 <svg class="active" v-if="promoterData.business">
@@ -199,7 +206,7 @@
                                 <svg class="active" v-if="promoterData.zhenshuo">
                                     <use xlink:href="#icon-promote-pay-moreChose"/>
                                 </svg>
-                            </li>
+                            </li> -->
                         </ul> 
 
                     </div>
@@ -348,7 +355,9 @@
 
                 // 获取推广人信息
                 this.$http.get("/user").then(res => {
+                
                    this.name = res.data.data.real_name
+                   
                    this.tel = res.data.data.phone 
                    this.cartId = res.data.data.user_identity
                })
@@ -356,7 +365,6 @@
             },
             //省处理
             async handleProvinceChange() {
-                // debugger
                 if (this.provinceValue) {
                     
                     const {data} = await this.$http.get('/area-user/check-area', {
@@ -373,11 +381,9 @@
 
             // 查看合伙人简介
             queryPartner() {
-                // debugger
                 this.$router.push({path:'/partnerInfo', query: {toView:true}})
             },
             handleProvince() {
-                // debugger
                 // var p1=/^1(3|4|5|7|8)\d{9}$/;
                  var p1 = /^1[3456789]\d{9}$/
                 
@@ -394,7 +400,6 @@
                 this.region = null
             },
             async areaChange(rdata) {
-                // debugger
                 this.regionVisible = false
                 if(!rdata) {
                     return false
@@ -443,7 +448,6 @@
                 }
                 this.region_partner = rdata.region
                 this.partner_value = rdata.cityCode
-                // debugger
             },
             //市处理
             handleCity() {

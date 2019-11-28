@@ -22,7 +22,7 @@ let _baseURL = location.origin.includes('twork') ?
     : (location.origin.includes('clxsd') ? 'https://api.clxsd.cn' : `${process.env.VUE_APP_API_HOST}`);
     196.168.2.196
 */
-let _baseURL = (location.origin.includes('localhost') || location.origin.includes('dwork') || location.origin.includes('192.168')) ? 'http://dwork.jicai.api.yaotong111.com' : location.origin.includes('twork') ? 'http://twork.jicai.api.yaotong111.com' : 'https://api.clxsd.cn';
+let _baseURL = (location.origin.includes('localhost') || location.origin.includes('dwork') || location.origin.includes('192.168')) ? 'http://twork.jicai.api.yaotong111.com' : location.origin.includes('twork') ? 'http://twork.jicai.api.yaotong111.com' : 'https://api.clxsd.cn';
 // let _baseURL = location.origin.includes('localhost') ? 'http://dwork.jicai.api.yaotong111.com' : location.origin.includes('twork') ? 'http://twork.jicai.api.yaotong111.com' : 'https://api.clxsd.cn  http://dwork.jicai.api.yaotong111.com';
 //_baseURL = 'http://192.168.6.208:8000';
 export const baseURL = `${_baseURL}/api/${process.env.VUE_APP_API_VERSION}`;

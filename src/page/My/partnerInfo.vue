@@ -7,6 +7,7 @@
         <div class="banner">
             <img :src="partnerImg" alt="">
         </div>
+        <h1>合伙人简介</h1>
         <testTtile></testTtile>
 
         <testTtile>
@@ -106,6 +107,15 @@ export default {
     .content {
         flex: 1;
         overflow: auto;
+        h1 {
+            font-size: 0.48rem;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 0.57rem;
+            padding: 0 0.5rem;
+            margin-top: 1rem;
+        }
+        // text-indent: 2em;
     }
     .becomePartnerBtn {
         svg {

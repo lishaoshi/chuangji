@@ -33,6 +33,7 @@ export default {
         line-height: .44rem;
         display: inline-flex;
         flex-direction: column;
+        text-indent: 2em;
     }
 }
 </style>

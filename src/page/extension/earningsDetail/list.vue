@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="date-left">
-            <div>星期 {{data.created_at | handleWeek}}</div>
+            <div>星期{{data.created_at | handleWeek}}</div>
             <div>{{data.created_at | handleDate}}</div>
         </div>
         <!-- <div class="round">
