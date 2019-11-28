@@ -165,14 +165,14 @@
                             </svg>
                         </div>
                         <ul class="tui-list" v-if="promoterTypeData">
-                            <li v-for="(item, index) of promoterTypeData" :key="index"  @click="handlePromoterChecked(item.value)" >
-                                <img src="../../../images/extension/promote-pay-business.png">
+                            <!-- <li v-for="(item, index) of promoterTypeData" :key="index"  @click="handlePromoterChecked(item.value)" >
+                                <img :src="item.value | imgType">
                                 <p class="title-p">{{item.name}}</p>
                                 <svg class="active" v-if="promoterData[item.value]">
                                     <use xlink:href="#icon-promote-pay-moreChose"/>
                                 </svg>
-                            </li>
-                            <!-- <li @click="handlePromoterChecked(promoterTypeData[0].value)">
+                            </li> -->
+                            <li @click="handlePromoterChecked(promoterTypeData[0].value)">
                                 <img src="../../../images/extension/promote-pay-business.png">
                                 <p class="title-p">{{promoterTypeData[0].name}}</p>
                                 <svg class="active" v-if="promoterData.business">
@@ -206,7 +206,7 @@
                                 <svg class="active" v-if="promoterData.zhenshuo">
                                     <use xlink:href="#icon-promote-pay-moreChose"/>
                                 </svg>
-                            </li> -->
+                            </li>
                         </ul> 
 
                     </div>
@@ -237,6 +237,11 @@
     import AddressPopup from "@/components/ProvinceCityUser"; //引入省市区数据
     import {mapState, mapGetters} from "vuex";
     import PaySuccess from "@/page/extension/PaySuccess";//支付成功
+    import businessImg from '../../../images/extension/promote-pay-business.png'
+    import hospitalImg from '../../../images/extension/promote-pay-hospital.png'
+    import multipleShopImg from '../../../images/extension/promote-pay-multipleShop.png'
+    import drugstoreImg from '../../../images/extension/promote-pay-drugstore.png'
+    import moreChoseImg from '../../../images/extension/promote-pay-client.png'
 
     export default {
         name: "Unsure",
@@ -314,6 +319,33 @@
                 return this.USER_INFO.partner_status === 1
             },
 
+        },
+        filters:{
+            imgType(value) {
+                let img
+                switch (value) {
+                    case 'business':
+                        img = businessImg
+                        break;
+                    case 'danti':
+                        img = hospitalImg
+                        break;
+                    case 'lianshuo':
+                        img = multipleShopImg
+                        break;
+                    case 'zhenshuo':
+                        img = drugstoreImg
+                        break; 
+                    case 'yiyuan':
+                        img = moreChoseImg
+                        break;
+                
+                    default:
+                        break;
+                }
+                return img
+
+            }
         },
         created() {
             this.initData();
