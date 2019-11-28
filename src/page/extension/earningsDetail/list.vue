@@ -42,7 +42,7 @@ export default {
     computed: {
         incomeType() {
             let text = ''
-            if(this.data.type==1) {
+            if(this.data.type==4) {
                 text = '通道收益'
             } else if(this.data.type==3) {
                 text = '合伙收益'

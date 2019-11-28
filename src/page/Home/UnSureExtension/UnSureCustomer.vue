@@ -142,10 +142,6 @@
     .mint-navbar .mint-tab-item {
         padding:  0;
     }
-    .mint-tab-item {
-        color: rgb(153,211,255);
-        font-size: .37rem;
-    }
     .mint-tab-item-label .p1 {
         font-size: .37rem;
         line-height: .88rem;
@@ -185,4 +181,10 @@
     //         padding-top: .58rem;
     //     }
     // }
+</style>
+<style scoped>
+    /deep/ .mint-tab-item {
+        color: rgb(153,211,255);
+        font-size: .37rem;
+    }
 </style>
