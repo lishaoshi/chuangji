@@ -1,15 +1,15 @@
 <template>
     <div style="min-height: 100%;background: #fff">
         <clxsd-head-top title='更新列表'></clxsd-head-top>
-        <h3 class="p1">V1.4.0本次更新内容</h3>
+        <h3 class="p1">V1.5.0本次更新内容</h3>
         <p class="p2">2019.11.21</p>
         <ol class="ul">
            <!-- <li style="text-indent:2em">河南康达医药科技有限公司，结合多年市场运作经验和产业互联网的数字驱动决策需求，潜心研发了《创联工厂》医药共赢销售平台，本次发版主要内容如下：</li> -->
-            <li class="retract">1、 优化资质图片上传；</li>
-            <li class="retract">2、 优化商品图片展示，提升加载速度；</li>
-            <li class="retract">3、 现在开票员可以管理自己负责区域的订单，提高效率；</li>
-            <li class="retract">4、 推广人/合伙人收益明细查看，笔笔收益清晰明了；</li>
-            <li class="retract">5、 推广人升级合伙人，收益拿不停，升职有加薪；</li>
+            <li class="retract">1、 优化图片上传机制;</li>
+            <li class="retract">2、 优化发票开票机制;</li>
+            <li class="retract">3、 强化推广人/合伙人收入明细查询;</li>
+            <li class="retract">4、 优化合伙人团队明细；</li>
+            <li class="retract">5、 已知bug修复；</li>
             <!-- <li style="text-indent:2em">在奋力拼搏的时候，我们也时刻谨记他人的前进步伐。在接下来的时间里，我们与大型银行合作为广大药业同行提供了非常优质的金融产品，敬请期待！</li>
             <li style="text-align:right">创联工厂</li> -->
         </ol>
