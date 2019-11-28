@@ -2,7 +2,7 @@
     <div style="min-height: 100%;background: #fff">
         <clxsd-head-top title='更新列表'></clxsd-head-top>
         <h3 class="p1">V1.5.0本次更新内容</h3>
-        <p class="p2">2019.11.21</p>
+        <p class="p2">2019.11.28</p>
         <ol class="ul">
            <!-- <li style="text-indent:2em">河南康达医药科技有限公司，结合多年市场运作经验和产业互联网的数字驱动决策需求，潜心研发了《创联工厂》医药共赢销售平台，本次发版主要内容如下：</li> -->
             <li class="retract">1、 优化图片上传机制;</li>
