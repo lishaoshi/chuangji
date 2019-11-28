@@ -91,13 +91,13 @@
 		<div class="height1"></div>
 		 <div class="content">
 			<div class="title">发票信息</div>
-			<!-- <div class="noInfo" v-if="!data.invoice_type">
+			<div class="noInfo" v-if="!data.invoice_type">
 				<svg>
                     <use xlink:href="#icon-lampBulb"></use>
                 </svg>
 				<span>你没有选择开具发票</span>
-			</div> -->
-            <ul class="order-ul">
+			</div>
+            <ul class="order-ul" v-else>
                 <!-- <li>
 					<span>抬头类型：</span>
 					<span>{{data.invoice_type=="dedicated"?"增值税专用发票":"增值税普通发票"}}</span>
