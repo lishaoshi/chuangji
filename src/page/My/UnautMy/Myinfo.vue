@@ -77,9 +77,9 @@
             <clxsd-cell :title="'个人信息'" :to="'/business-setting'" is-link icon="my-employee"/>
         </div>
         <clxsd-cell :title="'设置'" :to="'/setting'" is-link icon="my-setting"/>
-        <clxsd-foot-guide :user-type="4"/>
+        
         </div>
-       
+       <clxsd-foot-guide :user-type="4"/>
     </div>
 </template>
 

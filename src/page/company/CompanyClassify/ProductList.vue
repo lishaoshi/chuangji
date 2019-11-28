@@ -100,7 +100,7 @@
                                                     </template>
                                                     
                                                     <template v-if="entity.isSelfChoose">
-                                                        <form action="">
+                                                        <form action="" style="height: .4rem;">
                                                             <input v-focus @input="handleInput($event)" @keyup.enter="handleBlur($event, entity, index)" @blur="handleBlur($event, entity, index)" ref="cart" type="number" :value="entity.num">
                                                         </form>
                                                     </template>
@@ -879,6 +879,7 @@
             width: .72rem;
             text-align: center;
             background: rgb(245, 245, 245);
+            height: .4rem;
         }
         // box-sizing: border-box;
         & > .controller {
