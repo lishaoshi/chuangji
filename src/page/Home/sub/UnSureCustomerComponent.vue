@@ -275,7 +275,7 @@
                     { name: "省公司", value: "province_company"},
                     { name: "市公司", value: "city_company"},
                     { name: "推广人", value: "promoter"},
-                     { name: "推广人", value: "partner"},
+                     { name: "合伙人", value: "partner"},
                 ], 
                 //省市推广人
                 promoterData: {
@@ -376,8 +376,13 @@
                     }
                 }).then(response => {
                     if (response.data.data) {
-                        this.selected = response.data.data[0].value
-                          this.navbar = [...response.data.data]
+                        if(this.$route.query.type) {
+                            this.selected = this.$route.query.type
+                        } else {
+                            this.selected = response.data.data[0].value
+                        }
+                         
+                        this.navbar = [...response.data.data]
                     }
                     this.loading = false;
                 }).catch(error => {

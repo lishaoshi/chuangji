@@ -154,69 +154,21 @@
                 orders.forEach((item,index, arr) =>{
                     if(item.order_status==0){
                         if(state == 0 && item.order_status == 0 && item.diff_seconds<=0){
-                            item.splice(index,1)
+                            item.splice(index,1) 
                         } else if(item.diff_seconds<=0 ) {
                             item.order_status = 6;
-                        }else{
-                            let minutes = Math.floor(item.diff_seconds/60)
-                            let seconds = Math.ceil(item.diff_seconds%60)
-                            item.minutes = minutes
-                            item.seconds = seconds
-                            item.diffSecondsInt = setInterval(()=>{
-                                seconds--
-                                if(seconds<10 && seconds>0) {
-                                    seconds = '0' + seconds
-                                }
-                                if(seconds < 0&&minutes>0) {
-                                    minutes--
-                                    seconds=59
-                                    item.minutes = minutes
-
-                                } else if(seconds<=0&&minutes<=0) {
-                                    item.minutes = '00'
-                                    item.seconds = '00'
-                                    clearInterval(item.diffSecondsInt)
-                                    item.order_status = 6
-                                    item.money_paid =  item.order_amount
-                                }
-                                item.seconds = seconds
-
-                            },1000)
                         }
-
-
-                    }else if(item.order_status==1){
+                    } else if(item.order_status==1){
                         if(state == 1 && item.order_status == 1 && item.left_time <= 0){
                             orders.splice(index,1)
                         }else if(item.left_time <= 0 ) {
                             item.order_status = 6;
-                        }else{
-                            let minutes = Math.floor(item.left_time/60)
-                            let seconds = Math.ceil(item.left_time%60)
-                            item.minutes = minutes
-                            item.seconds = seconds
-                            item.leftTimeInt = setInterval(()=>{
-                                seconds--
-                                if(seconds<0&&minutes>0) {
-                                    minutes--
-                                    seconds=59
-                                    item.minutes = minutes
-
-                                } else if(seconds <= 0&&minutes<=0) {
-                                    // debugger
-                                    item.minutes = '00'
-                                    item.seconds = '00'
-                                    clearInterval(arr[index].leftTimeInt)
-                                    item.order_status = 6
-                                }
-                                if(seconds==0 && minutes>=0) {
-                                    item.seconds = '00'
-                                }
-                                if(seconds<10) {
-                                    seconds = '0' + seconds
-                                }
-                                item.seconds = seconds
-                            },1000)
+                        }else if(item.order_status==1){
+                            if(state == 1 && item.order_status == 1 && item.left_time <= 0){
+                                orders.splice(index,1)
+                            }else if(item.left_time <= 0 ) {
+                                item.order_status = 6;
+                            }
                         }
                     }
                 });

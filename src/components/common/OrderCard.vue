@@ -34,8 +34,12 @@
             <div :class="{OrderStatus:data.order_status!=1}" class="need_pay">
                 <div v-if="data.order_status==1 || data.order_status==0" class="intever">
                     <div>
-                        <span v-if="data.order_status==0">剩余支付时间：{{data.minutes}}分{{data.seconds}}秒</span>
-                        <span v-if="data.order_status==1">剩余提取时间：{{data.minutes}}分{{data.seconds}}秒</span>
+                        <span v-if="data.order_status==0">剩余支付时间：
+                            <timing-date :time.sync="data.left_time"></timing-date>
+                        </span>
+                        <span v-if="data.order_status==1">剩余提取时间：
+                            <timing-date :time.sync="data.left_time" @timeout="timeout"></timing-date>
+                        </span>
                     </div>
                 </div>
                 
@@ -64,7 +68,9 @@
           <div :class="{OrderStatus:data.order_status!=1}" class="need_pay" >
               <div v-if="data.order_status==1 || data.order_status==0">
                    <div>
-                        <span v-if="data.order_status==1">剩余提取时间: {{data.minutes}}分{{data.seconds}}秒</span>
+                        <span v-if="data.order_status==1">剩余提取时间: 
+                            <timing-date :time.sync="data.left_time" @timeout="timeout"></timing-date>
+                        </span>
                         <span v-if="data.order_status==0">剩余支付时间: {{data.minutes}}分{{data.seconds}}秒</span>
                     </div>
               </div>
@@ -96,6 +102,7 @@
 let tim = null
 import { orderPay, deleteBusinessOrder, againOrder } from "@/api/businessOrder"
 import { setInterval } from 'timers'
+import timingDate from '../timing/timing'
     export default {
         name: "OrderCard",
         props: {
@@ -172,36 +179,6 @@ import { setInterval } from 'timers'
                 return name
             }
         },
-        created() {
-        },
-        watch: {
-            // flag(value) {
-            //    if(tim) {
-            //         clearInterval(tim)
-            //         this.tim = null
-            //     }
-            //     if(value==0 || value==1 ||　value == -1) {
-            //        if(this.data.order_status==0){
-            //            this._setTimeOutFn(this.data.diff_seconds)
-            //        } else if(this.data.order_status==1) {
-            //            this._setTimeOutFn(this.data.left_time)
-            //        }
-            //     } else {
-            //         if(this.tim) {
-            //             clearInterval(this.tim)
-            //             this.tim = null
-            //         }
-            //     }
-            // }
-        },
-        mounted() {
-            // if(this.data.order_status==0) {
-            //     this._setTimeOutFn(this.data.diff_seconds)
-            // } else if(this.data.order_status==1) {
-            //     this._setTimeOutFn(this.data.left_time)
-            // }
-            // this.testInt()
-        },
         methods: {
             goOrderDetail(item) {
                 this.$messagebox.confirm('',{
@@ -219,6 +196,11 @@ import { setInterval } from 'timers'
                 this.$router.push({name:'bussinessOrderDetail', query: {id: this.data.id}})
             },
 
+            // 订单超时处理
+            timeout() {
+                this.data.order_status = 6
+            },
+
             // 再来一单
             async handleContinuTo(data) {
                 // this.$messagebox.confirm('')
@@ -227,44 +209,6 @@ import { setInterval } from 'timers'
                 })
                 this.$router.push('/factory/cart')
             },
-
-            // 封装倒计时函数
-            // _setTimeOutFn(time) {
-            //     let minutes = Math.floor(time/60)
-            //     let seconds = Math.ceil(time%60)
-            //     if(this.data['minutes']) {
-            //         this.data['minutes'] = minutes
-            //     } else {
-            //         this.$set(this.data, 'minutes', minutes)
-            //     }
-
-            //     if(this.data['seconds']) {
-            //         this.data['seconds'] = seconds
-            //     } else {
-            //         this.$set(this.data, 'seconds', seconds)
-            //     }
-            //     this.tim = setInterval(()=>{
-            //         seconds--
-            //         if(seconds != 0 ) {
-            //             clearInterval(this.tim)
-            //         }
-                     
-            //         if(seconds<=0&&minutes>0) {
-            //             minutes--
-            //             seconds=59
-            //             this.data.minutes = minutes
-                         
-            //         } else if(seconds<=0&&minutes<=0) {
-            //             this.data.minutes = '00'
-            //             this.data.seconds = '00'
-            //             clearInterval(this.tim)
-            //         }
-            //         if(seconds<10) {
-            //             seconds = '0' + seconds
-            //         }
-            //         this.data.seconds = seconds
-            //     },1000)
-            // },
             delectOrder(id) {
                 this.$messagebox.confirm('确认删除此订单吗？').then(res=>{
                     if(res=='confirm') {
@@ -278,6 +222,9 @@ import { setInterval } from 'timers'
         },
         beforeDestroy() {
             clearInterval(this.tim)
+        },
+        components: {
+            timingDate
         }
 
     }

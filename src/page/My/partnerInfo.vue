@@ -73,7 +73,7 @@ export default {
     },
     methods: {
         handleBecomePartner() {
-            this.$router.push('/customer-choose-role')
+            this.$router.push({path: '/customer-choose-role', query: {type: 'partner'}})
         }
     },
     created() {
