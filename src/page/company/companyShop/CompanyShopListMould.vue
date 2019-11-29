@@ -4,16 +4,16 @@
 			<!-- <ClxsdLoadMore key="orders-list" ref="loadmore" @onRefresh="onOrdersRefresh" @onLoadMore="onOrdersLoadMore"> -->
 				<div class="list" v-for="(item,index) in items">
 					<router-link :to="`/business/shop/${businessId}/${item.id}?num=${item.num}`">
-						<div class="list-img">
+						<!-- <div class="list-img">
 							<img :src="item.cover" />
-						</div>
+						</div> -->
 
 						<!-- 使用懒加载 -->
-						<!-- 
-							<div class="list-img">
+						
+						<div class="list-img">
 							<img v-lazyload="`${item.cover}`" />
 						</div>
-						 -->
+						
 						
 						<div class="list-title">{{item.good_name}}</div>
 					</router-link>

@@ -1,4 +1,5 @@
 //Vue 图片懒加载
+import defaultImg from '@/images/defaultImg.png'
 export default (Vue , options = {})=>{
     if(!Array.prototype.remove){
         Array.prototype.remove = function(item){
@@ -12,7 +13,7 @@ export default (Vue , options = {})=>{
     }
     var init = {
         lazyLoad: false,
-    　　default: '@/'
+    　　default: defaultImg
     }
     
     var listenList = [];
@@ -32,7 +33,7 @@ export default (Vue , options = {})=>{
     //图片距离页面顶部的距离
         var top = ele.getBoundingClientRect().top;
     //页面可视区域的高度
-        var windowHeight = window.innerHight;
+        // var windowHeight = window.innerHight;
     //top + 10 已经进入了可视区域10像素
         if(top + 10 < window.innerHeight){
             var image = new Image();
