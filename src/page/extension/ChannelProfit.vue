@@ -68,8 +68,8 @@
                 </div>
             </div>
         </div> -->
-        <!--推广人-->
-        <div v-if="data && data.length">
+        <template v-if="isApply">
+            <div v-if="data && data.length && isApply">
             <!-- <div class="detailed-item">
                 <img src="../../images/extension/promote-business.png" class="item-icon" />
                 <p class="title">商业</p>
@@ -110,16 +110,20 @@
                     <p>{{data.zhenshuo | display_price }}</p>
                 </div>
             </div> -->
-             <div  class="detailed-item" v-for="(item, index) of data" :key="index">
-                <img :src="item.img" class="item-icon" />
-                <p class="title">{{item.name}}</p>
-                <div class="num">
-                    <p>收益(元)</p>
-                    <p>{{item.value?item.value: '0.00'}}</p>
+                <div  class="detailed-item" v-for="(item, index) of data" :key="index">
+                    <img :src="item.img" class="item-icon" />
+                    <p class="title">{{item.name}}</p>
+                    <div class="num">
+                        <p>收益(元)</p>
+                        <p>{{item.value?item.value: '0.00'}}</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <UnJurisdiction  v-else></UnJurisdiction>
+            <UnJurisdiction  v-else-if="data && data.length"></UnJurisdiction>
+        </template>
+        <!--推广人-->
+       
+        <become-promote v-else/>
     </div>
 </template>
 
@@ -133,10 +137,12 @@
     import promoteHospital from "../../images/extension/promote-hospital.png"
     import promoteClinic from "../../images/extension/promote-clinic.png"
     import promoteMultipleShop from "../../images/extension/promote-multiple-shop.png"
+    import becomePromote from "@/components/promote/becomePromotBg"
     export default {
         name: "ChannelProfit",
         components:{
-            UnJurisdiction
+            UnJurisdiction,
+            becomePromote
         },
         data(){
             return {
@@ -147,48 +153,49 @@
         },
         computed:{
             ...mapState({
-                USER_INFO: state => state.CURRENTUSER.data
+                USER_INFO: state => state.CURRENTUSER.data,
+                isApply: state => state.is_apply
             })
         },
         methods:{
             async initData(){
                 _incomeDetails().then(res=>{
                     // debugger
-                    let list = res.data
+                    let list = res.data?res.data: []
 
                     if(list){
-                    list.forEach((item, index, arr) => {
-                        let name = ''
-                        let img = ""
-                        if(item.type) {
-                            switch (item.type) {
-                                case 'business':
-                                    name = "商业"
-                                    img = promoteBusiness
-                                    break;
-                                case 'danti':
-                                    name = "单体"
-                                    img = promoteMonomer
-                                    break;
-                                case 'yiyuan':
-                                    name = "医院"
-                                    img = promoteHospital
-                                    break;
-                                case 'zhenshuo':
-                                    name = "诊所"
-                                    img = promoteClinic
-                                    break;
-                                case 'lianshuo':
-                                    name = "连锁"
-                                    img = promoteMultipleShop
-                                    break;
+                        list.forEach((item, index, arr) => {
+                            let name = ''
+                            let img = ""
+                            if(item.type) {
+                                switch (item.type) {
+                                    case 'business':
+                                        name = "商业"
+                                        img = promoteBusiness
+                                        break;
+                                    case 'danti':
+                                        name = "单体"
+                                        img = promoteMonomer
+                                        break;
+                                    case 'yiyuan':
+                                        name = "医院"
+                                        img = promoteHospital
+                                        break;
+                                    case 'zhenshuo':
+                                        name = "诊所"
+                                        img = promoteClinic
+                                        break;
+                                    case 'lianshuo':
+                                        name = "连锁"
+                                        img = promoteMultipleShop
+                                        break;
+                                }
                             }
-                        }
-                        
-                        arr[index].name = name
-                        arr[index].value = parseFloat(item.value).toFixed(2)
-                        arr[index].img = img
-                    })
+                            
+                            arr[index].name = name
+                            arr[index].value = parseFloat(item.value).toFixed(2)
+                            arr[index].img = img
+                        })
                     }
                     // debugger
                     this.data = list

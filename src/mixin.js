@@ -58,7 +58,7 @@ export default {
                     }
                 }).catch(err => err);
             }
-        }
+        },
     },
 
 }

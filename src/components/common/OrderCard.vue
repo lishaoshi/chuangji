@@ -14,7 +14,7 @@
             <div class="drug_order">
                 <div class="drug_top">
                     <div class="drug_img">
-                        <img :src="data.items[0].entity.cover&&data.items[0].entity.cover">
+                        <img :src="data.items[0].entity.cover&&data.items[0].entity.cover | filteImg">
                     </div>
                     <div class="drug_message">
                         <div>{{data.items[0].entity_name}}</div>
@@ -56,7 +56,7 @@
                 <div id="wrapper">
                     <div class="iscroll">
                         <div class="drug_img" v-for="(entity,skey) in data.items">
-                            <img :src="entity.entity.cover" :alt="entity.name">
+                            <img :src="entity.entity.cover | filteImg" :alt="entity.name">
                         </div>
                     </div>
                 </div>
@@ -145,7 +145,10 @@ import timingDate from '../timing/timing'
 			filterFixed(value) {
 				value = Number(value)
 				return value.toFixed(2)
-			}
+            },
+            filteImg(val) {
+                return `${val}?x-oss-process=image/resize,w_80,m_fixed,h_80,limit_0`
+            }
         },
         computed: {
             order_status_display() {

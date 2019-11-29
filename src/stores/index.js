@@ -40,7 +40,10 @@ const state = {
 
 
     // 记录role-extension页面的tab选项卡值
-    RoleExtension: 1
+    RoleExtension: 1,
+
+    //是否已经申请成为推广人
+    is_apply: lstore.getData('is_apply')===undefined?true:lstore.getData('is_apply')
 
 };
 

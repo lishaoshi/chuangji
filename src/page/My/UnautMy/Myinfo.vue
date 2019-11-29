@@ -86,7 +86,7 @@
 <script>
     import ClxsdCell from "@/components/common/Cell";
     import ICountUp from '@/components/countUp'
-    import {mapState} from "vuex";
+    import {mapState, mapMutations} from "vuex";
     import { recordAmound, rebateFn } from '@/api/ticketList'
     export default {
         name: "Myinfo",
@@ -142,10 +142,13 @@
             this._getRecord()
         },
         methods: {
+            ...mapMutations(['changApplyPromote']),
             initData(){
                 this.$http.get('hippo-shop/area-user/is-apply')
                 .then(response => {
                     this.is_apply = response.data.data.is_apply
+                    this.$lstore.setData('is_apply', response.data.data.is_apply)
+                    this.changApplyPromote( response.data.data.is_apply)
                 }).catch(err => {
 
                 })

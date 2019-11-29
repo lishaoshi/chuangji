@@ -6,7 +6,7 @@
             </div>
         </clxsd-head-top>
         <!-- <div style="min-height:.88rem;"></div> -->
-        <main>
+        <main v-if="isApply">
             <div class="searchbox">
                 <SearchBar ref="searchBox" :searchFn="searchFn" :record='record' v-model="searchValue" @keyup="keyup" @clearText="clearText"></SearchBar>
             </div>
@@ -46,6 +46,19 @@
             </div>
             <UnJurisdiction  v-else></UnJurisdiction>
         </main>
+        <becomePromote v-else>
+            <div slot="main" class="becomePromote">
+                <img src="../../images/becomePromote2.png" alt="">
+                <div>
+                    <p>
+                        您还不能享受通道收益
+                    </p>
+                    现在去
+                    <span @click="toRouter('/customer-choose-role?type=promoter')">申请推广人</span>，
+                    终端采购我受益
+                </div>
+            </div>
+        </becomePromote>
         <div class="popupBox">
             <mt-popup
             v-model="popupVisible"
@@ -59,6 +72,15 @@
                 <div class="container">
                     <div class="item" v-for="(item,index) of subRoles" :class="{checked:item.checked}" :key="index" @click="choosePromote(index)">
                         <div >{{item.name}}</div>
+                        
+                    </div>
+                    <div class="noIsPromote" v-if="!subRoles || !subRoles.length">
+                        <p>您还没有成为推广人</p>
+                        <p>
+                            现在去
+                        <span @click="toRouter('/customer-choose-role?type=promoter')">申请推广人</span>, 终端采购我受益
+                        </p>
+                        
                     </div>
                 </div>
                
@@ -71,6 +93,8 @@
 <script>
 import UnJurisdiction from "../../components/EmptyList";//推广人
 import SearchBar from '@/components/common/SearchBar';
+import { mapState } from 'vuex'
+import becomePromote from "@/components/promote/becomePromotBg"
 export default {
     name:'record',
     data(){
@@ -87,7 +111,13 @@ export default {
     },
     components:{
         UnJurisdiction,
-        SearchBar
+        SearchBar,
+        becomePromote
+    },
+    computed: {
+        ...mapState({
+            isApply: state => state.is_apply
+        })
     },
     created(){
         this._getData()
@@ -309,14 +339,29 @@ export default {
             width: 100%;
             background: #f5f5f5;
             .container {
-                margin: .5rem 0;
+                // margin: .5rem 0;
+                min-height: 3.64rem;
                 display: flex;
                 // justify-content: space-between;
                 width: 100%;
                 flex-wrap: wrap;
-                padding: 0 .3rem;
+                padding: .5rem .3rem;
+                text-align: center;
+                line-height: .44rem;
+                color: #666;
+                font-size: .28rem;
                 div {
+                    
                     // width: 100%;
+                    span {
+                        color: #0090FF;
+                    }
+                }
+                .noIsPromote {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
                 }
                
                 .item {

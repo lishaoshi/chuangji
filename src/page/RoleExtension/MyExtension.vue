@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import ClxsdCell from "@/components/common/Cell";
 
 import ICountUp from '@/components/countUp'
@@ -144,10 +144,13 @@ export default {
     this.initData()
   },
   methods:{
+    ...mapMutations(['changApplyPromote']),
     initData(){
     this.$http.get('hippo-shop/area-user/is-apply')
       .then(response => {
-          this.is_apply = response.data.data.is_apply
+          this.is_apply = response.data.data.is_apply;
+          this.$lstore.setData('is_apply', response.data.data.is_apply)
+          this.changApplyPromote(response.data.data.is_apply)
       }).catch(err => {
 
       })

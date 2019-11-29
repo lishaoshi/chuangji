@@ -99,6 +99,13 @@ export default {
 
     UPDATAroleExtension(state,data){
         state.RoleExtension = data;
-    }
+    },
+
+    /*** 
+     *修改推广人申请状态   false：未申请， true：申请
+    */
+   changApplyPromote(state, flag) {
+       state.is_apply = flag
+   }
 
 }
