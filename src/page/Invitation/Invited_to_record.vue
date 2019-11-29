@@ -51,7 +51,7 @@
                 <img src="../../images/becomePromote2.png" alt="">
                 <div>
                     <p>
-                        您还不能享受通道收益
+                       您还没有成为推广人
                     </p>
                     现在去
                     <span @click="toRouter('/customer-choose-role?type=promoter')">申请推广人</span>，

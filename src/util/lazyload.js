@@ -12,7 +12,7 @@ export default (Vue , options = {})=>{
     }
     var init = {
         lazyLoad: false,
-    　　default: 'https://gw.alicdn.com/tps/i1/TB147JCLFXXXXc1XVXXxGsw1VXX-112-168.png'
+    　　default: '@/'
     }
     
     var listenList = [];
@@ -48,8 +48,9 @@ export default (Vue , options = {})=>{
         }
     };
     
-    const onListenScroll = () =>{
-        window.addEventListener('scroll',function(){
+    const onListenScroll = (ele) =>{
+        let targetEle = document.getElementsByClassName('mainbox')[0]
+        targetEle.addEventListener('scroll',function(){
             var length = listenList.length;
                 for(let i = 0;i<length;i++ ){
                     isCanShow(listenList[i]);
@@ -57,7 +58,7 @@ export default (Vue , options = {})=>{
         })
     }
         //Vue 指令最终的方法
-        const addListener = (ele,binding) =>{
+    const addListener = (ele,binding) =>{
         //绑定的图片地址
         var imageSrc = binding.value;
         //如果已经加载过，则无需重新加载，直接将src赋值
@@ -71,16 +72,16 @@ export default (Vue , options = {})=>{
         }
         //图片显示默认的图片
         ele.src = init.default;
-    //再看看是否可以显示此图片
-    if(isCanShow(item)){
-        return
-    }
+        //再看看是否可以显示此图片
+        if(isCanShow(item)){
+            return
+        }
         //否则将图片地址和元素均放入监听的lisenList里
         listenList.push(item);
         
         //然后开始监听页面scroll事件
-        onListenScroll();
-        }
+        onListenScroll(ele);
+    }
     
         Vue.directive('lazyload',{
             inserted:addListener,

@@ -7,6 +7,13 @@
 						<div class="list-img">
 							<img :src="item.cover" />
 						</div>
+
+						<!-- 使用懒加载 -->
+						<!-- 
+							<div class="list-img">
+							<img v-lazyload="`${item.cover}`" />
+						</div>
+						 -->
 						
 						<div class="list-title">{{item.good_name}}</div>
 					</router-link>

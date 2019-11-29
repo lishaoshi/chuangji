@@ -30,6 +30,7 @@ import moment from 'moment'
 // import Area from 'vant/lib/area';
 // import Popup from 'vant/lib/popup';
 import { Popup, Area } from 'vant';
+import lazyLoad from '@/util/lazyload'
 
 // Vue.use(Popup);
 // import 'vant/lib/popup/style';
@@ -71,6 +72,7 @@ Vue.prototype.$bus = bus;
 
 Vue.use(lstore);
 Vue.use(imgCropper)
+lazyLoad(Vue)
 //Vue.use(flexible);
 for (const k in filters) {
     Vue.filter(k, filters[k]);
