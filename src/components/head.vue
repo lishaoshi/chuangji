@@ -89,6 +89,7 @@
             }else if (this.$route.path =='/invitation'){
                 this.isBROWSER = true
             }else if (this.$route.path == '/channel-profit'){
+                debugger
                 this.isBROWSER = true
             }else if (this.$route.path == '/record'){
                 this.isBROWSER = true

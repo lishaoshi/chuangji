@@ -55,8 +55,12 @@
             <router-link :to="`/my-order/detail/${data.id}`" class="img-list-container">
                 <div id="wrapper">
                     <div class="iscroll">
-                        <div class="drug_img" v-for="(entity,skey) in data.items">
+                        <div class="drug_img" v-for="(entity,skey) in goodList">
                             <img :src="entity.entity.cover | filteImg" :alt="entity.name">
+                            
+                        </div>
+                        <div class="omit">
+                            <p>•••</p>
                         </div>
                     </div>
                 </div>
@@ -180,6 +184,14 @@ import timingDate from '../timing/timing'
                         break;  
                 }
                 return name
+            },
+            goodList() {
+                if(this.data.items.length>4) {
+                    return [...this.data.items.splice(0, 4)]
+                }
+                // debugger
+                return this.data.items
+                
             }
         },
         methods: {
@@ -310,6 +322,15 @@ import timingDate from '../timing/timing'
                 // margin-right: .16rem;
             }
         }
+         .omit {
+            width: .5rem;
+            height: .5rem;
+            background: #fff;
+            line-height: .5rem;
+            text-align: center;
+            border-radius: 50%;
+            color: #666;
+        }
     }
 
     .need_pay {
@@ -436,6 +457,8 @@ import timingDate from '../timing/timing'
                 vertical-align: middle;
             }
         }
+        
+       
     }
 
     .drug_message {

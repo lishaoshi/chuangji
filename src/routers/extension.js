@@ -51,6 +51,11 @@ const promotersCustomer = () => import('@/page/My/UnautMy/promotersCustomer');
 */
 const partnerInfo = () => import('@/page/My/partnerInfo')
 
+/**
+ * 消息通知
+ */
+const newMessage = ()=>import('@/page/newMessage/index')
+
 
 export default [
     {
@@ -317,5 +322,14 @@ export default [
             requiresAuth: true
         }
     },
+    {
+        path: "/new-message/:type",
+        component:newMessage,
+        name: newMessage,
+        meta: {
+            title: "消息通知",
+            requiresAuth: true
+        }
+    }
 
 ]

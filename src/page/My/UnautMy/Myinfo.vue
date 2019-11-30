@@ -73,10 +73,14 @@
         <clxsd-cell :title="'合伙收益'" v-if="userInfo.area_type=='partner'" :to="'/cooperation-profit'" :value="userInfo.lianPiaoVaule" is-link icon="my-banknote"/>
        
         <div style="margin:.2rem 0">
-            <clxsd-cell :title="'消息通知'" :to="'/develop'" is-link icon="my-message"/>
+            <clxsd-cell :title="'消息通知'" value="hahahhah" :to="'/develop'" is-link icon="my-message">
+                <template>
+                    <message-count :count="messageCount"></message-count>
+                </template>
+            </clxsd-cell>
             <clxsd-cell :title="'个人信息'" :to="'/business-setting'" is-link icon="my-employee"/>
         </div>
-        <clxsd-cell :title="'设置'" :to="'/setting'" is-link icon="my-setting"/>
+        <clxsd-cell :title="'设置'" :to="'/setting'" icon="my-setting"/>
         
         </div>
        <clxsd-foot-guide :user-type="4"/>
@@ -88,11 +92,14 @@
     import ICountUp from '@/components/countUp'
     import {mapState, mapMutations} from "vuex";
     import { recordAmound, rebateFn } from '@/api/ticketList'
+    import messageCount from '@/components/promote/messageCount'
+    import { getMessageCount } from "@/api/newMessage.js";
     export default {
         name: "Myinfo",
         components: {
             ClxsdCell,
-            ICountUp
+            ICountUp,
+            messageCount
         },
         data(){
           return{
@@ -108,7 +115,8 @@
                     suffix: '',
                     decimalPlaces: 2,
                 },
-                balance:0
+                balance:0,
+                messageCount: 20
           }
         },
         computed: {
@@ -151,6 +159,9 @@
                     this.changApplyPromote( response.data.data.is_apply)
                 }).catch(err => {
 
+                })
+                getMessageCount({type:'promoter'}).then(res=>{
+                    this.messageCount = res.data.total
                 })
             },
              _getRecord() {
@@ -322,5 +333,12 @@
         b {
             font-size: .44rem;
         }
+    }
+   
+</style>
+
+<style scoped>
+    /deep/  .clxsd-cell-value {
+        width: auto!important;
     }
 </style>

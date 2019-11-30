@@ -63,7 +63,11 @@
           <!-- <clxsd-cell title="广告收益" :to="'/develop'" is-link icon="promoter_ad" /> -->
         </div>
         <div style="margin-top: .2rem">
-          <clxsd-cell title="消息通知" :to="'/develop'" is-link icon="my-message" />
+          <clxsd-cell title="消息通知" :to="'/new-message/promoter'" is-link icon="my-message">
+            <template v-if="messageCount > 0">
+              <message-count :count="messageCount"></message-count>
+            </template>
+          </clxsd-cell>
         </div>
         <router-link to="/my" style="color:#333;">
           <div class="back" style="margin-top: .2rem">
@@ -80,13 +84,15 @@
 <script>
 import { mapState, mapMutations } from "vuex";
 import ClxsdCell from "@/components/common/Cell";
-
+import messageCount from '@/components/promote/messageCount'
 import ICountUp from '@/components/countUp'
+import { getMessageCount } from "@/api/newMessage.js";
 export default {
   name: "MyExtension",
   components: {
     ClxsdCell,
-    ICountUp
+    ICountUp,
+    messageCount
   },
   props: {
     balance: {
@@ -106,6 +112,7 @@ export default {
           suffix: '',
           decimalPlaces: 2
       },
+      messageCount: 0
     }
   },
   computed: {
@@ -146,14 +153,18 @@ export default {
   methods:{
     ...mapMutations(['changApplyPromote']),
     initData(){
-    this.$http.get('hippo-shop/area-user/is-apply')
-      .then(response => {
-          this.is_apply = response.data.data.is_apply;
-          this.$lstore.setData('is_apply', response.data.data.is_apply)
-          this.changApplyPromote(response.data.data.is_apply)
-      }).catch(err => {
+       this.$http.get('hippo-shop/area-user/is-apply')
+        .then(response => {
+            this.is_apply = response.data.data.is_apply;
+            this.$lstore.setData('is_apply', response.data.data.is_apply)
+            this.changApplyPromote(response.data.data.is_apply)
+        }).catch(err => {
 
+        })
+       getMessageCount({type:'promoter'}).then(res=>{
+          this.messageCount = res.data.total
       })
+     
     },
      /**
        * 查看合伙人简介
@@ -299,4 +310,11 @@ export default {
     }
   }
 }
+</style>
+
+
+<style scoped>
+    /deep/  .clxsd-cell-value {
+        width: auto!important;
+    }
 </style>

@@ -61,6 +61,11 @@
                 -->
                 <div class="my-list">
                     <clxsd-cell :title="'集采返利'" :to="'/ticket-list'" is-link icon="my-banknote" :value="userInfo.lianPiaoVaule"/>
+                    <clxsd-cell :title="'消息通知'" :to="'/new-message/entity'" is-link icon="my-message">
+                        <template v-if="messageCount > 0">
+                            <message-count :count="messageCount"></message-count>
+                        </template> 
+                    </clxsd-cell>
                     <clxsd-cell :title="'增值理财'" :to="'/develop'" is-link icon="global-my-financing"/>
                     <clxsd-cell :title="'授信借贷'" :to="'/develop'" is-link icon="my-loan"/>
                 </div>
@@ -82,10 +87,13 @@
 <script>
     import ClxsdCell from '@/components/common/Cell';
     import { mapState, mapActions, mapMutations } from "vuex";
+    import messageCount from '@/components/promote/messageCount';
+    import { getMessageCount } from "@/api/newMessage.js";
     export default {
         name: "page-lianshuo-my",
         components:{
-            ClxsdCell
+            ClxsdCell,
+            messageCount
         },
         data(){
             return {
@@ -93,6 +101,7 @@
                 lianBeiValue:0.00,
                 userLogo: '',
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
+                messageCount:　0
             }
         },
         computed:{
@@ -126,7 +135,7 @@
                         companyName,
                         infoText,
                         userLogo,
-                        shop_supplier
+                        shop_supplier,
                     }
 
                 },
@@ -159,6 +168,10 @@
                         }
                     }).catch(err => {
 
+                })
+                getMessageCount({type:'entity'}).then(res=>{
+                    // debugger
+                    this.messageCount = res.data.total
                 })
             },
             async to(path, flag=false) {
@@ -354,4 +367,10 @@
 		margin-top: .2rem;
 	}
     
+</style>
+
+<style scoped>
+    /deep/  .clxsd-cell-value {
+        width: auto!important;
+    }
 </style>

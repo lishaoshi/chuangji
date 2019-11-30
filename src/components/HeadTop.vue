@@ -76,7 +76,6 @@
         created() {
         },
         mounted() {
-            
             if(this.$route.path=='/business-setting') {
                 this.isBROWSER = true
             }else if(this.$route.path=='/develop'){
@@ -89,8 +88,11 @@
             }else if (this.$route.path =='/invitation'){
                 this.isBROWSER = true
             }else if (this.$route.path == '/channel-profit'){
+                
                 this.isBROWSER = true
             }else if (this.$route.path == '/record'){
+                this.isBROWSER = true
+            } else if(this.$route.path=="/new-message/promoter") {
                 this.isBROWSER = true
             }
         }
