@@ -26,7 +26,7 @@
                     <mt-swipe :auto="4000" class="swiper" v-if="swippers&&swippers.length&&swippers.length>0">
                         <mt-swipe-item :key="index" v-for="(swipe,index) in swippers">
                             <a :href="swipe.link" target="_blank">
-                                <img :src="swipe.img" width="100%">
+                                <img :src="swipe.img" width="100%" height="100%">
                             </a>
                         </mt-swipe-item>
                     </mt-swipe>

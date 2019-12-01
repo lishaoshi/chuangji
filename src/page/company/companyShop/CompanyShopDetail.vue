@@ -58,9 +58,13 @@
                 <span class="letter">规格</span>
                 <span>{{data.spec}}</span>
             </div>
-            <div>
-                <span class="letter">效期</span>
-                <span>{{data.time||'无限期'}}</span>
+            <div v-if="data.production_time">
+                <span>生产日期</span>
+                <span>{{data.production_time}}</span>
+            </div>
+            <div v-if="data.time">
+                <span>有效期至</span>
+                <span>{{data.time}}</span>
             </div>
             <div>
                 <span>批准文号</span>
@@ -255,7 +259,9 @@
             _handleData(data) {
                 if(data.valid_time!=0){
                     let time = data.valid_time
-                    // data.num = 0
+                    if( data.production_time>0) {
+                        data.production_time = data.this.$moment(data.production_time*1000).format("YYYY-MM-DD")
+                    }
                     data.time = this.$moment(time*1000).format("YYYY-MM-DD")
                     // 
                 }
@@ -470,7 +476,7 @@
             }
         }
         .letter {
-            letter-spacing: .48rem;
+            letter-spacing: 2em;
             margin-right: .02rem!important;
         }
     }

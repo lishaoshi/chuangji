@@ -44,10 +44,11 @@
                 </div>
             </div>
             <div class="price-flex">
-                <div class="price-flex-market">
-                    <span>市场价</span>
+                <div class="price-flex-market" v-if="data.market_price">
+                    <span>市&nbsp;场&nbsp;价</span>
                     <span>{{data.market_price}}</span>
                 </div>
+                 <div class="line"></div>
                 <div class="price-flex-other">
                     <div>
                         <span>连锁采购价</span>
@@ -58,15 +59,29 @@
                         <span>{{data.monomer_price}}</span>
                     </div>
                 </div>
+                <div class="line"></div>
                 <div class="price-flex-other">
                     <div>
                         <span>诊所采购价</span>
                         <span>{{data.clinic_price}}</span>
                     </div>
-                    <div>
+                    <div v-if="data.hospital_price">
                         <span>医院采购价</span>
                         <span>{{data.hospital_price}}</span>
                     </div>
+                </div>
+            </div>
+
+             <div class="goods-flex">
+                <div>
+                    <p class="price" style="color: #333;font-size: .28rem">
+                        {{data.order_min_num?data.order_min_num:'无'}}
+                    </p>
+                    <p class="name" style="color: #999">最小采购量</p>
+                </div>
+                <div>
+                    <p class="price" style="color: #333;font-size: .28rem">{{data.order_max_num?data.order_max_num:'无限制'}}</p>
+                    <p class="name" style="color: #999">采购上线</p>
                 </div>
             </div>
             <div class="goods-flex">
@@ -322,16 +337,25 @@
         }
     }
     .price-flex {
-        padding: 0 10px;
         background: #fff;
         margin-top: .2rem;
         & > div {
             height: 1.3rem;
             display: flex;
             align-items: center;
+            padding: 0 10px;
             span:first-child {
                 font-size: .24rem;
                 color: #333;
+            }
+        }
+        &-market {
+            span:first-child {
+                width: 60px;
+            }
+            span:last-child {
+                font-size: .28rem;
+                color: #666;
             }
         }
         &-other {
@@ -341,6 +365,12 @@
                 display: flex;
                 height: 100%;
                 justify-content: center;
+                &:first-child {
+                    border-right: 1px solid #f1f1f1;
+                }
+                &:last-child {
+                    padding-left: 10px;
+                }
                 span:last-child {
                     font-size: .28rem;
                     color: #666;
@@ -348,6 +378,10 @@
                 }
             }
             
+        }
+        .line {
+            border-top: 1px solid #f1f1f1;
+            height: 0;
         }
     }
 
