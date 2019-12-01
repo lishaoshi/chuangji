@@ -47,6 +47,7 @@
                 <div class="price-flex-market">
                     <span>市场价</span>
                     <span>{{data.market_price}}</span>
+<<<<<<< HEAD
                 </div>
                 <div class="price-flex-other">
                     <div>
@@ -60,6 +61,21 @@
                 </div>
                 <div class="price-flex-other">
                     <div>
+=======
+                </div>
+                <div class="price-flex-other">
+                    <div>
+                        <span>连锁采购价</span>
+                        <span>{{data.chain_price}}</span>
+                    </div>
+                    <div>
+                        <span>单体采购价</span>
+                        <span>{{data.monomer_price}}</span>
+                    </div>
+                </div>
+                <div class="price-flex-other">
+                    <div>
+>>>>>>> 479a0dd794de550054ad7f2015716f97dbeb3304
                         <span>诊所采购价</span>
                         <span>{{data.clinic_price}}</span>
                     </div>
@@ -322,7 +338,11 @@
         }
     }
     .price-flex {
+<<<<<<< HEAD
         padding: 0 10px;
+=======
+        padding: 10px;
+>>>>>>> 479a0dd794de550054ad7f2015716f97dbeb3304
         background: #fff;
         margin-top: .2rem;
         & > div {
@@ -339,6 +359,7 @@
                 flex: 1;
                 flex-direction: column;
                 display: flex;
+<<<<<<< HEAD
                 height: 100%;
                 justify-content: center;
                 span:last-child {
@@ -346,6 +367,10 @@
                     color: #666;
                     margin-top: .14rem;
                 }
+=======
+                border-top: 1px solid #999;
+                height: 100%;
+>>>>>>> 479a0dd794de550054ad7f2015716f97dbeb3304
             }
             
         }
