@@ -322,11 +322,7 @@
         }
     }
     .price-flex {
-<<<<<<< HEAD
         padding: 0 10px;
-=======
-        padding: 10px;
->>>>>>> 479a0dd794de550054ad7f2015716f97dbeb3304
         background: #fff;
         margin-top: .2rem;
         & > div {
@@ -343,7 +339,6 @@
                 flex: 1;
                 flex-direction: column;
                 display: flex;
-<<<<<<< HEAD
                 height: 100%;
                 justify-content: center;
                 span:last-child {
@@ -351,10 +346,6 @@
                     color: #666;
                     margin-top: .14rem;
                 }
-=======
-                border-top: 1px solid #999;
-                height: 100%;
->>>>>>> 479a0dd794de550054ad7f2015716f97dbeb3304
             }
             
         }
