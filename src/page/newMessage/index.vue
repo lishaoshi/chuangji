@@ -2,7 +2,7 @@
   <div class="container">
       <clxsd-head-top :title="title"></clxsd-head-top>
       <div style="overflow: auto;flex:1;">
-            <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore">
+            <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :auto-fill="false" ref="loadmore">
                 <message-list :list="messageList"></message-list>
             </mt-loadmore>
       </div>
@@ -39,9 +39,7 @@ export default {
     },
     methods: {
         loadBottom() {
-            setTimeout(()=>{
-                this.$refs.loadmore.onBottomLoaded()
-            }, 1000)
+            this._getMessageList()
         },
         /***
          * 获取消息列表
@@ -61,7 +59,12 @@ export default {
                     this.messageList = res.data.messageList
                 } else {
                      this.messageList = [...this.messageList, ...res.data.messageList]
+                     this.$refs.loadmore.onBottomLoaded()
                 }
+                if( res.data.messageList.length==0) {
+                    this.allLoaded = true
+                }
+                this.page++
                 
             })
             // if(this.type=="promote") {
