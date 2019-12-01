@@ -47,7 +47,6 @@
                 <div class="price-flex-market">
                     <span>市场价</span>
                     <span>{{data.market_price}}</span>
-<<<<<<< HEAD
                 </div>
                 <div class="price-flex-other">
                     <div>
@@ -61,21 +60,6 @@
                 </div>
                 <div class="price-flex-other">
                     <div>
-=======
-                </div>
-                <div class="price-flex-other">
-                    <div>
-                        <span>连锁采购价</span>
-                        <span>{{data.chain_price}}</span>
-                    </div>
-                    <div>
-                        <span>单体采购价</span>
-                        <span>{{data.monomer_price}}</span>
-                    </div>
-                </div>
-                <div class="price-flex-other">
-                    <div>
->>>>>>> 479a0dd794de550054ad7f2015716f97dbeb3304
                         <span>诊所采购价</span>
                         <span>{{data.clinic_price}}</span>
                     </div>
