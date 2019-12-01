@@ -19,7 +19,14 @@
                 <mt-swipe-item><img :src="data.img_cover" width="100%" height="100%"></mt-swipe-item>
             </mt-swipe>
             <div class="contant">
-                <div class="title">{{data.good_name}}</div>
+                <div class="title">
+                    <span>
+                        {{data.good_name}}  
+                    </span> 
+                    <span class="title-status">
+                        预售
+                    </span>
+                </div>
                 <p style="font-size: .2rem;color: #999;text-align: right">销量:{{data.sale_num}}</p>
             </div>
             <div class="contant">
@@ -32,47 +39,37 @@
                     <samp>{{data.spec}}</samp>
                 </div>
                 <div class="info">
-                    <span>效 &nbsp;&nbsp;&nbsp;&nbsp; 期</span>
-                    <samp>{{time}}</samp>
-                </div>
-                <div class="info">
                     <span>批准文号</span>
                     <samp>{{data.approval_number}}</samp>
                 </div>
             </div>
             <div class="price-flex">
-                <div>
-                    <p class="price"><span>￥{{data.price}}</span>
-                        <small style="color: #999">/{{data.unit}}</small>
-                    </p> 
-                    
-                    <p class="name" style="color: #999">订货价</p>
+                <div class="price-flex-market">
+                    <span>市场价</span>
+                    <span>{{data.market_price}}</span>
                 </div>
-                <div>
-                    <p v-if="parseInt(data.market_price)" class="price"><span>￥{{data.market_price}}</span>
-                        <small style="color: #999">/{{data.unit}}</small>
-                    </p>
-                    <p v-else class="price">
-                        <small>暂无维护</small>
-                    </p>
-                    <p class="name" style="color: #999">市场价</p>
+                <div class="price-flex-other">
+                    <div>
+                        <span>连锁采购价</span>
+                        <span>{{data.chain_price}}</span>
+                    </div>
+                    <div>
+                        <span>单体采购价</span>
+                        <span>{{data.monomer_price}}</span>
+                    </div>
                 </div>
-            </div>
-            <div class="trans-box">
-                <div class="trans-box-box1">
-                    <h2>{{data.big_unit}}</h2>
-                    <p style="color: #999">大单位</p>
-                </div>
-                <div class="trans-box-box2">
-                    <h2>{{data.tran}}</h2>
-                    <p style="color: #999">转换系数</p>
-                </div>
-                <div class="trans-box-box1">
-                    <h2>{{data.unit}}</h2>
-                    <p style="color: #999">销售单位</p>
+                <div class="price-flex-other">
+                    <div>
+                        <span>诊所采购价</span>
+                        <span>{{data.clinic_price}}</span>
+                    </div>
+                    <div>
+                        <span>医院采购价</span>
+                        <span>{{data.hospital_price}}</span>
+                    </div>
                 </div>
             </div>
-            <div class="price-flex">
+            <div class="goods-flex">
                 <div>
                     <p class="price" style="color: #333;font-size: .28rem">
                         {{parent_name?parent_name:'无'}}
@@ -276,6 +273,13 @@
         line-height: 150%;
         margin-bottom: 3px;
         margin-top: .2rem;
+        &-status {
+            font-size: .2rem;
+            color: #0090FF;
+            border: 1px solid #0090FF;
+            border-radius: 3px;
+            padding: 0 0.02rem;
+        }
     }
 
     .info {
@@ -317,8 +321,32 @@
             }
         }
     }
-
     .price-flex {
+        padding: 10px;
+        background: #fff;
+        margin-top: .2rem;
+        & > div {
+            height: 1.3rem;
+            display: flex;
+            align-items: center;
+            span:first-child {
+                font-size: .24rem;
+                color: #333;
+            }
+        }
+        &-other {
+            & > div {
+                flex: 1;
+                flex-direction: column;
+                display: flex;
+                border-top: 1px solid #999;
+                height: 100%;
+            }
+            
+        }
+    }
+
+    .goods-flex {
         display: flex;
         justify-content: space-between;
         margin-top: .2rem;

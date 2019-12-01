@@ -69,7 +69,7 @@
                                                     <div class="unit_price">
                                                         <div class="font">
                                                             <div>
-                                                                ￥{{entity.price}}
+                                                                <!-- ￥{{entity.price}} -->
                                                                 <span>{{entity.unit}}</span>
                                                             </div>
                                                             <span v-if="parseInt(entity.market_price)">{{entity.market_price}}</span>
@@ -714,10 +714,6 @@
             display: inline-block;
              margin-left: 4px;
              color: #999;
-            &::before {
-                content: '|';
-               margin-right: 6px;
-            }
         }
 
         & > span {

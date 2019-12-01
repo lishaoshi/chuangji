@@ -1,7 +1,7 @@
 <template>
   <div class="messageInfo">
     <div class="message-left">
-        <div class="icon-box" :class="{partner: this.data.channel=='fenyong', rebate:this.data.channel == 'fanli'}">
+        <div class="icon-box" :class="{partner: this.data.channel=='fenyong', rebate:this.data.channel == 'tongdao'}">
             <svg>
                 <use :xlink:href="svg"/>
             </svg>

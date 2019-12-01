@@ -1,12 +1,12 @@
 <template>
   <div class="container">
       <clxsd-head-top :title="title"></clxsd-head-top>
-      <div style="overflow: auto;flex:1;">
+      <div v-if="messageList.length" style="overflow: auto;flex:1;">
             <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :auto-fill="false" ref="loadmore">
                 <message-list :list="messageList"></message-list>
             </mt-loadmore>
       </div>
-     
+     <EmptyList v-else/>
       
   </div>
 </template>
@@ -14,9 +14,11 @@
 <script>
 import messageList from './components/list'
 import { getMessageList } from '@/api/newMessage'
+import EmptyList from "@/components/EmptyList"
 export default {
     components: {
-        messageList
+        messageList,
+        EmptyList
     },
     data() {
         return {

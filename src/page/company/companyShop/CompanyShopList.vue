@@ -9,7 +9,7 @@
 			<!-- <div  v-if="items.length">
 			<mt-loadmore ref="loadmore" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false"> -->
 					<mt-swipe :auto="4000" class="swiper">
-						<mt-swipe-item :key="key" v-for="(swipe,key) in swipers"><a :href="swipe.link"> <img :src="swipe.img" width="100%"></a>
+						<mt-swipe-item :key="key" v-for="(swipe,key) in swipers"><a :href="swipe.link"> <img :src="swipe.img" width="100%" height="100%"></a>
 						</mt-swipe-item>
 					</mt-swipe>
 					<div style="background: #fff;">
