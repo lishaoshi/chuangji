@@ -59,7 +59,7 @@
                             <img :src="entity.entity.cover | filteImg" :alt="entity.name">
                             
                         </div>
-                        <div class="omit">
+                        <div class="omit" v-if="data.items.length > 4">
                             <p>•••</p>
                         </div>
                     </div>
@@ -187,7 +187,7 @@ import timingDate from '../timing/timing'
             },
             goodList() {
                 if(this.data.items.length>4) {
-                    return [...this.data.items.splice(0, 4)]
+                    return [...this.data.items.slice(0, 4)]
                 }
                 // debugger
                 return this.data.items
@@ -330,6 +330,7 @@ import timingDate from '../timing/timing'
             text-align: center;
             border-radius: 50%;
             color: #666;
+            align-self: flex-end;
         }
     }
 

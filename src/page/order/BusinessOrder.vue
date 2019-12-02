@@ -106,6 +106,7 @@
                 this.orderList = []
                 this.state = id
                 this.page = 1
+                this.allLoaded = false
                 this.getOrderList()
             },
             updateList() {
