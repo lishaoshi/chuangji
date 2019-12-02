@@ -123,7 +123,7 @@
         </template>
         <!--推广人-->
        
-        <become-promote v-else/>
+        <become-promote class="becomePromote" v-else/>
     </div>
 </template>
 
@@ -257,6 +257,13 @@
 <style lang="scss" scoped>
     #ChannelProfit {
         padding-bottom: .2rem;
+        display: flex;
+        flex-direction: column;
+        height: 100%;;
+    }
+    .becomePromote {
+        flex: 1;
+        background: #fff;
     }
     .detailed-item {
         margin: .1rem .2rem;

@@ -46,7 +46,7 @@
             </div>
             <UnJurisdiction  v-else></UnJurisdiction>
         </main>
-        <becomePromote v-else>
+        <becomePromote v-else class="becomePromote_box">
             <div slot="main" class="becomePromote">
                 <img src="../../images/becomePromote2.png" alt="">
                 <div>
@@ -215,6 +215,10 @@ export default {
         display: flex;
         height: 100%;
         flex-direction: column;
+        .becomePromote_box {
+            flex: 1;
+            background: #fff;
+        }
 
     main {
         padding:  0 .2rem;

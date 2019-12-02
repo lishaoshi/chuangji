@@ -26,7 +26,7 @@ export default {
         height: 2.26rem;
     }
     padding: 0 1rem;
-    margin-top: 2.4rem;
+    padding-top: 2.4rem;
     display: flex;
     flex-direction: column;
     align-items: center;
