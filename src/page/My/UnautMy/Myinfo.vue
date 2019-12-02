@@ -73,8 +73,8 @@
         <clxsd-cell :title="'合伙收益'" v-if="userInfo.area_type=='partner'" :to="'/cooperation-profit'" :value="userInfo.lianPiaoVaule" is-link icon="my-banknote"/>
        
         <div style="margin:.2rem 0">
-            <clxsd-cell :title="'消息通知'" value="hahahhah" :to="'/develop'" is-link icon="my-message">
-                <template>
+            <clxsd-cell :title="'消息通知'" :to="'/new-message/promoter'" is-link icon="my-message">
+                <template  v-if="messageCount > 0">
                     <message-count :count="messageCount"></message-count>
                 </template>
             </clxsd-cell>
@@ -116,7 +116,7 @@
                     decimalPlaces: 2,
                 },
                 balance:0,
-                messageCount: 20
+                messageCount: 0
           }
         },
         computed: {

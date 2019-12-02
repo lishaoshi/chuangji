@@ -1,7 +1,7 @@
 <template>
   <div class="messageInfo">
     <div class="message-left">
-        <div class="icon-box" :class="{partner: this.data.channel=='fenyong', rebate:this.data.channel == 'tongdao'}">
+        <div class="icon-box" :class="{partner: this.data.channel=='fenyong', rebate:this.data.channel == 'fenrun'}">
             <svg>
                 <use :xlink:href="svg"/>
             </svg>
@@ -31,7 +31,7 @@ export default {
         svg() {
             let icon = ''
             switch (this.data.channel) {
-                case 'fenrun':
+                case 'fenyong':
                     icon = '#icon-promote-promoter'
                     break;
                 case 'fenyong':
@@ -47,7 +47,7 @@ export default {
          messageType() {
             let text = ''
             switch (this.data.channel) {
-                case 'fenrun':
+                case 'tongdao':
                     text = '通道收益'
                     break;
                 case 'fenyong':
