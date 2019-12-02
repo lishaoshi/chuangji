@@ -260,7 +260,7 @@
                 if(data.valid_time!=0){
                     let time = data.valid_time
                     if( data.production_time>0) {
-                        data.production_time = data.this.$moment(data.production_time*1000).format("YYYY-MM-DD")
+                        data.production_time = this.$moment(data.production_time*1000).format("YYYY-MM-DD")
                     }
                     data.time = this.$moment(time*1000).format("YYYY-MM-DD")
                     // 
