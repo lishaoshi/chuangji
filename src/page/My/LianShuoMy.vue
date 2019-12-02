@@ -66,6 +66,8 @@
                             <message-count :count="messageCount"></message-count>
                         </template> 
                     </clxsd-cell>
+                </div>
+                <div class="my-list" style="margin-bottom: .2rem">
                     <clxsd-cell :title="'增值理财'" :to="'/develop'" is-link icon="global-my-financing"/>
                     <clxsd-cell :title="'授信借贷'" :to="'/develop'" is-link icon="my-loan"/>
                 </div>
@@ -73,6 +75,9 @@
                     <clxsd-cell :title="'公司信息'" :to="'/company-info'" is-link icon="my-companyMessage" :value="userInfo.infoText"/>
                     <clxsd-cell :title="'发票信息'" :to="'/invoice'" is-link icon="my-receipt"/>
                     <clxsd-cell :title="'地址管理'" :to="'/address'" is-link icon="my-address"/>
+                </div>
+                
+                <div class="my-list" style="margin-bottom: .2rem">
                     <clxsd-cell :title="'设置'" :to="'/setting'" is-link icon="my-setting"/>
                 </div>
             <!-- </PullRefresh> -->

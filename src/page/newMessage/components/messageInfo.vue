@@ -31,7 +31,7 @@ export default {
         svg() {
             let icon = ''
             switch (this.data.channel) {
-                case 'fenyong':
+                case 'tongdao':
                     icon = '#icon-promote-promoter'
                     break;
                 case 'fenyong':

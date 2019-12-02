@@ -44,9 +44,9 @@
                 </div>
             </div>
             <div class="price-flex">
-                <div class="price-flex-market" v-if="data.market_price">
+                <div class="price-flex-market">
                     <span>市&nbsp;场&nbsp;价</span>
-                    <span>{{data.market_price}}</span>
+                    <span>{{data.market_price>0?data.market_price: '--'}}</span>
                 </div>
                  <div class="line"></div>
                 <div class="price-flex-other">
@@ -65,9 +65,9 @@
                         <span>诊所采购价</span>
                         <span>{{data.clinic_price}}</span>
                     </div>
-                    <div v-if="data.hospital_price">
+                    <div>
                         <span>医院采购价</span>
-                        <span>{{data.hospital_price}}</span>
+                        <span>{{data.hospital_price>0?data.hospital_price: '--'}}</span>
                     </div>
                 </div>
             </div>
