@@ -88,7 +88,8 @@
 			</div>
         </div>
          <div style="position: fixed;width: 100%;bottom: 0px">
-            <mini-company-cart ref="MiniCompanyCart" :shop-id="businessId" :count="cartNum" :total-price="totalPrice" style="bottom: 0px"></mini-company-cart>
+            <mini-company-cart ref="MiniCompanyCart" :isHasDistribution="isHasDistribution" :shipping_fee="businessConfig&&businessConfig.shipping_fee" :count="cartNum" :total-price="totalPrice" style="bottom: 0px"></mini-company-cart>
+            <!-- <mini-company-cart ref="MiniCompanyCart" :shop-id="businessId" :count="cartNum" :total-price="totalPrice" style="bottom: 0px"></mini-company-cart> -->
         </div>
      </template>
 
@@ -105,6 +106,7 @@
     import {isBusinessGoodsFollow, deleteBusinessGoodsFollow, SaveBusinessGoodsFollow} from "@/api/follow.js"
     import { queryShopCarList, delShopCar, addShopCar, onlyDelShopCar } from '@/api/shopCar'
     import specifications from '@/components/common/specifications'
+    import { queryBusinessDetail } from '@/api/business'
 
     export default {
         name: "CompanyShopDetail",
@@ -133,7 +135,8 @@
                 num: 0,
                 shopCart: {},
                 name: '',
-                tabIndex: 0
+                tabIndex: 0,
+                businessInfo: {}
             }
         },
         created() {
@@ -151,19 +154,43 @@
             }),
             cartNum() {
                 let num = 0;
-                Object.values(this.shopCart).forEach((data, index) => {
-                    num += parseInt(data.num);
-                })
-                return num
+                return Object.values(this.shopCart).length
             },
-            totalPrice() {
-                let total_price = 0.00;
+            // 出去配送费的总额
+			notPrice() {
+				let total_price = 0.00;
+				if(this.cartNum == 0) {
+					return total_price.toFixed(2)
+				}
                 Object.values(this.shopCart).forEach((data, index) => {
-                    total_price += data.num * data.price;
-
-                })
+					total_price += data.num * data.price;
+				})
+				return total_price
+			},
+            businessConfig() {
+				return this.businessInfo.business_config
+			},
+            totalPrice() {
+                let total_price = 0;
+				if(this.cartNum == 0) {
+					return total_price.toFixed(2)
+				}
+                Object.values(this.shopCart).forEach((data, index) => {
+					total_price += data.num * data.price;
+				})
+				if(total_price < (this.businessConfig&&+this.businessConfig.starting_price || 0)) {
+					total_price += +this.businessConfig.shipping_fee
+				}
                 return total_price.toFixed(2)
             },
+            // 判断是否有配送费
+			isHasDistribution() {
+				if(this.notPrice < (this.businessConfig&&+this.businessConfig.starting_price)) {
+					return true 
+				} else {
+					return false
+				}
+			}
         },
         methods: {
             ...mapMutations([
@@ -247,6 +274,11 @@
                         this.follow_status = 0
                     }
                 }).catch(error => {
+                })
+
+                // 获取商业详情
+                queryBusinessDetail(this.businessId).then(res=>{
+                   this.businessInfo = res.data.supplierInfo
                 })
             },
             canOption() {
