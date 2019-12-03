@@ -39,7 +39,7 @@
                 </div>
                 <div class="content">
                     <span>订单编号</span>
-                    <span>￥{{item.order_sn}}</span>
+                    <span>{{item.order_sn}}</span>
                 </div>
             </div>
         </div>

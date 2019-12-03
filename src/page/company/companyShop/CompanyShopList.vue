@@ -313,7 +313,12 @@
                     if (this.shopCart[item.id]) {
                         item.num = this.shopCart[item.id].num
 					}
-					arr[index].time = this.$moment.unix(item.valid_time).format("YYYY.MM.DD")
+					if(item.valid_time>0) {
+						arr[index].time = this.$moment.unix(item.valid_time).format("YYYY.MM.DD")
+					} else {
+						arr[index].time = ''
+					}
+					
 					arr[index].brandName = item.brand&&item.brand.name || '暂无维护'
                 })
 				this.loading = false

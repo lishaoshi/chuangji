@@ -52,7 +52,7 @@
                                 </a>
                             </div>
                             <div class="cart-info-text">
-                                <h4>{{entity.good_name}}</h4>
+                                <h4>{{entity.generic_name}}</h4>
                                 <div class="shop-price">
                                     <div class="shop-pices">
                                         ￥<span class="price">{{entity.price | display_price}}<i>/{{entity.unit || '件'}}</i></span>

@@ -19,7 +19,9 @@
 					</router-link>
 					<p class="p1">{{item.brandName}}</p>
 					<p class="p1">规格:{{item.spec}}</p>
-					<p class="p1">效期:{{item.time}}</p>
+					<p class="p1">
+						效期:{{item.time || '无'}}
+					</p>
 					
 					<div class="selling" v-if="canShow">
 						<div class="unit_price">

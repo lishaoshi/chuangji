@@ -64,15 +64,15 @@
                                                 </router-link>
                                                 <p class="item-box-p1" v-if="entity.brand">{{entity.brand.name}}</p>
                                                 <p class="item-box-p1">规格: {{entity.spec}}</p>
-                                                <p class="item-box-p1">效期: {{entity.time}}</p>
+                                                <p class="item-box-p1" v-if="entity.time">效期: {{entity.time}}</p>
                                                 <div class="selling">
                                                     <div class="unit_price">
                                                         <div class="font">
                                                             <div>
                                                                 <!-- ￥{{entity.price}} -->
-                                                                <span>{{entity.unit}}</span>
+                                                                单位: <span>{{entity.unit}}</span>
                                                             </div>
-                                                            <span v-if="parseInt(entity.market_price)">{{entity.market_price}}</span>
+                                                            <!-- <span v-if="parseInt(entity.market_price)">{{entity.market_price}}</span> -->
                                                         </div>
                                                     </div>
                                                     <div class="gw_num" v-if="entity.status == 1" @click="DownSelf(entity.id,entity.status,ikey)">
@@ -188,7 +188,12 @@
              _handleData(data) {
                 data.forEach((data,index, arr) => {
                     let time = data.valid_time
-                    arr[index].time = this.$moment.unix(time).format("YYYY.MM.DD")
+                    if(time) {
+                        arr[index].time = this.$moment.unix(time).format("YYYY.MM.DD")
+                    } else {
+                        arr[index].time = ''
+                    }
+                    
                 })
                 return data
             },
@@ -691,9 +696,7 @@
 
     .selling {
         display: flex;
-        align-items: center;
         justify-content: space-between;
-        margin-top: .2rem;
     }
 
     .selling .unit_price {
@@ -703,25 +706,8 @@
         color: rgb(102, 102, 102);
         width: 60%;
         overflow: hidden;
-    }
-
-    .selling .unit_price .font {
-        color: rgb(255, 59, 48);
-        font-size: 14px;
-        &> div> span {
-            color: #ccc;
-            font-size: 10px;
-            display: inline-block;
-             margin-left: 4px;
-             color: #999;
-        }
-
-        & > span {
-            color: #ccc;
-            font-size: 10px;
-            text-decoration: line-through;
-            margin-left: 5px;
-        }
+        font-size: .2rem;
+        color: #999;
     }
 
     .item-box {
@@ -732,7 +718,8 @@
 
         &-p1 {
             font-size: .2rem;
-            color: #666;
+            color: #999;
+            line-height: .36rem;
             white-space: nowrap;
             text-overflow:ellipsis;
             overflow: hidden;

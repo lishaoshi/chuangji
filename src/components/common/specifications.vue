@@ -77,14 +77,17 @@ export default {
              if(!this.data.valid_time) {
                 return ''
             }
-            return this.$moment(this.data.valid_time*1000).format("YYYY.MM.DD")
+            return this.$moment.unix(this.data.valid_time).format("YYYY.MM.DD")
         },
         // 生产日期
         production_time() {
             if(!this.data.production_time) {
                 return ''
             }
-            return this.$moment(this.data.production_time*1000).format("YYYY.MM.DD")
+            if(typeof this.data.production_time == 'string') {
+                return this.data.production_time
+            }
+            return this.$moment.unix(this.data.production_time).format("YYYY.MM.DD")
         },
         isShop() {
             // return this.$moment(this.data.valid_time*1000).format("YYYY.MM.DD")

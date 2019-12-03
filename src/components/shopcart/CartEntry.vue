@@ -19,7 +19,7 @@
 						</div>
 						<span @click="chooseSelf" v-if="!data.isSelfChoose" class="num">{{data.num}}<i>{{data.unit || '件'}}</i></span>
 						<template v-else>
-							<form action="">
+							<form action="" class="input_waper">
 								<input v-focus type="number" @blur="handleBlur($event, data)" ref="cart" :value="data.num">
 							</form>
 						</template>
@@ -111,6 +111,9 @@ import bus from '@/bus'
 		&.bgColor {
 			background: #f5f5f5;
 		}
+		.input_waper {
+			height: 100%;;
+		}
 		.minus, .plus {
 			display: flex;
 			align-items: center;
@@ -151,6 +154,7 @@ import bus from '@/bus'
 		}
 		input {
 			width: .6rem;
+			height: 100%;
 			text-align: center;
 			background: #f5f5f5;
 		}
