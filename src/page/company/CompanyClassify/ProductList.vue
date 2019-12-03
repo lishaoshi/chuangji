@@ -76,7 +76,7 @@
                                                 <p class="title">{{entity.generic_name}}</p>
                                                 <p class="title2">{{entity.brand&&entity.brand.name ||　'暂无维护'}}</p>
                                                 <p class="title2">规格:{{entity.spec}}</p>
-                                                <p class="title2">效期:{{entity.time}}</p>
+                                                <p class="title2" v-if="entity.time">效期:{{entity.time}}</p>
                                             </router-link>
                                             <div class="selling">
                                                 <div class="unit_price">
@@ -481,7 +481,12 @@
                     entity.shopId = this.businessId
                     entity.num = 0
                     entity.itemId = entity.id
-                    arr[entityIndex].time = this.$moment(entity.valid_time*1000).format("YYYY.MM.DD")
+                    if(entity.valid_time > 0) {
+                        arr[entityIndex].time = this.$moment(entity.valid_time*1000).format("YYYY.MM.DD")
+                    } else {
+                         arr[entityIndex].time = ''
+                    }
+                    
                     Object.values(this.shopCart).forEach((cartItem, cartindex) => {
                         if (entity.id === cartItem.id) {
                             entity.num = cartItem.num
