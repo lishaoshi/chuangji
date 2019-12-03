@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="contant">
-            <div class="title">{{data.good_name}}</div>
+            <div class="title">{{data.generic_name}}</div>
             <div>
                 销量：{{data.sale_num}}
             </div>

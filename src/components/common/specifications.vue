@@ -5,7 +5,7 @@
                 <div>商品编号</div>
                 <div>{{this.data.good_sn}}</div>
             </li>
-            <li>
+            <li class="title">
                 <div class="once">基本信息</div>
             </li>
             <li v-if="this.data.generic_name">
@@ -37,7 +37,7 @@
                 <div>{{data.approval_number}}</div>
             </li>
             <template v-if="isShop">
-                <li>
+                <li class="title">
                     <div class="once">商品单位</div>
                 </li>
                 <li v-if="data.big_unit">
@@ -110,6 +110,9 @@ export default {
     ul {
         padding: 0 .2rem;
         margin-top: .2rem;
+        .title {
+            font-weight: bold;
+        }
         li {
             display: flex;
             border-bottom: 1px solid #E7E7E7;
@@ -120,6 +123,7 @@ export default {
             font-size: .24rem;
             align-items: center;
             color: #848689;
+        
             &:first-child {
                 border-top: 1px solid #E7E7E7;  
             }

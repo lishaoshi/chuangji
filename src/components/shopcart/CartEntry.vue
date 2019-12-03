@@ -8,7 +8,7 @@
 					<img :src="data.cover" />
 			</div>
 			<div class="cart-info-text">
-				<h4>{{ data.good_name}}</h4>
+				<h4>{{ data.generic_name}}</h4>
 				<div class="shop-price">
 					<div class="shop-pices">
 						￥<span class="price">{{data.sale_price | display_price}}<i>/{{data.show_unit || '件'}}</i></span>

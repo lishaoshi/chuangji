@@ -15,7 +15,7 @@
 						</div>
 						
 						
-						<div class="list-title">{{item.good_name}}</div>
+						<div class="list-title">{{item.generic_name}}</div>
 					</router-link>
 					<p class="p1">{{item.brandName}}</p>
 					<p class="p1">规格:{{item.spec}}</p>

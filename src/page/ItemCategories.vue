@@ -60,7 +60,7 @@
                                             </router-link>
                                             <div class="item-box">
                                                 <router-link :to="`/drug-detail/${supplier_id}/${entity.id}`">
-                                                    <p class="title">{{entity.good_name}}</p>
+                                                    <p class="title">{{entity.generic_name}}</p>
                                                 </router-link>
                                                 <p class="item-box-p1" v-if="entity.brand">{{entity.brand.name}}</p>
                                                 <p class="item-box-p1">规格: {{entity.spec}}</p>

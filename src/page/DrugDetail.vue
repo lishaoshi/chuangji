@@ -21,9 +21,9 @@
             <div class="contant">
                 <div class="title">
                     <span>
-                        {{data.good_name}}  
+                        {{data.generic_name}}  
                     </span> 
-                    <span class="title-status">
+                    <span v-if="data.status==2" class="title-status">
                         预售
                     </span>
                 </div>
@@ -103,7 +103,7 @@
                 </div>
                 <div class="info">
                     <span>修改时间</span>
-                    <samp>{{creat_time}}</samp>
+                    <samp>{{update_time}}</samp>
                 </div>
             </div>
             <div style="background: #fff;margin-top: .2rem;padding-top: .3rem">
@@ -145,6 +145,7 @@
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
                 status: 0,
                 creat_time: '',
+                update_time: '',
                 info: '上架',
                 loading: true,
                 name1: '',
@@ -188,13 +189,14 @@
                 this.name1 = data.brand.name
                 this.name2 = data.category.name
                 this.parent_name = data.category.parent_name
-                if (data.valid_time != 0) {
-                    let time = data.valid_time
-                    this.time = this.$moment.unix(time).format("YYYY.MM.DD")
+                if (data.created_at != 0) {
+                    let time = data.created_at
+                    this.creat_time = this.$moment.unix(time).format("YYYY-MM-DD HH:MM")
                 }
                 if (data.updated_at != 0) {
                     let time = data.updated_at
-                    this.creat_time = this.$moment.unix(time).format("YYYY-MM-DD HH:MM")
+                    // this.creat_time = this.$moment.unix(time).format("YYYY-MM-DD HH:MM")
+                    this.update_time = this.$moment.unix(time).format("YYYY-MM-DD HH:MM")
                 }
                 this.loading = false
                 return data
