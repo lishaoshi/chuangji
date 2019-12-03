@@ -148,10 +148,7 @@ export default {
                 text-align: left;
             }
             .textLett {
-                letter-spacing: 0.6em;
-            }
-            .textLett2 {
-                 letter-spacing: 0.3em;
+                letter-spacing: 0.8em;
             }
             .once {
                  border-right: 0!important;

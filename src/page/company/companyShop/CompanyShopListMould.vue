@@ -18,7 +18,7 @@
 						<div class="list-title">{{item.generic_name}}</div>
 					</router-link>
 					<p class="p1">{{item.brandName}}</p>
-					<p class="p1">规格:{{item.spec}}</p>
+					<p class="p1">规格:{{item.spec || '无'}}</p>
 					<p class="p1">
 						效期:{{item.time || '无'}}
 					</p>
