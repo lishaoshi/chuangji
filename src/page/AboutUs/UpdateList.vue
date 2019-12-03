@@ -8,6 +8,7 @@
             <li class="retract">1、增加收益通知。在您获得返利的时候，清晰的知道返利信息;</li>
             <li class="retract">2、智能识别终端身份采购价，采购更轻松；</li>
             <li class="retract">3、药品转换支持小数</li>
+            <li class="retract">4、一直bug修复</li>
             <!-- <li style="text-indent:2em">在奋力拼搏的时候，我们也时刻谨记他人的前进步伐。在接下来的时间里，我们与大型银行合作为广大药业同行提供了非常优质的金融产品，敬请期待！</li>
             <li style="text-align:right">创联工厂</li> -->
         </ol>
