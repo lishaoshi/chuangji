@@ -29,7 +29,7 @@
                 <div>{{production_time}}</div>
             </li>
             <li v-if="valid_time">
-                <div class="textLett2">有效期</div>
+                <div class="textLett2">有效期至</div>
                 <div>{{valid_time}}</div>
             </li>
             <li>
@@ -77,7 +77,7 @@ export default {
              if(!this.data.valid_time) {
                 return ''
             }
-            return this.$moment.unix(this.data.valid_time).format("YYYY.MM.DD")
+            return this.$moment.unix(this.data.valid_time).format("YYYY-MM-DD")
         },
         // 生产日期
         production_time() {
@@ -87,7 +87,7 @@ export default {
             if(typeof this.data.production_time == 'string') {
                 return this.data.production_time
             }
-            return this.$moment.unix(this.data.production_time).format("YYYY.MM.DD")
+            return this.$moment.unix(this.data.production_time).format("YYYY-MM-DD")
         },
         isShop() {
             // return this.$moment(this.data.valid_time*1000).format("YYYY.MM.DD")
