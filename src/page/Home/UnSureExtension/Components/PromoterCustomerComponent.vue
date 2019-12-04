@@ -104,7 +104,7 @@
                 Type:1,
                 allLoaded: false,
                 isAutoFill: false,
-                limit: 20,
+                limit: 10,
                 page: 1
                 // notices:this.$props.noticeList || []
             }

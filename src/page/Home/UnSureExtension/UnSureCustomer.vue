@@ -3,7 +3,7 @@
         <div class="is-scroll active">
             <mt-navbar v-model="selected">
                 <mt-tab-item id="all">
-                    <p class="p1">全部</p>
+                    <p class="p1">药企</p>
                 </mt-tab-item>
                 <mt-tab-item id="province">
                     <p class="p1">省公司</p>

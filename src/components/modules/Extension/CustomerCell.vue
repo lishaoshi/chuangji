@@ -3,17 +3,40 @@
         <!--省--->
         <div v-if="data.apply_role === 'province_company'" class="province">
             <div v-if="data.user_id" class="active">
-                <div class="name"><span>{{ data.province_name }}</span>{{data.name}}</div>
-                <div class="detail">
+                <div class="name isProvince">
+                    <span>{{ data.province_name }}</span>
+                </div>
+                <div class="detail isProvinceDetail">
                     <div class="datail-info">
-                        <img v-if="!avatar && !img_cover" src="../../../images/default_company_logo.png" class="extension-item-img">
-                        <img v-else :src="avatar?avatar:img_cover" class="extension-item-img">
                         <div>
-                            <p>{{data.user.real_name}}</p>
-                            <p>{{data.mobile_desensite}}</p>
+                            <img v-if="!avatar && !img_cover" src="../../../images/default_company_logo.png" class="extension-item-img">
+                            <img v-else :src="avatar?avatar:img_cover" class="extension-item-img">
+                            <span>{{data.user.real_name}}</span>
+                        </div>
+
+                        <div>
+                            <div class="svg">
+                                <svg>
+                                    <use xlink:href="#icon-telephone" fill="#666"/>
+                                </svg>
+                            </div>
+                            <span>
+                                {{data.mobile_desensite}}
+                            </span>
+                        </div>
+                        <div v-if="display_name">
+                            <div class="svg">
+                               <svg>
+                                    <use xlink:href="#icon-company" fill="#666"/>
+                                </svg>
+                            </div>
+                            
+                            <span>
+                                {{ display_name }}
+                            </span>
                         </div>
                     </div>
-                    <p class="company-name">{{data.user.supplier.name||'未设置'}}</p>
+                    <!-- <p class="company-name">{{data.user.supplier.name||'未设置'}}</p> -->
                 </div>
             </div>
             <div v-else>
@@ -35,18 +58,48 @@
         <!--市--->
         <div v-if="data.apply_role === 'city_company'" class="city">
             <div v-if="data.user_id">
-                <div class="name"><span>{{ data.city_name | filter_city_name }}</span>市</div>
-                <div class="detail">
+                <!-- <div class="name"><span>{{ data.city_name | filter_city_name }}</span>市</div> -->
+                 <div class="name isProvince">
+                    <span>{{ data.city_name }}</span>
+                </div>
+                <div class="detail isProvinceDetail">
                     <div class="datail-info">
                         <!-- <img src="../../../images/default_company_logo.png" class="extension-item-img"> -->
-                        <img v-if="!avatar && !img_cover" src="../../../images/default_company_logo.png" class="extension-item-img">
+                        <!-- <img v-if="!avatar && !img_cover" src="../../../images/default_company_logo.png" class="extension-item-img">
                         <img v-else :src="avatar?avatar:img_cover" class="extension-item-img">
                         <div>
                             <p>{{data.user.real_name}}</p>
                             <p>{{data.mobile_desensite}}</p>
+                        </div> -->
+                        <div>
+                            <img v-if="!avatar && !img_cover" src="../../../images/default_company_logo.png" class="extension-item-img">
+                            <img v-else :src="avatar?avatar:img_cover" class="extension-item-img">
+                            <span>{{data.user.real_name}}</span>
+                        </div>
+
+                        <div>
+                            <div class="svg">
+                                <svg>
+                                    <use xlink:href="#icon-telephone" fill="#666"/>
+                                </svg>
+                            </div>
+                            <span>
+                                {{data.mobile_desensite}}
+                            </span>
+                        </div>
+                        <div v-if="display_name">
+                            <div class="svg">
+                               <svg>
+                                    <use xlink:href="#icon-company" fill="#666"/>
+                                </svg>
+                            </div>
+                            
+                            <span>
+                                {{ display_name }}
+                            </span>
                         </div>
                     </div>
-                    <p class="company-name">{{data.user.company_name || '未设置'}}</p>
+                    <!-- <p class="company-name">{{data.user.company_name || ''}}</p> -->
                 </div>
             </div>
             <div v-else>
@@ -58,7 +111,7 @@
                 <div class="detail">
                     <div class="datail-info">
                         <div>
-                            <b>{{ data.province_name }}</b>
+                            <b>{{ data.city_name }}</b>
                         </div>
                     </div>
                     <p class="company-name">该地区未启动，欢迎您来启动</p>
@@ -213,6 +266,9 @@
             img_cover() {
                 return this.data.user.supplier&&this.data.user.supplier.img_cover
             },
+            display_name() {
+                return this.data.user.supplier&&this.data.user.supplier.display_name
+            }
         },
         mounted() {
         }
@@ -231,10 +287,13 @@
     }
     //省市样式
     .province,.city{
-        >div{
+         padding: 0;
+        &>div{
             display: flex;
             align-items: center;
             width: 100%;
+            height: 100%;
+           
             .name {
                 font-size: .32rem;
                 color: #0090ff;
@@ -250,15 +309,41 @@
                     font-size: .4rem;
                 }
             }
+            .isProvince {
+                background: #ebf6ff;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 30%;
+                margin-right: .32rem;
+                overflow: hidden;//超出隐藏
+                span {
+                    display: inline-block;
+                    white-space:nowrap;//不换行
+                    overflow: hidden;//超出隐藏
+                    text-overflow: ellipsis;//变成...
+                }
+            }
             .detail {
                 width: 70%;
+                // height: 100%;
+                // display: flex;
+                // align-items: center;
                 .datail-info {
                     display: flex;
                     align-items: center;
                     img {
-                        width: .8rem;
-                        height: .8rem;
+                        width: .56rem;
+                        height: .56rem;
                         border-radius: 100%;
+                        margin-right: .2rem;
+                        text-align: center;
+                    }
+                    svg {
+                        height: .4rem;
+                        width: .4rem;
+                        // margin-right: .36rem;
                     }
                     b {
                         font-size: .34rem;
@@ -279,6 +364,32 @@
                     font-size: .3rem;
                     color: #666;
                     margin-top: .1rem;
+                }
+            }
+            .isProvinceDetail {
+                display: flex;
+                align-items: center;
+                height: 100%;
+                .datail-info {
+                    flex-direction: column;
+                    width: 100%;
+                    &>div {
+                        display: inline-flex;
+                        align-items: center;
+                        width: 100%;
+                        &>div {
+                            display: inline-flex;
+                            align-items: center;
+                            justify-content: center;
+                        }
+                        margin-top: .09rem;
+                    }
+                }
+                .svg {
+                    width: .56rem;
+                    border-radius: 100%;
+                    margin-right: .2rem;
+                    text-align: center;
                 }
             }
         }
@@ -324,6 +435,7 @@
         align-items: center;
         .name {
             width: 21%;
+           
             .img1 {
                 width: .96rem;
                 height: .96rem;

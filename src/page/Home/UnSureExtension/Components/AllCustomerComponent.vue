@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import CustomerCell from "@/components/modules/Extension/CustomerCell";
+import CustomerCell from "@/components/modules/Extension/userList";
 import EmptyList from "@/components/EmptyList";
 import CircleLoading from "@/icons/CircleLoading";
 import UnSureNav from "./UnSureNav";

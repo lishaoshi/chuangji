@@ -52,8 +52,7 @@
             CustomerCell,
             UnSureNav,
             notice,
-            Swiper,
-            isAutoFill: false
+            Swiper
         },
         data(){
             return {
@@ -61,7 +60,7 @@
                 loading: false,
                 allLoaded: false,
                 page: 1,
-                limit: 20,
+                limit: 10,
                 isAutoFill: false
             }
         },
@@ -82,20 +81,23 @@
                 this.$http.get('users/list',{params:params,validate: state => state === 200})
                     .then(response => {
                         this.loading = false;
+                        let data = response.data.data
+                       
                         if(this.page>1) {
-                            this.entities = [...this.entities, ...response.data.data]
+                            this.entities = [...this.entities, ...data]
                         } else {
-                            this.entities = response.data.data;
+                            this.entities = data;
                         }
-                        if(!response.data.data||response.data.data.length<this.limit) {
+                        if(data&&data.length<this.limit) {
                             this.allLoaded = true
                         }
-                        if(!first&&type=="top") {
+                         if(!first&&type=="top") {
                             this.$refs.loadmore.onTopLoaded()
                         }
                         if(!first&&type=="bottom") {
                             this.$refs.loadmore.onBottomLoaded()
                         }
+                        
                         this.page++
                     }).catch(error => {
                         this.loading = false;
