@@ -5,9 +5,9 @@
             :class="[ 'v-message', `v-message-${type}`]"
             role="alert"
             @transitionend="transitionend" >
-            <svg class="m-style-svg m-svg-small">
+            <!-- <svg class="m-style-svg m-svg-small">
                 <use :xlink:href="`#icon-message-${type}`"/>
-            </svg>
+            </svg> -->
             <slot>
                 <p v-if="!dangerouslyUseHTMLString" class="v-message-content">{{ message }}</p>
                 <p v-else
@@ -93,7 +93,8 @@
     box-shadow: 0px 2px 9px 0px rgba(22, 23, 23, 0.12);
     &-content {
         flex: 1 1 auto;
-        margin-left: 15px;
+        // margin-left: 15px;
+        text-align: center;
         font-size: .3rem;
         line-height: 1.4;
         word-wrap: break-word;
