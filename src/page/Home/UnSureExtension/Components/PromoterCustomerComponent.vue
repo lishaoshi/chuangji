@@ -21,45 +21,13 @@
             <span style="padding-left: 5px">暂时没有消息</span>
         </div>
         <!-- <UnSureNav /> -->
-        <div v-if="isTabPartner">
-            <ul class="mint-navbar" >
-                <li @click="changeType(1)">
-                    <p class="p1">
-                        <svg>
-                            <use :xlink:href="Type==1 ? '#icon-group-client-allCountry-1': '#icon-group-client-allCountry-0'"/>
-                        </svg>
-                        <span :class="Type==1 ? 'active':''">全国</span>
-                    </p>
-                </li>
-                <li @click="changeType(2)">
-                    <p class="p1">
-                        <svg>
-                            <use :xlink:href="Type==2 ? '#icon-group-client-my-1': '#icon-group-client-my-0'"/>
-                        </svg>
-                        <span :class="Type==2 ? 'active':''">我的</span>
-                    </p>
-                </li>
-            </ul>
+        <div>
             <div class="container">
-                <div v-show="Type == 1">
-                    <div v-if="allEntities&&allEntities.length > 0">
-                        <CustomerCell v-for="(entity, index) in allEntities" :key="`en-${index}`" :data="entity"></CustomerCell>
-                    </div>
-                    <EmptyList v-else></EmptyList>
+                <div v-if="allEntities&&allEntities.length > 0">
+                    <CustomerCell v-for="(entity, index) in allEntities" :key="`en-${index}`" :data="entity"></CustomerCell>
                 </div>
-                <div v-show="Type == 2">
-                    <div v-if="myEntities&&myEntities.length > 0">
-                        <CustomerCell v-for="(entity, index) in myEntities" :key="`en-${index}`" :data="entity"></CustomerCell>
-                    </div>
-                    <EmptyList v-else></EmptyList>
-                </div>
+                <EmptyList v-else></EmptyList>
             </div>
-        </div>
-        <div v-else>
-            <div v-if="allEntities&&allEntities.length > 0" style="padding-bottom: .1rem;">
-                <CustomerCell v-for="(entity, index) in allEntities" :key="`en-${index}`" :data="entity"></CustomerCell>
-            </div>
-            <EmptyList v-else></EmptyList>
         </div>
         </mt-loadmore>
     </div>
@@ -123,12 +91,6 @@
             ...mapState({
                 USER_INFO: state => state.CURRENTUSER.data
             }),
-            isTabPartner() {
-                return this.USER_INFO.status === 1 && (
-                    this.USER_INFO.sub_type === 1 ||
-                    this.USER_INFO.sub_type === 2 ||
-                    this.USER_INFO.sub_type === 3);
-            },
         },
         methods:{
             changeType(value){
@@ -151,18 +113,10 @@
                         if(!list || list.length<this.limit) {
                             this.allLoaded = true
                         }
-                        if(this.Type==1) {
-                            if(this.page>1) {
-                                 this.allEntities = [... this.allEntities, ...list]
-                            } else {
-                                this.allEntities = list
-                            }
-                        } else if(this.Type == 2) {
-                             if(this.page>1) {
-                                 this.myEntities = [... this.myEntities, ...list]
-                            } else {
-                                this.myEntities = list;
-                            }
+                        if(this.page>1) {
+                            this.allEntities = [... this.allEntities, ...list]
+                        } else {
+                            this.allEntities = list
                         }
                         this.page++
                         if(!first&&type=="top") {
@@ -194,6 +148,7 @@
 <style lang="scss" scoped>
     .container {
         padding-bottom: .5rem;
+        margin-top: .5rem;
     }
     .mint-navbar {
         width: 50%;

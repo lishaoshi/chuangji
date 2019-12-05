@@ -11,7 +11,7 @@
                         <div>
                             <img v-if="!avatar && !img_cover" src="../../../images/default_company_logo.png" class="extension-item-img">
                             <img v-else :src="avatar?avatar:img_cover" class="extension-item-img">
-                            <span>{{data.user.real_name}}</span>
+                            <span class="textInfo userName">{{data.user.real_name}}</span>
                         </div>
 
                         <div>
@@ -20,7 +20,7 @@
                                     <use xlink:href="#icon-telephone" fill="#666"/>
                                 </svg>
                             </div>
-                            <span>
+                            <span class="textInfo comMobile">
                                 {{data.mobile_desensite}}
                             </span>
                         </div>
@@ -31,7 +31,7 @@
                                 </svg>
                             </div>
                             
-                            <span>
+                            <span class="textInfo comName">
                                 {{ display_name }}
                             </span>
                         </div>
@@ -74,7 +74,7 @@
                         <div>
                             <img v-if="!avatar && !img_cover" src="../../../images/default_company_logo.png" class="extension-item-img">
                             <img v-else :src="avatar?avatar:img_cover" class="extension-item-img">
-                            <span>{{data.user.real_name}}</span>
+                            <span class="textInfo userName">{{data.user.real_name}}</span>
                         </div>
 
                         <div>
@@ -83,7 +83,7 @@
                                     <use xlink:href="#icon-telephone" fill="#666"/>
                                 </svg>
                             </div>
-                            <span>
+                            <span class="textInfo comMobile">
                                 {{data.mobile_desensite}}
                             </span>
                         </div>
@@ -94,7 +94,7 @@
                                 </svg>
                             </div>
                             
-                            <span>
+                            <span class="textInfo comName">
                                 {{ display_name }}
                             </span>
                         </div>
@@ -118,27 +118,6 @@
                 </div>
             </div>
         </div>
-        <!--合伙人--->
-        <!-- <div v-if="data.apply_role === 'partner'"  class="partner">
-            <div class="name">
-                <img :src="data.avatar | display_avatar" v-if="data.avatar" class="img1">
-                <img src="../../../images/default.png" class="img1" v-else>
-            </div>
-            <div class="detail-info">
-                    <b>{{data.name}}</b>
-            </div>
-            <p class="company-name">{{data.phone | filter_mobile}}</p>
-        </div>
-        <div v-if="data.type === 'promoter'"  class="promoter">
-            <div class="name">
-                <img :src="data.avatar | display_avatar" v-if="data.avatar" class="img1">
-                <img src="../../../images/default.png" class="img1" v-else>
-            </div>
-            <div class="detail-info">
-                <b>{{data.name}}</b>
-            </div>
-            <p class="company-name">{{data.phone | filter_mobile}}</p>
-        </div> -->
 
         <!--工业--->
         <div v-if="data.type === 'factory'"  class="factory">
@@ -161,7 +140,7 @@
                 <div class="name">
                     <!-- <img :src="data.logo" class="img1" v-if="data.logo">
                     <img src="../../../images/default.png" class="img1" v-else> -->
-                    <img v-if="!avatar && !img_cover" src="../../../images/default_company_logo.png" class="img1">
+                    <img v-if="!avatar && !img_cover" src="../../../images/my/user_default.png" class="img1">
                     <img v-else :src="avatar?avatar:img_cover" class="img1">
                 </div>
                 <div class="datail-info">
@@ -170,7 +149,7 @@
                     </div>
                 </div>
                 <!-- <p class="company-name">{{data.province}}·{{data.city}}</p> -->
-                <div>
+                <div class="mobile">
                     {{data.mobile_desensite}}
                 </div>
             </div>
@@ -280,10 +259,10 @@
         background: #fff;
         margin: .2rem .2rem 0px;
         border-radius: 5px;
-        padding: .34rem .2rem;
-        height: 2rem;
+        padding: .34rem .32rem;
+        height: 2.2rem;
         position: relative;
-        box-shadow: 0px 0px 1px #0090ff;
+        box-shadow: 0px 0px 3px rgba(0, 144, 255, 0.2);
     }
     //省市样式
     .province,.city{
@@ -315,7 +294,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                width: 30%;
+                width: 2.2rem;
                 margin-right: .32rem;
                 overflow: hidden;//超出隐藏
                 span {
@@ -370,19 +349,38 @@
                 display: flex;
                 align-items: center;
                 height: 100%;
+               
                 .datail-info {
                     flex-direction: column;
                     width: 100%;
+                    span:nth-child(1) {
+                        font-size: .36rem;
+                    }
                     &>div {
                         display: inline-flex;
                         align-items: center;
                         width: 100%;
+                      
                         &>div {
                             display: inline-flex;
                             align-items: center;
                             justify-content: center;
                         }
                         margin-top: .09rem;
+                    }
+                    .textInfo {
+                        font-weight: bold;
+                    }
+                    .userName {
+                        font-size: .36rem;
+                    }
+                    .comMobile {
+                        font-size: .32rem;
+                        color: #666;
+                    }
+                    .comName {
+                        font-size: .3rem;
+                        color: #666;
                     }
                 }
                 .svg {
@@ -395,6 +393,8 @@
         }
     }
     .factory,.business,.chain,.hospital,.monomer,.clinic{
+        display: flex;
+        align-items: center;
         >div {
             display: flex;
             align-items: center;
@@ -428,6 +428,11 @@
                 color: #666;
                 margin-top: 1rem;
             }
+        }
+        .mobile {
+            color: #999;
+            font-weight: bold;
+            font-size: .28rem;
         }
     }
     .partner,.promoter {

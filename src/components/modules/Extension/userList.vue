@@ -71,7 +71,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    box-shadow: 0px 0px 1px #0090ff;
+    box-shadow: 0px 0px 3px rgba(0, 144, 255, 0.2);
     position: relative;
     border-radius: 5px;
     // padding-bottom: .32rem;
@@ -80,16 +80,19 @@ export default {
         align-items: center;
         font-size: .3rem;
         font-weight: bold;
+        color: #333;
     }
     .userType {
        position: absolute;
        right: .32rem;
        bottom: .32rem;
+       color: #666;
     }
     img {
         width: .96rem;
         height: .96rem;
         margin-right: .24rem;
+        border-radius: 50%;
     }
 }
 </style>
