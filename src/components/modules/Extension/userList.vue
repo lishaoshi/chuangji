@@ -26,8 +26,11 @@ export default {
     },
     filters: {
         handleCity(val) {
-            if(val.includes('市')) {
+            if(val&&val.includes('市')) {
                 return val.replace('市', '')
+            }
+            if(!val) {
+                return '无'
             }
         }
     },
@@ -42,7 +45,7 @@ export default {
             return this.data.display_name
         },
         city_name() {
-            if(this.data.city_name.includes('市辖')) {
+            if(this.data.city_name&&this.data.city_name.includes('市辖')) {
                 return this.data.province_name
             }
             return this.data.city_name

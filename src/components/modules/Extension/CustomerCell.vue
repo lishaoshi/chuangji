@@ -9,7 +9,7 @@
                 <div class="detail isProvinceDetail">
                     <div class="datail-info">
                         <div>
-                            <img v-if="!avatar && !img_cover" src="../../../images/default_company_logo.png" class="extension-item-img">
+                            <img v-if="!avatar && !img_cover" src="../../../images/my/user_default.png" class="extension-item-img">
                             <img v-else :src="avatar?avatar:img_cover" class="extension-item-img">
                             <span class="textInfo userName">{{data.user.real_name}}</span>
                         </div>
@@ -72,7 +72,7 @@
                             <p>{{data.mobile_desensite}}</p>
                         </div> -->
                         <div>
-                            <img v-if="!avatar && !img_cover" src="../../../images/default_company_logo.png" class="extension-item-img">
+                            <img v-if="!avatar && !img_cover" src="../../../images/my/user_default.png" class="extension-item-img">
                             <img v-else :src="avatar?avatar:img_cover" class="extension-item-img">
                             <span class="textInfo userName">{{data.user.real_name}}</span>
                         </div>
