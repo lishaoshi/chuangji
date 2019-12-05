@@ -7,7 +7,7 @@
         </div>
         <div class="userType">
             <span>上海</span>
-            <span>·工业</span>
+            <span v-if="isShow"> • {{companyType}}</span>
         </div>
     </div>
 </template>
@@ -18,6 +18,10 @@ export default {
         data: {
             type: Object,
             required: true
+        },
+        isShow: {
+            type: Boolean,
+            default: false
         }
     },
     computed: {
@@ -29,6 +33,30 @@ export default {
         },
         display_name() {
             return this.data.display_name
+        },
+        companyType() {
+            let text = ''
+            switch (this.data.type) {
+                case 1:
+                    text = '工业'
+                    break;
+                case 2:
+                    text = '商业'
+                    break;
+                case 3:
+                    text = '医院'
+                    break;
+                case 4:
+                    text = '连锁'
+                    break;
+                case 5:
+                    text = '单体'
+                    break;
+                default:
+                    text = '医院'
+                    break;
+            }
+            return text
         }
     },
 
@@ -44,6 +72,8 @@ export default {
     flex-direction: column;
     justify-content: center;
     box-shadow: 0px 0px 1px #0090ff;
+    position: relative;
+    border-radius: 5px;
     // padding-bottom: .32rem;
     .userInfo {
         display: flex;
@@ -52,7 +82,9 @@ export default {
         font-weight: bold;
     }
     .userType {
-        align-self: flex-end;
+       position: absolute;
+       right: .32rem;
+       bottom: .32rem;
     }
     img {
         width: .96rem;

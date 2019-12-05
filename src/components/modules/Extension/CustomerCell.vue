@@ -283,7 +283,7 @@
         padding: .34rem .2rem;
         height: 2rem;
         position: relative;
-        box-shadow: 0px 0px 4px #ccc;
+        box-shadow: 0px 0px 1px #0090ff;
     }
     //省市样式
     .province,.city{

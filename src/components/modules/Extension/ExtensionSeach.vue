@@ -1,8 +1,8 @@
 <template>
     <div>
         <div class="search">
-            <form>
-                <input type="search" placeholder="搜索" class="search-inp1">
+            <form onsubmit="return false" action="">
+                <input type="search" @keyup.enter="keyup" placeholder="搜索" @input="$emit('input', $event.target.value)" class="search-inp1">
             </form>
         </div>
     </div>
@@ -10,7 +10,13 @@
 
 <script>
     export default {
-        name: "ExtensionSeach"
+        name: "ExtensionSeach",
+        methods: {
+            keyup() {
+                // console.log(123)
+                this.$emit('searchEnter')
+            }
+        }
     }
 </script>
 

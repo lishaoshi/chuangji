@@ -18,7 +18,7 @@
                 </svg>
                 <span style="padding-left: 5px">暂时没有消息</span>
             </div>
-            <UnSureNav></UnSureNav>
+            <!-- <UnSureNav></UnSureNav> -->
             <div v-if="entities&&entities.length" style="padding-bottom: .1rem;">
                 <CustomerCell v-for="(entity, index) in entities" :key="`en-${index}`" :data="entity"></CustomerCell>
             </div>
@@ -88,7 +88,7 @@
                         } else {
                             this.entities = data;
                         }
-                        if(data&&data.length<this.limit) {
+                        if(!data ||　data&&data.length<this.limit) {
                             this.allLoaded = true
                         }
                          if(!first&&type=="top") {

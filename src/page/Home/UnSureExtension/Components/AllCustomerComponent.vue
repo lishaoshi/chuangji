@@ -19,10 +19,10 @@
             </svg>
             <span style="padding-left: 5px">暂时没有消息</span>
         </div>
-        <UnSureNav></UnSureNav>
+        <UnSureNav type="all"></UnSureNav>
         <CircleLoading v-if="loading" />
         <div class="main-body" v-if="entities.length" ref="wrapper" style="padding-bottom: .1rem;">
-            <CustomerCell v-for="(entity, index) in entities" :key="`en-${index}`" :data="entity"></CustomerCell>
+            <CustomerCell v-for="(entity, index) in entities" :isShow="true" :key="`en-${index}`" :data="entity"></CustomerCell>
         </div>
         <!-- <p v-if="allLoaded" class="loader-over">加载完毕</p> -->
         <EmptyList v-else/>
@@ -126,7 +126,7 @@ export default {
             this.allLoaded = true
             // return false
           }
-          if(list || list.length<this.limit) {
+          if(!list ||　list && list.length<this.limit) {
             this.allLoaded = true
           }
           if(this.page>1) {

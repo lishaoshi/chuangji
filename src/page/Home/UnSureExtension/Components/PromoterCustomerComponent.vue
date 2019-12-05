@@ -20,7 +20,7 @@
             </svg>
             <span style="padding-left: 5px">暂时没有消息</span>
         </div>
-        <UnSureNav />
+        <!-- <UnSureNav /> -->
         <div v-if="isTabPartner">
             <ul class="mint-navbar" >
                 <li @click="changeType(1)">

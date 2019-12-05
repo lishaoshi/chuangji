@@ -57,7 +57,7 @@
         props:{
             type:{
                 type: String,
-                default:null
+                default:'promoter'
             }
         }
     }
