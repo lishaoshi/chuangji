@@ -103,7 +103,7 @@
                     apply_sub_role: '',
                     limit: this.limit,
                     page: this.page,
-                    type: this.Type-1
+                    // type: this.Type-1
                 }
                 this.loading = true;
                 this.$http.get('users/list',{params:params,validate: state => state === 200})

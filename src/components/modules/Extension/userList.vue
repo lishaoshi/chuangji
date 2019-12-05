@@ -6,7 +6,7 @@
             <span>{{display_name}}</span>
         </div>
         <div class="userType">
-            <span>上海</span>
+            <span>{{city_name | handleCity}}</span>
             <span v-if="isShow"> • {{companyType}}</span>
         </div>
     </div>
@@ -24,6 +24,13 @@ export default {
             default: false
         }
     },
+    filters: {
+        handleCity(val) {
+            if(val.includes('市')) {
+                return val.replace('市', '')
+            }
+        }
+    },
     computed: {
         avatar() {
             return this.data.user&&this.data.user.avatar
@@ -33,6 +40,12 @@ export default {
         },
         display_name() {
             return this.data.display_name
+        },
+        city_name() {
+            if(this.data.city_name.includes('市辖')) {
+                return this.data.province_name
+            }
+            return this.data.city_name
         },
         companyType() {
             let text = ''
