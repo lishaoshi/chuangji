@@ -68,8 +68,11 @@ export default {
                 case 5:
                     text = '单体'
                     break;
+                case 6:
+                    text = '诊所'
+                    break;
                 default:
-                    text = '医院'
+                    text = '--'
                     break;
             }
             return text
