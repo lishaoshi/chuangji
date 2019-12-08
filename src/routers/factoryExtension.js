@@ -1,5 +1,7 @@
 const ActivityBlock = () => import(/* webpackChunkName: "factoryExtension" */ '@/page/FactoryExtension/ActivityBlock.vue');
 const ActivitySpread = () => import(/* webpackChunkName: "factoryExtension" */ '@/page/FactoryExtension/ActivitySpread.vue');
+const changeHistory = () => import('@/page/CollectParity/changePriceHistory')
+const buyRecoed = () => import('@/page/CollectParity/buyRecoed')
 
 export default [
 	{
@@ -18,4 +20,20 @@ export default [
 			requiresAuth: true
 		}
 	},
-	]
+	{
+		path: "/change-history",
+		component: changeHistory,
+		meta: {
+			title: "变价历史",
+			requiresAuth: true
+		}
+	},
+	{
+		path: "/buy-recoed",
+		component: buyRecoed,
+		meta: {
+			title: "集采记录",
+			requiresAuth: true
+		}
+	},
+]

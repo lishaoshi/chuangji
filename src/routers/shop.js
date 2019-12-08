@@ -12,6 +12,10 @@ const Address = () => import('@/page/address/Address.vue')
 
 const CheckoutSuccess = () => import(/* webpackChunkName: "factory-shop" */ '@/page/shop/CheckoutSuccess.vue');
 const PaymentMethod = () => import(/* webpackChunkName: "factory-shop" */ '@/page/shop/PaymentMethod.vue');
+/**
+ * 集采比价
+ */
+const CollectParity = () => import('@/page/CollectParity.vue') 
 
 export default [
     {
@@ -133,5 +137,14 @@ export default [
             requiresAuth: true
         }
     },
+    {
+        path:"/collect-parity",
+        component:CollectParity,
+        meta: {
+            title: "集采比价",
+            requiresAuth: true
+        }
+    },
+    
  
 ]

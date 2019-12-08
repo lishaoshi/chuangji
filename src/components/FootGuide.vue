@@ -65,6 +65,16 @@
                 </svg>
                 <span>药品</span>
             </section>
+             <section
+                    :class="{active: isCurPath('/collect-parity')}"
+                    class="clxsd-guide-item guide-item"
+                    @click="to('/collect-parity', true)">
+                    <div style="width: .45rem;height: .45rem;position:relative">
+                        <img src="@/images/collectParity.png" class="collectParity" alt="" />
+                    </div>
+               
+                <span>集采比价</span>
+            </section>
             <section
                     :class="{active: isCurPath('/business-service-order')}"
                     class="clxsd-guide-item guide-item"
@@ -295,5 +305,15 @@
     .foot-guide .m-svg-def {
         width: .45rem;
         height: .45rem;
+    }
+    .collectParity {
+        width: .9rem!important;
+        height: .9rem!important;
+        position: absolute;
+        // left: 0;
+        left: -50%;
+        top: -110%;
+        // top: -50%;
+        
     }
 </style>

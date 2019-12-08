@@ -53,6 +53,7 @@
 		},
 		methods: {
 			onBackClick() {
+				debugger
 				if(this.back === noop) this.goBack();
 				else this.back();
 			},

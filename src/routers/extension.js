@@ -56,6 +56,11 @@ const partnerInfo = () => import('@/page/My/partnerInfo')
  */
 const newMessage = ()=>import('@/page/newMessage/index')
 
+/**
+ * 集采活动
+ */
+const buyActivityList = ()=>import('@/page/CollectParity/buyActivityList.vue')
+
 
 export default [
     {
@@ -330,6 +335,15 @@ export default [
             title: "消息通知",
             requiresAuth: true
         }
-    }
+    },
+    {
+        path: "/buy-activite-list",
+        component:buyActivityList,
+        name: buyActivityList,
+        meta: {
+            title: "集采活动",
+            requiresAuth: true
+        }
+    },
 
 ]

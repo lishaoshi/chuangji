@@ -8,6 +8,7 @@ import myRoutes from './my.js';
 import companyRoutes from './company.js';
 import platformRoutes from './platformManager.js';
 import factoryExtensionRoutes from './platformManager.js';
+import factoryExtensiton from './factoryExtension'
 import ExtensionRoutes from './extension.js';
 import lianbei from "./lianbei.js";
 
@@ -25,6 +26,7 @@ const router = [
 	...factoryExtensionRoutes,
     ...lianbei,
     ...ExtensionRoutes,
+    ...factoryExtensiton,
     { path: "*", component: NotFound }/* 404 */
 ];
 
