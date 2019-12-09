@@ -4,12 +4,16 @@
         <!-- <SearchBar ref="searchBox" :searchFn="searchFn" :lianSho='lianSho' v-model="searchValue" @keyup="keyup" @clearText="clearText"></SearchBar> -->
          <SearchBar ref="searchBox" v-model="searchValue"></SearchBar>
       </div>
-       <collect-parity @changePrice="changePrice"/>
+      <timeOut />
+      <load-more ref="loadMoreBox" :loadBottom="loadBottom" :allLoaded="allLoaded" v-if="list.length">
+        <collect-parity v-for="(item, index) of list" :key="index" :data="item" @changePrice="changePrice"/>
+      </load-more>
       
+      <EmptyList v-else/>
       <template v-if="isShowModel">
-        <chang-model :isShowModel.sync="isShowModel">
+        <chang-model :isShowModel.sync="isShowModel" :data="itemData" @confirmPrice="confirmPrice">
           <div class="input">
-            <input type="text" :placeholder="placeholder">
+            <input type="text" :placeholder="placeholder" v-model="input">
           </div>
         </chang-model>
         <bg />
@@ -23,25 +27,118 @@ import SearchBar from '@/components/common/SearchBar';
 import collectParity from "@/components/collectParity/list"
 import changModel from "@/components/collectParity/changModel"
 import bg from "@/components/collectParity/bg"
+import timeOut from "@/components/collectParity/buyDay"
+import { getActivityList, updatePrice, activityBuy } from '@/api/collectPrarity'
+import loadMore from '@/components/common/loadMore'
+ import EmptyList from "@/components/EmptyList"
 export default {
   data() {
     return {
       searchValue: '',
       isShowModel: false,
-      placeholder: ''
+      placeholder: '',
+      page: 1,
+      limit: 10,
+      list: [],
+      allLoaded: false,
+      id: 0,
+      itemData: {},
+      input: '',
+      type: 0
     }
   },
+  created() {
+    this.initData()
+  },
   methods: {
-    changePrice(val) {
+    changePrice(val, id, type) {
+      this.id = id
+      this.itemData = this.list.find(item=>item.id==this.id)
       this.isShowModel = true
       this.placeholder = val
-    } 
+      this.type = type
+    } ,
+    initData() {
+      let params = {
+        page: this.page
+      }
+      Promise.all([getActivityList(params)]).then(res=>{
+        this.list = res[0].data.list
+        if(!res[0].data.list || res[0].data.list&&res[0].data.list.length <= 0) {
+          this.allLoaded = true
+        }
+        this.page++
+      })
+    },
+    loadBottom() {
+     let params = {
+        page: this.page
+      }
+       getActivityList(params).then(res=>{
+        this.list = this.list.concat(res.data.list)
+        if(!res.data.list || res.data.list&&res.data.list.length <= 0) {
+          this.allLoaded = true
+        }
+        this.$refs.loadMoreBox.$refs.loadmore.onBottomLoaded()
+      })
+    },
+    /**
+     * 确认变价
+     */
+    _updatePrice() {
+      let params = {
+        group_id: this.id,
+        price: this.input
+      }
+      updatePrice(params).then(res=>{
+        this.$toast('变价成功')
+        this.page=1
+        this.input = ''
+        this.isShowModel = false
+        this.initData()
+      }).catch(err=>{
+        this.$toast('变价失败')
+      })
+    },
+
+    /**
+     * 确认集采
+     */
+    _activityBuy() {
+      let params = {
+        group_id: this.id,
+        num: this.input
+      }
+      activityBuy(params).then(res=>{
+        this.$toast('集采成功')
+        this.page=1
+        this.input = ''
+        this.isShowModel = false
+        this.initData()
+      }).catch(err=>{
+        this.$toast('集采失败')
+      })
+    },
+    /**
+     * 确认采集或者确认变价按钮
+     */
+    confirmPrice() {
+      if(!this.input) {
+        this.$toast('请输入价格')
+        return false
+      }
+      this.type==1&&this._updatePrice()
+      this.type==2&&this._activityBuy()
+    }
   },
   components: {
     SearchBar,
     collectParity,
     changModel,
-    bg
+    bg,
+    timeOut,
+    loadMore,
+    EmptyList
   }
 
 }
@@ -49,6 +146,9 @@ export default {
 
 <style lang="scss" scoped>
 .container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   .header {
     height: .88rem;
     display: flex;

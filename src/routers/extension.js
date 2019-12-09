@@ -62,6 +62,7 @@ const newMessage = ()=>import('@/page/newMessage/index')
 const buyActivityList = ()=>import('@/page/CollectParity/buyActivityList.vue')
 
 
+
 export default [
     {
         path: "/apply-success",

@@ -1,47 +1,46 @@
 <template>
     <div class="collect-parity-list">
         <div class="goods-info">
-            <img src="@/images/default.png" alt="">
+            <img :src="data.product.cover" alt="">
             <div class="goods-name">
-                <p>伊可新 维生素AD滴剂</p>
+                <p>{{data.generic_name}}</p>
                 <p>
-                    品牌: 山东达因制药股份有限公司
+                    品牌: {{data.brand_name}}
                 </p>
                 <p>
-                    规格: 10粒*3板/盒  300盒/件
+                    规格: {{data.spec}}
                 </p>
             </div>
         </div>
 
         <div class="price-bottom">
             <div class="shops-price-list">
-                <div>
+                <div v-for="(item, index) of data.price" :key="index">
                     <span>****集采商</span>
                     <span>
                         采购价(元): 
                         <span class="price">
-                            3.415
+                            {{item.supplier_price}}
                         </span>
                     </span>
                 </div>
-               
             </div>
             <div class="price-btn-group">
                 <div class="price-group">
                      <div class="min-price">
                         <span>最低价(元)</span>
-                        <span>3.254</span>
+                        <span>{{data.latest_price}}</span>
                     </div>
                     <div>
-                        <span>已集采(件)  </span>
-                        <span>1000</span>
+                        <span>已集采({{data.unit}})  </span>
+                        <span>{{data.total || 0}}</span>
                     </div>
                 </div>
                 <div class="button-group">
-                    <div @click="changePrice('请输入价格')">
+                    <div @click="changePrice('请输入价格', data.id, 1)">
                         变价
                     </div>
-                    <div @click="changePrice('请输入集采数量')">
+                    <div @click="changePrice('请输入集采数量', data.id, 2)">
                         集采
                     </div>
                 </div>
@@ -53,9 +52,16 @@
 
 <script>
 export default {
+    props: {
+        data: Object,
+        default: ()=>{}
+    },
     methods: {
-        changePrice(flag) {
-            this.$emit('changePrice',flag)
+        /**
+         * flag: input的placeholder, id:列表的id， type：1：变价按钮点击，2集采按钮
+         */
+        changePrice(flag, id, type) {
+            this.$emit('changePrice',flag, id, type)
         }
     }
 
@@ -64,10 +70,14 @@ export default {
 
 <style lang="scss" scoped>
 .collect-parity-list {
+    &:not(:first-child) {
+        margin-top: .2rem;
+    }
     display: flex;
     flex-direction: column;
     padding:.32rem;
     background: #fff;
+    border-radius: 10px;
     .goods-info {
         display: flex;
         img {
@@ -98,14 +108,14 @@ export default {
         justify-content: space-between;
         margin-top: .24rem;
         .shops-price-list {
-            height: .64rem;
             background: #F9F9F9;
             border-radius: 8px;
             display: inline-flex;
             justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
             padding: 0 .1rem;
             font-size: .22rem;
+            align-self: flex-start;
             span:first-child {
                 margin-right: .1rem;
             }
@@ -114,6 +124,10 @@ export default {
             }
             .price {
                 color: #0090FF;
+            }
+            div {
+                 height: .64rem;
+                 line-height: .64rem;
             }
         }
         .price-btn-group {

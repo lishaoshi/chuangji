@@ -1,23 +1,28 @@
 <template>
     <div class="buyActivityList">
         <div class="head">
-            <span>[2019/12/12] 集采活动</span>
+            <span>[2019/12/12] {{data.group_buying.group_type.name}}
+                <span v-if="supplierId==data.supplier_id">我发布的</span>
+            </span>
+            <svg v-if="supplierId==data.group_buying.successful_supplier_id">
+                <use xlink:href="#icon-winBidding"/>
+            </svg>    
         </div>
 
         <div class="main">
-            <img src="@/images/default.png" alt="">
+            <img :src="data.group_buying.product.cover" alt="">
             <div class="info">
-                <p>伊可新 维生素AD滴剂</p>
-                <p>品牌: 上海上药信宜药业有限公司</p>
-                <p>规格: 10粒*3板/盒 300盒/件</p>
+                <p>{{data.group_buying.generic_name}}</p>
+                <p>品牌: {{data.group_buying.brand_name}}</p>
+                <p>规格: {{data.group_buying.spec}}</p>
             </div>
         </div>
 
         <div class="btn-group">
-            <div @click="toRouter('/change-history')">
+            <div @click="toRouter(`/change-history/${data.group_buying.id}`)">
                 变价历史
             </div>
-            <div @click="toRouter('/buy-recoed')">
+            <div @click="toRouter(`/buy-recoed/${data.group_buying.id}`)">
                 集采记录
             </div>
         </div>
@@ -25,7 +30,19 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
+    props: {
+        data: {
+            type: Object,
+            default:()=>{}
+        }
+    },
+    computed: {
+        ...mapState({
+            supplierId:state=>state.CURRENTUSER.data.supplier_id
+        })
+    }
 
 }
 </script>
@@ -45,8 +62,24 @@ export default {
         color: #999999;
         border-bottom: 1px solid #e6e6e6;
         width: 100%;
+        justify-content: space-between;
         span {
             margin-left: 14px;
+            span {
+                margin: 0;
+                display: inline-block;
+                font-size: .01rem;
+                background: #0090FF;
+                color: #fff;
+                padding: 0 .08rem;
+                border-radius: 12px;
+            }
+        }
+        svg {
+            width: 1rem;
+            height: .8rem;
+            align-self: flex-start;
+            margin-right: .4rem;
         }
         span::before {
             content: " ";

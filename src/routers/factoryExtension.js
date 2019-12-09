@@ -21,7 +21,7 @@ export default [
 		}
 	},
 	{
-		path: "/change-history",
+		path: "/change-history/:id",
 		component: changeHistory,
 		meta: {
 			title: "变价历史",
@@ -29,7 +29,7 @@ export default [
 		}
 	},
 	{
-		path: "/buy-recoed",
+		path: "/buy-recoed/:id",
 		component: buyRecoed,
 		meta: {
 			title: "集采记录",

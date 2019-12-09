@@ -1,16 +1,16 @@
 <template>
     <div class="model">
         <div class="goods-info">
-            <p>伊可新 维生素AD滴剂</p>
-            <p>上海上药信宜药业有限公司</p>
-            <p>10粒*3板/盒 200盒/件</p>
+            <p>{{data.generic_name}}</p>
+            <p>{{data.brand_name}}</p>
+            <p>{{data.spec}}</p>
         </div>
         <slot />
         <div class="bottom-btn">
             <div @click="closeModel">
                 取消
             </div>
-            <div>
+            <div @click="confirmPrice">
                 确定
             </div>
         </div>
@@ -19,10 +19,13 @@
 
 <script>
 export default {
-    props: ['isShowModel'],
+    props: ['isShowModel','data'],
     methods: {
         closeModel() {
             this.$emit('update:isShowModel', false)
+        },
+        confirmPrice() {
+            this.$emit('confirmPrice')
         }
     }
 }
