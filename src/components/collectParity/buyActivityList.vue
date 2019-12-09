@@ -1,7 +1,7 @@
 <template>
     <div class="buyActivityList">
         <div class="head">
-            <span>[2019/12/12] {{data.group_buying.group_type.name}}
+            <span>[{{data.group_buying.end_time | handleTime}}] {{data.group_buying.group_type.name}}
                 <span v-if="supplierId==data.supplier_id">我发布的</span>
             </span>
             <svg v-if="supplierId==data.group_buying.successful_supplier_id">
@@ -42,6 +42,18 @@ export default {
         ...mapState({
             supplierId:state=>state.CURRENTUSER.data.supplier_id
         })
+    },
+    filters: {
+        handleTime(val) {
+            let date = new Date(val*1000)
+            let y = date.getFullYear()
+            let m = date.getMonth()+1
+            let d =  date.getDate()
+            let h = date.getHours()
+            let ms = date.getMinutes()
+            let ss = date.getSeconds()
+            return `${y}/${m}/${d}`
+        }
     }
 
 }

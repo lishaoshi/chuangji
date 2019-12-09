@@ -3,11 +3,13 @@
 		<form class="input-wrap" onsubmit="return false" action="">
 			<svg class="m-icon-svg m-svg-small" @click="searchFn">
 				<use v-if="lianSho||business||record" xlink:href="#icon-search1" />
+				<use v-else-if="isCollect" xlink:href="#icon-sousuo" />
 				<use v-else xlink:href="#icon-global-factory-search" />
 			</svg>
 			<input ref="input"  :value="value" :placeholder="placeholder" @keyup.enter="keyEnter($event)"  type="search" @input="$emit('input', $event.target.value)">
 			<svg ref="clearIcon" v-if="value" class="m-icon-svg m-svg-small" @click="clearText">
-				<use xlink:href="#icon-empty1" />
+				<use v-if="isCollect" xlink:href="#icon-qingkong" />
+				<use v-else xlink:href="#icon-empty1" />
 			</svg>
 		</form>
 	</div>
@@ -49,11 +51,14 @@
 			record:{
 				type:Boolean,
 				default:false
+			},
+			isCollect:{
+				type:Boolean,
+				default:false
 			}
 		},
 		methods: {
 			onBackClick() {
-				debugger
 				if(this.back === noop) this.goBack();
 				else this.back();
 			},

@@ -16,7 +16,7 @@
         <div class="price-bottom">
             <div class="shops-price-list">
                 <div v-for="(item, index) of data.price" :key="index">
-                    <span>****集采商</span>
+                    <span>{{item.supplier_name}}</span>
                     <span>
                         采购价(元): 
                         <span class="price">
@@ -116,6 +116,7 @@ export default {
             padding: 0 .1rem;
             font-size: .22rem;
             align-self: flex-start;
+            flex: 0 0 auto;
             span:first-child {
                 margin-right: .1rem;
             }
@@ -126,8 +127,8 @@ export default {
                 color: #0090FF;
             }
             div {
-                 height: .64rem;
-                 line-height: .64rem;
+                height: .64rem;
+                line-height: .64rem;
             }
         }
         .price-btn-group {

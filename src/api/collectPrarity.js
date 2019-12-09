@@ -37,6 +37,26 @@ export function activityBuy(params) {
     })
 }
 
+/***
+ * 获取上次报价信息
+ */
+export function getLastTimePrice(params) {
+    let url = `groupbuying/my-price`
+    return http.get(url, {params}).then(res=>{
+        return res.data
+    })
+}
+
+/***
+ * 获取上次采集的数量
+ */
+export function getLastTimeNum(params) {
+    let url = `groupbuying/my-num`
+    return http.get(url, {params}).then(res=>{
+        return res.data
+    })
+}
+
 /**
  * 集采活动了表
  */

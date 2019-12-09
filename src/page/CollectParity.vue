@@ -2,7 +2,7 @@
   <div class="container">
       <div class="header">
         <!-- <SearchBar ref="searchBox" :searchFn="searchFn" :lianSho='lianSho' v-model="searchValue" @keyup="keyup" @clearText="clearText"></SearchBar> -->
-         <SearchBar ref="searchBox" v-model="searchValue"></SearchBar>
+         <SearchBar :isCollect="true" @keyup="keyEnter" ref="searchBox" v-model="searchValue" @clearText="clearText"></SearchBar>
       </div>
       <timeOut />
       <load-more ref="loadMoreBox" :loadBottom="loadBottom" :allLoaded="allLoaded" v-if="list.length">
@@ -28,7 +28,7 @@ import collectParity from "@/components/collectParity/list"
 import changModel from "@/components/collectParity/changModel"
 import bg from "@/components/collectParity/bg"
 import timeOut from "@/components/collectParity/buyDay"
-import { getActivityList, updatePrice, activityBuy } from '@/api/collectPrarity'
+import { getActivityList, updatePrice, activityBuy, getLastTimePrice, getLastTimeNum } from '@/api/collectPrarity'
 import loadMore from '@/components/common/loadMore'
  import EmptyList from "@/components/EmptyList"
 export default {
@@ -50,6 +50,11 @@ export default {
   created() {
     this.initData()
   },
+  watch: {
+    isShowModel() {
+      this.input = ''
+    }
+  },
   methods: {
     changePrice(val, id, type) {
       this.id = id
@@ -57,10 +62,29 @@ export default {
       this.isShowModel = true
       this.placeholder = val
       this.type = type
+      this.type==1&&this._getLastTimePrice()
+      this.type==2&&this._getLastTimeNum()
     } ,
+    _getLastTimePrice() {
+      let params = {
+        group_id: this.id
+      }
+      getLastTimePrice(params).then(res=>{
+        this.input = res.data.price
+      })
+    },
+    _getLastTimeNum() {
+      let params = {
+        group_id: this.id
+      }
+      getLastTimeNum(params).then(res=>{
+        this.input = res.data.num
+      })
+    },
     initData() {
       let params = {
-        page: this.page
+        page: this.page,
+        search: this.searchValue
       }
       Promise.all([getActivityList(params)]).then(res=>{
         this.list = res[0].data.list
@@ -69,6 +93,11 @@ export default {
         }
         this.page++
       })
+    },
+    
+    keyEnter() {
+      this.page = 1
+      this.initData()
     },
     loadBottom() {
      let params = {
@@ -93,11 +122,10 @@ export default {
       updatePrice(params).then(res=>{
         this.$toast('变价成功')
         this.page=1
-        this.input = ''
         this.isShowModel = false
         this.initData()
       }).catch(err=>{
-        this.$toast('变价失败')
+         this.$toast(err.response.data.msg)
       })
     },
 
@@ -112,11 +140,10 @@ export default {
       activityBuy(params).then(res=>{
         this.$toast('集采成功')
         this.page=1
-        this.input = ''
         this.isShowModel = false
         this.initData()
       }).catch(err=>{
-        this.$toast('集采失败')
+        this.$toast(err.msg)
       })
     },
     /**
@@ -129,6 +156,13 @@ export default {
       }
       this.type==1&&this._updatePrice()
       this.type==2&&this._activityBuy()
+    },
+
+    /**
+     * 清空搜索框
+     */
+    clearText() {
+      this.searchValue = ''
     }
   },
   components: {
