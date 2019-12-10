@@ -37,7 +37,7 @@
                         <span>{{data.latest_price}}</span>
                     </div>
                     <div>
-                        <span>已集采({{data.unit}})  </span>
+                        <span>已集采({{data.big_unit}})  </span>
                         <span>{{data.total || 0}}</span>
                     </div>
                 </div>

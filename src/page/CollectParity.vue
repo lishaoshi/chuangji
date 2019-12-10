@@ -71,7 +71,7 @@ export default {
       }
       getLastTimePrice(params).then(res=>{
         if(res.data.price) {
-          this.input = res.data.num
+          this.input = res.data.price
         }
       })
     },
@@ -147,7 +147,7 @@ export default {
         this.isShowModel = false
         this.initData()
       }).catch(err=>{
-        this.$toast(err.msg)
+       this.$toast(err.response.data.message)
       })
     },
     /**
@@ -156,6 +156,10 @@ export default {
     confirmPrice() {
       if(!this.input) {
         this.$toast('请输入价格')
+        return false
+      }
+      if(isNaN(this.input)) {
+        this.$toast('请输入正确的数字')
         return false
       }
       this.type==1&&this._updatePrice()
