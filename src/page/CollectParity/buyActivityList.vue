@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <clxsd-head-top :title='`集采活动`'></clxsd-head-top>
-        <load-more ref="loadMoreBox" :loadBottom="loadBottom" :allLoaded="allLoaded" v-if="list">
+        <load-more ref="loadMoreBox" :loadBottom="loadBottom" :allLoaded="allLoaded" v-if="list.length">
             <list v-for="(item, index) of list" :key="index" :data="item"/>
         </load-more>
         <EmptyList v-else/>
