@@ -22,7 +22,14 @@
                     <span>
                     规格:&nbsp;
                     </span> 
-                    {{data.group_buying.spec}}/{{data.group_buying.unit}}&nbsp;&nbsp;&nbsp;&nbsp;{{data.group_buying | handleSpec}}</p>
+                    {{data.group_buying.spec}}/{{data.group_buying.unit}}
+                </p>
+                 <p>
+                    <span>
+                        包装:&nbsp;
+                    </span>
+                    {{data.group_buying | handleSpec}}
+                </p>
             </div>
         </div>
 
@@ -150,7 +157,7 @@ export default {
             font-size: .4rem;
             font-weight: bold;
             color: #333;
-            line-height: .8rem;
+            line-height: .56rem;
             
         }
         p:not(:first-child) {
@@ -180,6 +187,7 @@ export default {
     img {
         width: 1.8rem;
         height: 1.8rem;
+        border-radius: 10px;
         margin-right: .2rem;
     }
 }

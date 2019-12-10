@@ -13,7 +13,13 @@
                     <span>
                         规格:&nbsp;
                     </span>
-                     {{data.spec}}/{{data.unit}}&nbsp;&nbsp;&nbsp;&nbsp;{{data | handleSpec}}
+                     {{data.spec}}/{{data.unit}}
+                </p>
+                <p>
+                    <span>
+                        包装:&nbsp;
+                    </span>
+                    {{data | handleSpec}}
                 </p>
             </div>
         </div>
@@ -125,7 +131,7 @@ export default {
             }
             p:first-child {
                 font-size: .4rem;
-               line-height: .8rem;
+               line-height: .56rem;
             }
             p:not(:first-child) {
                 font-size: .28rem;
