@@ -18,7 +18,7 @@ export function getActivityList(params) {
  */
 export function updatePrice(params) {
     let url = `groupbuying/price`
-    return http.post(url, params).then(res=>{
+    return http.post(url, params, {validateStatus: s => s === 200}).then(res=>{
         return Promise.resolve(res.data)
     }).catch(err=>{
         return Promise.reject(err)

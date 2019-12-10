@@ -129,7 +129,7 @@ export default {
         this.isShowModel = false
         this.initData()
       }).catch(err=>{
-         this.$toast(err.response.data.msg)
+         this.$toast(err.response.data.message)
       })
     },
 
