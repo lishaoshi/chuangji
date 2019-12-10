@@ -5,10 +5,15 @@
             <div class="goods-name">
                 <p>{{data.generic_name}}</p>
                 <p>
-                    品牌: {{data.brand_name}}
+                    <span>
+                        品牌:&nbsp;
+                    </span> {{data.brand_name}}
                 </p>
                 <p>
-                    规格: {{data | handleSpec}}
+                    <span>
+                        规格:&nbsp;
+                    </span>
+                     {{data.spec}}/{{data.unit}}&nbsp;&nbsp;&nbsp;&nbsp;{{data | handleSpec}}
                 </p>
             </div>
         </div>
@@ -80,7 +85,7 @@ export default {
     },
     filters: {
         handleSpec(data) {
-            let text = `${data.spec} ${data.tran}${data.unit}/${data.big_unit}`
+            let text = `${data.tran}${data.unit}/${data.big_unit}`
             return text
         }
     }
@@ -113,10 +118,10 @@ export default {
             min-width: 100px;
             p {
                 font-weight: bold;
-                overflow:hidden; //超出的文本隐藏
-                text-overflow:ellipsis; //用省略号显示
-                white-space:nowrap; //不换行
-                width: 100%;
+                display: flex;
+                span:first-child {
+                    flex: 0 0 auto;
+                }
             }
             p:first-child {
                 font-size: .4rem;

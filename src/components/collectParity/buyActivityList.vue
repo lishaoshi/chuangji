@@ -14,8 +14,15 @@
             <img :src="data.group_buying.product.cover" alt="">
             <div class="info">
                 <p>{{data.group_buying.generic_name}}</p>
-                <p>品牌: {{data.group_buying.brand_name}}</p>
-                <p>规格: {{data.group_buying | handleSpec}}</p>
+                <p> 
+                    <span>
+                        品牌:&nbsp;
+                    </span>{{data.group_buying.brand_name}}</p>
+                <p> 
+                    <span>
+                    规格:&nbsp;
+                    </span> 
+                    {{data.group_buying.spec}}/{{data.group_buying.unit}}&nbsp;&nbsp;&nbsp;&nbsp;{{data.group_buying | handleSpec}}</p>
             </div>
         </div>
 
@@ -56,7 +63,7 @@ export default {
             return `${y}/${m}/${d}`
         },
         handleSpec(data) {
-            let text = `${data.spec} ${data.tran}${data.unit}/${data.big_unit}`
+            let text = `${data.tran}${data.unit}/${data.big_unit}`
             return text
         }
     }
@@ -77,7 +84,7 @@ export default {
         position: relative;
         font-size: .28rem;
         color: #999999;
-        border-bottom: 1px solid #e6e6e6;
+        border-bottom: 1px solid #f0f0f0;
         width: 100%;
         // justify-content: space-been;
         .line {
@@ -95,7 +102,7 @@ export default {
         .ismy {
             margin: 0;
             display: flex;
-            font-size: .01rem;
+            font-size: .18rem;
             background: #0090FF;
             color: #fff;
             padding: 0 .08rem;
@@ -134,15 +141,17 @@ export default {
         }
         p {
             width: 100%;
-            overflow:hidden; //超出的文本隐藏
-            text-overflow:ellipsis; //用省略号显示
-            white-space:nowrap; //不换行
+            display: flex;
+            span:first-child {
+                flex: 0 0 auto;
+            }
         }
         p:first-child {
             font-size: .4rem;
             font-weight: bold;
             color: #333;
             line-height: .8rem;
+            
         }
         p:not(:first-child) {
             font-size: .28rem;
@@ -156,7 +165,7 @@ export default {
         display: flex;
         color: #0090FF;
         align-items: center;
-        border-top: 1px solid #e5e5e5;
+        border-top: 1px solid #f0f0f0;
         div {
             flex: 1;
             text-align: center;
@@ -164,7 +173,7 @@ export default {
             line-height: .9rem;
             font-size: .32rem;
             &:first-child {
-                border-right: 1px solid #e5e5e5;
+                border-right: 1px solid #f0f0f0;
             }
         }
     }

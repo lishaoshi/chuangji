@@ -1,10 +1,10 @@
 <template>
     <div class="container">
         <clxsd-head-top :title='`集采活动`'></clxsd-head-top>
-        <load-more ref="loadMoreBox" :loadBottom="loadBottom" :allLoaded="allLoaded">
+        <load-more ref="loadMoreBox" :loadBottom="loadBottom" :allLoaded="allLoaded" v-if="list">
             <list v-for="(item, index) of list" :key="index" :data="item"/>
         </load-more>
-        
+        <EmptyList v-else/>
     </div>
 </template>
 
@@ -12,10 +12,12 @@
 import list from '@/components/collectParity/buyActivityList'
 import loadMore from '@/components/common/loadMore'
 import { getActivityJicaiList } from "@/api/collectPrarity"
+import EmptyList from "@/components/EmptyList"
 export default {
     components: {
         list,
-        loadMore
+        loadMore,
+        EmptyList
     },
     data() {
         return {
