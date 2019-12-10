@@ -70,7 +70,9 @@ export default {
         group_id: this.id
       }
       getLastTimePrice(params).then(res=>{
-        this.input = res.data.price
+        if(res.data.price) {
+          this.input = res.data.num
+        }
       })
     },
     _getLastTimeNum() {
@@ -78,7 +80,9 @@ export default {
         group_id: this.id
       }
       getLastTimeNum(params).then(res=>{
-        this.input = res.data.num
+        if(res.data.num) {
+          this.input = res.data.num
+        }
       })
     },
     initData() {

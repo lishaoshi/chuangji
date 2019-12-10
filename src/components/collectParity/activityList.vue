@@ -37,7 +37,7 @@ export default {
             let h = date.getHours()
             let ms = date.getMinutes()
             let ss = date.getSeconds()
-            return `${y}.${m}.${d} ${h}:${ms}${ss}`
+            return `${y}.${m}.${d} ${h}:${ms}:${ss}`
         }
     }
 }

@@ -1,9 +1,10 @@
 <template>
     <div class="buyActivityList">
         <div class="head">
+            <div class="line"></div>
             <span>[{{data.group_buying.end_time | handleTime}}] {{data.group_buying.group_type.name}}
-                <span v-if="supplierId==data.supplier_id">我发布的</span>
             </span>
+            <span class="ismy" v-if="supplierId==data.supplier_id">我发布的</span>
             <svg v-if="supplierId==data.group_buying.successful_supplier_id">
                 <use xlink:href="#icon-winBidding"/>
             </svg>    
@@ -14,7 +15,7 @@
             <div class="info">
                 <p>{{data.group_buying.generic_name}}</p>
                 <p>品牌: {{data.group_buying.brand_name}}</p>
-                <p>规格: {{data.group_buying.spec}}</p>
+                <p>规格: {{data.group_buying | handleSpec}}</p>
             </div>
         </div>
 
@@ -53,6 +54,10 @@ export default {
             let ms = date.getMinutes()
             let ss = date.getSeconds()
             return `${y}/${m}/${d}`
+        },
+        handleSpec(data) {
+            let text = `${data.spec} ${data.tran}${data.unit}/${data.big_unit}`
+            return text
         }
     }
 
@@ -74,41 +79,65 @@ export default {
         color: #999999;
         border-bottom: 1px solid #e6e6e6;
         width: 100%;
-        justify-content: space-between;
+        // justify-content: space-been;
+        .line {
+            width: 3px;
+            height: 18px;
+            background: #0090FF;
+            border-radius:3px;
+        }
         span {
             margin-left: 14px;
-            span {
-                margin: 0;
-                display: inline-block;
-                font-size: .01rem;
-                background: #0090FF;
-                color: #fff;
-                padding: 0 .08rem;
-                border-radius: 12px;
-            }
+            margin-right: 8px;
+            font-size: .28rem;
+            font-weight: bold;
+        }
+        .ismy {
+            margin: 0;
+            display: flex;
+            font-size: .01rem;
+            background: #0090FF;
+            color: #fff;
+            padding: 0 .08rem;
+            align-items: center;
+            border-radius: 12px;
         }
         svg {
             width: 1rem;
             height: .8rem;
             align-self: flex-start;
-            margin-right: .4rem;
-        }
-        span::before {
-            content: " ";
-            display: inline-block;
-            width: 3px;
-            height: 16px;
-            background: #0090ff;
+            // margin-right: .4rem;
             position: absolute;
-            left: 0;
-            top: 50%;
-            margin-right: 10px;
-            margin-top: -8px;
+            right: .44rem;
         }
+        // span::before {
+        //     content: " ";
+        //     display: inline-block;
+        //     width: 3px;
+        //     height: 16px;
+        //     background: #0090ff;
+        //     position: absolute;
+        //     left: 0;
+        //     top: 50%;
+        //     margin-right: 10px;
+        //     margin-top: -8px;
+        //     border-radius:3px;
+        // }
     }
     .main {
         display: flex;
         padding: .26rem .2rem;
+        div {
+            min-width: 100px;
+            display: flex;
+            flex-direction: column;
+        }
+        p {
+            width: 100%;
+            overflow:hidden; //超出的文本隐藏
+            text-overflow:ellipsis; //用省略号显示
+            white-space:nowrap; //不换行
+        }
         p:first-child {
             font-size: .4rem;
             font-weight: bold;

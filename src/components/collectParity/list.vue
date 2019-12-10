@@ -8,7 +8,7 @@
                     品牌: {{data.brand_name}}
                 </p>
                 <p>
-                    规格: {{data.spec}}
+                    规格: {{data | handleSpec}}
                 </p>
             </div>
         </div>
@@ -77,6 +77,12 @@ export default {
             }
             return this.data.price
         }
+    },
+    filters: {
+        handleSpec(data) {
+            let text = `${data.spec} ${data.tran}${data.unit}/${data.big_unit}`
+            return text
+        }
     }
 
 }
@@ -103,8 +109,14 @@ export default {
         .goods-name {
             display: flex;
             flex-direction: column;
+            // flex: 1 0 auto;
+            min-width: 100px;
             p {
                 font-weight: bold;
+                overflow:hidden; //超出的文本隐藏
+                text-overflow:ellipsis; //用省略号显示
+                white-space:nowrap; //不换行
+                width: 100%;
             }
             p:first-child {
                 font-size: .4rem;
