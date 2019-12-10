@@ -1,11 +1,20 @@
 <template>
     <div class="buyDay">
         <svg>
-            <use xlink:href="#icon-riqi" fill="#999"/>
+            <use xlink:href="#icon-collect-countdown"/>
         </svg>    
-        <span>
-           剩余: {{day}}天{{house}}小时{{minutes}}分{{seconds}}秒
+        <span class="title">
+            限时集采
         </span>
+        <div>
+            <span>
+                距本月活动结束
+            </span>
+            <span>
+                {{day | handleNum}}天{{house | handleNum}}小时{{minutes | handleNum}}分{{seconds | handleNum}}秒
+            </span>
+            
+        </div>
     </div>
 </template>
 
@@ -24,7 +33,11 @@ export default {
         }
     },
     filters: {
-        setTime() {
+        handleNum(val) {
+            if(val<10) {
+                return `0${val}`
+            }
+            return val
 
         }
 
@@ -85,14 +98,47 @@ export default {
 
 <style lang="scss" scoped>
 .buyDay {
-    height: .8rem;
-    display: flex;
+    height: 1rem;
+    display: inline-flex;
     align-items: center;
-    padding: .32rem;
+    margin: .2rem;
+    background: #fff;
+    border-radius:10px;
+    padding: 0 .2rem;
+    justify-content: flex-start;
+    .title {
+        font-size: .32rem;
+        font-weight: bold;
+        color: #EB8949;
+    }
+    div {
+        flex: 1;
+        text-align: right;
+        display: inline-block;
+        border-radius:10px;
+        span:first-child {
+            color: #fff;
+            background: #FF3B30;
+            padding: .06rem;
+            font-size: .2rem;
+            border: 1px solid #FF3B30;
+            border-top-left-radius:4px;
+            border-bottom-left-radius:4px;
+            // border-radius:10px;
+        }
+        span:last-child {
+            color: #FF3B30;
+            padding: .06rem;
+            border: 1px solid #FF3B30;
+            border-top-right-radius:4px;
+            border-bottom-right-radius:4px;
+
+        }
+    }
     svg {
-        width: .34rem;
-        height: .34rem;
-        margin-right: .15rem;
+        width: .4rem;
+        height: .4rem;
+        margin-right: .3rem;
     }
 }
 </style>

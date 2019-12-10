@@ -81,7 +81,7 @@
                     @click="authToRouter('/business-service-order')">
                 <clxsd-badge :dot="profile">
                     <svg class="m-style-svg m-svg-def">
-                        <use xlink:href="#icon-footer-liansuodian-jicaidingzhi"/>
+                        <use xlink:href="#icon-footer-ordering"/>
                     </svg>
                 </clxsd-badge>
                 <span>订单</span>
