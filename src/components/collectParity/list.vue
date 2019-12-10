@@ -15,7 +15,7 @@
 
         <div class="price-bottom">
             <div class="shops-price-list">
-                <div v-for="(item, index) of data.price" :key="index">
+                <div v-for="(item, index) of dataPrice" :key="index">
                     <span>{{item.supplier_name}}</span>
                     <span>
                         采购价(元): 
@@ -62,6 +62,20 @@ export default {
          */
         changePrice(flag, id, type) {
             this.$emit('changePrice',flag, id, type)
+        }
+    },
+    computed: {
+        dataPrice() {
+            let arr = []
+            if(this.data.price.length==0) {
+                let obj = {
+                    supplier_price: this.data.latest_price,
+                    supplier_name: "**集采商"
+                }
+                arr.push(obj)
+                return arr
+            }
+            return this.data.price
         }
     }
 

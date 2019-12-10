@@ -1,18 +1,21 @@
 <template>
     <div class="buyDay">
-        <svg>
-            <use xlink:href="#icon-collect-countdown"/>
-        </svg>    
-        <span class="title">
-            限时集采
-        </span>
+        <section>
+            <svg>
+                <use xlink:href="#icon-collect-countdown"/>
+            </svg>    
+            <span class="title">
+                限时集采
+            </span>
+        </section>
+        
         <div>
-            <span>
+            <p>
                 距本月活动结束
-            </span>
-            <span>
-                {{day | handleNum}}天{{house | handleNum}}小时{{minutes | handleNum}}分{{seconds | handleNum}}秒
-            </span>
+            </p>
+            <p>
+                {{day}}天{{house | handleNum}}小时{{minutes | handleNum}}分{{seconds | handleNum}}秒
+            </p>
             
         </div>
     </div>
@@ -54,7 +57,7 @@ export default {
             if(nowDay < 12) {
                 let nowMonth = this.$moment(this.remaningTime).month()+1;
                 let nowYeary = this.$moment(this.remaningTime).year();
-                let nextDate = this.$moment(`${nowYeary}.${nowMonth}.12 23:59:59`)
+                let nextDate = this.$moment(`${nowYeary}-${nowMonth}-12 23:59:59`)
                 this.t1 = Math.floor(nextDate.diff(nowTime)/1000)
                 this.day = Math.floor(this.t1/(60*60*24))
                 this.house = Math.floor(this.t1/(60*60)%24)
@@ -66,9 +69,9 @@ export default {
                 let nextDate
                 if(nowMonth == 12) {
                     nowYeary++
-                    nextDate = this.$moment(`${nowYeary}.${1}.12 23:59:59`)
+                    nextDate = this.$moment(`${nowYeary}-${1}-12 23:59:59`)
                 } else {
-                    nextDate = this.$moment(`${nowYeary}.${nowMonth+1}.12 23:59:59`)
+                    nextDate = this.$moment(`${nowYeary}-${nowMonth+1}-12 23:59:59`)
                 }
                 this.t1 = Math.floor(nextDate.diff(nowTime)/1000)
                 this.day = Math.floor(this.t1/(60*60*24))
@@ -105,33 +108,48 @@ export default {
     background: #fff;
     border-radius:10px;
     padding: 0 .2rem;
-    justify-content: flex-start;
+    justify-content: space-between;
+    section {
+        display: flex;
+        align-items: center;
+    }
     .title {
         font-size: .32rem;
         font-weight: bold;
         color: #EB8949;
     }
     div {
-        flex: 1;
-        text-align: right;
-        display: inline-block;
-        border-radius:10px;
-        span:first-child {
+        // flex: 1;
+        // text-align: right;
+        display: inline-flex;
+        // border-radius:10px;
+        align-items: center;
+        height: .4rem;
+        border-radius:4px;
+         border: 1px solid #FF3B30;
+        p:first-child {
             color: #fff;
             background: #FF3B30;
             padding: .06rem;
             font-size: .2rem;
-            border: 1px solid #FF3B30;
-            border-top-left-radius:4px;
-            border-bottom-left-radius:4px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            // border: 1px solid #FF3B30;
+            // border-top-left-radius:4px;
+            // border-bottom-left-radius:4px;
             // border-radius:10px;
         }
-        span:last-child {
+        p:last-child {
             color: #FF3B30;
             padding: .06rem;
-            border: 1px solid #FF3B30;
-            border-top-right-radius:4px;
-            border-bottom-right-radius:4px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            min-width: 2.36rem;
+            // border: 1px solid #FF3B30;
+            // border-top-right-radius:4px;
+            // border-bottom-right-radius:4px;
 
         }
     }
