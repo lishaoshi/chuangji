@@ -7,8 +7,9 @@
       <slot name="right">
           <div>
               <span>
-                  {{data.supplier_price}}元
+                  {{data.supplier_price}}元/{{unit}}
               </span>
+              <span>1{{big_unit}}={{tran}}{{unit}}</span>
           </div>
       </slot>
   </div>
@@ -26,6 +27,17 @@ export default {
         data: {
             type: Object,
             default:()=>{}
+        }
+    },
+    computed: {
+        big_unit() {
+            return this.data.group_buying&&this.data.group_buying.big_unit || this.data.group&&this.data.group.big_unit
+        },
+        tran() {
+            return this.data.group_buying&&this.data.group_buying.tran || this.data.group&&this.data.group.tran
+        },
+        unit() {
+            return this.data.group_buying&&this.data.group_buying.unit || this.data.group&&this.data.group.unit
         }
     },
     filters: {
@@ -70,6 +82,16 @@ export default {
     div:last-child {
         font-size: .34rem;
         color: #333;
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: right;
+        height: 100%;
+        line-height: .48rem;
+        span:last-child {
+            font-size: .24rem;
+            color: #999;
+        }
    }
 }
 </style>

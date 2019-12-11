@@ -13,7 +13,10 @@
       <template v-if="isShowModel">
         <chang-model :isShowModel.sync="isShowModel" :data="itemData" @confirmPrice="confirmPrice">
           <div class="input">
-            <input type="text" :placeholder="placeholder" v-model="input">
+            <input type="text" @input="handleInput" :placeholder="placeholder" v-model="input">
+            <div>
+              <span>{{this.type==1?itemData.unit:itemData.big_unit}}</span>
+            </div>
           </div>
         </chang-model>
         <bg />
@@ -74,6 +77,17 @@ export default {
           this.input = res.data.price
         }
       })
+    },
+    handleInput(e) {
+      const len = e.target.value
+      if(this.type==1) {
+          e.target.value = (e.target.value.match(/^\d*(\.?\d{0,3})/g)[0]) || null
+          this.input = e.target.value;
+      } else if(this.type==2) {
+          // e.target.value = (e.target.value.match(/^\d*(\.?\d{0,2})/g)[0]) || null
+          // this.input = e.target.value;  
+          this.input = e.target.value.replace(/[^0-9]/g, '')
+      }
     },
     _getLastTimeNum() {
       let params = {

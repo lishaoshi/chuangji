@@ -6,7 +6,8 @@
       <load-more ref="loadMoreBox" :loadBottom="loadBottom" :allLoaded="allLoaded" v-if="list.length">
           <activite-list v-for="(item, index) of list" :key="index" :data="item"> 
             <div slot="right">
-              <span>{{item.num}}{{item.group.unit}}</span>
+              <span>{{item.num}}{{item.group.big_unit}}</span>
+              <span>1{{item.group.big_unit}}={{item.group.tran}}{{item.group.unit}}</span>
             </div>
           </activite-list>
       </load-more>
@@ -72,6 +73,13 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.loadMore {
+    padding-bottom: 0;
+}
 </style>

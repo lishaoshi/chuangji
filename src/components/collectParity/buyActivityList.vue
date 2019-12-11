@@ -30,6 +30,22 @@
                     </span>
                     {{data.group_buying | handleSpec}}
                 </p>
+
+                <section class="price-box">
+                   <div class="min-price">
+                        <span>最低价(元/{{data.group_buying.unit}})</span>
+                        <span>{{data.group_buying.latest_price}}</span>
+                    </div>
+                    <div>
+                        <span>已集采({{data.group_buying.big_unit}})  </span>
+                        <span>{{data.group_buying.total}}
+                        </span>
+                    </div>
+                    <div class="min-price">
+                        <span>总金额(元)</span>
+                        <span v-html="total">9999</span>
+                    </div>
+                </section>
             </div>
         </div>
 
@@ -56,7 +72,17 @@ export default {
     computed: {
         ...mapState({
             supplierId:state=>state.CURRENTUSER.data.supplier_id
-        })
+        }),
+         total() {
+            let total = this.data.group_buying.latest_price*this.data.group_buying.tran*this.data.group_buying.total
+            if(total > 10000) {
+                total = total / 10000
+                 total = total.toFixed(1)
+                return `${total}<i style="font-size:.28rem;">万</i>`
+            }
+             total = parseInt(total)
+            return total
+        }
     },
     filters: {
         handleTime(val) {
@@ -141,10 +167,36 @@ export default {
     .main {
         display: flex;
         padding: .26rem .2rem;
-        div {
+        & > div {
             min-width: 100px;
             display: flex;
             flex-direction: column;
+            flex: 1;
+        }
+        .price-box {
+            display: flex;
+            justify-content: space-around;
+            margin-top: .56rem;
+            div{
+                display: flex;
+                flex-direction: column;
+                // margin-right: .2rem;
+                span {
+                    text-align: center;
+                    &:first-child {
+                        font-size: .18rem;
+                        color: #999999;
+                    }
+                    &:last-child {
+                        font-size: .32rem;
+                        color: #FA5452;
+                        margin-top: .1rem;
+                        i {
+                            font-size: .28rem;
+                        }
+                    }
+                }
+            }
         }
         p {
             width: 100%;
@@ -154,17 +206,17 @@ export default {
             }
         }
         p:first-child {
-            font-size: .4rem;
+            font-size: .34rem;
             font-weight: bold;
             color: #333;
             line-height: .56rem;
             
         }
         p:not(:first-child) {
-            font-size: .28rem;
+            font-size: .24rem;
             font-weight: bold;
             color: #666;
-            line-height: .4rem;
+            line-height: .36rem;
         }
     }
     .btn-group {

@@ -25,26 +25,22 @@
         </div>
 
         <div class="price-bottom">
-            <div class="shops-price-list">
-                <div v-for="(item, index) of dataPrice" :key="index">
-                    <span>{{item.supplier_name}}</span>
-                    <span>
-                        采购价(元): 
-                        <span class="price">
-                            {{item.supplier_price}}
-                        </span>
-                    </span>
-                </div>
-            </div>
+            <scrollList :data="data"/>
             <div class="price-btn-group">
                 <div class="price-group">
-                     <div class="min-price">
-                        <span>最低价(元)</span>
+                    
+                    <div class="min-price">
+                        <span>最低价(元/{{data.unit}})</span>
                         <span>{{data.latest_price}}</span>
                     </div>
                     <div>
                         <span>已集采({{data.big_unit}})  </span>
-                        <span>{{data.total || 0}}</span>
+                        <span>{{data.total}}
+                        </span>
+                    </div>
+                    <div class="min-price">
+                        <span>总金额(元)</span>
+                        <span v-html="total"></span>
                     </div>
                 </div>
                 <div class="button-group">
@@ -62,7 +58,11 @@
 </template>
 
 <script>
+import scrollList from "./scrollPricelist"
 export default {
+    components: {
+        scrollList
+    },
     props: {
         data: Object,
         default: ()=>{}
@@ -76,24 +76,24 @@ export default {
         }
     },
     computed: {
-        dataPrice() {
-            let arr = []
-            if(this.data.price.length==0) {
-                let obj = {
-                    supplier_price: this.data.latest_price,
-                    supplier_name: "**集采商"
-                }
-                arr.push(obj)
-                return arr
+        total() {
+            
+            let total = this.data.latest_price*this.data.tran*this.data.total
+            if(total > 10000) {
+                total = total / 10000
+                total = total.toFixed(1)
+                return `${total}<i style="font-size:.28rem;">万</i>`
             }
-            return this.data.price
+            total = parseInt(total)
+            return total
         }
     },
     filters: {
         handleSpec(data) {
             let text = `${data.tran}${data.unit}/${data.big_unit}`
             return text
-        }
+        },
+        
     }
 
 }
@@ -106,14 +106,14 @@ export default {
     }
     display: flex;
     flex-direction: column;
-    padding:.32rem;
+    padding:.2rem;
     background: #fff;
     border-radius: 10px;
     .goods-info {
         display: flex;
         img {
-            width: 1.8rem;
-            height: 1.8rem;
+            width: 2rem;
+            height: 2rem;
             border-radius: 10px;
             margin-right: .3rem;
         }
@@ -130,11 +130,11 @@ export default {
                 }
             }
             p:first-child {
-                font-size: .4rem;
+                font-size: .34rem;
                line-height: .56rem;
             }
             p:not(:first-child) {
-                font-size: .28rem;
+                font-size: .24rem;
                 color: #666;
                 line-height: .4rem;
             }
@@ -144,30 +144,6 @@ export default {
         display: flex;
         justify-content: space-between;
         margin-top: .24rem;
-        .shops-price-list {
-            background: #F9F9F9;
-            border-radius: 8px;
-            display: inline-flex;
-            justify-content: space-between;
-            flex-direction: column;
-            padding: 0 .1rem;
-            font-size: .22rem;
-            align-self: flex-start;
-            flex: 0 0 auto;
-            span:first-child {
-                margin-right: .1rem;
-            }
-            & > span {
-                flex: 0 1 auto;
-            }
-            .price {
-                color: #0090FF;
-            }
-            div {
-                height: .64rem;
-                line-height: .64rem;
-            }
-        }
         .price-btn-group {
             display: flex;
             flex-direction: column;
@@ -179,18 +155,19 @@ export default {
                 div{
                     display: flex;
                     flex-direction: column;
-                    &:first-child {
-                        margin-right: .7rem;
-                    }
+                    margin-right: .2rem;
                     span {
                         text-align: center;
                         &:first-child {
-                            font-size: .2rem;
+                            font-size: .18rem;
                             color: #999999;
                         }
                         &:last-child {
-                            font-size: .36rem;
+                            font-size: .32rem;
                             color: #0090FF;
+                            i {
+                                font-size: .28rem;
+                            }
                         }
                     }
                 }

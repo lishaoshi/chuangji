@@ -75,6 +75,13 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.loadMore {
+    padding-bottom: 0;
+}
 </style>

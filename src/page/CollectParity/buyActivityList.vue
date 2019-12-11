@@ -50,7 +50,7 @@ export default {
                 page: this.page
             }
             getActivityJicaiList(params).then(res=>{
-                this.list = res.data.list.data
+                this.list = this.list.concat(res.data.list.data)
                 this.total = res.data.list.total
                 type=='bottom'&& this.$refs.loadMoreBox.$refs.loadmore.onBottomLoaded()
                 if(!this.list || this.list.length == this.total) {
@@ -59,13 +59,20 @@ export default {
             })
         },
         loadBottom() {
-            this._getActivityJicaiList()
+            this._getActivityJicaiList('bottom')
         }
     }
 
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.loadMore {
+    padding-bottom: 0;
+}
 </style>

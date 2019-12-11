@@ -3,7 +3,7 @@
         <div class="goods-info">
             <p>{{data.generic_name}}</p>
             <p>{{data.brand_name}}</p>
-            <p>{{data.spec}}</p>
+            <p>{{data.spec}}/{{data.unit}} {{data | handleSpec}}</p>
         </div>
         <slot />
         <div class="bottom-btn">
@@ -27,6 +27,12 @@ export default {
         confirmPrice() {
             this.$emit('confirmPrice')
         }
+    },
+    filters: {
+        handleSpec(data) {
+            let text = `${data.tran}${data.unit}/${data.big_unit}`
+            return text
+        }
     }
 }
 </script>
@@ -43,6 +49,7 @@ export default {
     border-radius: 6px;
     padding-top: .44rem;
     .input {
+        width: 60%;
         input {
             text-align: center;
         }
@@ -66,14 +73,15 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: .4rem 0;
+        margin: .4rem auto;
         height: .6rem;
+        border: 1px solid #999;
+        border-radius: 30px;
+        position: relative;
         input {
-            border: 1px solid #999;
-            border-radius: 30px;
-            margin: 0 auto;
-            width: 70%;
+            width: 80%;
             height: 100%;
+            border-radius: 30px;
             &::-webkit-input-placeholder {
                 color: #CCCCCC!important;
             }
@@ -85,7 +93,21 @@ export default {
             }
             &::-ms-input-placeholder {
                 color: #CCCCCC!important;
+                
             }
+        }
+        div {
+            // border-left: 1px solid #f0f0f0;
+            height: 100%;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: .8rem;
+            display: flex;
+            font-size: .28rem;
+            color: #999;
+            align-items: center;
+            justify-content: center;
         }
     }
     .bottom-btn {
