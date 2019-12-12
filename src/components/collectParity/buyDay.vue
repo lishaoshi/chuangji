@@ -14,7 +14,9 @@
                 距本月活动结束
             </p>
             <p>
-                {{day}}天{{house | handleNum}}小时{{minutes | handleNum}}分{{seconds | handleNum}}秒
+                <span v-if="day">
+                    {{day}}天
+                </span>{{house | handleNum}}小时{{minutes | handleNum}}分{{seconds | handleNum}}秒
             </p>
             
         </div>
@@ -150,6 +152,7 @@ export default {
             display: flex;
             align-items: center;
             min-width: 2.36rem;
+            justify-content: center;
             // border: 1px solid #FF3B30;
             // border-top-right-radius:4px;
             // border-bottom-right-radius:4px;
