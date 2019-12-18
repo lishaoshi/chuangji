@@ -54,7 +54,7 @@
                 <svg class="m-style-svg m-svg-def">
                     <use xlink:href="#icon-footer-liansudian-shouye"/>
                 </svg>
-                <span>云工厂</span>
+                <span>集采</span>
             </section>
             <section
                     :class="{active: isCurPath('/item-categories')}"
@@ -63,7 +63,7 @@
                 <svg class="m-style-svg m-svg-def">
                     <use xlink:href="#icon-footer-shangye-yaopin"/>
                 </svg>
-                <span>药品</span>
+                <span>库存</span>
             </section>
              <section
                     :class="{active: isCurPath('/collect-parity')}"
