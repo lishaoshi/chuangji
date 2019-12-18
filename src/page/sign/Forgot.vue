@@ -225,29 +225,8 @@
 						this.error = "";
 					})
 					.catch(
-						({
-							response: {
-								status = null,
-								data: {
-									error = []
-								} = {}
-							} = {}
-						}) => {
-							if(status === 500) {
-								this.error = {
-									message: "网络错误,请联系管理员"
-								};
-								return;
-							}
-							if(status === 422) {
-								// debugger
-								// console.log(error[0])
-								// this.error = error;
-								this.$toast(error[0])
-							}
-							setTimeout(() => {
-								this.error = "";
-							}, 3000);
+						(error) => {
+							this.$toast(error.response.data.message)
 						}
 					);
 			},

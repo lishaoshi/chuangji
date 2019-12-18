@@ -1,31 +1,42 @@
 <template>
     <div class="model">
-        <div class="goods-info">
-            <p>{{data.generic_name}}</p>
-            <p>{{data.brand_name}}</p>
-            <p>{{data.spec}}/{{data.unit}} {{data | handleSpec}}</p>
-        </div>
-        <slot />
-        <div class="bottom-btn">
-            <div @click="closeModel">
-                取消
+        <template v-if="isShowModel">
+            <div class="goods-info">
+                <p>{{data.generic_name}}</p>
+                <p>{{data.brand_name}}</p>
+                <p>{{data.spec}}/{{data.unit}} {{data | handleSpec}}</p>
             </div>
-            <div @click="confirmPrice">
-                确定
+            <slot />
+            <div class="bottom-btn">
+                <div @click="closeModel">
+                    取消
+                </div>
+                <div @click="confirmPrice">
+                    确定
+                </div>
             </div>
+        </template>
+        <div v-if="isShowRules" class="rules_box">
+            <img src="@/images/default.png" alt="">
+             <svg class="svgClose" @click="handleCloseBtn">
+                <use xlink:href="#icon-close"/>
+            </svg>    
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    props: ['isShowModel','data'],
+    props: ['isShowModel','data', 'isShowRules'],
     methods: {
         closeModel() {
             this.$emit('update:isShowModel', false)
         },
         confirmPrice() {
             this.$emit('confirmPrice')
+        },
+        handleCloseBtn() {
+            this.$emit('update:isShowRules', false)
         }
     },
     filters: {
@@ -44,7 +55,7 @@ export default {
     left: 50%;
     top: 20%;
     margin-left: -45%;
-    background: #fff;
+    // background: #fff;
     z-index: 1000;
     border-radius: 6px;
     padding-top: .44rem;
@@ -93,9 +104,9 @@ export default {
             }
             &::-ms-input-placeholder {
                 color: #CCCCCC!important;
-                
             }
         }
+       
         div {
             // border-left: 1px solid #f0f0f0;
             height: 100%;
@@ -110,6 +121,9 @@ export default {
             justify-content: center;
         }
     }
+        .margin {
+            text-align: center;
+        }
     .bottom-btn {
         display: flex;
         height: .98rem;
@@ -127,6 +141,24 @@ export default {
                 background: #0090ff;
             }
         }
+    }
+    
+    .rules_box {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    .svgClose {
+        width: .6rem;
+        height: .6rem;
+        fill: #FEF2D4;
+        margin-top: .4rem;
+    }
     }
 
 }
