@@ -1,5 +1,5 @@
 <template>
-    <div class="model">
+    <div class="model" :class="{isRule:isShowRules}" >
         <template v-if="isShowModel">
             <div class="goods-info">
                 <p>{{data.generic_name}}</p>
@@ -17,10 +17,13 @@
             </div>
         </template>
         <div v-if="isShowRules" class="rules_box">
-            <img src="@/images/default.png" alt="">
+            <img src="@/images/ruleActive.png" alt="">
              <svg class="svgClose" @click="handleCloseBtn">
                 <use xlink:href="#icon-close"/>
             </svg>    
+            <div class="confirmRule" @click="handleConfirm">
+                我已了解
+            </div>
         </div>
     </div>
 </template>
@@ -37,6 +40,10 @@ export default {
         },
         handleCloseBtn() {
             this.$emit('update:isShowRules', false)
+        },
+        handleConfirm() {
+            this.$emit('update:isShowRules', false)
+            this.$emit('update:isShowModel', true)
         }
     },
     filters: {
@@ -55,7 +62,7 @@ export default {
     left: 50%;
     top: 20%;
     margin-left: -45%;
-    // background: #fff;
+    background: #fff;
     z-index: 1000;
     border-radius: 6px;
     padding-top: .44rem;
@@ -84,9 +91,10 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: .4rem auto;
+        margin: .4rem auto 0;
         height: .6rem;
         border: 1px solid #999;
+        // margin-bottom: .4rem;
         border-radius: 30px;
         position: relative;
         input {
@@ -144,22 +152,39 @@ export default {
     }
     
     .rules_box {
-        width: 100%;
-        height: 100%;
+        width: 80%;
+        height: 80%;
         display: flex;
+        margin: 0 auto;
         flex-direction: column;
         align-items: center;
         img {
             width: 100%;
             height: 100%;
         }
-    .svgClose {
-        width: .6rem;
-        height: .6rem;
-        fill: #FEF2D4;
-        margin-top: .4rem;
-    }
-    }
+        .svgClose {
+            width: .6rem;
+            height: .6rem;
+            fill: #FEF2D4;
+            margin-top: .4rem;
+        }
+        .confirmRule {
+            background: linear-gradient(90deg, #FE7600, #FF4900);
+            color: #fff;
+            border-radius: .36rem;
+            padding: 0 1.2rem;
+            line-height: .72rem;
+            height: .72rem;
+            position: absolute;
+            left: 50%;
+            bottom: 1.4rem;
+            transform: translate(-50%, 0)
 
+        }
+    }
+}
+.isRule {
+    padding: 0;
+    background: transparent;
 }
 </style>

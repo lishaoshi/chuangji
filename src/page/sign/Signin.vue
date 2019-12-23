@@ -56,6 +56,16 @@
 				</div>
 			</footer>
             -->
+			<!-- 工业登录提示信息 -->
+			<template v-if="isFactoryLogin">
+				<div class="factoryMessage">
+					<img src="~@/images/factoryMsg.png" alt="">
+					<div class="confirmBtn" @click="isFactoryLogin=false">
+						我知道了
+					</div>
+				</div>
+				<bg />
+			</template>
 		</div>
 	</transition>
 </template>
@@ -65,6 +75,7 @@
 	import { signinByWechat } from "@/util/wechat";
 	import { mapActions } from "vuex"
 	import { Toast } from 'mint-ui';
+	import bg from "@/components/collectParity/bg"
 	export default {
 		name: "Signin",
 		data() {
@@ -74,8 +85,12 @@
 				account: "",
 				password: "",
 				loading: false,
-				isTrue: false
+				isTrue: false,
+				isFactoryLogin: false
 			}
+		},
+		components: {
+			bg
 		},
 		computed: {
 			disabled() {
@@ -117,7 +132,12 @@
 						Toast("登陆成功");
 						this.isTrue = true
 					} else {
-						return false
+						if(state.code==412) {
+							this.isFactoryLogin = true
+						} else {
+							Toast(state.message);
+						}
+						
 					}
 				}).catch(error =>{
 				})
@@ -251,5 +271,32 @@
 		text-align: center;
 		font-size: .3rem;
 		margin-bottom: .3rem;
+	}
+	.factoryMessage {
+		position:absolute;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 1000;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		img {
+			width: 90%;
+			display: block;
+			margin: 0 auto;
+		}
+		.confirmBtn {
+			color: #fff;
+			background: #0090FF;
+			font-size: .32rem;
+			border-radius: .4rem;
+			height: .8rem;
+			line-height: .8rem;
+			margin-top: -1.1rem;
+			padding: 0 1.78rem;
+		}
 	}
 </style>

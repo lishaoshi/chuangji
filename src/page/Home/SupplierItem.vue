@@ -2,7 +2,7 @@
     <div class="company" v-if="data!=null">
         <div class="brand">
             <router-link :to="`/factory/shop/${data.id}`">
-                <img :src="data.logo" alt="">
+                <img :src="data.logo || default_company_logo" alt="">
             </router-link>
         </div>
         <div class="message">
@@ -17,7 +17,7 @@
                                 <svg class="icon-location">
                                     <use xlink:href="#icon-map2"/>
                                 </svg>
-                                <p>{{data.address}}</p>
+                                <p>{{data.city_name || data.province_name}}</p>
                             </div>
                         </li>
                         <li>
@@ -63,12 +63,14 @@
 </template>
 
 <script>
+import default_company_logo from "@/images/default_company_logo.png"
     export default {
         name: "SupplierItem",
         props: ['data'],
         data() {
             return {
                 is_active: false,
+                default_company_logo
             }
         },
         created() {
