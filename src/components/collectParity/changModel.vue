@@ -30,7 +30,7 @@
 
 <script>
 export default {
-    props: ['isShowModel','data', 'isShowRules'],
+    props: ['isShowModel','data', 'isShowRules', 'lianshu'],
     methods: {
         closeModel() {
             this.$emit('update:isShowModel', false)
@@ -128,6 +128,9 @@ export default {
             align-items: center;
             justify-content: center;
         }
+    }
+    .jcClass {
+        margin-bottom: .4rem;
     }
         .margin {
             text-align: center;
