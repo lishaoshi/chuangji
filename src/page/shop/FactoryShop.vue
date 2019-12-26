@@ -24,7 +24,7 @@
         <transition name="fade">
             <div class="company" :class="{activebox2: isFullScreen}">
                 <div class="brand" @click="queryCompanyDetail">
-                    <img :src="shopDetailData.logo || default_company_logo" alt="">
+                    <img :src="shopDetailData.img_cover || default_company_logo" alt="">
                 </div>
                 <div class="message">
                     <div class="message_title" @click="queryCompanyDetail">
