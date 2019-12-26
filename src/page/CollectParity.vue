@@ -88,11 +88,12 @@ export default {
           this.input = res.data.price
         }
         this.lianshu = res.data.lianshu
-        if(this.lianshu > 0) {
-          this.isShowRules = true
-        } else {
-          this.isShowModel = true
-        }
+         this.isShowModel = true
+        // if(this.lianshu > 0) {
+        //   this.isShowRules = true
+        // } else {
+        //   this.isShowModel = true
+        // }
       })
     },
     handleInput(e) {
