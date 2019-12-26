@@ -15,7 +15,7 @@ export function signinByAccount(payload){
     return api.post("/auth/login",payload, { validateStatus: s => s == 200}).then((res) =>{
         if(res.data.code==400) {
             Toast(res.data.message)
-        } else {
+        } else if(res.data.access_token) {
             lstore.setData("H5_ACCESS_TOKEN", `Bearer ${res.data.access_token}`)
         }
         return res.data
