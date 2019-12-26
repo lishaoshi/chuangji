@@ -60,7 +60,7 @@
 			<template v-if="isFactoryLogin">
 				<div class="factoryMessage">
 					<img src="~@/images/factoryMsg.png" alt="">
-					<div class="confirmBtn" @click="isFactoryLogin=false">
+					<div class="confirmBtn" @click="changeisFactoryLogin">
 						我知道了
 					</div>
 				</div>
@@ -105,6 +105,9 @@
 		created() {
 		},
 		methods: {
+			changeisFactoryLogin() {
+				this.isFactoryLogin = false
+			},
 		    async  signByAccount() {
 				// console.log(this.$route)
 				// return
