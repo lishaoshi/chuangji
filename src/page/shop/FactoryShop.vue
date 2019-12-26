@@ -40,9 +40,9 @@
                                     <p>{{shopDetailData.city_name || shopDetailData.province_name || '中国'}}</p>
                                 </div>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <p>调配时间<i>{{shopDetailData.send_duration || 14}}</i>天</p>
-                            </li>
+                            </li> -->
                             <li>
                                 <p>已售<i>{{shopDetailData.sale_num || 0}}</i>件</p>
                             </li>

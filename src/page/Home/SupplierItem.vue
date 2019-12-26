@@ -20,9 +20,9 @@
                                 <p>{{data.city_name || data.province_name}}</p>
                             </div>
                         </li>
-                        <li>
+                        <!-- <li>
                             <p>调配时间<i>{{data.diaopei || 3}}</i>天</p>
-                        </li>
+                        </li> -->
                         <li>
                             <p>已售<i>{{data.sale_num || 0}}</i>件</p>
                         </li>

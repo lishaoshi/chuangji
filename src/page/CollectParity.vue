@@ -20,7 +20,7 @@
           </div>
           <p class="margin" v-if="type==1 && lianshu">
             <span>
-               此次集采扣除{{lianshu}}包保证金
+               此次集采扣除{{lianshu | handleLianshu}}保证金
             </span>
           </p>
         </chang-model>
@@ -60,6 +60,11 @@ export default {
   created() {
     this.initData()
   },
+  filters: {
+    handleLianshu(val) {
+      return val.toFixed(2)
+    }
+  },
   watch: {
     isShowModel() {
       this.input = ''
@@ -75,7 +80,6 @@ export default {
       this.type==2&&this._getLastTimeNum()
     } ,
     _getLastTimePrice() {
-      debugger
       let params = {
         group_id: this.id
       }

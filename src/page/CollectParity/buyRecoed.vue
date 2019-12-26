@@ -5,9 +5,24 @@
        -->
       <load-more ref="loadMoreBox" :loadBottom="loadBottom" :allLoaded="allLoaded" v-if="list.length">
           <activite-list v-for="(item, index) of list" :key="index" :data="item"> 
-            <div slot="right">
-              <span>{{item.num}}{{item.group.big_unit}}</span>
-              <span>1{{item.group.big_unit}}={{item.group.tran}}{{item.group.unit}}</span>
+            <!-- <div slot="header">
+              <div>
+                 <span>{{item.num}}{{item.group.big_unit}}</span>
+                <span>1{{item.group.big_unit}}={{item.group.tran}}{{item.group.unit}}</span>
+              </div>
+             
+            </div> -->
+            <div slot="bottom">
+              <div class="changeInfo">
+                <div>
+                  <span>集采数量</span>
+                  <span class="color">{{item.num}}{{item.group.big_unit}}</span>
+              </div>
+              <div>
+                <span class="two">包装</span>
+                <span>1{{item.group.big_unit}}={{item.group.tran}}{{item.group.unit}}</span>
+              </div>
+              </div>
             </div>
           </activite-list>
       </load-more>
