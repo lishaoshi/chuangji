@@ -2,7 +2,7 @@
     <div class="company" v-if="data!=null">
         <div class="brand">
             <router-link :to="`/factory/shop/${data.id}`">
-                <img :src="data.logo || default_company_logo" alt="">
+                <img :src="data.img_cover || default_company_logo" alt="">
             </router-link>
         </div>
         <div class="message">
@@ -113,7 +113,6 @@ import default_company_logo from "@/images/default_company_logo.png"
         .brand {
             width: 2rem;
             height: 2rem;
-            border: 1px solid rgb(230, 230, 230);
             text-align: center;
             line-height: 2rem;
             border-radius: 3px;
