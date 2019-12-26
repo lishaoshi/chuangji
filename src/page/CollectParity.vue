@@ -10,14 +10,19 @@
       </load-more>
       
       <EmptyList v-else/>
-      <template v-if="isShowModel">
-        <chang-model :isShowModel.sync="isShowModel" :data="itemData" @confirmPrice="confirmPrice">
-          <div class="input">
+      <template v-if="isShowModel ||　isShowRules">
+        <chang-model :isShowModel.sync="isShowModel" :lianshu="lianshu" :isShowRules.sync="isShowRules" :data="itemData" @confirmPrice="confirmPrice">
+          <div class="input" :class="{jcClass:type==2 || lianshu==0}">
             <input type="text" @input="handleInput" :placeholder="placeholder" v-model="input">
             <div>
               <span>{{this.type==1?itemData.unit:itemData.big_unit}}</span>
             </div>
           </div>
+          <p class="margin" v-if="type==1 && lianshu">
+            <span>
+               此次集采扣除{{lianshu}}包保证金
+            </span>
+          </p>
         </chang-model>
         <bg />
       </template>
@@ -47,7 +52,9 @@ export default {
       id: 0,
       itemData: {},
       input: '',
-      type: 0
+      type: 0,
+      lianshu: '',
+      isShowRules: false
     }
   },
   created() {
@@ -62,7 +69,6 @@ export default {
     changePrice(val, id, type) {
       this.id = id
       this.itemData = this.list.find(item=>item.id==this.id)
-      this.isShowModel = true
       this.placeholder = val
       this.type = type
       this.type==1&&this._getLastTimePrice()
@@ -75,6 +81,12 @@ export default {
       getLastTimePrice(params).then(res=>{
         if(res.data.price) {
           this.input = res.data.price
+          this.lianshu = res.data.lianshu
+          if(this.lianshu > 0) {
+            this.isShowRules = true
+          } else {
+            this.isShowModel = true
+          }
         }
       })
     },
@@ -97,6 +109,7 @@ export default {
         if(res.data.num) {
           this.input = res.data.num
         }
+        this.isShowModel = true
       })
     },
     initData() {
@@ -210,6 +223,11 @@ export default {
     display: flex;
     background: #0090ff;
     align-items: center;
+  }
+  .margin {
+    color: #E6A23C;
+    font-size: .24rem;
+    padding: .2rem 0;
   }
 }
 </style>

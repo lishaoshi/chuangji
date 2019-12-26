@@ -17,7 +17,7 @@
         </div>
         <div class="line"></div>
         <!-- 配送信息 -->
-        <div class="distributionInfo">
+        <div class="distributionInfo" v-if="supplierInfo.type==2">
             <p>配送信息</p>
             <div class="content">
                 <ul>
@@ -84,6 +84,12 @@
 import headTop from '@/components/HeadTop'
 import { queryCompanyDetail } from '@/api/company'
 export default {
+    props:{
+        type: {
+            type: Number,
+            default: 2
+        }
+    },
     data() {
         return {
             list: [

@@ -79,7 +79,6 @@
     import EmptySupplier from '@/components/EmptyList'
     import Notice from '@/components/common/notice';
     import BScroll from 'better-scroll'
-
     export default {
         name: "page-business-home",
         components: {

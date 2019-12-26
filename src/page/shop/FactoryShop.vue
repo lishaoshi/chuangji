@@ -23,11 +23,11 @@
         </div>
         <transition name="fade">
             <div class="company" :class="{activebox2: isFullScreen}">
-                <div class="brand">
-                    <img :src="shopDetailData.logo" alt="">
+                <div class="brand" @click="queryCompanyDetail">
+                    <img :src="shopDetailData.logo || default_company_logo" alt="">
                 </div>
                 <div class="message">
-                    <div class="message_title">
+                    <div class="message_title" @click="queryCompanyDetail">
                         <p>{{ shopDetailData.display_name ||shopDetailData.name || ''}}</p>
                     </div>
                     <div class="other">
@@ -37,7 +37,7 @@
                                     <svg class="icon-location">
                                         <use xlink:href="#icon-map1"/>
                                     </svg>
-                                    <p>{{shopDetailData.address || '中国'}}</p>
+                                    <p>{{shopDetailData.city_name || shopDetailData.province_name || '中国'}}</p>
                                 </div>
                             </li>
                             <li>
@@ -102,6 +102,7 @@
     import {supplierDetails} from "@/api/supplier"
     import {isFollow, deleteFollow, SaveFollow} from "@/api/follow.js"
     import { queryShopCarList, delShopCar, addShopCar, onlyDelShopCar } from '@/api/shopCar'
+    import default_company_logo from "@/images/default_company_logo.png"
     export default {
         name: "FactoryShop",
         components: {
@@ -121,7 +122,8 @@
                 actity_nums:0,
                 popupVisible:false,
                 goodsList: {},
-                searchValue: ''
+                searchValue: '',
+                default_company_logo
             }
         },
         created() {
@@ -167,6 +169,10 @@
             // 点击软键盘搜索按钮
             keyUp() {
                 this.searchFn()
+            },
+            // 前往公司详情
+            queryCompanyDetail() {
+                this.$router.push({path: `/company/companyDetail/${this.factoryId}`})
             },
             searchFn() {
                 this.$refs.searchBox.blur()
