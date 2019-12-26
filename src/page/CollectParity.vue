@@ -10,7 +10,7 @@
       </load-more>
       
       <EmptyList v-else/>
-      <template v-if="isShowModel ||　isShowRules">
+      <template v-if="isShowModel || isShowRules">
         <chang-model :isShowModel.sync="isShowModel" :lianshu="lianshu" :isShowRules.sync="isShowRules" :data="itemData" @confirmPrice="confirmPrice">
           <div class="input" :class="{jcClass:type==2 || lianshu==0}">
             <input type="text" @input="handleInput" :placeholder="placeholder" v-model="input">
@@ -75,18 +75,19 @@ export default {
       this.type==2&&this._getLastTimeNum()
     } ,
     _getLastTimePrice() {
+      debugger
       let params = {
         group_id: this.id
       }
       getLastTimePrice(params).then(res=>{
         if(res.data.price) {
           this.input = res.data.price
-          this.lianshu = res.data.lianshu
-          if(this.lianshu > 0) {
-            this.isShowRules = true
-          } else {
-            this.isShowModel = true
-          }
+        }
+        this.lianshu = res.data.lianshu
+        if(this.lianshu > 0) {
+          this.isShowRules = true
+        } else {
+          this.isShowModel = true
         }
       })
     },
