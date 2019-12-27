@@ -59,10 +59,13 @@
 			<!-- 工业登录提示信息 -->
 			<template v-if="isFactoryLogin">
 				<div class="factoryMessage">
-					<img src="~@/images/factoryMsg.png" alt="">
-					<div class="confirmBtn" @click="changeisFactoryLogin">
-						我知道了
+					<div class="box">
+						<img src="~@/images/factoryMsg.png" alt="">
+						<div class="confirmBtn" @click="changeisFactoryLogin">
+							我知道了
+						</div>
 					</div>
+					
 				</div>
 				<bg />
 			</template>
@@ -290,6 +293,7 @@
 			width: 90%;
 			display: block;
 			margin: 0 auto;
+			
 		}
 		.confirmBtn {
 			color: #fff;
@@ -298,8 +302,19 @@
 			border-radius: .4rem;
 			height: .8rem;
 			line-height: .8rem;
-			margin-top: -1.1rem;
-			padding: 0 1.78rem;
+			// margin-top: -1.1rem;
+			// padding: 0 1.78rem;
+			width: 4.6rem;
+			text-align: center;
+			position: absolute;
+			left: 50%;
+			transform: translate(-50%, 0);
+			bottom: 0.4rem;
+		}
+		.box {
+			height: auto;
+			position: relative;
+			width: 100%;
 		}
 	}
 </style>
