@@ -102,10 +102,6 @@ export default {
         },
         //企业简称
         name() {
-            // if(this.data.name.length>4) {
-            //     return this.data.name.slice(0,4).split(',')
-            // }
-            // return this.data.name.split(',')
             const nameArr = []
             for(let i=0; i < this.data.short_name.length; i++ ) {
                 nameArr.push(this.data.short_name.charAt(i))
