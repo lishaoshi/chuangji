@@ -109,11 +109,8 @@ export default {
             return nameArr
         },
         bgColor() {
-            if(this.index > 10) {
-                const index = this.index % 10
-                return this.colorList[index]
-            }
-            return this.colorList[this.index]
+            const index = this.index % 10
+            return this.colorList[index]
         }
     },
 
@@ -146,7 +143,8 @@ export default {
        color: #666;
     }
     img {
-        border-radius: 50%!important;
+        // border-radius: 50%!important;
+        padding: 0!important;
     }
     .extension-item-img {
         width: .96rem;
