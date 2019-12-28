@@ -22,7 +22,7 @@
         <UnSureNav type="all"></UnSureNav>
         <CircleLoading v-if="loading" />
         <div class="main-body" v-if="entities.length" ref="wrapper" style="padding-bottom: .1rem;">
-            <CustomerCell v-for="(entity, index) in entities" :isShow="true" :key="`en-${index}`" :data="entity"></CustomerCell>
+            <CustomerCell v-for="(entity, index) in entities" :isShow="true" :key="`en-${index}`" :index="index" :data="entity"></CustomerCell>
         </div>
         <!-- <p v-if="allLoaded" class="loader-over">加载完毕</p> -->
         <EmptyList v-else/>
