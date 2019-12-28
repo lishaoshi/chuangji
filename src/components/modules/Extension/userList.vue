@@ -3,7 +3,7 @@
         <div class="userInfo">
             <!-- <img src="../../../images/default_company_logo.png" class="extension-item-img"> -->
             <div v-if="!avatar && !img_cover" class="extension-item-img " :style="{background:bgColor}">
-                <span v-for="(item, index) of name" :key="index">{{item}}</span>
+                <span v-for="(item, index) of name" :key="index" :class="{firstSpan: index==0&&name.length==3}">{{item}}</span>
             </div>
             <img v-else :src="avatar?avatar:img_cover" class="extension-item-img">
             <span>{{display_name}}</span>
@@ -107,8 +107,8 @@ export default {
             // }
             // return this.data.name.split(',')
             const nameArr = []
-            for(let i=0; i < 4; i++ ) {
-                nameArr.push(this.data.name.charAt(i))
+            for(let i=0; i < this.data.short_name.length; i++ ) {
+                nameArr.push(this.data.short_name.charAt(i))
             }
             return nameArr
         },
@@ -166,6 +166,10 @@ export default {
         span {
             width: 50%;
             text-align: center;
+        }
+        .firstSpan {
+            display: block;
+            width: 100%;
         }
     }
 }
