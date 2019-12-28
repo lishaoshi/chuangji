@@ -1,7 +1,10 @@
 <template>
     <div class="userList">
         <div class="userInfo">
-            <img v-if="!avatar && !img_cover" src="../../../images/default_company_logo.png" class="extension-item-img">
+            <!-- <img src="../../../images/default_company_logo.png" class="extension-item-img"> -->
+            <div v-if="!avatar && !img_cover" class="extension-item-img " :style="{background:bgColor}">
+                <span v-for="(item, index) of name" :key="index">{{item}}</span>
+            </div>
             <img v-else :src="avatar?avatar:img_cover" class="extension-item-img">
             <span>{{display_name}}</span>
         </div>
@@ -22,7 +25,27 @@ export default {
         isShow: {
             type: Boolean,
             default: false
+        },
+        index: {
+            type: Number,
+            default: 0
         }
+    },
+    data() {
+        return {
+                colorList: [
+                    '#409eff',
+                    '#67c23a',
+                    '#e6a23c',
+                    '#f56c6c',
+                    '#2bcda2',
+                    '#0bbefd',
+                    '#e45fe4',
+                    '#ea4c89',
+                    '#987aec',
+                    '#18a05e'
+                    ]
+        }  
     },
     filters: {
         handleCity(val) {
@@ -76,6 +99,25 @@ export default {
                     break;
             }
             return text
+        },
+        //企业简称
+        name() {
+            // if(this.data.name.length>4) {
+            //     return this.data.name.slice(0,4).split(',')
+            // }
+            // return this.data.name.split(',')
+            const nameArr = []
+            for(let i=0; i < 4; i++ ) {
+                nameArr.push(this.data.name.charAt(i))
+            }
+            return nameArr
+        },
+        bgColor() {
+            if(this.index > 10) {
+                const index = this.index % 10
+                return this.colorList[index]
+            }
+            return this.colorList[this.index]
         }
     },
 
@@ -108,10 +150,23 @@ export default {
        color: #666;
     }
     img {
+        border-radius: 50%!important;
+    }
+    .extension-item-img {
         width: .96rem;
         height: .96rem;
         margin-right: .24rem;
-        border-radius: 50%;
+        border-radius: 5px;
+        color: #fff;
+        display: flex;
+        flex-wrap: wrap;
+        padding: .1rem;
+        justify-content: center;
+        align-items: center;
+        span {
+            width: 50%;
+            text-align: center;
+        }
     }
 }
 </style>
