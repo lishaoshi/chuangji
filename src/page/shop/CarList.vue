@@ -154,7 +154,10 @@
                             checked:false,
                             items:[].concat([item]),
                             suppliersPrices:　this.suppliersPrices[item.supplier_id],
-                            totalPrice: 0
+                            totalPrice: 0,
+                            type: item.supplier.type,
+                            spec: item.spec,
+                            brand: item.brand || ""
                         }
                     }
                 })

@@ -1,62 +1,66 @@
 <template>
 	<div class="home">
-		<div class="topContent" style="flex: 1;overflow: auto">
-			<div v-bind:class="{ search: isActive, 'bg-blue': hasError ,activeTop: isFullScreen }">
-			<SearchBar ref="searchBox" :searchFn="searchFn" :lianSho='lianSho' v-model="searchValue" @keyup="keyup" @clearText="clearText"></SearchBar>
-			<router-link to="/develop">
-				<div class="approve">
-					<img src="../../images/index/study1@2x.png"/>
+		<div class="load-more-parend">
+			<mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
+				<div class="topContent" style="flex: 1;overflow: auto">
+					<div v-bind:class="{ search: isActive, 'bg-blue': hasError ,activeTop: isFullScreen }">
+					<SearchBar ref="searchBox" :searchFn="searchFn" :lianSho='lianSho' v-model="searchValue" @keyup="keyup" @clearText="clearText"></SearchBar>
+					<router-link to="/develop">
+						<div class="approve">
+							<img src="../../images/index/study1@2x.png"/>
+						</div>
+					</router-link>
 				</div>
-			</router-link>
-		</div>
-		<div class="">
-			<mt-swipe :auto="4000" style="height: 4rem;">
-				<mt-swipe-item :key="key" v-for="(swipe,key) in swipers"><a :href="swipe.link"> <img :src="swipe.img" width="100%"></a>
-				</mt-swipe-item>
-			</mt-swipe>
-		</div>
-		<div class="noticesBox"  v-if="notices!=null">
-                <Notice class="noticesContent" :notices="notices"></Notice>
-		</div>
-		<div class="noticeNomoer" v-else>
-			<svg>
-				<use xlink:href="#icon-notice"/>
-			</svg>
-			<span style="padding-left: 5px">暂时没有消息</span>
-		</div>
-		<div class="add">
-			<a href="javascript:void(0)">
-				<img src="../../images/index/activityA.png">
-			</a>
-			<a href="javascript:void(0)">
-				<img src="../../images/index/activityB.png">
-			</a>
-			<a href="javascript:void(0)">
-				<img src="../../images/index/activityC.png">
-			</a>
-			<a href="javascript:void(0)">
-				<img src="../../images/index/activityD.png">
-			</a>
-		</div>
-		<div class="select-box">
-			<img src="../../images/index/home-leftLine.png">
-			<span> 推荐厂家</span>
-			<img src="../../images/index/home-rightLine.png">
-		</div>
-		<div class="main-body" ref="wrapper" :style="{ height: (wrapperHeight-50) + 'px' }">
-			<!-- <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill"> -->
-				<supplier-item :data="item" v-for="(item,index) in suppliers"/>
-			<!-- </mt-loadmore> -->
-		</div>
-		<p v-if="allLoaded" class="loader-over">加载完成</p>
-<!-- 		
-        <div @click="authToRouter('/factory/cart')">
-            <img src="../../images/index/shop.png" class="shopcar" />
-        </div>
-        -->
-		<router-link to="/factory/cart">
-			<img src="../../images/index/shop.png" class="shopcar newClass"/>
-		</router-link>
+				<div class="">
+					<mt-swipe :auto="4000" style="height: 4rem;">
+						<mt-swipe-item :key="key" v-for="(swipe,key) in swipers"><a :href="swipe.link"> <img :src="swipe.img" width="100%"></a>
+						</mt-swipe-item>
+					</mt-swipe>
+				</div>
+				<div class="noticesBox"  v-if="notices!=null">
+						<Notice class="noticesContent" :notices="notices"></Notice>
+				</div>
+				<div class="noticeNomoer" v-else>
+					<svg>
+						<use xlink:href="#icon-notice"/>
+					</svg>
+					<span style="padding-left: 5px">暂时没有消息</span>
+				</div>
+				<div class="add">
+					<a href="javascript:void(0)">
+						<img src="../../images/index/activityA.png">
+					</a>
+					<a href="javascript:void(0)">
+						<img src="../../images/index/activityB.png">
+					</a>
+					<a href="javascript:void(0)">
+						<img src="../../images/index/activityC.png">
+					</a>
+					<a href="javascript:void(0)">
+						<img src="../../images/index/activityD.png">
+					</a>
+				</div>
+				<div class="select-box">
+					<img src="../../images/index/home-leftLine.png">
+					<span> 推荐厂家</span>
+					<img src="../../images/index/home-rightLine.png">
+				</div>
+				<div class="main-body" ref="wrapper" :style="{ height: (wrapperHeight-50) + 'px' }">
+					<!-- <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill"> -->
+						<supplier-item :data="item" v-for="(item,index) in suppliers"/>
+					<!-- </mt-loadmore> -->
+				</div>
+				<p v-if="allLoaded" class="loader-over">没有更多了</p>
+		<!-- 		
+				<div @click="authToRouter('/factory/cart')">
+					<img src="../../images/index/shop.png" class="shopcar" />
+				</div>
+				-->
+				<router-link to="/factory/cart">
+					<img src="../../images/index/shop.png" class="shopcar newClass"/>
+				</router-link>
+			</div>
+			</mt-loadmore>
 		</div>
 		<div class="footer">
 			<clxsd-foot-guide :user-type="3"/>
@@ -91,7 +95,7 @@
 				page: 1,
 				isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
 				notices: [],
-				allLoaded: false, //是否自动触发上拉函数
+				allLoaded: false, //是否已经加载完毕
 				isAutoFill: false,
 				wrapperHeight: 0,
 				courrentPage: 1,
@@ -219,6 +223,7 @@
 		/* 加上这个才会有当数据充满整个屏幕，可以进行上拉加载更多的操作 */
 		// overflow: scroll;
 	}
+
 	 .home {
         height: 100%;
         overflow: auto;
@@ -227,6 +232,13 @@
 		// position: relative;
 		.footer {
 			height: 1rem;
+		}
+		.load-more-parend{
+			flex: 1;
+			overflow: auto;
+		}
+		.loader-over {
+			color: #999;
 		}
     }
 	.noticesBox {

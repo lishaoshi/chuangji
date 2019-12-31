@@ -292,7 +292,7 @@ export default [
         path: "/factory-order",
         component: FactoryOrder,
         meta: {
-            title: "订单",
+            title: "工业订单",
             requiresAuth: true
         }
     },

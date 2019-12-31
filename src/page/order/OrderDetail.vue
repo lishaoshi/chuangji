@@ -1,7 +1,7 @@
 <template>
 	<div id="OrderDetail">
 		<clxsd-head-top :title='`订单详情`'></clxsd-head-top>
-        <div v-if="userType==3" class="company-detail" @click="handleToShop">
+        <div class="company-detail" @click="handleToShop">
             <!-- <router-link :to="`/factory/shop/${data.supplier_id}`"> -->
 			<div>
 				<img :src="supplier_logo">
@@ -138,7 +138,7 @@
 		<div class="foot-fade"></div>
 
 		<!-- 终端底部按钮内容 -->
-		<div class="footer-box" v-if="userType==3">
+		<div class="footer-box">
 
 			<div>
 				<div class="btn" v-if="data.order_status=== 3 " @click="confirmGoods">确认收货</div>
@@ -171,6 +171,7 @@
 <script>
 	import Spread from "../Spread";
 	import {sureSendBusinessOrder, sureBusinessOrder, againOrder, deleteBusinessOrder} from "@/api/businessOrder.js"
+	import { factoryOrderDetail, againFactoryOrder } from "@/api/factoryOrder"
 	import { orderPay } from "@/api/businessOrder"
 	import { mapState } from 'vuex'
     export default {
@@ -197,7 +198,8 @@
 				nums: 0,
 				pay_status:0,
 				shopId:0,
-				client_supplier: ''
+				client_supplier: '',
+				isFactory: false
 				
 			}
 		},
@@ -232,9 +234,10 @@
 			},
 			telephone() {
 				return this.isObject(this.data.invoice)&&this.data.invoice.telephone
-			}
+			},
 		},
 		created() {
+			this.isFactory = this.$route.query.isFactory
 			this.orderId = this.$route.params.id;
 			this._initData();
 		},
@@ -246,10 +249,18 @@
 		},
 		methods: {
 			async _initData() {
-				const {
-					data
-				} = await this.$http.get(`hippo-shop/business/orders/${this.orderId}`)
-				this.data = this._handleData(data.data.order)
+				if(this.isFactory=="false") {
+					const {
+						data
+					} = await this.$http.get(`hippo-shop/business/orders/${this.orderId}`)
+					this.data = this._handleData(data.data.order)
+				} else {
+					factoryOrderDetail(this.orderId).then(res=>{
+						this.data = this._handleData(res.data.data)
+					})
+				}
+				
+				
 			},
 			goComfirm() {
 				 this.$messagebox.confirm('',{
@@ -288,7 +299,7 @@
 				})
 				this.supplier_name = data.supplier.name
 				this.client_supplier = data.client_supplier.name
-                this.supplier_logo = data.supplier.img_cover
+				this.supplier_logo = data.supplier.img_cover
                 return data
 			},
 			sureOrder: function() {
@@ -299,9 +310,15 @@
 			},
 			  // 再来一单
             async handleContinuTo(data) {
-                await againOrder(data.id).catch(err=>{
-                    this.$toast('商品已经下架')
-                })
+				if(!this.isFactory) {
+					await againOrder(data.id).catch(err=>{
+                    	this.$toast('商品已经下架')
+					})
+				} else {
+					await againFactoryOrder(data.id).catch(err=>{
+                    	this.$toast('商品已经下架')
+					})
+				}
                 this.$router.push('/factory/cart')
 			},
 			// 删除订单

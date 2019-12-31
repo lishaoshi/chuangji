@@ -53,6 +53,8 @@
                             </div>
                             <div class="cart-info-text">
                                 <h4>{{entity.generic_name}}</h4>
+                                <p>{{shop.type==1?shop.display_name:entity.brand.name}}</p>
+                                <p>{{entity.spec}}</p>
                                 <div class="shop-price">
                                     <div class="shop-pices">
                                         ￥<span class="price">{{entity.price | display_price}}<i>/{{entity.unit || '件'}}</i></span>
@@ -79,7 +81,7 @@
                             </router-link>
                         </li>
 
-                        <li>
+                        <li v-if="shop.type!==1">
                             <span>配送费</span>
                             
                             <span><i v-if="shop.shipping_fee.indexOf('.')!=-1">￥</i>{{shop.shipping_fee}}</span>
@@ -266,15 +268,20 @@
                             }
                         })
                     })
-                    shop.shipping_fee = cprice < shop.business_config.starting_price?shop.business_config.shipping_fee:'免配送费'
-                    shop.cnum = cnum
+                     shop.cnum = cnum
                     shop.cprice = cprice
-                    if(shop.shipping_fee.indexOf('.')!=-1) {
-                        shop.real_price = cprice +(+shop.shipping_fee)
+                    if(shop.type!==1) {
+                        shop.shipping_fee = cprice < shop.business_config.starting_price?shop.business_config.shipping_fee:'免配送费'
+                        if(shop.shipping_fee.indexOf('.')!=-1) {
+                            shop.real_price = cprice +(+shop.shipping_fee)
+                        } else {
+                            shop.real_price = cprice
+                        }
                     } else {
                         shop.real_price = cprice
                     }
-                    
+                   
+                   
                 })
                 this.shopData = data
                
@@ -470,7 +477,7 @@
         margin-top: .2rem;
         background: #fff;
         padding: .2rem;
-
+        padding-bottom: 0;
         .shop-name {
             display: flex;
             font-size: 12px;
@@ -507,10 +514,10 @@
             // border: 1px solid #f1f1f1;
             border-radius: 2px;
             padding: .02rem;
-
+            margin-right: .2rem;
             img {
-                width: 1.2rem;
-                height: 1.2rem;
+                width: 1.8rem;
+                height: 1.8rem;
             }
         }
 
@@ -529,7 +536,7 @@
             .shop-price {
                 display: flex;
                 justify-content: space-between;
-                margin-top: .3rem;
+                margin-top: .1rem;
 
                 .shop-pices {
                     font-size: .26rem;
@@ -539,6 +546,14 @@
                     letter-spacing: 1px;
                 }
             }
+           p {
+				font-size: .22rem;
+				color: #999;
+				line-height: .4rem;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
         }
     }
 
@@ -575,6 +590,8 @@
             }
         }
         .realPrice {
+            height: 1rem;
+            line-height: 1rem;
             i {
                 color: #FF3B30;
             }

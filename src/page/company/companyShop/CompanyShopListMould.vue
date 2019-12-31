@@ -4,17 +4,10 @@
 			<!-- <ClxsdLoadMore key="orders-list" ref="loadmore" @onRefresh="onOrdersRefresh" @onLoadMore="onOrdersLoadMore"> -->
 				<div class="list" v-for="(item,index) in items">
 					<router-link :to="`/business/shop/${businessId}/${item.id}?num=${item.num}`">
-						<!-- <div class="list-img">
-							<img :src="item.cover" />
-						</div> -->
-
 						<!-- 使用懒加载 -->
-						
 						<div class="list-img">
 							<img v-lazyload="`${item.cover}`" />
 						</div>
-						
-						
 						<div class="list-title">{{item.generic_name}}</div>
 					</router-link>
 					<p class="p1">{{item.brandName}}</p>
@@ -28,7 +21,8 @@
 							<p class="font">
 								<i>￥</i>
 								<i>{{item.price}}</i>
-								<span v-if="parseInt(item.market_price)!=0">{{item.market_price}}</span></p>
+								<span v-if="parseInt(item.market_price)!=0">{{item.market_price}}</span>
+							</p>
 						</div>
 						<!-- 商品右下角购物车 -->
 						<div class="carImg">
@@ -146,7 +140,7 @@
 					return false
 				}
 				// 如果event.target.value是空，则不改变数值
-				if(!event.target.value ||　(event.target.value === item.num)) {
+				if(!event.target.value ||　(event.target.value == item.num)) {
 					this.$emit('handleBlur',false, index)
 					return false
 				}

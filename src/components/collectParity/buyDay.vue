@@ -5,7 +5,7 @@
                 <use xlink:href="#icon-collect-countdown"/>
             </svg>    
             <span class="title">
-                限时集采
+                {{title || "限时集采"}}
             </span>
         </section>
         
@@ -35,6 +35,12 @@ export default {
             seconds: 0,
             t1: 0, //两个时间差（毫秒数）
             timing: null
+        }
+    },
+    props: {
+        title: {
+            type: String,
+            default: ""
         }
     },
     filters: {
@@ -114,6 +120,7 @@ export default {
     border-radius:10px;
     padding: 0 .2rem;
     justify-content: space-between;
+    // width: 100%;
     section {
         display: flex;
         align-items: center;

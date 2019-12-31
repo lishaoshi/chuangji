@@ -31,6 +31,7 @@ export　function addShopCar(params) {
         // debugger
         let message = err.response.data.message
         Toast(message)
+        return err
     })
 }
 

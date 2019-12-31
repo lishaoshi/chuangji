@@ -1,5 +1,5 @@
 <template>
-	<li>
+	<li class="li=item">
 		<div class="cart-item">
 			<svg class="check goods-check shopCheck" @click="productCheckchange(sid,pid)">
 				<use :xlink:href="`#icon-IsCheckedShop-${data.checked ? 'open' : 'close' }`" />
@@ -9,6 +9,8 @@
 			</div>
 			<div class="cart-info-text">
 				<h4>{{ data.generic_name}}</h4>
+				<p>{{ data.brand&&data.brand.name ||　data.supplier.display_name}}</p>
+				<p>{{data.spec}}</p>
 				<div class="shop-price">
 					<div class="shop-pices">
 						￥<span class="price">{{data.sale_price | display_price}}<i>/{{data.show_unit || '件'}}</i></span>
@@ -65,16 +67,19 @@ import bus from '@/bus'
 		justify-content: space-between;
 		align-items:center;
 		height: 1.8rem;
+		margin: .2rem 0;
 		.check {
 			width:.35rem;
 			height: .35rem;
+			flex: 0 0 auto;
 		}
 		&-img {
-            width: 1.3rem;
-            height: 1.3rem;
+            width: 1.8rem;
+            height: 1.8rem;
+			margin: 0 .16rem;
 			img {
-				width: 1.3rem;
-				height: 1.3rem;
+				width: 1.8rem;
+				height: 1.8rem;
                 border-radius: 2px;
 			}
 		}
@@ -92,13 +97,24 @@ import bus from '@/bus'
 				color: #FA5452;
 				margin-top: .2rem;
 				font-size: .26rem;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+			p {
+				font-size: .22rem;
+				color: #999;
+				line-height: .4rem;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
 			}
 		}
 	}
 	
 	.shop-price {
 		display: flex;
-		margin-top: .2rem;
+		margin-top: .1rem;
 		justify-content: space-between;
 		.shop-pices {
 			color: #FA5452;

@@ -1,5 +1,5 @@
 <template>
-    <div id="CompanyList">
+    <div id="CompanyList" class="mainbox">
         <div class="top-box" >
             <img class="retreat" src="../../images/back.png" @click="goBack">
             <div class="inpSearch" v-bind:class="{ 'bg-from': hasError }">
@@ -73,7 +73,57 @@
                 </div>
             </div>
         </transition>
-        <good-list :factory-id="factoryId" ref="list" :USER_TYPE = "USER_TYPE"/>
+        <div class="main-box">
+            <mt-swipe :auto="4000" class="swiper">
+                <mt-swipe-item :key="key" v-for="(swipe,key) in swipers"><a :href="swipe.link"> <img :src="swipe.img" width="100%" height="100%"></a>
+                </mt-swipe-item>
+            </mt-swipe>
+            <div style="background: #fff;">
+                <!-- <Notice :notices="notices" v-if="notices.length" style="background: #f4f5f5;border-radius: 2px;"></Notice> -->
+                <div class="left">
+                    <Notice :notices="notices" v-if="notices.length"/> 
+                    <div class="notice" v-else>
+                        <svg>
+                            <use xlink:href="#icon-notice"/>
+                        </svg>
+                        <span> &nbsp;没有消息</span>
+                    </div>
+                </div>
+            </div>
+            <div class="nav">
+                <div>
+                    <router-link to="/develop">
+                        <svg><use xlink:href="#icon-quanqiucang-active" /></svg>
+                        <p>工厂活动</p>
+                    </router-link>
+                </div>
+                <div>
+                    <router-link to="/develop">
+                        <svg><use xlink:href="#icon-quanqiucang-active2" /></svg>
+                        <p>快速补货</p>
+                    </router-link>
+                </div>
+                <div>
+                    <router-link to="/customization">
+                        <svg><use xlink:href="#icon-quanqiucang-active1" /></svg>
+                        <p>定制生产</p>
+                    </router-link>
+                </div>
+                <!-- <div>
+                    <router-link :to="`/company-product-list?shopId=${shopId}`">
+                        <svg><use xlink:href="#icon-quanqiucang-active3" /></svg>
+                        <p>产品分类</p>
+                    </router-link>
+                </div> -->
+            </div>
+            <!-- <p >药品推荐</p> -->
+            <div class="title">
+                <img src="../../images/index/home-leftLine.png">
+                <span> 工业商品</span>
+                <img src="../../images/index/home-rightLine.png">
+            </div>
+            <good-list :factory-id="factoryId" :searchValue="searchValue" ref="list" :USER_TYPE = "USER_TYPE"/>
+        </div>
         <!-- <transition name="fade"> -->
             <mt-popup v-model="popupVisible" position="bottom" style="width: 100%;height: 5.6rem;transition:1s">
                 <p class="pop-title">更多活动券<svg @click="popupVisible=false"><use xlink:href="#icon-promote-my-close"></use> </svg></p>
@@ -98,15 +148,18 @@
 
 <script>
     import GoodList from "@/page/shop/shopList.vue";
-    import {mapState} from 'vuex'
-    import {supplierDetails} from "@/api/supplier"
-    import {isFollow, deleteFollow, SaveFollow} from "@/api/follow.js"
-    import { queryShopCarList, delShopCar, addShopCar, onlyDelShopCar } from '@/api/shopCar'
-    import default_company_logo from "@/images/default_company_logo.png"
+    import {mapState} from 'vuex';
+    import {supplierDetails} from "@/api/supplier";
+    import {isFollow, deleteFollow, SaveFollow} from "@/api/follow.js";
+    import { queryShopCarList, delShopCar, addShopCar, onlyDelShopCar } from '@/api/shopCar';
+    import default_company_logo from "@/images/default_company_logo.png";
+    import {adList, infoList} from "@/api/ad";
+    import Notice from '@/components/common/notice2';
     export default {
         name: "FactoryShop",
         components: {
-            GoodList
+            GoodList,
+            Notice
         },
         data() {
             return {
@@ -123,12 +176,14 @@
                 popupVisible:false,
                 goodsList: {},
                 searchValue: '',
-                default_company_logo
+                default_company_logo,
+                swipers: [],
+                notices: []
             }
         },
         created() {
             this.factoryId = parseInt(this.$route.params.id);
-            this._queryShopCarList()
+            // this._queryShopCarList()
         },
         computed: {
             ...mapState({
@@ -137,7 +192,7 @@
         },
         mounted() {
             // debugger
-            window.addEventListener('scroll', this.handleScroll, true)
+            // window.addEventListener('scroll', this.handleScroll, true)
             this.initData()
         },
         methods: {
@@ -165,6 +220,9 @@
                 }).catch(error => {
                     // console.log(error)
                 })
+                adList({channel: 'app', space: 'global-top'}).then( data => {
+					this.swipers = data.data.data
+				})
             },
             // 点击软键盘搜索按钮
             keyUp() {
@@ -232,6 +290,10 @@
     #CompanyList {
 
     }
+    .left {
+		padding: .2rem; 
+		background: #fff;
+	}
     .pop-title {
         text-align: center;
         font-size: .36rem;
@@ -247,6 +309,14 @@
             top:.35rem
         }
     }
+    .swiper {
+		padding: .15rem;
+		background: #fff;
+		height: 2.6rem;
+		padding-bottom: 0px;
+        border-radius: 5px;
+        // margin-top: -10px;
+	}
     .inpSearch {
         z-index: 10;
         width: 5.17rem;
@@ -348,7 +418,9 @@
         height: 10.5vh;
         text-align: center;
     }
-
+    .main-box {
+        margin-top: -10px;
+    }
     .company .brand img {
         width: 1.3rem;
         height: 1.3rem;
@@ -473,5 +545,81 @@
     }
     .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
         // opacity: 0;
+    }
+    .notice {
+			// margin: .2rem;
+        background: #f1f4f5;
+        height: .64rem;
+        line-height: .64rem;
+        display: flex;
+        padding: 0 .24rem;
+        align-items: center;
+		div {
+			background: #F9F9F9;
+			width: 100%;
+			height: .64rem;
+			line-height: .64rem;
+			display: flex;
+			border-radius: 4px;
+			align-items: center;
+			svg {
+				margin-left: .24rem;
+			}
+			
+		}
+      
+
+        .notice-list {
+            width: 6.2rem;
+            height: .88rem;
+            overflow-y: hidden;
+            margin-left: .1rem;
+
+            a {
+                display: block;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-size: .24rem;
+                line-height: .64rem;
+                color: #333;
+            }
+        }
+
+        svg {
+            width: .38rem;
+            height: .38rem;
+        }
+    }
+    .nav {
+		text-align: center;
+		background: #fff;
+		display: flex;
+		border-radius: 7px;
+		padding: .35rem .5rem;
+		padding-bottom: .2rem;
+		justify-content: space-around;
+		>div{
+			svg {
+				width: 1rem;
+				height: 1rem;
+			}
+			p {
+				color: #666666;
+				line-height: 200%;
+				
+			}
+		}
+	}
+    .title {
+		line-height: .88rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+		border-bottom: 1px solid #f1f1f1;
+        color: #666;
+        span {
+            padding: 0 .2rem;
+        }
     }
 </style>

@@ -62,6 +62,7 @@
 	import EmptyOrder from '@/components/EmptyList'
 	import { mapState } from "vuex";
     import { getBusinessOrderList,deleteBusinessOrder,sureBusinessOrder } from "@/api/businessOrder.js"
+    import { getFactoryOrderList } from "@/api/factoryOrder"
     import BScroll from 'better-scroll'
 
     export default {
@@ -74,6 +75,10 @@
             searchValue: {
                 type: String,
                 default: ''
+            },
+            selec: {
+                type: Number,
+                default: 2
             }
         },
         data() {
@@ -99,6 +104,15 @@
         created() {
             this.getOrderList()
             // this.testInt()
+        },
+        watch: {
+            selec(newValue) {
+                this.orderList = []
+                this.selected = '1'
+                this.page=1
+                this.getOrderList()
+                console.log(newValue, 123)
+            }
         },
         methods: {
             handleClick(id) {
@@ -175,7 +189,7 @@
                 });
             },
 
-            // 获取订单数据
+            // 获取商业订单数据
             getOrderList(top, bottom) {
                 let params = {
                     page : this.page,
@@ -184,7 +198,7 @@
                     search: this.searchValue
                 }
                 this.loading  = true;
-                getBusinessOrderList(params).then(res=> {
+                this.selec==2&&getBusinessOrderList(params).then(res=> {
                     this.loading = false
                     let {orderList} = res.data.data;
                     let orders = Object.assign([],orderList);
@@ -204,7 +218,39 @@
                 }).catch(error => {
                     this.loading  = false;
                 });
+                this.selec==1&&getFactoryOrderList(params).then(res=>{
+                    this.loading = false
+                    let orderList = res.data.data;
+                    console.log(orderList)
+                    let orders = Object.assign([],orderList);
+                    this.handleOrderItems(orders)
+
+                    this.flag = this.state
+                    if(this.page>1) {
+                        this.orderList = [...this.orderList, ...orders]
+                        this.$refs.loadmore.onBottomLoaded()
+                    } else {
+                        this.orderList = orders
+                    }
+                    if(orders.length==0) {
+                        this.allLoaded = true
+                    }
+                    this.page++
+                }).catch(err=>{
+                    this.loading  = false;
+                })
             },
+            /**
+             * 获取工业订单列表
+             */
+            // _getFactoryOrderList () {
+            //     let params = {
+            //         page : this.page,
+            //         limit: this.limit,
+            //         status: this.state,
+            //         search: this.searchValue
+            //     }
+            // }
         },
     }
 </script>

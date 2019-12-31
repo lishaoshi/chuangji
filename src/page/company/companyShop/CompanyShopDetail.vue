@@ -232,7 +232,6 @@
                     num: num
                 }
                 addShopCar(params)
-                
             },
              // 限制input只可以输入五位数
 			handleInput(event) {

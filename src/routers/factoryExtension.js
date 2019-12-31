@@ -2,6 +2,7 @@ const ActivityBlock = () => import(/* webpackChunkName: "factoryExtension" */ '@
 const ActivitySpread = () => import(/* webpackChunkName: "factoryExtension" */ '@/page/FactoryExtension/ActivitySpread.vue');
 const changeHistory = () => import('@/page/CollectParity/changePriceHistory')
 const buyRecoed = () => import('@/page/CollectParity/buyRecoed')
+const Customization = () => import("@/page/Factory/customization")
 
 export default [
 	{
@@ -33,6 +34,14 @@ export default [
 		component: buyRecoed,
 		meta: {
 			title: "集采记录",
+			requiresAuth: true
+		}
+	},
+	{
+		path: "/customization",
+		component: Customization,
+		meta: {
+			title: "定制生产",
 			requiresAuth: true
 		}
 	},

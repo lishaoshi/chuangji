@@ -74,7 +74,7 @@
 
 <style lang="scss" scoped>
     .fade {
-        height: 2rem;
+        height: 1rem;
     }
 
     .mini-shop-cart {

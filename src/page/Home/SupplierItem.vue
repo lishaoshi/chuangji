@@ -2,15 +2,10 @@
     <div class="company" v-if="data!=null">
         <div class="brand">
             <router-link :to="`/factory/shop/${data.id}`">
+            <div class="factoryInfo">
                 <img :src="data.img_cover || default_company_logo" alt="">
-            </router-link>
-        </div>
-        <div class="message">
-            <router-link :to="`/factory/shop/${data.id}`">
-                <div class="message_title">
-                    <p>{{data.display_name || data.name }}</p>
-                </div>
-                <div class="other">
+                <div>
+                     <p>{{data.display_name || data.name }}</p>
                     <ul>
                         <li v-show="data.address != null">
                             <div>
@@ -28,36 +23,9 @@
                         </li>
                     </ul>
                 </div>
+            </div>
+               
             </router-link>
-            <div class="discounts" v-if="data.actives.length > 0">
-                <div class="same_module">
-                    <div class="title up" @click="slide($event)" style="display: flex">
-                        <div class="activity-box" v-for="(item,index) in data.actives"  v-if="index < 1" style="width: 60%">
-                            <span>{{item.label}}</span>
-                            <p>{{item.title}}</p>
-                        </div>
-                        <div class="fade-box">
-                            <span>{{data.actives.length}}个活动</span>
-                            <svg class="icon" :class="{icon_active:is_active}">
-                                <use xlink:href="#icon-actity-down"></use>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="detail" style="height:0">
-                        <div class="inner">
-                            <div class="activity-box" v-for="(item,index) in data.actives"  v-if="index >= 1">
-                                <span>{{item.label}}</span>
-                                <p>{{item.title}}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div v-else class="discounts">
-                    <div class="activity-box"><span>无</span>
-                        <p style="width: 3.7rem">店家没有推出活动，敬请期待</p>
-                    </div>
-            </div>
         </div>
     </div>
 </template>
@@ -107,69 +75,110 @@ import default_company_logo from "@/images/default_company_logo.png"
         width: 100%;
         border-bottom: 1px solid rgb(230, 230, 230);
         background: #fff;
-        display: flex;
+        // display: flex;
         padding: 10px;
 
         .brand {
-            width: 2rem;
-            height: 2rem;
+            height: 1.2rem;
             text-align: center;
-            line-height: 2rem;
             border-radius: 3px;
-            margin: 0.32rem 0.2rem;
-
+            margin-top: .3rem;
+            .factoryInfo {
+                display: flex;
+                height: 100%;
+                align-items: center;
+                & > div {
+                    display: inline-flex;
+                    flex-direction: column;
+                    justify-content: flex-start;
+                    align-items: flex-start;
+                    height: 100%;
+                    flex: 1;
+                    & > p {
+                        color: #060B0F;
+                        font-size: .34rem;
+                        font-weight: bold;
+                    }
+                }
+                ul {
+                    display: flex;
+                    border-bottom: 1px dashed rgb(230, 230, 230);
+                    padding: 0.22rem 0;
+                    li {
+                        font-size: 0.22rem;
+                        color: rgb(45, 162, 255);
+                        border: 1px solid rgb(45, 162, 255);
+                        margin-right: 0.2rem;
+                        border-radius: 2px;
+                        line-height: 1.7;
+                        div {
+                            p {
+                                padding: 0 .05rem;
+                            }
+                        }
+                        &:first-child {
+                            div {
+                                display: flex;
+                                align-items: center;
+                            }
+                            svg {
+                                width: .28rem;
+                                height: .28rem;
+                            }
+                        }
+                    }
+                }
+            }
             img {
-                width: 1.6rem;
-                height: 1.75rem;
-                display: inline-block;
-                vertical-align: middle;
+                width: 1.2rem;
+                height: 1.2rem;
+                margin-right: .28rem;
             }
         }
 
-        .message {
-            margin-top: 0.44rem;
-            box-sizing: border-box;
-            padding-bottom: 0.3rem;
-            width: 4.48rem;
+        // .message {
+        //     margin-top: 0.44rem;
+        //     box-sizing: border-box;
+        //     padding-bottom: 0.3rem;
+        //     width: 4.48rem;
 
-            .message_title {
-                font-size: 0.34rem;
-                color: rgb(6, 11, 15);
-                white-space: nowrap;
-                text-overflow: ellipsis;
-            }
-        }
+        //     .message_title {
+        //         font-size: 0.34rem;
+        //         color: rgb(6, 11, 15);
+        //         white-space: nowrap;
+        //         text-overflow: ellipsis;
+        //     }
+        // }
     }
 
-    .company .message .other ul {
-        display: flex;
-        border-bottom: 1px dashed rgb(230, 230, 230);
-        padding: 0.22rem 0;
-    }
+    // .company .message .other ul {
+    //     display: flex;
+    //     border-bottom: 1px dashed rgb(230, 230, 230);
+    //     padding: 0.22rem 0;
+    // }
 
-    .company .message .other ul li {
-        font-size: 0.22rem;
-        color: rgb(45, 162, 255);
-        border: 1px solid rgb(45, 162, 255);
-        margin-right: 0.2rem;
-        border-radius: 2px;
-        line-height: 1.7;
-    }
+    // .company .message .other ul li {
+    //     font-size: 0.22rem;
+    //     color: rgb(45, 162, 255);
+    //     border: 1px solid rgb(45, 162, 255);
+    //     margin-right: 0.2rem;
+    //     border-radius: 2px;
+    //     line-height: 1.7;
+    // }
 
-    .company .message .other ul li div,
-    p {
-        padding: 0 .05rem;
-    }
+    // .company .message .other ul li div,
+    // p {
+    //     padding: 0 .05rem;
+    // }
 
-    .company .message .other ul li:nth-child(1) div {
-        display: flex;
-        align-items: center;
-    }
+    // .company .message .other ul li:nth-child(1) div {
+        
+    // }
 
-    .company .message .other ul li:nth-child(1) div svg {
-        width: .28rem;
-        height: .28rem;
-    }
+    // .company .message .other ul li:nth-child(1) div svg {
+    //     width: .28rem;
+    //     height: .28rem;
+    // }
 
     .company .message .discounts {
         margin-top: 0.16rem;

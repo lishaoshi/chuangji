@@ -2,29 +2,30 @@
     <div class="home" ref="home">
         <!-- <scroll> -->
         <div class="content">
-            <div v-bind:class="{ search: isActive, 'bg-blue': hasError  }">
-                <SearchBar ref="searchBox" :business='business' v-model="searchValue" :searchFn="searchFn" @input="input" @keyup="keyup" @clearText='clearText'></SearchBar>
-                <div class="approve">
-                    <img src="../../images/index/study1@2x.png"/>
+            <mt-loadmore :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
+                <div v-bind:class="{ search: isActive, 'bg-blue': hasError  }">
+                    <SearchBar ref="searchBox" :business='business' v-model="searchValue" :searchFn="searchFn" @input="input" @keyup="keyup" @clearText='clearText'></SearchBar>
+                    <div class="approve">
+                        <img src="../../images/index/study1@2x.png"/>
+                    </div>
                 </div>
-            </div>
-            <div class="">
-                <mt-swipe :auto="4000" style="height: 4rem;">
-                    <mt-swipe-item :key="key" v-for="(swipe,key) in swipers"><a :href="swipe.link"> <img :src="swipe.img" width="100%"></a>
-                    </mt-swipe-item>
-                </mt-swipe>
-            </div>
-            <div class="noticesBox"  v-if="notices!=null">
-                <Notice :notices="notices"></Notice>
-            </div>
-            
-            <div class="noticeNomoer" v-else>
-                <svg>
-                    <use xlink:href="#icon-notice"/>
-                </svg>
-                <span style="padding-left: 5px">暂时没有消息</span>
-            </div>
-            <div class="add">
+                <div class="">
+                    <mt-swipe :auto="4000" style="height: 4rem;">
+                        <mt-swipe-item :key="key" v-for="(swipe,key) in swipers"><a :href="swipe.link"> <img :src="swipe.img" width="100%"></a>
+                        </mt-swipe-item>
+                    </mt-swipe>
+                </div>
+                <div class="noticesBox"  v-if="notices!=null">
+                    <Notice :notices="notices"></Notice>
+                </div>
+                
+                <div class="noticeNomoer" v-else>
+                    <svg>
+                        <use xlink:href="#icon-notice"/>
+                    </svg>
+                    <span style="padding-left: 5px">暂时没有消息</span>
+                </div>
+            <!-- <div class="add">
                 <a href="javascript:void(0)">
                     <img src="../../images/index/activityA.png">
                 </a>
@@ -42,27 +43,27 @@
                 <img src="../../images/index/home-leftLine.png">
                 <span>推荐厂家</span>
                 <img src="../../images/index/home-rightLine.png">
-            </div>
+            </div> -->
             <div class="main-body">
                 <!--  :style="{ height: (wrapperHeight-50) + 'px' }" :bottom-method="loadBottom" -->
-                <mt-loadmore :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
-                    <supplier-item :data="item" v-for="(item,index) in suppliers"/>
-                </mt-loadmore>
+                <choost-type />
+                <supplier-item :data="item" v-for="(item,index) in suppliers" :key="index"/>
             </div>
             <p v-if="allLoaded" class="loader-over">加载完毕</p>
+            </mt-loadmore>
             <!--
             <div @click="authToRouter('/factory/cart')">
                 <img src="../../images/index/shop.png" class="shopcar" />
             </div>
             -->
             <div>
-                <img @click="goShopCart" v-if="USERTYPE!=2" src="../../images/index/shop.png" class="shopcar newClass"/>
+                <img @click="goShopCart" src="../../images/index/shop.png" class="shopcar newClass"/>
                  <!-- <svg v-if="USERTYPE==2" class="m-style-svg m-svg-def">
                     <use xlink:href="#icon-promote-promoter"/>
                 </svg> -->
-                <svg v-else class="icon shopcar newClass" aria-hidden="true"> 
+                <!-- <svg v-else class="icon shopcar newClass" aria-hidden="true"> 
                     <use xlink:href="#icon-shop-car-0"></use> 
-                </svg>
+                </svg> -->
             </div>
         </div>
         <!-- </scroll> -->
@@ -79,13 +80,15 @@
     import EmptySupplier from '@/components/EmptyList'
     import Notice from '@/components/common/notice';
     import BScroll from 'better-scroll'
+    import choostType from "./UnSureExtension/factoryChooseType"
     export default {
         name: "page-business-home",
         components: {
             SupplierItem,
             SearchBar,
             EmptySupplier,
-            Notice
+            Notice,
+            choostType
         },
         data() {
             return {
@@ -104,7 +107,9 @@
                 limit: 20,
                 searchValue: '',
                 isFirst: true,
-                business:true
+                business:true,
+                currentChooseType: 0,
+                
             }
         },
         // mounted() {
@@ -243,6 +248,7 @@
     .main-body {
         /* 加上这个才会有当数据充满整个屏幕，可以进行上拉加载更多的操作 */
         overflow: scroll;
+        margin-top: .3rem;
     }
     .content {
         height: 100vh;
@@ -426,6 +432,7 @@
             // padding-top: 35px;
         }
     }
+    
 </style>
 
 <style lang="scss">

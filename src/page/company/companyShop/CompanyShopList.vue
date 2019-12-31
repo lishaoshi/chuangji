@@ -22,14 +22,6 @@
 								</svg>
 								<span> &nbsp;没有消息</span>
 							</div>
-						<!-- <div class="notice" v-else>
-							<div>
-								<svg>
-									<use xlink:href="#icon-notice"/>
-								</svg>
-								<span style="padding-left: 5px">暂时没有消息</span>
-							</div> -->
-						
 						</div>
 					</div>
 					<div class="nav">

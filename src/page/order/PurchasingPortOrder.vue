@@ -24,15 +24,15 @@
                     <p @click="shutDown" v-if="is_search == true">取消</p>
                 </div>
             </div>
-            <businessPage ref="list" :searchValue="searchValue" v-if="selected === 2"/>
+            <businessPage ref="list" :searchValue="searchValue" :selec="selected"/>
             <!--订量生产结束-->
             <clxsd-foot-guide :user-type="USER_TYPE"  v-if="selected === 1"/>
-            <div class="detail"  v-if="selected==1">
+            <!-- <div class="detail"  v-if="selected==1">
                 <img src="../../images/developing.png" width="50%">
                 <p>
                     <span>功能开发中, 敬请期待...</span>
                 </p>
-            </div>
+            </div> -->
          <clxsd-foot-guide :user-type="USER_TYPE" />
         </div>
     
@@ -62,6 +62,15 @@
             ...mapState({
                 USER_TYPE: state => state.CURRENTUSER.data.user_type,
             })
+        },
+        watch: {
+            selected(newValue) {
+                /**
+                 * 1:工业订单,
+                 * 2:商业订单
+                 */
+                // console.log(newValue)
+            }
         },
         methods: {
             handleSearch() {

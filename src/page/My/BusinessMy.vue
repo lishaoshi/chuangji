@@ -38,7 +38,7 @@
 				<div class="my-list">
 					<!-- <clxsd-cell :title="'我的资产'" :to="'/my-assets'" is-link icon="business-myAsset" :value="userInfo.lianPiaoVaule" /> -->
 					<clxsd-cell title="关注收藏" :to="'/my-follow'" is-link icon="my-attention" />
-					<div @click="authToRouter('/develop')">
+					<div @click="authToRouter('/factory-order')">
 						<clxsd-cell title="工业订单" icon="my-ordering" />
 					</div>
 					<clxsd-cell title="集采活动" :to="'/buy-activite-list'" is-link icon="my-collectParity" />
@@ -51,6 +51,7 @@
 				
 				<ul class="my-list" style="margin-bottom: .2rem">
 					<clxsd-cell title="公司信息" :to="'/company-info'" is-link icon="my-companyMessage" :value="userInfo.infoText"/>
+					<clxsd-cell :title="'发票信息'" :to="'/invoice'" is-link icon="my-receipt"/>
 					<clxsd-cell :title="'地址管理'" :to="'/address'" is-link icon="my-address" />
 				</ul>
 				<ul class="my-list" style="margin-bottom: .2rem">

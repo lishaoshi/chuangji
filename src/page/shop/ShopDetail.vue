@@ -1,82 +1,131 @@
 <template>
     <div id="ShopDetail">
-        <clxsd-head-top :title="'商品详情'">
-        </clxsd-head-top>
-        <span class="collect" @click="CollectionFn()" :class="{activebtn: isFullScreen}">{{follow_info}}</span></span>
-        <mt-swipe :auto="4000" style="height: 6.3rem;margin-bottom: .2rem;">
-            <mt-swipe-item><img :src="data.cover" width="100%" height="100%"></mt-swipe-item>
-            <!--<mt-swipe-item v-for="(swipe,key) in data"><img :src="swipe.image" width="100%"></mt-swipe-item>-->
-        </mt-swipe>
-        <div class="detail-box1" v-if="canShow">
-            <div class="left">
-                <span style="font-size: .3rem">￥</span> {{data.tran*data.price}}<span style="font-size: .24rem">/{{data.big_unit}}</span>
-            </div>
-            <div class="rigit">
-                <div class="gw_num" v-if="(!data.is_multi_spec && canShow &&USER_TYPE === 3)">
-                    <em class="lose" @click="removeToMiniCart()" v-if="nums>0">
-                        <svg>
-                            <use xlink:href="#icon-detail-jian"></use>
-                        </svg>
-                    </em>
-                    <em class="lose" v-else>
-                        <svg>
-                            <use xlink:href="#icon-detail-jian"></use>
-                        </svg>
-                    </em>
-                    <div class="num">
-                        <span class="amount">{{nums||0}}</span>
-                        <p>{{data.big_unit}}</p>
+        <span class="collect_box" @click="CollectionFn()">{{follow_info}}</span>
+        <div class="headTop">
+             <img class="retreat" src="../../images/back.png" @click="goBack()">
+             <div>
+                 <span :class="{active:tabIndex==0}" @click="tabIndex=0">详情</span>
+                 <span :class="{active:tabIndex==1}" @click="tabIndex=1">规格</span>
+             </div>
+        </div>
+        <template v-if="tabIndex==0"> 
+            <span class="collect" @click="CollectionFn()" :class="{activebtn: isFullScreen}">{{follow_info}}</span>
+            <mt-swipe :auto="4000" style="height: 6.3rem;margin-bottom: .2rem;">
+                <mt-swipe-item><img :src="data.cover" width="100%" height="100%"></mt-swipe-item>
+                <!--<mt-swipe-item v-for="(swipe,key) in data"><img :src="swipe.image" width="100%"></mt-swipe-item>-->
+            </mt-swipe>
+            <div class="detail-box1" v-if="canShow">
+                <div class="left">
+                    <span style="font-size: .3rem">￥</span> {{data.tran*data.price}}<span style="font-size: .24rem">/{{data.big_unit}}</span>
+                </div>
+                <div class="rigit">
+                    <div class="gw_num" v-if="(!data.is_multi_spec && canShow)">
+                        <div class="lose" @click="removeToMiniCart()" v-if="data.num>0">-</div>
+                        <div class="lose"  v-else>-</div>
+                        <template v-if="!data.isChooseSelf">
+                            <div class="num" @click="handleChoose">
+                                <span class="amount">{{data.num || 5}}</span>
+                                <p>{{data.unit || '件'}}</p>
+                            </div>
+                        </template>
+                    
+                        <template v-else>
+                            <form class="input_warp" action="">
+                                <input v-focus @input="handleInput($event)" @blur="handleBlur($event)" @keyup.enter="handleBlur($event)" ref="cart" type="number" :value="data.num">
+                            </form>
+                        </template>
+                        <div class="add" @click="addToMiniCart()">+</div>
                     </div>
-                    <em class="add" @click="addToMiniCart()">
-                        <svg>
-                            <use xlink:href="#icon-detail-add"></use>
-                        </svg>
-                    </em>
                 </div>
             </div>
-        </div>
-        <div class="contant">
-            <div class="title">
-                {{data.good_name}}
-            </div>
-            <div class="small-title">
-                <span>毛利率：<i>2%</i></span>
-                <span>销量：<i>296</i></span>
-            </div>
-        </div>
-        <div class="contant" style="margin-top: .2rem">
-            <div class="price-flex">
-                <div class="info1">
-                    <i>{{data.price}}
-                        <small>/{{data.unit}}</small>
-                    </i>
-                    <p>采购价</p>
+            <div class="contant">
+                <div class="title">
+                    {{data.good_name}}
                 </div>
-                <div class="line"></div>
-                <div class="info1">
-                    <i>{{data.market_price}}
-                        <small>/{{data.unit}}</small>
-                    </i>
-                    <p>建议零售价</p>
+                <div class="small-title">
+                    <span>浏览量<i>1000</i></span>
+                    <span>毛利率：<i>2%</i></span>
+                    <span>销量：<i>296</i></span>
                 </div>
             </div>
-        </div>
-        <div class="contant" style="margin-top: .2rem;padding-bottom: 0px">
-            <div class="contant-title">产品规格</div>
-            <div class="info">
-                <span>产品规格：</span>
-                <samp>{{data.spec}}</samp>
+            <div class="contant" style="margin-top: .2rem">
+                <div class="price-flex">
+                    <div class="info1">
+                        <i>{{data.price}}
+                            <small>/{{data.unit}}</small>
+                        </i>
+                        <p>采购价</p>
+                    </div>
+                    <div class="line"></div>
+                    <div class="info1">
+                        <i>{{data.market_price}}
+                            <small>/{{data.unit}}</small>
+                        </i>
+                        <p>建议零售价</p>
+                    </div>
+                </div>
             </div>
-            <div class="info">
-                <span>生产厂家：</span>
-                <samp></samp>
+            <!-- <div class="contant" style="margin-top: .2rem;padding-bottom: 0px">
+                <div class="contant-title">产品规格</div>
+                <div class="info">
+                    <span>产品规格：</span>
+                    <samp>{{data.spec}}</samp>
+                </div>
+                <div class="info">
+                    <span>生产厂家：</span>
+                    <samp></samp>
+                </div>
+                <div class="info">
+                    <span>有效期至</span>
+                    <samp></samp>
+                </div>
+            </div> -->
+            <div class="goodInfo">
+                <div>
+                    <span class="letter">品牌</span>
+                    <span>{{data.name}}</span>
+                </div>
+                <div>
+                    <span class="letter">规格</span>
+                    <span>{{data.spec}}</span>
+                </div>
+                <div v-if="data.production_time">
+                    <span>生产日期</span>
+                    <!-- <span>{{data.production_time}}</span> -->
+                    <span>2019.2.2</span>
+                </div>
+                <div v-if="data.time">
+                    <span>有效期至</span>
+                    <span>{{data.time}}</span>
+                </div>
+                <div>
+                    <span>批准文号</span>
+                    <span>{{data.approval_number}}</span>
+                </div>
             </div>
-            <div class="info">
-                <span>有效期至</span>
-                <samp></samp>
+            
+            <div class="textBox">
+                <div>药品详情</div>
+                <div>|</div>
+            
             </div>
-        </div>
-        <mini-shop-cart ref="miniShopCart" :count="cartNum" :total-price="totalPrice" :shop-id="factoryId" :USER_TYPE = "USER_TYPE"></mini-shop-cart>
+            <div class="infoDetail">
+                <div class="content" v-if="data.content" v-html="data.content"></div>
+                <div class="noInfo" v-else>
+                    <svg>
+                        <use xlink:href="#icon-lampBulb"></use>
+                    </svg>
+                    <span>暂无维护</span>
+                </div>
+            </div>
+      
+        
+
+            <mini-shop-cart ref="miniShopCart" :count="cartNum" :total-price="totalPrice" :shop-id="factoryId" :USER_TYPE = "USER_TYPE"></mini-shop-cart>
+        </template>
+        <!-- <div v-if="tabIndex==1">
+            <specifications :data="data"/>
+        </div> -->
     </div>
 </template>
 
@@ -85,13 +134,15 @@
     import {mapState, mapMutations} from 'vuex'
     import {Swipe, SwipeItem} from 'mint-ui';
     import {getCollectionList, deleteCollection, SaveCollection,isDetailFollow} from "@/api/follow.js"
-
+    import specifications from '@/components/common/specifications'
+    import { queryShopCarList, delShopCar, addShopCar, onlyDelShopCar } from '@/api/shopCar'
     export default {
         name: "ShopDetail",
         components: {
             'mt-swipe': Swipe,
             'mt-swipe-item': SwipeItem,
-            MiniShopCart
+            MiniShopCart,
+            specifications
         },
         data() {
             return {
@@ -103,6 +154,7 @@
                 follow_info: '收藏',
                 collect_list: [],
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
+                tabIndex:0 
             }
         },
         created() {
@@ -124,7 +176,7 @@
             cartNum() {
                 let num = 0;
                 Object.values(this.shopCart).forEach((data, index) => {
-                    num += data.num;
+                    num += +data.num;
                 })
                 return num
             },
@@ -170,6 +222,7 @@
                 return true
             },
             _handleData(data) {
+                data.isChooseSelf = false
                 Object.values(this.shopCart).forEach((cartItem, cartindex) => {
                     if (this.id === cartItem.id) {
                         this.nums = cartItem.num
@@ -188,6 +241,50 @@
                     this.nums++
                 }
 
+            },
+               // 选择通过键盘输入选择添加购物车数量
+            handleChoose() {
+                console.log(123, this.data)
+                // this.$set(this.data, 'isChooseSelf', true)
+                // debugger
+                this.data.isChooseSelf = true
+            },
+            handleInput(event) {
+				if(event.target.value.length > 5) {
+                   this.$toast('最大输入五位数')
+					event.target.value = event.target.value.substring(0, 5)
+					return true
+				}
+            },
+            // input失去焦点
+            handleBlur(event) {
+                // debugger
+                this.data.isChooseSelf = false
+                let num =event.target.value
+                if(Number.isInteger(parseInt(num))&&(num < this.data.order_min_num)) {
+                    this.$toast('不能小于最小订货量')
+                    return false
+                }
+				// 如果event.target.value是空，则不改变数值
+				if(!num ||　(num === this.data.num)) {
+					return false
+                }
+                this.data.num = num
+                if(this.shopCart[this.id]) {
+                    this.shopCart[this.id].num = num
+                } else {
+                    this.$set(this.shopCart, `${this.id}`, this.data)
+                }
+                // debugger
+                // console.log(this.shopCart)
+                
+                
+                let params = {
+                    supplier_id: this.businessId,
+                    good_id: this.id,
+                    num: num
+                }
+                addShopCar(params)
             },
             removeToMiniCart() {
                 const item = {
@@ -230,7 +327,7 @@
         background: rgb(255, 234, 233);
 
         .left {
-            width: 68%;
+            width: 4.8rem;
             background: -webkit-linear-gradient(left, rgb(255, 65, 113), rgb(255, 92, 152)); /* Safari 5.1 - 6.0 */
             background: -o-linear-gradient(right, rgb(255, 65, 113), rgb(255, 92, 152)); /* Opera 11.1 - 12.0 */
             background: -moz-linear-gradient(right, rgb(255, 65, 113), rgb(255, 92, 152)); /* Firefox 3.6 - 15 */
@@ -239,6 +336,25 @@
             font-size: .48rem;
             color: #fff;
             padding-left: .2rem;
+        }
+        .rigit {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            .input_warp {
+                display: inline-flex;
+                flex:1;
+                input {
+                    background: #FE4171;
+                    width: 100%;
+                    text-align: center;
+                    height: 100%;
+                    line-height: 100%;
+                    flex:1 0 auto;
+                    color: #fff;
+                }
+            }
         }
     }
 
@@ -260,12 +376,25 @@
     .contant {
         background: #fff;
         padding: 10px;
-        &-title{
-            border-bottom: 1px solid #e6e6e6;
-            height: 1rem;
-            line-height: 1rem;
-            font-size: .28rem;
-            text-align: center;
+    }
+    .goodInfo {
+        line-height: .56rem;
+        padding: .2rem .32rem;
+        background: #fff;
+        margin-top: .2rem;
+        div {
+            display: flex;
+            font-size: .24rem;
+            span:first-child {
+                margin-right: .5rem;
+            }
+            span:last-child {
+                color:rgba(102,102,102,1);
+            }
+        }
+        .letter {
+            letter-spacing: 2em;
+            margin-right: .02rem!important;
         }
     }
 
@@ -364,42 +493,32 @@
             margin-top: 10px;
         }
     }
-
-    /*加减*/
+       /*加减*/
     .gw_num {
-        width: 1.7rem;
+        // width: 1.7rem;
         height: .58rem;
-        background: rgb(255, 59, 48);
+        flex: 1;
+        margin: 0 .32rem;
+        background: #FE4171;
         border-radius: .58rem;
         display: flex;
-        align-items: center;
+        // align-items: center;
         text-align: center;
-        margin-top: .2rem;
-        margin-left: .3rem;
-        svg {
-            width: .22rem;
-            height: .22rem;
+        .lose, .add {
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: .56rem;
         }
-    }
-
-    .gw_num em {
-        color: #fff;
-        cursor: pointer;
-        font-size: .28rem;
-        flex: 1;
-        line-height: 24px;
-        font-weight: 100;
-        font-style: normal;
-        font-weight: bold;
-    }
-
-    .shop_num em {
-        color: #fff;
     }
 
     .gw_num .num {
         font-style: normal;
         font-size: .28rem;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
         flex: 1;
         display: flex;
         color: #fff;
@@ -408,7 +527,6 @@
     .gw_num .num p {
         font-size: .18rem;
         color: #fff;
-        -webkit-transform: scale(0.7);
         margin-left: .05rem;
     }
 
@@ -417,4 +535,156 @@
         text-align: center;
     }
 
+    /*加减*/
+    // .gw_num {
+    //     width: 1.7rem;
+    //     height: .58rem;
+    //     background: rgb(255, 59, 48);
+    //     border-radius: .58rem;
+    //     display: flex;
+    //     align-items: center;
+    //     text-align: center;
+    //     margin-top: .2rem;
+    //     margin-left: .3rem;
+    //     svg {
+    //         width: .22rem;
+    //         height: .22rem;
+    //     }
+    // }
+
+    // .gw_num em {
+    //     color: #fff;
+    //     cursor: pointer;
+    //     font-size: .28rem;
+    //     flex: 1;
+    //     line-height: 24px;
+    //     font-weight: 100;
+    //     font-style: normal;
+    //     font-weight: bold;
+    // }
+
+    .shop_num em {
+        color: #fff;
+    }
+
+    // .gw_num .num {
+    //     font-style: normal;
+    //     font-size: .28rem;
+    //     flex: 1;
+    //     display: flex;
+    //     color: #fff;
+    // }
+
+    // .gw_num .num p {
+    //     font-size: .18rem;
+    //     color: #fff;
+    //     -webkit-transform: scale(0.7);
+    //     margin-left: .05rem;
+    // }
+
+    // .gw_num .num input {
+    //     width: 50%;
+    //     text-align: center;
+    // }
+    .collect_box {
+        position: absolute;
+        right: .2rem;
+        line-height: .55rem;
+        color: #fff;
+        top: .15rem;
+        background: #2891e5;
+        display: inline-block;
+        padding: 0 .25rem;
+        border-radius: .55rem;
+        border: 1px solid #42abff;
+        opacity: .9;
+        z-index: 9;
+    }
+    .headTop {
+        display: inline-flex;
+        width: 100%;
+        height: .88rem;
+        align-items: center;
+        background: #2DA2FF;
+        padding: .2rem;
+        color: #fff;
+        font-size: .3rem;
+        // font-weight: bold;
+        img {
+            width: 10px;
+            height: 20px;
+        }
+        div {
+            flex:1;
+            text-align: center;
+            span {
+                display: inline-block;
+                margin-right: .32rem;
+                padding-bottom: .06rem;
+                &.active {
+                    border-bottom: 2px solid #fff;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+    .textBox {
+        height: 1.90rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;;
+        align-items: center;
+        color: #0090FF;
+        // letter-spacing: 10px;
+        font-size: .28rem;
+        background: #fff;
+        margin-top: .2rem;
+        div {
+            margin-bottom: 10px;
+        }
+    }
+     .infoDetail {
+        background: #fff;
+        padding: 0 .1rem;
+        padding-bottom: 20px;
+        margin-bottom: 1.3rem;
+        display: flex;
+        justify-content: center;
+        img {
+            width: 100%!important;
+        }
+        .content >>> img {
+            width: 100%!important;
+        }
+    }
+     .noInfo {
+        color: #644f1b;
+        font-size: .28rem;
+        width: 90%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: .8rem;
+        background: linear-gradient(to right, #feeec4, #f2dca0);
+        svg {
+            width: .4rem;
+            height: .4rem;
+            margin-right: .14rem;
+        }
+    }
+
+</style>
+
+<style lang="scss">
+    .infoDetail {
+        // margin-bottom: 1rem;
+        img {
+            width: 100%!important;
+             height: auto;
+        }
+        .content >>> img {
+            width: 100%!important;
+            height: auto;
+        }
+    }
 </style>

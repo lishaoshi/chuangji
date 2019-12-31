@@ -9,7 +9,7 @@
             <span class="state">{{order_status_display}}</span>
         </div>
         <div v-if="data.items.length == 1">
-            <router-link :to="`/my-order/detail/${data.id}`">
+            <router-link :to="`/my-order/detail/${data.id}?isFactory=${data.supplier.type==1?true:false}`">
 
             <div class="drug_order">
                 <div class="drug_top">
@@ -18,12 +18,12 @@
                     </div>
                     <div class="drug_message">
                         <div>{{data.items[0].entity_name}}</div>
-                        <div>规格：{{data.items[0].entity_spec}}</div>
-                        <div>品牌：{{data.items[0].entity.brand.name}}</div>
+                        <div>包装：{{data.items[0].entity_spec}}</div>
+                        <div>品牌：{{data.supplier.type==1?data.supplier.display_name:data.items[0].entity.brand.name}}</div>
                     </div>
                 </div>
                 <div class="totle_pay">
-                     <p>订单编号：{{data.order_sn}}</p>
+                     <p>编号：{{data.order_sn}}</p>
                     <p>{{data.created_at?data.created_at:'暂无时间'}}</p>
                    
                 </div>
@@ -52,7 +52,7 @@
             </div>
         </div>
         <div v-if="data.items.length > 1">
-            <router-link :to="`/my-order/detail/${data.id}`" class="img-list-container">
+            <router-link :to="`/my-order/detail/${data.id}?isFactory=${data.supplier.type==1?true:false}`" class="img-list-container">
                 <div id="wrapper">
                     <div class="iscroll">
                         <div class="drug_img" v-for="(entity,skey) in goodList">
@@ -65,7 +65,7 @@
                     </div>
                 </div>
                 <p class="list-info">
-                    <span>订单编号：{{data.order_sn}}</span>
+                    <span>编号：{{data.order_sn}}</span>
                     <span>{{data.created_at}}</span>
                 </p>
             </router-link>
@@ -104,7 +104,8 @@
 
 <script>
 let tim = null
-import { orderPay, deleteBusinessOrder, againOrder } from "@/api/businessOrder"
+import { orderPay, deleteBusinessOrder, againOrder } from "@/api/businessOrder";
+import { againFactoryOrder, deleteFactoryOrder } from "@/api/factoryOrder"
 import { setInterval } from 'timers'
 import timingDate from '../timing/timing'
     export default {
@@ -192,6 +193,9 @@ import timingDate from '../timing/timing'
                 // debugger
                 return this.data.items
                 
+            },
+            isFactory() {
+                return this.data.supplier.type==1?true: false
             }
         },
         methods: {
@@ -219,18 +223,37 @@ import timingDate from '../timing/timing'
             // 再来一单
             async handleContinuTo(data) {
                 // this.$messagebox.confirm('')
-                await againOrder(data.id).catch(err=>{
-                    this.$toast('商品已经下架')
-                })
+                if(!this.isFactory) {
+                    console.log(this.isFactory, this.data)
+                    debugger
+                    await againOrder(data.id).catch(err=>{
+                        this.$toast('商品已经下架')
+                    })
+                } else {
+                    await againFactoryOrder(data.id).catch(err=>{
+                        if(err.status!=404) {
+                            this.$toast('商品已经下架')
+                        } 
+                    })
+                }
+               
                 this.$router.push('/factory/cart')
             },
             delectOrder(id) {
                 this.$messagebox.confirm('确认删除此订单吗？').then(res=>{
                     if(res=='confirm') {
-                        deleteBusinessOrder(id).then(res=>{
-                            this.$emit('delSccess', this.orderKey)
-                            this.$toast('删除成功')
-                        })
+                        if(!this.isFactory) {
+                            deleteBusinessOrder(id).then(res=>{
+                                this.$emit('delSccess', this.orderKey)
+                                this.$toast('删除成功')
+                            })
+                        } else {
+                            deleteFactoryOrder(id).then(res=>{
+                                this.$emit('delSccess', this.orderKey)
+                                this.$toast('删除成功')
+                            })
+                        }
+                       
                     }
                 })
             }
