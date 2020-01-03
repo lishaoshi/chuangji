@@ -27,20 +27,24 @@
                             <!-- 一级菜单没有下拉 -->
                             <span v-else @click="showGoods($event, menu.id)" class="sp1"
                                   :class="`${tabActive===menu.id?'tabActive':''}`">{{menu.name}}</span>
-                        <div class="down-menu" style="height: 0px" ref="slideChild">
-                            <div>
-                                <p v-for="(childrenMenu,index) in menu.child"
-                                   :class="`${childrenMenu.id===is_child_id?'child-active':''}`"
-                                   @click="showSlideGoods(childrenMenu.id,menu.id)"
-                                   :key="index"
-                                >
-                                    <span>{{childrenMenu.name}}</span>
-                                    <svg v-if="childrenMenu.id===is_child_id">
-                                        <use xlink:href="#icon-peisongshang-caidananniu"></use>
-                                    </svg>
-                                </p>
+                        <transition
+                        enter-active-class="mySlideInDown"
+                        >
+                            <div class="down-menu" v-show="tabActive===menu.id" ref="slideChild">
+                                <div>
+                                    <p v-for="(childrenMenu,index) in menu.child"
+                                    :class="`${childrenMenu.id===is_child_id?'child-active':''}`"
+                                    @click="showSlideGoods(childrenMenu.id,menu.id)"
+                                    :key="index"
+                                    >
+                                        <span>{{childrenMenu.name}}</span>
+                                        <svg v-if="childrenMenu.id===is_child_id">
+                                            <use xlink:href="#icon-peisongshang-caidananniu"></use>
+                                        </svg>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
+                        </transition>
                     </div>
                 </div>
             </div>
@@ -318,7 +322,7 @@
                      a[i].childNodes[0].classList.remove("all-goods-active");
                     a[i].childNodes[0].classList.add("up");
                     let b = a[i].childNodes[1]
-                    this.toggleSlide(b, 0, '500');
+                    // this.toggleSlide(b, 0, '500');
                 }
                 this.cat_id = id
                 let params = {
@@ -334,7 +338,7 @@
               //点击下拉菜单
             slide: function (event,item) {
                 this.allLoaded = false
-                 this.tabActive = item.id //是否当前一级菜单
+                this.tabActive = this.tabActive==item.id? 0:item.id; //是否当前一级菜单
                  this.page=1
                 /*
                 *判断当前点击的一级菜单是否是正在激活的菜单
@@ -353,7 +357,7 @@
                     a[i].childNodes[0].classList.remove("tabActive");
                     a[i].childNodes[0].classList.add("up");
                     let b = a[i].childNodes[1]
-                    this.toggleSlide(b, 0, '500');
+                    // this.toggleSlide(b, 0, '500');
                 }
                 //targetNode.classList.remove("active");
                 let curTarget = event.currentTarget,
@@ -366,10 +370,10 @@
                 let detailScrollHeight = nextSibling.scrollHeight;
                 if (containsCurClass) {
                     curTarget.classList.remove("up");
-                    this.toggleSlide(nextSibling, detailScrollHeight, '500');
+                    // this.toggleSlide(nextSibling, detailScrollHeight, '500');
                 } else {
                     curTarget.classList.add("up");
-                    this.toggleSlide(nextSibling, 0, '500');
+                    // this.toggleSlide(nextSibling, 0, '500');
                 }
             },
 
@@ -498,10 +502,10 @@
             },
            
             //toggle动画
-            toggleSlide: function (dom, height, time) {
-                dom.style.transition = 'height ' + time + 'ms';
-                dom.style.height = height + 'px';
-            },
+            // toggleSlide: function (dom, height, time) {
+            //     dom.style.transition = 'height ' + time + 'ms';
+            //     dom.style.height = height + 'px';
+            // },
             //同胞节点
             sibling: function (elem) {
                 var r = [];
@@ -618,7 +622,7 @@
                     item.classList.add("up");
                 })
                 childNode.forEach(item => {
-                    this.toggleSlide(item, 0, '500');
+                    // this.toggleSlide(item, 0, '500');
                 })
             },
 
@@ -631,6 +635,18 @@
 </script>
 
 <style lang="scss" scoped>
+@keyframes mySlideInDown
+{
+    from {
+        transform: scale(1, 0);
+    }
+    to {
+        transform: scale(1, 1);
+    }
+}
+.mySlideInDown {
+    animation: mySlideInDown .3s;
+}
     .empty {
         text-align: center;
         color: #999;
@@ -749,16 +765,17 @@
             .down-menu {
                 background: #fff;
                 overflow: hidden;
-
+                transform-origin:0 0; 
                 p {
                     white-space: nowrap;
                     text-overflow: ellipsis;
-                    font-size: .28rem;
+                    font-size: .24rem;
                     padding-left: .2rem;
                     padding-right: .1rem;
-                    height: .8rem;
-                    line-height: .8rem;
-
+                    min-height: .8rem;
+                     display: flex;
+                    align-items: center;
+                    justify-content: space-between;
                     span {
                         display: inline-block;
                         width: 1.3rem;
@@ -1037,37 +1054,37 @@
         }
     }
     .down-menu {
-    background: #fff;
-    overflow: hidden;
+    // background: #fff;
+    // overflow: hidden;
 
-    p {
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        font-size: .24rem;
-        padding-left: .2rem;
-        padding-right: .1rem;
-        height: .8rem;
-        line-height: .8rem;
+    // p {
+    //     white-space: nowrap;
+    //     text-overflow: ellipsis;
+    //     font-size: .24rem;
+    //     padding-left: .2rem;
+    //     padding-right: .1rem;
+    //     height: .8rem;
+    //     line-height: .8rem;
 
-        span {
-            display: inline-block;
-            width: 1.3rem;
-            white-space: normal;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+    //     span {
+    //         display: inline-block;
+    //         width: 1.3rem;
+    //         white-space: normal;
+    //         overflow: hidden;
+    //         text-overflow: ellipsis;
+    //     }
 
-        svg {
-            width: .18rem;
-            height: .18rem;
-        }
-                }
+    //     svg {
+    //         width: .18rem;
+    //         height: .18rem;
+    //     }
+    //             }
 
-    .child-active {
-        color: #2da2ff;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
+    // .child-active {
+    //     color: #2da2ff;
+    //     display: flex;
+    //     align-items: center;
+    //     justify-content: space-between;
+    // }
 }
 </style>

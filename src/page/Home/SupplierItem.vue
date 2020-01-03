@@ -2,30 +2,36 @@
     <div class="company" v-if="data!=null">
         <div class="brand">
             <router-link :to="`/factory/shop/${data.id}`">
-            <div class="factoryInfo">
-                <img :src="data.img_cover || default_company_logo" alt="">
-                <div>
-                     <p>{{data.display_name || data.name }}</p>
-                    <ul>
-                        <li v-show="data.address != null">
-                            <div>
-                                <svg class="icon-location">
-                                    <use xlink:href="#icon-map2"/>
-                                </svg>
-                                <p>{{data.city_name || data.province_name}}</p>
-                            </div>
-                        </li>
-                        <!-- <li>
-                            <p>调配时间<i>{{data.diaopei || 3}}</i>天</p>
-                        </li> -->
-                        <li>
-                            <p>已售<i>{{data.sale_num || 0}}</i>件</p>
-                        </li>
-                    </ul>
+                <div class="factoryInfo">
+                    <img :src="data.img_cover || default_company_logo" alt="">
+                    <div>
+                        <p>{{data.display_name || data.name }}</p>
+                        <ul>
+                            <li v-show="data.address != null">
+                                <div>
+                                    <svg class="icon-location">
+                                        <use xlink:href="#icon-map2"/>
+                                    </svg>
+                                    <p>{{data.city_name || data.province_name}}</p>
+                                </div>
+                            </li>
+                            <!-- <li>
+                                <p>调配时间<i>{{data.diaopei || 3}}</i>天</p>
+                            </li> -->
+                            <li>
+                                <p>已售<i>{{data.sale_num || 0}}</i>件</p>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-               
             </router-link>
+            <div class="img_list_box">
+                <div class="img_box" v-for="(item, index) of data.groups" :key="index">
+                    <img :src="item.cover" alt="">
+                    <p>已采{{item.sale_num}}{{item.big_unit}}</p>
+                </div>
+                
+            </div>
         </div>
     </div>
 </template>
@@ -79,7 +85,7 @@ import default_company_logo from "@/images/default_company_logo.png"
         padding: 10px;
 
         .brand {
-            height: 1.2rem;
+            // height: 1.2rem;
             text-align: center;
             border-radius: 3px;
             margin-top: .3rem;
@@ -102,7 +108,6 @@ import default_company_logo from "@/images/default_company_logo.png"
                 }
                 ul {
                     display: flex;
-                    border-bottom: 1px dashed rgb(230, 230, 230);
                     padding: 0.22rem 0;
                     li {
                         font-size: 0.22rem;
@@ -128,11 +133,37 @@ import default_company_logo from "@/images/default_company_logo.png"
                         }
                     }
                 }
+                img {
+                    width: 1.2rem;
+                    height: 1.2rem;
+                    margin-right: .28rem;
+                }
             }
-            img {
-                width: 1.2rem;
-                height: 1.2rem;
-                margin-right: .28rem;
+            
+            .img_list_box {
+                display: flex;
+                justify-content: flex-start;
+                margin-top: .3rem;
+               .img_box {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    width: 25%;
+                    p {
+                        font-size: .24rem;
+                        color: #0090FF;
+                        margin-top: .18rem;
+                    }
+                    img {
+                        width: 1.3rem;
+                        height: 1.3rem;
+                    }
+               }
+               &:not(:first-child) {
+                   margin-top: .2rem;
+               }
+                
             }
         }
 

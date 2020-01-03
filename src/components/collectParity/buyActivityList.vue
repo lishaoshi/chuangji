@@ -30,33 +30,35 @@
                     </span>
                     {{data.group_buying | handleSpec}}
                 </p>
-
-                <section class="price-box">
-                   <div class="min-price">
-                        <span>最低价(元/{{data.group_buying.unit}})</span>
-                        <span>{{data.group_buying.latest_price}}</span>
-                    </div>
-                    <div>
-                        <span>已集采({{data.group_buying.big_unit}})  </span>
-                        <span>{{data.group_buying.total}}
-                        </span>
-                    </div>
+                <slot name="price">
+                    <section class="price-box">
                     <div class="min-price">
-                        <span>总金额(元)</span>
-                        <span v-html="total">9999</span>
-                    </div>
-                </section>
+                            <span>最低价(元/{{data.group_buying.unit}})</span>
+                            <span>{{data.group_buying.latest_price}}</span>
+                        </div>
+                        <div>
+                            <span>已集采({{data.group_buying.big_unit}})  </span>
+                            <span>{{data.group_buying.total}}
+                            </span>
+                        </div>
+                        <div class="min-price">
+                            <span>总金额(元)</span>
+                            <span v-html="total">9999</span>
+                        </div>
+                    </section>
+                </slot>
             </div>
         </div>
-
-        <div class="btn-group">
-            <div @click="toRouter(`/change-history/${data.group_buying.id}`)">
-                变价历史
+        <slot name="foot">
+            <div class="btn-group">
+                <div @click="toRouter(`/change-history/${data.group_buying.id}`)">
+                    变价历史
+                </div>
+                <div @click="toRouter(`/buy-recoed/${data.group_buying.id}`)">
+                    集采记录
+                </div>
             </div>
-            <div @click="toRouter(`/buy-recoed/${data.group_buying.id}`)">
-                集采记录
-            </div>
-        </div>
+        </slot>
     </div>
 </template>
 

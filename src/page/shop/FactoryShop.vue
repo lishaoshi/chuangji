@@ -103,11 +103,9 @@
                         <p>快速补货</p>
                     </router-link>
                 </div>
-                <div>
-                    <router-link to="/customization">
-                        <svg><use xlink:href="#icon-quanqiucang-active1" /></svg>
-                        <p>定制生产</p>
-                    </router-link>
+                <div @click="handleDZBtn">
+                    <svg><use xlink:href="#icon-quanqiucang-active1" /></svg>
+                    <p>定制生产</p>
                 </div>
                 <!-- <div>
                     <router-link :to="`/company-product-list?shopId=${shopId}`">
@@ -153,7 +151,7 @@
     import {isFollow, deleteFollow, SaveFollow} from "@/api/follow.js";
     import { queryShopCarList, delShopCar, addShopCar, onlyDelShopCar } from '@/api/shopCar';
     import default_company_logo from "@/images/default_company_logo.png";
-    import {adList, infoList} from "@/api/ad";
+    import {adList, getNewInformmationList} from "@/api/ad";
     import Notice from '@/components/common/notice2';
     export default {
         name: "FactoryShop",
@@ -194,8 +192,37 @@
             // debugger
             // window.addEventListener('scroll', this.handleScroll, true)
             this.initData()
+            this._initData()
         },
         methods: {
+
+            
+            // 初始化banner、公告数据
+            _initData() {
+                // banner参数
+                let bannerParams = {
+                    channel: 'app',
+                    space:　"tuiguang-all："
+                }
+                
+                // 公告参数
+                let infoParams = {
+                    from: "factory",
+                    supplier_id:  this.factoryId,
+                    space: "tuiguang-all",
+                    limit: this.limit
+                }
+                getNewInformmationList(infoParams).then(res=>{
+                    this.notices = res.data || []
+                })
+            },
+            handleDZBtn() {
+                if(this.USER_TYPE!==2) {
+                    this.$toast("仅商业公司可参与")
+                    return false
+                }
+                this.$router.push({path: "/customization"})
+            },
             showRolePicker() {
                 this.popupVisible = true;
             },
@@ -220,7 +247,7 @@
                 }).catch(error => {
                     // console.log(error)
                 })
-                adList({channel: 'app', space: 'global-top'}).then( data => {
+                adList({channel: 'app', space: 'home-top'}).then( data => {
 					this.swipers = data.data.data
 				})
             },

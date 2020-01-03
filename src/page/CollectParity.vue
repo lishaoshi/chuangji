@@ -65,17 +65,18 @@ export default {
       return val.toFixed(2)
     }
   },
-  watch: {
-    isShowModel() {
-      this.input = ''
-    }
-  },
+  // watch: {
+  //   isShowModel() {
+  //     this.input = ''
+  //   }
+  // },
   methods: {
     changePrice(val, id, type) {
       this.id = id
       this.itemData = this.list.find(item=>item.id==this.id)
       this.placeholder = val
       this.type = type
+      this.input = ""
       this.type==1&&this._getLastTimePrice()
       this.type==2&&this._getLastTimeNum()
     } ,

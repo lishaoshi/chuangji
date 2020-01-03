@@ -1,62 +1,139 @@
 <template>
     <div class="list">
         <div class="goods-info">
-            <img src="@/images/logo.png" alt="">
+            <img :src="data.product.cover" alt="">
             <div class="goods-name">
-                <p>伊可新 维生素AD滴剂</p>
-                <p>规格: 10粒*3板/盒</p>
-                <p>包装: 300盒/件</p>
+                <p>{{data.generic_name}}</p>
+                <p>规格: {{data.spec}}</p>
+                <p>包装: {{data.tran}}{{data.unit}}/{{data.big_unit}}</p>
             </div>
         </div>
 
         <div class="progress-detail">
-            <span>100件起</span>
+            
             <div class="progress">
-                <div :style="proStyle" class="progress-bg">
+                <div :style="{width: progressWidth + '%'}" class="progress-bg">
                 </div>
-                <p v-for="(item, index) of buyUnit" :key="index" :style="{left: `${(index+1)*33}%`, color: `${(index+1)*33<60?'#fff':'#FF3B30'}`}">{{item}}件</p>
+                <div class="progress-margin" v-for="(item, index) of data.rules" :key="index" :style="{left: `${(index+1)*left}%`, color: `${(index+1)*left<progressWidth?'#fff':'#FF3B30'}`}">
+                    <p>
+                        {{item.num}}{{data.big_unit}}
+                    </p>
+                    <div class="bubble-box" :style="{top: `-6px`}">
+                        {{item.profit}}%
+                    </div>
+                </div>
+                
             </div>
-            <span>已定250件</span>
+            
+        </div>
+        <div class="num">
+            <span>{{data.order_min_num}}件起</span>
+            <span>已定{{data.total}}{{data.big_unit}}</span>
         </div>
 
         <div class="price-bottom">
             <div>
-                <span>定制价格(元/盒)</span>
-                <span>100</span>
+                <span>定制价格(元/{{data.unit}})</span>
+                <span>{{data.customized_price}}</span>
             </div>
             <div>
-                <span>建议销售价(元/盒)</span>
-                <span>100</span>
+                <span>建议售价(元/{{data.unit}})</span>
+                <span>{{data.market_price}}</span>
             </div>
             <div>
                 <span>收益率</span>
-                <span>100%</span>
+                <span>{{data.profit}}%</span>
             </div>
-            <p class="btn">
+            <p class="btn" @click="handleCustom">
                 <span>定制</span>
-                
             </p>
         </div>
+         <template v-if="isShowModel">
+            <chang-model :isShowModel.sync="isShowModel" :data="data" @confirmPrice="confirmPrice">
+                <div class="input">
+                    <input type="text" @input="handleInput" :placeholder="placeholder" v-model="input">
+                    <div>
+                    <span>{{data.big_unit}}</span>
+                </div>
+                </div>
+                <p class="margin">
+                    <span>
+                    此次定制扣除{{data.base_margin | handleLianshu}}保证金
+                    </span>
+                </p>
+            </chang-model>
+            <bg />
+      </template>
     </div>
 </template>
 
 <script>
+import changModel from "@/components/collectParity/changModel"
+import bg from "@/components/collectParity/bg";
+import { buyCustomize }   from "@/api/factory"
 export default {
+    props: {
+        data: {
+            type: Object,
+            default: ()=>{}
+        }
+    },
+    components: {
+        bg,
+        changModel
+    },
     data() {
         return {
             proStyle: {
-                width: '60%',
                 position: 'absolute',
                 left: 0,
                 top: 0,
                 'z-index': '1',
                 "border-radius": "12px"
             },
-            buyUnit: [
-                "100",
-                "200",
-                "300"
-            ]
+            placeholder: "请输入定制数量",
+            isShowModel: false,
+            input: ""
+        }
+    },
+    filters: {
+        handleLianshu(val) {
+        return val.toFixed(2)
+        }
+    },
+    computed: {
+        left() {
+            return Math.floor(100 / this.data.rules.length)
+        },
+        progressWidth() {
+            return Math.floor((this.data.total / +this.data.rules[this.data.rules.length-1].num)*100)
+        }
+    },
+    methods: {
+        handleCustom() {
+            this.isShowModel = true
+        },
+        confirmPrice() {
+            if(this.input < this.data.order_min_num) {
+                this.$toast(`最小定制量为${this.data.order_min_num}${this.data.unit}`)
+                return false
+            }
+            const params = {
+                num: this.input
+            }
+            buyCustomize(params, this.data.id).then(res=>{
+                if(res.code==200) {
+                    this.$toast("定制成功")
+                    this.isShowModel = false
+                    this.$emit("upDtaScess")
+                } else {
+                    this.$toast(res.message)
+                }
+            })
+            // console.log(123)
+        },
+        handleInput() {
+
         }
     }
 }
@@ -103,25 +180,55 @@ export default {
             height: .24rem;
             font-size: .2rem;
             color: #BB5F01;
-            margin: 0 .4rem;
             position: relative;
             z-index: 1;
             display: flex;
             flex-wrap: nowrap;
             align-items: center;
-            p {
+            &-margin {
                 position: absolute;
                 z-index: 99;
                 color: #FF3B30;
                 white-space: nowrap;
                 transform: translate(-50%, 0)
             }
+            .progress-margin:last-child {
+                transform: translate(-100%, 0)
+            }
             .progress-bg {
                 height: 100%;
                 background: url("../../images/progress.png") no-repeat;
                 background-size: 100% 100%;
+                position: 'absolute';
+                left: 0;
+                top: 0;
+                z-index: 1;
+                border-radius: 12px;
+                div:last-child {
+                    transform: translate(-100%, 0)
+                }
+            }
+            .bubble-box {
+                background: url("../../images/bubble.png") no-repeat;
+                background-size: 100% 100%;
+                display: flex;
+                align-items: flex-start;
+                justify-content: center;
+                padding: 0 .04rem .08rem; 
+                transform: translate(-50%, -100%);
+                position: absolute;
+                color: #fff;
+                left: 50%;
             }
         }
+    }
+    .num {
+        display: flex;
+        justify-content: space-between;
+        color: #FF3B30;
+        line-height: .44rem;
+        font-size: .24rem;
+        font-weight: bold;
     }
     .price-bottom {
         height: 1.2rem;
@@ -156,6 +263,11 @@ export default {
             line-height: .8rem;
             text-align: center;
         }
+    }
+    .margin {
+        color: #E6A23C;
+        font-size: .24rem;
+        padding: .2rem 0;
     }
 }
 </style>

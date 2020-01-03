@@ -9,7 +9,7 @@
              </div>
         </div>
         <template v-if="tabIndex==0"> 
-            <span class="collect" @click="CollectionFn()" :class="{activebtn: isFullScreen}">{{follow_info}}</span>
+            <!-- <span class="collect" @click="CollectionFn()" :class="{activebtn: isFullScreen}">{{follow_info}}</span> -->
             <mt-swipe :auto="4000" style="height: 6.3rem;margin-bottom: .2rem;">
                 <mt-swipe-item><img :src="data.cover" width="100%" height="100%"></mt-swipe-item>
                 <!--<mt-swipe-item v-for="(swipe,key) in data"><img :src="swipe.image" width="100%"></mt-swipe-item>-->
@@ -24,7 +24,7 @@
                         <div class="lose"  v-else>-</div>
                         <template v-if="!data.isChooseSelf">
                             <div class="num" @click="handleChoose">
-                                <span class="amount">{{data.num || 5}}</span>
+                                <span class="amount">{{data.num}}</span>
                                 <p>{{data.unit || '件'}}</p>
                             </div>
                         </template>
@@ -43,9 +43,9 @@
                     {{data.good_name}}
                 </div>
                 <div class="small-title">
-                    <span>浏览量<i>1000</i></span>
+                    <span>浏览量<i>{{data.click_count}}</i></span>
                     <span>毛利率：<i>2%</i></span>
-                    <span>销量：<i>296</i></span>
+                    <span>销量：<i>{{data.sale_num}}</i></span>
                 </div>
             </div>
             <div class="contant" style="margin-top: .2rem">
@@ -83,16 +83,11 @@
             <div class="goodInfo">
                 <div>
                     <span class="letter">品牌</span>
-                    <span>{{data.name}}</span>
+                    <span>{{data.supplier&&data.supplier.display_name}}</span>
                 </div>
                 <div>
                     <span class="letter">规格</span>
                     <span>{{data.spec}}</span>
-                </div>
-                <div v-if="data.production_time">
-                    <span>生产日期</span>
-                    <!-- <span>{{data.production_time}}</span> -->
-                    <span>2019.2.2</span>
                 </div>
                 <div v-if="data.time">
                     <span>有效期至</span>
@@ -123,19 +118,19 @@
 
             <mini-shop-cart ref="miniShopCart" :count="cartNum" :total-price="totalPrice" :shop-id="factoryId" :USER_TYPE = "USER_TYPE"></mini-shop-cart>
         </template>
-        <!-- <div v-if="tabIndex==1">
+        <div v-if="tabIndex==1">
             <specifications :data="data"/>
-        </div> -->
+        </div>
     </div>
 </template>
 
 <script>
-    import MiniShopCart from './MiniShopCart'
-    import {mapState, mapMutations} from 'vuex'
+    import MiniShopCart from './MiniShopCart';
+    import {mapState, mapMutations} from 'vuex';
     import {Swipe, SwipeItem} from 'mint-ui';
-    import {getCollectionList, deleteCollection, SaveCollection,isDetailFollow} from "@/api/follow.js"
-    import specifications from '@/components/common/specifications'
-    import { queryShopCarList, delShopCar, addShopCar, onlyDelShopCar } from '@/api/shopCar'
+    import {getCollectionList, deleteCollection, SaveCollection,isDetailFollow} from "@/api/follow.js";
+    import specifications from '@/components/common/specifications';
+    import { queryShopCarList, delShopCar, addShopCar, onlyDelShopCar } from '@/api/shopCar';
     export default {
         name: "ShopDetail",
         components: {
@@ -148,13 +143,14 @@
             return {
                 id: this.$route.query.id,
                 good_name: '',
-                data: [],
+                data: {},
                 nums: null,
                 follow_status: 0,
                 follow_info: '收藏',
                 collect_list: [],
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
-                tabIndex:0 
+                tabIndex:0,
+                shopCart: {}
             }
         },
         created() {
@@ -170,20 +166,16 @@
                 cartList: state => state.shop.CART_LIST,
                 USER_TYPE: state => state.CURRENTUSER.data.user_type,
             }),
-            shopCart() {
-                return {...this.cartList[this.factoryId]}
-            },
-            cartNum() {
-                let num = 0;
-                Object.values(this.shopCart).forEach((data, index) => {
-                    num += +data.num;
-                })
-                return num
+            // shopCart() {
+            //     return {...this.cartList[this.factoryId]}
+            // },
+             cartNum() {
+                return Object.values(this.shopCart).filter(item=>item.num>0).length
             },
             totalPrice() {
-                let total_price = 0.00
+                let total_price = 0
                 Object.values(this.shopCart).forEach((data, index) => {
-                    total_price += data.num * data.sale_price;
+                    total_price += +data.num * +data.price;
                 })
                 return total_price.toFixed(2)
             }
@@ -202,6 +194,10 @@
                     data
                 } = await this.$http.get(`hippo-shop/factory/${this.factoryId}/detail/${this.id}`)
                 this.data = this._handleData(data.data)
+                queryShopCarList({}, this.factoryId).then(res=> {
+                    this.shopCart = res
+                    console.log(res)
+                })
             //是否收藏
                 isDetailFollow(this.id).then(res => {
                     if(res.data.data.hasrelation){
@@ -223,6 +219,11 @@
             },
             _handleData(data) {
                 data.isChooseSelf = false
+                let time = data.valid_time
+                data.time = this.$moment(time*1000).format("YYYY-MM-DD")
+                  if( data.production_time>0) {
+                        data.production_time = this.$moment(data.production_time*1000).format("YYYY-MM-DD")
+                    }
                 Object.values(this.shopCart).forEach((cartItem, cartindex) => {
                     if (this.id === cartItem.id) {
                         this.nums = cartItem.num
@@ -231,15 +232,38 @@
                 return data
             },
             addToMiniCart() {
-                const item = {
-                    shopId: this.factoryId,
-                    itemId: this.id,
-                    sale_price: this.data.tran * this.data.price
+                 if(this.data.num >=99999) {
+                    this.$toast('最大购物量为99999')
+                    return false
                 }
-                if (this.canOption()) {
-                    this.ADD_CART(item)
-                    this.nums++
+                if(this.data.num<this.data.order_min_num) {
+                    this.data.num = this.data.order_min_num
+                    if(this.shopCart[this.id]) {
+                        this.shopCart[this.id].num = this.data.order_min_num
+                }   else {
+                        let data = JSON.parse(JSON.stringify(this.data))
+                        this.$set(this.shopCart, `${this.id}`, data)
+                    }
+                } else {
+                     this.data.num++
+                     if(this.shopCart[this.id]) {
+                        this.shopCart[this.id].num++
+                }   else {
+                        let data = JSON.parse(JSON.stringify(this.data))
+                        this.$set(this.shopCart, `${this.id}`, data)
+                    }
                 }
+                let params = {
+                    supplier_id: this.factoryId,
+                    good_id: this.id
+                }
+                addShopCar(params)
+                // this.ADD_CART(item)
+                // this.nums++
+                // if (this.canOption()) {
+                //     this.ADD_CART(item)
+                //     this.nums++
+                // }
 
             },
                // 选择通过键盘输入选择添加购物车数量
@@ -280,23 +304,32 @@
                 
                 
                 let params = {
-                    supplier_id: this.businessId,
+                    supplier_id: this.factoryId,
                     good_id: this.id,
                     num: num
                 }
                 addShopCar(params)
             },
             removeToMiniCart() {
-                const item = {
-                    shopId: this.factoryId,
-                    itemId: this.id,
-                    sale_price: this.data.tran * this.data.price
+                if(this.data.num<=0) {
+                    return false
                 }
-                if (this.canOption()) {
-                    this.REMOVE_CART(item)
-                    this.nums--
-
+                // debugger
+                if(this.data.num <= this.data.order_min_num) {
+                    this.data.num = 0
+                     this.shopCart[this.id].num = 0
+                } else {
+                    this.data.num--
+                    this.shopCart[this.id].num--
                 }
+                
+                // console.log(this.data)
+                // this.shopCart[this.id].num--
+                let params = {
+                    supplier_id: this.factoryId,
+                    good_id: this.id
+                }
+                onlyDelShopCar(params)
             },
             CollectionFn() {
                 const params = {

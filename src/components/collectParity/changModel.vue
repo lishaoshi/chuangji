@@ -30,7 +30,7 @@
 
 <script>
 export default {
-    props: ['isShowModel','data', 'isShowRules', 'lianshu'],
+    props: ['isShowModel','data', 'isShowRules'],
     methods: {
         closeModel() {
             this.$emit('update:isShowModel', false)

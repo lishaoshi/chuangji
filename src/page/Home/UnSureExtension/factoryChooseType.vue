@@ -1,7 +1,7 @@
 <template>
   <div class="chooseType">
         <div class="choose_title">
-            <div v-for="(type, key) of choose_type" :key="key" :class="{isActive: key==currentChooseType}" @click="chooseType(type, key)">
+            <div v-for="(type, key) of configs" :key="key" :class="{isActive: key==currentChooseType}" @click="chooseType(type, key)">
                 <span>{{type.name}}</span>
             </div>
         </div>
@@ -10,36 +10,16 @@
 
 <script>
 export default {
+    props: ["configs"],
     data() {
         return {
-            choose_type: [
-                {
-                    name: "流通",
-                    type: 1
-                },
-                {
-                    name: "器械",
-                    type: 2
-                },
-                {
-                    name: "控销",
-                    type: 3
-                },
-                {
-                    name: "中药",
-                    type: 4
-                },
-                {
-                    name: "计生",
-                    type: 5
-                },
-            ],
             currentChooseType: 0
         }
     },
     methods: {
         chooseType(item,key) {
-            this.currentChooseType = key
+            this.currentChooseType = key;
+            this.$emit("chooseType", item.value)
         }
     }
 }
@@ -72,7 +52,7 @@ export default {
                 height: 6px;
                 border-radius: 3px;
                 position: absolute;
-                bottom: 0;
+                bottom: 2px;
             }
         }
     }

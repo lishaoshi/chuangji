@@ -135,12 +135,17 @@
             async sureOrder(id) {
 				this.$messagebox.confirm("确定收到货物了吗?").then(action => {
 					if(action === 'confirm'){
-                        sureBusinessOrder(id).then(()=>{
-                            this.page = 1
-                            this.getOrderList()
-                        })
-                        // this.getOrderList()
-						// this.orderList.splice(this.orderList.findIndex(item => item.id === id), 1)
+                        if(this.selec==2) {
+                            sureBusinessOrder(id).then(()=>{
+                                this.page = 1
+                                this.getOrderList()
+                            })
+                        } else {
+                            sureFactoryOrder(id).then(()=>{
+                                this.page = 1
+                                this.getOrderList()
+                            })
+                        }
 					}
 				}).catch(err => err);
 			},

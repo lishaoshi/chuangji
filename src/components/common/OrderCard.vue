@@ -105,7 +105,7 @@
 <script>
 let tim = null
 import { orderPay, deleteBusinessOrder, againOrder } from "@/api/businessOrder";
-import { againFactoryOrder, deleteFactoryOrder } from "@/api/factoryOrder"
+import { againFactoryOrder, deleteFactoryOrder, sureFactoryOrder } from "@/api/factoryOrder"
 import { setInterval } from 'timers'
 import timingDate from '../timing/timing'
     export default {

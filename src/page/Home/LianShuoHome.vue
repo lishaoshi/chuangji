@@ -26,7 +26,7 @@
 					</svg>
 					<span style="padding-left: 5px">暂时没有消息</span>
 				</div>
-				<div class="add">
+				<!-- <div class="add">
 					<a href="javascript:void(0)">
 						<img src="../../images/index/activityA.png">
 					</a>
@@ -39,7 +39,7 @@
 					<a href="javascript:void(0)">
 						<img src="../../images/index/activityD.png">
 					</a>
-				</div>
+				</div> -->
 				<div class="select-box">
 					<img src="../../images/index/home-leftLine.png">
 					<span> 推荐厂家</span>
@@ -47,10 +47,15 @@
 				</div>
 				<div class="main-body" ref="wrapper" :style="{ height: (wrapperHeight-50) + 'px' }">
 					<!-- <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill"> -->
-						<supplier-item :data="item" v-for="(item,index) in suppliers"/>
+						<choost-type :configs="configs" @chooseType="chooseType"/>
+						<template v-if="suppliers.length>0">
+							<supplier-item :data="item" v-for="(item,index) in suppliers" :key="index"/>
+							<p v-if="allLoaded" class="loader-over">没有更多了</p>
+						</template>
 					<!-- </mt-loadmore> -->
 				</div>
-				<p v-if="allLoaded" class="loader-over">没有更多了</p>
+				
+				 <EmptySupplier v-if="suppliers.length<=0"/>
 		<!-- 		
 				<div @click="authToRouter('/factory/cart')">
 					<img src="../../images/index/shop.png" class="shopcar" />
@@ -76,14 +81,15 @@
 	import SupplierItem from './SupplierItem';
 	import EmptySupplier from '@/components/EmptyList'
 	import Notice from '@/components/common/notice';
-
+	import choostType from "./UnSureExtension/factoryChooseType"
 	export default {
 		name: "page-lianshuo-home",
 		components: {
 			SupplierItem,
 			SearchBar,
 			EmptySupplier,
-			Notice
+			Notice,
+			choostType
 		},
 		data() {
 			return {
@@ -101,7 +107,8 @@
 				courrentPage: 1,
 				limit:20,
 				searchValue: '',
-				lianSho:true
+				lianSho:true,
+				configs: {}
 			}
 		},
 		mounted() {
@@ -123,7 +130,7 @@
 			window.addEventListener('scroll', this.handleScroll, true)
 			// console.log(document.scrollTo, 'scrollto')
 		},
-		created() {
+		async created() {
 			this.initData()
 			this.loadFrist();
 		},
@@ -136,6 +143,21 @@
 			loadBottom() {
 				this.loadMore();
 			},
+			chooseType(vlaue) {
+				this.configValue = vlaue
+                const params = {
+                    page: 1,
+                    limit: this.limit,
+                    search: this.searchValue,
+                }
+                findNearBySuppliers(params).then(res=>{
+                    this.allLoaded = false; // 可以进行上拉
+					this.suppliers = res.data.data.items;
+					if(this.suppliers.length == 0) {
+						this.allLoaded = true
+					}
+                })
+            },
 
 			// 点击删除搜索的图标
 			clearText() {
@@ -146,11 +168,14 @@
 				const params = {
 					page: this.courrentPage,
 					limit: this.limit,
-					search: this.searchValue
+					search: this.searchValue,
 				}
 				findNearBySuppliers(params).then(response => {
 					this.allLoaded = false; // 可以进行上拉
-					this.suppliers = response.data.data;
+					let data = response.data.data
+					this.suppliers = data.items;
+					 this.configs = data.configs;
+					  this.configs.unshift({name: "全部", vlaue: ""})
 					// this.$refs.loadmore.onTopLoaded();
 				})
 			},
@@ -163,8 +188,9 @@
 					search: this.searchValue
 				}
 				findNearBySuppliers(params).then(response => {
-					response.data.data && (this.suppliers = this.suppliers.concat(response.data.data))
-					if (!response.data.data || response.data.data.length < this.limit) {
+					let data = response.data.data
+					data && (this.suppliers = this.suppliers.concat(data.items))
+					if (!data || data.items.length < this.limit) {
 						this.allLoaded = true; // 若数据已全部获取完毕
 					}
 					this.$refs.loadmore.onBottomLoaded();
@@ -180,7 +206,7 @@
 				this.$refs.searchBox.$refs.input.blur()
 				findNearBySuppliers(params).then(response => {
 					this.allLoaded = false; // 可以进行上拉
-					this.suppliers = response.data.data;
+					this.suppliers = response.data.data.items;
 					// this.$refs.loadmore.onTopLoaded();
 				})
 			},
@@ -202,7 +228,7 @@
 				}
 				findNearBySuppliers(params).then(response => {
 					this.allLoaded = false; // 可以进行上拉
-					this.suppliers = response.data.data;
+					this.suppliers = response.data.data.items;
 					// this.$refs.loadmore.onTopLoaded();
 				})
 			},

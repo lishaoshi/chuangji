@@ -16,9 +16,13 @@
                 <div>商品学名</div>
                 <div>{{this.data.good_name}}</div>
             </li>
-            <li>
+            <li v-if="data.brand">
                 <div class="textLett">品 牌</div>
                 <div>{{data.brand.name}}</div>
+            </li>
+            <li v-else>
+                <div class="textLett">品 牌</div>
+                <div>{{data.supplier.display_name}}</div>
             </li>
             <li>
                 <div class="textLett">规 格</div>
@@ -91,7 +95,7 @@ export default {
         },
         isShop() {
             // return this.$moment(this.data.valid_time*1000).format("YYYY.MM.DD")
-            if(this.$route.path.includes('business')) {
+            if(this.$route.path.includes('business') || this.$route.path.includes('factory/shop/')) {
                 return false
             } else {
                 return true

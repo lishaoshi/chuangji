@@ -25,20 +25,26 @@
                             <!-- 一级菜单没有下拉 -->
                             <span v-else @click="showGoods(menu.id)" class="sp1"
                                   :class="`${is_active===menu.id?'active':''}`">{{menu.name}}</span>
-                            <div class="down-menu" style="height: 0px"  ref="slideChild">
-                                <div>
-                                    <p v-for="(childrenMenu,index) in menu.child"
-                                       :class="`${childrenMenu.id===is_child_id?'child-active':''}`"
-                                       @click="showSlideGoods(childrenMenu.id,menu.id)"
-                                       :key="index"
-                                    >
-                                        <span>{{childrenMenu.name}}</span>
-                                        <svg v-if="childrenMenu.id===is_child_id">
-                                            <use xlink:href="#icon-peisongshang-caidananniu"></use>
-                                        </svg>
-                                    </p>
+                            
+                            <transition
+                            enter-active-class="mySlideInDown"
+                            leave-class="leave"
+                            >
+                                <div class="down-menu" v-show="is_active===menu.id"  ref="slideChild">
+                                    <div>
+                                        <p v-for="(childrenMenu,index) in menu.child"
+                                        :class="`${childrenMenu.id===is_child_id?'child-active':''}`"
+                                        @click="showSlideGoods(childrenMenu.id,menu.id)"
+                                        :key="index"
+                                        >
+                                            <span>{{childrenMenu.name}}</span>
+                                            <svg v-if="childrenMenu.id===is_child_id">
+                                                <use xlink:href="#icon-peisongshang-caidananniu"></use>
+                                            </svg>
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
+                            </transition>
                         </div>
                     </div>
                 </div>
@@ -231,9 +237,9 @@
                     item.classList.remove("active");
                     item.classList.add("up");
                 })
-                childNode.forEach(item => {
-                    this.toggleSlide(item, 0, '500');
-                })
+                // childNode.forEach(item => {
+                //     this.toggleSlide(item, 0, '500');
+                // })
 
             },
             keyupEnter(value) {
@@ -277,7 +283,7 @@
                     a[i].childNodes[0].classList.remove("active");
                     a[i].childNodes[0].classList.add("up");
                     let b = a[i].childNodes[1]
-                    this.toggleSlide(b, 0, '500');
+                    // this.toggleSlide(b, 0, '500');
                 }
                 this.cat_id = id
                 this.page = 1
@@ -296,6 +302,8 @@
                 if(this.current_id != id) {
                     this.allLoaded = false
                     this.current_id = id
+                    
+                    console.log( this.is_active, '123')
                     this.page = 1
                     let params = {
                         cat_id: this.current_id, 
@@ -306,7 +314,8 @@
                     }
                     this.init_Goods(params)
                 }
-                this.is_active=id
+                // this.is_active=id
+                this.is_active = this.is_active == id?'':id
                 let targetNode = event.target
                 targetNode.classList.add("active"); //添加当前样式
                 let parentNode = targetNode.parentNode;
@@ -315,7 +324,7 @@
                     a[i].childNodes[0].classList.remove("active");
                     a[i].childNodes[0].classList.add("up");
                     let b = a[i].childNodes[1]
-                    this.toggleSlide(b, 0, '500');
+                    // this.toggleSlide(b, 0, '500');
                 }
                 //targetNode.classList.remove("active");
                 let curTarget = event.currentTarget,
@@ -328,16 +337,17 @@
                 let detailScrollHeight = nextSibling.scrollHeight;
                 if (containsCurClass) {
                     curTarget.classList.remove("up");
-                    this.toggleSlide(nextSibling, detailScrollHeight, '500');
+                    // this.toggleSlide(nextSibling, detailScrollHeight, '500');
                 } else {
                     curTarget.classList.add("up");
-                    this.toggleSlide(nextSibling, 0, '500');
+                    // this.toggleSlide(nextSibling, 0, '500');
                 }
             },
             //toggle动画
             toggleSlide: function (dom, height, time) {
                 dom.style.transition = 'height ' + time + 'ms';
-                dom.style.height = height + 'px';
+                dom.style.height = height + 'px'
+                // dom.style.height = "auto"
             },
             //同胞节点
             sibling: function (elem) {
@@ -353,7 +363,7 @@
             //二级菜单商品
             showSlideGoods(id, ids, $event) {
                 this.allLoaded = false
-                this.is_active = id
+                this.is_active = ids
                 this.is_child_id = id
                 this.cat_id = id
                 this.page = 1
@@ -517,6 +527,32 @@
 </script>
 
 <style scoped lang="scss">
+@keyframes mySlideInDown
+{
+    from {
+        transform: scale(1, 0);
+    }
+    to {
+        transform: scale(1, 1);
+    }
+}
+@keyframes mySlideOutUp
+{
+    from {
+        transform: scale(1, 1);
+        transition: all .8s; 
+    }
+    to {
+        transform: scale(1, 0);
+        transition: all .8s; 
+    }
+}
+.mySlideInDown {
+    animation: mySlideInDown .3s;
+}
+.mySlideOutUp {
+    animation: mySlideOutUp .5s;
+}
 .goodsClassification {
     display: flex;
     flex-direction: column;
@@ -601,9 +637,11 @@
             color: #333;
 
             .sp1 {
-                display: block;
-                height: 1rem;
-                line-height: 1rem;
+                // display: block;
+                min-height: 1rem;
+                display: flex;
+                align-items: center;
+                // line-height: 1rem;
                 padding-left: .15rem;
                 overflow: hidden;
                 border-left: 2px solid #E6E6E6;
@@ -617,15 +655,18 @@
             .down-menu {
                 background: #fff;
                 overflow: hidden;
-
+                transform-origin: 0 0;
                 p {
                     white-space: nowrap;
                     text-overflow: ellipsis;
                     font-size: .24rem;
                     padding-left: .2rem;
                     padding-right: .1rem;
-                    height: .8rem;
-                    line-height: .8rem;
+                    min-height: .8rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    // line-height: .8rem;
 
                     span {
                         display: inline-block;

@@ -209,18 +209,11 @@
 
             // 计算总件数函数
             calculateCartNum() {
-                 let num = 0;
-                Object.values(this.shopCart).forEach((item, index) => {
-                    if(item&&item.num>0) {
-                        num +=  +item.num;
-                    }
-                })
-               return num
+                return Object.values(this.shopCart).filter(item=>item.num>0).length
             },
             // 点击选择软键盘加入购物车
 			handleChoose(item, index) {
                 item.isSelfChoose = true
-				// this.$emit('updateSlefChoss', true, index)
             },
             // 处理输入框失去焦点触发
 			async handleBlur(event, item, index) {

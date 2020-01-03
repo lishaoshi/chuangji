@@ -2,7 +2,7 @@
     <div class="home" ref="home">
         <!-- <scroll> -->
         <div class="content">
-            <mt-loadmore :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
+            <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
                 <div v-bind:class="{ search: isActive, 'bg-blue': hasError  }">
                     <SearchBar ref="searchBox" :business='business' v-model="searchValue" :searchFn="searchFn" @input="input" @keyup="keyup" @clearText='clearText'></SearchBar>
                     <div class="approve">
@@ -44,13 +44,22 @@
                 <span>推荐厂家</span>
                 <img src="../../images/index/home-rightLine.png">
             </div> -->
+            <div class="select-box">
+                <img src="../../images/index/home-leftLine.png">
+                <span> 推荐厂家</span>
+                <img src="../../images/index/home-rightLine.png">
+            </div>
             <div class="main-body">
                 <!--  :style="{ height: (wrapperHeight-50) + 'px' }" :bottom-method="loadBottom" -->
-                <choost-type />
-                <supplier-item :data="item" v-for="(item,index) in suppliers" :key="index"/>
+                <choost-type :configs="configs" @chooseType="chooseType"/>
+                <template v-if="suppliers.length>0">
+                    <supplier-item :data="item" v-for="(item,index) in suppliers" :key="index"/>
+                    <p v-if="allLoaded" class="loader-over">加载完毕</p>
+                </template>
             </div>
-            <p v-if="allLoaded" class="loader-over">加载完毕</p>
+                
             </mt-loadmore>
+            <EmptySupplier v-if="suppliers.length<=0"/>
             <!--
             <div @click="authToRouter('/factory/cart')">
                 <img src="../../images/index/shop.png" class="shopcar" />
@@ -67,7 +76,7 @@
             </div>
         </div>
         <!-- </scroll> -->
-        <clxsd-foot-guide :user-type="2"/>
+        <clxsd-foot-guide :user-type="2" class="foot"/>
     </div>
 </template>
 
@@ -109,15 +118,10 @@
                 isFirst: true,
                 business:true,
                 currentChooseType: 0,
-                
+                configs: [],
+                configValue: ""
             }
         },
-        // mounted() {
-        //     // 父控件要加上高度，否则会出现上拉不动的情况
-        //     this.wrapperHeight =
-        //         document.documentElement.clientHeight -
-        //         this.$refs.wrapper.getBoundingClientRect().top;
-        // },
         computed: {
             // ...mapState(['POSITION']),
             ...mapState({
@@ -138,7 +142,6 @@
         },
         mounted() {
             window.addEventListener('scroll', this.handleScroll, true)
-            
         },
        
         created() {
@@ -155,13 +158,29 @@
                 this.courrentPage = 1
                 this.loadFrist();
             },
+            chooseType(vlaue) {
+                this.configValue = vlaue
+                const params = {
+                    page: 1,
+                    limit: this.limit,
+                    search: this.searchValue,
+                    type: vlaue
+                }
+                findNearBySuppliers(params).then(res=>{
+                    this.allLoaded = false; // 可以进行上拉
+                    this.suppliers = res.data.data.items;
+                    if(this.suppliers.length == 0) {
+						this.allLoaded = true
+					}
+                })
+            },
             // 前往购物车
             goShopCart() {
                 this.$router.push({path:'/factory/cart'})
             },
             // 上拉加载
             loadBottom() {
-                this.loadMore();
+                return this.loadMore();
             },
              // 点击搜索
             searchFn() {
@@ -172,7 +191,7 @@
                 }
                 findNearBySuppliers(params).then(response => {
                     this.allLoaded = false; // 可以进行上拉
-                    this.suppliers = response.data.data;
+                    this.suppliers = response.data.data.items;
                     // this.$refs.loadmore.onTopLoaded();
                 })
             },
@@ -186,7 +205,7 @@
                 this.$refs.searchBox.$refs.input.blur()
                 findNearBySuppliers(params).then(response => {
                     this.allLoaded = false; // 可以进行上拉
-                    this.suppliers = response.data.data;
+                    this.suppliers = response.data.data.items;
                     // this.$refs.loadmore.onTopLoaded();
                 })
                 
@@ -198,11 +217,15 @@
             loadFrist() {
                 const params = {
                     page: this.courrentPage,
-                    limit: this.limit
+                    limit: this.limit,
                 }
                 findNearBySuppliers(params).then(response => {
+                    let data = response.data.data
                     this.allLoaded = false; // 可以进行上拉
-                    this.suppliers = response.data.data;
+                    this.suppliers = data.items;
+                    this.configs = data.configs;
+                    this.configs.unshift({name: "全部", vlaue: ""})
+                    console.log(this.configs)
                     // this.$refs.loadmore.onTopLoaded();
                 })
             },
@@ -214,11 +237,12 @@
                     limit: this.limit
                 }
                 findNearBySuppliers(params).then(response => {
-                    response.data.data && (this.suppliers = this.suppliers.concat(response.data.data))
-                    if (!response.data.data || response.data.data.length < this.limit) {
-                        this.allLoaded = true; // 若数据已全部获取完毕
-                    }
-                    this.$refs.loadmore.onBottomLoaded();
+                    let data = response.data.data
+					data && (this.suppliers = this.suppliers.concat(data.items))
+					if (!data || data.items.length < this.limit) {
+						this.allLoaded = true; // 若数据已全部获取完毕
+					}
+					this.$refs.loadmore.onBottomLoaded();
                 })
             },
             async initData() {
@@ -248,12 +272,19 @@
     .main-body {
         /* 加上这个才会有当数据充满整个屏幕，可以进行上拉加载更多的操作 */
         overflow: scroll;
-        margin-top: .3rem;
+    }
+    .home {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        .foot {
+            height: 1rem;
+        }
     }
     .content {
-        height: 100vh;
-        margin-bottom: 1rem;
+        flex: 1;
         overflow: auto;
+        margin-bottom: 1rem;
     }
     .noticesBox {
        padding: 0.16rem 0;

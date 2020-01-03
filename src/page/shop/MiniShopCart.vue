@@ -4,7 +4,7 @@
         <div class="mini-shop-cart">
             <div class="total_price">
                 <p><i>￥</i><i id="totalPrice">{{totalPrice}}</i></p>
-                <p>已选<i id="totalProductCount">{{count}}</i>件</p>
+                <p>已选<i id="totalProductCount">{{count}}</i>个品种</p>
             </div>
             <div v-if="USER_TYPE === 2" @click="goPay">
                 <div class="join_shop" :class="{'toPay':count}">
