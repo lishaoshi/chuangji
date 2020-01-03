@@ -80,6 +80,9 @@ const Record = () => import(/* webpackChunkName: "About" */ '@/page/Invitation/I
 /* 发票信息 */
 const Invoice = () => import(/* webpackChunkName: "About" */ '@/page/Invoice/invoice.vue');
 
+/*定制生产 */
+const cusTomOrder = () => import('@/page/Factory/factoryCustom')
+
 
 export default [
     {
@@ -497,6 +500,13 @@ export default [
         component: Invoice,
         meta: {
             title: "发票信息",
+        }
+    },
+    {
+        path: "/custom-order",
+        component: cusTomOrder,
+        meta: {
+            title: "定制生产",
         }
     },
 ]

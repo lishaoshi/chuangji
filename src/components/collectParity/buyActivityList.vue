@@ -4,8 +4,8 @@
             <div class="line"></div>
             <span>[{{data.group_buying.end_time | handleTime}}] {{data.group_buying.group_type.name}}
             </span>
-            <span class="ismy" v-if="supplierId==data.supplier_id">我发布的</span>
-            <svg v-if="supplierId==data.group_buying.successful_supplier_id">
+            <span class="ismy" v-if="supplierId==data.supplier_id&&showBrand">我发布的</span>
+            <svg v-if="supplierId==data.group_buying.successful_supplier_id&&showBrand">
                 <use xlink:href="#icon-winBidding"/>
             </svg>    
         </div>
@@ -14,7 +14,7 @@
             <img :src="data.group_buying.product.cover" alt="">
             <div class="info">
                 <p>{{data.group_buying.generic_name}}</p>
-                <p> 
+                <p v-if="showBrand"> 
                     <span>
                         品牌:&nbsp;
                     </span>{{data.group_buying.brand_name}}</p>
@@ -31,8 +31,8 @@
                     {{data.group_buying | handleSpec}}
                 </p>
                 <slot name="price">
-                    <section class="price-box">
-                    <div class="min-price">
+                    <section class="price-box" v-if="showBrand">
+                        <div class="min-price">
                             <span>最低价(元/{{data.group_buying.unit}})</span>
                             <span>{{data.group_buying.latest_price}}</span>
                         </div>
@@ -49,6 +49,7 @@
                 </slot>
             </div>
         </div>
+        <slot name="factoryCustom"/>
         <slot name="foot">
             <div class="btn-group">
                 <div @click="toRouter(`/change-history/${data.group_buying.id}`)">
@@ -59,6 +60,7 @@
                 </div>
             </div>
         </slot>
+        
     </div>
 </template>
 
@@ -69,6 +71,10 @@ export default {
         data: {
             type: Object,
             default:()=>{}
+        },
+        showBrand: {
+            type: Boolean,
+            default: true
         }
     },
     computed: {
