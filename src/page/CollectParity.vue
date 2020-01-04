@@ -103,8 +103,6 @@ export default {
           e.target.value = (e.target.value.match(/^\d*(\.?\d{0,3})/g)[0]) || null
           this.input = e.target.value;
       } else if(this.type==2) {
-          // e.target.value = (e.target.value.match(/^\d*(\.?\d{0,2})/g)[0]) || null
-          // this.input = e.target.value;  
           this.input = e.target.value.replace(/[^0-9]/g, '')
       }
     },
