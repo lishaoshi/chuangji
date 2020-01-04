@@ -70,7 +70,7 @@
 <script>
 import changModel from "@/components/collectParity/changModel"
 import bg from "@/components/collectParity/bg";
-import { buyCustomize }   from "@/api/factory"
+import { buyCustomize, getNewCustomizeNum }   from "@/api/factory"
 export default {
     props: {
         data: {
@@ -111,7 +111,13 @@ export default {
     },
     methods: {
         handleCustom() {
-            this.isShowModel = true
+            getNewCustomizeNum(this.data.id).then(res=>{
+                if(res.data.num) {
+                    this.input = res.data.num
+                }
+                this.isShowModel = true
+            })
+            
         },
         confirmPrice() {
             const params = {

@@ -17,3 +17,12 @@ export function buyCustomize(params, id) {
         return res.data
     })
 }
+
+/**
+ * 获取最新的定制数量
+ */
+export function getNewCustomizeNum(id) {
+    return http.get(`/hippo-shop/factory/customize/${id}/my-num`).then(res=>{
+        return res.data
+    })
+}
