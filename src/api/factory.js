@@ -26,3 +26,13 @@ export function getNewCustomizeNum(id) {
         return res.data
     })
 }
+
+/**
+ * 查看参与的定制列表
+ * 
+ */
+export function getMyCustomList(params) {
+    return http.get(`/hippo-shop/factory/customize/joined`, {params}).then(res=>{
+        return res.data
+    })
+}

@@ -62,10 +62,16 @@ export default {
             let nowTime = this.$moment()
             let allSeconds = nowTime.get('seconds')
             let nowDay = this.$moment(this.remaningTime).get('date');
+            let nextDate;
             if(nowDay <= 12) {
                 let nowMonth = this.$moment(this.remaningTime).month()+1;
                 let nowYeary = this.$moment(this.remaningTime).year();
-                let nextDate = this.$moment(`${nowYeary}-${nowMonth}-12 23:59:59`)
+                if(nowMonth < 10) {
+                    nowMonth = `0${nowMonth}`
+                    nextDate = this.$moment(`${nowYeary}-${nowMonth}-12 23:59:59`)
+                } else {
+                    nextDate = this.$moment(`${nowYeary}-${nowMonth}-12 23:59:59`)
+                }
                 this.t1 = Math.floor(nextDate.diff(nowTime)/1000)
                 this.day = Math.floor(this.t1/(60*60*24))
                 this.house = Math.floor(this.t1/(60*60)%24)
@@ -84,7 +90,6 @@ export default {
                     nextDate = this.$moment(`${nowYeary}-${nowMonth}-12 23:59:59`)
                 }
                 this.t1 = Math.floor(nextDate.diff(nowTime)/1000)
-                
                 this.day = Math.floor(this.t1/(60*60*24))
                 this.house = Math.floor(this.t1/(60*60)%24)
                 this.minutes = Math.floor(this.t1/(60)%60)

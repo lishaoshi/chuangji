@@ -14,7 +14,7 @@
             <div class="progress">
                 <div :style="{width: progressWidth + '%'}" class="progress-bg">
                 </div>
-                <div class="progress-margin" v-for="(item, index) of data.rules" :key="index" :style="{left: `${(index+1)*left}%`, color: `${(index+1)*left<=progressWidth?'#fff':'#FF3B30'}`}">
+                <div class="progress-margin" v-for="(item, index) of data.rules" :key="index" :style="{left: `${ Math.floor(item.num / maxNum*100)}%`, color: `${Math.floor(item.num / maxNum*100)<=progressWidth?'#fff':'#FF3B30'}`}">
                     <p>
                         {{item.num}}{{data.big_unit}}
                     </p>
@@ -33,7 +33,7 @@
 
         <div class="price-bottom">
             <div>
-                <span>定制价格(元/{{data.unit}})</span>
+                <span>定制价(元/{{data.unit}})</span>
                 <span>{{data.customized_price}}</span>
             </div>
             <div>
@@ -104,6 +104,9 @@ export default {
     computed: {
         left() {
             return Math.floor(100 / this.data.rules.length)
+        },
+        maxNum() {
+            return this.data.rules[this.data.rules.length-1].num
         },
         progressWidth() {
             return Math.floor((this.data.total / +this.data.rules[this.data.rules.length-1].num)*100)
