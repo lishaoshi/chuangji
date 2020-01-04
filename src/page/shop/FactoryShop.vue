@@ -209,7 +209,7 @@
                 let infoParams = {
                     from: "factory",
                     supplier_id:  this.factoryId,
-                    space: "tuiguang-all",
+                    space: "factory-top-information",
                     limit: this.limit
                 }
                 getNewInformmationList(infoParams).then(res=>{

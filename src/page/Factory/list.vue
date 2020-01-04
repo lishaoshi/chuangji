@@ -14,7 +14,7 @@
             <div class="progress">
                 <div :style="{width: progressWidth + '%'}" class="progress-bg">
                 </div>
-                <div class="progress-margin" v-for="(item, index) of data.rules" :key="index" :style="{left: `${(index+1)*left}%`, color: `${(index+1)*left<progressWidth?'#fff':'#FF3B30'}`}">
+                <div class="progress-margin" v-for="(item, index) of data.rules" :key="index" :style="{left: `${(index+1)*left}%`, color: `${(index+1)*left<=progressWidth?'#fff':'#FF3B30'}`}">
                     <p>
                         {{item.num}}{{data.big_unit}}
                     </p>
@@ -114,10 +114,6 @@ export default {
             this.isShowModel = true
         },
         confirmPrice() {
-            if(this.input < this.data.order_min_num) {
-                this.$toast(`最小定制量为${this.data.order_min_num}${this.data.unit}`)
-                return false
-            }
             const params = {
                 num: this.input
             }
@@ -132,8 +128,8 @@ export default {
             })
             // console.log(123)
         },
-        handleInput() {
-
+        handleInput(e) {
+             this.input = e.target.value.replace(/[^0-9]/g, '')
         }
     }
 }
