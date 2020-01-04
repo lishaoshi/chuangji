@@ -82,7 +82,9 @@ import default_company_logo from "@/images/default_company_logo.png"
         border-bottom: 1px solid rgb(230, 230, 230);
         background: #fff;
         // display: flex;
+        border-radius: 0 0 16px 16px;
         padding: 10px;
+        
 
         .brand {
             // height: 1.2rem;

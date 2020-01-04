@@ -169,6 +169,7 @@
                 findNearBySuppliers(params).then(res=>{
                     this.allLoaded = false; // 可以进行上拉
                     this.suppliers = res.data.data.items;
+                   
                     if(this.suppliers.length == 0) {
 						this.allLoaded = true
 					}
@@ -225,8 +226,6 @@
                     this.suppliers = data.items;
                     this.configs = data.configs;
                     this.configs.unshift({name: "全部", vlaue: ""})
-                    console.log(this.configs)
-                    // this.$refs.loadmore.onTopLoaded();
                 })
             },
             // 加载更多
@@ -272,6 +271,10 @@
     .main-body {
         /* 加上这个才会有当数据充满整个屏幕，可以进行上拉加载更多的操作 */
         overflow: scroll;
+        &>.company:not(:nth-of-type(2)) {
+            border-radius: 16px 16px 16px 16px;
+            margin-top: .2rem;
+        }
     }
     .home {
         display: flex;

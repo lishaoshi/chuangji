@@ -247,7 +247,11 @@
 <style lang="scss" scoped>
 	.main-body {
 		/* 加上这个才会有当数据充满整个屏幕，可以进行上拉加载更多的操作 */
-		// overflow: scroll;
+		overflow: scroll;
+		&>.company:not(:nth-of-type(2)) {
+            border-radius: 16px 16px 16px 16px;
+            margin-top: .2rem;
+        }
 	}
 
 	 .home {

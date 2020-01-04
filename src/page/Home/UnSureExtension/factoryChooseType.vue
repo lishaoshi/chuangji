@@ -34,6 +34,7 @@ export default {
         display: flex;
         justify-content: space-around;
         align-items: center;
+        border-radius: 16px 16px 0 0;
         .isActive {
             color: #333;
             font-size: .34rem;
