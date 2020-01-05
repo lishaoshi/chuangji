@@ -91,7 +91,7 @@
     import OrderCard from "@/components/common/OrderCard"
     import EmptyOrder from '@/components/EmptyList'
     import { mapState } from "vuex";
-    import { getFactoryOrderList } from "@/api/factoryOrder.js"
+    import { getFactoryOrderList, sureFactoryOrder } from "@/api/factoryOrder.js"
 
     export default {
         name: "FactoryOrder",
@@ -184,12 +184,11 @@
             async sureOrder(id) {
 				this.$messagebox.confirm("确定收到货物了吗?").then(action => {
 					if(action === 'confirm'){
-                        sureBusinessOrder(id).then(()=>{
+                        sureFactoryOrder(id).then(()=>{
                             this.page = 1
                             this.getOrderList()
+                            this.$toast("确认收货成功")
                         })
-                        // this.getOrderList()
-						// this.orderList.splice(this.orderList.findIndex(item => item.id === id), 1)
 					}
 				}).catch(err => err);
 			},

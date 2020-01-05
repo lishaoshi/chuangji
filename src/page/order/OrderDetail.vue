@@ -172,7 +172,7 @@
 <script>
 	import Spread from "../Spread";
 	import {sureSendBusinessOrder, sureBusinessOrder, againOrder, deleteBusinessOrder} from "@/api/businessOrder.js"
-	import { factoryOrderDetail, againFactoryOrder } from "@/api/factoryOrder"
+	import { factoryOrderDetail, againFactoryOrder, sureFactoryOrder } from "@/api/factoryOrder"
 	import { orderPay } from "@/api/businessOrder"
 	import { mapState } from 'vuex'
     export default {
@@ -339,14 +339,22 @@
 			// 			console.log(action);
 			// 	});
 			// },
-			async confirmGoods() {
-				this.$messagebox.confirm("确认收货吗?").then(action => {
-						sureBusinessOrder(this.orderId).then(res=>{
-							// if(res.data.data)
-							this.data.order_status = 4
-							this.$toast('收货成功')
-						})
-				});
+			async sureOrder(id) {
+				this.$messagebox.confirm("确定收到货物了吗?").then(action => {
+					if(action === 'confirm'){
+                        if(!this.isFactory) {
+                            sureBusinessOrder(id).then(()=>{
+                                this.page = 1
+                                this.getOrderList()
+                            })
+                        } else {
+                            sureFactoryOrder(id).then(()=>{
+                                this.page = 1
+                                this.getOrderList()
+                            })
+                        }
+					}
+				}).catch(err => err);
 			},
 			handleToShop() {
 				// debugger

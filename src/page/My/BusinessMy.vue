@@ -42,7 +42,7 @@
 						<clxsd-cell title="工业订单" icon="my-ordering" />
 					</div>
 					<clxsd-cell title="集采活动" :to="'/buy-activite-list'" is-link icon="my-collectParity" />
-					<clxsd-cell title="定制生产" :to="'/custom-order'" is-link icon="my-collectParity" />
+					<clxsd-cell title="定制生产" :to="'/custom-order'" is-link icon="dingzhishengchan" />
 				</div>
 				<ul class="my-list">
 					<clxsd-cell :title="'集采返利'" :to="'/ticket-list'" is-link icon="my-banknote" :value="userInfo.lianPiaoVaule" />
@@ -79,7 +79,8 @@
             return {
                 currentValue:0.00,
                 lianBeiValue:0.00,
-                isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
+				isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
+				color: "FF7612"
             }
         },
 		computed: {
