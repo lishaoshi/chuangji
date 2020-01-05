@@ -28,7 +28,7 @@
 
 <script>
 import headTitle from '@/components/HeadTop.vue'
-import { queryAnnouncementDetail } from '@/api/announcement'
+import { queryAnnouncementDetail, getBannerDetail } from '@/api/announcement'
 export default {
     data() {
         return {
@@ -37,12 +37,14 @@ export default {
             content: '',
             logo: '',
             companyName: '',
-            time: ''
+            time: '',
+            isBanner: false
         }
     },
     created() {
         if(this.$route.query.id) {
             this.id = this.$route.query.id
+            this.isBanner = this.$route.query.isBanner
         } else {
             this.$router.push('/')
         }
@@ -54,14 +56,26 @@ export default {
          */
         _getInfoData() {
             // debugger
-            queryAnnouncementDetail({}, this.id).then(res=>{
-                let data = res.data
-                this.content = data.content;
-                this.logo = data.supplier.img_cover;
-                this.title = data.title;
-                this.companyName = data.supplier.name;
-                this.time = this.$moment.unix(data.created_at).format("YYYY-MM-DD HH:mm:ss")
-            })
+            if(!this.isBanner) {
+                queryAnnouncementDetail({}, this.id).then(res=>{
+                    let data = res.data
+                    this.content = data.content;
+                    this.logo = data.supplier.img_cover;
+                    this.title = data.title;
+                    this.companyName = data.supplier.name;
+                    this.time = this.$moment.unix(data.created_at).format("YYYY-MM-DD HH:mm:ss")
+                })
+            } else {
+                getBannerDetail({}, this.id).then(res=>{
+                    let data = res.data
+                    this.content = data.content;
+                    this.logo = data.supplier.img_cover;
+                    this.title = data.title;
+                    this.companyName = data.supplier.name;
+                    this.time = this.$moment.unix(data.created_at).format("YYYY-MM-DD HH:mm:ss")
+                })
+                
+            }
         }
     },
     components: {

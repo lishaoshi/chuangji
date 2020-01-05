@@ -73,7 +73,7 @@
                 } else if(item.target_type == 'target_none') {
                     return false
                 } else if(item.target_type == "information_detail") {
-                    this.$router.push({path:'/bannerDetail',query: {id:item.id}})
+                    this.$router.push({path:'/bannerDetail',query: {id:item.id, isBanner: false}})
                 }
                
             },

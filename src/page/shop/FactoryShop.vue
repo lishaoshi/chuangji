@@ -232,7 +232,7 @@
                 } else if(item.target_type == 'target_none') {
                     return false
                 } else if(item.target_type == "information_detail") {
-                    this.$router.push({path:'/bannerDetail',query: {id:item.id}})
+                    this.$router.push({path:'/bannerDetail',query: {id:item.id,isBanner:true}})
                 }
             },
             handleDZBtn() {
@@ -266,7 +266,7 @@
                 }).catch(error => {
                     // console.log(error)
                 })
-                adList({channel: 'app',from:"factory", space: 'factory-top-ads'}).then( data => {
+                adList({channel: 'app',from:"factory",supplier_id:this.factoryId, space: 'factory-top-ads'}).then( data => {
 					this.swipers = data.data.data
 				})
             },
