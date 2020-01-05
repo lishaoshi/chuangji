@@ -31,8 +31,8 @@
             </router-link>
             <div class="img_list_box">
                 <div class="img_box" v-for="(item, index) of data.groups" :key="index">
-                    <img :src="item.cover" alt="">
-                    <p>已采{{item.sale_num}}{{item.big_unit}}</p>
+                    <img :src="`${item.product.cover}?x-oss-process=image/resize,w_300,m_fixed,h_300,limit_0`" alt="">
+                    <p>已采{{item.total}}{{item.product.big_unit}}</p>
                 </div>
                 
             </div>
