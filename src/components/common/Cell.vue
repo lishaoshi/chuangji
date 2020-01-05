@@ -7,8 +7,8 @@
         <div class="clxsd-cell-wrapper">
             <div class="clxsd-cell-title">
                 <slot name="icon">
-                    <svg  v-if="icon" class="cell-icon">
-                        <use :xlink:href="'#icon-' + icon"/>
+                    <svg  v-if="icon" class="cell-icon" >
+                        <use :xlink:href="'#icon-' + icon" fill="#FF7612"/>
                     </svg>
                 </slot>
                 <slot name="title">
@@ -37,7 +37,8 @@
             title: String,
             label: String,
             isLink: Boolean,
-            value: {}
+            value: {},
+            color: String
         },
         computed:{
             href(){
