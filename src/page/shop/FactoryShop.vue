@@ -190,7 +190,7 @@
         },
         mounted() {
             // debugger
-            // window.addEventListener('scroll', this.handleScroll, true)
+            window.addEventListener('scroll', this.handleScroll, true)
             this.initData()
             this._initData()
         },
@@ -566,7 +566,7 @@
         padding-top: 85px;
     }
     .bg2 {
-        height: 1.4rem;
+        height: .92rem;
     }
     .fade-enter-active, .fade-leave-active {
         // transition: opacity .5s;

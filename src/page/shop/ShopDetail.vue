@@ -51,17 +51,17 @@
             <div class="contant" style="margin-top: .2rem">
                 <div class="price-flex">
                     <div class="info1">
-                        <i>{{data.price}}
-                            <small>/{{data.unit}}</small>
-                        </i>
-                        <p>采购价</p>
-                    </div>
-                    <div class="line"></div>
-                    <div class="info1">
                         <i>{{data.market_price}}
                             <small>/{{data.unit}}</small>
                         </i>
-                        <p>建议零售价</p>
+                        <p>市场价(元)</p>
+                    </div>
+                    <div class="line"></div>
+                    <div class="info1">
+                        <i>{{data.price}}
+                            <small>/{{data.unit}}</small>
+                        </i>
+                        <p>订货价(元)</p>
                     </div>
                 </div>
             </div>
