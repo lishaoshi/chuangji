@@ -49,7 +49,7 @@
 					<!-- <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill"> -->
 						<choost-type :configs="configs" @chooseType="chooseType"/>
 						<template v-if="suppliers.length>0">
-							<supplier-item :data="item" v-for="(item,index) in suppliers" :key="index"/>
+							<supplier-item :data="item" v-for="(item,index) in suppliers" :key="index" :index="index"/>
 							<p v-if="allLoaded" class="loader-over">没有更多了</p>
 						</template>
 					<!-- </mt-loadmore> -->

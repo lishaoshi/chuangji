@@ -247,7 +247,7 @@
                 }).catch(error => {
                     // console.log(error)
                 })
-                adList({channel: 'app', space: 'factory-top-ads'}).then( data => {
+                adList({channel: 'app',from:"factory", space: 'factory-top-ads'}).then( data => {
 					this.swipers = data.data.data
 				})
             },

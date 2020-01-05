@@ -34,8 +34,7 @@
                 <div>{{item.name}}</div>
                 <div class="content">
                     <span>金额</span>
-                    <span v-if="userType==3">￥{{+item.order_amount+(+item.freight) | filterFixed}}<span>{{item.freight==0?'(免配送费)':`(包含配送费${item.freight})`}}</span></span>
-                    
+                    <span>￥{{+item.order_amount+(+item.freight) | filterFixed}}<span v-if="item.type!==1">{{item.freight==0?'(免配送费)':`(包含配送费${item.freight})`}}</span></span>
                 </div>
                 <div class="content">
                     <span>订单编号</span>

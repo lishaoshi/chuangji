@@ -35,7 +35,7 @@ export default (Vue , options = {})=>{
     //页面可视区域的高度
         // var windowHeight = window.innerHight;
     //top + 10 已经进入了可视区域10像素
-        if(top + 100 < window.innerHeight){
+        if(top + 10 < window.innerHeight){
             var image = new Image();
             image.src = src;
             image.onload = function(){

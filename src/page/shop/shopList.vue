@@ -7,7 +7,7 @@
                         <!-- <mt-loadmore ref="loadmore" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false"> -->
                         <router-link :to="`/factory/shop/${factoryId}/${item.id}`">
                             <div class="list-img">
-                                    <img v-lazyload="`${item.cover}`" />
+                                    <img :src="`${item.cover}?x-oss-process=image/resize,w_300,m_fixed,h_300,limit_0`" />
                                 </div>
                                 <div class="list-title">{{item.generic_name}}</div>
                         </router-link>
