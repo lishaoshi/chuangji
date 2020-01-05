@@ -24,7 +24,8 @@
         <transition name="fade">
             <div class="company" :class="{activebox2: isFullScreen}">
                 <div class="brand" @click="queryCompanyDetail">
-                    <img :src="shopDetailData.img_cover || default_company_logo" alt="">
+                    <img v-if="shopDetailData.img_cover" :src="shopDetailData.img_cover" alt="">
+                    <default-logo v-else :name="shopDetailData.shortName || []" :bgColor=bgColor></default-logo>
                 </div>
                 <div class="message">
                     <div class="message_title" @click="queryCompanyDetail">
@@ -155,11 +156,13 @@
     import default_company_logo from "@/images/default_company_logo.png";
     import {adList, getNewInformmationList} from "@/api/ad";
     import Notice from '@/components/common/notice3';
+    import defaultLogo from "@/components/common/defaultLogo"
     export default {
         name: "FactoryShop",
         components: {
             GoodList,
-            Notice
+            Notice,
+            defaultLogo
         },
         data() {
             return {
@@ -178,7 +181,8 @@
                 searchValue: '',
                 default_company_logo,
                 swipers: [],
-                notices: []
+                notices: [],
+                bgColor: 5
             }
         },
         created() {
@@ -251,6 +255,11 @@
                 const {
                     data
                 } = await supplierDetails(this.factoryId)
+                let nameArr = []
+                for(let i=0; i < data.short_name.length; i++ ) {
+                        nameArr.push(data.short_name.charAt(i))
+                }
+                data.shortName = nameArr
                 this.shopDetailData = data;
                 this.actity_nums = this.shopDetailData.actives.length
                 //店铺是否关注信息

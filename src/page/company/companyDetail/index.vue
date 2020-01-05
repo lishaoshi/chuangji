@@ -4,6 +4,7 @@
         <div class="conpanyName">
             <div>
                 <img v-if="supplierInfo.img_cover" :src="supplierInfo.img_cover" alt="">
+                <default-logo v-else :name="supplierInfo.shortName || []" :bgColor=bgColor></default-logo>
             </div>
             <div>
                 <span>{{supplierInfo.display_name?supplierInfo.display_name:supplierInfo.name}}</span>
@@ -82,7 +83,8 @@
 
 <script>
 import headTop from '@/components/HeadTop'
-import { queryCompanyDetail } from '@/api/company'
+import { queryCompanyDetail } from '@/api/company';
+import defaultLogo from "@/components/common/defaultLogo"
 export default {
     props:{
         type: {
@@ -111,7 +113,8 @@ export default {
                 },
             ],
             shopId: '',
-            supplierInfo: {}
+            supplierInfo: {},
+            bgColor: 5
         }
     },
     created() {
@@ -159,12 +162,19 @@ export default {
         _queryCompanyDetail() {
             queryCompanyDetail(this.shopId).then(res=>{
                 // console.log(res)
+                let info = res.data.supplierInfo
+                let nameArr = []
+                for(let i=0; i < info.short_name.length; i++ ) {
+                    nameArr.push(info.short_name.charAt(i))
+                }
+                info.shortName = nameArr
                 this.supplierInfo = res.data.supplierInfo
             })
         }
     },
     components: {
-        headTop
+        headTop,
+        defaultLogo
     }
 }
 </script>
@@ -329,5 +339,11 @@ export default {
         width: 100%!important;
         height: auto!important;
     }
+}
+</style>
+<style scoped>
+/deep/ .extension-item-img  {
+    width: 1.2rem;
+    height: 1.2rem;
 }
 </style>
