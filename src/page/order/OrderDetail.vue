@@ -29,7 +29,7 @@
 					
 					<div>
 						<span>
-							x{{item.num}}{{data.supplier.type==2?item.entity.unit:item.entity.big_unit}}
+							x{{item.num}}{{data.supplier&&data.supplier.type==2?item.entity.unit:item.entity.big_unit}}
 						</span>
 					</div>
 			</div>
@@ -41,7 +41,7 @@
 				<span>{{this.nums}}</span>
 				<!-- {{item.entity.unit}} -->
 			</div>
-			<div v-if="data.supplier.type==2">
+			<div v-if="data.supplier&&data.supplier.type==2">
 				<span>配送费</span>
 				<span>{{this.data.freight>0?this.data.freight:'免配送费'}}</span>
 			</div>
@@ -142,7 +142,7 @@
 		<div class="footer-box">
 
 			<div>
-				<div class="btn" v-if="data.order_status=== 3 " @click="confirmGoods">确认收货</div>
+				<div class="btn" v-if="data.order_status=== 3 " @click="sureOrder(data.id)">确认收货</div>
 			</div>
 
 			<div>
@@ -303,7 +303,7 @@
 				this.supplier_logo = data.supplier.img_cover
                 return data
 			},
-			sureOrder: function() {
+			confirmGoods: function() {
 				this.$messagebox.confirm("确定要发货了吗?").then(action => {
 					  sureSendBusinessOrder(this.orderId)
 						this.$router.go(-1)
@@ -340,17 +340,18 @@
 			// 	});
 			// },
 			async sureOrder(id) {
+				console.log(id)
 				this.$messagebox.confirm("确定收到货物了吗?").then(action => {
 					if(action === 'confirm'){
                         if(!this.isFactory) {
                             sureBusinessOrder(id).then(()=>{
-                                this.page = 1
-                                this.getOrderList()
+                                // this.page = 1
+								// this.getOrderList()
+								this.$router.go(-1)
                             })
                         } else {
                             sureFactoryOrder(id).then(()=>{
-                                this.page = 1
-                                this.getOrderList()
+                                this.$router.go(-1)
                             })
                         }
 					}

@@ -62,7 +62,7 @@
 	import EmptyOrder from '@/components/EmptyList'
 	import { mapState } from "vuex";
     import { getBusinessOrderList,deleteBusinessOrder,sureBusinessOrder } from "@/api/businessOrder.js"
-    import { getFactoryOrderList } from "@/api/factoryOrder"
+    import { getFactoryOrderList, sureFactoryOrder } from "@/api/factoryOrder"
     import BScroll from 'better-scroll'
 
     export default {

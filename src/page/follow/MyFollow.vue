@@ -46,10 +46,13 @@
                                     </router-link>
                                 </div>
                                 <div class="list-content">
-                                    <router-link :to="`/factory/shopdetail/${enItem.id}`">
+                                    <router-link :to="`/factory/shop/${enItem.supplier_id}/${enItem.id}`">
                                         <p class="shop-name">{{enItem.good_name}}</p>
-                                        <p class="shop-unit">规格:{{enItem.price}}/{{enItem.unit}}</p>
-                                         <p class="shop-unit">包装:{{enItem.price}}/{{enItem.unit}}</p>
+                                        <p class="shop-unit">规格:{{enItem.spec}}</p>
+                                        <p class="shop-unit last">
+                                            <span> 包装:{{enItem.tran}}{{enItem.unit}}/{{enItem.big_unit}}</span>
+                                            <span>￥{{enItem.price}}/{{enItem.unit}}</span>
+                                        </p>
                                     </router-link>
                                 </div>
                             </div>
@@ -366,12 +369,16 @@
                     color: #333;
                 }
 
-                .shop-unit {
-                    font-size: .24rem;
-                    color: #666;
-                    display: block;
-                    line-height: 1.5;
-                }
+                // .shop-unit {
+                //     font-size: .4rem;
+                //     color: red;
+                //     display: block;
+                //     line-height: 1.5;
+                //     &:nth-last-of-type(1) {
+                //         display: flex;
+                //         justify-content: space-between;
+                //     }
+                // }
             }
         }
 
@@ -496,6 +503,14 @@
             color: #666;
             display: block;
             line-height: 1.5;
+            &:last-child {
+                display: flex;
+            justify-content: space-between;
+                span:last-child {
+                    color: #FA5452;
+                    font-size: .2rem;
+                }
+            }
         }
     }
 

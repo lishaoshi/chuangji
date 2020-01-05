@@ -5,7 +5,7 @@
             <!-- <div v-if="!avatar && !img_cover" class="extension-item-img " :style="{background:bgColor}">
                 <span v-for="(item, index) of name" :key="index" :class="{firstSpan: index==0&&name.length==3}">{{item}}</span>
             </div> -->
-            <default-logo  v-if="!avatar && !img_cover" :name="name" :bgColor="bgColor"/>
+            <default-logo  v-if="!avatar && !img_cover" :name="name" :bgColor="bgColorIndex"/>
             <img v-else :src="avatar?avatar:img_cover" class="extension-item-img">
             <span>{{display_name}}</span>
         </div>
@@ -35,22 +35,6 @@ export default {
             type: Number,
             default: 0
         }
-    },
-    data() {
-        return {
-                colorList: [
-                    '#409eff',
-                    '#67c23a',
-                    '#e6a23c',
-                    '#f56c6c',
-                    '#2bcda2',
-                    '#0bbefd',
-                    '#e45fe4',
-                    '#ea4c89',
-                    '#987aec',
-                    '#18a05e'
-                    ]
-        }  
     },
     filters: {
         handleCity(val) {
@@ -113,9 +97,9 @@ export default {
             }
             return nameArr
         },
-        bgColor() {
+        bgColorIndex() {
             const index = this.index % 10
-            return this.colorList[index]
+            return index
         }
     },
 

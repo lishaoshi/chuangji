@@ -1,9 +1,9 @@
 <template>
-    <div>
-        <div class="extension-item-img " :style="{background:bgColor}">
+    <section>
+        <div class="extension-item-img " :style="{background:colorList[bgColor]}">
             <span v-for="(item, index) of name" :key="index" :class="{firstSpan: index==0&&name.length==3}">{{item}}</span>
         </div>
-    </div>
+    </section>
 </template>
 
 <script>
@@ -14,7 +14,7 @@ export default {
             default: ""
         },
         bgColor: {
-            type: String,
+            type: Number,
             default: -1
         }
     },

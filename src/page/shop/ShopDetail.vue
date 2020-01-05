@@ -89,7 +89,7 @@
                     <span class="letter">包装</span>
                     <span>{{data.tran}}{{data.unit}}/{{data.big_unit}}</span>
                 </div>
-                <div v-if="data.time">
+                <div v-if="data.valid_time">
                     <span>有效期至</span>
                     <span>{{data.time}}</span>
                 </div>

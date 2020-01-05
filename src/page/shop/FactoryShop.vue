@@ -75,7 +75,8 @@
         </transition>
         <div class="main-box">
             <mt-swipe :auto="4000" class="swiper">
-                <mt-swipe-item :key="key" v-for="(swipe,key) in swipers"><a :href="swipe.link"> <img :src="swipe.img" width="100%" height="100%"></a>
+                <mt-swipe-item :key="key" v-for="(swipe,key) in swipers">
+                    <a ref="banner_a" @click="handleJump(swipe)"> <img :src="swipe.img" width="100%" height="100%"></a>
                 </mt-swipe-item>
             </mt-swipe>
             <div style="background: #fff;">
@@ -215,6 +216,23 @@
                 getNewInformmationList(infoParams).then(res=>{
                     this.notices = res.data || []
                 })
+            },
+            /**
+             * 处理点击banner
+             */
+            handleJump(item) {
+                if(item.target_from=="out") {
+                    this.$refs.banner_a.href = item.link
+                    return true
+                }
+                if(item.target_type == "product_detail") {
+                    this.$router.push({path:`/factory/shop/${this.factorId}/${item.target_id}`,query: {id:item.id}})
+                    return true
+                } else if(item.target_type == 'target_none') {
+                    return false
+                } else if(item.target_type == "information_detail") {
+                    this.$router.push({path:'/bannerDetail',query: {id:item.id}})
+                }
             },
             handleDZBtn() {
                 if(this.USER_TYPE!==2) {
