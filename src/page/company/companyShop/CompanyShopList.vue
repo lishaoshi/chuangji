@@ -194,7 +194,12 @@
 						this.items = shopList
 					}
 					this.items = this._handleData(this.items)
-					this.businessInfo = res[2].data.supplierInfo
+					let nameArr = []
+					for(let i=0; i < res[2].data.supplierInfo.short_name.length; i++ ) {
+                            nameArr.push(res[2].data.supplierInfo.short_name.charAt(i))
+					}
+					res[2].data.supplierInfo.shortName = nameArr
+					this.businessInfo = res[2].data.supplierInfo;
 					this.notices = this.businessInfo.infos
 				})
 				this.entities = data.data.recommendList;

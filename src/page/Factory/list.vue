@@ -116,6 +116,7 @@ export default {
     border-radius: 10px;
     .goods-info {
         display: flex;
+        margin-bottom: .16rem;
         img {
             height: 1.8rem;
             width: 1.8rem;

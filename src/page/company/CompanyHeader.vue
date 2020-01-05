@@ -25,7 +25,8 @@
         <transition name="fade">
             <div class="company activebox2">
                 <div class="brand" @click="queryCompanyDetail">
-                    <img :src="businessInfo.img_cover" alt="">
+                    <img v-if="businessInfo.img_cover" :src="businessInfo.img_cover" alt="">
+                    <default-logo v-else :name="businessInfo.shortName || []" :bgColor=bgColor></default-logo>
                 </div>
                 <div class="message">
                     <div class="message_title" @click="queryCompanyDetail">
@@ -62,9 +63,13 @@
     import {mapState} from 'vuex';
     import Spread from "../Spread";
     import {isBusinessFollow, deleteBusinessFollow, SaveBusinessFollow} from "@/api/follow.js"
+    import defaultLogo from "@/components/common/defaultLogo";
     export default {
         name: "CompanyShopHeader",
-        components: {Spread},
+        components: {
+            Spread,
+            defaultLogo
+        },
         props: {
             shopId: {
                 type: Number,
@@ -90,7 +95,8 @@
                 follow_info: '关注',
                 follow_list: [],
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
-                searchValue:''
+                searchValue:'',
+                bgColor: 8
             }
         },
         computed: {
