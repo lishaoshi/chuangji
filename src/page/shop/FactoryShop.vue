@@ -152,7 +152,7 @@
     import { queryShopCarList, delShopCar, addShopCar, onlyDelShopCar } from '@/api/shopCar';
     import default_company_logo from "@/images/default_company_logo.png";
     import {adList, getNewInformmationList} from "@/api/ad";
-    import Notice from '@/components/common/notice2';
+    import Notice from '@/components/common/notice3';
     export default {
         name: "FactoryShop",
         components: {
@@ -247,7 +247,7 @@
                 }).catch(error => {
                     // console.log(error)
                 })
-                adList({channel: 'app', space: 'home-top'}).then( data => {
+                adList({channel: 'app', space: 'factory-top-ads'}).then( data => {
 					this.swipers = data.data.data
 				})
             },
@@ -320,6 +320,7 @@
     .left {
 		padding: .2rem; 
 		background: #fff;
+        // background: #f1f4f5;
 	}
     .pop-title {
         text-align: center;

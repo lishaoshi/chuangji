@@ -7,7 +7,7 @@
 			<label>全选</label>
         </div>
         <div class="total-price">
-            总计：<span class="shop-total-amount ShopTotal">{{totalPrice | display_price}} <span v-if="totalPrice>0" class="priceText">({{flag?'含配送费':'免配送费'}})</span></span>
+            总计：<span class="shop-total-amount ShopTotal">{{totalPrice | display_price}} <span v-if="totalPrice>0 && USER_TYPE!==2" class="priceText">({{flag?'含配送费':'免配送费'}})</span></span>
         </div>
         <button  class="sub-btn" :class="hasActive ? 'active':''"  @click="onSubmit">提交</button>
     </div>
@@ -15,7 +15,8 @@
 
 <script>
     let that
-    import bus from '@/bus'
+    import bus from '@/bus';
+    import { mapState } from "vuex"
     export default {
         name: "CartsFooter",
         props:{
@@ -32,6 +33,9 @@
             }
         },
         computed:{
+            ...mapState({
+                USER_TYPE: state => state.CURRENTUSER.data.user_type,
+            }),
             hasActive(){
                 let active = false
                 this.data.shops.forEach(shop =>{
@@ -46,6 +50,7 @@
             }
         },
         mounted() {
+            console.log(this.data)
            bus.$on('_cartCount',(value, flag)=>{
             //    console.log(123)
                 this.$nextTick().then(()=>{

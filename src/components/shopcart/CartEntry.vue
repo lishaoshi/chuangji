@@ -19,7 +19,7 @@
 						<div class="minus" @click.prevent.stop="minGoods(sid,pid, data)">
 							<img src="../../images/del_shopping.png" alt="">
 						</div>
-						<span @click="chooseSelf" v-if="!data.isSelfChoose" class="num">{{data.num}}<i>{{data.unit || '件'}}</i></span>
+						<span @click="chooseSelf" v-if="!data.isSelfChoose" class="num">{{data.num}}<i>{{data.supplier.type==1?data.big_unit: data.unit|| '件'}}</i></span>
 						<template v-else>
 							<form action="" class="input_waper">
 								<input v-focus type="number" @blur="handleBlur($event, data)" ref="cart" :value="data.num">

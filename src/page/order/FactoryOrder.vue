@@ -30,7 +30,7 @@
                     <svg class="icon">
                         <use :xlink:href="`#icon-ordering-paying-${selected==2 ? '1':'0'}`"/>
                     </svg>
-                    <p>待付款</p>
+                    <p>待提取</p>
                 </div>
             </mt-tab-item>
             <mt-tab-item id="3">

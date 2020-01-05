@@ -25,7 +25,7 @@
                         <template v-if="!data.isChooseSelf">
                             <div class="num" @click="handleChoose">
                                 <span class="amount">{{data.num}}</span>
-                                <p>{{data.unit || '件'}}</p>
+                                <p>{{data.big_unit || '件'}}</p>
                             </div>
                         </template>
                     
@@ -42,11 +42,11 @@
                 <div class="title">
                     {{data.good_name}}
                 </div>
-                <div class="small-title">
+                <!-- <div class="small-title">
                     <span>浏览量<i>{{data.click_count}}</i></span>
                     <span>毛利率：<i>2%</i></span>
                     <span>销量：<i>{{data.sale_num}}</i></span>
-                </div>
+                </div> -->
             </div>
             <div class="contant" style="margin-top: .2rem">
                 <div class="price-flex">
@@ -82,12 +82,12 @@
             </div> -->
             <div class="goodInfo">
                 <div>
-                    <span class="letter">品牌</span>
-                    <span>{{data.supplier&&data.supplier.display_name}}</span>
-                </div>
-                <div>
                     <span class="letter">规格</span>
                     <span>{{data.spec}}</span>
+                </div>
+                <div>
+                    <span class="letter">包装</span>
+                    <span>{{data.tran}}{{data.unit}}/{{data.big_unit}}</span>
                 </div>
                 <div v-if="data.time">
                     <span>有效期至</span>
@@ -175,7 +175,7 @@
             totalPrice() {
                 let total_price = 0
                 Object.values(this.shopCart).forEach((data, index) => {
-                    total_price += +data.num * +data.price;
+                    total_price += +data.num * +data.price * data.tran;
                 })
                 return total_price.toFixed(2)
             }

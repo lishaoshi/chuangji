@@ -20,13 +20,13 @@
                 <div class="textLett">品 牌</div>
                 <div>{{data.brand.name}}</div>
             </li>
-            <li v-else>
-                <div class="textLett">品 牌</div>
-                <div>{{data.supplier.display_name}}</div>
-            </li>
             <li>
                 <div class="textLett">规 格</div>
                 <div>{{data.spec}}</div>
+            </li>
+            <li>
+                <div class="textLett">包 装</div>
+                <div>{{data.tran}}{{data.unit}}/{{data.big_unit}}</div>
             </li>
             <li v-if="production_time">
                 <div>生产日期</div>

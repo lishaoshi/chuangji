@@ -517,7 +517,7 @@
         img {
             width: .64rem;
             height: .64rem;
-            border-radius: .64rem;
+            border-radius: 10px;
             margin-right: .2rem;
             // margin: .28rem .2rem;
         }

@@ -21,7 +21,7 @@
                             <div class="list-box" @touchstart.capture="touchStart" @touchend.capture="touchEnd">
                                 <div class="list-img">
                                     <router-link :to="`/factory/shop/${item.id}`">
-                                        <img :src="item.logo" alt="">
+                                        <img :src="item.img_cover" alt="">
                                     </router-link>
                                 </div>
                                 <div class="list-content">
@@ -48,7 +48,8 @@
                                 <div class="list-content">
                                     <router-link :to="`/factory/shopdetail/${enItem.id}`">
                                         <p class="shop-name">{{enItem.good_name}}</p>
-                                        <p class="shop-unit">￥{{enItem.price}}/{{enItem.unit}}</p>
+                                        <p class="shop-unit">规格:{{enItem.price}}/{{enItem.unit}}</p>
+                                         <p class="shop-unit">包装:{{enItem.price}}/{{enItem.unit}}</p>
                                     </router-link>
                                 </div>
                             </div>
@@ -127,6 +128,7 @@
             chooseType(id) {
                 // debugger
                  this.allLoaded = false
+                 this.list = []
                 if(this.currenIndex == id) {
                     return false
                 }
@@ -356,7 +358,6 @@
 
                 .shop-name {
                     font-size: .28rem;
-                    line-height: 2.2;
                     display: block;
                     padding-top: .25rem;
                     overflow: hidden;
@@ -367,7 +368,7 @@
 
                 .shop-unit {
                     font-size: .24rem;
-                    color: rgb(250, 84, 82);
+                    color: #666;
                     display: block;
                     line-height: 1.5;
                 }
@@ -434,6 +435,7 @@
         padding: .2rem;
         position: relative;
         margin-top: .2rem;
+        background: #fff;
     }
 
     .list-item[data-type="0"] {
@@ -461,19 +463,13 @@
     }
 
     .list-box {
-        padding: 11px 15px;
+        // padding: 11px 15px;
         background: #fff;
         display: flex;
         align-items: center;
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
         justify-content: flex-end;
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        font-size: 0;
     }
 
     .list-item .list-content {
@@ -487,7 +483,7 @@
         height: 100%;
         .shop-name {
             font-size: .28rem;
-            line-height: 2.2;
+            // line-height: 2.2;
             display: block;
             padding-top: 0;
             overflow: hidden;
@@ -497,7 +493,7 @@
         }
         .shop-unit {
             font-size: .24rem;
-            color: rgb(250, 84, 82);
+            color: #666;
             display: block;
             line-height: 1.5;
         }
