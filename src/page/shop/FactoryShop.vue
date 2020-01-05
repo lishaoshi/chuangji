@@ -76,7 +76,8 @@
         <div class="main-box">
             <mt-swipe :auto="4000" class="swiper">
                 <mt-swipe-item :key="key" v-for="(swipe,key) in swipers">
-                    <a ref="banner_a" @click="handleJump(swipe)"> <img :src="swipe.img" width="100%" height="100%"></a>
+                    <a ref="banner_a" v-if="swipe.target_from=='out'" :href="item.link"> <img :src="swipe.img" width="100%" height="100%"></a>
+                    <div v-else  @click="handleJump(swipe)"><img :src="swipe.img" width="100%" height="100%"></div>
                 </mt-swipe-item>
             </mt-swipe>
             <div style="background: #fff;">

@@ -341,9 +341,6 @@
 
             // 控制移除商品出购物车
             async handleNumber(item) {
-                // console.log(item)
-                // debugger
-                // if(item.num <= item.order_min_num) return
                 let data = {
                     supplier_id: this.factoryId,
                     good_id: item.id
