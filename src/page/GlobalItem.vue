@@ -339,7 +339,7 @@
         img {
             width: .64rem;
             height: .64rem;
-            border-radius: .64rem;
+            border-radius: 10px;
             margin: 0.2rem 0.2rem 0.24rem 0;
         }
 

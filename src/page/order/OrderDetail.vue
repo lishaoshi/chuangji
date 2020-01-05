@@ -29,7 +29,7 @@
 					
 					<div>
 						<span>
-							x{{item.num}}
+							x{{item.num}}{{data.supplier.type==2?item.entity.unit:item.entity.big_unit}}
 						</span>
 					</div>
 			</div>
@@ -37,10 +37,11 @@
 
 		<div class="priceBox">
 			<div>
-				<span>数量</span>
+				<span>总数量</span>
 				<span>{{this.nums}}</span>
+				<!-- {{item.entity.unit}} -->
 			</div>
-			<div>
+			<div v-if="data.supplier.type==2">
 				<span>配送费</span>
 				<span>{{this.data.freight>0?this.data.freight:'免配送费'}}</span>
 			</div>

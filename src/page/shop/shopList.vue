@@ -11,10 +11,10 @@
                                 </div>
                                 <div class="list-title">{{item.generic_name}}</div>
                         </router-link>
-                        <p class="p1">{{item.brandName || "无"}}</p>
+                        <!-- <p class="p1">{{item.brandName || "无"}}</p> -->
                         <p class="p1">规格:{{item.spec || '无'}}</p>
                         <p class="p1">
-                            效期:{{item.time || '无'}}
+                            包装:{{item.tran}}{{item.unit}}/{{item.big_unit}}
                         </p>
                         <div class="selling">
                             <div class="unit_price">
@@ -41,7 +41,7 @@
                                                 {{item.num}}
                                             </span>
                                             <span style="color: #999;">
-                                                {{item.unit}}
+                                                {{item.big_unit}}
                                             </span>
                                         </template>
                                         <template v-else>
@@ -244,11 +244,10 @@
                 
 			},
             calculateTotalPrice() {
-                 
                 let total_price = 0
                 Object.values(this.shopCart).forEach((item, index) => {
                     if(item&&item.num>0) {
-                        total_price += item.num * item.price;
+                        total_price += item.num * item.price * item.tran;
                     }
                 })
                 return total_price.toFixed(2)

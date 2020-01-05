@@ -19,7 +19,9 @@
 				<p>实付金额</p>
 				<!-- <p>￥{{data.money_paid}}</p>
 				 -->
-				  <p>￥{{+data.money_paid+(+data.freight) | filterFixed}}</p>
+				<p>￥{{+data.money_paid+(+data.freight) | filterFixed}}</p>
+				<p v-if="data.freight>0">含配送费</p>
+				<p>{{+data.freight>0?data.freight:"免费配送"}}</p>
 				<!-- <p>使用活动卷</p>
 				<p v-if="data.is_coupon == null">无</p>
 				<p v-else>{{data.is_coupon}}</p>
@@ -106,10 +108,10 @@
 					margin-bottom: 0px;
 				}
 				&:nth-child(4){
-					font-size: .22rem;
-					color: #F2385A;
-					transform: rotate(.8);
-					margin-bottom: .25rem;
+					// margin-top: .15rem;
+					font-size: .24rem;
+					color: #5C5C5C;
+					margin-bottom: 0px;
 				}
 				
 			}

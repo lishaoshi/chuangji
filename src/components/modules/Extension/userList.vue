@@ -65,7 +65,7 @@ export default {
             return this.data.img_cover
         },
         display_name() {
-            return this.data.display_name
+            return this.data.display_name || this.data.name
         },
         city_name() {
             if(this.data.city_name&&this.data.city_name.includes('市辖')) {

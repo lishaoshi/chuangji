@@ -48,22 +48,7 @@
                 <span>定制</span>
             </p>
         </div>
-         <template v-if="isShowModel">
-            <chang-model :isShowModel.sync="isShowModel" :data="data" @confirmPrice="confirmPrice">
-                <div class="input">
-                    <input type="text" @input="handleInput" :placeholder="placeholder" v-model="input">
-                    <div>
-                    <span>{{data.big_unit}}</span>
-                </div>
-                </div>
-                <p class="margin">
-                    <span>
-                    此次定制扣除{{data.base_margin | handleLianshu}}保证金
-                    </span>
-                </p>
-            </chang-model>
-            <bg />
-      </template>
+      
     </div>
 </template>
 
@@ -91,16 +76,11 @@ export default {
                 'z-index': '1',
                 "border-radius": "12px"
             },
-            placeholder: "请输入定制数量",
             isShowModel: false,
             input: ""
         }
     },
-    filters: {
-        handleLianshu(val) {
-        return val.toFixed(2)
-        }
-    },
+   
     computed: {
         left() {
             return Math.floor(100 / this.data.rules.length)
@@ -118,28 +98,11 @@ export default {
                 if(res.data.num) {
                     this.input = res.data.num
                 }
-                this.isShowModel = true
+                this.$emit("buyCustom", this.input, this.data)
             })
             
         },
-        confirmPrice() {
-            const params = {
-                num: this.input
-            }
-            buyCustomize(params, this.data.id).then(res=>{
-                if(res.code==200) {
-                    this.$toast("定制成功")
-                    this.isShowModel = false
-                    this.$emit("upDtaScess")
-                } else {
-                    this.$toast(res.message)
-                }
-            })
-            // console.log(123)
-        },
-        handleInput(e) {
-             this.input = e.target.value.replace(/[^0-9]/g, '')
-        }
+        
     }
 }
 </script>

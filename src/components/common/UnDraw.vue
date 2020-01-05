@@ -11,8 +11,10 @@
                             <p class="shop-name">订单编号：{{data.order_sn}}</p>
                         </div>
                         <div class="list-detail">
-                            <p>金额</p>
+                            <p>实付金额</p>
                             <p>￥{{+data.money_paid+(+data.freight) | filterFixed}}</p>
+                            <p v-if="data.freight>0">含配送费</p>
+                            <p>{{+data.freight>0?data.freight:"免费配送"}}</p>
                             <button @click="extractOrder(data.id,data.money_paid)">提取</button>
                         </div>
                     </div>
@@ -182,7 +184,11 @@
         font-size: 0;
         .list-detail {
             width: 2rem;
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
             p {
                 &:nth-child(1){
                     font-size:.24rem;
@@ -194,7 +200,21 @@
                     line-height: 2;
                     font-weight:bold;
                     color:#FF3B30;
-                    margin-bottom: .3rem;
+                    // margin-bottom: .3rem;
+                }
+                &:nth-child(3) {
+                    font-size:.20rem;
+                    // font-weight:bold;
+                    color:#666;
+                    // margin-bottom: .2rem;
+                    // margin-bottom: .3rem;
+                }
+                 &:nth-child(4) {
+                    font-size:.20rem;
+                    // font-weight:bold;
+                    color:#666;
+                    margin-bottom: .2rem;
+                    // margin-bottom: .3rem;
                 }
             }
             button {

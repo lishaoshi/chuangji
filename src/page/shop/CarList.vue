@@ -82,14 +82,19 @@
                     this.totalPrice = 0
                     let allChecked = true
                     let distributionFlag = false; //是否需要配送费  false不需要， true需要
+                    console.log(this.data.shops)
+                    // debugger
                     this.data.shops.forEach((shop,index)=>{
                         let totalNum = 0
                         shop.items.forEach((product,key)=>{
                             if(!product.checked){
                                 allChecked=false;
-                            } else {
+                            }
+                            if(product.supplier.type == 2 && product.checked) {
                                 totalNum += +product.sale_price * +product.num
                                 this.totalPrice += +product.sale_price * +product.num
+                            } else if(product.supplier.type == 1 && product.checked) {
+                                this.totalPrice += +product.sale_price * +product.num * product.tran
                             }
                            
                         })
@@ -97,7 +102,7 @@
                                 this.totalPrice += +this.suppliersPrices[shop.shopId].shipping_fee
                                 distributionFlag = true
                         }
-                             bus.$emit('_cartCount',this.totalPrice, distributionFlag)
+                            bus.$emit('_cartCount',this.totalPrice, distributionFlag)
                     })
                     this.data.checked=allChecked;
                 },

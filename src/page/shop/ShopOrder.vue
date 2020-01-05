@@ -59,7 +59,7 @@
                                     <div class="shop-pices">
                                         ￥<span class="price">{{entity.price | display_price}}<i>/{{entity.unit || '件'}}</i></span>
                                     </div>
-                                    <div class="shop-num">x{{ entity.num || 1}}{{entity.unit || '件'}}</div>
+                                    <div class="shop-num">x{{ entity.num || 1}}{{shop.type==1?entity.big_unit:entity.unit|| '件'}}</div>
                                 </div>
                             </div>
                         </div>

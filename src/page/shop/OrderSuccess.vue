@@ -45,7 +45,7 @@
         </div>
 
         <div class="buttonBtn">
-           <router-link to="/purchasing-port-order" v-if="orderType == 'factory'"> 
+           <router-link :to="`${userType==3?'/purchasing-port-order':'/factory-order'}`" v-if="orderType == 'factory'"> 
                 <div  class="query">查看订单</div> 
             </router-link> 
            <router-link to="/business-order" v-if="orderType == 'business'"> 
@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex"
     export default {
         name: "OrderSuccess",
         data() {
@@ -66,6 +67,11 @@
                 orderType: '',
                 time: ''
             }
+        },
+        computed: {
+            ...mapState({
+                userType: state => state.CURRENTUSER.data.user_type,
+            }),
         },
         // props:["orderType"],
         created() {
