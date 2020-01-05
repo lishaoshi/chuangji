@@ -96,7 +96,7 @@
                 follow_list: [],
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
                 searchValue:'',
-                bgColor: 8
+                bgColor: 5
             }
         },
         computed: {
