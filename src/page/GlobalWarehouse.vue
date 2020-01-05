@@ -35,7 +35,8 @@
                     <div class="company" :key="`en-${index}`" v-for="(item,index) in businesses">
                         <div class="company-name" @click="entryBusinessShop(item)">
                             <div>
-                                <img :src="item.img_cover" alt=" ">
+                                <img v-if="item.img_cover" :src="item.img_cover" alt=" ">
+                                <default-logo v-else :name="item.name" :bgColor="index"/>
                                 <div class="companyName">{{item.display_name || item.name }}</div>
                             </div>
                             
@@ -86,10 +87,8 @@
     import {adList} from "@/api/ad";
     import GlobalItem from "@/page/GlobalItem"
     import EmptyList from "@/components/EmptyList"
-    import Notice2 from "@/components/common/notice2"
-
-    
-
+    import Notice2 from "@/components/common/notice2";
+    import defaultLogo from "@/components/common/defaultLogo"
     export default {
         name: "GlobalWarehouse",
         components: {
@@ -97,7 +96,8 @@
             Notice,
             GlobalItem,
             EmptyList,
-            Notice2
+            Notice2,
+            defaultLogo
         },
         data() {
             return {
@@ -218,6 +218,14 @@
                 businessList(params).then(response => {
                    let data = response.data.data.businessList
                     this.allLoaded = false; // 可以进行上拉
+                    data.forEach((item,index,arr)=>{
+                        let nameArr = []
+                        for(let i=0; i < item.short_name.length; i++ ) {
+                            nameArr.push(item.short_name.charAt(i))
+                        }
+                        arr[index].name = nameArr
+                    })
+                    console.log(data)
                     this.businesses = data;
                     if(data.length<=0) {
                         this.allLoaded = true;
@@ -727,4 +735,12 @@
             padding-top: .9rem;
         }
     }
+</style>
+<style scoped>
+/deep/ .extension-item-img  {
+    width: .64rem;
+    height: .64rem;
+    font-size: .18rem;
+    padding: 0;
+}
 </style>
