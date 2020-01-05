@@ -148,7 +148,8 @@
                 const params = {
                     page: 1,
                     limit: this.limit,
-                    search: this.searchValue,
+					search: this.searchValue,
+					type: vlaue
                 }
                 findNearBySuppliers(params).then(res=>{
                     this.allLoaded = false; // 可以进行上拉
