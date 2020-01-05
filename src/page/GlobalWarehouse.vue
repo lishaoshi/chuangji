@@ -36,7 +36,7 @@
                         <div class="company-name" @click="entryBusinessShop(item)">
                             <div>
                                 <img v-if="item.img_cover" :src="item.img_cover" alt=" ">
-                                <default-logo v-else :name="item.name" :bgColor="index"/>
+                                <default-logo v-else :name="item.name" :bgColor="index%10"/>
                                 <div class="companyName">{{item.display_name || item.name }}</div>
                             </div>
                             

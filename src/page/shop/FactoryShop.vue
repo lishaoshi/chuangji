@@ -76,7 +76,8 @@
         <div class="main-box">
             <mt-swipe :auto="4000" class="swiper">
                 <mt-swipe-item :key="key" v-for="(swipe,key) in swipers">
-                    <a ref="banner_a" @click="handleJump(swipe)"> <img :src="swipe.img" width="100%" height="100%"></a>
+                    <a ref="banner_a" v-if="swipe.target_from=='out'" :href="item.link"> <img :src="swipe.img" width="100%" height="100%"></a>
+                    <div v-else  @click="handleJump(swipe)"><img :src="swipe.img" width="100%" height="100%"></div>
                 </mt-swipe-item>
             </mt-swipe>
             <div style="background: #fff;">
@@ -231,7 +232,7 @@
                 } else if(item.target_type == 'target_none') {
                     return false
                 } else if(item.target_type == "information_detail") {
-                    this.$router.push({path:'/bannerDetail',query: {id:item.id}})
+                    this.$router.push({path:'/bannerDetail',query: {id:item.id,isBanner:true}})
                 }
             },
             handleDZBtn() {
@@ -265,7 +266,7 @@
                 }).catch(error => {
                     // console.log(error)
                 })
-                adList({channel: 'app',from:"factory", space: 'factory-top-ads'}).then( data => {
+                adList({channel: 'app',from:"factory",supplier_id:this.factoryId, space: 'factory-top-ads'}).then( data => {
 					this.swipers = data.data.data
 				})
             },

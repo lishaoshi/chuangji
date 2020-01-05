@@ -157,6 +157,9 @@ import { mapState } from "vuex"
                         margin-right: 0.2rem;
                         border-radius: 2px;
                         line-height: 1.7;
+                        p {
+                                padding: 0 3px;
+                            }
                         div {
                             p {
                                 padding: 0 .05rem;

@@ -71,7 +71,7 @@
                     <ul class="shop-ul">
                         <li>
                             <span>总数量</span>
-                            <i>{{shop.cnum}} {{userType==2?"件":""}}</i>
+                            <i>{{shop.cnum}}</i>
                         </li>
                         <!-- <li>
                             <span>原价</span>

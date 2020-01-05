@@ -15,7 +15,7 @@ export default {
         },
         bgColor: {
             type: Number,
-            default: -1
+            default: 0
         }
     },
       data() {
@@ -31,7 +31,7 @@ export default {
                     '#ea4c89',
                     '#987aec',
                     '#18a05e'
-                    ]
+                ]
         }  
     },
     filters: {
