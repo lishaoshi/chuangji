@@ -94,7 +94,7 @@ export default {
                 if(res.code==200) {
                     this.$toast("定制成功")
                     this.isShowModel = false
-                    this.$emit("upDtaScess")
+                    this.upDtaScess()
                 } else {
                     this.$toast(res.message)
                 }
