@@ -56,10 +56,13 @@
                                 <p>{{shop.type==1?shop.display_name:entity.brand.name}}</p>
                                 <p>{{entity.spec}}</p>
                                 <div class="shop-price">
-                                    <div class="shop-pices">
+                                    <div class="shop-pices" v-if="shop.type==2">
                                         ￥<span class="price">{{entity.price | display_price}}<i>/{{entity.unit || '件'}}</i></span>
                                     </div>
-                                    <div class="shop-num">x{{ entity.num || 1}}{{shop.type==1?entity.big_unit:entity.unit|| '件'}}</div>
+                                    <div class="shop-pices" v-else>
+                                        ￥<span class="price">{{entity.price | display_price}}元*{{entity.tran}}{{entity.unit}}</span>
+                                    </div>
+                                    <div class="shop-num">x{{ entity.cart_num || 1}}{{shop.type==1?entity.big_unit:entity.unit|| '件'}}</div>
                                 </div>
                             </div>
                         </div>
@@ -67,7 +70,7 @@
 
                     <ul class="shop-ul">
                         <li>
-                            <span>{{userType==2?"件数":"数量"}}</span>
+                            <span>总数量</span>
                             <i>{{shop.cnum}} {{userType==2?"件":""}}</i>
                         </li>
                         <!-- <li>
@@ -88,7 +91,7 @@
                         </li>
                         <li class="realPrice">
                             <span>小计</span>
-                            <i>￥{{shop.real_price | display_price}}</i>
+                            <i>￥{{shop.cprice | display_price}}</i>
                         </li>
                     </ul>
                 </div>
@@ -146,7 +149,6 @@
             totalPrice() {
                 let price = 0
                 const shopData = this.shopData
-                // debugger
                 shopData.forEach((shop, i) => {
                     price += shop.real_price
                 })
@@ -160,8 +162,6 @@
             }
         },
         created() {
-            // debugger
-            
             if(JSON.stringify(this.confirmOrderData)=="{}") {
                 this.$router.go(-1)
             }
@@ -176,14 +176,16 @@
                 }
                 const confirmOrderData = this.confirmOrderData
                 this.orderType = confirmOrderData.type
-                switch (confirmOrderData.type) {
-                    case 'factory':
-                        this.initFactoryData(confirmOrderData.checkedItems)
-                        break
-                    case 'business':
-                        this.initBusinessData(confirmOrderData)
-                        break
-                }
+                console.log(confirmOrderData)
+                 this.initFactoryData(confirmOrderData.checkedItems)
+                // switch (confirmOrderData.type) {
+                //     case 'factory':
+                //         this.initFactoryData(confirmOrderData.checkedItems)
+                //         break
+                //     case 'business':
+                //         this.initBusinessData(confirmOrderData)
+                //         break
+                // }
                 this._getInvoicse()
 
                 this.initAddress()
@@ -248,27 +250,22 @@
             },
             async initFactoryData(checkedItems) {
                 const params = {
-                    type: 'factory',
                     items: checkedItems
                 }
                 const {data} = await this.$http.post('hippo-shop/confirm-order', params)
                 data.forEach((shop, i) => {
                     let cnum = 0
                     let cprice = 0
-                    
                     Object.values(shop.entities).forEach((entity, ix) => {
-                        entity['show_unit'] = entity.big_unit
-                        // entity['sale_price'] = entity.price * entity.tran    //盒单价*盒数==价格
-                        checkedItems.forEach(item => {
-                            if (item.id === entity.id) {
-                                cnum += +item.num
-                                entity['num'] = item.num
-                                // cprice += entity['sale_price'] * entity['num']
-                                cprice += entity.price*entity['num']
-                            }
-                        })
+                        cnum += +entity.cart_num
+                        if (shop.type==2) {
+                            cprice += entity.price*entity.cart_num
+                        } else if(shop.type==1) {
+                            cprice += entity.price*entity.cart_num*entity.tran
+                        }
                     })
-                     shop.cnum = cnum
+                    shop.cnum = cnum
+                   
                     shop.cprice = cprice
                     if(shop.type!==1) {
                         shop.shipping_fee = cprice < shop.business_config.starting_price?shop.business_config.shipping_fee:'免配送费'

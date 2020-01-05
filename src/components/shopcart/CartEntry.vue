@@ -12,8 +12,11 @@
 				<p>{{ data.brand&&data.brand.name ||　data.supplier.display_name}}</p>
 				<p>{{data.spec}}</p>
 				<div class="shop-price">
-					<div class="shop-pices">
+					<div class="shop-pices" v-if="data.supplier.type==2">
 						￥<span class="price">{{data.sale_price | display_price}}<i>/{{data.show_unit || '件'}}</i></span>
+					</div>
+					<div class="shop-pices" v-else>
+						￥<span class="price">{{data.sale_price | display_price}}元*{{data.tran}}{{data.show_unit}}</span>
 					</div>
 					<div class="shop-arithmetic" :class="{bgColor : data.isSelfChoose}">
 						<div class="minus" @click.prevent.stop="minGoods(sid,pid, data)">

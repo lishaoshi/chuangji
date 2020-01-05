@@ -81,7 +81,7 @@ export default {
                 ruleList = item.group.rules.filter(rule=>{
                     return item.num > rule.num
                 })
-                arr[index].rates = ruleList[ruleList.length-1].profit
+                arr[index].rates = ruleList[ruleList.length-1]&&ruleList[ruleList.length-1].profit || 0
             })
             return data
         },
