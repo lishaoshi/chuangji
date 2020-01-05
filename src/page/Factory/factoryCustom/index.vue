@@ -79,7 +79,7 @@ export default {
             data.forEach((item, index, arr)=>{
                 arr[index].group_buying = item.group;
                 ruleList = item.group.rules.filter(rule=>{
-                    return item.num > rule.num
+                    return item.group.total > rule.num
                 })
                 arr[index].rates = ruleList[ruleList.length-1]&&ruleList[ruleList.length-1].profit || 0
             })

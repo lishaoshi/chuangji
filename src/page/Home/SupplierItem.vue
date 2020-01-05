@@ -4,7 +4,7 @@
             <router-link :to="`/factory/shop/${data.id}`">
                 <div class="factoryInfo">
                     <img v-if="data.img_cover" :src="data.img_cover" alt="">
-                    <default-logo  v-else :name="name" :bgColor="bgColor"/>
+                    <default-logo  v-else :name="name" :bgColor="bgColorIndx"/>
                     <!-- <div v-else>
                         <span v-for=""></span>
                     </div> -->
@@ -29,7 +29,7 @@
                     </div>
                 </div>
             </router-link>
-            <div class="img_list_box">
+            <div class="img_list_box" v-if="USERTYPE==2">
                 <div class="img_box" v-for="(item, index) of data.groups" :key="index">
                     <img :src="`${item.product.cover}?x-oss-process=image/resize,w_300,m_fixed,h_300,limit_0`" alt="">
                     <p>已采{{item.total}}{{item.product.big_unit}}</p>
@@ -43,6 +43,7 @@
 <script>
 import default_company_logo from "@/images/default_company_logo.png"
 import defaultLogo from "@/components/common/defaultLogo";
+import { mapState } from "vuex"
     export default {
         name: "SupplierItem",
         props: ['data', 'index'],
@@ -55,7 +56,13 @@ import defaultLogo from "@/components/common/defaultLogo";
                 default_company_logo
             }
         },
-        filters: {
+        computed: {
+            ...mapState({
+                POSITION:(state)=>{state.POSITION},
+                USERTYPE:state=>{
+                    return state.CURRENTUSER.data.user_type
+                    }
+            }),
             //企业简称
             name() {
                 const nameArr = []
@@ -64,9 +71,10 @@ import defaultLogo from "@/components/common/defaultLogo";
                 }
                 return nameArr
             },
-            bgColor() {
+            bgColorIndx() {
                 const index = this.index % 10
-                return this.colorList[index]
+                // return this.colorList[index]
+                return index
             }
         },
         created() {
@@ -106,7 +114,16 @@ import defaultLogo from "@/components/common/defaultLogo";
         // display: flex;
         border-radius: 0 0 16px 16px;
         padding: 10px;
-        
+        section {
+            width: 1.2rem;
+            height: 1.2rem;
+            margin-right: .28rem;
+            display: flex;
+            justify-content: center;
+            & >>> .extension-item-img  {
+                margin-right: 0!important;
+            }
+        }
 
         .brand {
             // height: 1.2rem;

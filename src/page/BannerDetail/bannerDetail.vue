@@ -60,7 +60,7 @@ export default {
                 this.logo = data.supplier.img_cover;
                 this.title = data.title;
                 this.companyName = data.supplier.name;
-                this.time = data.created_at
+                this.time = this.$moment.unix(data.created_at).format("YYYY-MM-DD")
             })
         }
     },

@@ -224,8 +224,6 @@ import timingDate from '../timing/timing'
             async handleContinuTo(data) {
                 // this.$messagebox.confirm('')
                 if(!this.isFactory) {
-                    console.log(this.isFactory, this.data)
-                    debugger
                     await againOrder(data.id).catch(err=>{
                         this.$toast('商品已经下架')
                     })
