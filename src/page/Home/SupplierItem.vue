@@ -3,7 +3,11 @@
         <div class="brand">
             <router-link :to="`/factory/shop/${data.id}`">
                 <div class="factoryInfo">
-                    <img :src="data.img_cover || default_company_logo" alt="">
+                    <img v-if="data.img_cover" :src="data.img_cover" alt="">
+                    <default-logo  v-else :name="name" :bgColor="bgColor"/>
+                    <!-- <div v-else>
+                        <span v-for=""></span>
+                    </div> -->
                     <div>
                         <p>{{data.display_name || data.name }}</p>
                         <ul>
@@ -38,13 +42,31 @@
 
 <script>
 import default_company_logo from "@/images/default_company_logo.png"
+import defaultLogo from "@/components/common/defaultLogo";
     export default {
         name: "SupplierItem",
-        props: ['data'],
+        props: ['data', 'index'],
+        components: {
+            defaultLogo
+        },
         data() {
             return {
                 is_active: false,
                 default_company_logo
+            }
+        },
+        filters: {
+            //企业简称
+            name() {
+                const nameArr = []
+                for(let i=0; i < this.data.short_name.length; i++ ) {
+                    nameArr.push(this.data.short_name.charAt(i))
+                }
+                return nameArr
+            },
+            bgColor() {
+                const index = this.index % 10
+                return this.colorList[index]
             }
         },
         created() {

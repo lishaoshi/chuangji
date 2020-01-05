@@ -53,7 +53,7 @@
                 <!--  :style="{ height: (wrapperHeight-50) + 'px' }" :bottom-method="loadBottom" -->
                 <choost-type :configs="configs" @chooseType="chooseType"/>
                 <template v-if="suppliers.length>0">
-                    <supplier-item :data="item" v-for="(item,index) in suppliers" :key="index"/>
+                    <supplier-item :data="item" v-for="(item,index) in suppliers" :key="index" :index="index"/>
                     <p v-if="allLoaded" class="loader-over">加载完毕</p>
                 </template>
             </div>

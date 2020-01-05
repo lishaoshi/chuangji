@@ -2,9 +2,10 @@
     <div class="userList">
         <div class="userInfo">
             <!-- <img src="../../../images/default_company_logo.png" class="extension-item-img"> -->
-            <div v-if="!avatar && !img_cover" class="extension-item-img " :style="{background:bgColor}">
+            <!-- <div v-if="!avatar && !img_cover" class="extension-item-img " :style="{background:bgColor}">
                 <span v-for="(item, index) of name" :key="index" :class="{firstSpan: index==0&&name.length==3}">{{item}}</span>
-            </div>
+            </div> -->
+            <default-logo  v-if="!avatar && !img_cover" :name="name" :bgColor="bgColor"/>
             <img v-else :src="avatar?avatar:img_cover" class="extension-item-img">
             <span>{{display_name}}</span>
         </div>
@@ -16,7 +17,11 @@
 </template>
 
 <script>
+import defaultLogo from "@/components/common/defaultLogo"
 export default {
+    components: {
+        defaultLogo
+    },
     props: {
         data: {
             type: Object,
