@@ -26,7 +26,7 @@
             <div class="company activebox2">
                 <div class="brand" @click="queryCompanyDetail">
                     <img v-if="businessInfo.img_cover" :src="businessInfo.img_cover" alt="">
-                    <default-logo v-else :name="businessInfo.shortName || []" :bgColor=bgColor></default-logo>
+                    <default-logo v-if="!businessInfo.img_cover&&businessInfo.short_name" :name="businessInfo.shortName || []" :bgColor=bgColor></default-logo>
                 </div>
                 <div class="message">
                     <div class="message_title" @click="queryCompanyDetail">

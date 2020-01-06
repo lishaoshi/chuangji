@@ -25,7 +25,7 @@
             <div class="company" :class="{activebox2: isFullScreen}">
                 <div class="brand" @click="queryCompanyDetail">
                     <img v-if="shopDetailData.img_cover" :src="shopDetailData.img_cover" alt="">
-                    <default-logo v-else :name="shopDetailData.shortName || []" :bgColor=bgColor></default-logo>
+                    <default-logo v-if="!shopDetailData.img_cover&&shopDetailData.short_name" :name="shopDetailData.shortName || []" :bgColor=bgColor></default-logo>
                 </div>
                 <div class="message">
                     <div class="message_title" @click="queryCompanyDetail">

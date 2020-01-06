@@ -4,7 +4,7 @@
         <div class="conpanyName">
             <div>
                 <img v-if="supplierInfo.img_cover" :src="supplierInfo.img_cover" alt="">
-                <default-logo v-else :name="supplierInfo.shortName || []" :bgColor=bgColor></default-logo>
+                <default-logo v-if="!supplierInfo.img_cover&&supplierInfo.shortName" v-else :name="supplierInfo.shortName || []" :bgColor=bgColor></default-logo>
             </div>
             <div>
                 <span>{{supplierInfo.display_name?supplierInfo.display_name:supplierInfo.name}}</span>
