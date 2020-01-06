@@ -231,7 +231,7 @@
                     return true
                 }
                 if(item.target_type == "product_detail") {
-                    this.$router.push({path:`/factory/shop/${this.factorId}/${item.target_id}`,query: {id:item.id}})
+                    this.$router.push({path:`/factory/shop/${this.factoryId}/${item.target_id}`,query: {id:item.id}})
                     return true
                 } else if(item.target_type == 'target_none') {
                     return false
