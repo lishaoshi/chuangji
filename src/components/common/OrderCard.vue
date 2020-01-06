@@ -32,12 +32,12 @@
             </router-link>
 
             <div :class="{OrderStatus:data.order_status!=1}" class="need_pay">
-                <div v-if="data.order_status==1 || data.order_status==0" class="intever">
+                <div v-if="(data.order_status==1 || data.order_status==0)&&data.supplier.type==2" class="intever">
                     <div>
                         <span v-if="data.order_status==0">剩余支付时间：
                             <timing-date :time.sync="data.left_time"></timing-date>
                         </span>
-                        <span v-if="data.order_status==1">剩余提取时间：
+                        <span v-if="data.order_status==1&&data.supplier.type==2">剩余提取时间：
                             <timing-date :time.sync="data.left_time" @timeout="timeout"></timing-date>
                         </span>
                     </div>
@@ -70,9 +70,9 @@
                 </p>
             </router-link>
           <div :class="{OrderStatus:data.order_status!=1}" class="need_pay" >
-              <div v-if="data.order_status==1 || data.order_status==0">
+              <div v-if="(data.order_status==1 || data.order_status==0)&&data.supplier.type==2">
                    <div>
-                        <span v-if="data.order_status==1">剩余提取时间: 
+                        <span v-if="data.order_status==1&&data.supplier.type==2">剩余提取时间: 
                             <timing-date :time.sync="data.left_time" @timeout="timeout"></timing-date>
                         </span>
                         <span v-if="data.order_status==0">剩余支付时间: {{data.minutes}}分{{data.seconds}}秒</span>

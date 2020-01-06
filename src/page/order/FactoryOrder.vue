@@ -138,19 +138,15 @@
                 this.loading  = true;
                 getFactoryOrderList(params).then(res=>{
                     this.loading = false
-                    let orderList = res.data.data;
-                    console.log(orderList)
-                    let orders = Object.assign([],orderList);
-                    this.handleOrderItems(orders)
-
+                    let orderList = res.data.data || [];
                     this.flag = this.state
                     if(this.page>1) {
-                        this.orderList = [...this.orderList, ...orders]
+                        this.orderList = [...this.orderList, ...orderList]
                         this.$refs.loadmore.onBottomLoaded()
                     } else {
-                        this.orderList = orders
+                        this.orderList = orderList
                     }
-                    if(orders.length==0) {
+                    if(orderList.length==0) {
                         this.allLoaded = true
                     }
                     this.page++
