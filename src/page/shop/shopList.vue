@@ -278,11 +278,13 @@
             // 搜索列表
             _supplierEntities(value) {
                 let params = {
-                    search: value
+                    search: value,
+                    page: 1,
+                    limit: this.limit
                 }
                 let data = []
                 supplierEntities(this.factoryId, params).then(res=>{
-                    this.goodList = this._handleData(res)
+                    this.goodList = this._handleData(res.data)
                 })
             },
             _queryShopCarList() {
