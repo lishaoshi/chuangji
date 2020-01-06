@@ -11,7 +11,7 @@
                     <i></i>
                     
                     <svg class="icon-clearText" v-if="searchValue" @click="cleraText">
-                        <use xlink:href="#icon-empty1"/>
+                        <use :xlink:href="`#icon-${!hasError?'empty1':'qingkong'}`"/>
                     </svg>
                  </form>
             </div>
