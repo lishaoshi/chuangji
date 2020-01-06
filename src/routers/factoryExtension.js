@@ -38,7 +38,7 @@ export default [
 		}
 	},
 	{
-		path: "/customization",
+		path: "/customization/:id",
 		component: Customization,
 		meta: {
 			title: "定制生产",

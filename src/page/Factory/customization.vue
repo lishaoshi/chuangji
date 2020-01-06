@@ -52,6 +52,7 @@ export default {
             isShowModel: false,
             curData: {},
             placeholder: "请输入定制数量",
+            factoryId: 0
         }
     },
      filters: {
@@ -60,13 +61,15 @@ export default {
         }
     },
     created() {
-        this.initData()
+        this.factoryId = this.$route.params.id
+        this.initData();
     },
     methods: {
         initData() {
             const params = {
                 page: this.page,
-                limit: this.limit
+                limit: this.limit,
+                supplier_id: this.factoryId
             }
             Promise.all([getFactoryCustomizeList(params)]).then(res=>{
                 this.customizeList = res[0].data

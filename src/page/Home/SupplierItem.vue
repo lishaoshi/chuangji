@@ -180,6 +180,7 @@ import { mapState } from "vuex"
                 img {
                     width: 1.2rem;
                     height: 1.2rem;
+                    border-radius: 10px;
                     margin-right: .28rem;
                 }
             }

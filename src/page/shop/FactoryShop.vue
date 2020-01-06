@@ -77,8 +77,8 @@
         <div class="main-box">
             <mt-swipe :auto="4000" class="swiper">
                 <mt-swipe-item :key="key" v-for="(swipe,key) in swipers">
-                    <a ref="banner_a" v-if="swipe.target_from=='out'" :href="swipe.link"> <img :src="swipe.img" width="100%" height="100%"></a>
-                    <div v-else  @click="handleJump(swipe)"><img :src="swipe.img" width="100%" height="100%"></div>
+                    <a ref="banner_a" v-if="swipe.target_from=='out'" style="width: 100%; height: 100%;" :href="swipe.link"> <img :src="swipe.img" width="100%" height="100%"></a>
+                    <div v-else style="width: 100%; height: 100%;"  @click="handleJump(swipe)"><img :src="swipe.img" width="100%" height="100%"></div>
                 </mt-swipe-item>
             </mt-swipe>
             <div style="background: #fff;">
@@ -244,7 +244,7 @@
                     this.$toast("仅商业公司可参与")
                     return false
                 }
-                this.$router.push({path: "/customization"})
+                this.$router.push({path: `/customization/${this.factoryId}`})
             },
             showRolePicker() {
                 this.popupVisible = true;
