@@ -74,28 +74,6 @@ export default {
             align-items: center;
             height: 100%;
             position: relative;
-            animation: bottomBox .8s;
-            // &::after {
-            //     content: "";
-            //     display: block;
-            //     width: 9px;
-            //     background: #333333;
-            //     height: 6px;
-            //     border-radius: 3px;
-            //     position: absolute;
-            //     bottom: 2px;
-               
-            //     transform-origin: 0 0;
-            // }
-        }
-    }
-    @keyframes bottomBox {
-        from {
-            transform: scale(0, 1);
-        }
-        to {
-            transform: scale(1, 1);
-            color: #333;
         }
     }
 </style>
