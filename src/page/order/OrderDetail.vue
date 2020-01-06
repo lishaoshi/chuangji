@@ -139,7 +139,7 @@
 		<div class="foot-fade"></div>
 
 		<!-- 终端底部按钮内容 -->
-		<div class="footer-box">
+		<div class="footer-box" v-if="isShow">
 
 			<div>
 				<div class="btn" v-if="data.order_status=== 3 " @click="sureOrder(data.id)">确认收货</div>
@@ -200,7 +200,8 @@
 				pay_status:0,
 				shopId:0,
 				client_supplier: '',
-				isFactory: false
+				isFactory: false,
+				isShow: true
 				
 			}
 		},
@@ -238,8 +239,12 @@
 			},
 		},
 		created() {
-			this.isFactory = this.$route.query.isFactory
+			this.isFactory = this.$route.query.isFactory;
 			this.orderId = this.$route.params.id;
+			if(this.$route.query.isShow==="false") {
+				this.isShow = false
+			}
+			// this.isShow = this.$route.query.isShow?true:false
 			this._initData();
 		},
 		filters: {

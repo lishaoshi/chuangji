@@ -2,7 +2,7 @@
 	<div id="OtherOrderCard">
 		<div class="item">
 			<div class="item-box">
-				<router-link :to="`/my-order/detail/${data.id}?isFactory=false`">
+				<router-link :to="`/my-order/detail/${data.id}?isFactory=false&isShow=false`">
                     <p class="state">
 						<span v-if="data.order_status==2">待发货</span>
 						<span v-if="data.order_status==3">待收款</span>
