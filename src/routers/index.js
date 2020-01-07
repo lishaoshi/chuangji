@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-
+import store from "../stores/index"
 import routes from "./routes";
 
 Vue.use(VueRouter);
@@ -59,6 +59,9 @@ router.beforeEach((to, from, next) => {
             : requiresAuth
             ? next({ path: "/signin", query: { redirect: to.fullPath } })
             : next();
+    }
+    if(to.path == '/signin') {
+        store.commit('DEL_CHOOSED_ADDRESS')
     }
 });
 
