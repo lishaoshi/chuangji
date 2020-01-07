@@ -16,7 +16,10 @@
             </mt-swipe>
             <div class="detail-box1" v-if="canShow">
                 <div class="left">
-                    <span style="font-size: .3rem">￥</span> {{data.tran*data.price}}<span style="font-size: .24rem">/{{data.big_unit}}</span>
+                    <span style="font-size: .3rem">￥</span>
+                    <i v-if="data.price">{{data.tran*data.price}}</i>
+                     
+                     <span style="font-size: .24rem">/{{data.big_unit}}</span>
                 </div>
                 <div class="rigit">
                     <div class="gw_num" v-if="(!data.is_multi_spec && canShow)">

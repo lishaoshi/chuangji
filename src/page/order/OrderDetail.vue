@@ -21,7 +21,7 @@
 					<div>
 						<div>{{item.entity_name}}</div>
 						<div>
-							￥{{item.entity.price}}/{{item.entity.unit}}
+							￥{{item.entity.price || ''}}/{{item.entity.unit}}
 						</div>
 					</div>
 				</div>
@@ -49,7 +49,7 @@
 				<span class="state">{{order_status_display}}</span>
 				<div>
 					<span>{{data.order_status==0?'应付': '金额'}}</span>
-				<span>￥{{+this.data.order_amount+(+this.data.freight) | filterFixed}}</span>
+				<span v-show="this.data.order_amount">￥{{+this.data.order_amount+(+this.data.freight) | filterFixed}}</span>
 				</div>
 			</div>
 		</div>
@@ -172,7 +172,7 @@
 <script>
 	import Spread from "../Spread";
 	import {sureSendBusinessOrder, sureBusinessOrder, againOrder, deleteBusinessOrder} from "@/api/businessOrder.js"
-	import { factoryOrderDetail, againFactoryOrder, sureFactoryOrder } from "@/api/factoryOrder"
+	import { factoryOrderDetail, againFactoryOrder, sureFactoryOrder, deleteFactoryOrder } from "@/api/factoryOrder"
 	import { orderPay } from "@/api/businessOrder"
 	import { mapState } from 'vuex'
     export default {
@@ -331,11 +331,20 @@
 			delectOrder(id) {
                 this.$messagebox.confirm('确认删除此订单吗？').then(res=>{
                     if(res=='confirm') {
-                        deleteBusinessOrder(id).then(res=>{
-                            this.$emit('delSccess', this.orderKey)
-							this.$toast('删除成功')
-							this.goBack()
-                        })
+                       
+						if(!this.isFactory) {
+                            deleteBusinessOrder(id).then(res=>{
+								this.$emit('delSccess', this.orderKey)
+								this.$toast('删除成功')
+								this.goBack()
+							})
+                        } else {
+							deleteFactoryOrder(id).then(res=>{
+								this.$emit('delSccess', this.orderKey)
+								this.$toast('删除成功')
+								this.goBack()
+							})
+						}
                     }
                 })
             },
@@ -368,7 +377,7 @@
 					this.$router.push({path: '/business-shop', query: {id: this.data.supplier_id}})
 				}
 				 else if(this.data.supplier.type == 1) {
-					this.$router.push({path: `/factory/shop${this.data.supplier_id}`})
+					this.$router.push({path: `/factory/shop/${this.data.supplier_id}`})
 				}
 			}
 		}
