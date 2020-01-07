@@ -76,9 +76,11 @@ export default {
             })
         },
         upDtaScess() {
+            this.page = 1;
              const params = {
                 page: this.page,
-                limit: this.limit
+                limit: this.limit,
+                 supplier_id: this.factoryId
             }
             Promise.all([getFactoryCustomizeList(params)]).then(res=>{
                 this.customizeList = res[0].data
