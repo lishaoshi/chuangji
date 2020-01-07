@@ -7,7 +7,7 @@
                         <svg @click="keyUp">
                             <use xlink:href="#icon-sousuo" />
                         </svg>
-                        <input type="search" ref="input" v-model="searchValue" placeholder="请输入搜索内容" @keyup.enter="keyUp">
+                        <input type="search" ref="input" v-model="searchValue" placeholder="请输入订单编号" @keyup.enter="keyUp">
                         <svg @click="clearText" v-if="searchValue">
                             <use xlink:href="#icon-qingkong" />
                         </svg>
