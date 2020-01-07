@@ -120,7 +120,7 @@
 						companyAddress = `${currentInfo['shop_supplier']['province_lng']} ${currentInfo['shop_supplier']['city_lng']} ${currentInfo['shop_supplier']['county_lng']} ${currentInfo['shop_supplier']['address']}` || currentInfo['location']
 					}
 					if(currentInfo['certification']){
-						let aptitudeData = currentInfo['certification']['data']
+						let aptitudeData = currentInfo['certification']['certs'];
 						aptitudeData.forEach(element => {
 							switch(element.label) {
 								case 'GSP证书':
