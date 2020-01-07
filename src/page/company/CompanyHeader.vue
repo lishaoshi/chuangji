@@ -8,7 +8,7 @@
                         <use v-if="hasError" xlink:href="#icon-sousuo"/>
                         <use v-else xlink:href="#icon-search2"/>
                     </svg>
-                    <input type="text" ref="input" v-model="searchValue" placeholder="请输入关键词" @keyup.enter="keyUp">
+                    <input type="text" ref="input" v-model="searchValue" placeholder="请输入商品名称|拼音首字母" @keyup.enter="keyUp">
                     <i></i>
                     <svg class="icon-location"  v-if="searchValue" @click="clearText">
                         <use v-if="hasError"  xlink:href="#icon-qingkong"/>
