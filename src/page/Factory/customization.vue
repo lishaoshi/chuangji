@@ -25,6 +25,17 @@
             </chang-model>
             <bg />
       </template>
+        <template v-if="hasCustom&&isLoad">
+            <div class="factoryMessage">
+                <div class="box">
+                    <img src="~@/images/noFactorCustom.png" alt="">
+                    <div class="confirmBtn" @click="goBack">
+                        我知道了
+                    </div>
+                </div>
+            </div>
+            <bg />
+        </template>
     </div>
 </template>
 
@@ -52,7 +63,8 @@ export default {
             isShowModel: false,
             curData: {},
             placeholder: "请输入定制数量",
-            factoryId: 0
+            factoryId: 0,
+            isLoad: false
         }
     },
      filters: {
@@ -64,6 +76,11 @@ export default {
         this.factoryId = this.$route.params.id
         this.initData();
     },
+    computed: {
+        hasCustom() {
+            return this.customizeList.length > 0 ? false : true;
+        }
+    },
     methods: {
         initData() {
             const params = {
@@ -72,7 +89,8 @@ export default {
                 supplier_id: this.factoryId
             }
             Promise.all([getFactoryCustomizeList(params)]).then(res=>{
-                this.customizeList = res[0].data
+                this.customizeList = res[0].data || [];
+                this.isLoad = true;
             })
         },
         upDtaScess() {
@@ -83,7 +101,7 @@ export default {
                  supplier_id: this.factoryId
             }
             Promise.all([getFactoryCustomizeList(params)]).then(res=>{
-                this.customizeList = res[0].data
+                this.customizeList = res[0].data || []
             })
         },
         buyCustom(val, data) {
@@ -155,5 +173,44 @@ export default {
         font-size: .24rem;
         padding: .2rem 0;
     }
+    .factoryMessage {
+		position:absolute;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 1000;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		img {
+			width: 90%;
+			display: block;
+			margin: 0 auto;
+			
+		}
+		.confirmBtn {
+			color: #fff;
+			background: #0090FF;
+			font-size: .32rem;
+			border-radius: .4rem;
+			height: .8rem;
+			line-height: .8rem;
+			// margin-top: -1.1rem;
+			// padding: 0 1.78rem;
+			width: 4.6rem;
+			text-align: center;
+			position: absolute;
+			left: 50%;
+			transform: translate(-50%, 0);
+			bottom: 0.4rem;
+		}
+		.box {
+			height: auto;
+			position: relative;
+			width: 100%;
+		}
+	}
 }
 </style>

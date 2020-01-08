@@ -331,8 +331,7 @@
 			delectOrder(id) {
                 this.$messagebox.confirm('确认删除此订单吗？').then(res=>{
                     if(res=='confirm') {
-                       
-						if(!this.isFactory) {
+						if(this.isFactory == 'false') {
                             deleteBusinessOrder(id).then(res=>{
 								this.$emit('delSccess', this.orderKey)
 								this.$toast('删除成功')
@@ -357,7 +356,7 @@
 				console.log(id)
 				this.$messagebox.confirm("确定收到货物了吗?").then(action => {
 					if(action === 'confirm'){
-                        if(!this.isFactory) {
+                        if(this.isFactory == 'false') {
                             sureBusinessOrder(id).then(()=>{
                                 // this.page = 1
 								// this.getOrderList()
