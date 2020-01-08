@@ -247,7 +247,7 @@
                 let total_price = 0
                 Object.values(this.shopCart).forEach((item, index) => {
                     if(item&&item.num>0) {
-                        total_price += item.num * item.price * item.tran;
+                        total_price += item.num > item.order_min_num ? +item.num:+item.order_min_num * item.price * item.tran;
                     }
                 })
                 return total_price.toFixed(2)
@@ -356,9 +356,6 @@
 					item.num--
 					this.shopCart[item.id].num--
 				}
-                // this.shopCart[item.id].num--
-                // this.shopCart[item.id].num--
-                // item.num--
                 this.cartNum = this.calculateCartNum()
                 this.totalPrice = this.calculateTotalPrice()
                 
@@ -383,7 +380,7 @@
                     item.itemId = item.id
                     item.sale_price = item.price
                     if (this.shopCart[item.id]) {
-                        item.num = this.shopCart[item.id].num
+                        item.num = this.shopCart[item.id].num > this.shopCart[item.id].order_min_num?this.shopCart[item.id].num:this.shopCart[item.id].order_min_num
                     }
                 })
                 this.loading = false

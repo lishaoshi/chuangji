@@ -46,9 +46,6 @@
 									<template v-else>
 										
 										<form action="" class="input_warp">
-											<!-- <span>
-											{{item.num}}
-										</span> -->
 											<input v-focus pattern="[0-9]*" @input="handleInput($event)" @keyup.enter="handleBlur($event, item, index)" @blur="handleBlur($event, item, index)" ref="cart" type="number" :value="item.num">
 										</form>
 									</template>

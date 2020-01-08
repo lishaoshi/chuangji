@@ -22,10 +22,10 @@
 						<div class="minus" @click.prevent.stop="minGoods(sid,pid, data)">
 							<img src="../../images/del_shopping.png" alt="">
 						</div>
-						<span @click="chooseSelf" v-if="!data.isSelfChoose" class="num">{{data.num}}<i>{{data.supplier.type==1?data.big_unit: data.unit|| '件'}}</i></span>
+						<span @click="chooseSelf" v-if="!data.isSelfChoose" class="num">{{data.num>data.order_min_num?data.num:data.order_min_num}}<i>{{data.supplier.type==1?data.big_unit: data.unit|| '件'}}</i></span>
 						<template v-else>
 							<form action="" class="input_waper">
-								<input v-focus type="number" @blur="handleBlur($event, data)" ref="cart" :value="data.num">
+								<input v-focus type="number" @blur="handleBlur($event, data)" ref="cart" :value="data.num>data.order_min_num?data.num:data.order_min_num">
 							</form>
 						</template>
 						<div class="plus" @click.prevent.stop="addGoods(sid,pid, data)">
@@ -58,6 +58,9 @@ import bus from '@/bus'
 				bus.$emit('handleBlur', data)
 			},
 
+		},
+		mounted() {
+			console.log(this.data)
 		}
 	}
 </script>

@@ -221,7 +221,7 @@
                  * 旧版本是计算出总的购物量（个数）
                  * 现在替换为购物的种类
                  */
-                return Object.values(this.shopCart).length
+                return Object.values(this.shopCart).filter(ele=>ele.num>0).length
             },
             totalPrice() {
 				let total_price = 0.00;
@@ -230,7 +230,7 @@
 					return total_price.toFixed(2)
 				}
                 Object.values(this.shopCart).forEach((data, index) => {
-					total_price += data.num * data.price;
+					total_price += data.num > data.order_min_num ? data.num : data.order_min_num * data.price;
 				})
 				if(total_price < (this.businessConfig&&+this.businessConfig.starting_price || 0)) {
 					total_price += +this.businessConfig.shipping_fee
@@ -300,7 +300,7 @@
                         arr[index].cover = `${item.cover}?x-oss-process=image/resize,h_130,m_fixed,w_130`
                         Object.keys(this.shopCart).forEach((items)=>{
                             if(item.id==items) {
-                                arr[index].num = this.shopCart[items].num
+                                arr[index].num = this.shopCart[items].num>this.shopCart[items].order_min_num?this.shopCart[items].num:this.shopCart[items].order_min_num;
                             }
                         })
                     })

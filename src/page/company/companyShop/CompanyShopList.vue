@@ -127,15 +127,17 @@
 			},
             cartNum() {
                 let num = 0;
-                return Object.values(this.shopCart).length
+                return Object.values(this.shopCart).filter(ele=>ele.num>0).length
             },
             totalPrice() {
 				let total_price = 0.00;
 				if(this.cartNum == 0) {
 					return total_price.toFixed(2)
 				}
+				console.log(this.shopCart)
                 Object.values(this.shopCart).forEach((data, index) => {
-					total_price += data.num * data.price;
+					total_price += data.num>data.order_min_num?data.num:data.order_min_num * data.price;
+					console.log(total_price)
 				})
 				if(total_price < (this.businessConfig&&+this.businessConfig.starting_price || 0)) {
 					total_price += +this.businessConfig.shipping_fee
@@ -308,7 +310,7 @@
                     item.itemId = item.id
                     item.sale_price = item.price
                     if (this.shopCart[item.id]) {
-                        item.num = this.shopCart[item.id].num
+                        item.num = this.shopCart[item.id].num > this.shopCart[item.id].order_min_num?this.shopCart[item.id].num:this.shopCart[item.id].order_min_num
 					}
 					if(item.valid_time>0) {
 						arr[index].time = this.$moment.unix(item.valid_time).format("YYYY.MM.DD")

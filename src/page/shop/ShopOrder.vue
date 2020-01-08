@@ -62,7 +62,7 @@
                                     <div class="shop-pices" v-else>
                                         ￥<span class="price">{{entity.price | display_price}}元*{{entity.tran}}{{entity.unit}}</span>
                                     </div>
-                                    <div class="shop-num">x{{ entity.cart_num || 1}}{{shop.type==1?entity.big_unit:entity.unit|| '件'}}</div>
+                                    <div class="shop-num">x{{ entity.cart_num>entity.order_min_num?entity.cart_num:entity.order_min_num || 1}}{{shop.type==1?entity.big_unit:entity.unit|| '件'}}</div>
                                 </div>
                             </div>
                         </div>
@@ -257,7 +257,7 @@
                     let cnum = 0
                     let cprice = 0
                     Object.values(shop.entities).forEach((entity, ix) => {
-                        cnum += +entity.cart_num
+                        cnum += +entity.cart_num>entity.order_min_num?entity.cart_num:entity.order_min_num
                         if (shop.type==2) {
                             cprice += entity.price*entity.cart_num
                         } else if(shop.type==1) {

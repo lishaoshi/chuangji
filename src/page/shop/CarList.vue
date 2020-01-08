@@ -162,7 +162,8 @@
                             totalPrice: 0,
                             type: item.supplier.type,
                             spec: item.spec,
-                            brand: item.brand || ""
+                            brand: item.brand || "",
+                            orderMinNum: item.order_min_num
                         }
                     }
                 })
@@ -249,13 +250,13 @@
                     checkedItems:[],
                     type: 'factory'
                 }
-
+                console.log(this.data.shops);
                 this.data.shops.forEach(shop => {
                     shop.items.forEach(item => {
                         if(item.checked){
                             params.checkedItems.push({
                                 shopId:item.shopId,
-                                num:item.num,
+                                num:item.num >= item.orderMinNum? item.num:item.orderMinNum,
                                 id:item.id
                             })
                         }

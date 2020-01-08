@@ -27,7 +27,7 @@
                         <div class="lose"  v-else>-</div>
                         <template v-if="!data.isChooseSelf">
                             <div class="num" @click="handleChoose">
-                                <span class="amount">{{data.num}}</span>
+                                <span class="amount">{{data.num>data.order_min_num?data.num:data.order_min_num}}</span>
                                 <p>{{data.big_unit || '件'}}</p>
                             </div>
                         </template>
@@ -178,7 +178,7 @@
             totalPrice() {
                 let total_price = 0
                 Object.values(this.shopCart).forEach((data, index) => {
-                    total_price += +data.num * +data.price * data.tran;
+                    total_price += +data.num > data.order_min_num ? data.num:data.order_min_num * +data.price * data.tran;
                 })
                 return total_price.toFixed(2)
             }
