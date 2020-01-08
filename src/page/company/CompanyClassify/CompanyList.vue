@@ -145,8 +145,12 @@
             // },
             chooseBrands(item) {
                 // console.log(item)
+                if(this.brand_id == item.id) {
+                    this.entryBusinessShop('');
+                    return 
+                }
                 this.itemId = item.id
-                this.entryBusinessShop(item)
+                this.entryBusinessShop(item.id);
             },
             clearText(){
                 this.searchValue = ''

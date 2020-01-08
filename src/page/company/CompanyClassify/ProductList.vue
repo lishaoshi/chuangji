@@ -126,7 +126,7 @@
             </div>
             <div style="position: fixed;right: 0px;width: 82%;z-index: 9999;top:0px;height: 100%;background: #fff" v-if="is_business_list">
                 
-                    <BusinessList :closedMyFrame="closedMyFrame" :entryBusinessShop="entryBusinessShop" :brand_id="brand_id"></BusinessList>
+                    <BusinessList :closedMyFrame="closedMyFrame" :entryBusinessShop="entryBusinessShop" :brand_id.sync="brand_id"></BusinessList>
                 
             </div>
             <div class="fixed-bg" v-if="is_business_list" @click="is_business_list = !is_business_list"></div>
@@ -231,7 +231,7 @@
 				}
                 Object.values(this.shopCart).forEach((data, index) => {
                     if(data.num > 0) {
-                        total_price += data.num > data.order_min_num ? data.num : data.order_min_num * data.price;
+                        total_price += data.num > data.order_min_num ? +data.num : +data.order_min_num * data.price;
                     }	
 				})
 				if(total_price < (this.businessConfig&&+this.businessConfig.starting_price || 0)) {
@@ -473,10 +473,10 @@
                 this.init_Goods(true)
                 // this.isUp?
             },
-            entryBusinessShop(item) {
+            entryBusinessShop(id) {
                 // console.log(item)
-                this.brand_id = item.id
-                this.init_Goods()
+                this.brand_id = id;
+                this.init_Goods();
                 // this.$store.commit('SAVE_CURRENT_BUSINESS_SHOP', item.id)
                 // this.$store.commit('SAVE_CURRENT_BUSINESS_SHOP_DATA', item)
                 // this.$router.go(0)

@@ -316,7 +316,7 @@
 			},
 			  // 再来一单
             async handleContinuTo(data) {
-				if(!this.isFactory) {
+				if(this.isFactory == 'false') {
 					await againOrder(data.id).catch(err=>{
                     	this.$toast('商品已经下架')
 					})

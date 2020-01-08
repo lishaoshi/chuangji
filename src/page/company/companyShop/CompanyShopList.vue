@@ -28,7 +28,7 @@
 						<div>
 							<router-link to="/develop">
 								<svg><use xlink:href="#icon-quanqiucang-active" /></svg>
-								<p>领卷活动</p>
+								<p>领券活动</p>
 							</router-link>
 						</div>
 						<div>
@@ -136,7 +136,7 @@
 				}
                 Object.values(this.shopCart).forEach((data, index) => {
 					if(data.num > 0) {
-						total_price += data.num>data.order_min_num?data.num:data.order_min_num * data.price;
+						total_price += data.num>data.order_min_num?+data.num:+data.order_min_num * data.price;
 					}
 				})
 				if(total_price < (this.businessConfig&&+this.businessConfig.starting_price || 0)) {
@@ -145,14 +145,14 @@
                 return total_price.toFixed(2)
 			},
 
-			// 出去配送费的总额
+			// 除去配送费的总额
 			notPrice() {
 				let total_price = 0.00;
 				if(this.cartNum == 0) {
 					return total_price.toFixed(2)
 				}
                 Object.values(this.shopCart).forEach((data, index) => {
-					total_price += data.num * data.price;
+					total_price += data.num>data.order_min_num?+data.num:+data.order_min_num * data.price;
 				})
 				return total_price
 			},

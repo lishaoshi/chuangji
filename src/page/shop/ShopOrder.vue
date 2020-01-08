@@ -257,7 +257,7 @@
                     let cnum = 0
                     let cprice = 0
                     Object.values(shop.entities).forEach((entity, ix) => {
-                        cnum += +entity.cart_num>entity.order_min_num?entity.cart_num:entity.order_min_num
+                        cnum += +entity.cart_num>entity.order_min_num?+entity.cart_num:+entity.order_min_num
                         if (shop.type==2) {
                             cprice += entity.price*entity.cart_num
                         } else if(shop.type==1) {

@@ -1,7 +1,7 @@
 <template>
   <div class="messageInfo">
     <div class="message-left">
-        <div class="icon-box" :class="{partner: this.data.channel=='fenyong', rebate:this.data.channel == 'fenrun'}">
+        <div class="icon-box">
             <svg>
                 <use :xlink:href="svg"/>
             </svg>
@@ -91,7 +91,6 @@ export default {
         margin-right: .3rem;
         .icon-box {
             border-radius:10px;
-            background: #2DA2FF;
             width: .96rem;
             height: .96rem;
             svg {
