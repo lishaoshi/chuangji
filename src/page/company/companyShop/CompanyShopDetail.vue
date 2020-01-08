@@ -154,7 +154,7 @@
             }),
             cartNum() {
                 let num = 0;
-                return Object.values(this.shopCart).length
+                return Object.values(this.shopCart).filter(ele=>ele.num>0).length
             },
             // 出去配送费的总额
 			notPrice() {
@@ -176,7 +176,9 @@
 					return total_price.toFixed(2)
 				}
                 Object.values(this.shopCart).forEach((data, index) => {
-					total_price += data.num * data.price;
+                    if(data.num > 0) {
+                        total_price += data.num * data.price;
+                    }
 				})
 				if(total_price < (this.businessConfig&&+this.businessConfig.starting_price || 0)) {
 					total_price += +this.businessConfig.shipping_fee
