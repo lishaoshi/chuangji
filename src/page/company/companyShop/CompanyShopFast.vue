@@ -10,7 +10,7 @@
 		<list @updateSlefChoss="handleChoose" @handleBlur="handleBlur" :business-id="businessId" :title="title" :items="entities" v-if="entities.length" @del_shop_cart="del_shop_cart" @add_shop_car="add_shop_car" :shopCart="shopCart"></list>
         <EmptyOrder v-else/>
         <div style="height: 1.3rem"></div>
-        <div style="position: fixed;width: 100%;bottom: 0px">
+        <div style="position: fixed;width: 100%;bottom: 0px" class="mainbox">
             <mini-company-cart ref="MiniCompanyCart" :isHasDistribution="isHasDistribution" :shipping_fee="businessConfig&&businessConfig.shipping_fee" :count="cartNum" :total-price="totalPrice" style="bottom: 0px"></mini-company-cart>
         </div>
 	</div>
@@ -69,7 +69,7 @@
 				}
                 Object.values(this.shopCart).forEach((data, index) => {
                     if(data.num > 0) {
-                        total_price += data.num>data.order_min_num?data.num:data.order_min_num * data.price;
+                        total_price += data.num>data.order_min_num?+data.num:+data.order_min_num * data.price;
                     }
 				})
 				if(total_price < (this.businessConfig&&+this.businessConfig.starting_price || 0)) {
@@ -132,7 +132,7 @@
                     item.itemId = item.id
                     item.sale_price = item.price
                     if (this.shopCart[item.id]) {
-                        item.num = this.shopCart[item.id].num
+                        item.num = this.shopCart[item.id].num > this.shopCart[item.id].order_min_num?this.shopCart[item.id].num:this.shopCart[item.id].order_min_num
                     }
                     if(item.valid_time > 0) {
                         arr[index].time = this.$moment.unix(item.valid_time).format("YYYY.MM.DD")

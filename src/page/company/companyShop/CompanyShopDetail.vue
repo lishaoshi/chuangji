@@ -28,7 +28,7 @@
                     <div class="lose"  v-else>-</div>
                     <template v-if="!data.isChooseSelf">
                          <div class="num" @click="handleChoose">
-                            <span class="amount">{{data.num}}</span>
+                            <span class="amount">{{data.num > data.order_min_num ? data.num:data.num>0?data.order_min_num:0}}</span>
                             <p>{{data.unit || '件'}}</p>
                         </div>
                     </template>
