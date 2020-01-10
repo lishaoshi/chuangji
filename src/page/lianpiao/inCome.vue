@@ -121,7 +121,7 @@
                     }
                     // debugger
                     data.forEach((item, index, arr)=>{
-                        arr[index].name = item.business_order.supplier.display_name
+                        arr[index].name = item.business_order&&item.business_order.supplier.display_name || item.factory_order&&item.factory_order.supplier.display_name
                     })
                     if(this.page==1) {
                         // debugger

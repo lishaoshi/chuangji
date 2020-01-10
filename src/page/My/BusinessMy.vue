@@ -38,7 +38,7 @@
 				<div class="my-list">
 					<!-- <clxsd-cell :title="'我的资产'" :to="'/my-assets'" is-link icon="business-myAsset" :value="userInfo.lianPiaoVaule" /> -->
 					<!-- <Clxsd-button title="成为集采商" @click="isButton" icon="my-collectParity" /> -->
-					<div class="becomeJc" @click="becomeJc" v-if="isCollec!==1">
+					<div class="becomeJc" @click="becomeJc" v-if="userInfo.isCollec!==1">
 						<img src="@/images/becomeJc.png" alt="">
 					</div>
 					
