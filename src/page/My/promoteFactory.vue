@@ -1,7 +1,7 @@
 <template>
   <div class="container">
       <clxsd-head-top title="我的邀请"></clxsd-head-top>
-      <div class="list_box">
+      <div class="list_box" v-if="list.length">
           <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
               <div class="item" v-for="(item, index) of list" :key="index">
                   <img :src="item.supplier.img_cover" alt="" v-if="item.supplier.img_cover">
@@ -12,12 +12,15 @@
               </div>
           </mt-loadmore>
       </div>
+       <EmptySupplier v-else/>
   </div>
+  
 </template>
 
 <script>
 import { _getFactoryList } from "@/api/business";
 import defaultLogo from "@/components/common/defaultLogo";
+import EmptySupplier from '@/components/EmptyList';
 export default {
     components: {
         defaultLogo
