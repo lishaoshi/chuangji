@@ -94,6 +94,7 @@ export default {
         flex: 1;
         padding: .2rem;
         border-radius: 8px;
+        overflow: auto;
         .item {
             height: 2rem;
             margin-top: .2rem;

@@ -54,7 +54,7 @@
                 <svg class="m-style-svg m-svg-def">
                     <use xlink:href="#icon-footer-liansudian-shouye"/>
                 </svg>
-                <span>集采</span>
+                <span>云工厂</span>
             </section>
             <section
                     :class="{active: isCurPath('/item-categories')}"
