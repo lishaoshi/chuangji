@@ -2,7 +2,8 @@ const ActivityBlock = () => import(/* webpackChunkName: "factoryExtension" */ '@
 const ActivitySpread = () => import(/* webpackChunkName: "factoryExtension" */ '@/page/FactoryExtension/ActivitySpread.vue');
 const changeHistory = () => import('@/page/CollectParity/changePriceHistory')
 const buyRecoed = () => import('@/page/CollectParity/buyRecoed')
-const Customization = () => import("@/page/Factory/customization")
+const Customization = () => import("@/page/Factory/customization");
+const promoteFactory = () => import("@/page/My/promoteFactory");
 
 export default [
 	{
@@ -45,4 +46,12 @@ export default [
 			requiresAuth: true
 		}
 	},
+	{
+		path: "/promoteFactory",
+		component: Customization,
+		meta: {
+			title: "推广厂家",
+			requiresAuth: true
+		}
+	}
 ]
