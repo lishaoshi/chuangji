@@ -23,7 +23,8 @@ import defaultLogo from "@/components/common/defaultLogo";
 import EmptySupplier from '@/components/EmptyList';
 export default {
     components: {
-        defaultLogo
+        defaultLogo,
+        EmptySupplier
     },
     data() {
         return {

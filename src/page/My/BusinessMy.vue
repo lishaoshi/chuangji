@@ -122,7 +122,7 @@
                         infoText,
 						userLogo,
 						shop_supplier,
-						isCollec: currentInfo.shop_supplier.is_collector
+						isCollec: currentInfo.shop_supplier&&currentInfo.shop_supplier.is_collector
                     }
 
 				},
