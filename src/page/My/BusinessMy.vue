@@ -37,6 +37,11 @@
 			<PullRefresh @refresh="refresh" class="myInfoPage">
 				<div class="my-list">
 					<!-- <clxsd-cell :title="'我的资产'" :to="'/my-assets'" is-link icon="business-myAsset" :value="userInfo.lianPiaoVaule" /> -->
+					<!-- <Clxsd-button title="成为集采商" @click="isButton" icon="my-collectParity" /> -->
+					<div class="becomeJc" @click="becomeJc">
+						<img src="@/images/becomeJc.png" alt="">
+					</div>
+					
 					<clxsd-cell title="关注收藏" :to="'/my-follow'" is-link icon="my-attention" />
 					<div @click="authToRouter('/factory-order')">
 						<clxsd-cell title="工业订单" icon="my-ordering" />
@@ -70,6 +75,7 @@
 <script>
 	import { mapState, mapActions, mapMutations } from "vuex";
 	import ClxsdCell from '@/components/common/Cell';
+	// import ClxsdButton from '@/components/common/clxsdButton';
 	export default {
 		name: "page-business-my",
 		components: {
@@ -136,7 +142,20 @@
                     }).catch(err => {
 
                 })
-            },
+			},
+			becomeJc() {
+				this.$messagebox.confirm('',{
+                    title: '提示',
+                    message: '集采商将享受推广工业订单的分润收入，确定成为集采商吗？',
+                }).then(res=>{
+                    if(res=='confirm') {
+                        console.log(123)
+                    }
+                })
+			},
+			isButton() {
+				console.log(123)
+			},
             refresh(callback){
 				//this.$store.dispatch("fetchUserInfo");
 				this.fetchUserInfo()
@@ -179,6 +198,13 @@
     flex-direction: column;
     margin-bottom: 1rem;
     height: 100%;
+}
+.becomeJc {
+	width: 100%;
+	padding: 0rem 0.3rem 0.2rem;
+	img {
+		width: 100%;
+	}
 }
 .businessPage {
 	display: flex;
