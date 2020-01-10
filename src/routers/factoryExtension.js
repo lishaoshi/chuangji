@@ -48,7 +48,7 @@ export default [
 	},
 	{
 		path: "/promoteFactory",
-		component: Customization,
+		component: promoteFactory,
 		meta: {
 			title: "推广厂家",
 			requiresAuth: true

@@ -55,3 +55,13 @@ export function quickreplenish(params, id) {
          return err.response
      })
  }
+
+ /**
+  * 获取推广厂家列表
+  */
+
+  export function _getFactoryList(params) {
+      return http.get('/hippo-shop/supplier/collector/factory', {params}).then(res=>{
+          return res.data
+      })
+  } 

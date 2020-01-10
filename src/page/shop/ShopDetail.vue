@@ -179,7 +179,8 @@
                 let total_price = 0
                 Object.values(this.shopCart).forEach((data, index) => {
                     if(data.num > 0) {
-                        total_price += +data.num > data.order_min_num ? data.num:data.order_min_num * +data.price * data.tran;
+                        let num = +data.num > data.order_min_num ? +data.num:+data.order_min_num;
+                        total_price +=  num * +data.price * data.tran;
                     }
                 })
                 return total_price.toFixed(2)

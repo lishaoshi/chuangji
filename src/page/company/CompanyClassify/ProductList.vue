@@ -231,7 +231,8 @@
 				}
                 Object.values(this.shopCart).forEach((data, index) => {
                     if(data.num > 0) {
-                        total_price += data.num > data.order_min_num ? +data.num : +data.order_min_num * data.price;
+                        let num = data.num > data.order_min_num ? +data.num : +data.order_min_num;
+                        total_price +=  num * data.price;
                     }	
 				})
 				if(total_price < (this.businessConfig&&+this.businessConfig.starting_price || 0)) {
