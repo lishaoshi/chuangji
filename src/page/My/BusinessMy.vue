@@ -51,7 +51,7 @@
 				</div>
 				<ul class="my-list">
 					<clxsd-cell :title="'集采返利'" :to="'/ticket-list'" is-link icon="my-banknote" :value="userInfo.lianPiaoVaule" />
-					<clxsd-cell :title="'推广厂家'" :to="'/promoteFactory'" is-link icon="global-my-financing" />
+					<clxsd-cell :title="'推广厂家'" :to="'/promoteFactory'" is-link icon="wode-wodeyaoqing" />
 					<clxsd-cell :title="'增值理财'" :to="'/develop'" is-link icon="global-my-financing" />
 					<clxsd-cell :title="'授信借贷'" :to="'/develop'" is-link icon="my-loan" />
 				</ul>
