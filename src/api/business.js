@@ -43,3 +43,15 @@ export function quickreplenish(params, id) {
     let url = `hippo-shop/business/${id}/quickreplenish`
     return http.get(url, {params})
 }
+
+/**
+ * 成为集采商
+ */
+
+ export function _becomeJc() {
+     return http.post('/hippo-shop/supplier/collector').then(res=>{
+         return Promise.resolve(res.data)
+     }).catch(err=>{
+         return err.response
+     })
+ }

@@ -38,7 +38,7 @@
 				<div class="my-list">
 					<!-- <clxsd-cell :title="'我的资产'" :to="'/my-assets'" is-link icon="business-myAsset" :value="userInfo.lianPiaoVaule" /> -->
 					<!-- <Clxsd-button title="成为集采商" @click="isButton" icon="my-collectParity" /> -->
-					<div class="becomeJc" @click="becomeJc">
+					<div class="becomeJc" @click="becomeJc" v-if="isCollec!==1">
 						<img src="@/images/becomeJc.png" alt="">
 					</div>
 					
@@ -75,6 +75,7 @@
 <script>
 	import { mapState, mapActions, mapMutations } from "vuex";
 	import ClxsdCell from '@/components/common/Cell';
+	import { _becomeJc } from "@/api/business"
 	// import ClxsdButton from '@/components/common/clxsdButton';
 	export default {
 		name: "page-business-my",
@@ -119,7 +120,8 @@
                         companyName,
                         infoText,
 						userLogo,
-                        shop_supplier
+						shop_supplier,
+						isCollec: currentInfo.shop_supplier.is_collector
                     }
 
 				},
@@ -149,7 +151,16 @@
                     message: '集采商将享受推广工业订单的分润收入，确定成为集采商吗？',
                 }).then(res=>{
                     if(res=='confirm') {
-                        console.log(123)
+						_becomeJc().then(res=>{
+							if(res.code==200) {
+								this.$toast('申请成功');
+							} else {
+								this.$toast(res.message);
+							}
+						}).catch(err=>{
+							this.$toast('申请失败');
+						})
+                        // console.log(123)
                     }
                 })
 			},

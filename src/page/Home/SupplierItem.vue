@@ -30,8 +30,8 @@
                 </div>
             </router-link>
             <div class="img_list_box" v-if="USERTYPE==2">
-                <div class="img_box" v-for="(item, index) of data.groups" :key="index">
-                    <img :src="`${item.product.cover}?x-oss-process=image/resize,w_300,m_fixed,h_300,limit_0`" alt="">
+                <div class="img_box" v-for="(item, index) of data.groups" :key="index" v-if="item.product">
+                    <img :src="`${item.product.cover }?x-oss-process=image/resize,w_300,m_fixed,h_300,limit_0`" alt="">
                     <p>已采{{item.total}}{{item.product.big_unit}}</p>
                 </div>
                 
