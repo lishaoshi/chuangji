@@ -47,7 +47,7 @@ const ExtensionAptitudesEdit = () => import(/* webpackChunkName: "extensition" *
 const promotersCustomer = () => import('@/page/My/UnautMy/promotersCustomer');
 
 /** 
- * 合伙人简介
+ * 推广商简介
 */
 const partnerInfo = () => import('@/page/My/partnerInfo')
 
@@ -94,7 +94,7 @@ export default [
         path: "/partnerInfo",
         component: partnerInfo,
         meta: {
-            title: "合伙人简介",
+            title: "推广商简介",
             requiresAuth: true
         }
     },
@@ -242,7 +242,7 @@ export default [
         path: "/upgradeHehuo",
         component: UpgradeHehuo,
         meta: {
-            title: "升级合伙人",
+            title: "升级推广商",
             requiresAuth: true
         }
     },

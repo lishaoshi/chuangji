@@ -7,7 +7,7 @@
         <div class="banner">
             <img :src="partnerImg" alt="">
         </div>
-        <h1>合伙人简介</h1>
+        <h1>推广商简介</h1>
         <testTtile></testTtile>
 
         <testTtile>
@@ -55,7 +55,7 @@
             <use xlink:href="#icon-bePartner"/>
         </svg>
         <span>
-            成为合伙人
+            成为推广商
         </span>
       </div>
     </div>
@@ -84,7 +84,7 @@ export default {
     },
     computed: {
         title() {
-            return this.isToView?'推广简介': '合伙人简介'
+            return this.isToView?'推广简介': '推广商简介'
         }
     }
 }

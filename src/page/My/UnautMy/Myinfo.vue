@@ -60,7 +60,7 @@
                 <b>1800.00</b>
             </div> -->
              <div class="becomePartner" v-if="(userInfo.area_type&&userInfo.area_type!=='partner') || !is_apply">
-            <img src="../../../images/becomePartnr.png" alt="" @click="queryPartnerInfo">
+            <img src="../../../images/becomePartnr2.png" alt="" @click="queryPartnerInfo">
         </div>
          <!-- <clxsd-cell :title="'广告收益'" :to="'/develop'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_ad" style="margin-bottom: .2rem"/> -->
         <ul class="unautMy-userlist">
@@ -175,7 +175,7 @@
             },
 
             /**
-             * 查看合伙人简介
+             * 查看推广商简介
              */
             queryPartnerInfo() {
                 this.$router.push('/partnerInfo')

@@ -12,7 +12,7 @@
                     <p class="p1">市公司</p>
                 </mt-tab-item>
                 <mt-tab-item id="partner">
-                    <p class="p1">合伙人</p>
+                    <p class="p1">推广商</p>
                 </mt-tab-item>
                 <mt-tab-item id="promoter">
                     <p class="p1">推广人</p>
@@ -141,7 +141,7 @@
     import Notice from "./Notice"
     import AllCustomerComponent from "@/page/Home/UnSureExtension/Components/AllCustomerComponent";//全部
     import CustomerCity from "./UnSureCityCell";//省公司
-    import CustomerHehuoCell from "./UnSureHehuoCell";//合伙人
+    import CustomerHehuoCell from "./UnSureHehuoCell";//推广商
     export default {
         name: "CustomerTuiguang",
         components:{

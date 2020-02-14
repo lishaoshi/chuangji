@@ -17,7 +17,7 @@
                 </div>
             </div>
         </div> -->
-        <!--合伙人-->
+        <!--推广商-->
         <!-- <div v-if="data && USER_INFO.sub_type === 3">
             <div class="detailed-item">
                 <img src="../../images/extension/promote-promoter.png" class="item-icon" />

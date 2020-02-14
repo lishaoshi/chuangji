@@ -12,7 +12,7 @@
                     <p class="p1">市公司</p>
                 </mt-tab-item>
                 <mt-tab-item id="partner">
-                    <p class="p1">合伙人</p>
+                    <p class="p1">推广商</p>
                 </mt-tab-item>
                 <mt-tab-item id="promoter">
                     <p class="p1">推广人</p>
@@ -107,7 +107,7 @@
     import AllCustomerComponent from "@/page/Home/UnSureExtension/Components/AllCustomerComponent";//全部
     import CustomerCity from "./UnSureCityCell";//省公司
     import ShiClxd from "@/page/Home/UnSureExtension/CustomerShiTab";//市公司
-    import HehuoClxd from "@/page/Home/UnSureExtension/CustomerHehuoTab";//合伙人
+    import HehuoClxd from "@/page/Home/UnSureExtension/CustomerHehuoTab";//推广商
     import TuiguangClxd from "@/page/Home/UnSureExtension/CustomerTuiguangTab";//推广人
     import Notice from "./Notice"
     export default {

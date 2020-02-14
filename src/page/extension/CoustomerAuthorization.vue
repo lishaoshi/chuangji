@@ -29,7 +29,7 @@
             CircleLoading,
             SearchBar,
             EmptyList,
-            ShouItem//市，合伙人授权
+            ShouItem//市，推广商授权
         },
         data(){
             return {

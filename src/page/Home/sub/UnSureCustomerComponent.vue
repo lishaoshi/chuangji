@@ -117,7 +117,7 @@
                     </mt-popup> -->
                 </mt-tab-container-item>
 
-                <!--合伙人-->
+                <!--推广商-->
                 <mt-tab-container-item id="partner">
                     <p>选择注册省份</p>
                     <!-- <select class="select-area" v-model="partner_provinceValue">
@@ -275,7 +275,7 @@
                     { name: "省公司", value: "province_company"},
                     { name: "市公司", value: "city_company"},
                     { name: "推广人", value: "promoter"},
-                     { name: "合伙人", value: "partner"},
+                     { name: "推广商", value: "partner"},
                 ], 
                 //省市推广人
                 promoterData: {
@@ -416,7 +416,7 @@
 
             },
 
-            // 查看合伙人简介
+            // 查看推广商简介
             queryPartner() {
                 this.$router.push({path:'/partnerInfo', query: {toView:true}})
             },
@@ -499,7 +499,7 @@
                  }
             },
 
-            //合伙人
+            //推广商
             handlePartner() {
                 this.$store.commit('SAVE_USER_CHOOSE_DATA', {role: this.selected, data: this.partner_value});
                 this.$router.push({path:'/role-yes',query:{phone: this.tel}});

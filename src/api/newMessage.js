@@ -8,7 +8,7 @@ import api from './api';
  /**
 
   * @export  获取消息通知总数
-  * @param {*} params  promoter： 推广人、合伙人  entity：买家返利（终端）
+  * @param {*} params  promoter： 推广人、推广商  entity：买家返利（终端）
   * @returns
   */
  export function getMessageCount(params) {

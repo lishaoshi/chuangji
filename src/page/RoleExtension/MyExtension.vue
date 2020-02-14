@@ -47,7 +47,7 @@
         </div>
       </div>
       <div class="becomePartner" v-if="(userInfo.area_type&&userInfo.area_type!=='partner') || !is_apply">
-        <img src="../../images/becomePartnr.png" alt="" @click="queryPartnerInfo" />
+        <img src="../../images/becomePartnr2.png" alt="" @click="queryPartnerInfo" />
       </div>
       <div class="my-list">
         <div style="margin-top: .2rem" v-if="!is_apply">
@@ -167,7 +167,7 @@ export default {
      
     },
      /**
-       * 查看合伙人简介
+       * 查看推广商简介
        */
       queryPartnerInfo() {
           this.$router.push('/partnerInfo')
