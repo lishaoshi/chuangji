@@ -1,11 +1,11 @@
 <template>
     <div id="UpgradeHehuo">
-        <clxsd-head-top title='升级推广商'></clxsd-head-top>
+        <clxsd-head-top title='升级集采商'></clxsd-head-top>
         <img src="../../images/extension/upgrade.png" width="30%" />
-        <p style="margin-top: .3rem">升级为推广商，享受更多权益</p>
+        <p style="margin-top: .3rem">升级为集采商，享受更多权益</p>
         <div class="go-info">
             <button>
-               升级推广商
+               升级集采商
             </button>
             <router-link to="/introduction">
                 初步了解

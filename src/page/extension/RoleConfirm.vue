@@ -28,9 +28,9 @@
                 <div class="user">
                     <span>申请角色</span>
                     <p v-if="role==='promoter'">推广人</p>
-                    <!-- <p v-if="role==='partner'">推广商</p> -->
+                    <!-- <p v-if="role==='partner'">集采商</p> -->
                     <p v-if="role==='city_company'">市级推广</p>
-                    <p v-if="role==='partner'">推广商</p>
+                    <p v-if="role==='partner'">集采商</p>
                     <p v-if="role==='province_company'">省级推广</p>
                     <p class="type" v-if="selectedSaveData!=undefined">
                         <span v-if="selectedSaveData.business">商业</span>

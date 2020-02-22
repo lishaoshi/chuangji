@@ -27,7 +27,7 @@
                         <p class="title" style="margin-top: .1rem">推广类型</p>
                         <p class="red" style="font-size: .22rem" v-if="entity.to_user.user_type===4 && entity.to_user.sub_type ===1">省公司</p>
                         <p class="red" style="font-size: .22rem" v-if="entity.to_user.user_type===4 && entity.to_user.sub_type ===2">市公司</p>
-                        <p class="red" style="font-size: .22rem" v-if="entity.to_user.user_type===4 && entity.to_user.sub_type ===3">推广商</p>
+                        <p class="red" style="font-size: .22rem" v-if="entity.to_user.user_type===4 && entity.to_user.sub_type ===3">集采商</p>
                         <p class="red" style="font-size: .22rem" v-if="entity.to_user.user_type===4 && entity.to_user.sub_type ===4">推广人</p>
                         <p class="red" style="font-size: .22rem" v-if="entity.to_user.user_type===2">商业公司</p>
                         <p class="red" style="font-size: .22rem" v-if="entity.to_user.user_type===3 && entity.to_user.sub_type ===1">医院</p>
