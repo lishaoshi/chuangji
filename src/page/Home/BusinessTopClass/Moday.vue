@@ -1,0 +1,145 @@
+<template>
+  <div class="moday">
+      <div class="listItem" v-for="(item, index) of list" :key="index">
+          <router-link :to="`/factory/shop/${item.supplier.id}`">
+          <div class="compName" @click="goFactoryInfo">
+              <img src="@/images/pic_default_man.png" alt="">
+              <p>{{item.supplier.name}} </p>
+              <!-- <div></div> -->
+                <svg>
+                    <use xlink:href="#icon-factory_enter"/>
+                </svg>
+          </div>
+          </router-link>
+          <div class="center">
+              <img :src="item.product.cover" alt="">
+              <div>
+                  <p>{{item.product.generic_name}}</p>
+                  <p>产期: {{item.product.generic_name}}</p>
+                  <p>规格: {{item.product.spec}}</p>
+                  <p>包装: {{item.product.tran}}{{item.product.unit}}/{{item.product.big_unit}}</p>
+                  <p>效期: {{item.product.tran}}{{item.product.unit}}/{{item.product.big_unit}}</p>
+                  <p class="price">
+                      <span>￥{{item.product.price}}/{{item.product.unit}}</span>
+                  </p>
+              </div>
+          </div>
+          <div class="iconBox">
+              <div class="item">
+                    <div>
+                        {{item.promotion_type=="give"?"赠":"返"}}
+                    </div>
+                    <p>
+                      满{{item.enough_num}}{{item.product.big_unit}}，获赠品"{{item.give_name}}"{{item.give_num}}个
+                    </p>
+              </div>
+          </div>
+      </div>
+  </div>
+</template>
+
+<script>
+export default {
+    props: [
+        'list'
+    ],
+    methods: {
+        goFactoryInfo() {
+            // console.log(123)
+            this.$router.push();
+        }
+    }
+
+}
+</script>
+
+<style lang='scss' scoped>
+.moday {
+    padding: 0 .2rem;
+    .listItem {
+        background: #fff;
+        border-radius: 20px;
+        /* margin-top: .2rem; */
+    }
+    .listItem:not(:nth-of-type(1)) {
+        margin-top: .2rem;;
+    }
+    .compName {
+        display: flex;
+        align-items: center;
+        height: 1rem;
+        font-size: .32rem;
+        font-weight: bold;
+        color: #333;
+        padding: 0 .26rem;
+        border-bottom: 1px solid #EBEBEB;
+        img {
+            width: .52rem;
+            height: .52rem;
+            margin-right: .2rem;
+        }
+        svg {
+            width: .4rem;
+            height: .3rem;
+            margin-left: .1rem;
+        }
+    } 
+    .center {
+        display: flex;
+        margin: .1rem;
+        padding-bottom: .1rem;
+        border-bottom: 1px solid #EBEBEB;
+        img {
+            width: 2.6rem;
+            height: 2.6rem;
+            margin-right: .2rem;
+        }
+        div {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        p:first-child {
+            font-size: .32rem;
+            width: 100%;
+            font-weight: bold;
+            margin-top: .2rem;
+            color: #333;
+            margin-bottom: .08rem;
+            overflow:hidden; //超出的文本隐藏
+            text-overflow:ellipsis; //用省略号显示
+            white-space:nowrap; //不换行
+        }
+        p {
+            font-size: .26rem;
+            font-weight: bold;
+            color: #666;
+        }
+        .price {
+            margin-top: .16rem;
+            color: #FF3B30;
+            font-weight: bold;
+            font-size: .28rem;
+        }
+    }
+    .iconBox {
+        padding: .2rem;
+        .item {
+            display: flex;
+            div {
+                background: #fa5452;
+                color: #fff;
+                font-size: .24rem;
+                padding: 0rem .04rem;
+                border-radius: 4px;
+                margin-right: .08rem;
+            }
+            div:nth-child(even) {
+                background: #ff7612;
+            }
+        }
+    }
+
+}
+</style>

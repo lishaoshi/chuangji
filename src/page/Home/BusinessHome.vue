@@ -2,12 +2,20 @@
     <div class="home" ref="home">
         <!-- <scroll> -->
         <div class="content">
+           
             <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
-                <div v-bind:class="{ search: isActive, 'bg-blue': hasError  }">
-                    <SearchBar ref="searchBox" :business='business' v-model="searchValue" :searchFn="searchFn" @input="input" @keyup="keyup" @clearText='clearText'></SearchBar>
-                    <div class="approve">
-                        <img src="../../images/index/study1@2x.png"/>
+                <div class="topBox">
+                    <div class="opcityBox"></div>
+                    <div class="classType">
+                        <div @click="handleChooseTopClass(index)" v-for="(item, index) of topClassType" :key="index" class="setOpcity" :class="{isChoose:index==chooseTopClass}">{{item.name}}</div>
                     </div>
+                    <div v-bind:class="{ search: isActive, 'bg-blue': hasError  }">
+                        <SearchBar ref="searchBox" :business='business' v-model="searchValue" :searchFn="searchFn" @input="input" @keyup="keyup" @clearText='clearText'></SearchBar>
+                        <div class="approve">
+                            <img src="../../images/index/study1@2x.png"/>
+                        </div>
+                    </div>
+                    
                 </div>
                 <div class="">
                     <mt-swipe :auto="4000" style="height: 4rem;">
@@ -44,22 +52,30 @@
                 <span>推荐厂家</span>
                 <img src="../../images/index/home-rightLine.png">
             </div> -->
-            <div class="select-box">
+            <div class="select-box" v-if="chooseTopClass==0">
                 <img src="../../images/index/home-leftLine.png">
                 <span> 推荐厂家</span>
                 <img src="../../images/index/home-rightLine.png">
             </div>
             <div class="main-body">
                 <!--  :style="{ height: (wrapperHeight-50) + 'px' }" :bottom-method="loadBottom" -->
-                <choost-type :configs="configs" @chooseType="chooseType"/>
-                <template v-if="suppliers.length>0">
-                    <supplier-item :data="item" v-for="(item,index) in suppliers" :key="index" :index="index"/>
-                    <p v-if="allLoaded" class="loader-over">加载完毕</p>
+               <setTimeOutCom v-if="chooseTopClass==1"/>
+                <template v-if="(suppliers.length>0&&chooseTopClass==0) || (modayList.length>0&&chooseTopClass==1)">
+                    <div v-if="chooseTopClass==0">
+                         <choost-type :configs="configs" @chooseType="chooseType"/>
+                        <supplier-item :data="item" v-for="(item,index) in suppliers" :key="index" :index="index"/>
+                        <p v-if="allLoaded" class="loader-over">加载完毕</p>
+                    </div>
+                    
+                    <div v-if="chooseTopClass==1">
+                        
+                        <mo-day :list="modayList"/>
+                    </div>
                 </template>
             </div>
                 
             </mt-loadmore>
-            <EmptySupplier v-if="suppliers.length<=0"/>
+            <EmptySupplier v-if="(suppliers.length<=0&&chooseTopClass==0) || (modayList.length<=0&&chooseTopClass==1)"/>
             <!--
             <div @click="authToRouter('/factory/cart')">
                 <img src="../../images/index/shop.png" class="shopcar" />
@@ -89,7 +105,10 @@
     import EmptySupplier from '@/components/EmptyList'
     import Notice from '@/components/common/notice';
     import BScroll from 'better-scroll'
-    import choostType from "./UnSureExtension/factoryChooseType"
+    import choostType from "./UnSureExtension/factoryChooseType";
+    import MoDay from "./BusinessTopClass/Moday";
+    import setTimeOutCom from "./BusinessTopClass/SetTimeoutDay";
+    import { getFactoryGooodsList } from "@/api/homeFactory.js";
     export default {
         name: "page-business-home",
         components: {
@@ -97,7 +116,9 @@
             SearchBar,
             EmptySupplier,
             Notice,
-            choostType
+            choostType,
+            MoDay,
+            setTimeOutCom
         },
         data() {
             return {
@@ -119,7 +140,32 @@
                 business:true,
                 currentChooseType: 0,
                 configs: [],
-                configValue: ""
+                configValue: "",
+                topClassType: [
+                    {
+                        name: '定制生产',
+                        type: 0
+                    },
+                    {
+
+                        name: '周一促销',
+                        type: 1
+                    },
+                    {
+                        name: '12号集采节',
+                        type: 2
+                    }, 
+                    {
+                        name: '集采大会',
+                        type: 3
+                    }
+                ],
+                chooseTopClass: 0,
+                modayList: [
+                    {
+                        name: '的身份那是肯定'
+                    }
+                ]
             }
         },
         computed: {
@@ -169,7 +215,6 @@
                 findNearBySuppliers(params).then(res=>{
                     this.allLoaded = false; // 可以进行上拉
                     this.suppliers = res.data.data.items;
-                   
                     if(this.suppliers.length == 0) {
 						this.allLoaded = true
 					}
@@ -181,7 +226,7 @@
             },
             // 上拉加载
             loadBottom() {
-                return this.loadMore();
+                this.loadMore();
             },
              // 点击搜索
             searchFn() {
@@ -233,16 +278,22 @@
                 this.courrentPage++;
                 const params = {
                     page: this.courrentPage,
-                    limit: this.limit
+                    limit: this.limit,
+                    search: this.searchValue
                 }
-                findNearBySuppliers(params).then(response => {
-                    let data = response.data.data
-					data && (this.suppliers = this.suppliers.concat(data.items))
-					if (!data || data.items.length < this.limit) {
-						this.allLoaded = true; // 若数据已全部获取完毕
-					}
-					this.$refs.loadmore.onBottomLoaded();
-                })
+                if(this.chooseTopClass == 0) {
+                    findNearBySuppliers(params).then(response => {
+                        let data = response.data.data
+                        data && (this.suppliers = this.suppliers.concat(data.items))
+                        if (!data || data.items.length < this.limit) {
+                            this.allLoaded = true; // 若数据已全部获取完毕
+                        }
+                        this.$refs.loadmore.onBottomLoaded();
+                    })
+                } else {
+                    this._getFactoryGooodsList();
+                }
+               
             },
             async initData() {
                 //console.log(44)
@@ -262,6 +313,40 @@
             },
             clearText(){
                 this.searchValue = ''
+            },
+
+            //获取周一促销列表
+            _getFactoryGooodsList() {
+                let params = {
+                    page: this.courrentPage,
+                    limit: this.limit,
+                    search: this.searchValue
+                }
+                getFactoryGooodsList(params).then(res=>{
+                    let list = res.data.data.list || [];
+                    this.modayList = this.modayList.concat(list);
+                    if(this.courrentPage > 0) {
+                        this.$refs.loadmore.onBottomLoaded();
+                    }
+                    if (!list || list.length <= 0) {
+                            this.allLoaded = true; // 若数据已全部获取完毕
+                        }
+                });
+            },
+            //选择头部营销类型
+            handleChooseTopClass(index) {
+                this.chooseTopClass = index;
+                this.suppliers = [];
+                this.modayList = [];
+                this.courrentPage = 1;
+                this.allLoaded = false;
+                if(index > 1) {
+                    this.$router.push('/develop');
+                } else if(index == 1) {
+                    this._getFactoryGooodsList();
+                } else if(index == 0) {
+                    this.loadFrist();
+                } 
             }
         }
     }
@@ -288,6 +373,44 @@
         flex: 1;
         overflow: auto;
         margin-bottom: 1rem;
+        .topBox {
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+            /* background:linear-gradient(to bottom, #666 0%, #b5b3b3 20%); */
+            .classType {
+                display: flex;
+                height: .8rem;
+                font-size: .34rem;
+                align-items: center;
+                justify-content: space-around;
+                color: #fff;
+                position: relative;
+                z-index: 99;
+                .setOpcity {
+                    opacity: 0.6;
+                }
+                .isChoose {
+                    opacity: 1!important;
+                    color: #fff;;
+                }
+            }
+            .opcityBox {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(to bottom, #000 0%, transparent 100%);;
+                opacity: 0.4;
+                /* z-index: 2; */
+                /* box-shadow: 2px 2px 2px #666; */
+            }
+        }
+        
     }
     .noticesBox {
        padding: 0.16rem 0;
@@ -322,10 +445,10 @@
 
     .search {
         display: flex;
-        position: fixed;
+        /* position: fixed; */
         width: 100%;
-        top: 0px;
-        padding: 10px 10px 6px;
+        /* top: 0px; */
+        padding: 0px 10px 6px;
         z-index: 999;
         align-items: center;
         justify-content: space-between;

@@ -57,9 +57,9 @@
                             </svg>
                         </div>
                         <ul>
-                            <li v-for="item in (shopDetailData.actives)">
-                                <span>{{item.label}}</span>
-                                <p style="width: 3.4rem;overflow: hidden">{{item.title}}</p>
+                            <li v-for="(item, index) in (shopDetailData.actives)" :key="index">
+                                <span>{{item.promotion_type=="give"?'赠':'返'}}</span>
+                                <p style="width: 3.4rem;overflow: hidden;text-overflow:ellipsis; white-space:nowrap;">每满{{item.enough_num}}件，获赠品{{item.give_name}}{{item.give_num}}个</p>
                             </li>
                         </ul>
                     </div>
@@ -130,16 +130,16 @@
                 <p class="pop-title">更多活动券<svg @click="popupVisible=false"><use xlink:href="#icon-promote-my-close"></use> </svg></p>
                 <div class="discounts" style="height: 5rem;background: #F5F5F5;padding: .3rem .5rem .8rem;margin-top: 0px;width: 100%">
                   
-                        <ul style="position: relative;overflow: visible;height: auto">
-                              <!-- <transition-group name="fade" tag="li"  
-                              enter-active-class="animated bounceInDown"
-                                leave-active-class="animated bounceOut"> -->
-                                <li v-for="(item, index) in (shopDetailData.actives)" :key="index" style="padding: .2rem 0">
-                                    <span>{{item.label}}</span>
-                                    <p style="color: #333333">{{item.title}}</p>
-                                </li>
-                           <!-- </transition-group> -->
-                        </ul>
+                    <ul style="position: relative;overflow: visible;height: auto">
+                            <!-- <transition-group name="fade" tag="li"  
+                            enter-active-class="animated bounceInDown"
+                            leave-active-class="animated bounceOut"> -->
+                            <li v-for="(item, index) in (shopDetailData.actives)" :key="index" style="padding: .2rem 0">
+                                <span>{{item.promotion_type=="give"?'赠':'返'}}</span>
+                                <p style="color: #333333">每满{{item.enough_num}}件，获赠品{{item.give_name}}{{item.give_num}}个</p>
+                            </li>
+                        <!-- </transition-group> -->
+                    </ul>
                      
                 </div>
             </mt-popup>
@@ -256,11 +256,12 @@
                     data
                 } = await supplierDetails(this.factoryId)
                 let nameArr = []
-                for(let i=0; i < data.short_name.length; i++ ) {
-                        nameArr.push(data.short_name.charAt(i))
+                // debugger
+                for(let i=0; i < data.data.short_name.length; i++ ) {
+                        nameArr.push(data.data.short_name.charAt(i))
                 }
-                data.shortName = nameArr
-                this.shopDetailData = data;
+                data.data.shortName = nameArr
+                this.shopDetailData = data.data;
                 this.actity_nums = this.shopDetailData.actives.length
                 //店铺是否关注信息
                 isFollow(this.factoryId).then(res => {
@@ -572,12 +573,12 @@
                     font-size: .22rem;
                     color: #fff;
                     background: rgb(250, 84, 82);
-                    width: .32rem;
-                    height: .32rem;
-                    line-height: .32rem;
+                    width: .36rem;
+                    height: .36rem;
+                    line-height: .36rem;
                     text-align: center;
                     overflow: visible;
-                    border-radius: 2px;
+                    border-radius: 4px;
                 }
                 p {
                     font-size: 0.24rem;

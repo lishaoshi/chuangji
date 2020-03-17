@@ -59,8 +59,9 @@ export default {
     },
     methods: {
         initTime() {
-            let nowTime = this.$moment()
-            let allSeconds = nowTime.get('seconds')
+            let nowTime = this.$moment();
+            let allSeconds = nowTime.get('seconds');
+            //获取当前的日期号码
             let nowDay = this.$moment(this.remaningTime).get('date');
             let nextDate;
             if(nowDay <= 12) {

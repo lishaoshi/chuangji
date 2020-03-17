@@ -43,13 +43,30 @@
             </div>
             <div class="contant">
                 <div class="title">
-                    {{data.good_name}}
+                    {{data.generic_name}}
                 </div>
                 <!-- <div class="small-title">
                     <span>浏览量<i>{{data.click_count}}</i></span>
                     <span>毛利率：<i>2%</i></span>
                     <span>销量：<i>{{data.sale_num}}</i></span>
                 </div> -->
+            </div>
+            <div class="show">
+                <section>
+                    <svg>
+                        <use xlink:href="#icon-promote"/>
+                    </svg>
+                    <span>
+                        促销
+                    </span>
+                    <span>
+                        多个促销活动
+                    </span>
+                </section>
+                
+                <svg @click="showPop">
+                    <use xlink:href="#icon-more"/>
+                </svg>
             </div>
             <div class="contant" style="margin-top: .2rem">
                 <div class="price-flex">
@@ -124,6 +141,23 @@
         <div v-if="tabIndex==1">
             <specifications :data="data"/>
         </div>
+        <mt-popup v-model="popupVisible" position="bottom" style="width: 100%;height: 5.6rem;transition:1s">
+                <p class="pop-title">更多活动券<svg @click="popupVisible=false"><use xlink:href="#icon-promote-my-close"></use> </svg></p>
+                <div class="discounts" style="height: 5rem;background: #F5F5F5;padding: .3rem .5rem .8rem;margin-top: 0px;width: 100%">
+                  
+                    <ul style="position: relative;overflow: visible;height: auto">
+                            <!-- <transition-group name="fade" tag="li"  
+                            enter-active-class="animated bounceInDown"
+                            leave-active-class="animated bounceOut"> -->
+                            <li v-for="(item, index) in (data.promotes)" :key="index" style="padding: .2rem 0">
+                                <span>{{item.promotion_type=="give"?'赠':'返'}}</span>
+                                <p style="color: #333333">每满{{item.enough_num}}件，获赠品{{item.give_name}}{{item.give_num}}个</p>
+                            </li>
+                        <!-- </transition-group> -->
+                    </ul>
+                     
+                </div>
+            </mt-popup>
     </div>
 </template>
 
@@ -153,7 +187,9 @@
                 collect_list: [],
                 isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
                 tabIndex:0,
-                shopCart: {}
+                shopCart: {},
+                promotes: [],
+                popupVisible: false
             }
         },
         created() {
@@ -353,6 +389,9 @@
                     this.follow_info = '已收藏'
                 }
                 this.follow_status = !this.follow_status
+            },
+            showPop() {
+                this.popupVisible = true;
             }
         },
 
@@ -415,6 +454,42 @@
     .contant {
         background: #fff;
         padding: 10px;
+    }
+    .show {
+        display: flex;
+        height: 1rem;
+        align-items: center;
+        background: #fff;
+        margin-top: .2rem;
+        justify-content: space-between;
+        padding: 0 .2rem 0 0;
+        section {
+            height: 100%;
+             display: flex;
+        /* height: 1rem; */
+            align-items: center;
+        
+            span:nth-of-type(1) {
+                
+                /* font-family:; */
+                font-weight:bold;
+                margin-left: .1rem;
+                
+                color:rgba(30,30,30,1);
+            }
+            span {
+                font-size:.32rem;
+                /* font-weight: ; */
+                color: #333;
+                margin-left: .2rem;
+            }
+        }
+        svg {
+            width: .46rem;
+            height: .46rem;
+            margin-left: .32rem;
+        };
+        
     }
     .goodInfo {
         line-height: .56rem;
@@ -709,6 +784,80 @@
             width: .4rem;
             height: .4rem;
             margin-right: .14rem;
+        }
+    }
+    .pop-title {
+        text-align: center;
+        font-size: .36rem;
+        line-height: 3;
+        border-bottom: 1px solid #f1f1f1;
+        svg {
+            position: absolute;
+            width: .3rem;
+            height: .3rem;
+            float: right;
+            display: block;
+            right: .32rem;
+            top:.35rem
+        }
+    }
+      .discounts {
+        margin-top: .35rem;
+        position: relative;
+        height: .35rem;
+         width: 5rem;
+
+        .fade-box {
+            height: .35rem;
+            display: flex;
+            align-items: center;
+            float: right;
+            span {
+                color: #ccc;
+                font-size: .2rem;
+            }
+            .icon {
+                position: relative;
+                width: .23rem;
+                height: .23rem;
+                margin-left: .1rem;
+            }
+        }
+        ul {
+            height: .35rem;
+            overflow: hidden;
+            position: absolute;
+            top:0px;
+            li {
+                display: flex;
+                align-items: center;
+                margin-bottom: 0.12rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                height: .35rem;
+                &:nth-child(even) {
+                    span {
+                        background: #ff7612;
+                    }
+                }
+                span {
+                    font-size: .22rem;
+                    color: #fff;
+                    background: rgb(250, 84, 82);
+                    width: .36rem;
+                    height: .36rem;
+                    line-height: .36rem;
+                    text-align: center;
+                    overflow: visible;
+                    border-radius: 4px;
+                }
+                p {
+                    font-size: 0.24rem;
+                    color: #f1f1f1;
+                    padding-left: 0.12rem;
+                }
+            }
         }
     }
 

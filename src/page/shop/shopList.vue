@@ -9,7 +9,12 @@
                             <div class="list-img">
                                     <img :src="`${item.cover}?x-oss-process=image/resize,w_300,m_fixed,h_300,limit_0`" />
                                 </div>
-                                <div class="list-title">{{item.generic_name}}</div>
+                                <div class="list-title">
+                                    <svg class="chu" aria-hidden="true" v-if="item.has_promote>0">
+                                        <use xlink:href="#icon-promote"></use>
+                                    </svg>
+                                    {{item.generic_name}}
+                                </div>
                         </router-link>
                         <!-- <p class="p1">{{item.brandName || "无"}}</p> -->
                         <p class="p1">规格:{{item.spec || '无'}}</p>
@@ -269,8 +274,8 @@
                     data = res[1].data
 
                 })
+                this.goodList = this._handleData(data.data)
                 // debugger
-                this.goodList = this._handleData(data)
                 if(this.goodList.length < this.limit) {
                     this.allLoaded = true
                 }
@@ -507,6 +512,10 @@
 			overflow:hidden; //超出的文本隐藏
 			text-overflow:ellipsis; //用省略号显示
 			white-space:nowrap; //不换行
+            svg {
+                width: .36rem;
+                height: .36rem;
+            }
 		}
 	}
 	
