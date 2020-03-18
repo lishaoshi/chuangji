@@ -9,15 +9,15 @@
             </span>
 
             <span>
-                {{hourse | fillterTime}}
+                {{hourse | fillterTime}}时
             </span>
-            <i>:</i>
+            <!-- <i>:</i> -->
             <span>
-                {{minute | fillterTime}}
+                {{minute | fillterTime}}分
             </span>
-            <i>:</i>
+            <!-- <i>:</i> -->
             <span>
-                {{second | fillterTime}}
+                {{second | fillterTime}}秒
             </span>
           </div>
             
@@ -83,7 +83,7 @@ export default {
         background: url('../../../images/setTimeout.png') no-repeat;
         background-size: 100% 100%;
         div {
-            margin-left: 1.48rem;
+            margin-left: 1.2rem;
             display: flex;
             align-items: center;
             height: .4rem;

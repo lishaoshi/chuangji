@@ -51,7 +51,7 @@
                     <span>销量：<i>{{data.sale_num}}</i></span>
                 </div> -->
             </div>
-            <div class="show">
+            <div class="show" v-if="data.promotes&&data.promotes.length>0">
                 <section>
                     <svg>
                         <use xlink:href="#icon-promote"/>

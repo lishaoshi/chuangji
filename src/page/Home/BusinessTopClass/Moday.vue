@@ -16,10 +16,11 @@
               <div>
                   <section>
                         <p>{{item.product.generic_name}}</p>
-                        <p>产期: {{item.product.generic_name}}</p>
+                        <p v-if="item.product.limit_type==1">产期: {{item.product.valid_time | filterValidTime}}</p>                        <p v-if="item.product.limit_type==1">产期: {{item.product.valid_time | filterValidTime}}</p>
+                        <p v-else>产期: {{item.product.production_date | filterValidTime}}</p>
                         <p>规格: {{item.product.spec}}</p>
                         <p>包装: {{item.product.tran}}{{item.product.unit}}/{{item.product.big_unit}}</p>
-                        <p>效期: {{item.product.tran}}{{item.product.unit}}/{{item.product.big_unit}}</p>
+                        <p v-if="item.product.limit_type==2">效期: {{item.product.tran}}{{item.product.unit}}/{{item.product.big_unit}}</p>
                   </section>
 
                   <section class="price">
@@ -29,12 +30,12 @@
               </div>
           </div>
           <div class="iconBox">
-              <div class="item">
+              <div class="item" v-for="(items, index) of item.group_promote" :key="index">
                     <div>
-                        {{item.promotion_type=="give"?"赠":"返"}}
+                        {{items.promotion_type=="give"?"赠":"返"}}
                     </div>
                     <p>
-                      满{{item.enough_num}}{{item.product.big_unit}}，获赠品"{{item.give_name}}"{{item.give_num}}个
+                      满{{items.enough_num}}{{item.product.big_unit}}，获赠品"{{items.give_name}}"{{items.give_num}}个
                     </p>
               </div>
           </div>
@@ -44,12 +45,22 @@
 
 <script>
 import ShopCart from "./shopCart";
+import moment from "moment";
 export default {
     props: [
         'list'
     ],
     components: {
         ShopCart
+    },
+    filters: {
+      filterValidTime(val) {
+          var tiem = moment.unix(val);
+          let year = tiem.year();
+          let month = tiem.month()+1;
+          let day = tiem.date();
+          return `${year}/${month}/${day}`;
+      }  
     },
     methods: {
         goFactoryInfo() {
@@ -140,18 +151,24 @@ export default {
     }
     .iconBox {
         padding: .2rem;
+       .item:nth-child(even) {
+           div {
+               background: #ff7612;
+           }
+       }
         .item {
             display: flex;
+            &:not(:first-child) {
+                margin-top: .16rem;
+            }
+            
             div {
-                background: #fa5452;
+                background: #FA5452;
                 color: #fff;
                 font-size: .24rem;
                 padding: 0rem .04rem;
                 border-radius: 4px;
                 margin-right: .08rem;
-            }
-            div:nth-child(even) {
-                background: #ff7612;
             }
         }
     }

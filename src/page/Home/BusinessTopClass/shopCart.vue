@@ -11,10 +11,10 @@
             <div class="num" @click="handleChoose(item, index)">
                 <template v-if="!item.isSelfChoose">
                     <span>
-                        {{item.num}}
+                        {{item.cart_num}}
                     </span>
                     <span style="color: #999;">
-                        {{item.big_unit}}
+                        {{item.product.big_unit}}
                     </span>
                 </template>
                 <template v-else>
@@ -51,13 +51,13 @@ export default {
 					return false
                 }
 				if(item.cart_num < item.product.order_min_num) {
-					item.cart_num += item.order_min_num
+					item.cart_num += item.product.order_min_num
 				} else {
-					item.num++
+					item.cart_num++
 				}
                 let data = {
                     supplier_id: item.supplier_id,
-                    good_id: item.id
+                    good_id: item.product_id
                 }
                 addShopCar(data);
             },
@@ -66,27 +66,51 @@ export default {
 				if(event.target.value.length > 5) {
 					event.target.value = event.target.value.substring(0, 5)
 					return true
+                }
+                // this.item.isSelfChoose = false
+                
+            },
+             // 处理输入框失去焦点触发
+			async handleBlur(event, item, index) {
+                item.isSelfChoose = false
+				if(Number.isInteger(parseInt(event.target.value))&&(event.target.value < item.product.order_min_num)) {
+					this.$toast(`最小订货量为${item.order_min_num}`)
+					return false
 				}
+				// 如果event.target.value是空，则不改变数值
+				if(!event.target.value ||　(event.target.value == item.num)) {
+					return false
+                }
+				let data = {
+					supplier_id: item.supplier_id,
+					good_id: item.product_id,
+					num: event.target.value
+				}
+                const info = await addShopCar(data)
+                const code = info.data.code
+                if(code==200) {
+                    item.cart_num = event.target.value;
+                }
+                
 			},
+               // 点击选择软键盘加入购物车
+			handleChoose(item, index) {
+                item.isSelfChoose = true
+            },
 
             // 控制移除商品出购物车
             async handleNumber(item) {
                 let data = {
-                    supplier_id: this.factoryId,
-                    good_id: item.id
+                    supplier_id: item.supplier_id,
+                    good_id: item.product_id
                 }
                 
                 onlyDelShopCar(data)
-                if(item.num <= item.order_min_num) {
-					item.num = 0
-					this.shopCart[item.id].num = 0
+                if(item.cart_num <= item.product.order_min_num) {
+					item.cart_num = 0
 				} else {
-					item.num--
-					this.shopCart[item.id].num--
+					item.cart_num--;
 				}
-                this.cartNum = this.calculateCartNum()
-                this.totalPrice = this.calculateTotalPrice()
-                
             },
     }
 }
@@ -97,6 +121,8 @@ export default {
     min-height: .6rem;
     display: flex;
     align-items: center;
+    color: #333;
+    font-weight: normal;
     .shopCart {
         width: .6rem;
         height: .6rem;
@@ -134,6 +160,10 @@ export default {
                 // width: 100%;
                 background: #f5f5f5;
                 text-align: center;
+            }
+            span {
+                color: #333;
+                font-weight: normal;
             }
         }
         .shopCart,img {

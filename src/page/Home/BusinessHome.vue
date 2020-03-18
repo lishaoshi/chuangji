@@ -324,6 +324,9 @@
                 }
                 getFactoryGooodsList(params).then(res=>{
                     let list = res.data.data.list || [];
+                    list.forEach((item, index, targetArr)=>{
+                        targetArr[index].isSelfChoose = false;
+                    });
                     this.modayList = this.modayList.concat(list);
                     if(this.courrentPage > 0) {
                         this.$refs.loadmore.onBottomLoaded();
