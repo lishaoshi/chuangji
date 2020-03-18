@@ -16,11 +16,11 @@
               <div>
                   <section>
                         <p>{{item.product.generic_name}}</p>
-                        <p v-if="item.product.limit_type==1">产期: {{item.product.valid_time | filterValidTime}}</p>                        <p v-if="item.product.limit_type==1">产期: {{item.product.valid_time | filterValidTime}}</p>
+                        <p v-if="item.product.limit_type==1">产期: {{item.product.valid_time | filterValidTime}}</p> 
                         <p v-else>产期: {{item.product.production_date | filterValidTime}}</p>
                         <p>规格: {{item.product.spec}}</p>
                         <p>包装: {{item.product.tran}}{{item.product.unit}}/{{item.product.big_unit}}</p>
-                        <p v-if="item.product.limit_type==2">效期: {{item.product.tran}}{{item.product.unit}}/{{item.product.big_unit}}</p>
+                        <p v-if="item.product.limit_type==2">效期: {{item.product.duration}}年</p>
                   </section>
 
                   <section class="price">
@@ -75,6 +75,7 @@ export default {
 <style lang='scss' scoped>
 .moday {
     padding: 0 .2rem;
+    margin-bottom: 30px;
     .listItem {
         background: #fff;
         border-radius: 20px;
