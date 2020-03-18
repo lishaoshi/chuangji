@@ -14,14 +14,18 @@
           <div class="center">
               <img :src="item.product.cover" alt="">
               <div>
-                  <p>{{item.product.generic_name}}</p>
-                  <p>产期: {{item.product.generic_name}}</p>
-                  <p>规格: {{item.product.spec}}</p>
-                  <p>包装: {{item.product.tran}}{{item.product.unit}}/{{item.product.big_unit}}</p>
-                  <p>效期: {{item.product.tran}}{{item.product.unit}}/{{item.product.big_unit}}</p>
-                  <p class="price">
+                  <section>
+                        <p>{{item.product.generic_name}}</p>
+                        <p>产期: {{item.product.generic_name}}</p>
+                        <p>规格: {{item.product.spec}}</p>
+                        <p>包装: {{item.product.tran}}{{item.product.unit}}/{{item.product.big_unit}}</p>
+                        <p>效期: {{item.product.tran}}{{item.product.unit}}/{{item.product.big_unit}}</p>
+                  </section>
+
+                  <section class="price">
                       <span>￥{{item.product.price}}/{{item.product.unit}}</span>
-                  </p>
+                      <ShopCart :item="item" :index="index"/>
+                  </section>
               </div>
           </div>
           <div class="iconBox">
@@ -39,10 +43,14 @@
 </template>
 
 <script>
+import ShopCart from "./shopCart";
 export default {
     props: [
         'list'
     ],
+    components: {
+        ShopCart
+    },
     methods: {
         goFactoryInfo() {
             // console.log(123)
@@ -94,11 +102,12 @@ export default {
             height: 2.6rem;
             margin-right: .2rem;
         }
-        div {
+        & > div {
             flex: 1;
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            justify-content: space-between;
         }
         p:first-child {
             font-size: .32rem;
@@ -117,10 +126,16 @@ export default {
             color: #666;
         }
         .price {
-            margin-top: .16rem;
+            /* margin-top: .16rem; */
             color: #FF3B30;
             font-weight: bold;
             font-size: .28rem;
+            display: flex;
+            flex: 1;
+            align-items: center;
+            justify-content: space-between;
+            padding-right: 20px;
+            /* align-self: flex-end; */
         }
     }
     .iconBox {
