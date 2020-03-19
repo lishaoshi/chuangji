@@ -3,7 +3,7 @@
       <div class="listItem" v-for="(item, index) of list" :key="index">
           <router-link :to="`/factory/shop/${item.supplier.id}`">
           <div class="compName" @click="goFactoryInfo">
-              <img src="@/images/pic_default_man.png" alt="">
+              <img :src="item.supplier.img_cover" alt="">
               <p>{{item.supplier.name}} </p>
               <!-- <div></div> -->
                 <svg>

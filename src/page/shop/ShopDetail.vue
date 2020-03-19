@@ -53,12 +53,7 @@
             </div>
             <div class="show" v-if="data.promotes&&data.promotes.length>0">
                 <section>
-                    <svg>
-                        <use xlink:href="#icon-promote"/>
-                    </svg>
-                    <span>
-                        促销
-                    </span>
+                    <img src="@/images/prom.png" alt="">
                     <span>
                         多个促销活动
                     </span>
@@ -473,7 +468,7 @@
                 
                 /* font-family:; */
                 font-weight:bold;
-                margin-left: .1rem;
+                margin-left: .3rem;
                 
                 color:rgba(30,30,30,1);
             }
@@ -489,6 +484,12 @@
             height: .46rem;
             margin-left: .32rem;
         };
+        img {
+            width: 1.2rem;
+            height: 0.6rem;
+            margin-left: .2rem;
+            margin-top: -.08rem;
+        }
         
     }
     .goodInfo {
