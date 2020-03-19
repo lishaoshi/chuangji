@@ -148,6 +148,10 @@
             searchValue: {
                 type: String,
                 default: ""
+            },
+            isShowProm: {
+                type: Number,
+                default: 0
             }
         },
 
@@ -163,6 +167,12 @@
                 allLoaded: false,
                 page: 1,
                 limit: 20
+            }
+        },
+        watch: {
+            isShowProm(newVal, oldVal, ) {
+                // console.log(oldVal, newVal);
+                this._supplierEntities();
             }
         },
         mounted() {
@@ -262,7 +272,8 @@
                 let  params = {
                     search: this.searchValue,
                     page: this.page, 
-                    limit: this.limit
+                    limit: this.limit,
+                    isShowProm: this.isShowProm
                 }
                 let data = []
                 await Promise.all([queryShopCarList({}, this.factoryId), supplierEntities(this.factoryId, params)]).then(res=>{
@@ -283,18 +294,28 @@
 
             // 搜索列表
             _supplierEntities(value) {
+                this.page = 1;
                 let params = {
                     search: value,
                     page: 1,
-                    limit: this.limit
+                    limit: this.limit,
+                    isShowProm: this.isShowProm
                 }
                 let data = []
                 supplierEntities(this.factoryId, params).then(res=>{
-                    this.goodList = this._handleData(res.data)
+                    
+                    this.goodList = this._handleData(res.data.data);
+                    // debugger
                 })
             },
-            _queryShopCarList() {
-                queryShopCarList({}, this.factoryId).then(res=>{
+            _getDataList(is_promote=0) {
+                 let params = {
+                    search: value,
+                    page: 1,
+                    limit: this.limit,
+                    isShowProm: this.isShowProm
+                }
+                supplierEntities(this.factoryId, {is_promote}).then(res=>{
                     let data = res.data
                     this.goodList = this.goodList.concat(this._handleData(data))
                     if(data < this.limit) {
@@ -416,8 +437,8 @@
              * 上拉加载
              */
             loadBottom() {
-                this.page++
-                this._queryShopCarList()
+                this.page++;
+                this._getDataList();
             }
         }
     }

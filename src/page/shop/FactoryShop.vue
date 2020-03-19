@@ -95,10 +95,10 @@
             </div>
             <div class="nav">
                 <div>
-                    <router-link to="/develop">
-                        <svg><use xlink:href="#icon-quanqiucang-active" /></svg>
-                        <p>工厂活动</p>
-                    </router-link>
+                    <!-- <router-link to="/develop"> -->
+                        <svg @click="showProm"><use xlink:href="#icon-quanqiucang-active" /></svg>
+                        <p>{{isShowProm==0?'工厂活动':'全部商品'}}</p>
+                    <!-- </router-link> -->
                 </div>
                 <div>
                     <router-link to="/develop">
@@ -123,11 +123,11 @@
                 <span> 工业商品</span>
                 <img src="../../images/index/home-rightLine.png">
             </div>
-            <good-list :factory-id="factoryId" :searchValue="searchValue" ref="list" :USER_TYPE = "USER_TYPE"/>
+            <good-list :factory-id="factoryId" :isShowProm.sync="isShowProm" :searchValue="searchValue" ref="list" :USER_TYPE = "USER_TYPE"/>
         </div>
         <!-- <transition name="fade"> -->
             <mt-popup v-model="popupVisible" position="bottom" style="width: 100%;height: 5.6rem;transition:1s">
-                <p class="pop-title">更多活动券<svg @click="popupVisible=false"><use xlink:href="#icon-promote-my-close"></use> </svg></p>
+                <p class="pop-title">更多活动<svg @click="popupVisible=false"><use xlink:href="#icon-promote-my-close"></use> </svg></p>
                 <div class="discounts" style="height: 5rem;overflow:auto; background: #F5F5F5;padding: .3rem .5rem .8rem;margin-top: 0px;width: 100%">
                   
                     <ul style="position: relative;overflow: visible;height: auto">
@@ -182,7 +182,8 @@
                 default_company_logo,
                 swipers: [],
                 notices: [],
-                bgColor: 5
+                bgColor: 5,
+                isShowProm: 0
             }
         },
         created() {
@@ -336,6 +337,11 @@
             },
             cleraText(){
                 this.searchValue = ''
+            },
+            //查询有促销活动列表
+            showProm() {
+                 this.isShowProm = this.isShowProm == 1?0:1;
+                // console.log( this.isShowProm);
             }
 
         }

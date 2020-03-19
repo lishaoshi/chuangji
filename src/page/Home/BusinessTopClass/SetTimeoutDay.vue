@@ -50,7 +50,7 @@ export default {
     methods: {
         initTime() {
             this.nextWeekFirstDay = this.$moment().weekday();
-            this.hourse = 24 - this.$moment().hour();
+            this.hourse = 23 - this.$moment().hour();
             this.minute = 60- this.$moment().minute();
             this.second = 60 -this.$moment().second();
             this.substrDay = 7 - this.nextWeekFirstDay;

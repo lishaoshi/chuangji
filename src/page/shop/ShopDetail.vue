@@ -142,7 +142,7 @@
             <specifications :data="data"/>
         </div>
         <mt-popup v-model="popupVisible" position="bottom" style="width: 100%;height: 5.6rem;transition:1s">
-                <p class="pop-title">更多活动券<svg @click="popupVisible=false"><use xlink:href="#icon-promote-my-close"></use> </svg></p>
+                <p class="pop-title">更多活动<svg @click="popupVisible=false"><use xlink:href="#icon-promote-my-close"></use> </svg></p>
                 <div class="discounts" style="height: 5rem;background: #F5F5F5;padding: .3rem .5rem .8rem;margin-top: 0px;width: 100%">
                   
                     <ul style="position: relative;overflow: visible;height: auto">

@@ -2,9 +2,7 @@
     <div class="home" ref="home">
         <!-- <scroll> -->
         <div class="content">
-           
-            <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
-                <div class="topBox">
+           <div class="topBox">
                     <div class="opcityBox"></div>
                     <div class="classType">
                         <div @click="handleChooseTopClass(index)" v-for="(item, index) of topClassType" :key="index" class="setOpcity" :class="{isChoose:index==chooseTopClass}">{{item.name}}</div>
@@ -17,6 +15,8 @@
                     </div>
                     
                 </div>
+            <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" :autoFill="isAutoFill">
+                
                 <div class="">
                     <mt-swipe :auto="4000" style="height: 4rem;">
                         <mt-swipe-item :key="key" v-for="(swipe,key) in swipers"><a :href="swipe.link"> <img :src="swipe.img" width="100%"></a>
@@ -235,11 +235,17 @@
                     limit: this.limit,
                     search: this.searchValue
                 }
-                findNearBySuppliers(params).then(response => {
-                    this.allLoaded = false; // 可以进行上拉
-                    this.suppliers = response.data.data.items;
-                    // this.$refs.loadmore.onTopLoaded();
-                })
+                this.allLoaded = false;
+                if(this.chooseTopClass == 0) {
+                      findNearBySuppliers(params).then(response => {
+                     // 可以进行上拉
+                        this.suppliers = response.data.data.items;
+                        // this.$refs.loadmore.onTopLoaded();
+                    })
+                } else if(this.chooseTopClass ==1) {
+                    this.modayList = [];
+                    this._getFactoryGooodsList();
+                }
             },
             // 软键盘弹出时，点击搜索按钮执行
 			keyup() {
@@ -248,12 +254,19 @@
                     limit: this.limit,
                     search: this.searchValue
                 }
-                this.$refs.searchBox.$refs.input.blur()
-                findNearBySuppliers(params).then(response => {
-                    this.allLoaded = false; // 可以进行上拉
-                    this.suppliers = response.data.data.items;
-                    // this.$refs.loadmore.onTopLoaded();
-                })
+                this.allLoaded = false;
+                this.$refs.searchBox.$refs.input.blur();
+                if(this.chooseTopClass == 0) {
+                      findNearBySuppliers(params).then(response => {
+                     // 可以进行上拉
+                        this.suppliers = response.data.data.items;
+                        // this.$refs.loadmore.onTopLoaded();
+                    })
+                } else if(this.chooseTopClass ==1) {
+                    this.modayList = [];
+                    this._getFactoryGooodsList();
+                }
+              
                 
             },
             input(vlaue){
