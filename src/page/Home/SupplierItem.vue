@@ -114,6 +114,9 @@ import { mapState } from "vuex"
         // display: flex;
         border-radius: 0 0 16px 16px;
         padding: 10px;
+         &:not(:nth-of-type(2)) {
+            margin-top: .2rem;
+        }
         section {
             width: 1.2rem;
             height: 1.2rem;
@@ -124,6 +127,7 @@ import { mapState } from "vuex"
                 margin-right: 0!important;
             }
         }
+        
 
         .brand {
             // height: 1.2rem;

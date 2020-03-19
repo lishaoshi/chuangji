@@ -536,7 +536,7 @@
     }
 
      .discounts {
-        margin-top: .35rem;
+        margin-top: .16rem;
         position: relative;
         height: .35rem;
          width: 5rem;
