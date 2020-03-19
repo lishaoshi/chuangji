@@ -170,6 +170,11 @@ export default {
                 padding: 0rem .04rem;
                 border-radius: 4px;
                 margin-right: .08rem;
+                height: .36rem;
+                width: .36rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
         }
     }
