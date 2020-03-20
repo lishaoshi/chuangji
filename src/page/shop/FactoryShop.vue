@@ -50,7 +50,7 @@
                         </ul>
                     </div>
                     <div class="discounts" v-if="shopDetailData.actives!=''">
-                        <div class="fade-box"  @click="showRolePicker">
+                        <div class="fade-box"  @click="showRolePicker" v-if="actity_nums>1">
                             <span>{{actity_nums}}个活动</span>
                             <svg class="icon">
                                 <use xlink:href="#icon-tuiguang-xialasanjiao"></use>
@@ -136,7 +136,7 @@
                             leave-active-class="animated bounceOut"> -->
                             <li v-for="(item, index) in (shopDetailData.actives)" :key="index" style="padding: .2rem 0">
                                 <span>{{item.promotion_type=="give"?'赠':'返'}}</span>
-                                <p style="color: #333333">每满{{item.enough_num}}件，获赠品{{item.give_name}}{{item.give_num}}个</p>
+                                <p style="color: #333333;flex:1;">每满{{item.enough_num}}件，获赠品{{item.give_name}}{{item.give_num}}个</p>
                             </li>
                         <!-- </transition-group> -->
                     </ul>
@@ -566,10 +566,11 @@
                 display: flex;
                 align-items: center;
                 margin-bottom: 0.12rem;
-                overflow: hidden;
+                /* overflow: hidden;
                 text-overflow: ellipsis;
-                white-space: nowrap;
+                white-space: nowrap; */
                 height: .35rem;
+                /* flex-wrap: wrap; */
                 &:nth-child(even) {
                     span {
                         background: #ff7612;
@@ -585,11 +586,16 @@
                     text-align: center;
                     overflow: visible;
                     border-radius: 4px;
+                    flex-shrink: 0;
                 }
                 p {
                     font-size: 0.24rem;
                     color: #f1f1f1;
                     padding-left: 0.12rem;
+                    
+word-wrap:break-word; 
+word-break:break-all; 
+/* overflow: hidden;这个参数根据需要来绝对要不要 */
                 }
             }
         }

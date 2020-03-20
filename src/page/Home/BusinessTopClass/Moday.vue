@@ -16,7 +16,7 @@
               <div>
                   <section>
                         <p>{{item.product.generic_name}}</p>
-                        <p v-if="item.product.limit_type==1">产期: {{item.product.valid_time | filterValidTime}}</p> 
+                        <p v-if="item.product.limit_type==1">效期至: {{item.product.valid_time | filterValidTime}}</p> 
                         <p v-else>产期: {{item.product.production_date | filterValidTime}}</p>
                         <p>规格: {{item.product.spec}}</p>
                         <p>包装: {{item.product.tran}}{{item.product.unit}}/{{item.product.big_unit}}</p>
