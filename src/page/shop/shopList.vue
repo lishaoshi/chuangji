@@ -285,7 +285,8 @@
                     data = res[1].data
 
                 })
-                this.goodList = this._handleData(data.data)
+                let list =data.data || [];
+                this.goodList = this._handleData(list)
                 // debugger
                 if(this.goodList.length < this.limit) {
                     this.allLoaded = true
@@ -303,8 +304,8 @@
                 }
                 let data = []
                 supplierEntities(this.factoryId, params).then(res=>{
-                    
-                    this.goodList = this._handleData(res.data.data);
+                    let list = res.data.data || [];
+                    this.goodList = this._handleData(list);
                     // debugger
                 })
             },
@@ -316,7 +317,7 @@
                     isShowProm: this.isShowProm
                 }
                 supplierEntities(this.factoryId, {is_promote}).then(res=>{
-                    let data = res.data
+                    let data = res.data || [];
                     this.goodList = this.goodList.concat(this._handleData(data))
                     if(data < this.limit) {
                         this.allLoaded = true
