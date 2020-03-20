@@ -134,7 +134,7 @@
                             <!-- <transition-group name="fade" tag="li"  
                             enter-active-class="animated bounceInDown"
                             leave-active-class="animated bounceOut"> -->
-                            <li v-for="(item, index) in (shopDetailData.actives)" :key="index" style="padding: .2rem 0">
+                            <li v-for="(item, index) in (shopDetailData.actives)" :key="index">
                                 <span>{{item.promotion_type=="give"?'赠':'返'}}</span>
                                 <p style="color: #333333;flex:1;">每满{{item.enough_num}}件，获赠品{{item.give_name}}{{item.give_num}}个</p>
                             </li>
