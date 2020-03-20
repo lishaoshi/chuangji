@@ -564,12 +564,12 @@
             top:0px;
             li {
                 display: flex;
-                align-items: center;
+                align-items: flex-start;
                 margin-bottom: 0.12rem;
                 /* overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap; */
-                height: .35rem;
+                /* height: .35rem; */
                 /* flex-wrap: wrap; */
                 &:nth-child(even) {
                     span {
