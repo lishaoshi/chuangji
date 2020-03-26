@@ -162,9 +162,6 @@
                 ],
                 chooseTopClass: 0,
                 modayList: [
-                    {
-                        name: '的身份那是肯定'
-                    }
                 ]
             }
         },

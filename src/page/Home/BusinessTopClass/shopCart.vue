@@ -43,9 +43,22 @@ export default {
             
         }
     },
+    computed: {
+      isMonday:() =>{
+          let nowDay = this.$moment.day();
+        //   debugger
+        if(nowDay==1) {
+            return true;
+        }
+        return false;
+      }  
+    },
     methods: {
             // 添加至购物车
             add_shop_car(item) {	
+                if(!this.isMonday) {
+                    return false;
+                }
 				if(item.cart_num>=99999) {
 					this.$toast('最大购买量为99999')
 					return false
@@ -95,11 +108,17 @@ export default {
 			},
                // 点击选择软键盘加入购物车
 			handleChoose(item, index) {
+                if(!this.isMonday) {
+                    return false;
+                }
                 item.isSelfChoose = true
             },
 
             // 控制移除商品出购物车
             async handleNumber(item) {
+                if(!this.isMonday) {
+                    return false;
+                }
                 let data = {
                     supplier_id: item.supplier_id,
                     good_id: item.product_id

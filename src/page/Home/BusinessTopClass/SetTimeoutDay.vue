@@ -3,8 +3,8 @@
       <!-- <img src="@/images/setTimeout.png" alt=""> -->
       <div class="showTime">
           <!-- <div></div> -->
-          <div>
-            <span>
+          <div :class="{zeroDay:!substrDay}">
+            <span v-if="substrDay">
                 {{this.substrDay}}天
             </span>
 
@@ -49,11 +49,23 @@ export default {
     },
     methods: {
         initTime() {
-            this.nextWeekFirstDay = this.$moment().weekday();
+            this.nextWeekFirstDay = this.$moment().day();
+            // debugger
             this.hourse = 23 - this.$moment().hour();
             this.minute = 60- this.$moment().minute();
             this.second = 60 -this.$moment().second();
-            this.substrDay = 7 - this.nextWeekFirstDay;
+            // this.substrDay = this.nextWeekFirstDay==1?0 : 8 - this.nextWeekFirstDay;
+            switch(this.nextWeekFirstDay) {
+                case 0 :
+                    this.substrDay = 1;
+                    break;
+                case 1 :
+                    this.substrDay = 0;
+                    break;
+                default :
+                    this.substrDay = 8 - this.nextWeekFirstDay;
+                    break;
+            }
         }
     },
     created () {
@@ -88,6 +100,9 @@ export default {
             align-items: center;
             height: .4rem;
             margin-bottom: .1rem;
+        }
+        .zeroDay {
+            margin-left: 1.52rem;
         }
         span {
             background: #FF4A00;
