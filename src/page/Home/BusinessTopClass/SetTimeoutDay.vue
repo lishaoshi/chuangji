@@ -1,7 +1,7 @@
 <template>
   <div class="setTimeOutBox">
       <!-- <img src="@/images/setTimeout.png" alt=""> -->
-      <div class="showTime">
+      <div class="showTime" :class="[nowDay==1?' isModay ':'isNotModay']">
           <!-- <div></div> -->
           <div :class="{zeroDay:!substrDay}">
             <span v-if="substrDay">
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
     data () {
         return {
@@ -47,6 +48,13 @@ export default {
             }
         }
     },
+    computed: {
+      nowDay() {
+          let day = this.$moment().day()
+        //   debugger
+          return day;
+      }  
+    },
     methods: {
         initTime() {
             this.nextWeekFirstDay = this.$moment().day();
@@ -57,13 +65,13 @@ export default {
             // this.substrDay = this.nextWeekFirstDay==1?0 : 8 - this.nextWeekFirstDay;
             switch(this.nextWeekFirstDay) {
                 case 0 :
-                    this.substrDay = 1;
+                    this.substrDay = 0;
                     break;
                 case 1 :
                     this.substrDay = 0;
                     break;
                 default :
-                    this.substrDay = 8 - this.nextWeekFirstDay;
+                    this.substrDay = 7 - this.nextWeekFirstDay;
                     break;
             }
         }
@@ -88,12 +96,18 @@ export default {
     img {
         width: 100%;
     }
+    .isModay{
+        background: url('../../../images/setTimeout.png') no-repeat;
+        background-size: 100% 100%;
+    }
+    .isNotModay {
+        background: url('../../../images/modayStart.png') no-repeat;
+        background-size: 100% 100%;
+    }
     .showTime {
         height: 1.2rem;
         display: flex;
-            align-items: flex-end;
-        background: url('../../../images/setTimeout.png') no-repeat;
-        background-size: 100% 100%;
+        align-items: flex-end;
         div {
             margin-left: 1.2rem;
             display: flex;

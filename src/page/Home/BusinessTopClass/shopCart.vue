@@ -1,7 +1,7 @@
 <template>
     <div class="carImg">
-        <svg class="icon shopCart" v-if="!item.cart_num"  @click="add_shop_car(item,index)" aria-hidden="true">
-            <use xlink:href="#icon-factory-addPrice"></use>
+        <svg class="icon shopCart"  v-if="!item.cart_num"  @click="add_shop_car(item,index)" aria-hidden="true">
+            <use xlink:href="#icon-factory-addPrice" fill="#999"></use>
         </svg>
         <div class="controls" :class="{baColor:item.isSelfChoose }" v-else>
             <div class="imgBox" @click="handleNumber(item,index)">
@@ -36,6 +36,7 @@
 
 <script>
 import { queryShopCarList, delShopCar, addShopCar, onlyDelShopCar } from '@/api/shopCar';
+import moment from 'moment';
 export default {
     props: ['item', 'index'],
     data () {
@@ -45,8 +46,7 @@ export default {
     },
     computed: {
       isMonday:() =>{
-          let nowDay = this.$moment.day();
-        //   debugger
+          let nowDay = moment().day();
         if(nowDay==1) {
             return true;
         }
