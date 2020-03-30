@@ -7,7 +7,7 @@
 				</svg>
 				<div @click="handleQueryDetail(data)">
                     <!-- <router-link :to="`/factory/shop/${data.shopId}`"> -->
-                        <img :src="data.img_cover" width="30" height="30" style="margin-right: .2rem;">
+                        <img :src="data.img_cover?data.img_cover:defaultImgLogo" width="30" height="30" style="margin-right: .2rem;">
                     <!-- </router-link> -->
                     <!-- <router-link :to="`/factory/shop/${data.shopId}`" class="company-name"> -->
                         <span>{{data.shopName}}</span> 
@@ -30,12 +30,18 @@
 </template>
 
 <script>
-	import ClxsdCartsEntry from "./CartEntry"
+	import ClxsdCartsEntry from "./CartEntry";
+	import defaultImgLogo from "../../images/default_company_logo.png";
 	export default {
 		name: "CartShop",
 		props: ["data", "sid", "productCheckchange", "addGoods", "minGoods", "is_delete"],
 		components: {
 			ClxsdCartsEntry
+		},
+		data() {
+			return {
+				defaultImgLogo: defaultImgLogo
+			}
 		},
 		methods: {
 			shopChecked(i) {

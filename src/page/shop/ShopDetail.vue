@@ -146,7 +146,7 @@
                             leave-active-class="animated bounceOut"> -->
                             <li v-for="(item, index) in (data.promotes)" :key="index">
                                 <span>{{item.promotion_type=="give"?'赠':'返'}}</span>
-                                <p style="color: #333333">每满{{item.enough_num}}件，获赠品{{item.give_name}}{{item.give_num}}个</p>
+                                <p style="color: #333333">满{{item.enough_num}}件，获赠品{{item.give_name}}{{item.give_num}}个</p>
                             </li>
                         <!-- </transition-group> -->
                     </ul>
