@@ -59,7 +59,7 @@
                         <ul>
                             <li v-for="(item, index) in (shopDetailData.actives)" :key="index">
                                 <span>{{item.promotion_type=="give"?'赠':'返'}}</span>
-                                <p style="width: 3.4rem;overflow: hidden;text-overflow:ellipsis; white-space:nowrap;">满{{item.enough_num}}件{{item.product.generic_name}}，获赠品{{item.give_name}}{{item.give_num}}个</p>
+                                <p style="width: 3.4rem;overflow: hidden;text-overflow:ellipsis; white-space:nowrap;">{{item.product.generic_name}}，满{{item.enough_num}}件，获赠品{{item.give_name}}{{item.give_num}}个</p>
                             </li>
                         </ul>
                     </div>
@@ -136,7 +136,7 @@
                             leave-active-class="animated bounceOut"> -->
                             <li v-for="(item, index) in (shopDetailData.actives)" :key="index">
                                 <span>{{item.promotion_type=="give"?'赠':'返'}}</span>
-                                <p style="color: #333333;flex:1;">满{{item.enough_num}}件{{item.product.generic_name}}，获赠品{{item.give_name}}{{item.give_num}}个</p>
+                                <p style="color: #333333;flex:1;">{{item.product.generic_name}}，满{{item.enough_num}}件，获赠品{{item.give_name}}{{item.give_num}}个</p>
                             </li>
                         <!-- </transition-group> -->
                     </ul>
