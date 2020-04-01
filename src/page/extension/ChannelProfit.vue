@@ -5,117 +5,16 @@
                 <section @click="to('/earnings-detail')">明细</section>
             </div>
         </clxsd-head-top>
-        <!--省公司-->
-        <!-- <div v-if="data &&  USER_INFO.sub_type === 1">
-            <div class="profit-list" v-for="(entity,i) in data" :key="`s-${i}`">
-                <div class="name">
-                    <span>{{entity.name | filter_city_name}}</span>市
-                </div>
-                <div class="num">
-                    <p>收益(元)</p>
-                    <p>{{entity.value | display_price }}</p>
-                </div>
-            </div>
-        </div> -->
-        <!--集采商-->
-        <!-- <div v-if="data && USER_INFO.sub_type === 3">
-            <div class="detailed-item">
-                <img src="../../images/extension/promote-promoter.png" class="item-icon" />
-                <p class="title">推广人</p>
-                <div class="num">
-                    <p>收益(元)</p>
-                    <p>{{data.tuiguang | display_price }}</p>
-                </div>
-            </div>
-            <div class="detailed-item">
-                <img src="../../images/extension/promote-business.png" class="item-icon" />
-                <p class="title">商业</p>
-                <div class="num">
-                    <p>收益(元)</p>
-                    <p>{{data.business | display_price }}</p>
-                </div>
-            </div>
-            <div class="detailed-item">
-                <img src="../../images/extension/promote-hospital.png" class="item-icon" />
-                <p class="title">医院</p>
-                <div class="num">
-                    <p>收益(元)</p>
-                    <p>{{data.yiyuan | display_price }}</p>
-                </div>
-            </div>
-            <div class="detailed-item">
-                <img src="../../images/extension/promote-multiple-shop.png" class="item-icon" />
-                <p class="title">连锁店</p>
-                <div class="num">
-                    <p>收益(元)</p>
-                    <p>{{data.lianshuo | display_price }}</p>
-                </div>
-            </div>
-            <div class="detailed-item">
-                <img src="../../images/extension/promote-monomer.png" class="item-icon" />
-                <p class="title">单体</p>
-                <div class="num">
-                    <p>收益(元)</p>
-                    <p>{{data.dianti | display_price }}</p>
-                </div>
-            </div>
-            <div class="detailed-item">
-                <img src="../../images/extension/promote-clinic.png" class="item-icon" />
-                <p class="title">诊所</p>
-                <div class="num">
-                    <p>收益(元)</p>
-                    <p>{{data.zhenshuo | display_price }}</p>
-                </div>
-            </div>
-        </div> -->
+        
         <template v-if="isApply">
             <div v-if="data && data.length && isApply">
-            <!-- <div class="detailed-item">
-                <img src="../../images/extension/promote-business.png" class="item-icon" />
-                <p class="title">商业</p>
-                <div class="num">
-                    <p>收益(元)</p>
-                    <p>{{data.business | display_price }}</p>
-                </div>
-            </div>
-            <div class="detailed-item">
-                <img src="../../images/extension/promote-hospital.png" class="item-icon" />
-                <p class="title">医院</p>
-                <div class="num">
-                    <p>收益(元)</p>
-                    <p>{{data.yiyuan | display_price }}</p>
-                </div>
-            </div>
-            <div class="detailed-item">
-                <img src="../../images/extension/promote-multiple-shop.png" class="item-icon" />
-                <p class="title">连锁店</p>
-                <div class="num">
-                    <p>收益(元)</p>
-                    <p>{{data.lianshuo | display_price }}</p>
-                </div>
-            </div>
-            <div class="detailed-item">
-                <img src="../../images/extension/promote-monomer.png" class="item-icon" />
-                <p class="title">单体</p>
-                <div class="num">
-                    <p>收益(元)</p>
-                    <p>{{data.dianti | display_price }}</p>
-                </div>
-            </div>
-            <div class="detailed-item">
-                <img src="../../images/extension/promote-clinic.png" class="item-icon" />
-                <p class="title">诊所</p>
-                <div class="num">
-                    <p>收益(元)</p>
-                    <p>{{data.zhenshuo | display_price }}</p>
-                </div>
-            </div> -->
-                <div  class="detailed-item" v-for="(item, index) of data" :key="index">
-                    <img :src="item.img" class="item-icon" />
-                    <p class="title">{{item.name}}</p>
-                    <div class="num">
-                        <p>收益(元)</p>
-                        <p>{{item.value?item.value: '0.00'}}</p>
+                <div  class="detailed-item" v-for="(item, index) of list" :key="index">
+                    <div>
+                        <img src="../../images/default_company_logo.png" class="item-icon" />
+                        <p class="title">{{item.name}}</p>
+                    </div>
+                    <div class="num">{{item.price}}
+                        <div class="san"></div>
                     </div>
                 </div>
             </div>
@@ -148,6 +47,13 @@
             return {
                 role:'shengdaili',
                 data:null,
+                list: [
+                    {
+                        img: '',
+                        name: '测试公司',
+                        price: 8000.00
+                    }
+                ],
                 CityName:null
             }
         },
@@ -266,14 +172,17 @@
         background: #fff;
     }
     .detailed-item {
-        margin: .1rem .2rem;
         background: #fff;
         border-radius: 5px;
         border:1px solid #f1f1f1;
         display: flex;
-        padding: .35rem .2rem;
+        padding: .2rem .2rem;
         align-items: center;
-        justify-content: space-around;
+        justify-content: space-between;
+        div:first-of-type {
+            display: flex;
+            align-items: center;
+        }
         .item-icon {
             width: 1.1rem;
             height: 1.1rem;
@@ -282,24 +191,24 @@
             font-size: .4rem;
             color: #333;
         }
-        .num {
-            text-align: center;
-            margin-left: 30%;
-            width: 30%;
-            p {
-                &:nth-child(1) {
-                    font-size: .26rem;
-                    color: rgb(153,153,153);
-                }
-                &:nth-child(2) {
-                    font-size: .36rem;
-                    line-height: 1;
-                    color: #03ad8f;
-                    font-weight: bold;
-                    margin-top: .15rem;
-                }
+          .num{
+                 font-size: .36rem;
+                line-height: 1;
+                color: #03ad8f;
+                font-weight: bold;
+                display: flex;
+                align-items: center;
+               
             }
-        }
+             .san {
+                    display: block;
+                    width: 10px;
+                    height: 10px;
+                    border-top: 2px solid #C7C7CC;
+                    border-right: 2px solid #C7C7CC;
+                    transform:rotate(45deg);
+                    margin-left: .2rem;
+                }
     }
     .profit-list {
         margin: .2rem .2rem 0;

@@ -32,6 +32,7 @@
                     <p v-if="role==='city_company'">市级推广</p>
                     <p v-if="role==='partner'">集采商</p>
                     <p v-if="role==='province_company'">省级推广</p>
+                    <p v-if="role==='find_medicine'">找药人</p>
                     <p class="type" v-if="selectedSaveData!=undefined">
                         <span v-if="selectedSaveData.business">商业</span>
                         <span v-if="selectedSaveData.danti">单体</span>

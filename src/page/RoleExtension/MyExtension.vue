@@ -31,35 +31,26 @@
             </div>
           </router-link>
       </div>
-      <div style="width: 100%;height: 1px;background: #2da2ff;opacity: 0.7;"></div>
-      <div class="balance">
-        <div>
-          <span>余额(元)</span>
-        </div>
-        <div>
-           <i-count-up
-              :startVal="0"
-              :endVal="balance"
-              :decimals="0"
-              :duration="23"
-              :options="options"
-          ></i-count-up>
-        </div>
+      <!-- <div style="width: 100%;height: 1px;background: #2da2ff;opacity: 0.7;"></div> -->
+      <balance :balance="balance" :earnings="0"/>
+      <div>
+        <PramterNum />
       </div>
+     
       <div class="becomePartner" v-if="(userInfo.area_type&&userInfo.area_type!=='partner') || !is_apply">
-        <img src="../../images/becomePartnr3.jpg" alt="" @click="queryPartnerInfo" />
+        <img src="../../images/becomePartnr3.png" alt="" @click="queryPartnerInfo" />
       </div>
       <div class="my-list">
         <div style="margin-top: .2rem" v-if="!is_apply">
           <clxsd-cell title="角色选择" to="/customer-choose-role" is-link icon="my-collection" />
         </div>
-        <div style="margin-top: .2rem">
+        <!-- <div style="margin-top: .2rem">
           <clxsd-cell title="我的邀请" :to="'/record'" is-link icon="wode-wodeyaoqing" />
-        </div>
+        </div> -->
         
         <div style="margin-top: .2rem">
-          <clxsd-cell title="通道收益" :to="'/channel-profit'" is-link icon="promoter_pass" />
-          <clxsd-cell :title="'合伙收益'" v-if="userInfo.area_type=='partner'" :to="'/cooperation-profit'" :value="userInfo.lianPiaoVaule" is-link icon="my-banknote"/>
+          <!-- <clxsd-cell title="通道收益" :to="'/channel-profit'" is-link icon="promoter_pass" /> -->
+          <!-- <clxsd-cell :title="'合伙收益'" v-if="userInfo.area_type=='partner'" :to="'/cooperation-profit'" :value="userInfo.lianPiaoVaule" is-link icon="my-banknote"/> -->
           <!-- <clxsd-cell title="广告收益" :to="'/develop'" is-link icon="promoter_ad" /> -->
         </div>
         <div style="margin-top: .2rem">
@@ -87,12 +78,16 @@ import ClxsdCell from "@/components/common/Cell";
 import messageCount from '@/components/promote/messageCount'
 import ICountUp from '@/components/countUp'
 import { getMessageCount } from "@/api/newMessage.js";
+import Balance from "./balance.vue";
+import PramterNum from "./totalNum";
 export default {
   name: "MyExtension",
   components: {
     ClxsdCell,
     ICountUp,
-    messageCount
+    messageCount,
+    Balance,
+    PramterNum
   },
   props: {
     balance: {
@@ -103,15 +98,7 @@ export default {
   data(){
     return{
       is_apply:true,
-      options: {
-          useEasing: true,
-          useGrouping: true,
-          separator: ',',
-          decimal: '.',
-          prefix: '',
-          suffix: '',
-          decimalPlaces: 2
-      },
+      
       messageCount: 0
     }
   },
@@ -206,21 +193,7 @@ export default {
     width: 100%;
   }
 }
-.balance {
-  display: flex;
-  align-items: center;
-  color: #fff;
-  height: 1rem;
-  justify-content: space-between;
-  padding: 0 .44rem;
-  background: rgba(45, 162, 255, 1);
-  div:first-child {
-    font-size: .24rem;
-  }
-  div:last-child {
-    font-size: .44rem;
-  }
-}
+
 .back {
   background: #fff;
   text-align: center;

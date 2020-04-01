@@ -13,7 +13,8 @@ import MyExtension from "@/page/My/ExtensionMy";
 
 import WechatSignin from '@/page/wechat/WechatSignin'
 import WechatSignup from '@/page/wechat/WechatSignup.vue'
-import WechatBindUser from '@/page/wechat/WechatBindUser.vue'
+import WechatBindUser from '@/page/wechat/WechatBindUser.vue';
+import ShowDetail from "@/page/RoleExtension/showDetail";
 
 // 广告banner详情页
 const BannerDetail = () => import('@/page/BannerDetail/bannerDetail')
@@ -164,6 +165,16 @@ export default [
         beforeEnter (to, from, next) {
             const accessToken = window.$lstore.getData('H5_WECHAT_MP_ASTOKEN')
             accessToken ? next() : next('/wechat')
+        },
+    },
+    {
+        name: "showInvitation",
+        path:"/showInvitation",
+        component: ShowDetail,
+        meta:{
+            title:"对接人",
+            keepAlive: false,
+            requiresAuth: true,
         },
     },
 ]

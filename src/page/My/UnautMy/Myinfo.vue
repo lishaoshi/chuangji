@@ -8,12 +8,12 @@
                 <div class="userinfo-left">
                     <img :src="userInfo.avatar | display_avatar" class="logo" v-if="userInfo.avatar"/>
                     <img src="../../../images/my/user_default.png" v-else/>
-                     <div v-if="userInfo.area_type === 'promoter'">
+                     <!-- <div v-if="userInfo.area_type === 'promoter'">
                         <img src="../../../images/extension/promoter.png" class="tag"/>
                     </div>
                     <div v-if="userInfo.area_type === 'partner'">
                         <img :src="partner" class="tag"/>
-                    </div>
+                    </div> -->
                     <!-- <div v-if="userInfo.sub_type === 1">
                         <img src="../../../images/extension/province.png" class="tag"/>
                     </div>
@@ -60,8 +60,21 @@
                 <b>1800.00</b>
             </div> -->
              <div class="becomePartner" v-if="(userInfo.area_type&&userInfo.area_type!=='partner') || !is_apply">
-            <img src="../../../images/becomePartnr3.jpg" alt="" @click="queryPartnerInfo">
+            <img src="../../../images/becomePartnr3.png" alt="" @click="queryPartnerInfo">
         </div>
+        <!--- 邀请详情 ---->
+            <div class="typeBox">
+                <div class="typeItem"  v-for="(item, index) of typeList" :key="index">
+                    <div>
+                        <img src="../../../images/default_company_logo.png" alt="">
+                        <span>{{item.name}}</span>
+                    </div>
+                    <div>
+                        <span>{{item.num}}</span>
+                        <span>{{item.price}}元</span>
+                    </div>
+                </div>
+            </div>
          <!-- <clxsd-cell :title="'广告收益'" :to="'/develop'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_ad" style="margin-bottom: .2rem"/> -->
         <ul class="unautMy-userlist">
             <div style="margin:.2rem 0">
@@ -69,7 +82,7 @@
             </div>
         </ul>
         <clxsd-cell style="margin-top:.2rem;" :title="'我的邀请'" :to="'/record'" is-link icon="wode-wodeyaoqing" />
-        <clxsd-cell :title="'通道收益'" :to="'/channel-profit'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_pass"/>
+        <clxsd-cell :title="'终端分润'" :to="'/channel-profit'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_pass"/>
         <clxsd-cell :title="'合伙收益'" v-if="userInfo.area_type=='partner'" :to="'/cooperation-profit'" :value="userInfo.lianPiaoVaule" is-link icon="my-banknote"/>
        
         <div style="margin:.2rem 0">
@@ -116,7 +129,33 @@
                     decimalPlaces: 2,
                 },
                 balance:0,
-                messageCount: 0
+                messageCount: 0,
+                 typeList: [
+                {
+                    type: 0,
+                    name: '单体',
+                    num: 30,
+                    price: 8000
+                },
+                 {
+                    type: 0,
+                    name: '单体',
+                    num: 30,
+                    price: 8000
+                },
+                 {
+                    type: 0,
+                    name: '单体',
+                    num: 30,
+                    price: 8000
+                },
+                 {
+                    type: 0,
+                    name: '单体',
+                    num: 30,
+                    price: 8000
+                }
+              ]
           }
         },
         computed: {
@@ -332,6 +371,48 @@
         }
         b {
             font-size: .44rem;
+        }
+    }
+    .typeBox {
+        display: grid;
+        grid-template-columns:50% 50%;
+        padding: 0 .2rem;
+        margin-top: .2rem;
+        background: #EDF0F3;
+        grid-column-gap: .02rem;
+        grid-row-gap: .02rem;
+        border-radius: 16px;
+        // grid-template-rows: 
+        img {
+            width: .46rem;
+            height: .46rem;
+            margin-right: .2rem;
+        }
+        .typeItem {
+            height: 1.4rem;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            // align-items: center;
+            padding: 0 .32rem;
+            div {
+                display: flex;
+                align-items: center;
+            }
+            div:last-of-type {
+                justify-content: space-between;
+                margin-top: .1rem;
+                font-weight: bold;
+                span {
+                    color: #03AD8F;
+                    font-size: .3rem;
+                    
+                }
+                span:first-of-type {
+                    color: #333;
+                }
+            }
         }
     }
    

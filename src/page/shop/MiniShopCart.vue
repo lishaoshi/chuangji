@@ -11,7 +11,7 @@
                     <p>去结算</p>
                 </div>
             </div>
-            <div @click="authToRouter(url)" v-else>
+            <div @click="goPay" v-else>
                 <div class="join_shop" :class="{'toPay':count}">
                     <p>去结算</p>
                 </div>
@@ -66,6 +66,9 @@
                 this.$refs.cartBall.drop(target)
             },
             goPay() {
+                if(count) {
+                    return
+                }
                 this.$router.push({name: 'ShopCart'})
             }
         }
