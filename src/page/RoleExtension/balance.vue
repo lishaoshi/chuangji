@@ -18,7 +18,7 @@
             <div>
                 <i-count-up
                     :startVal="0"
-                    :endVal="earnings"
+                    :endVal="todayIncome"
                     :decimals="0"
                     :duration="23"
                     :options="options"
@@ -32,7 +32,7 @@
 <script>
 import ICountUp from '@/components/countUp';
 export default {
-    props: ['balance', 'earnings'],
+    props: ['balance', 'todayIncome'],
     components: {
         ICountUp
     },

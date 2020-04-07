@@ -1,24 +1,24 @@
 <template>
     <div id="ChannelProfit">
-        <clxsd-head-top title='通道收益' :append="true">
+        <clxsd-head-top title='终端分润' :append="true">
             <div slot="append">
                 <section @click="to('/earnings-detail')">明细</section>
             </div>
         </clxsd-head-top>
         
         <template v-if="isApply">
-            <div v-if="data && data.length && isApply">
+            <div v-if="data && data.length">
                 <div  class="detailed-item" v-for="(item, index) of list" :key="index">
                     <div>
-                        <img src="../../images/default_company_logo.png" class="item-icon" />
-                        <p class="title">{{item.name}}</p>
+                        <img :src="item.from_user.supplier.img_cover" class="item-icon" />
+                        <p class="title">{{item.from_user.supplier.name}}</p>
                     </div>
-                    <div class="num">{{item.price}}
+                    <div class="num">{{item.sum}}
                         <div class="san"></div>
                     </div>
                 </div>
             </div>
-            <UnJurisdiction  v-else-if="data && data.length"></UnJurisdiction>
+            <UnJurisdiction  v-else></UnJurisdiction>
         </template>
         <!--推广人-->
        
@@ -36,7 +36,8 @@
     import promoteHospital from "../../images/extension/promote-hospital.png"
     import promoteClinic from "../../images/extension/promote-clinic.png"
     import promoteMultipleShop from "../../images/extension/promote-multiple-shop.png"
-    import becomePromote from "@/components/promote/becomePromotBg"
+    import becomePromote from "@/components/promote/becomePromotBg";
+    import { getClientDetail } from "@/api/newPromerte.js";
     export default {
         name: "ChannelProfit",
         components:{
@@ -65,82 +66,10 @@
         },
         methods:{
             async initData(){
-                _incomeDetails().then(res=>{
-                    // debugger
-                    let list = res.data?res.data: []
-
-                    if(list){
-                        list.forEach((item, index, arr) => {
-                            let name = ''
-                            let img = ""
-                            if(item.type) {
-                                switch (item.type) {
-                                    case 'business':
-                                        name = "商业"
-                                        img = promoteBusiness
-                                        break;
-                                    case 'danti':
-                                        name = "单体"
-                                        img = promoteMonomer
-                                        break;
-                                    case 'yiyuan':
-                                        name = "医院"
-                                        img = promoteHospital
-                                        break;
-                                    case 'zhenshuo':
-                                        name = "诊所"
-                                        img = promoteClinic
-                                        break;
-                                    case 'lianshuo':
-                                        name = "连锁"
-                                        img = promoteMultipleShop
-                                        break;
-                                }
-                            }
-                            
-                            arr[index].name = name
-                            arr[index].value = parseFloat(item.value).toFixed(2)
-                            arr[index].img = img
-                        })
-                    }
-                    // debugger
+                getClientDetail().then(res=>{
+                    let list = res.data?res.data: [];
                     this.data = list
                 })
-                // const { data } = await this.$http.get('user/profit/tongdao');
-                // if(this.USER_INFO.user_type ===4 && this.USER_INFO.sub_type === 1){
-                //     if(data.code){
-                //         let areaEntities=null;
-                //         areaData.forEach((area,key) => {
-                //             if(area.code == parseInt(data.code)){
-                //                 areaEntities = area;
-                //             }
-                //         });
-                //         let entities = [];
-                //         if(areaEntities !== null){
-                //             areaEntities.children.forEach((entity,i) => {
-                //                 if(entity.code !== (data.code+'01')) {
-                //                     let value = 0;
-                //                     if(data.items.length>0){
-                //                         data.items.forEach((item,_i) => {
-                //                             if(item.code === entity.code){
-                //                                 value = item.value;
-                //                             }
-                //                         })
-                //                     }
-                //                     entities.push({
-                //                         name:entity.name,
-                //                         value:value,
-                //                     });
-                //                 }
-
-                //             })
-                //         }
-
-                //         this.data = entities;
-                //     }
-                // }else{
-                //     this.data = data;
-                // }
 
             },
              to(path) {
@@ -186,6 +115,7 @@
         .item-icon {
             width: 1.1rem;
             height: 1.1rem;
+            margin-right: .2rem;
         }
         .title {
             font-size: .4rem;

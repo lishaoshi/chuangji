@@ -31,8 +31,10 @@ import moment from 'moment'
 // import Popup from 'vant/lib/popup';
 import { Popup, Area } from 'vant';
 import lazyLoad from '@/util/lazyload';
-import VCharts from 'v-charts';
-Vue.use(VCharts);
+// import VCharts from 'v-charts';
+// Vue.use(VCharts);
+import echarts from "echarts";
+Vue.prototype.$echarts = echarts;
 
 // Vue.use(Popup);
 // import 'vant/lib/popup/style';

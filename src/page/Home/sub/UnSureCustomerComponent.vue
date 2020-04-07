@@ -64,7 +64,7 @@
 
                 <mt-tab-item :id="navbar[4]&&navbar[4].value">
                     <svg>
-                        <use xlink:href="#icon-promote-promoter"/>
+                        <use xlink:href="#icon-promote-agent"/>
                     </svg>
                     <p>{{navbar[4]&&navbar[4].name}}</p>
                 </mt-tab-item>
@@ -135,11 +135,10 @@
                             <use xlink:href="#icon-promote-dropDown"/>
                         </svg>
                     </div>
-                    <p class="error" v-if="cityError">* 此省市已经被注册</p>
+                    <!-- <p class="error" v-if="cityError">* 此省市已经被注册</p> -->
                     <div class="go-info">
-                        <button @click="handleCity"
-                                :disabled="cityError || cityValue === 0"
-                                :class="cityError || cityValue === 0 ? '':'active' ">
+                        <button @click="handleFind"
+                                :class=" cityValue === 0 ? '':'active' ">
                             开启权限
                         </button>
                         <router-link to="/introduction/city">
@@ -546,6 +545,17 @@
                     this.$store.commit('SAVE_USER_CHOOSE_DATA', {role: this.selected, data: this.cityValue});
                     this.$router.push({path:'/role-yes',query:{phone: this.tel}});
                  }
+            },
+            //找药人
+            handleFind() {
+                var p1 = /^1[3456789]\d{9}$/
+                this.testIphone()
+
+                 if(p1.test(this.tel)&&this.tel){
+                    // if (this.cityError || this.cityValue === 0) return;
+                    this.$store.commit('SAVE_USER_CHOOSE_DATA', {role: this.selected, data: this.cityValue});
+                    this.$router.push({path:'/role-yes',query:{phone: this.tel}});
+                 } 
             },
 
             //集采商

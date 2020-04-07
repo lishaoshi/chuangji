@@ -6,7 +6,7 @@
             </div>
         </clxsd-head-top>
         <!-- <div style="min-height:.88rem;"></div> -->
-        <main v-if="isApply">
+        <main v-if="isApply!=-1">
             <div class="searchbox">
                 <SearchBar ref="searchBox" :searchFn="searchFn" :record='record' v-model="searchValue" @keyup="keyup" @clearText="clearText"></SearchBar>
             </div>

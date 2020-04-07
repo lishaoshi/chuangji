@@ -193,6 +193,8 @@
                 }).then(res=>{
                     if(res.data.code == 200){
                         this.$router.push('/apply-success');
+                    } else {
+                        this.$toast(res.data.message);
                     }
                 })
                

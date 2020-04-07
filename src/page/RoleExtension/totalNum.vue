@@ -2,22 +2,22 @@
     <div class="num">
         <div @click="showIntvi(0)">
             <div class="item">
-                <span>2</span>
+                <span>{{findMedicine.num}}</span>
                 <span>对接人(个)</span>
             </div>
             <div class="item">
-                <span>110</span>
+                <span>{{findMedicine.client}}</span>
                 <span>厂商(家)</span>
             </div>
             <div class="bottomBox"></div>
         </div>
         <div @click="showIntvi(1)">
              <div class="item">
-                <span>2</span>
+                <span>{{promoter.num}}</span>
                 <span>对接人(个)</span>
             </div>
             <div class="item">
-                <span>110</span>
+                <span>{{promoter.client}}</span>
                 <span>终端(家)</span>
             </div>
             <div class="bottomBox"></div>
@@ -26,12 +26,16 @@
 </template>
 
 <script>
-
+import { getPromerteTotal } from "@/api/newPromerte.js";
 export default {
     data() {
         return {
-            
+            promoter: {}, //推广人信息
+            findMedicine: {} //找药人信息
         }
+    },
+    created() {
+        this._getPromerteTotal();
     },
     methods: {
         showIntvi(index) {
@@ -40,6 +44,11 @@ export default {
             } else if(index==1) {
                 this.$router.push({name: 'showInvitation', query:{type: 'business'}});
             }
+        },
+        async _getPromerteTotal() {
+            var {data} = await getPromerteTotal();
+            this.promoter = data.promoter;
+            this.findMedicine = data.find_medicine;
         }
     }
 }

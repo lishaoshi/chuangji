@@ -1,33 +1,66 @@
 <template>
     <div class="echart">
-        <ve-histogram :data="chartData" :settings="chartSettings"></ve-histogram>
+        <!-- <ve-histogram :data="chartData" :settings="chartSettings"></ve-histogram> -->
+        <div id="myChart" :style="{width: '100%', height: '400px'}"></div>
     </div>
 </template>
 
 <script>
 export default {
+  props: {
+    echartsData: {
+      type: Object,
+      default: {}
+    },
+    title: {
+      type: String,
+      default: ''
+    }
+  },
     data () {
-        this.chartSettings = {
-        metrics: ['访问用户', '下单用户'],
-        dimension: ['日期']
-      }
       return {
-        
-        chartData: {
-          columns: ['访问用户', '下单用户'],
-          rows: [
-            { '日期': '1/1', '访问用户': 1393, '下单用户': 1093, },
-            { '日期': '1/2', '访问用户': 3530, '下单用户': 3230, },
-            { '日期': '1/3', '访问用户': 2923, '下单用户': 2623, },
-            { '日期': '1/4', '访问用户': 1723, '下单用户': 1423, },
-            { '日期': '1/5', '访问用户': 3792, '下单用户': 3492,  },
-            { '日期': '1/6', '访问用户': 4593, '下单用户': 4293, },
-            { '日期': '1/6', '访问用户': 4593, '下单用户': 4293, },
-            { '日期': '1/6', '访问用户': 4593, '下单用户': 4293, },
-            { '日期': '1/6', '访问用户': 4593, '下单用户': 4293, },
-             { '日期': '1/6', '访问用户': 4593, '下单用户': 4293, }
-          ],
-        }
+        isPromerte: this.$props.title=="厂商对接人"?['厂商数','收益']:['终端数','收益']
+      }
+    },
+    mounted() {
+      this.initEcharts();
+    },
+    methods: {
+      initEcharts() {
+        let myChart = this.$echarts.init(document.getElementById('myChart'));
+         // 指定图表的配置项和数据
+        var option = {
+            tooltip: {},
+            legend: {
+                data:this.isPromerte
+            },
+            xAxis: {
+                data: this.echartsData.userName
+            },
+            yAxis: {
+              axisLine: {
+                show: true
+              }
+            },
+            series: [{
+                name: this.$props.title=="厂商对接人"?"厂商数":"终端数",
+                type: 'bar',
+                data: this.echartsData.numData,
+                barMaxWidth: '10',
+                barGap: '0%',
+                color: '#01A5FF'
+            },
+            {
+                name: '收益',
+                type: 'bar',
+                barMaxWidth: '10',
+                data: this.echartsData.priceData,
+                barGap: '0%',
+                color: '#FF6666'
+
+            }]
+        };
+        myChart.setOption(option);
       }
     }
 }

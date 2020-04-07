@@ -10,7 +10,7 @@
             </mt-tab-container-item>
             <mt-tab-container-item id="2"  v-if="selected=='2'" :class="{ Box3: selected==2 }">
                 <!--<p class="t1"  :class="{ t2: isFullScreen }">联贝收益</p>-->
-               <MyFrame :balance="balance" :earnings="earnings"></MyFrame>
+               <MyFrame :balance="balance" :todayIncome="todayIncome"></MyFrame>
             </mt-tab-container-item>
         </mt-tab-container>
 
@@ -62,7 +62,7 @@
                 noticeList: [],
                 limit: 6,
                 balance: 0,
-                earnings: 0
+                todayIncome: 0
             }
         },
         computed:{
@@ -120,7 +120,9 @@
                 // }
                 rebateFn().then(res=>{
                     let data = res.data;
-                    this.balance = data.balance;
+                    this.balance = data.promoter_balance;  //余额
+                    this.todayIncome = data.today_income;  //今日收益
+                    // debugger
                     // this.earnings = data.
                 })
             },
