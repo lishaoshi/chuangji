@@ -61,6 +61,14 @@
                     </svg>
                     <p>{{navbar[3].name}}</p>
                 </mt-tab-item>
+
+                <mt-tab-item :id="navbar[4]&&navbar[4].value">
+                    <svg>
+                        <use xlink:href="#icon-promote-agent"/>
+                    </svg>
+                    <p>{{navbar[4]&&navbar[4].name}}</p>
+                </mt-tab-item>
+
             </mt-navbar>
             <mt-tab-container v-model="selected" style="min-height: 5rem;">
                 <!--省-->
@@ -101,6 +109,36 @@
                         <button @click="handleCity"
                                 :disabled="cityError || cityValue === 0"
                                 :class="cityError || cityValue === 0 ? '':'active' ">
+                            开启权限
+                        </button>
+                        <router-link to="/introduction/city">
+                            初步了解
+                            <!-- understand -->
+                        </router-link>
+                    </div>
+
+                    <mt-popup v-model="regionVisible" position="bottom" class="bottom-region" style="width:100%;">
+                        <address-popup :regionVisible.sync="regionVisible" @listenAreaChange="areaChange"/>
+                   </mt-popup> 
+                    <!-- <mt-popup v-model="regionVisible" position="bottom" class="bottom-region" style="width:100%;">
+                        
+                    </mt-popup> -->
+                </mt-tab-container-item>
+
+                 <!--找药人-->
+                <mt-tab-container-item :id="navbar[4]&&navbar[4].value">
+                    <p>选择注册省市</p>
+                    <div @click="showAddressPicker" class="choiceCity">
+                        <mt-field label="" placeholder="请选择省市" type="text" v-model="region" readonly="readonly" class="region-go">
+                        </mt-field>
+                        <svg>
+                            <use xlink:href="#icon-promote-dropDown"/>
+                        </svg>
+                    </div>
+                    <!-- <p class="error" v-if="cityError">* 此省市已经被注册</p> -->
+                    <div class="go-info">
+                        <button @click="handleFind"
+                                :class=" cityValue === 0 ? '':'active' ">
                             开启权限
                         </button>
                         <router-link to="/introduction/city">
@@ -350,6 +388,15 @@
         created() {
             this.initData();
         },
+        watch: {
+            selected(val, oldval) {
+                // debugger
+                this.cityError = false;
+                this.cityValue = 0;
+                this.region = '';
+                
+            }
+        },
         methods: {
             initData() {
                 this.loading = true;
@@ -462,6 +509,7 @@
                 // this.region = null
 
             },
+            
 
             showAddressPickerPromoter() {
                 this.regionVisible_promoter = true;
@@ -497,6 +545,17 @@
                     this.$store.commit('SAVE_USER_CHOOSE_DATA', {role: this.selected, data: this.cityValue});
                     this.$router.push({path:'/role-yes',query:{phone: this.tel}});
                  }
+            },
+            //找药人
+            handleFind() {
+                var p1 = /^1[3456789]\d{9}$/
+                this.testIphone()
+
+                 if(p1.test(this.tel)&&this.tel){
+                    // if (this.cityError || this.cityValue === 0) return;
+                    this.$store.commit('SAVE_USER_CHOOSE_DATA', {role: this.selected, data: this.cityValue});
+                    this.$router.push({path:'/role-yes',query:{phone: this.tel}});
+                 } 
             },
 
             //集采商

@@ -1,0 +1,89 @@
+<template>
+    <div class="balance">
+        <div>
+            <span class="title">余额(元)</span>
+            <div>
+                <i-count-up
+                    :startVal="0"
+                    :endVal="balance"
+                    :decimals="0"
+                    :duration="23"
+                    :options="options"
+                ></i-count-up>
+            </div>
+        </div>
+        <div class="line"></div>
+        <div>
+            <span class="title">今日收益(元)</span>
+            <div>
+                <i-count-up
+                    :startVal="0"
+                    :endVal="todayIncome"
+                    :decimals="0"
+                    :duration="23"
+                    :options="options"
+                ></i-count-up>
+            </div>
+        </div>
+        
+    </div>
+</template>
+
+<script>
+import ICountUp from '@/components/countUp';
+export default {
+    props: ['balance', 'todayIncome'],
+    components: {
+        ICountUp
+    },
+    data() {
+        return {
+            options: {
+                useEasing: true,
+                useGrouping: true,
+                separator: ',',
+                decimal: '.',
+                prefix: '',
+                suffix: '',
+                decimalPlaces: 2
+            },
+        }
+    }
+}
+</script>
+
+<style lang="scss" scoped>
+.balance {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  height: 1rem;
+  justify-content: space-between;
+  background: rgba(45, 162, 255, 1);
+  & > div {
+      display: flex;
+      font-size: .28rem;
+     
+      flex-direction: column;
+      align-items: center;
+      width: 50%;
+      justify-content: cneter;
+      .title {
+        font-size: .24rem;
+        opacity: 0.6;
+      }
+      & > div {
+           font-weight: bold;
+          margin-top: .1rem;
+          font-size: .28rem;
+      }
+  }
+  .line {
+      background: #fff;
+      height: 22px;
+      opacity: .6;
+      width: 2px;
+  }
+  
+}
+</style>

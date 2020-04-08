@@ -8,12 +8,12 @@
                 <div class="userinfo-left">
                     <img :src="userInfo.avatar | display_avatar" class="logo" v-if="userInfo.avatar"/>
                     <img src="../../../images/my/user_default.png" v-else/>
-                     <div v-if="userInfo.area_type === 'promoter'">
+                     <!-- <div v-if="userInfo.area_type === 'promoter'">
                         <img src="../../../images/extension/promoter.png" class="tag"/>
                     </div>
                     <div v-if="userInfo.area_type === 'partner'">
                         <img :src="partner" class="tag"/>
-                    </div>
+                    </div> -->
                     <!-- <div v-if="userInfo.sub_type === 1">
                         <img src="../../../images/extension/province.png" class="tag"/>
                     </div>
@@ -29,7 +29,7 @@
                 </div>
                 <div class="userinfo-centre">
                     <p class="name">
-                        {{userInfo.userName}}
+                        {{userInfo.userName}}(厂商对接人)
                     </p>
                     <span class="phone">{{userInfo.userTel}}</span>
                 </div>
@@ -42,8 +42,9 @@
                     </router-link>
                 </div>
             </div>
-            <div style="width: 100%;height: 1px;background: #2da2ff;opacity: 0.7;"></div>
-            <div class="balance">
+            <!-- <div style="width: 100%;height: 1px;background: #2da2ff;opacity: 0.7;"></div> -->
+            <balance :balance="balance" :todayIncome="todayIncome"/>
+            <!-- <div class="balance">
                 <div>
                 <span>余额(元)</span>
                 </div>
@@ -54,23 +55,42 @@
                     :options="options"
                 ></i-count-up>
                 </div>
-            </div>
+            </div> -->
             <!-- <div class="userinfo-lianshu">
                 <span>联数(包)</span>
                 <b>1800.00</b>
             </div> -->
-             <div class="becomePartner" v-if="(userInfo.area_type&&userInfo.area_type!=='partner') || !is_apply">
-            <img src="../../../images/becomePartnr3.jpg" alt="" @click="queryPartnerInfo">
-        </div>
+             <!-- <div class="becomePartner" v-if="is_apply!=-1">
+            <img src="../../../images/becomePartnr3.png" alt="" @click="queryPartnerInfo">
+        </div> -->
+        <!--- 邀请详情 ---->
+            <div class="typeBox" v-if="is_apply!=-1&&userInfo.area_type!='find_medicine'">
+                <div class="typeItem"  v-for="(item, index) of typeList" :key="index">
+                    <div>
+                        <svg>
+                            <use :xlink:href="item.img"/>
+                        </svg>
+                        <span>{{item.name}}</span>
+                    </div>
+                    <div>
+                        <span>{{item.num}}</span>
+                        <span>{{item.price}}元</span>
+                    </div>
+                </div>
+            </div>
          <!-- <clxsd-cell :title="'广告收益'" :to="'/develop'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_ad" style="margin-bottom: .2rem"/> -->
         <ul class="unautMy-userlist">
             <div style="margin:.2rem 0">
-                <clxsd-cell v-if="!is_apply" :title="'角色选择'" :to="'/customer-choose-role'" is-link icon="my-collection"/>
+                <clxsd-cell v-if="is_apply==-1" :title="'角色选择'" :to="'/customer-choose-role'" is-link icon="my-collection"/>
             </div>
         </ul>
-        <clxsd-cell style="margin-top:.2rem;" :title="'我的邀请'" :to="'/record'" is-link icon="wode-wodeyaoqing" />
-        <clxsd-cell :title="'通道收益'" :to="'/channel-profit'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_pass"/>
-        <clxsd-cell :title="'合伙收益'" v-if="userInfo.area_type=='partner'" :to="'/cooperation-profit'" :value="userInfo.lianPiaoVaule" is-link icon="my-banknote"/>
+        <clxsd-cell style="margin-top:.2rem;" v-if="is_apply!=-1&&userInfo.area_type=='find_medicine'" :title="'我的邀请'" :to="'/findRecord'" is-link icon="wode-wodeyaoqing" />
+        <clxsd-cell style="margin-top:.2rem;" v-else :title="'我的邀请'" :to="'/record'" is-link icon="wode-wodeyaoqing" />
+
+        
+        <clxsd-cell :title="'厂商分润'" v-if="is_apply!=-1&&userInfo.area_type=='find_medicine'" :to="'/channel-profit'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_pass"/>
+        <clxsd-cell :title="'终端分润'" v-else :to="'/channel-profit'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_pass"/>
+        <!-- <clxsd-cell :title="'合伙收益'" v-if="userInfo.area_type=='partner'" :to="'/cooperation-profit'" :value="userInfo.lianPiaoVaule" is-link icon="my-banknote"/> -->
        
         <div style="margin:.2rem 0">
             <clxsd-cell :title="'消息通知'" :to="'/new-message/promoter'" is-link icon="my-message">
@@ -94,12 +114,20 @@
     import { recordAmound, rebateFn } from '@/api/ticketList'
     import messageCount from '@/components/promote/messageCount'
     import { getMessageCount } from "@/api/newMessage.js";
+    import Balance from "../../RoleExtension/balance.vue";
+    import { _incomeDetails } from "@/api/promotes";
+    import promoteBusiness from "../../../images/extension/promote-business.png"
+    import promoteMonomer from "../../../images/extension/promote-monomer.png"
+    import promoteHospital from "../../../images/extension/promote-hospital.png"
+    import promoteClinic from "../../../images/extension/promote-clinic.png"
+    import promoteMultipleShop from "../../../images/extension/promote-multiple-shop.png"
     export default {
         name: "Myinfo",
         components: {
             ClxsdCell,
             ICountUp,
-            messageCount
+            messageCount,
+            Balance
         },
         data(){
           return{
@@ -116,7 +144,11 @@
                     decimalPlaces: 2,
                 },
                 balance:0,
-                messageCount: 0
+                todayIncome: 0,
+                messageCount: 0,
+                 typeList: [
+                
+              ]
           }
         },
         computed: {
@@ -147,7 +179,8 @@
         },
         created() {
             this.initData()
-            this._getRecord()
+            this._getRecord();
+            this.promerteTotal()
         },
         methods: {
             ...mapMutations(['changApplyPromote']),
@@ -170,7 +203,8 @@
                 // }
                 rebateFn().then(res=>{
                     let data = res.data.promoter_balance
-                    this.balance = data
+                    this.balance = data;
+                    this.todayIncome = res.data.today_income;
                 })
             },
 
@@ -179,10 +213,57 @@
              */
             queryPartnerInfo() {
                 this.$router.push('/partnerInfo')
-            }
-        }
+            },
 
-    };
+             async promerteTotal(){
+                _incomeDetails().then(res=>{
+                    // debugger
+                    let list = res.data?res.data: []
+
+                    if(list.length > 0){
+                        let name = "",
+                            img = "";
+                        list.forEach((item, index, arr) => {
+                            
+                            if(item.type) {
+                                switch (item.type) {
+                                    case 'business':
+                                        name = "商业";
+                                        img = '';
+                                        break;
+                                    case 'danti':
+                                        name = "单体";
+                                        // debugger
+                                        img = '#icon-group-client-drugshops';
+                                        break;
+                                    case 'yiyuan':
+                                        name = "医院";
+                                        img = '#icon-group-client-hospital';
+                                        break;
+                                    case 'zhenshuo':
+                                        name = "诊所";
+                                        img = '#icon-group-client-clinic';
+                                        break;
+                                    case 'lianshuo':
+                                        name = "连锁";
+                                        img = '#icon-group-client-chain';
+                                        break;
+                                }
+                            }
+                            
+                            arr[index].name = name;
+                            arr[index].price = parseFloat(item.value).toFixed(2);
+                            arr[index].img = img;
+                            arr[index].num = item.count;
+                        })
+                    }
+                    // debugger
+                    this.typeList = list
+                })
+         } 
+    }
+
+}
 </script>
 
 <style lang="scss" scoped>
@@ -332,6 +413,48 @@
         }
         b {
             font-size: .44rem;
+        }
+    }
+    .typeBox {
+        display: grid;
+        grid-template-columns:50% 50%;
+        padding: 0 .2rem;
+        margin-top: .2rem;
+        background: #EDF0F3;
+        grid-column-gap: .02rem;
+        grid-row-gap: .02rem;
+        border-radius: 16px;
+        // grid-template-rows: 
+        svg {
+            width: .46rem;
+            height: .46rem;
+            margin-right: .2rem;
+        }
+        .typeItem {
+            height: 1.4rem;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            // align-items: center;
+            padding: 0 .32rem;
+            div {
+                display: flex;
+                align-items: center;
+            }
+            div:last-of-type {
+                justify-content: space-between;
+                margin-top: .1rem;
+                font-weight: bold;
+                span {
+                    color: #03AD8F;
+                    font-size: .3rem;
+                    
+                }
+                span:first-of-type {
+                    color: #333;
+                }
+            }
         }
     }
    

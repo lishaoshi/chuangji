@@ -76,6 +76,8 @@ const RoleConfirm = () => import(/* webpackChunkName: "About" */ '@/page/extensi
 
 /* 邀请记录 */
 const Record = () => import(/* webpackChunkName: "About" */ '@/page/Invitation/Invited_to_record.vue');
+/*找药人邀请记录*/
+const FinRecord = ()=>import('@/page/Invitation/findInvited.vue');
 
 /* 发票信息 */
 const Invoice = () => import(/* webpackChunkName: "About" */ '@/page/Invoice/invoice.vue');
@@ -491,6 +493,13 @@ export default [
     {
         path: "/record",
         component: Record,
+        meta: {
+            title: "邀请记录",
+        }
+    },
+    {
+        path: "/findRecord",
+        component: FinRecord,
         meta: {
             title: "邀请记录",
         }

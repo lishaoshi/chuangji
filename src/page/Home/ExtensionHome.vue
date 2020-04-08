@@ -11,6 +11,7 @@
         <div v-if="myFrame" style="position: fixed;width: 100%;height: 100%;z-index: 9999;top:0;left: 0">
             <CustomerMy :closedMyFrame="closedMyFrame"></CustomerMy>
         </div>
+        <!-- 123123 -->
         <clxsd-foot-guide :user-type="4" />
     </div>
 </template>

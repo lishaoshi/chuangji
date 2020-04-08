@@ -39,6 +39,8 @@
                     </div>
                 </div>
             </div>
+
+            
             <!-- 列表 -->
             <div class="my-list">
                 <clxsd-cell title="我的联贝" to="/extension-lianbei" is-link icon="promote-my-cell"/>
@@ -77,6 +79,7 @@
         data(){
           return {
               isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
+             
           }
         },
         computed: {
@@ -283,4 +286,6 @@
     .topHeight {
         margin-top: 34px;
     }
+
+    
 </style>
