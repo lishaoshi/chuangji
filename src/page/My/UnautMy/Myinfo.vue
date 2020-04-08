@@ -29,7 +29,7 @@
                 </div>
                 <div class="userinfo-centre">
                     <p class="name">
-                        {{userInfo.userName}}
+                        {{userInfo.userName}}(厂商对接人)
                     </p>
                     <span class="phone">{{userInfo.userTel}}</span>
                 </div>
@@ -64,7 +64,7 @@
             <img src="../../../images/becomePartnr3.png" alt="" @click="queryPartnerInfo">
         </div> -->
         <!--- 邀请详情 ---->
-            <div class="typeBox" v-if="is_apply!=-1&&userInfo.area_type">
+            <div class="typeBox" v-if="is_apply!=-1&&userInfo.area_type!='find_medicine'">
                 <div class="typeItem"  v-for="(item, index) of typeList" :key="index">
                     <div>
                         <svg>
@@ -84,9 +84,12 @@
                 <clxsd-cell v-if="is_apply==-1" :title="'角色选择'" :to="'/customer-choose-role'" is-link icon="my-collection"/>
             </div>
         </ul>
-        <clxsd-cell style="margin-top:.2rem;" v-if="is_apply!=-1" :title="'我的邀请'" :to="'/record'" is-link icon="wode-wodeyaoqing" />
-        <clxsd-cell :title="'终端分润'" v-if="is_apply!=-1&&userInfo.area_type" :to="'/channel-profit'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_pass"/>
-        <clxsd-cell :title="'厂商分润'" v-if="is_apply!=-1&&userInfo.area_type" :to="'/channel-profit'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_pass"/>
+        <clxsd-cell style="margin-top:.2rem;" v-if="is_apply!=-1&&userInfo.area_type=='find_medicine'" :title="'我的邀请'" :to="'/findRecord'" is-link icon="wode-wodeyaoqing" />
+        <clxsd-cell style="margin-top:.2rem;" v-else :title="'我的邀请'" :to="'/record'" is-link icon="wode-wodeyaoqing" />
+
+        
+        <clxsd-cell :title="'厂商分润'" v-if="is_apply!=-1&&userInfo.area_type=='find_medicine'" :to="'/channel-profit'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_pass"/>
+        <clxsd-cell :title="'终端分润'" v-else :to="'/channel-profit'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_pass"/>
         <!-- <clxsd-cell :title="'合伙收益'" v-if="userInfo.area_type=='partner'" :to="'/cooperation-profit'" :value="userInfo.lianPiaoVaule" is-link icon="my-banknote"/> -->
        
         <div style="margin:.2rem 0">

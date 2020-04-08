@@ -1,6 +1,6 @@
 <template>
     <div id="ChannelProfit">
-        <clxsd-head-top title='终端分润' :append="true">
+        <clxsd-head-top :title='title' :append="true">
             <div slot="append">
                 <section @click="to('/earnings-detail')">明细</section>
             </div>
@@ -55,14 +55,16 @@
                         price: 8000.00
                     }
                 ],
-                CityName:null
+                CityName:null,
             }
         },
         computed:{
             ...mapState({
                 USER_INFO: state => state.CURRENTUSER.data,
-                isApply: state => state.is_apply
-            })
+                isApply: state => state.is_apply,
+                title: state=>state.CURRENTUSER.data.area_user&&state.CURRENTUSER.data.area_user.apply_role=="find_medicine"?"厂商分润":"终端分润"
+            }),
+            
         },
         methods:{
             async initData(){

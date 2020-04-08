@@ -2,7 +2,7 @@
 <template>
     <div class="balance">
         <clxsd-head-top :title="title" class="top"></clxsd-head-top>
-        <template v-if="!intverLList.length">
+        <template v-if="intverLList.length">
             <div class="title">
                 <div v-for="(item, index) of titleList" :key="index">
                     <span>{{item}}</span>
@@ -26,7 +26,7 @@
                         您还没有成为邀请{{title}}，
                         </p>
                         现在去
-                        <span @click="toRouter('/customer-choose-role?type=promoter')">邀请</span>，
+                        <span @click="toRouter('/invitation')">邀请</span>，
                         吧
                     </div>
                 </div>
@@ -75,8 +75,9 @@ export default {
                 role_type: this.$route.query.type=="factory"?"find_medicine":"promoter",
             }
             var { data } = await getPormerteInfo(params);
-            // console.log(data)
+            
             this.intverLList = data&&data.length>0?data:[];
+            console.log(data,this.intverLList)
             this.echartsData.numData = [];
             this.echartsData.priceData = [];
             this.echartsData.userName = [];
