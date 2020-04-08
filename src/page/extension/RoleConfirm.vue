@@ -187,6 +187,8 @@
                         mobile: this.tel,
                         city: this.selectedSaveData.code||(this.role=="province_company"?"":this.selectedSaveData)
                 }
+                console.log(data)
+                debugger
                 this.fliter(data)
                 this.$http.post('/hippo-shop/area-user',{
                         ...data

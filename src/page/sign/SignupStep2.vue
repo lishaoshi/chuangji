@@ -190,7 +190,8 @@
 
                 const params = Object.assign({real_name, user_identity, yao_mobile},
                     this.$lstore.getData(REGISTER_DATA))
-
+                    console.log(params)
+                    debugger
                 this.loading = true;
                 this.$http.post('/register', params, {
                     validateStatus: s => s === 204

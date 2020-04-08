@@ -1,6 +1,6 @@
 <template>
     <div class="carImg">
-        <svg class="icon shopCart"  v-if="!item.cart_num"  @click="add_shop_car(item,index)" aria-hidden="true">
+        <svg class="icon shopCart"  v-if="!item.cart_num || !isMonday"  @click="add_shop_car(item,index)" aria-hidden="true">
             <use xlink:href="#icon-add" :fill="isMonday?'#0090ff':'#999'"></use>
         </svg>
         <div class="controls" :class="{baColor:item.isSelfChoose }" v-else>
