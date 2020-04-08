@@ -89,7 +89,8 @@ export default {
             bottom: 0;
             left: 0;
             height: .1rem;
-            border-radius: .1rem;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
             width: 100%;
             background:linear-gradient(90deg,rgba(252,198,135,1),rgba(242,134,160,1));
         }

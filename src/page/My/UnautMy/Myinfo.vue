@@ -6,7 +6,7 @@
         <div class="container">
             <div class="userinfo">
                 <div class="userinfo-left">
-                    <img :src="userInfo.avatar | display_avatar" class="logo" v-if="userInfo.avatar"/>
+                    <img :src="userInfo.avatar" class="logo" v-if="userInfo.avatarPro"/>
                     <img src="../../../images/my/user_default.png" v-else/>
                      <!-- <div v-if="userInfo.area_type === 'promoter'">
                         <img src="../../../images/extension/promoter.png" class="tag"/>
@@ -163,7 +163,8 @@
                         user_type: currentInfo.user_type,
                         sub_type: currentInfo.sub_type,
                         state: currentInfo.status,
-                        avatar: currentInfo.avatar,
+                        avatar: currentInfo.avatar+'?x-oss-process=image/resize,m_lfit,w_64,limit_0',
+                        avatarPro: currentInfo.avatar,
                         area_type: currentInfo.area_user&&currentInfo.area_user.apply_role
                     }
                 },

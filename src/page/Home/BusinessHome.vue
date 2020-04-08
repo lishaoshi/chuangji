@@ -60,10 +60,10 @@
             <div class="main-body">
                 <!--  :style="{ height: (wrapperHeight-50) + 'px' }" :bottom-method="loadBottom" -->
                <setTimeOutCom v-if="chooseTopClass==1"/>
-                <template v-if="(suppliers.length>0&&chooseTopClass==0) || (modayList.length>0&&chooseTopClass==1)">
-                    <div v-if="chooseTopClass==0">
-                         <choost-type :configs="configs" @chooseType="chooseType"/>
-                        <supplier-item :data="item" v-for="(item,index) in suppliers" :key="index" :index="index"/>
+                <template v-if="chooseTopClass==0">
+                    <div>
+                        <choost-type :configs="configs" @chooseType="chooseType"/>
+                        <supplier-item :data="item" v-if="suppliers&&suppliers.length>0" v-for="(item,index) in suppliers" :key="index" :index="index"/>
                         <p v-if="allLoaded" class="loader-over">加载完毕</p>
                     </div>
                     
