@@ -29,7 +29,7 @@
                 </div>
                 <div class="userinfo-centre">
                     <p class="name">
-                        {{userInfo.userName}}(厂商对接人)
+                        {{userInfo.userName}}({{userInfo.area_type=='find_medicine'?"厂商对接人":userInfo.area_type=="promoter"?"终端对接人":""}})
                     </p>
                     <span class="phone">{{userInfo.userTel}}</span>
                 </div>
