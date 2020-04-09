@@ -42,7 +42,7 @@
     import UnSureCustomer from "@/page/Home/UnSureExtension/UnSureCustomer";
     import MyFrame from "./MyExtension"
     import {adList, infoList} from "@/api/ad";
-    import { recordAmound, rebateFn } from '@/api/ticketList'
+    import { recordAmound, rebateFn } from '@/api/ticketList';
     
     export default {
         name: "RoleExtension",

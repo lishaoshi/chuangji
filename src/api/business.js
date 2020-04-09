@@ -57,6 +57,18 @@ export function quickreplenish(params, id) {
  }
 
  /**
+  * 查看是否成为集采商成为集采商
+  */
+ export function isJc() {
+    return http.get('hippo-shop/supplier/is-collector').then(res=>{
+        return Promise.resolve(res.data)
+    }).catch(err=>{
+        return err.response
+    })
+ }
+
+
+ /**
   * 获取推广厂家列表
   */
 

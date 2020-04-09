@@ -127,18 +127,11 @@
 
                  <!--找药人-->
                 <mt-tab-container-item :id="navbar[4]&&navbar[4].value">
-                    <p>选择注册省市</p>
-                    <div @click="showAddressPicker" class="choiceCity">
-                        <mt-field label="" placeholder="请选择省市" type="text" v-model="region" readonly="readonly" class="region-go">
-                        </mt-field>
-                        <svg>
-                            <use xlink:href="#icon-promote-dropDown"/>
-                        </svg>
-                    </div>
+                    
                     <!-- <p class="error" v-if="cityError">* 此省市已经被注册</p> -->
                     <div class="go-info">
                         <button @click="handleFind"
-                                :class=" cityValue === 0 ? '':'active' ">
+                                :class="'active' ">
                             开启权限
                         </button>
                         <router-link to="/introduction/city">
@@ -210,13 +203,13 @@
                                     <use xlink:href="#icon-promote-pay-moreChose"/>
                                 </svg>
                             </li> -->
-                            <li @click="handlePromoterChecked(promoterTypeData[0].value)">
+                            <!-- <li @click="handlePromoterChecked(promoterTypeData[0].value)">
                                 <img src="../../../images/extension/promote-pay-business.png">
                                 <p class="title-p">{{promoterTypeData[0].name}}</p>
                                 <svg class="active" v-if="promoterData.business">
                                     <use xlink:href="#icon-promote-pay-moreChose"/>
                                 </svg>
-                            </li>
+                            </li> -->
                             <li @click="handlePromoterChecked(promoterTypeData[4].value)">
                                 <img src="../../../images/extension/promote-pay-hospital.png">
                                 <p class="title-p">{{promoterTypeData[4].name}}</p>

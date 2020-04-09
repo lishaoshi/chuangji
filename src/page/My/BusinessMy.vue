@@ -38,7 +38,7 @@
 				<div class="my-list">
 					<!-- <clxsd-cell :title="'我的资产'" :to="'/my-assets'" is-link icon="business-myAsset" :value="userInfo.lianPiaoVaule" /> -->
 					<!-- <Clxsd-button title="成为集采商" @click="isButton" icon="my-collectParity" /> -->
-					<div class="becomeJc" @click="becomeJc" v-if="userInfo.isCollec!==1">
+					<div class="becomeJc" @click="becomeJc" v-if="status==-1">
 						<img src="@/images/becomePartnr3.png" alt="">
 					</div>
 					
@@ -76,7 +76,7 @@
 <script>
 	import { mapState, mapActions, mapMutations } from "vuex";
 	import ClxsdCell from '@/components/common/Cell';
-	import { _becomeJc } from "@/api/business"
+	import { _becomeJc,isJc } from "@/api/business";
 	// import ClxsdButton from '@/components/common/clxsdButton';
 	export default {
 		name: "page-business-my",
@@ -88,7 +88,8 @@
                 currentValue:0.00,
                 lianBeiValue:0.00,
 				isFullScreen: (document.body.clientHeight / document.body.clientWidth) > (16 / 9),
-				color: "FF7612"
+				color: "FF7612",
+				status: -1
             }
         },
 		computed: {
@@ -126,10 +127,12 @@
                     }
 
 				},
+				isApply: state=>state.isApply,
 			})
 		},
         created(){
-            this.initData()
+			this.initData();
+			this._isJc();
         },
         methods:{
             initData(callback){
@@ -165,6 +168,11 @@
                     }
                 })
 			},
+			async _isJc() {
+				let { data } = await isJc()
+				this.$lstore.setData('is_apply', data.status);
+            	this.changApplyPromote(data.status)
+			},
 			isButton() {
 				console.log(123)
 			},
@@ -177,7 +185,8 @@
 				'fetchUserInfo'
 			]),
 			...mapMutations([
-				'UPDATAroleExtension'
+				'UPDATAroleExtension',
+				'changApplyPromote'
 			]),
 			async to(path, flag=false) {
                 if(!flag) {
