@@ -37,11 +37,11 @@
         <PramterNum />
       </div>
      
-      <div class="becomePartner" v-if="is_apply!=1">
+      <div class="becomePartner" v-if="isApply!=1">
         <img src="../../images/becomePartnr3.png" alt="" @click="queryPartnerInfo" />
       </div>
       <div class="my-list">
-        <div style="margin-top: .2rem" v-if="is_apply == -1">
+        <div style="margin-top: .2rem" v-if="isApply == -1">
           <clxsd-cell title="角色选择" to="/customer-choose-role" is-link icon="my-collection" />
         </div>
         <!-- <div style="margin-top: .2rem">
@@ -126,7 +126,7 @@ export default {
           area_type: currentInfo.area_user&&currentInfo.area_user.apply_role
         };
       },
-      isApply:state=>state.isApply
+      isApply:state=>state.is_apply
     }),
     canShou() {
       const userInfo = this.userInfo;
