@@ -74,7 +74,7 @@
                         <span>{{item.name}}</span>
                     </div>
                     <div>
-                        <span>{{item.num}}</span>
+                        <span>{{item.num}}家</span>
                         <span>{{item.price}}元</span>
                     </div>
                 </div>
@@ -419,8 +419,8 @@
     .typeBox {
         display: grid;
         grid-template-columns:50% 50%;
-        padding: 0 .2rem;
-        margin-top: .2rem;
+        // padding: 0 .2rem;
+        margin: .2rem;
         background: #EDF0F3;
         grid-column-gap: .02rem;
         grid-row-gap: .02rem;
