@@ -24,7 +24,7 @@ export function getPormerteInfo(params) {
 
 //邀请分润
 export function getClientDetail(params) {
-    return api.get('hippo-shop/wallet/client-details', {params}).then(res=>{
+    return api.get('users/wallet', {params}).then(res=>{
         return Promise.resolve(res.data)
     }).catch(err=>{
         Promise.reject(err)

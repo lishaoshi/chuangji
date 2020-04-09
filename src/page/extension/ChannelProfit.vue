@@ -13,7 +13,7 @@
                         <img :src="item.from_user.supplier.img_cover" class="item-icon" />
                         <p class="title">{{item.from_user.supplier.name}}</p>
                     </div>
-                    <div class="num">{{item.sum}}
+                    <div class="num">{{item.wallet_trans.total_sum}}
                         <div class="san"></div>
                     </div>
                 </div>
@@ -49,11 +49,6 @@
                 role:'shengdaili',
                 data:null,
                 list: [
-                    {
-                        img: '',
-                        name: '测试公司',
-                        price: 8000.00
-                    }
                 ],
                 CityName:null,
             }
