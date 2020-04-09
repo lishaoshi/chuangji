@@ -44,7 +44,7 @@
                 </div>
             </div>
             <!-- <div style="width: 100%;height: 1px;background: #2da2ff;opacity: 0.7;"></div> -->
-            <balance v-if="userInfo.area_type!=null" :balance="balance" :todayIncome="todayIncome"/>
+            <balance v-if="userInfo.area_type!=null" :balance="balance" :todayIncome="totalCount" :count="count"/>
             <!-- <div class="balance">
                 <div>
                 <span>余额(元)</span>
@@ -147,7 +147,8 @@
                 todayIncome: 0,
                 messageCount: 0,
                  typeList: [],
-                 totalCount: 0
+                 totalCount: 0,
+                 count: 0
           }
         },
         computed: {
@@ -178,34 +179,24 @@
             }
         },
         created() {
-            console.log(123)
             this.initData()
             this._getRecord();
-            this.promerteTotal()
+            this.userInfo.area_type=="promoter"&&this.promerteTotal()
         },
         methods: {
             ...mapMutations(['changApplyPromote']),
             initData(){
                 this.$http.get('hippo-shop/supplier/is-collector')
-                // .then(response => {
-                //     this.is_apply = response.data.status;
-                //     this.$lstore.setData('is_apply', response.data.data.is_apply)
-                //     this.changApplyPromote( response.data.data.is_apply)
-                // }).catch(err => {
-
-                // })
                 getMessageCount({type:'promoter'}).then(res=>{
                     this.messageCount = res.data.total
                 })
             },
              _getRecord() {
-                // let params = {
-                //     year: this.yte
-                // }
                 rebateFn().then(res=>{
                     let data = res.data.promoter_balance
                     this.balance = data;
                     this.todayIncome = res.data.today_income;
+                    this.count = res.data.count;
                 })
             },
 
