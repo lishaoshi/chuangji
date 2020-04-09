@@ -19,7 +19,7 @@
                         <div>可提现金额(元)</div>
                         <div class="bottom-price">
                             <span>{{(data.can_expend) |　display_price | moneyCon}}</span>
-                            <span>{{userInfo.area_type=='partner'?'集采商':'推广人'}}</span>
+                            <span>{{userInfo.area_type=='partner'?'推广人':'找药人'}}</span>
                         </div>
                     </div>
                     <div class="dateTime">
