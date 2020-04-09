@@ -146,9 +146,8 @@
                 balance:0,
                 todayIncome: 0,
                 messageCount: 0,
-                 typeList: [
-                
-              ]
+                 typeList: [],
+                 totalCount: 0
           }
         },
         computed: {
@@ -179,6 +178,7 @@
             }
         },
         created() {
+            console.log(123)
             this.initData()
             this._getRecord();
             this.promerteTotal()
@@ -220,7 +220,7 @@
                 _incomeDetails().then(res=>{
                     // debugger
                     let list = res.data?res.data: []
-
+                    this.totalCount = 0;
                     if(list.length > 0){
                         let name = "",
                             img = "";
@@ -256,6 +256,7 @@
                             arr[index].price = parseFloat(item.value).toFixed(2);
                             arr[index].img = img;
                             arr[index].num = item.count;
+                            this.totalCount += item.count;
                         })
                     }
                     // debugger

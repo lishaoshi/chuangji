@@ -134,7 +134,7 @@
                                 :class="'active' ">
                             开启权限
                         </button>
-                        <router-link to="/introduction/city">
+                        <router-link to="/introduction/find">
                             初步了解
                             <!-- understand -->
                         </router-link>

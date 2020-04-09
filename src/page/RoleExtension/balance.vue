@@ -14,7 +14,7 @@
         </div>
         <div class="line"></div>
         <div>
-            <span class="title">今日收益(元)</span>
+            <span class="title">{{rightTitle}}</span>
             <div>
                 <i-count-up
                     :startVal="0"
@@ -31,10 +31,21 @@
 
 <script>
 import ICountUp from '@/components/countUp';
+import { mapState } from "vuex";
 export default {
     props: ['balance', 'todayIncome'],
     components: {
         ICountUp
+    },
+    computed: {
+        ...mapState({
+            USER_INFO:state=>{
+                return {
+                    userType: state.CURRENTUSER.data.user_type,
+                    areaType: state.CURRENTUSER.data.area_user&&state.CURRENTUSER.data.area_user.apply_role,
+                }
+            }
+        })
     },
     data() {
         return {
@@ -47,8 +58,12 @@ export default {
                 suffix: '',
                 decimalPlaces: 2
             },
+            rightTitle: ''
         }
-    }
+    },
+    created() {
+        this.rightTitle = this.USER_INFO.userType==3?'今日收益(元)':this.USER_INFO.areaType==null?"":this.USER_INFO.areaType=="promoter"?"用户(家)":"厂家(家)";
+    },
 }
 </script>
 

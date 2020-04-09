@@ -51,7 +51,7 @@ export default {
             title: this.$route.query.type=="factory"?"厂商对接人":"终端对接人",
             titleList: [
                 '对接人',
-                '厂商',
+                 this.$route.query.type=="factory"?"厂商":"终端",
                 '收益'
             ],
             intverLList: [

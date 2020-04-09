@@ -6,7 +6,7 @@
             </div>
         </clxsd-head-top>
         
-        <template v-if="isApply">
+        <template>
             <div v-if="data && data.length">
                 <div  class="detailed-item" v-for="(item, index) of list" :key="index">
                     <div>
@@ -22,7 +22,7 @@
         </template>
         <!--推广人-->
        
-        <become-promote class="becomePromote" v-else/>
+        <!-- <become-promote class="becomePromote" v-else/> -->
     </div>
 </template>
 
@@ -61,8 +61,8 @@
         computed:{
             ...mapState({
                 USER_INFO: state => state.CURRENTUSER.data,
-                isApply: state => state.is_apply,
-                title: state=>state.CURRENTUSER.data.area_user&&state.CURRENTUSER.data.area_user.apply_role=="find_medicine"?"厂商分润":"终端分润"
+                // isApply: state => state.is_apply,
+                title: state=>state.CURRENTUSER.data.area_user&&state.CURRENTUSER.data.area_user.apply_role=="find_medicine"?"厂商分润":"终端分润",
             }),
             
         },
