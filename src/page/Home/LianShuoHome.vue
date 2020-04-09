@@ -59,19 +59,17 @@
             </div>
             <div class="main-body">
                 <!--  :style="{ height: (wrapperHeight-50) + 'px' }" :bottom-method="loadBottom" -->
-               <setTimeOutCom v-if="chooseTopClass==1"/>
+                <setTimeOutCom v-if="chooseTopClass==1"/>
                 <template v-if="chooseTopClass==0">
                     <div>
                         <choost-type :configs="configs" @chooseType="chooseType"/>
                         <supplier-item :data="item" v-if="suppliers&&suppliers.length>0" v-for="(item,index) in suppliers" :key="index" :index="index"/>
                         <p v-if="allLoaded" class="loader-over">加载完毕</p>
                     </div>
-                    
-                    <div v-if="chooseTopClass==1">
-                        
-                        <mo-day :list="modayList"/>
-                    </div>
                 </template>
+                <div v-if="chooseTopClass==1">
+                    <mo-day :list="modayList"/>
+                </div>
             </div>
                 
             </mt-loadmore>
