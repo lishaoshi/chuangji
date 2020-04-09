@@ -66,7 +66,7 @@
                 this.$refs.cartBall.drop(target)
             },
             goPay() {
-                if(count) {
+                if(!this.count) {
                     return
                 }
                 this.$router.push({name: 'ShopCart'})

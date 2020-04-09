@@ -94,6 +94,8 @@
                 this.isBROWSER = true
             } else if(this.$route.path=="/new-message/promoter") {
                 this.isBROWSER = true
+            } else if(this.$route.path == "/showInvitation") {
+                this.isBROWSER = true
             }
         }
     }
