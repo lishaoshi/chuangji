@@ -16,12 +16,12 @@
                             </div>
                         </div>
                     
-                        <div class="code" @click="to('/role-extension', true)">
+                        <!-- <div class="code" @click="to('/role-extension', true)">
                             <svg>
                                 <use xlink:href="#icon-my-promotion" />
                             </svg>
                             <p>业务推广</p>
-                        </div>
+                        </div> -->
                     </div>
                     <!--
                     <div class="info-bottom">
