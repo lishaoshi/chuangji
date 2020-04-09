@@ -48,7 +48,7 @@ export default {
             let text = ''
             switch (this.data.channel) {
                 case 'tongdao':
-                    text = '通道收益'
+                    text = '集采收益'
                     break;
                 case 'fenyong':
                     text = '合伙收益'
