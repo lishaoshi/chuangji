@@ -150,7 +150,7 @@
 
                 <!--集采商-->
                 <mt-tab-container-item id="partner">
-                    <p>选择注册省份</p>
+                    <p>选择注册省市</p>
                     <!-- <select class="select-area" v-model="partner_provinceValue">
                         <option value="0">选择省份</option>
                         <option :value="area.code" v-for="(area,_arIndex) in areaData" :key="`_area_${_arIndex}`">{{area.name}}</option>
@@ -387,7 +387,6 @@
                 this.cityError = false;
                 this.cityValue = 0;
                 this.region = '';
-                
             }
         },
         methods: {

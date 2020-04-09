@@ -17,12 +17,14 @@
             <span class="title">{{rightTitle}}</span>
             <div>
                 <i-count-up
+                    v-if="!isPro"
                     :startVal="0"
                     :endVal="todayIncome"
                     :decimals="0"
                     :duration="23"
                     :options="options"
                 ></i-count-up>
+                <span v-else>{{this.USER_INFO.areaType=="promoter"?todayIncome:count}}</span>
             </div>
         </div>
         
@@ -33,7 +35,7 @@
 import ICountUp from '@/components/countUp';
 import { mapState } from "vuex";
 export default {
-    props: ['balance', 'todayIncome'],
+    props: ['balance', 'todayIncome', 'count'],
     components: {
         ICountUp
     },
@@ -58,11 +60,15 @@ export default {
                 suffix: '',
                 decimalPlaces: 2
             },
-            rightTitle: ''
+            rightTitle: '',
+            isPro: false  //是否是推广
         }
     },
     created() {
-        this.rightTitle = this.USER_INFO.userType==3?'今日收益(元)':this.USER_INFO.areaType==null?"":this.USER_INFO.areaType=="promoter"?"用户(家)":"厂家(家)";
+        // console.log( this.USER_INFO.userType)
+        // debugger
+        this.rightTitle = this.USER_INFO.userType==2?'今日收益(元)':this.USER_INFO.areaType==null?"":this.USER_INFO.areaType=="promoter"?"用户(家)":"厂家(家)";
+        this.isPro = this.rightTitle == '今日收益(元)'? false:true;
     },
 }
 </script>

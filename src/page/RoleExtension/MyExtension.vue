@@ -41,9 +41,9 @@
         <img src="../../images/becomePartnr3.png" alt="" @click="queryPartnerInfo" />
       </div>
       <div class="my-list">
-        <div style="margin-top: .2rem" v-if="isApply == -1">
+        <!-- <div style="margin-top: .2rem" v-if="isApply == -1">
           <clxsd-cell title="角色选择" to="/customer-choose-role" is-link icon="my-collection" />
-        </div>
+        </div> -->
         <!-- <div style="margin-top: .2rem">
           <clxsd-cell title="我的邀请" :to="'/record'" is-link icon="wode-wodeyaoqing" />
         </div> -->
