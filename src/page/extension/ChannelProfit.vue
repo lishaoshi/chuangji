@@ -49,11 +49,6 @@
                 role:'shengdaili',
                 data:null,
                 list: [
-                    {
-                        img: '',
-                        name: '测试公司',
-                        price: 8000.00
-                    }
                 ],
                 CityName:null,
             }
