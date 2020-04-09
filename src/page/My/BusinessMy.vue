@@ -38,7 +38,7 @@
 				<div class="my-list">
 					<!-- <clxsd-cell :title="'我的资产'" :to="'/my-assets'" is-link icon="business-myAsset" :value="userInfo.lianPiaoVaule" /> -->
 					<!-- <Clxsd-button title="成为集采商" @click="isButton" icon="my-collectParity" /> -->
-					<div class="becomeJc" @click="becomeJc" v-if="status==-1">
+					<div class="becomeJc" @click="becomeJc" v-if="isApply==-1">
 						<img src="@/images/becomePartnr3.png" alt="">
 					</div>
 					
@@ -127,7 +127,7 @@
                     }
 
 				},
-				isApply: state=>state.isApply,
+				isApply: state=>state.is_apply,
 			})
 		},
         created(){
@@ -169,6 +169,7 @@
                 })
 			},
 			async _isJc() {
+				// console.log(this.isApply)
 				let { data } = await isJc()
 				this.$lstore.setData('is_apply', data.status);
             	this.changApplyPromote(data.status)
