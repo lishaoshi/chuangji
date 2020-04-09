@@ -180,15 +180,27 @@
             },
             toPay(){
                 if(this.loading) return;
-                var data = {
+                // console.log(this.selectedSaveData)
+                // debugger
+                var data = {};
+                if(this.selectedSaveData==0) {
+                    data = {
+                        apply_role:this.role,
+                        apply_sub_role:this.apply_sub_role?this.apply_sub_role:null,
+                        province:0,
+                        mobile: this.tel,
+                        city:0
+                    }
+                } else {
+                    data = {
                         apply_role:this.role,
                         apply_sub_role:this.apply_sub_role?this.apply_sub_role:null,
                         province:(this.selectedSaveData.code&&this.selectedSaveData.code.substring(0, 2))||this.selectedSaveData.substring(0, 2),
                         mobile: this.tel,
                         city: this.selectedSaveData.code||(this.role=="province_company"?"":this.selectedSaveData)
+                    }
                 }
-                console.log(data)
-                debugger
+                
                 this.fliter(data)
                 this.$http.post('/hippo-shop/area-user',{
                         ...data
