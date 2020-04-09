@@ -1,6 +1,7 @@
 <template>
   <div class="moday">
       <div class="listItem" v-for="(item, index) of list" :key="index">
+          <!-- <p>{{index}}</p> -->
           <router-link :to="`/factory/shop/${item.supplier.id}`">
           <div class="compName" @click="goFactoryInfo">
               <img :src="item.supplier.img_cover" alt="">
