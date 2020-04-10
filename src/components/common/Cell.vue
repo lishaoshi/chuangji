@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
     export default {
         name: "Cell",
         props:{
@@ -53,11 +54,18 @@
                     return resolved.fullPath || resolved.path
                 }
                 return this.to
-            }
+            },
+            ...mapState({
+                isApply: state=>state.is_apply
+            })
         },
         methods: {
             handleClick($event) {
                 $event.preventDefault();
+                if(this.href == "/customer-choose-role" && this.isApply===1) {
+                    this.$router.push('/is-audit');
+                    return
+                }  
                 this.$router.push(this.href);
             }
         }

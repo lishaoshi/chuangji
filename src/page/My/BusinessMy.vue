@@ -114,7 +114,7 @@
 						shop_supplier = currentInfo.shop_supplier
                     }
                     if(currentInfo.avatar!=null){
-                        userLogo = currentInfo.avatar
+                        userLogo = currentInfo.avatar+'?x-oss-process=image/resize,m_lfit,w_64,limit_0'
                     }
                     return {
                         userName: currentInfo.display_name || currentInfo.real_name || currentInfo.phone || '丢失信息',

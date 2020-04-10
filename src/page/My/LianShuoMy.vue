@@ -118,7 +118,7 @@
                     let infoText = '未上传资质'
                     let userLogo = ''
                     let shop_supplier = {}		
-
+                    let avatar
                     if(currentInfo['certification']){
                         if(0 === currentInfo['certification']['status']){
                             infoText = '正在审核中...'
@@ -132,7 +132,7 @@
                         shop_supplier = currentInfo.shop_supplier
                     }
                     if(currentInfo.avatar!=null){
-                        userLogo = currentInfo.avatar
+                        userLogo = currentInfo.avatar+'?x-oss-process=image/resize,m_lfit,w_64,limit_0';
                     }
                     return {
                         userName: currentInfo.display_name || currentInfo.real_name || currentInfo.phone || '丢失信息',
@@ -140,6 +140,7 @@
                         companyName,
                         infoText,
                         userLogo,
+                        // avatar:
                         shop_supplier,
                     }
 

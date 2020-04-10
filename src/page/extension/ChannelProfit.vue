@@ -10,7 +10,8 @@
             <div v-if="list && list.length">
                 <div  class="detailed-item" v-for="(item, index) of list" :key="index">
                     <div>
-                        <img :src="item.supplier.img_cover" class="item-icon" />
+                        <img v-if="item.supplier.img_cover" :src="item.supplier.img_cover" class="item-icon" />
+                        <default-logo  v-else :name="name" :bgColor="bgColorIndx"/>
                         <p class="title">{{item.supplier.name}}</p>
                     </div>
                     <div class="num">{{item.benefit_from_tran.total_sum}}
@@ -38,11 +39,13 @@
     import promoteMultipleShop from "../../images/extension/promote-multiple-shop.png"
     import becomePromote from "@/components/promote/becomePromotBg";
     import { getClientDetail } from "@/api/newPromerte.js";
+    import default_company_logo from "@/images/default_company_logo.png";
     export default {
         name: "ChannelProfit",
         components:{
             UnJurisdiction,
-            becomePromote
+            becomePromote,
+            default_company_logo
         },
         data(){
             return {
@@ -65,6 +68,14 @@
             async initData(){
                 getClientDetail().then(res=>{
                     let list = res.data?res.data: [];
+                    const nameArr = []
+                    list.forEach((item, index, target)=>{
+                        item.backgroundIndex = index % 10;
+                        for(let i=0; i < this.data.short_name.length; i++ ) {
+                            nameArr.push(this.data.short_name.charAt(i))
+                        }
+                        target[index].name = nameArr;
+                    });
                     this.list = list
                 })
 

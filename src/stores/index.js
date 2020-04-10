@@ -43,7 +43,8 @@ const state = {
     RoleExtension: 1,
 
     //是否已经申请成为推广人
-    is_apply: lstore.getData('is_apply')===undefined?1:lstore.getData('is_apply')
+    // lstore.getData('is_apply')===undefined?1:lstore.getData('is_apply')
+    is_apply:  lstore.getData('is_apply')===undefined?1:lstore.getData('is_apply')
 
 };
 

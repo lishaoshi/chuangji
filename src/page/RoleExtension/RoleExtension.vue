@@ -121,7 +121,7 @@
                 rebateFn().then(res=>{
                     let data = res.data;
                     this.balance = data.promoter_balance;  //余额
-                    this.todayIncome = data.today_income;  //今日收益
+                    this.todayIncome = +data.today_income;  //今日收益
                     // debugger
                     // this.earnings = data.
                 })

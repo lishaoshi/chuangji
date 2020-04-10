@@ -82,7 +82,7 @@
          <!-- <clxsd-cell :title="'广告收益'" :to="'/develop'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_ad" style="margin-bottom: .2rem"/> -->
         <ul class="unautMy-userlist">
             <div style="margin:.2rem 0">
-                <clxsd-cell v-if="userInfo.area_type==null" :title="'角色选择'" :to="'/customer-choose-role'" is-link icon="my-collection"/>
+                <clxsd-cell :title="'角色选择'" v-if="isApply!==1" :to="'/customer-choose-role'" is-link icon="my-collection"/>
             </div>
         </ul>
         <clxsd-cell style="margin-top:.2rem;" v-if="userInfo.area_type=='find_medicine'" :title="'我的邀请'" :to="'/findRecord'" is-link icon="wode-wodeyaoqing" />
@@ -168,6 +168,7 @@
                         area_type: currentInfo.area_user&&currentInfo.area_user.apply_role
                     }
                 },
+                isApply: state=>state.is_apply
             }),
             canShou() {
                 const userInfo = this.userInfo
@@ -186,9 +187,17 @@
         methods: {
             ...mapMutations(['changApplyPromote']),
             initData(){
-                this.$http.get('hippo-shop/supplier/is-collector')
+                // this.$http.get('hippo-shop/supplier/is-collector')
                 getMessageCount({type:'promoter'}).then(res=>{
                     this.messageCount = res.data.total
+                })
+                this.$http.get('hippo-shop/area-user/is-apply')
+                .then(response => {
+                    let data = response.data.data;
+                    this.$lstore.setData('is_apply', data.is_apply);
+                    this.changApplyPromote(data.is_apply)
+                }).catch(err => {
+
                 })
             },
              _getRecord() {

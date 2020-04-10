@@ -83,7 +83,10 @@ const FinRecord = ()=>import('@/page/Invitation/findInvited.vue');
 const Invoice = () => import(/* webpackChunkName: "About" */ '@/page/Invoice/invoice.vue');
 
 /*定制生产 */
-const cusTomOrder = () => import('@/page/Factory/factoryCustom')
+const cusTomOrder = () => import('@/page/Factory/factoryCustom');
+
+/**角色选择正在审核 */
+const IsAudit = () => import('@/page/My/UnautMy/isAudit.vue');
 
 
 export default [
@@ -518,4 +521,12 @@ export default [
             title: "定制生产",
         }
     },
+    {
+        path: "/is-audit",
+        component: IsAudit,
+        meta: {
+            title: "集采商审核进度",
+        }
+    },
+    
 ]
