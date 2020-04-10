@@ -30,18 +30,18 @@
                 </div>
             </div>
              <!-- 收益类型 -->
-            <div class="income-type" v-if="priceFlag!=2">
+            <!-- <div class="income-type" v-if="priceFlag!=2">
                 <div class="title">收益类型</div>
                 <div class="content">
                     <div @click="handleIncome(1)" :class="{active:incomeFlag==1}">
                         <span>通道收益</span>
-                    </div>
+                    </div> -->
                     <!-- <section style="margin: 0 .1rem;"> — </section> -->
-                    <div @click="handleIncome(2)" v-if="userInfo.area_type=='partner'" :class="{active:incomeFlag==2}">
+                    <!-- <div @click="handleIncome(2)" v-if="userInfo.area_type=='partner'" :class="{active:incomeFlag==2}">
                         <span>合伙收益</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
              <!-- 底部按钮 -->
             <div class="bottom-btn">
                 <div @click="clone">取消</div>
