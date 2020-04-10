@@ -26,7 +26,7 @@
                         您还没有成为邀请{{title}}，
                         </p>
                         现在去
-                        <span @click="toRouter('/invitation')">邀请</span>，
+                        <span @click="toRouter('/invitation')">邀请</span>
                         吧
                     </div>
                 </div>

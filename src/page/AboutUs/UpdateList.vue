@@ -1,12 +1,13 @@
 <template>
     <div style="min-height: 100%;background: #fff">
         <clxsd-head-top title='更新列表'></clxsd-head-top>
-        <h3 class="p1">V1.8.0本次更新内容</h3>
-        <p class="p2">2019.12.10</p>
+        <h3 class="p1">V1.13.0本次更新内容</h3>
+        <p class="p2">2020.3.10</p>
         <ol class="ul">
            <!-- <li style="text-indent:2em">河南康达医药科技有限公司，结合多年市场运作经验和产业互联网的数字驱动决策需求，潜心研发了《创联工厂》医药共赢销售平台，本次发版主要内容如下：</li> -->
-            <li class="retract">1、隆重发布“商业集采”功能，顺应市场趋势，欢迎广大商业伙伴集中采购；</li>
-            <li class="retract">2、优化系统性能；</li>
+            <li class="retract">1、成为集采商，终端采购比比获利。</li>
+            <li class="retract">2、药店推广人和找药人推广更轻松，收益看得见。</li>
+            <li class="retract">3、已知bug修复，性能优化。</li>
             <!-- <li style="text-indent:2em">在奋力拼搏的时候，我们也时刻谨记他人的前进步伐。在接下来的时间里，我们与大型银行合作为广大药业同行提供了非常优质的金融产品，敬请期待！</li>
             <li style="text-align:right">创联工厂</li> -->
         </ol>
