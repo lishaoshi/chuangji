@@ -34,6 +34,7 @@ export default {
     display: flex;
     flex-direction: column;
     height: 100%;
+    background: #fff;
     .banner {
         img {
             width: 100%;
@@ -69,6 +70,9 @@ export default {
         color: #2DA2FF;
         height: .98rem;
         font-size: .34rem;
+    }
+    div {
+        margin-top: 0!important;
     }
 }
 

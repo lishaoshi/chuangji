@@ -109,7 +109,6 @@ import { mapState } from "vuex"
 <style lang="scss" scoped>
     .company {
         width: 100%;
-        border-bottom: 1px solid rgb(230, 230, 230);
         background: #fff;
         // display: flex;
             border-radius: 0 0 10px 10px;
