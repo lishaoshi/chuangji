@@ -7,13 +7,13 @@
         </clxsd-head-top>
         
         <template>
-            <div v-if="data && data.length">
+            <div v-if="list && list.length">
                 <div  class="detailed-item" v-for="(item, index) of list" :key="index">
                     <div>
-                        <img :src="item.from_user.supplier.img_cover" class="item-icon" />
-                        <p class="title">{{item.from_user.supplier.name}}</p>
+                        <img :src="item.supplier.img_cover" class="item-icon" />
+                        <p class="title">{{item.supplier.name}}</p>
                     </div>
-                    <div class="num">{{item.wallet_trans.total_sum}}
+                    <div class="num">{{item.benefit_from_tran.total_sum}}
                         <div class="san"></div>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
             async initData(){
                 getClientDetail().then(res=>{
                     let list = res.data?res.data: [];
-                    this.data = list
+                    this.list = list
                 })
 
             },
@@ -113,6 +113,7 @@
             width: 1.1rem;
             height: 1.1rem;
             margin-right: .2rem;
+            border-radius: 5px;
         }
         .title {
             font-size: .4rem;

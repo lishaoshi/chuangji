@@ -19,7 +19,7 @@
                         <div>可提现金额(元)</div>
                         <div class="bottom-price">
                             <span>{{(data.can_expend) |　display_price | moneyCon}}</span>
-                            <span>{{userInfo.area_type=='partner'?'推广人':'找药人'}}</span>
+                            <span>{{userInfo.area_type!=='find_medicine'?'推广人':'找药人'}}</span>
                         </div>
                     </div>
                     <div class="dateTime">
@@ -207,7 +207,7 @@ export default {
          */
         initData() {
             let params = {
-                tran_type: this.tranType,   //: 分润 2: 提现 3:集采商分润
+                tran_type: this.userInfo.area_type==="find_medicine"?6:this.tranType,   //: 分润 2: 提现 3:集采商分润
                 start_time:　this.startDate,
                 end_time: this.endDate,
                 limit: this.limit,
