@@ -112,9 +112,11 @@ import { mapState } from "vuex"
         border-bottom: 1px solid rgb(230, 230, 230);
         background: #fff;
         // display: flex;
-        border-radius: 0 0 16px 16px;
+            border-radius: 0 0 10px 10px;
+       
         padding: 10px;
          &:not(:nth-of-type(2)) {
+             border-radius:10px;
             margin-top: .2rem;
         }
         section {

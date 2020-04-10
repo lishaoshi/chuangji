@@ -62,7 +62,7 @@ import { mapState } from "vuex";
         methods: {
             handleClick($event) {
                 $event.preventDefault();
-                if(this.href == "/customer-choose-role" && this.isApply===1) {
+                if(this.href == "/customer-choose-role" && this.isApply===0) {
                     this.$router.push('/is-audit');
                     return
                 }  
