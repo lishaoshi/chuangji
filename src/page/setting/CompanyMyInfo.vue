@@ -1,12 +1,33 @@
 <template>
     <div id="CompanyMyInfo">
         <clxsd-head-top :title='`个人信息`'></clxsd-head-top>
-        <mt-cell title="个人头像" style="margin-top: .2rem">
-            <span><img  src="../../images/my/user_default.png" width="35" height="35" to="/my"></span>
-        </mt-cell>
-        <mt-cell title="联系电话" style="margin-top: .2rem">
-            <span>{{userInfo.userTel}}</span>
-        </mt-cell>
+        <router-link to="/change-logo" class="ul-info-a">
+            <span class="left">头像</span>
+            <div class="right">
+                <img src="../../images/my/user_default.png" width="35" height="35" v-if="!userInfo.avatar">
+                <img :src="userInfo.avatar" v-else width="35" height="35"/>
+                <svg><use xlink:href="#icon-gongsixinxijinruicon"/></svg>
+            </div>
+        </router-link>
+        <div  class="ul-info-a" style="margin-top: .2rem">
+                    <span class="left">实名认证</span>
+                    <div class="right">
+                        <span><svg class="icon1"><use xlink:href="#icon-global-footer-my-1"/></svg>{{userInfo.real_name || userInfo.display_name}}</span>
+                    </div>
+                </div>
+                <router-link to="/change-phone" class="ul-info-a">
+                    <span class="left">手机号</span>
+                    <div class="right">
+                        <span>{{userInfo.phone | filter_mobile}}</span>
+                        <svg><use xlink:href="#icon-gongsixinxijinruicon"/></svg>
+                    </div>
+                </router-link>
+        <div  class="ul-info-a" style="margin-top: .2rem">
+                    <span class="left">身份证号</span>
+                    <div class="right">
+                        {{userInfo.user_identity}}
+                    </div>
+                </div>
     </div>
 </template>
 
@@ -24,44 +45,60 @@
         },
         computed:{
             ...mapState({
-                userInfo: state => {
-                    const currentInfo = state.CURRENTUSER.data
-                    const configInfo = state.CONFIG
-                    return {
-                        userTel: 　currentInfo.phone || '丢失信息',
-                    }
-
-                },
+                userInfo: state=>state.CURRENTUSER.data
             })
         }
     }
 </script>
 
-<style type="scss" scoped="scoped">
-    .hint{
-        width: 100%;
-        height:24px;
-        display: flex;
-        align-items: center;
-        background:rgb(245,245,245);
-    }
-    .hint p{
-        margin-left:15px;
-        font-size: 12px;
-        color: rgb(153,153,153);
-    }
-    .hint p i{
-        color: rgb(255,181,64);
-    }
-    .mint-cell {
-        border-bottom: 1px solid #f1f1f1;
-    }
-    .icon1 {
-        width: 20px;
-        height: 20px;
-        border-radius: 90%;
-        margin-right: 5px;
-        top: 3px;
-        position: relative;
+    <style lang="scss" scoped>
+
+    .ul-info {
+        &-a {
+            display: block;
+            color: #333;
+            background-color: #fff;
+            box-sizing: border-box;
+            color: inherit;
+            height: 1rem;
+            line-height: 1rem;
+            overflow: hidden;
+            position: relative;
+            text-decoration: none;
+            display: flex;
+            padding: 0 0.2rem;
+            justify-content: space-between;
+            border-bottom: 1px solid #f4f5f5;
+            .left {
+                font-size: .32rem;
+                color: #666666;
+                float: left;
+            }
+            .right {
+                font-size:.28rem;
+                font-family:PingFang SC;
+                color:#333;
+                display: flex;
+                align-items: center;
+                height: 1rem;
+                img {
+                    width:.72rem;
+                    height:.72rem;
+                }
+                svg {
+                    width:.26rem;
+                    height:.26rem;
+                    margin-left: .05rem;
+                }
+                .icon1 {
+                    width: .32rem;
+                    height: .32rem;
+                    border-radius: 90%;
+                    margin-right: 5px;
+                    top: 3px;
+                    position: relative;
+                }
+            }
+        }
     }
 </style>

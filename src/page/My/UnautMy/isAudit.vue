@@ -20,7 +20,7 @@ import becomePromote from "@/components/promote/becomePromotBg"
 export default {
     data() {
         return {
-            title: "集采商审核进度"
+            title: "审核进度"
         }
     },
     components: {

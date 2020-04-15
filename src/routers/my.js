@@ -525,7 +525,7 @@ export default [
         path: "/is-audit",
         component: IsAudit,
         meta: {
-            title: "集采商审核进度",
+            title: "审核进度",
         }
     },
     

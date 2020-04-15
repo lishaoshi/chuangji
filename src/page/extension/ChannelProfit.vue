@@ -14,8 +14,9 @@
                         <defaultLogo v-else :name="item.name" :bgColor="item.backgroundIndex"/>
                         <p class="title">{{item.supplier.name}}</p>
                     </div>
-                    <div class="num">{{item.benefit_from_tran}}
-                        <div class="san"></div>
+                    <div class="num">
+                        <div>收益</div>
+                        <div>{{item.benefit_from_tran}}</div>
                     </div>
                 </div>
             </div>
@@ -113,13 +114,17 @@
         background: #fff;
         border-radius: 5px;
         border:1px solid #f1f1f1;
-        display: flex;
-        padding: .2rem .2rem;
+        // display: flex;
+        padding: 0rem .2rem;
         align-items: center;
+        margin: 0 .2rem;
         justify-content: space-between;
+        margin-top: .2rem;
         div:first-of-type {
             display: flex;
             align-items: center;
+            height: 1.2rem;
+            justify-content: start;
         }
         .item-icon {
             width: 1.1rem;
@@ -132,12 +137,19 @@
             color: #333;
         }
           .num{
-                 font-size: .36rem;
+                 font-size: .32rem;
                 line-height: 1;
-                color: #03ad8f;
-                font-weight: bold;
+                border-radius: 10px;
+                // font-weight: bold;
+                border-top: 1px solid #EBEBEB;
                 display: flex;
                 align-items: center;
+                justify-content: space-between;
+                height: 1.4rem;
+                div:last-child {
+                    color: #03ad8f;
+                    font-size: .36rem;
+                }
                
             }
              .san {
@@ -183,5 +195,14 @@
                 }
             }
         }
+    }
+    
+</style>
+<style scoped>
+/deep/ .extension-item-img {
+        width: .64rem!important;
+        height: .64rem!important;
+        font-size: .22rem;
+        padding: 4px;
     }
 </style>

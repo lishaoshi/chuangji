@@ -1,9 +1,9 @@
 <template>
     <div style="min-height: 100%;background: #f1f1f1;z-index: 999;position: relative">
-        <clxsd-head-top title='头像设置' style="border:0px" append="1">
-            <div slot="append" :class="{ active: isFullScreen }">
-                <section @click="onSave">保存</section>
-            </div>
+        <clxsd-head-top title='头像设置' style="border:0px" append="true">
+            <!-- <div slot="append" :class="{ active: isFullScreen }"> -->
+                <section slot="append" @click="onSave">保存</section>
+            <!-- </div> -->
         </clxsd-head-top>
         <img src="../../images/default.png" width="100%" v-if="!avatar">
         <img :src="avatar" v-else width="100%"/>

@@ -102,7 +102,8 @@ import { mapState } from "vuex";
         	}
         }
 		&-title {
-			width: 100%;
+			// width: 72%;
+            flex: 1;
 			height: .1rem;
 			font-size: .34rem;
 			display: flex;
