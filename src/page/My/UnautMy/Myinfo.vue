@@ -118,7 +118,7 @@
 <script>
     import ClxsdCell from "@/components/common/Cell";
     import ICountUp from '@/components/countUp'
-    import {mapState, mapMutations} from "vuex";
+    import {mapState, mapMutations, mapActions} from "vuex";
     import { recordAmound, rebateFn } from '@/api/ticketList'
     import messageCount from '@/components/promote/messageCount'
     import { getMessageCount } from "@/api/newMessage.js";
@@ -203,11 +203,14 @@
             isShowJCBanner() {
                 let isShow = this.userInfo.area_type == "province_company" || this.userInfo.area_type == "city_company";
                 return isShow;
-            }
+            },
         },
         created() {
             this.initData()
             this._getRecord();
+            if(this.is_apply==1&&this.userInfo.area_type!=null) {
+                this.fetchUserInfo();
+            }
             this.userInfo.area_type=="promoter"&&this.promerteTotal()
         },
         methods: {
@@ -233,6 +236,7 @@
 
                 })
             },
+            ...mapActions(['fetchUserInfo']),
              _getRecord() {
                 rebateFn().then(res=>{
                     this.balance = res.data.promoter_balance
