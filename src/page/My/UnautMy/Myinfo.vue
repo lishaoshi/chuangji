@@ -30,7 +30,7 @@
                 <div class="userinfo-centre">
                     <p class="name">
                         {{userInfo.userName}}
-                        <template v-if="userInfo.area_type!==null">({{userInfo.area_type=='find_medicine'?"厂商对接人":userInfo.area_type=="promoter"?"终端对接人":""}})</template>
+                        <template v-if="userInfo.area_type!==null">({{areaType}})</template>
                     </p>
                     <span class="phone">{{userInfo.userTel}}</span>
                 </div>
@@ -45,6 +45,10 @@
             </div>
             <!-- <div style="width: 100%;height: 1px;background: #2da2ff;opacity: 0.7;"></div> -->
             <balance v-if="userInfo.area_type!=null" :balance="balance" :todayIncome="totalCount" :count="count"/>
+            <!-- is_apply:角色选择是否已经通过，isShowJCBanner：是否是省市公司，isApply：是否已经成为集采商 -->
+            <div class="becomePartner" v-if="is_apply==1&&isShowJCBanner&&isApply !== 1">
+                <img src="../../../images/becomePartnr3.png" alt="" @click="queryPartnerInfo" />
+            </div>
             <!-- <div class="balance">
                 <div>
                 <span>余额(元)</span>
@@ -82,7 +86,7 @@
          <!-- <clxsd-cell :title="'广告收益'" :to="'/develop'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_ad" style="margin-bottom: .2rem"/> -->
         <ul class="unautMy-userlist">
             <div style="margin:.2rem 0">
-                <clxsd-cell :title="'角色选择'" v-if="isApply!==1" :to="'/customer-choose-role'" is-link icon="my-collection"/>
+                <clxsd-cell :title="'角色选择'" v-if="is_apply==-1" :to="'/customer-choose-role'" is-link icon="my-collection"/>
             </div>
         </ul>
         <clxsd-cell style="margin-top:.2rem;" v-if="userInfo.area_type=='find_medicine'" :title="'我的邀请'" :to="'/findRecord'" is-link icon="wode-wodeyaoqing" />
@@ -122,6 +126,7 @@
     import promoteHospital from "../../../images/extension/promote-hospital.png"
     import promoteClinic from "../../../images/extension/promote-clinic.png"
     import promoteMultipleShop from "../../../images/extension/promote-multiple-shop.png"
+    import { _becomeJc,isJc } from "@/api/business";
     export default {
         name: "Myinfo",
         components: {
@@ -148,7 +153,8 @@
                 messageCount: 0,
                  typeList: [],
                  totalCount: 0,
-                 count: 0
+                 count: 0,
+                 is_apply: 1
           }
         },
         computed: {
@@ -177,6 +183,20 @@
                     userInfo.sub_type === 1 ||
                     userInfo.sub_type === 2 ||
                     userInfo.sub_type === 3)
+            },
+            areaType() {
+                var objMessgae = {
+                    "promoter": "终端对接人",
+                    "find_medicine": "厂商对接人",
+                    "province_company": "省公司",
+                    "city_company": "市公司"
+                };
+                return objMessgae[this.userInfo.area_type] || "";
+            },
+            //是否显示成为集采商banner
+            isShowJCBanner() {
+                let isShow = this.userInfo.area_type == "province_company" || this.userInfo.area_type == "city_company";
+                return isShow;
             }
         },
         created() {
@@ -194,11 +214,24 @@
                 this.$http.get('hippo-shop/area-user/is-apply')
                 .then(response => {
                     let data = response.data.data;
-                    this.$lstore.setData('is_apply', data.is_apply);
-                    this.changApplyPromote(data.is_apply)
+                    this.is_apply = data.is_apply;
                 }).catch(err => {
 
                 })
+                this.$http.get('hippo-shop/supplier/is-collector')
+                .then(response => {
+                    let data = response.data.data;
+                    this.$lstore.setData('is_apply', data.status);
+                    this.changApplyPromote(data.status)
+                }).catch(err => {
+
+                })
+            },
+            /**
+             * 查看集采商简介
+             */
+            queryPartnerInfo() {
+                this.$router.push('/partnerInfo')
             },
              _getRecord() {
                 rebateFn().then(res=>{
@@ -213,7 +246,23 @@
              * 查看集采商简介
              */
             queryPartnerInfo() {
-                this.$router.push('/partnerInfo')
+                this.$messagebox.confirm('',{
+                    title: '提示',
+                    message: '集采商将享受推广工业订单的分润收入，确定成为集采商吗？',
+                }).then(res=>{
+                    if(res=='confirm') {
+						_becomeJc().then(res=>{
+							if(res.code==200) {
+								this.$toast('申请成功');
+							} else {
+								this.$toast(res.message);
+							}
+						}).catch(err=>{
+							this.$toast('申请失败');
+						})
+                        // console.log(123)
+                    }
+                })
             },
 
              async promerteTotal(){
@@ -456,6 +505,12 @@
                 span:first-of-type {
                     color: #333;
                 }
+            }
+        }
+        .becomePartner {
+            padding: .2rem .3rem 0;
+            img {
+                width: 100%;
             }
         }
     }
