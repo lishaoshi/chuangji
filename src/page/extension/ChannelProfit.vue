@@ -125,6 +125,8 @@
             align-items: center;
             height: 1.2rem;
             justify-content: start;
+            border-top: 1px solid #EBEBEB;
+
         }
         .item-icon {
             width: 1.1rem;
@@ -141,7 +143,6 @@
                 line-height: 1;
                 border-radius: 10px;
                 // font-weight: bold;
-                border-top: 1px solid #EBEBEB;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
@@ -203,6 +204,6 @@
         width: .64rem!important;
         height: .64rem!important;
         font-size: .22rem;
-        padding: 4px;
+        padding: 1px;
     }
 </style>
