@@ -83,6 +83,9 @@
                     </div>
                 </div>
             </div>
+        <div v-if="isApply == 1">
+            <PramterNum />
+        </div>
          <!-- <clxsd-cell :title="'广告收益'" :to="'/develop'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_ad" style="margin-bottom: .2rem"/> -->
         <ul class="unautMy-userlist">
             <div style="margin:.2rem 0">
@@ -127,13 +130,16 @@
     import promoteClinic from "../../../images/extension/promote-clinic.png"
     import promoteMultipleShop from "../../../images/extension/promote-multiple-shop.png"
     import { _becomeJc,isJc } from "@/api/business";
+    import PramterNum from "@/page/RoleExtension/totalNum";
+
     export default {
         name: "Myinfo",
         components: {
             ClxsdCell,
             ICountUp,
             messageCount,
-            Balance
+            Balance,
+            PramterNum
         },
         data(){
           return{
@@ -227,16 +233,9 @@
 
                 })
             },
-            /**
-             * 查看集采商简介
-             */
-            queryPartnerInfo() {
-                this.$router.push('/partnerInfo')
-            },
              _getRecord() {
                 rebateFn().then(res=>{
-                    let data = res.data.promoter_balance
-                    this.balance = data;
+                    this.balance = res.data.promoter_balance
                     this.todayIncome = res.data.today_income;
                     this.count = res.data.count;
                 })

@@ -41,9 +41,9 @@
         <img src="../../images/becomePartnr3.png" alt="" @click="queryPartnerInfo" />
       </div>
       <div class="my-list">
-        <div style="margin-top: .2rem" v-if="isApply == -1">
+        <!-- <div style="margin-top: .2rem" v-if="isApply == -1">
           <clxsd-cell title="角色选择" to="/customer-choose-role" is-link icon="my-collection" />
-        </div>
+        </div> -->
         <!-- <div style="margin-top: .2rem">
           <clxsd-cell title="我的邀请" :to="'/record'" is-link icon="wode-wodeyaoqing" />
         </div> -->
@@ -80,6 +80,8 @@ import ICountUp from '@/components/countUp'
 import { getMessageCount } from "@/api/newMessage.js";
 import Balance from "./balance.vue";
 import PramterNum from "./totalNum";
+  import { _becomeJc,isJc } from "@/api/business";
+
 export default {
   name: "MyExtension",
   components: {
@@ -158,12 +160,28 @@ export default {
           this.messageCount = res.data.total
       })     
     },
-     /**
-       * 查看集采商简介
-       */
-      queryPartnerInfo() {
-          this.$router.push('/partnerInfo')
-      }
+      /**
+             * 查看集采商简介
+             */
+            queryPartnerInfo() {
+                this.$messagebox.confirm('',{
+                    title: '提示',
+                    message: '集采商将享受推广工业订单的分润收入，确定成为集采商吗？',
+                }).then(res=>{
+                    if(res=='confirm') {
+						_becomeJc().then(res=>{
+							if(res.code==200) {
+								this.$toast('申请成功');
+							} else {
+								this.$toast(res.message);
+							}
+						}).catch(err=>{
+							this.$toast('申请失败');
+						})
+                        // console.log(123)
+                    }
+                })
+            },
   }
 
 };

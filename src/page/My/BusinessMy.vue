@@ -38,9 +38,9 @@
 				<div class="my-list">
 					<!-- <clxsd-cell :title="'我的资产'" :to="'/my-assets'" is-link icon="business-myAsset" :value="userInfo.lianPiaoVaule" /> -->
 					<!-- <Clxsd-button title="成为集采商" @click="isButton" icon="my-collectParity" /> -->
-					<div class="becomeJc" @click="becomeJc" v-if="isApply==-1">
+					<!-- <div class="becomeJc" @click="becomeJc" v-if="isApply==-1">
 						<img src="@/images/becomePartnr3.png" alt="">
-					</div>
+					</div> -->
 					
 					<clxsd-cell title="关注收藏" :to="'/my-follow'" is-link icon="my-attention" />
 					<div @click="authToRouter('/factory-order')">
@@ -127,7 +127,7 @@
                     }
 
 				},
-				isApply: state=>state.is_apply,
+				// isApply: state=>state.is_apply,
 			})
 		},
         created(){
@@ -170,9 +170,9 @@
 			},
 			async _isJc() {
 				// console.log(this.isApply)
-				let { data } = await isJc()
-				this.$lstore.setData('is_apply', data.status);
-            	this.changApplyPromote(data.status)
+				// let { data } = await isJc()
+				// this.$lstore.setData('is_apply', data.status);
+            	// this.changApplyPromote(data.status)
 			},
 			isButton() {
 				console.log(123)

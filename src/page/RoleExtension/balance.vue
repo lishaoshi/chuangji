@@ -47,7 +47,20 @@ export default {
                     areaType: state.CURRENTUSER.data.area_user&&state.CURRENTUSER.data.area_user.apply_role,
                 }
             }
-        })
+        }),
+          rightTitle() {
+            if(this.USER_INFO.userType==2) {
+                return "今日收益(元)"
+            }
+            
+            var titleObj = {
+                "promoter": "用户(家)",
+                "find_medicine": "厂商(家)",
+                "province_company": "今日收益(元)",
+                "city_company": "今日收益(元)"
+            }
+            return titleObj[this.USER_INFO.areaType]
+        }
     },
     data() {
         return {
@@ -60,14 +73,14 @@ export default {
                 suffix: '',
                 decimalPlaces: 2
             },
-            rightTitle: '',
+            // rightTitle: '',
             isPro: false  //是否是推广
         }
     },
     created() {
         // console.log( this.USER_INFO.userType)
         // debugger
-        this.rightTitle = this.USER_INFO.userType==2?'今日收益(元)':this.USER_INFO.areaType==null?"":this.USER_INFO.areaType=="promoter"?"用户(家)":"厂商(家)";
+        // this.rightTitle = this.USER_INFO.userType==2?'今日收益(元)':this.USER_INFO.areaType==null?"":this.USER_INFO.areaType=="promoter"?"用户(家)":"厂商(家)";
         this.isPro = this.rightTitle == '今日收益(元)'? false:true;
     },
 }
