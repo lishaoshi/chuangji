@@ -33,17 +33,17 @@
       </div>
       <!-- <div style="width: 100%;height: 1px;background: #2da2ff;opacity: 0.7;"></div> -->
       <balance :balance="balance" :todayIncome="todayIncome"/>
-      <div>
+      <div v-if="isApply == 1">
         <PramterNum />
       </div>
      
-      <div class="becomePartner" v-if="isApply!=1">
+      <div class="becomePartner" v-if="isApply !== 1">
         <img src="../../images/becomePartnr3.png" alt="" @click="queryPartnerInfo" />
       </div>
       <div class="my-list">
-        <!-- <div style="margin-top: .2rem" v-if="isApply == -1">
+        <div style="margin-top: .2rem" v-if="isApply == -1">
           <clxsd-cell title="角色选择" to="/customer-choose-role" is-link icon="my-collection" />
-        </div> -->
+        </div>
         <!-- <div style="margin-top: .2rem">
           <clxsd-cell title="我的邀请" :to="'/record'" is-link icon="wode-wodeyaoqing" />
         </div> -->
@@ -102,7 +102,8 @@ export default {
   data(){
     return{
       
-      messageCount: 0
+      messageCount: 0,
+      isChooseRole: -1
     }
   },
   computed: {
@@ -147,6 +148,7 @@ export default {
     initData(){
        this.$http.get('hippo-shop/supplier/is-collector')
         .then(response => {
+            let data = response.data.data;
             this.$lstore.setData('is_apply', data.status);
             this.changApplyPromote(data.status)
         }).catch(err => {
@@ -154,8 +156,7 @@ export default {
         })
        getMessageCount({type:'promoter'}).then(res=>{
           this.messageCount = res.data.total
-      })
-     
+      })     
     },
      /**
        * 查看集采商简介
