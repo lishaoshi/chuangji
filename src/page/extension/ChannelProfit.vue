@@ -120,11 +120,12 @@
         margin: 0 .2rem;
         justify-content: space-between;
         margin-top: .2rem;
-        > div:first-of-type {
+        div:first-of-type {
             display: flex;
             align-items: center;
             height: 1.2rem;
             justify-content: start;
+            border-bottom: 1px solid #EBEBEB;
         }
         .item-icon {
             width: 1.1rem;
