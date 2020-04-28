@@ -277,7 +277,7 @@
                 _incomeDetails().then(res=>{
                     // debugger
                     let list = res.data?res.data: []
-                    this.count = 0;
+                    // this.count = 0;
                     if(list.length > 0){
                         let name = "",
                             img = "";
@@ -313,7 +313,7 @@
                             arr[index].price = parseFloat(item.value).toFixed(2);
                             arr[index].img = img;
                             arr[index].num = item.count;
-                            this.count += item.count;
+                            // this.count += item.count;
                         })
                     }
                     // debugger
