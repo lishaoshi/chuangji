@@ -44,7 +44,11 @@ export default {
     props: ['list'],
     components: {
         defaultLogo
-    }
+    },
+    // () {
+    //     console.log(123)
+    //     debugger
+    // }
 }
 
 </script>
@@ -79,11 +83,12 @@ export default {
                     display: block;
                     width:.96rem;
                     height:.96rem;
+                    margin-right: .24rem;
                     border-radius:50%;
                 }
                 section {
                     // margin-left: .23rem;
-                    margin-right: .24rem;
+                    // margin-right: .24rem;
                     // flex-grow: 1;
                     span {
                     font-size: .28rem;

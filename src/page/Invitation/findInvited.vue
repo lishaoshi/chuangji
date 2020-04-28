@@ -46,15 +46,24 @@ import UnJurisdiction from "../../components/EmptyList";//推广人
                 }).then(response => {
                     
                     let data = response.data.data;
+                    // debugger
                     let list = data.users.length>0?data.users : []
                     flag&&this.$refs.loadmore.onBottomLoaded()
+                    console.log(list)
+// debugger
                     list.forEach((item, index , target)=>{
+                        if(item.supplier) {
                         target[index].name = item.supplier.short_name.split('');
+
+                        }
                     });
+                     
                     this.list = this.list.concat(list)
+                   
                     if(list.length<=0) {
                         this.allLoaded = true
                     }
+                    // this.
                     this.page++
                 })
                 .catch(error => {
