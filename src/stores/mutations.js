@@ -102,10 +102,17 @@ export default {
     },
 
     /*** 
-     *修改推广人申请状态   false：未申请， true：申请
+     *修改推广人申请状态   -1：未申请， 0：审核中 1：审核通过
     */
    changApplyPromote(state, flag) {
        state.is_apply = flag
-   }
+   },
+
+   /**
+    * 修改集采商申请状态 -1：未申请， 0：审核中 1：审核通过
+    */
+    UPDATA_COLLECTOR(state, flag) {
+            state.is_collector = flag
+    }
 
 }

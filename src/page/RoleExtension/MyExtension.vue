@@ -33,11 +33,11 @@
       </div>
       <!-- <div style="width: 100%;height: 1px;background: #2da2ff;opacity: 0.7;"></div> -->
       <balance :balance="balance" :todayIncome="todayIncome"/>
-      <div v-if="isApply == 1">
+      <div v-if="is_collector == 1">
         <PramterNum />
       </div>
      
-      <div class="becomePartner" v-if="isApply !== 1">
+      <div class="becomePartner" v-if="is_collector !== 1">
         <img src="../../images/becomePartnr3.png" alt="" @click="queryPartnerInfo" />
       </div>
       <div class="my-list">
@@ -129,7 +129,7 @@ export default {
           area_type: currentInfo.area_user&&currentInfo.area_user.apply_role
         };
       },
-      isApply:state=>state.is_apply
+      is_collector:state=>state.is_collector
     }),
     canShou() {
       const userInfo = this.userInfo;
@@ -146,13 +146,13 @@ export default {
     this.initData()
   },
   methods:{
-    ...mapMutations(['changApplyPromote']),
+    ...mapMutations(['changApplyPromote', 'UPDATA_COLLECTOR']),
     initData(){
        this.$http.get('hippo-shop/supplier/is-collector')
         .then(response => {
             let data = response.data.data;
-            this.$lstore.setData('is_apply', data.status);
-            this.changApplyPromote(data.status)
+            // let data = response.data.data;
+            this.UPDATA_COLLECTOR(data.status)
         }).catch(err => {
 
         })

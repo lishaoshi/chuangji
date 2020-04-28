@@ -44,7 +44,10 @@ const state = {
 
     //是否已经申请成为推广人
     // lstore.getData('is_apply')===undefined?1:lstore.getData('is_apply')
-    is_apply:  lstore.getData('is_apply')===undefined?1:lstore.getData('is_apply')
+    is_apply:  lstore.getData('is_apply')===undefined?1:lstore.getData('is_apply'),
+
+    //是否已经成为集采商
+    is_collector: 1,
 
 };
 
