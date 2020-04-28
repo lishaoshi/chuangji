@@ -112,7 +112,7 @@ export default {
     * 修改集采商申请状态 -1：未申请， 0：审核中 1：审核通过
     */
     UPDATA_COLLECTOR(state, flag) {
-            state.is_collector = flag
+        state.is_collector = flag
     }
 
 }

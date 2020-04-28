@@ -215,7 +215,7 @@
             this.userInfo.area_type=="promoter"&&this.promerteTotal()
         },
         methods: {
-            ...mapMutations(['changApplyPromote, UPDATA_COLLECTOR']),
+            ...mapMutations(['changApplyPromote', 'UPDATA_COLLECTOR']),
             initData(){
                 // this.$http.get('hippo-shop/supplier/is-collector')
                 getMessageCount({type:'promoter'}).then(res=>{
@@ -224,16 +224,16 @@
                 this.$http.get('hippo-shop/area-user/is-apply')
                 .then(response => {
                     let data = response.data.data;
-                    this.is_apply = data.is_apply;
+                    this.$lstore.setData('is_apply', data.is_apply);
+                    this.changApplyPromote(data.is_apply)
                 }).catch(err => {
-                    let data = response.data.data;
-                    this.$lstore.setData('is_apply', data.status);
-                    this.changApplyPromote(data.status)
+                    
                 })
                 if(this.userInfo.area_type == "province_company" || this.userInfo.area_type == "city_company") {
                     this.$http.get('hippo-shop/supplier/is-collector')
                     .then(response => {
                         let data = response.data.data;
+                        
                         this.UPDATA_COLLECTOR(data.status)
                     }).catch(err => {
 
