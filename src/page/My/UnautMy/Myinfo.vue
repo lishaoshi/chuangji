@@ -160,7 +160,6 @@
                  typeList: [],
                  totalCount: 0,
                  count: 0,
-                 is_apply: 1
           }
         },
         computed: {
@@ -209,7 +208,7 @@
         created() {
             this.initData()
             this._getRecord();
-            if(this.is_apply==1&&this.userInfo.area_type==null) {
+            if(this.isApply==1&&this.userInfo.area_type==null) {
                 this.fetchUserInfo();
             }
             this.userInfo.area_type=="promoter"&&this.promerteTotal()
