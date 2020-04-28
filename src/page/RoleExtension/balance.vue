@@ -24,7 +24,7 @@
                     :duration="23"
                     :options="options"
                 ></i-count-up>
-                <span v-else>{{this.USER_INFO.areaType=="promoter"?todayIncome:count}}</span>
+                <span v-else>{{count}}</span>
             </div>
         </div>
         
@@ -78,9 +78,6 @@ export default {
         }
     },
     created() {
-        // console.log( this.USER_INFO.userType)
-        // debugger
-        // this.rightTitle = this.USER_INFO.userType==2?'今日收益(元)':this.USER_INFO.areaType==null?"":this.USER_INFO.areaType=="promoter"?"用户(家)":"厂商(家)";
         this.isPro = this.rightTitle == '今日收益(元)'? false:true;
     },
 }

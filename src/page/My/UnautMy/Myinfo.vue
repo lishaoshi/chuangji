@@ -44,9 +44,9 @@
                 </div>
             </div>
             <!-- <div style="width: 100%;height: 1px;background: #2da2ff;opacity: 0.7;"></div> -->
-            <balance v-if="userInfo.area_type!=null" :balance="balance" :todayIncome="totalCount" :count="count"/>
+            <balance v-if="userInfo.area_type!=null" :balance="balance" :todayIncome="todayIncome" :count="count"/>
             <!-- is_apply:角色选择是否已经通过，isShowJCBanner：是否是省市公司，isApply：是否已经成为集采商 -->
-            <div class="becomePartner" v-if="is_apply==1&&isShowJCBanner&&isApply !== 1">
+            <div class="becomePartner" v-if="is_collector!==1&&isShowJCBanner&&isApply == 1">
                 <img src="../../../images/becomePartnr3.png" alt="" @click="queryPartnerInfo" />
             </div>
             <!-- <div class="balance">
@@ -83,7 +83,7 @@
                     </div>
                 </div>
             </div>
-        <div v-if="isApply == 1">
+        <div v-if="is_collector == 1 && isShowJCBanner">
             <PramterNum />
         </div>
          <!-- <clxsd-cell :title="'广告收益'" :to="'/develop'" :value="userInfo.lianPiaoVaule" is-link icon="promoter_ad" style="margin-bottom: .2rem"/> -->
@@ -180,7 +180,8 @@
                         area_type: currentInfo.area_user&&currentInfo.area_user.apply_role
                     }
                 },
-                isApply: state=>state.is_apply
+                isApply: state=>state.is_apply,
+                is_collector: state=>state.is_collector
             }),
             canShou() {
                 const userInfo = this.userInfo
@@ -208,13 +209,13 @@
         created() {
             this.initData()
             this._getRecord();
-            if(this.is_apply==1&&this.userInfo.area_type!=null) {
+            if(this.is_apply==1&&this.userInfo.area_type==null) {
                 this.fetchUserInfo();
             }
             this.userInfo.area_type=="promoter"&&this.promerteTotal()
         },
         methods: {
-            ...mapMutations(['changApplyPromote']),
+            ...mapMutations(['changApplyPromote, UPDATA_COLLECTOR']),
             initData(){
                 // this.$http.get('hippo-shop/supplier/is-collector')
                 getMessageCount({type:'promoter'}).then(res=>{
@@ -225,22 +226,26 @@
                     let data = response.data.data;
                     this.is_apply = data.is_apply;
                 }).catch(err => {
-
-                })
-                this.$http.get('hippo-shop/supplier/is-collector')
-                .then(response => {
                     let data = response.data.data;
                     this.$lstore.setData('is_apply', data.status);
                     this.changApplyPromote(data.status)
-                }).catch(err => {
-
                 })
+                if(this.userInfo.area_type == "province_company" || this.userInfo.area_type == "city_company") {
+                    this.$http.get('hippo-shop/supplier/is-collector')
+                    .then(response => {
+                        let data = response.data.data;
+                        this.UPDATA_COLLECTOR(data.status)
+                    }).catch(err => {
+
+                    })
+                }
+                
             },
             ...mapActions(['fetchUserInfo']),
              _getRecord() {
                 rebateFn().then(res=>{
                     this.balance = res.data.promoter_balance
-                    this.todayIncome = res.data.today_income;
+                    this.todayIncome = parseFloat(res.data.today_income, 2);
                     this.count = res.data.count;
                 })
             },
@@ -272,7 +277,7 @@
                 _incomeDetails().then(res=>{
                     // debugger
                     let list = res.data?res.data: []
-                    this.totalCount = 0;
+                    this.count = 0;
                     if(list.length > 0){
                         let name = "",
                             img = "";
@@ -308,7 +313,7 @@
                             arr[index].price = parseFloat(item.value).toFixed(2);
                             arr[index].img = img;
                             arr[index].num = item.count;
-                            this.totalCount += item.count;
+                            this.count += item.count;
                         })
                     }
                     // debugger
