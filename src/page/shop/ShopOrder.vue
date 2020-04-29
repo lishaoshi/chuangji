@@ -268,7 +268,11 @@
                    
                     shop.cprice = cprice
                     if(shop.type!==1) {
-                        shop.shipping_fee = cprice < shop.business_config&&shop.business_config.starting_price?shop.business_config.shipping_fee:'免配送费'
+                        if(shop.business_config) {
+                            shop.shipping_fee = cprice < parseInt(shop.business_config.starting_price, 10)?shop.business_config.shipping_fee:'免配送费'
+                        } else {
+                            shop.shipping_fee = '免配送费'
+                        }
                         if(shop.shipping_fee.indexOf('.')!=-1) {
                             shop.real_price = cprice +(+shop.shipping_fee)
                         } else {
