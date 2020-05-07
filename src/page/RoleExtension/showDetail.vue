@@ -112,16 +112,9 @@ export default {
     color: #999;
     font-size: .28rem;
     align-items: center;
-    margin-top: 0.88rem;
-    > div {
-        line-height: 0.78rem;
-    }
-}
-.echartInfo {
-    height: 5rem;
 }
 .balance {
-    height: 100%;
+    // height: 100%;
     display:flex;
     flex-direction: column;
 }
