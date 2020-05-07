@@ -108,16 +108,13 @@ export default {
 .title {
     display: flex;
     justify-content: space-around;
-    height: .78rem;
+    height: 0.78rem;
     color: #999;
     font-size: .28rem;
     align-items: center;
 }
-.echartInfo {
-    height: 5rem;
-}
 .balance {
-    height: 100%;
+    // height: 100%;
     display:flex;
     flex-direction: column;
 }

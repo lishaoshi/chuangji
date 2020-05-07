@@ -22,8 +22,9 @@
                                     <p style="margin-bottom:.2rem;" :class="{'supplier':item.supplier}" >{{item.real_name}}<span style="margin-left:.16rem"><b v-if="item.supplier">·</b>{{item.phone_desensite}}</span></p>
                                     <span v-if="item.supplier&&item.supplier.status==1" class="approve">已认证</span>
                                     <span v-else class="NOapprove">未认证</span>
-                                     <span class="approve" style="margin-left:.22rem;">{{item.supplier&&item.supplier.type_desc || item.user_type_desc}}</span>
+                                     <span class="approve" style="margin-left:.1rem;">{{item.supplier&&item.supplier.type_desc || item.user_type_desc}}</span>
                                     <span class="province_name"  v-if="item.supplier">{{item.supplier.province_name}}<b v-if="item.supplier.city_name">·</b>{{item.supplier.city_name}}</span>
+                                    <span style="margin-left: 0.1rem;font-size:12px;float:right">{{item.created_at_int*1000 |formatDate(fmt = "yyyy/MM/dd")}}</span>
                                 </section>
                             </div>
                             <div v-else>
@@ -38,7 +39,7 @@
                                     <span class="province_name"  v-if="item.supplier">{{item.supplier.province_name}}<b v-if="item.supplier.city_name">·</b>{{item.supplier.city_name}}</span>
                                 </section>
                             </div>
-                            <div class="created_at">{{item.created_at_int*1000 |formatDate(fmt = "yyyy/MM/dd")}}</div>
+                            <!-- <div class="created_at">{{item.created_at_int*1000 |formatDate(fmt = "yyyy/MM/dd")}}</div> -->
                         </li>
                     </ul>
                     <div style="text-align: center;color: #999;margin:10px 0;" v-if="allLoaded">—— 没有更多啦 ——</div>
@@ -249,7 +250,7 @@ export default {
                     display: flex;
                     align-items: center;
                     // height: 100%;
-                    padding: 0 .32rem;
+                    padding: 0 .24rem;
                     position: relative;
                     b {
                         padding: 0 .06rem;
@@ -262,7 +263,7 @@ export default {
                     }
                     section {
                         margin-left: .23rem;
-                        margin-right: .16rem;
+                        // margin-right: .16rem;
                         flex-grow: 1;
                         span {
                         font-size: .28rem;
@@ -285,7 +286,7 @@ export default {
                     }
                     .approve {
                         font-size: .2rem !important;
-                        padding: 0 .1rem 0 .1rem;
+                        padding: 0rem .06rem 0rem .06rem;
                         color: #0090FF !important;
                         border:1px solid rgba(0,144,255,1);
                         border-radius:.04rem;
@@ -313,11 +314,11 @@ export default {
         
     }
     .province_name {
-            padding: 0 .1rem 0 .1rem;
+            padding: 0 .06rem 0 .06rem;
             font-size: .2rem !important;
             // position: absolute;
             color: #0090FF!important;
-            margin-left: .22rem !important;
+            margin-left: .1rem !important;
             border:1px solid rgba(0,144,255,1);
             border-radius:.04rem;
         }

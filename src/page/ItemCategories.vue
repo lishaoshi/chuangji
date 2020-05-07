@@ -299,11 +299,12 @@
             },
             //点击下拉菜单
             slide: function (event,id) {
+                // if()
+                // console.log(this.current_id, this.is_active, 12345)
+                if(this.current_id == id) return
                 if(this.current_id != id) {
                     this.allLoaded = false
                     this.current_id = id
-                    
-                    console.log( this.is_active, '123')
                     this.page = 1
                     let params = {
                         cat_id: this.current_id, 
@@ -315,7 +316,7 @@
                     this.init_Goods(params)
                 }
                 // this.is_active=id
-                this.is_active = this.is_active == id?'':id
+                this.is_active = id
                 let targetNode = event.target
                 targetNode.classList.add("active"); //添加当前样式
                 let parentNode = targetNode.parentNode;
