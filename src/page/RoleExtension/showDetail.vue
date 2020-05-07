@@ -108,10 +108,14 @@ export default {
 .title {
     display: flex;
     justify-content: space-around;
-    height: .78rem;
+    height: 0.78rem;
     color: #999;
     font-size: .28rem;
     align-items: center;
+    margin-top: 0.88rem;
+    > div {
+        line-height: 0.78rem;
+    }
 }
 .echartInfo {
     height: 5rem;
