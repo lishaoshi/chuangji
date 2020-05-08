@@ -35,7 +35,11 @@ export default {
                 data:this.isPromerte
             },
             xAxis: {
-                data: this.echartsData.userName
+                data: this.echartsData.userName,
+                axisLabel: {
+                    interval:0,
+                    rotate:-40,
+                }
             },
             yAxis: {
               axisLine: {
