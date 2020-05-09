@@ -767,9 +767,11 @@
         justify-content: center;
         img {
             width: 100%!important;
+            height: auto;
         }
         .content >>> img {
             width: 100%!important;
+            height: auto;
         }
     }
      .noInfo {
@@ -868,6 +870,7 @@
         img {
             width: 100%!important;
             height: auto!important;
+
         }
         .content >>> img {
             width: 100%!important;
