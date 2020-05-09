@@ -1,6 +1,6 @@
 <!----查看详情---->
 <template>
-    <div class="balance">
+    <div class="balance" :class="{tagetHeight: !intverLList.length>0}">
         <clxsd-head-top :title="title" class="top"></clxsd-head-top>
         <template v-if="intverLList.length">
             <div class="title">
@@ -117,5 +117,8 @@ export default {
     // height: 100%;
     display:flex;
     flex-direction: column;
+}
+.tagetHeight {
+    height: 100%;
 }
 </style>

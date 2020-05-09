@@ -867,11 +867,11 @@
         // margin-bottom: 1rem;
         img {
             width: 100%!important;
-             height: auto;
+            height: auto!important;
         }
         .content >>> img {
             width: 100%!important;
-            height: auto;
+            height: auto!important;
         }
     }
 </style>
