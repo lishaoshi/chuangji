@@ -485,12 +485,11 @@ import timingDate from '../timing/timing'
 
     .drug_message {
         width: 75%;
-        margin-left: 2%;
         div:first-child {
             font-size:.34rem;
             color:rgba(51,51,51,1);
             margin-top: .3rem;
-            margin-bottom: .28rem;
+            margin-bottom: .16rem;
         }
         div {
             font-size:.22rem;

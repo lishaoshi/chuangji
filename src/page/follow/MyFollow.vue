@@ -17,11 +17,12 @@
             <div class="container">
                 <!-- <mt-loadmore :top-method="onFactoryRefresh" :bottom-method="onLoadMoreFactory" ref="loadmore" :bottom-all-loaded="allLoaded"> -->
                     <ul v-if="currenIndex==0">
-                        <li class="list-item " v-for="(item,index) in list" data-type="0" id="list-item">
+                        <li class="list-item " v-for="(item,index) in list" :key="index" data-type="0" id="list-item">
                             <div class="list-box" @touchstart.capture="touchStart" @touchend.capture="touchEnd">
                                 <div class="list-img">
                                     <router-link :to="`/factory/shop/${item.id}`">
-                                        <img :src="item.img_cover" alt="">
+                                        <img :src="item.img_cover" alt="" v-if="item.img_cover">
+                                        <default-logo :name="item.short_name" :bgColor="index" class="companyName" v-else/>
                                     </router-link>
                                 </div>
                                 <div class="list-content">
@@ -38,7 +39,7 @@
                         </ul>
 
                     <ul v-else>
-                        <li class="list-item " v-for="(enItem,enIndex) in list" data-type="0" id="list-item2" >
+                        <li class="list-item " v-for="(enItem,enIndex) in list" data-type="0" :key="enIndex" id="list-item2" >
                             <div class="list-box" @touchstart.capture="touchStart" @touchend.capture="touchEnd">
                                 <div class="list-img">
                                     <router-link :to="`/factory/shop/${enItem.id}`">
@@ -47,7 +48,7 @@
                                 </div>
                                 <div class="list-content">
                                     <router-link :to="`/factory/shop/${enItem.supplier_id}/${enItem.id}`">
-                                        <p class="shop-name">{{enItem.good_name}}</p>
+                                        <p class="shop-name">{{enItem.good_name || enItem.generic_name}}</p>
                                         <p class="shop-unit">规格:{{enItem.spec}}</p>
                                         <p class="shop-unit last">
                                             <span> 包装:{{enItem.tran}}{{enItem.unit}}/{{enItem.big_unit}}</span>
@@ -80,6 +81,7 @@
     import {getCollectionList, deleteCollection} from "@/api/follow.js"
     import EmptyOrder from '@/components/EmptyList'
     import {mapState} from "vuex";
+    import DefaultLogo from "@/components/common/defaultLogo"
 
     export default {
         name: "MyFollow",
@@ -102,7 +104,8 @@
             }
         },
         components: {
-            EmptyOrder
+            EmptyOrder,
+            DefaultLogo
         },
         created() {
             this.getFollowData()
@@ -439,6 +442,8 @@
         transition: all 0.2s;
         font-size: 20px;
         height: 1.56rem;
+        display: flex;
+        align-items: center;
         padding: .2rem;
         position: relative;
         margin-top: .2rem;
@@ -522,8 +527,8 @@
         font-weight: bold;
         text-overflow: ellipsis;
         white-space: nowrap;
-        margin: 6px 0;
-        margin-top: .3rem;
+        // margin: 6px 0;
+        // margin-top: .3rem;
     }
 
     .list-item .time {
@@ -552,6 +557,9 @@
         width: 1rem;
         height: 1rem;
         border-radius: 4px;
+        .companyName {
+            font-size: .26rem;
+        }
     }
 
     .list-img img {

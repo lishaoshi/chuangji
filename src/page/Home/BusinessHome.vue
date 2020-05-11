@@ -337,7 +337,7 @@
                         targetArr[index].isSelfChoose = false;
                     });
                     this.modayList = this.modayList.concat(list);
-                    if(this.courrentPage > 0) {
+                    if(this.courrentPage > 1) {
                         this.$refs.loadmore.onBottomLoaded();
                     }
                     if (!list || list.length <= 0) {

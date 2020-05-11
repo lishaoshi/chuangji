@@ -10,12 +10,17 @@
 export default {
     props: {
         name: {
-            type: Array,
+            type: [Array, String],
             default: ""
         },
         bgColor: {
             type: Number,
             default: 0
+        }
+    },
+    computer: {
+        companyName() {
+            console.log(this.$props.name)
         }
     },
       data() {
@@ -44,6 +49,7 @@ export default {
             }
         }
     },
+
 }
 </script>
 
