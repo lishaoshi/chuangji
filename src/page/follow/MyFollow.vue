@@ -486,6 +486,7 @@
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
         justify-content: flex-end;
+        width: 100%;
     }
 
     .list-item .list-content {
