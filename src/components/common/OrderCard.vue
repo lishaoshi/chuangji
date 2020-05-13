@@ -387,7 +387,7 @@ import timingDate from '../timing/timing'
             font-size: 0.24rem;
             float: right;
             justify-content: flex-end;
-            border-top: .01rem solid rgb(224, 223, 223);
+            // border-top: .01rem solid rgb(224, 223, 223);
             // margin-right: 0.24rem;
 
             p {

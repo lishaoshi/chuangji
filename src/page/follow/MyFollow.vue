@@ -208,7 +208,8 @@
                 getCollectionList(params)
                 .then(({data = []}) => {
                     if (this.page>1) {
-                        this.list = [...this.collectList, ...data.data.entityFollows]
+                        // debugger
+                        this.list = [...this.list, ...data.data.entityFollows]
                     } else {
                         this.list = data.data.entityFollows
                     }
@@ -217,6 +218,9 @@
                     }
                     if(type=='bottomLoad') {
                         this.$refs.loadmore.onBottomLoaded()
+                    }
+                    if(data.data.entityFollows.length<=0) {
+                        this.allLoaded = true
                     }
                     this.page++
                     // this.goodsPage = this.goodsPage + 1

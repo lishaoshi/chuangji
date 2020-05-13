@@ -4,7 +4,8 @@
         <div class="company-detail" @click="handleToShop">
             <!-- <router-link :to="`/factory/shop/${data.supplier_id}`"> -->
 			<div>
-				<img :src="supplier_logo">
+				<img :src="supplier_logo" v-if="supplier_logo">
+				<img src="../../images/default_company_logo.png" width="22" height="22" v-else>
                 <span>{{ supplier_name }}</span>
                 <svg>
                     <use xlink:href="#icon-my-enter"></use>

@@ -18,9 +18,9 @@ export default {
             default: 0
         }
     },
-    computer: {
+    computed: {
         companyName() {
-            console.log(this.$props.name)
+            return this.$props.name;
         }
     },
       data() {

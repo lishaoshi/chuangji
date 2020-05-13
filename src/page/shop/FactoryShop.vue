@@ -691,4 +691,11 @@ word-break:break-all;
             padding: 0 .2rem;
         }
     }
+    .input-wrap {
+        display: flex;
+        align-items: center;
+        input {
+            flex: 1;
+        }
+    }
 </style>

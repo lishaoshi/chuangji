@@ -2,7 +2,7 @@
 	<div>
 		<div class="search" :class="{activeTop: isFullScreen}">
 			<div v-if="is_search == true" class="search-form">
-                <input type="text" placeholder="请输入搜索内容">
+                <input type="text" placeholder="请输入订单编号123456789">
                 <svg>
                     <use xlink:href="#icon-ordering-search" />
                 </svg>
