@@ -35,228 +35,192 @@
         <PaySuccess v-if="waitStatus"></PaySuccess>
         <div v-else>
             <mt-navbar v-model="selected">
-                        <!-- {{selected}} -->
-                <mt-tab-item :id="navbar[0]&&navbar[0].value">
+                <mt-tab-item v-for="(item, index) of navbar" :key="index" :id="item.value" @click.native="handleTabItem(item.status)">
                     <svg>
-                        <use xlink:href="#icon-promote-province"/>
+                        <use :fill='!item.status?"#ccc":item.color' :xlink:href="`#icon-promote-${item.icon}`"/>
                     </svg>
-                    <p>{{navbar[0].name}}</p>
+                    <p>{{item.name}}</p>
                 </mt-tab-item>
-                <mt-tab-item :id="navbar[1]&&navbar[1].value">
-                    <svg>
-                        <use xlink:href="#icon-promote-city"/>
-                    </svg>
-                    <p>{{navbar[1].name}}</p>
-                </mt-tab-item>
-                <mt-tab-item :id="navbar[2]&&navbar[2].value">
-                    <svg>
-                        <use xlink:href="#icon-promote-partner"/>
-                    </svg>
-                    <p>{{navbar[2].name}}</p>
-                </mt-tab-item>
-
-                <mt-tab-item :id="navbar[3]&&navbar[3].value">
-                    <svg>
-                        <use xlink:href="#icon-promote-promoter"/>
-                    </svg>
-                    <p>{{navbar[3].name}}</p>
-                </mt-tab-item>
-
-                <mt-tab-item :id="navbar[4]&&navbar[4].value">
-                    <svg>
-                        <use xlink:href="#icon-promote-agent"/>
-                    </svg>
-                    <p>{{navbar[4]&&navbar[4].name}}</p>
-                </mt-tab-item>
-
             </mt-navbar>
             <mt-tab-container v-model="selected" style="min-height: 5rem;">
                 <!--省-->
-                <mt-tab-container-item :id="navbar[0].value">
-                    <p>选择注册省份</p>
-                    <select class="select-area" v-model="provinceValue" @change="handleProvinceChange">
-                        <option value="0">选择省份</option>
-                        <option :value="area.code" v-for="(area,_arIndex) in areaData" :key="`_area_${_arIndex}`">{{area.name}}</option>
-                    </select>
-                    <svg class="sel_icon">
-                        <use xlink:href="#icon-promote-dropDown"/>
-                    </svg>
-                    <p class="error" v-if="provinceError">* 此省份已经被注册</p>
-                    <div class="go-info">
-                        <button @click="handleProvince"
-                                :disabled="provinceError || provinceValue === 0"
-                                :class="provinceError || provinceValue === 0 ? '':'active' ">
-                            开启权限
-                        </button>
-                        <router-link to="/introduction/province">
-                            初步了解
-                        </router-link>
-                    </div>
-                </mt-tab-container-item>
-
-                <!--市-->
-                <mt-tab-container-item :id="navbar[1].value">
-                    <p>选择注册省市</p>
-                    <div @click="showAddressPicker" class="choiceCity">
-                        <mt-field label="" placeholder="请选择省市" type="text" v-model="region" readonly="readonly" class="region-go">
-                        </mt-field>
-                        <svg>
+                <mt-tab-container-item v-for="(item, index) of navbar" :key="index" :id="item.value">
+                    <template v-if="index==0">
+                        <p>选择注册省份</p>
+                        <select class="select-area" v-model="provinceValue" @change="handleProvinceChange">
+                            <option value="0">选择省份</option>
+                            <option :value="area.code" v-for="(area,_arIndex) in areaData" :key="`_area_${_arIndex}`">{{area.name}}</option>
+                        </select>
+                        <svg class="sel_icon">
                             <use xlink:href="#icon-promote-dropDown"/>
                         </svg>
-                    </div>
-                    <p class="error" v-if="cityError">* 此省市已经被注册</p>
-                    <div class="go-info">
-                        <button @click="handleCity"
-                                :disabled="cityError || cityValue === 0"
-                                :class="cityError || cityValue === 0 ? '':'active' ">
-                            开启权限
-                        </button>
-                        <router-link to="/introduction/city">
-                            初步了解
-                            <!-- understand -->
-                        </router-link>
-                    </div>
+                        <p class="error" v-if="provinceError">* 此省份已经被注册</p>
+                        <div class="go-info">
+                            <button @click="handleProvince"
+                                    :disabled="provinceError || provinceValue === 0"
+                                    :class="provinceError || provinceValue === 0 ? '':'active' ">
+                                开启权限
+                            </button>
+                            <router-link to="/introduction/province">
+                                初步了解
+                            </router-link>
+                        </div>
+                    </template>
 
-                    <mt-popup v-model="regionVisible" position="bottom" class="bottom-region" style="width:100%;">
-                        <address-popup :regionVisible.sync="regionVisible" @listenAreaChange="areaChange"/>
-                   </mt-popup> 
-                    <!-- <mt-popup v-model="regionVisible" position="bottom" class="bottom-region" style="width:100%;">
-                        
-                    </mt-popup> -->
-                </mt-tab-container-item>
 
-                 <!--找药人-->
-                <mt-tab-container-item :id="navbar[4]&&navbar[4].value">
-                    
-                    <!-- <p class="error" v-if="cityError">* 此省市已经被注册</p> -->
-                    <div class="go-info">
-                        <button @click="handleFind"
-                                :class="'active' ">
-                            开启权限
-                        </button>
-                        <router-link to="/introduction/find">
-                            初步了解
-                            <!-- understand -->
-                        </router-link>
-                    </div>
-
-                    <mt-popup v-model="regionVisible" position="bottom" class="bottom-region" style="width:100%;">
-                        <address-popup :regionVisible.sync="regionVisible" @listenAreaChange="areaChange"/>
-                   </mt-popup> 
-                    <!-- <mt-popup v-model="regionVisible" position="bottom" class="bottom-region" style="width:100%;">
-                        
-                    </mt-popup> -->
-                </mt-tab-container-item>
-
-                <!--集采商-->
-                <mt-tab-container-item id="partner">
-                    <p>选择注册省市</p>
-                    <!-- <select class="select-area" v-model="partner_provinceValue">
-                        <option value="0">选择省份</option>
-                        <option :value="area.code" v-for="(area,_arIndex) in areaData" :key="`_area_${_arIndex}`">{{area.name}}</option>
-                    </select> -->
-                    <div @click="showAddressPickerPartner" class="choiceCity" style="margin-bottom: .2rem">
-                        <mt-field label="" placeholder="请选择省市" type="text" v-model="region_partner" readonly="readonly" class="region-go">
-                        </mt-field>
-                        <svg>
-                            <use xlink:href="#icon-promote-dropDown"/>
-                        </svg>
-                    </div>
-                     <mt-popup v-model="regionVisible_partner" position="bottom" class="bottom-region" style="width:100%;">
-                        <address-popup :regionVisible.sync="regionVisible" @listenAreaChange="areaChangePartner"/>
-                    </mt-popup>
-                    <!-- <svg class="sel_icon">
-                        <use xlink:href="#icon-promote-dropDown"/>
-                    </svg> -->
-                    <div class="go-info">
-                        <button @click="handlePartner"
-                                :disabled="!region_partner"
-                                :class="region_partner ? 'active':'' ">
-                            开启权限
-                        </button>
-                        <!-- <router-link to="/introduction/partner"> -->
-                        <a @click="queryPartner">
-                            初步了解
-                        </a>
-                            
-                        <!-- </router-link> -->
-                    </div>
-                </mt-tab-container-item>
-
-                <!-- 推广人 -->
-
-                <mt-tab-container-item id="promoter">
-                    <div class="promoter-box">
+                    <template v-if="index==1">
                         <p>选择注册省市</p>
-                        <div @click="showAddressPickerPromoter" class="choiceCity" style="margin-bottom: .2rem">
-                            <mt-field label="" placeholder="请选择省市" type="text" v-model="region_promoter" readonly="readonly" class="region-go">
+                        <div @click="showAddressPicker" class="choiceCity">
+                            <mt-field label="" placeholder="请选择省市" type="text" v-model="region" readonly="readonly" class="region-go">
                             </mt-field>
                             <svg>
                                 <use xlink:href="#icon-promote-dropDown"/>
                             </svg>
                         </div>
-                        <ul class="tui-list" v-if="promoterTypeData">
-                            <!-- <li v-for="(item, index) of promoterTypeData" :key="index"  @click="handlePromoterChecked(item.value)" >
-                                <img :src="item.value | imgType">
-                                <p class="title-p">{{item.name}}</p>
-                                <svg class="active" v-if="promoterData[item.value]">
-                                    <use xlink:href="#icon-promote-pay-moreChose"/>
-                                </svg>
-                            </li> -->
-                            <!-- <li @click="handlePromoterChecked(promoterTypeData[0].value)">
-                                <img src="../../../images/extension/promote-pay-business.png">
-                                <p class="title-p">{{promoterTypeData[0].name}}</p>
-                                <svg class="active" v-if="promoterData.business">
-                                    <use xlink:href="#icon-promote-pay-moreChose"/>
-                                </svg>
-                            </li> -->
-                            <li @click="handlePromoterChecked(promoterTypeData[4].value)">
-                                <img src="../../../images/extension/promote-pay-hospital.png">
-                                <p class="title-p">{{promoterTypeData[4].name}}</p>
-                                <svg class="active" v-if="promoterData.yiyuan">
-                                    <use xlink:href="#icon-promote-pay-moreChose"/>
-                                </svg>
-                            </li>
-                            <li @click="handlePromoterChecked(promoterTypeData[2].value)">
-                                <img src="../../../images/extension/promote-pay-multipleShop.png">
-                                <p class="title-p">{{promoterTypeData[2].name}}</p>
-                                <svg class="active" v-if="promoterData.lianshuo">
-                                    <use xlink:href="#icon-promote-pay-moreChose"/>
-                                </svg>
-                            </li>
-                            <li @click="handlePromoterChecked(promoterTypeData[1].value)">
-                                <img src="../../../images/extension/promote-pay-drugstore.png">
-                                <p class="title-p">{{promoterTypeData[1].name}}</p>
-                                <svg class="active" v-if="promoterData.danti">
-                                    <use xlink:href="#icon-promote-pay-moreChose"/>
-                                </svg>
-                            </li>
-                            <li @click="handlePromoterChecked(promoterTypeData[3].value)">
-                                <img src="../../../images/extension/promote-pay-client.png">
-                                <p class="title-p">{{promoterTypeData[3].name}}</p>
-                                <svg class="active" v-if="promoterData.zhenshuo">
-                                    <use xlink:href="#icon-promote-pay-moreChose"/>
-                                </svg>
-                            </li>
-                        </ul> 
+                        <p class="error" v-if="cityError">* 此省市已经被注册</p>
+                        <div class="go-info">
+                            <button @click="handleCity"
+                                    :disabled="cityError || cityValue === 0"
+                                    :class="cityError || cityValue === 0 ? '':'active' ">
+                                开启权限
+                            </button>
+                            <router-link to="/introduction/city">
+                                初步了解
+                                <!-- understand -->
+                            </router-link>
+                        </div>
 
-                    </div>
-                    <div class="go-info">
-                        <button @click="handlePromoter"
-                                style="background: rgb(221,221,221)"
-                                :class="promoterActive&& region_promoter!=null? 'active':''"
-                                :disabled="!promoterActive&&region_promoter!=null"
-                                >
-                            开启权限
-                        </button>
-                        <router-link to="/introduction/promoter">
-                            初步了解
-                        </router-link>
-                    </div>
+                        <mt-popup v-model="regionVisible" position="bottom" class="bottom-region" style="width:100%;">
+                            <address-popup :regionVisible.sync="regionVisible" @listenAreaChange="areaChange"/>
+                        </mt-popup> 
+                    </template>
 
-                    <mt-popup v-model="regionVisible_promoter" position="bottom" class="bottom-region" style="width:100%;">
-                        <address-popup :regionVisible.sync="regionVisible" @listenAreaChange="areaChangePromoter"/>
-                    </mt-popup>
+
+                    <template v-if="index == 4">
+                            <!-- <p class="error" v-if="cityError">* 此省市已经被注册</p> -->
+                        <div class="go-info">
+                            <button @click="handleFind"
+                                    :class="'active' ">
+                                开启权限
+                            </button>
+                            <router-link to="/introduction/find">
+                                初步了解
+                                <!-- understand -->
+                            </router-link>
+                        </div>
+
+                        <mt-popup v-model="regionVisible" position="bottom" class="bottom-region" style="width:100%;">
+                            <address-popup :regionVisible.sync="regionVisible" @listenAreaChange="areaChange"/>
+                        </mt-popup> 
+                        <!-- <mt-popup v-model="regionVisible" position="bottom" class="bottom-region" style="width:100%;">
+                            
+                        </mt-popup> -->
+                    </template>
+
+
+
+                    <template v-if="index == 3">
+                        <div class="promoter-box">
+                            <p>选择注册省市</p>
+                            <div @click="showAddressPickerPromoter" class="choiceCity" style="margin-bottom: .2rem">
+                                <mt-field label="" placeholder="请选择省市" type="text" v-model="region_promoter" readonly="readonly" class="region-go">
+                                </mt-field>
+                                <svg>
+                                    <use xlink:href="#icon-promote-dropDown"/>
+                                </svg>
+                            </div>
+                            <ul class="tui-list" v-if="promoterTypeData">
+                                <!-- <li v-for="(item, index) of promoterTypeData" :key="index"  @click="handlePromoterChecked(item.value)" >
+                                    <img :src="item.value | imgType">
+                                    <p class="title-p">{{item.name}}</p>
+                                    <svg class="active" v-if="promoterData[item.value]">
+                                        <use xlink:href="#icon-promote-pay-moreChose"/>
+                                    </svg>
+                                </li> -->
+                                <!-- <li @click="handlePromoterChecked(promoterTypeData[0].value)">
+                                    <img src="../../../images/extension/promote-pay-business.png">
+                                    <p class="title-p">{{promoterTypeData[0].name}}</p>
+                                    <svg class="active" v-if="promoterData.business">
+                                        <use xlink:href="#icon-promote-pay-moreChose"/>
+                                    </svg>
+                                </li> -->
+                                <li @click="handlePromoterChecked(promoterTypeData[4].value)">
+                                    <img src="../../../images/extension/promote-pay-hospital.png">
+                                    <p class="title-p">{{promoterTypeData[4].name}}</p>
+                                    <svg class="active" v-if="promoterData.yiyuan">
+                                        <use xlink:href="#icon-promote-pay-moreChose"/>
+                                    </svg>
+                                </li>
+                                <li @click="handlePromoterChecked(promoterTypeData[2].value)">
+                                    <img src="../../../images/extension/promote-pay-multipleShop.png">
+                                    <p class="title-p">{{promoterTypeData[2].name}}</p>
+                                    <svg class="active" v-if="promoterData.lianshuo">
+                                        <use xlink:href="#icon-promote-pay-moreChose"/>
+                                    </svg>
+                                </li>
+                                <li @click="handlePromoterChecked(promoterTypeData[1].value)">
+                                    <img src="../../../images/extension/promote-pay-drugstore.png">
+                                    <p class="title-p">{{promoterTypeData[1].name}}</p>
+                                    <svg class="active" v-if="promoterData.danti">
+                                        <use xlink:href="#icon-promote-pay-moreChose"/>
+                                    </svg>
+                                </li>
+                                <li @click="handlePromoterChecked(promoterTypeData[3].value)">
+                                    <img src="../../../images/extension/promote-pay-client.png">
+                                    <p class="title-p">{{promoterTypeData[3].name}}</p>
+                                    <svg class="active" v-if="promoterData.zhenshuo">
+                                        <use xlink:href="#icon-promote-pay-moreChose"/>
+                                    </svg>
+                                </li>
+                            </ul> 
+
+                        </div>
+                        <div class="go-info">
+                            <button @click="handlePromoter"
+                                    style="background: rgb(221,221,221)"
+                                    :class="promoterActive&& region_promoter!=null? 'active':''"
+                                    :disabled="!promoterActive&&region_promoter!=null"
+                                    >
+                                开启权限
+                            </button>
+                            <router-link to="/introduction/promoter">
+                                初步了解
+                            </router-link>
+                        </div>
+
+                        <mt-popup v-model="regionVisible_promoter" position="bottom" class="bottom-region" style="width:100%;">
+                            <address-popup :regionVisible.sync="regionVisible" @listenAreaChange="areaChangePromoter"/>
+                        </mt-popup>
+                    </template>
+
+
+
+
+                    <template v-if="index == 2">
+                         <p>选择注册省市</p>
+                        <div @click="showAddressPickerPartner" class="choiceCity" style="margin-bottom: .2rem">
+                            <mt-field label="" placeholder="请选择省市" type="text" v-model="region_partner" readonly="readonly" class="region-go">
+                            </mt-field>
+                            <svg>
+                                <use xlink:href="#icon-promote-dropDown"/>
+                            </svg>
+                        </div>
+                        <mt-popup v-model="regionVisible_partner" position="bottom" class="bottom-region" style="width:100%;">
+                            <address-popup :regionVisible.sync="regionVisible" @listenAreaChange="areaChangePartner"/>
+                        </mt-popup>
+                        <div class="go-info">
+                            <button @click="handlePartner"
+                                    :disabled="!region_partner"
+                                    :class="region_partner ? 'active':'' ">
+                                开启权限
+                            </button>
+                            <a @click="queryPartner">
+                                初步了解
+                            </a>
+                        </div>
+                    </template>
+                    
+                    
                 </mt-tab-container-item>
             </mt-tab-container>
 
@@ -303,10 +267,6 @@
                 ],
                 //推广人类型数据信息
                 navbar:[
-                    { name: "省公司", value: "province_company"},
-                    { name: "市公司", value: "city_company"},
-                    { name: "推广人", value: "promoter"},
-                     { name: "集采商", value: "partner"},
                 ], 
                 //省市推广人
                 promoterData: {
@@ -333,7 +293,8 @@
                 tel:'',
                 cartId:'',
                 // 手机修改判断
-                verify:true
+                verify:true,
+                oldSelected: ""
             }
         },
         computed: {
@@ -392,8 +353,6 @@
         methods: {
             initData() {
                 this.loading = true;
-                // user-permission/init-check
-                // hippo-shop/system-config-enum
                 this.$http.get('hippo-shop/system-config-enum', {
                     params: {
                         role: 4,
@@ -418,7 +377,40 @@
                         if(this.$route.query.type) {
                             this.selected = this.$route.query.type
                         } else {
-                            this.selected = response.data.data[0].value
+                            let firstChild = response.data.data.find(item=>item.status);
+                            this.selected = firstChild.value
+                            this.oldSelected = this.selected
+                            response.data.data.map((item,index, target)=>{
+                                switch(index) {
+                                    case 0:
+                                        target[index].icon = "province";
+                                        target[index].color = "#0090ff";
+                                        break
+                                    case 1:
+                                        target[index].icon = "city";
+                                        target[index].color = "#ff7612";
+                                        break
+                                    case 2:
+                                        target[index].icon = "partner";
+                                        target[index].color = "#fa5452";
+                                        break
+                                    case 3:
+                                        target[index].icon = "promoter";
+                                        target[index].color = "#0090ff";
+                                        break
+                                    case 4:
+                                        target[index].icon = "agent-copy";
+                                        target[index].color = "#ff7612";
+                                        break
+                                    default :
+                                        target[index].icon = "province";
+                                        target[index].color = "#0090ff";
+                                        break
+                                }
+                                // if(item.)
+                                
+                            });
+                            
                         }
                          
                         this.navbar = [...response.data.data]
@@ -438,6 +430,14 @@
                    this.cartId = res.data.data.user_identity
                })
 
+            },
+            handleTabItem(flag) {
+                if(flag) {
+                    this.oldSelected = this.selected;
+                    this.selected = this.oldSelected;
+                    return 
+                }
+                this.selected = this.oldSelected;
             },
             //省处理
             async handleProvinceChange() {
